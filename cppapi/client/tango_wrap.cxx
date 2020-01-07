@@ -13,7 +13,7 @@
 #define SWIGCSHARP
 #endif
 
-
+using namespace Tango;
 
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
