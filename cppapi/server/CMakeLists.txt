@@ -1,4 +1,5 @@
-set(SOURCES attrdesc.cpp
+set(SOURCES tango_wrap.cxx
+            attrdesc.cpp
             attrgetsetprop.cpp
             attribute.cpp
             attrsetval.cpp

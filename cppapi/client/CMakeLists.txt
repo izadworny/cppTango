@@ -28,8 +28,7 @@ set(SOURCES dbapi_class.cpp
             eventkeepalive.cpp
             eventqueue.cpp
             notifdeventconsumer.cpp
-            zmqeventconsumer.cpp
-			tango_wrap.cxx)
+            zmqeventconsumer.cpp)
 
 set(HEADERS accessproxy.h
             apiexcept.h
