@@ -134,6 +134,7 @@ set(HEADERS attrdesc.h
             tango_clock.h
             tango_current_function.h
             exception_reason_consts.h
+            data_type_utils.h
             )
 
 add_subdirectory(idl)
