@@ -1154,6 +1154,20 @@ cout << "status = " << status << endl;
             Tango::DevFailed &e,
             TS_ASSERT(std::string(e.errors[0].reason.in()) == API_AttrValueNotSet));
     }
+
+/*
+ * Verify that Tango provides location transparency for remote calls even if
+ * client is located within server process. Client must not have direct access
+ * to server's memory.
+ */
+    void test_location_transparency(void)
+    {
+        DeviceData data;
+        TS_ASSERT_THROWS_NOTHING(data = device1->command_inout("CheckLocationTransparency"));
+        bool result;
+        data >> result;
+        TSM_ASSERT("Failure, check server logs.", result);
+    }
 };
 #undef cout
 #endif // AttrMiscTestSuite_h
