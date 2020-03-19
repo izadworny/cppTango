@@ -477,21 +477,38 @@ void Device_3Impl::handle_read_attributes(
         }
     }
 
-    long nb_wanted_attr = wanted_attr.size();
-    long nb_wanted_w_attr = wanted_w_attr.size();
-
     always_executed_hook();
 
     call_read_attr_hardware_if_needed(wanted_attr, state_wanted);
 
-    for (i = 0;i < nb_wanted_attr;i++)
+    for (i = 0;i < nb_names;i++)
     {
-        update_readable_attribute_value(names, aid, second_try, idx, wanted_attr[i]);
-    }
+        if (i == state_idx || i == status_idx)
+        {
+            // will be handled separately
+            continue;
+        }
 
-    for (i = 0;i < nb_wanted_w_attr;i++)
-    {
-        update_writable_attribute_value(names, aid, second_try, idx, wanted_w_attr[i]);
+        for (std::size_t j = 0; j < wanted_attr.size(); ++j)
+        {
+            if (wanted_attr[j].idx_in_names == i)
+            {
+                update_readable_attribute_value(names, aid, second_try, idx, wanted_attr[j]);
+                break;
+            }
+        }
+
+        for (std::size_t j = 0; j < wanted_w_attr.size(); ++j)
+        {
+            if (wanted_w_attr[j].idx_in_names == i)
+            {
+                update_writable_attribute_value(names, aid, second_try, idx, wanted_w_attr[j]);
+                break;
+            }
+        }
+
+        const long index = second_try ? idx[i] : i;
+        store_attribute_for_network_transfer(names[i], aid, index);
     }
 
     if (state_wanted)
@@ -508,18 +525,6 @@ void Device_3Impl::handle_read_attributes(
     {
         const long index = second_try ? idx[status_idx] : status_idx;
         read_and_store_status_for_network_transfer(names[status_idx], aid, index);
-    }
-
-    for (i = 0;i < nb_names;i++)
-    {
-        if (i == state_idx || i == status_idx)
-        {
-            // already stored
-            continue;
-        }
-
-        const long index = second_try ? idx[i] : i;
-        store_attribute_for_network_transfer(names[i], aid, index);
     }
 }
 
