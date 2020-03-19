@@ -1086,6 +1086,27 @@ cout << "status = " << status << endl;
 #undef QUOTE
 #undef __QUOTE
 
+/*
+ * Tests that it is possible to read two attributes in a single network call
+ * if one of the attributes pushes an event for the other one. Such scenario
+ * used to fail with API_AttrValueNotSet as reported in #201.
+ */
+
+    void test_read_two_attributes_one_pushes_event_for_another_1st_pushes()
+    {
+        std::vector<std::string> attributes = {"ReadWithPushAttr2", "ReadWithPushAttr1"};
+        std::vector<DeviceAttribute>* result = nullptr;
+        TS_ASSERT_THROWS_NOTHING(result = device1->read_attributes(attributes));
+        delete result;
+    }
+
+    void test_read_two_attributes_one_pushes_event_for_another_2nd_pushes()
+    {
+        std::vector<std::string> attributes = {"ReadWithPushAttr1", "ReadWithPushAttr2"};
+        std::vector<DeviceAttribute>* result = nullptr;
+        TS_ASSERT_THROWS_NOTHING(result = device1->read_attributes(attributes));
+        delete result;
+    }
 };
 #undef cout
 #endif // AttrMiscTestSuite_h
