@@ -382,7 +382,6 @@ void Device_3Impl::handle_read_attributes(
         if (att_name == "state")
         {
             x.idx_in_multi_attr = -1;
-            x.failed = false;
             wanted_attr.push_back(x);
             state_wanted = true;
             state_idx = i;
@@ -390,7 +389,6 @@ void Device_3Impl::handle_read_attributes(
         else if (att_name == "status")
         {
             x.idx_in_multi_attr = -1;
-            x.failed = false;
             wanted_attr.push_back(x);
             status_wanted = true;
             status_idx = i;
@@ -406,7 +404,6 @@ void Device_3Impl::handle_read_attributes(
                     (dev_attr->get_attr_by_ind(j).get_writable() == Tango::READ_WITH_WRITE))
                 {
                     x.idx_in_multi_attr = j;
-                    x.failed = false;
                     Attribute &att = dev_attr->get_attr_by_ind(x.idx_in_multi_attr);
                     if(att.is_startup_exception())
                         att.throw_startup_exception("Device_3Impl::read_attributes_no_except()");
@@ -428,7 +425,6 @@ void Device_3Impl::handle_read_attributes(
                         if (dev_attr->get_attr_by_ind(j).is_fwd_att() == true)
                         {
                             x.idx_in_multi_attr = j;
-                            x.failed = false;
                             Attribute &att = dev_attr->get_attr_by_ind(x.idx_in_multi_attr);
                             if(att.is_startup_exception())
                                 att.throw_startup_exception("Device_3Impl::read_attributes_no_except()");
@@ -439,7 +435,6 @@ void Device_3Impl::handle_read_attributes(
                         else
                         {
                             x.idx_in_multi_attr = j	;
-                            x.failed = false;
                             Attribute &att = dev_attr->get_attr_by_ind(x.idx_in_multi_attr);
                             if(att.is_startup_exception())
                                 att.throw_startup_exception("Device_3Impl::read_attributes_no_except()");
@@ -449,7 +444,6 @@ void Device_3Impl::handle_read_attributes(
                     else
                     {
                         x.idx_in_multi_attr = j;
-                        x.failed = false;
                         Attribute &att = dev_attr->get_attr_by_ind(x.idx_in_multi_attr);
                         if(att.is_startup_exception())
                             att.throw_startup_exception("Device_3Impl::read_attributes_no_except()");
@@ -647,8 +641,6 @@ void Device_3Impl::update_readable_attribute_value(
         else
             index = idx[wanted_attr.idx_in_names];
 
-        wanted_attr.failed = true;
-
         if (aid.data_5 != nullptr)
         {
             if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
@@ -680,7 +672,6 @@ void Device_3Impl::update_readable_attribute_value(
         else
             index = idx[wanted_attr.idx_in_names];
 
-        wanted_attr.failed = true;
         Tango::DevErrorList del;
         del.length(1);
 
@@ -754,7 +745,6 @@ void Device_3Impl::update_writable_attribute_value(
         else
             index = idx[wanted_w_attr.idx_in_names];
 
-        wanted_w_attr.failed = true;
         AttrSerialModel atsm = att.get_attr_serial_model();
 
         if (aid.data_5 != nullptr)
@@ -796,39 +786,25 @@ void Device_3Impl::read_and_store_state_for_network_transfer(
 
     Tango::DevState d_state = Tango::UNKNOWN;
 
-//            long id = reading_state_necessary(wanted_attr);
-    long id = -1;
-    if (id == -1)
+    try
     {
-        try
-        {
-            alarmed_not_read(wanted_attr);
-            state_from_read = true;
-            if (is_alarm_state_forced() == true)
-                d_state = DeviceImpl::dev_state();
-            else
-                d_state = dev_state();
-            state_from_read = false;
-        }
-        catch (Tango::DevFailed &e)
-        {
-            state_from_read = false;
-            if (aid.data_5 != nullptr)
-                error_from_devfailed((*aid.data_5)[state_idx], e, name);
-            else if (aid.data_4 != nullptr)
-                error_from_devfailed((*aid.data_4)[state_idx], e, name);
-            else
-                error_from_devfailed((*aid.data_3)[state_idx], e, name);
-        }
-    }
-    else
-    {
-        if (aid.data_5 != nullptr)
-            error_from_errorlist((*aid.data_5)[state_idx], (*aid.data_5)[wanted_attr[id].idx_in_names].err_list, name);
-        else if (aid.data_4 != nullptr)
-            error_from_errorlist((*aid.data_4)[state_idx], (*aid.data_4)[wanted_attr[id].idx_in_names].err_list, name);
+        alarmed_not_read(wanted_attr);
+        state_from_read = true;
+        if (is_alarm_state_forced() == true)
+            d_state = DeviceImpl::dev_state();
         else
-            error_from_errorlist((*aid.data_3)[state_idx], (*aid.data_3)[wanted_attr[id].idx_in_names].err_list, name);
+            d_state = dev_state();
+        state_from_read = false;
+    }
+    catch (Tango::DevFailed &e)
+    {
+        state_from_read = false;
+        if (aid.data_5 != nullptr)
+            error_from_devfailed((*aid.data_5)[state_idx], e, name);
+        else if (aid.data_4 != nullptr)
+            error_from_devfailed((*aid.data_4)[state_idx], e, name);
+        else
+            error_from_devfailed((*aid.data_3)[state_idx], e, name);
     }
 
     if (is_error_stored(aid, state_idx))
@@ -2619,54 +2595,6 @@ void Device_3Impl::add_alarmed(vector<long> &att_list)
 			}
 		}
 	}
-}
-
-
-//+--------------------------------------------------------------------------------------------------------------------
-//
-// method :
-//		Device_3Impl::reading_state_necessary
-//
-// description :
-//		Method to check if it is necessary to read state. If the device has some alarmed attribute and one of these
-//		attributes has already been read and failed, it is not necessary to read state. It will also fail.
-//
-// argument:
-//		in :
-//			- wanted_attr : The list of attribute to be read by this call
-//
-// return:
-// 		This  method returns -1 if reading state is possible. Otherwise, it returns the index in the wanted_attr list
-// 		of the alarmed attribute which failed
-//
-//--------------------------------------------------------------------------------------------------------------------
-
-long Device_3Impl::reading_state_necessary(vector<AttIdx> &wanted_attr)
-{
-	vector<long> &alarmed_list = dev_attr->get_alarm_list();
-	long nb_alarmed_attr = alarmed_list.size();
-	long ret = -1;
-
-	if (nb_alarmed_attr == 0)
-		ret = -1;
-
-	else
-	{
-		long nb_attr = wanted_attr.size();
-		for (int j = 0;j < nb_alarmed_attr;j++)
-		{
-			for (int i = 0;i < nb_attr;i++)
-			{
-				if (alarmed_list[j] == wanted_attr[i].idx_in_multi_attr)
-				{
-					if (wanted_attr[i].failed == true)
-						return i;
-				}
-			}
-		}
-	}
-
-	return ret;
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
