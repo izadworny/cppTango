@@ -398,9 +398,6 @@ void Device_3Impl::handle_read_attributes(
     const bool state_wanted = state_idx != STATE_STATUS_NOT_FOUND;
     const bool status_wanted = status_idx != STATE_STATUS_NOT_FOUND;
 
-    std::vector<AttIdx> wanted_attr;
-    std::vector<AttIdx> wanted_w_attr;
-
     AttributeIndices readable_attributes = get_readable_attributes(attributes);
 
     always_executed_hook();
@@ -416,10 +413,11 @@ void Device_3Impl::handle_read_attributes(
 
         if (writable == Tango::READ_WRITE || writable == Tango::READ_WITH_WRITE)
         {
-            wanted_w_attr.push_back(entry);
-            wanted_attr.push_back(entry);
             att.get_when().tv_sec = 0;
             att.save_alarm_quality();
+
+            update_readable_attribute_value(names, aid, second_try, idx, entry);
+            update_writable_attribute_value(names, aid, second_try, idx, entry);
         }
         else if (writable == Tango::WRITE)
         {
@@ -427,52 +425,26 @@ void Device_3Impl::handle_read_attributes(
             {
                 // If the attribute is a forwarded one, force reading it from
                 // the root device. Another client could have written its value
-                wanted_attr.push_back(entry);
                 att.get_when().tv_sec = 0;
                 att.save_alarm_quality();
+
+                update_readable_attribute_value(names, aid, second_try, idx, entry);
             }
             else
             {
-                wanted_w_attr.push_back(entry);
+                update_writable_attribute_value(names, aid, second_try, idx, entry);
             }
         }
         else
         {
-            wanted_attr.push_back(entry);
             att.get_when().tv_sec = 0;
             att.save_alarm_quality();
-        }
-    }
 
-    const long num_of_names = names.length();
-    for (long i = 0; i < num_of_names; i++)
-    {
-        if (i == state_idx || i == status_idx)
-        {
-            // will be handled separately
-            continue;
+            update_readable_attribute_value(names, aid, second_try, idx, entry);
         }
 
-        for (std::size_t j = 0; j < wanted_attr.size(); ++j)
-        {
-            if (wanted_attr[j].idx_in_names == i)
-            {
-                update_readable_attribute_value(names, aid, second_try, idx, wanted_attr[j]);
-                break;
-            }
-        }
-
-        for (std::size_t j = 0; j < wanted_w_attr.size(); ++j)
-        {
-            if (wanted_w_attr[j].idx_in_names == i)
-            {
-                update_writable_attribute_value(names, aid, second_try, idx, wanted_w_attr[j]);
-                break;
-            }
-        }
-
-        const long index = second_try ? idx[i] : i;
-        store_attribute_for_network_transfer(names[i], aid, index);
+        const long index = second_try ? idx[entry.idx_in_names] : entry.idx_in_names;
+        store_attribute_for_network_transfer(names[entry.idx_in_names], aid, index);
     }
 
     if (state_wanted)
@@ -592,7 +564,7 @@ void Device_3Impl::update_readable_attribute_value(
     Tango::AttributeIdlData& aid,
     bool second_try,
     std::vector<long>& idx,
-    AttIdx& wanted_attr)
+    const AttIdx& wanted_attr)
 {
     Attribute &att = dev_attr->get_attr_by_ind(wanted_attr.idx_in_multi_attr);
     bool is_allowed_failed = false;
@@ -729,7 +701,7 @@ void Device_3Impl::update_writable_attribute_value(
     Tango::AttributeIdlData& aid,
     bool second_try,
     std::vector<long>& idx,
-    AttIdx& wanted_w_attr)
+    const AttIdx& wanted_w_attr)
 {
 //
 // Set attr value for writable attribute
