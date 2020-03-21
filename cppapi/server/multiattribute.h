@@ -43,6 +43,9 @@
 namespace Tango
 {
 
+typedef long AttributeIndex;
+typedef std::vector<AttributeIndex> AttributeIndices;
+
 class AttrProperty;
 class DeviceClass;
 
