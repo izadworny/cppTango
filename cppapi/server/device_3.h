@@ -65,7 +65,9 @@ struct AttIdx
 	long	idx_in_multi_attr;
 };
 
+typedef DevVarStringArray AttributeNames;
 typedef std::vector<std::pair<Attribute*, long>> AttributeAndIndexInDataPairs;
+typedef std::vector<long> AttributeIndicesInData;
 
 /**
  * Base class for all TANGO device since version 3.
@@ -298,7 +300,8 @@ public:
 
 protected:
 /// @privatesection
-	void read_attributes_no_except(const Tango::DevVarStringArray&,Tango::AttributeIdlData &,bool,vector<long> &);
+	void read_attributes_no_except(const Tango::DevVarStringArray&, Tango::AttributeIdlData&);
+	void read_attributes_no_except(const Tango::DevVarStringArray&, Tango::AttributeIdlData&, const AttributeIndicesInData&);
 	void write_attributes_in_db(vector<long> &,vector<AttIdx> &);
 	void add_alarmed(AttributeIndices&);
 	void state2attr(Tango::DevState,Tango::AttributeValue_3 &);
@@ -337,16 +340,11 @@ private:
 
     void real_ctor();
 
-    void handle_read_attributes(
-        const Tango::DevVarStringArray&,
-        Tango::AttributeIdlData&,
-        bool second_try,
-        std::vector<long>& names_to_data_idx_mapping);
+    void handle_read_attributes(const AttributeNames&, AttributeIdlData&, const AttributeIndicesInData&);
     AttributeAndIndexInDataPairs collect_attributes_to_read(
-        const Tango::DevVarStringArray&,
-        Tango::AttributeIdlData&,
-        bool second_try,
-        std::vector<long>& names_to_data_idx_mapping,
+        const AttributeNames&,
+        AttributeIdlData&,
+        const AttributeIndicesInData&,
         long& state_index_in_data,
         long& status_index_in_data);
     AttributeIndices get_readable_attributes(const AttributeAndIndexInDataPairs&);
