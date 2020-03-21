@@ -43,6 +43,17 @@ namespace Tango
 
 class SubDevDiag
 {
+public:
+    class ContextManager
+    {
+    public:
+        ContextManager(const std::string& device_name);
+        ~ContextManager();
+    private:
+        SubDevDiag& diag;
+        std::string previous_device_name;
+    };
+
 private:
 	// Type definition and map to keep the
 	// list of accessed sub devices in a device server.
