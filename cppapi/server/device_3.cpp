@@ -397,6 +397,8 @@ void Device_3Impl::handle_read_attributes(
 
     for (auto& entry : attributes)
     {
+        const long index = second_try ? idx[entry.idx_in_names] : entry.idx_in_names;
+
         Attribute& att = dev_attr->get_attr_by_ind(entry.idx_in_multi_attr);
 
         const auto writable = att.get_writable();
@@ -406,8 +408,8 @@ void Device_3Impl::handle_read_attributes(
             att.get_when().tv_sec = 0;
             att.save_alarm_quality();
 
-            update_readable_attribute_value(names, aid, second_try, idx, entry);
-            update_writable_attribute_value(names, aid, second_try, idx, entry);
+            update_readable_attribute_value(att, aid, index);
+            update_writable_attribute_value(att, aid, index);
         }
         else if (writable == Tango::WRITE)
         {
@@ -418,11 +420,11 @@ void Device_3Impl::handle_read_attributes(
                 att.get_when().tv_sec = 0;
                 att.save_alarm_quality();
 
-                update_readable_attribute_value(names, aid, second_try, idx, entry);
+                update_readable_attribute_value(att, aid, index);
             }
             else
             {
-                update_writable_attribute_value(names, aid, second_try, idx, entry);
+                update_writable_attribute_value(att, aid, index);
             }
         }
         else
@@ -430,18 +432,16 @@ void Device_3Impl::handle_read_attributes(
             att.get_when().tv_sec = 0;
             att.save_alarm_quality();
 
-            update_readable_attribute_value(names, aid, second_try, idx, entry);
+            update_readable_attribute_value(att, aid, index);
         }
 
-        const long index = second_try ? idx[entry.idx_in_names] : entry.idx_in_names;
-        store_attribute_for_network_transfer(names[entry.idx_in_names], aid, index);
+        store_attribute_for_network_transfer(att, aid, index);
     }
 
     if (state_wanted)
     {
         const long index = second_try ? idx[state_idx] : state_idx;
         read_and_store_state_for_network_transfer(
-            names[state_idx],
             aid,
             index,
             readable_attributes);
@@ -450,7 +450,7 @@ void Device_3Impl::handle_read_attributes(
     if (status_wanted)
     {
         const long index = second_try ? idx[status_idx] : status_idx;
-        read_and_store_status_for_network_transfer(names[status_idx], aid, index);
+        read_and_store_status_for_network_transfer(aid, index);
     }
 }
 
@@ -550,13 +550,10 @@ void Device_3Impl::call_read_attr_hardware_if_needed(
 }
 
 void Device_3Impl::update_readable_attribute_value(
-    const Tango::DevVarStringArray& names,
+    Attribute& att,
     Tango::AttributeIdlData& aid,
-    bool second_try,
-    std::vector<long>& idx,
-    const AttIdx& wanted_attr)
+    long index_in_data)
 {
-    Attribute &att = dev_attr->get_attr_by_ind(wanted_attr.idx_in_multi_attr);
     bool is_allowed_failed = false;
 
     try
@@ -616,13 +613,7 @@ void Device_3Impl::update_readable_attribute_value(
     }
     catch (Tango::DevFailed &e)
     {
-        long index;
-        if (second_try == false)
-            index = wanted_attr.idx_in_names;
-        else
-            index = idx[wanted_attr.idx_in_names];
-
-        store_error(aid, index, e, names[wanted_attr.idx_in_names]);
+        store_error(aid, index_in_data, e, att.get_name().c_str());
 
         if (aid.data_5 != nullptr)
         {
@@ -645,12 +636,6 @@ void Device_3Impl::update_readable_attribute_value(
     }
     catch (...)
     {
-        long index;
-        if (second_try == false)
-            index = wanted_attr.idx_in_names;
-        else
-            index = idx[wanted_attr.idx_in_names];
-
         Tango::DevErrorList del;
         del.length(1);
 
@@ -659,7 +644,7 @@ void Device_3Impl::update_readable_attribute_value(
         del[0].reason = Tango::string_dup(API_CorbaSysException);
         del[0].desc = Tango::string_dup("Unforseen exception when trying to read attribute. It was even not a Tango DevFailed exception");
 
-        store_error(aid, index, del, names[wanted_attr.idx_in_names]);
+        store_error(aid, index_in_data, del, att.get_name().c_str());
 
         if (aid.data_5 != nullptr)
         {
@@ -683,17 +668,14 @@ void Device_3Impl::update_readable_attribute_value(
 }
 
 void Device_3Impl::update_writable_attribute_value(
-    const Tango::DevVarStringArray& names,
+    Attribute& att,
     Tango::AttributeIdlData& aid,
-    bool second_try,
-    std::vector<long>& idx,
-    const AttIdx& wanted_w_attr)
+    long index_in_data)
 {
 //
 // Set attr value for writable attribute
 //
 
-    Attribute &att = dev_attr->get_attr_by_ind(wanted_w_attr.idx_in_multi_attr);
     Tango::AttrWriteType w_type = att.get_writable();
     try
     {
@@ -715,13 +697,7 @@ void Device_3Impl::update_writable_attribute_value(
     }
     catch (Tango::DevFailed &e)
     {
-        long index;
-        if (second_try == false)
-            index = wanted_w_attr.idx_in_names;
-        else
-            index = idx[wanted_w_attr.idx_in_names];
-
-        store_error(aid, index, e, names[wanted_w_attr.idx_in_names]);
+        store_error(aid, index_in_data, e, att.get_name().c_str());
 
         AttrSerialModel atsm = att.get_attr_serial_model();
 
@@ -747,9 +723,8 @@ void Device_3Impl::update_writable_attribute_value(
 }
 
 void Device_3Impl::read_and_store_state_for_network_transfer(
-    const char* name,
     Tango::AttributeIdlData& aid,
-    int state_idx,
+    int index_in_data,
     const AttributeIndices& wanted_attr)
 {
 //
@@ -773,32 +748,31 @@ void Device_3Impl::read_and_store_state_for_network_transfer(
     catch (Tango::DevFailed &e)
     {
         state_from_read = false;
-        store_error(aid, state_idx, e, name);
+        store_error(aid, index_in_data, e, "State");
     }
 
-    if (is_error_stored(aid, state_idx))
+    if (is_error_stored(aid, index_in_data))
     {
         return;
     }
 
     if (aid.data_5 != nullptr)
     {
-        state2attr(d_state, (*aid.data_5)[state_idx]);
+        state2attr(d_state, (*aid.data_5)[index_in_data]);
     }
     else if (aid.data_4 != nullptr)
     {
-        state2attr(d_state, (*aid.data_4)[state_idx]);
+        state2attr(d_state, (*aid.data_4)[index_in_data]);
     }
     else
     {
-        state2attr(d_state, (*aid.data_3)[state_idx]);
+        state2attr(d_state, (*aid.data_3)[index_in_data]);
     }
 }
 
 void Device_3Impl::read_and_store_status_for_network_transfer(
-    const char* name,
     Tango::AttributeIdlData& aid,
-    int status_idx)
+    int index_in_data)
 {
     Tango::ConstDevString d_status = nullptr;
 
@@ -811,44 +785,43 @@ void Device_3Impl::read_and_store_status_for_network_transfer(
     }
     catch (Tango::DevFailed &e)
     {
-        store_error(aid, status_idx, e, name);
+        store_error(aid, index_in_data, e, "Status");
     }
 
-    if (is_error_stored(aid, status_idx))
+    if (is_error_stored(aid, index_in_data))
     {
         return;
     }
 
     if (aid.data_5 != nullptr)
     {
-        status2attr(d_status, (*aid.data_5)[status_idx]);
+        status2attr(d_status, (*aid.data_5)[index_in_data]);
     }
     else if (aid.data_4 != nullptr)
     {
-        status2attr(d_status, (*aid.data_4)[status_idx]);
+        status2attr(d_status, (*aid.data_4)[index_in_data]);
     }
     else
     {
-        status2attr(d_status, (*aid.data_3)[status_idx]);
+        status2attr(d_status, (*aid.data_3)[index_in_data]);
     }
 }
 
 void Device_3Impl::store_attribute_for_network_transfer(
-    const char* name,
+    Attribute& att,
     Tango::AttributeIdlData& aid,
-    int index)
+    long index_in_data)
 {
 //
 // Build the sequence returned to caller for readable attributes and check that all the wanted attributes set value
 // have been updated
 //
 
-    if (is_error_stored(aid, index))
+    if (is_error_stored(aid, index_in_data))
     {
         return;
     }
 
-    Attribute &att = dev_attr->get_attr_by_name(name);
     Tango::AttrQuality qual = att.get_quality();
     if (qual != Tango::ATTR_INVALID)
     {
@@ -858,7 +831,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
 
             try
             {
-                std::string att_name(name);
+                std::string att_name = att.get_name();
                 std::transform(att_name.begin(),att_name.end(),att_name.begin(),::tolower);
 
                 std::vector<PollObj *>::iterator ite = get_polled_obj_by_type_name(Tango::POLL_ATTR,att_name);
@@ -897,7 +870,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
                     attr_mut->unlock();
                 }
-                one_error((*aid.data_5)[index],reas,TANGO_EXCEPTION_ORIGIN,s,att);
+                one_error((*aid.data_5)[index_in_data],reas,TANGO_EXCEPTION_ORIGIN,s,att);
             }
             else if (aid.data_4 != NULL)
             {
@@ -907,10 +880,10 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
                     attr_mut->unlock();
                 }
-                one_error((*aid.data_4)[index],reas,TANGO_EXCEPTION_ORIGIN,s,att);
+                one_error((*aid.data_4)[index_in_data],reas,TANGO_EXCEPTION_ORIGIN,s,att);
             }
             else
-                one_error((*aid.data_3)[index],reas,TANGO_EXCEPTION_ORIGIN,s,att);
+                one_error((*aid.data_3)[index_in_data],reas,TANGO_EXCEPTION_ORIGIN,s,att);
         }
         else
         {
@@ -929,7 +902,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
 // Data into the network object
 //
 
-                data_into_net_object(att,aid,index,w_type,true);
+                data_into_net_object(att,aid,index_in_data,w_type,true);
 
 //
 // Init remaining elements
@@ -945,13 +918,13 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     {
                         cout4 << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
                         if (atsm == ATTR_BY_KERNEL)
-                            GIVE_ATT_MUTEX_5(aid.data_5,index,att);
+                            GIVE_ATT_MUTEX_5(aid.data_5,index_in_data,att);
                         else
-                            GIVE_USER_ATT_MUTEX_5(aid.data_5,index,att);
+                            GIVE_USER_ATT_MUTEX_5(aid.data_5,index_in_data,att);
                     }
-                    init_out_data((*aid.data_5)[index],att,w_type);
-                    (*aid.data_5)[index].data_format = att.get_data_format();
-                    (*aid.data_5)[index].data_type = att.get_data_type();
+                    init_out_data((*aid.data_5)[index_in_data],att,w_type);
+                    (*aid.data_5)[index_in_data].data_format = att.get_data_format();
+                    (*aid.data_5)[index_in_data].data_type = att.get_data_type();
                 }
                 else if (aid.data_4 != nullptr)
                 {
@@ -959,28 +932,28 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     {
                         cout4 << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
                         if (atsm == ATTR_BY_KERNEL)
-                            GIVE_ATT_MUTEX(aid.data_4,index,att);
+                            GIVE_ATT_MUTEX(aid.data_4,index_in_data,att);
                         else
-                            GIVE_USER_ATT_MUTEX(aid.data_4,index,att);
+                            GIVE_USER_ATT_MUTEX(aid.data_4,index_in_data,att);
                     }
-                    init_out_data((*aid.data_4)[index],att,w_type);
-                    (*aid.data_4)[index].data_format = att.get_data_format();
+                    init_out_data((*aid.data_4)[index_in_data],att,w_type);
+                    (*aid.data_4)[index_in_data].data_format = att.get_data_format();
                 }
                 else
                 {
-                    init_out_data((*aid.data_3)[index],att,w_type);
+                    init_out_data((*aid.data_3)[index_in_data],att,w_type);
                 }
             }
             catch (Tango::DevFailed &e)
             {
-                store_error(aid, index, e, att.get_name().c_str());
+                store_error(aid, index_in_data, e, att.get_name().c_str());
 
                 if (aid.data_5 != nullptr)
                 {
                     cout4 << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
                     if (att.get_writable() != Tango::WRITE)
                     {
-                        REL_ATT_MUTEX_5(aid.data_5,index,att);
+                        REL_ATT_MUTEX_5(aid.data_5,index_in_data,att);
                     }
                 }
                 else if (aid.data_4 != nullptr)
@@ -988,7 +961,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     cout4 << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
                     if (att.get_writable() != Tango::WRITE)
                     {
-                        REL_ATT_MUTEX(aid.data_4,index,att);
+                        REL_ATT_MUTEX(aid.data_4,index_in_data,att);
                     }
                 }
             }
@@ -1012,9 +985,9 @@ void Device_3Impl::store_attribute_for_network_transfer(
                 attr_mut->unlock();
             }
 
-            init_out_data_quality((*aid.data_5)[index],att,qual);
-            (*aid.data_5)[index].data_format = att.get_data_format();
-            (*aid.data_5)[index].data_type = att.get_data_type();
+            init_out_data_quality((*aid.data_5)[index_in_data],att,qual);
+            (*aid.data_5)[index_in_data].data_format = att.get_data_format();
+            (*aid.data_5)[index_in_data].data_type = att.get_data_type();
         }
         else if (aid.data_4 != nullptr)
         {
@@ -1025,12 +998,12 @@ void Device_3Impl::store_attribute_for_network_transfer(
                 attr_mut->unlock();
             }
 
-            init_out_data_quality((*aid.data_4)[index],att,qual);
-            (*aid.data_4)[index].data_format = att.get_data_format();
+            init_out_data_quality((*aid.data_4)[index_in_data],att,qual);
+            (*aid.data_4)[index_in_data].data_format = att.get_data_format();
         }
         else
         {
-            init_out_data_quality((*aid.data_3)[index],att,qual);
+            init_out_data_quality((*aid.data_3)[index_in_data],att,qual);
         }
     }
 }
