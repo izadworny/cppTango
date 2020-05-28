@@ -444,21 +444,19 @@ void EventConsumer::attr_to_device(
     long vers,
     DeviceAttribute* dev_attr)
 {
-    constexpr bool copy_seq = false;
     if (vers == 3)
     {
-        attribute_value_to_device_attribute_3<copy_seq>(*attr_value_3, *dev_attr);
+        attribute_value_to_device_attribute_3_nocopy(*attr_value_3, *dev_attr);
     }
     else
     {
-        attribute_value_to_device_attribute_3<copy_seq>(*attr_value, *dev_attr);
+        attribute_value_to_device_attribute_3_nocopy(*attr_value, *dev_attr);
     }
 }
 
 void EventConsumer::attr_to_device(AttributeValue_4* attr_value_4, DeviceAttribute* dev_attr)
 {
-    constexpr bool copy_seq = false;
-    attribute_value_to_device_attribute_5<copy_seq>(*attr_value_4, *dev_attr);
+    attribute_value_to_device_attribute_5_nocopy(*attr_value_4, *dev_attr);
 
 	//
 	// Warning: Since Tango 9, data type SHORT is used for both short attribute and enumeration attribute!
@@ -473,8 +471,7 @@ void EventConsumer::attr_to_device(AttributeValue_4* attr_value_4, DeviceAttribu
 
 void EventConsumer::attr_to_device(ZmqAttributeValue_4* attr_value_4, DeviceAttribute* dev_attr)
 {
-    constexpr bool copy_seq = false;
-    attribute_value_to_device_attribute_5<copy_seq>(*attr_value_4, *dev_attr);
+    attribute_value_to_device_attribute_5_nocopy(*attr_value_4, *dev_attr);
 
 	//
 	// Warning: Since Tango 9, data type SHORT is used for both short attribute and enumeration attribute!
@@ -487,8 +484,7 @@ void EventConsumer::attr_to_device(ZmqAttributeValue_4* attr_value_4, DeviceAttr
 
 void EventConsumer::attr_to_device(ZmqAttributeValue_5* attr_value_5, DeviceAttribute* dev_attr)
 {
-    constexpr bool copy_seq = false;
-    attribute_value_to_device_attribute_5<copy_seq>(*attr_value_5, *dev_attr);
+    attribute_value_to_device_attribute_5_nocopy(*attr_value_5, *dev_attr);
     dev_attr->data_type = attr_value_5->data_type;
 }
 
