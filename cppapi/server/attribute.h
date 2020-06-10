@@ -2314,6 +2314,9 @@ public:
 
 	void fire_error_periodic_event(DevFailed *);
 
+	bool is_readable();
+	bool is_writable();
+
 #ifndef TANGO_HAS_LOG4TANGO
 	friend ostream &operator<<(ostream &,Attribute &);
 #endif // TANGO_HAS_LOG4TANGO
