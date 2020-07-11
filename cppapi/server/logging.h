@@ -35,6 +35,8 @@
 #define _LOGGING_H_
 
 
+#include <tango_current_function.h>
+
 // A shortcut to the core logger ------------------------------
 #define API_LOGGER Tango::Logging::get_core_logger()
 
@@ -44,7 +46,8 @@
 #define cout                                                \
     if (API_LOGGER)                                         \
       API_LOGGER->get_stream(log4tango::Level::INFO, false) \
-        << log4tango::LogInitiator::_begin_log
+        << log4tango::LogInitiator::_begin_log              \
+        << "(" TANGO_FILE_AND_LINE ") "
 
 #else
 
@@ -56,7 +59,8 @@
 #define cout1                                      \
   if (API_LOGGER && API_LOGGER->is_info_enabled()) \
     API_LOGGER->info_stream()                      \
-      << log4tango::LogInitiator::_begin_log
+      << log4tango::LogInitiator::_begin_log       \
+      << "(" TANGO_FILE_AND_LINE ") "
 
 #define cout2 cout1
 
@@ -64,7 +68,8 @@
 #define cout3                                       \
   if (API_LOGGER && API_LOGGER->is_debug_enabled()) \
     API_LOGGER->debug_stream()                      \
-      << log4tango::LogInitiator::_begin_log
+      << log4tango::LogInitiator::_begin_log        \
+      << "(" TANGO_FILE_AND_LINE ") "
 
 #define cout4 cout3
 #define cout5 cout4

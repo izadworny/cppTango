@@ -48,12 +48,6 @@
 	#include <w32win.h>
 #endif /* _TG_WINDOWS_ */
 
-//
-// For debug purpose
-//
-
-
-
 namespace Tango
 {
 
