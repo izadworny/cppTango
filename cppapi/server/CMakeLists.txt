@@ -132,6 +132,7 @@ set(HEADERS attrdesc.h
             event_subscription_state.h
             tango_optional.h
             tango_clock.h
+            tango_current_function.h
             )
 
 add_subdirectory(idl)
