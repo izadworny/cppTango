@@ -170,9 +170,7 @@ void DeviceClass::get_class_system_resource()
 			TangoSys_OMemStream o;
 			o << "Database error while trying to retrieve properties for class " << name.c_str() << std::ends;
 
-			Except::throw_exception((const char *)API_DatabaseAccess,
-					o.str(),
-					(const char *)"DeviceClass::get_class_system_resource");
+			TANGO_THROW_EXCEPTION(API_DatabaseAccess, o.str());
 		}
 
 		if (db_data[1].is_empty() == false)
@@ -202,9 +200,7 @@ void DeviceClass::get_class_system_resource()
 				TangoSys_OMemStream o;
 				o << "Database error while trying to retrieve properties for class " << name.c_str() << std::ends;
 
-				Except::throw_exception((const char *)API_DatabaseAccess,
-							o.str(),
-							(const char *)"DeviceClass::get_class_system_resource");
+				TANGO_THROW_EXCEPTION(API_DatabaseAccess, o.str());
 			}
 
 			if (db_data[0].is_empty() == true)
@@ -666,9 +662,7 @@ void DeviceClass::throw_mem_value(DeviceImpl *dev,Attribute &att)
 	o << dev->get_name();
 	o << ") is in an incorrect format !" << std::ends;
 
-	Except::throw_exception((const char *)API_AttrWrongMemValue,
-				o.str(),
-				(const char *)"DeviceClass::set_memorized_values");
+	TANGO_THROW_EXCEPTION(API_AttrWrongMemValue, o.str());
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -1011,9 +1005,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 		{
 			TangoSys_OMemStream o;
 			o << "Cant get CORBA reference Id for device " << dev->get_name() << std::ends;
-			Except::throw_exception((const char *)API_CantGetDevObjectId,
-							o.str(),
-							(const char *)"DeviceClass::export_device");
+			TANGO_THROW_EXCEPTION(API_CantGetDevObjectId, o.str());
 		}
 		dev->set_obj_id(oid);
 	}
@@ -1040,9 +1032,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 		{
 			TangoSys_OMemStream o;
 			o << "Can't get CORBA reference Id for device " << dev->get_name() << std::ends;
-			Except::throw_exception((const char *)API_CantGetDevObjectId,
-						o.str(),
-						(const char *)"DeviceClass::export_device");
+			TANGO_THROW_EXCEPTION(API_CantGetDevObjectId, o.str());
 		}
 
 		d = dev->_this();
@@ -1172,9 +1162,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,std::string &command
 		{
 			TangoSys_OMemStream o;
 			o << "Command " << command << " not allowed when the device is in " << Tango::DevStateName[device->get_state()] << " state"  << std::ends;
-			Except::throw_exception((const char *)API_CommandNotAllowed,
-						      o.str(),
-						      (const char *)"DeviceClass::command_handler");
+			TANGO_THROW_EXCEPTION(API_CommandNotAllowed, o.str());
 		}
 
 //
@@ -1213,9 +1201,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,std::string &command
 			{
 				TangoSys_OMemStream o;
 				o << "Command " << command << " not allowed when the device is in " << Tango::DevStateName[device->get_state()] << " state"  << std::ends;
-				Except::throw_exception((const char *)API_CommandNotAllowed,
-						o.str(),
-						(const char *)"DeviceClass::command_handler");
+				TANGO_THROW_EXCEPTION(API_CommandNotAllowed, o.str());
 			}
 
 //
@@ -1236,9 +1222,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,std::string &command
 			TangoSys_OMemStream o;
 
 			o << "Command " << command << " not found" << std::ends;
-			Except::throw_exception((const char *)API_CommandNotFound,
-					      o.str(),
-					      (const char *)"DeviceClass::command_handler");
+			TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
 		}
 	}
 
@@ -1291,9 +1275,7 @@ void DeviceClass::add_wiz_dev_prop(std::string &p_name,std::string &desc,std::st
 		TangoSys_OMemStream o;
 		o << "Device property " << p_name;
 		o << " for class " << name << " is already defined in the wizard" << std::ends;
-		Except::throw_exception((const char *)API_WizardConfError,
-					o.str(),
-					(const char *)"DeviceClass::add_wiz_dev_prop");
+		TANGO_THROW_EXCEPTION(API_WizardConfError, o.str());
 	}
 
 //
@@ -1357,9 +1339,7 @@ void DeviceClass::add_wiz_class_prop(std::string &p_name,std::string &desc,std::
 		TangoSys_OMemStream o;
 		o << "Class property " << p_name;
 		o << " for class " << name << " is already defined in the wizard" << std::ends;
-		Except::throw_exception((const char *)API_WizardConfError,
-					o.str(),
-					(const char *)"DeviceClass::add_wiz_dev_prop");
+		TANGO_THROW_EXCEPTION(API_WizardConfError, o.str());
 	}
 
 //
@@ -1411,8 +1391,7 @@ void DeviceClass::device_destroyer(const std::string &dev_name)
 		TangoSys_OMemStream o;
 		o << "Device " << dev_name << " not in Tango class device list!" << std::ends;
 
-		Tango::Except::throw_exception((const char *)API_CantDestroyDevice,o.str(),
-							(const char *)"DeviceClass::device_destroyer");
+		TANGO_THROW_EXCEPTION(API_CantDestroyDevice, o.str());
 	}
 
 //
@@ -1539,9 +1518,7 @@ Command &DeviceClass::get_cmd_by_name(const std::string &cmd_name)
 		TangoSys_OMemStream o;
 
 		o << cmd_name << " command not found" << std::ends;
-		Except::throw_exception((const char *)API_CommandNotFound,
-				      o.str(),
-				      (const char *)"DeviceClass::get_cmd_by_name");
+		TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
 	}
 
 	return *(*pos);
@@ -1571,7 +1548,7 @@ Pipe &DeviceClass::get_pipe_by_name(const std::string &pipe_name,const std::stri
 		TangoSys_OMemStream o;
 
 		o << dev_name << " device not found in pipe map" << std::ends;
-		Except::throw_exception(API_PipeNotFound,o.str(),"DeviceClass::get_pipe_by_name");
+		TANGO_THROW_EXCEPTION(API_PipeNotFound, o.str());
     }
 
 	std::vector<Pipe *>::iterator pos;
@@ -1592,7 +1569,7 @@ Pipe &DeviceClass::get_pipe_by_name(const std::string &pipe_name,const std::stri
 		TangoSys_OMemStream o;
 
 		o << pipe_name << " pipe not found" << std::ends;
-		Except::throw_exception(API_PipeNotFound,o.str(),"DeviceClass::get_pipe_by_name");
+		TANGO_THROW_EXCEPTION(API_PipeNotFound, o.str());
 	}
 
 	return *(*pos);
@@ -1630,9 +1607,7 @@ void DeviceClass::remove_command(const std::string &cmd_name)
 		TangoSys_OMemStream o;
 
 		o << cmd_name << " command not found" << std::ends;
-		Except::throw_exception((const char *)API_CommandNotFound,
-				      o.str(),
-				      (const char *)"DeviceClass::get_cmd_by_name");
+		TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
 	}
 
 	command_list.erase(pos);
@@ -1743,7 +1718,7 @@ std::vector<Pipe *> &DeviceClass::get_pipe_list(const std::string &dev_name)
 		TangoSys_OMemStream o;
 
 		o << dev_name << " device not found in pipe map" << std::ends;
-		Except::throw_exception(API_PipeNotFound,o.str(),"DeviceClass::get_pipe_list");
+		TANGO_THROW_EXCEPTION(API_PipeNotFound, o.str());
     }
 
     return ite->second;

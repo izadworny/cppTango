@@ -243,8 +243,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
     {
         TangoSys_OMemStream o;
         o << "Can't find a polling thread for device " << device_name << std::ends;
-        Except::throw_exception((const char *) API_PollingThreadNotFound, o.str(),
-                                (const char *) "DeviImpl::stop_polling");
+        TANGO_THROW_EXCEPTION(API_PollingThreadNotFound, o.str());
     }
 
     th_info = tg->get_polling_thread_info_by_id(poll_th_id);
@@ -275,9 +274,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
             if ((shared_cmd.cmd_pending == true) && (interupted == false))
             {
                 cout4 << "TIME OUT" << std::endl;
-                Except::throw_exception((const char *) API_CommandTimedOut,
-                                        (const char *) "Polling thread blocked !!",
-                                        (const char *) "DeviceImpl::stop_polling");
+                TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Polling thread blocked !!");
 
             }
         }
@@ -299,8 +296,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
     {
         TangoSys_OMemStream o;
         o << "Can't find entry for device " << device_name << " in polling threads pool configuration !" << std::ends;
-        Except::throw_exception((const char *) API_PolledDeviceNotInPoolConf, o.str(),
-                                (const char *) "DeviceImpl::stop_polling");
+        TANGO_THROW_EXCEPTION(API_PolledDeviceNotInPoolConf, o.str());
     }
 
     std::vector<std::string> &pool_conf = tg->get_poll_pool_conf();
@@ -539,9 +535,7 @@ void DeviceImpl::get_dev_system_resource()
             TangoSys_OMemStream o;
             o << "Database error while trying to retrieve device prperties for device " << device_name.c_str() << std::ends;
 
-            Except::throw_exception((const char *) API_DatabaseAccess,
-                                    o.str(),
-                                    (const char *) "DeviceImpl::get_dev_system_resource");
+            TANGO_THROW_EXCEPTION(API_DatabaseAccess, o.str());
         }
 
         if (db_data[0].is_empty() == false)
@@ -593,9 +587,7 @@ void DeviceImpl::get_dev_system_resource()
                 cmd_poll_ring_depth.clear();
                 TangoSys_OMemStream o;
                 o << "System property cmd_poll_ring_depth for device " << device_name << " has wrong syntax" << std::ends;
-                Except::throw_exception((const char *) API_BadConfigurationProperty,
-                                        o.str(),
-                                        (const char *) "DeviceImpl::get_dev_system_resource()");
+                TANGO_THROW_EXCEPTION(API_BadConfigurationProperty, o.str());
             }
             for (unsigned int i = 0; i < nb_prop; i = i + 2)
             {
@@ -614,9 +606,7 @@ void DeviceImpl::get_dev_system_resource()
                 attr_poll_ring_depth.clear();
                 TangoSys_OMemStream o;
                 o << "System property attr_poll_ring_depth for device " << device_name << " has wrong syntax" << std::ends;
-                Except::throw_exception((const char *) API_BadConfigurationProperty,
-                                        o.str(),
-                                        (const char *) "DeviceImpl::get_dev_system_resource()");
+                TANGO_THROW_EXCEPTION(API_BadConfigurationProperty, o.str());
             }
             for (unsigned int i = 0; i < nb_prop; i = i + 2)
             {
@@ -645,9 +635,7 @@ void DeviceImpl::get_dev_system_resource()
                 cmd_min_poll_period.clear();
                 TangoSys_OMemStream o;
                 o << "System property cmd_min_poll_period for device " << device_name << " has wrong syntax" << std::ends;
-                Except::throw_exception((const char *) API_BadConfigurationProperty,
-                                        o.str(),
-                                        (const char *) "DeviceImpl::get_dev_system_resource()");
+                TANGO_THROW_EXCEPTION(API_BadConfigurationProperty, o.str());
             }
             for (unsigned int i = 0; i < nb_prop; i = i + 2)
             {
@@ -667,9 +655,7 @@ void DeviceImpl::get_dev_system_resource()
                 attr_min_poll_period.clear();
                 TangoSys_OMemStream o;
                 o << "System property attr_min_poll_period for device " << device_name << " has wrong syntax" << std::ends;
-                Except::throw_exception((const char *) API_BadConfigurationProperty,
-                                        o.str(),
-                                        (const char *) "DeviceImpl::get_dev_system_resource()");
+                TANGO_THROW_EXCEPTION(API_BadConfigurationProperty, o.str());
             }
             for (unsigned int i = 0; i < nb_prop; i = i + 2)
             {
@@ -804,8 +790,7 @@ void DeviceImpl::check_command_exists(const std::string &cmd_name)
             {
                 TangoSys_OMemStream o;
                 o << "Command " << cmd_name << " cannot be polled because it needs input value" << std::ends;
-                Except::throw_exception((const char *) API_IncompatibleCmdArgumentType,
-                                        o.str(), (const char *) "DeviceImpl::check_command_exists");
+                TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, o.str());
             }
             return;
         }
@@ -813,8 +798,7 @@ void DeviceImpl::check_command_exists(const std::string &cmd_name)
 
     TangoSys_OMemStream o;
     o << "Command " << cmd_name << " not found" << std::ends;
-    Except::throw_exception((const char *) API_CommandNotFound, o.str(),
-                            (const char *) "DeviceImpl::check_command_exists");
+    TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
 }
 
 //+-------------------------------------------------------------------------
@@ -843,8 +827,7 @@ Command *DeviceImpl::get_command(const std::string &cmd_name)
 
     TangoSys_OMemStream o;
     o << "Command " << cmd_name << " not found" << std::ends;
-    Except::throw_exception((const char *) API_CommandNotFound, o.str(),
-                            (const char *) "DeviceImpl::get_command");
+    TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
 
 //
 // This piece of code is added for VC++ compiler. As they advice, I have try to
@@ -890,8 +873,7 @@ std::vector<PollObj *>::iterator DeviceImpl::get_polled_obj_by_type_name(
 
     TangoSys_OMemStream o;
     o << obj_name << " not found in list of polled object" << std::ends;
-    Except::throw_exception((const char *) API_PollObjNotFound, o.str(),
-                            (const char *) "DeviceImpl::get_polled_obj_by_type_name");
+    TANGO_THROW_EXCEPTION(API_PollObjNotFound, o.str());
 }
 
 //+-----------------------------------------------------------------------------------------------------------------
@@ -949,9 +931,7 @@ long DeviceImpl::get_cmd_poll_ring_depth(std::string &cmd_name)
                     TangoSys_OMemStream o;
                     o << "System property cmd_poll_ring_depth for device " << device_name << " has wrong syntax"
                       << std::ends;
-                    Except::throw_exception((const char *) API_BadConfigurationProperty,
-                                            o.str(),
-                                            (const char *) "DeviceImpl::get_poll_ring_depth()");
+                    TANGO_THROW_EXCEPTION(API_BadConfigurationProperty, o.str());
                 }
                 break;
             }
@@ -1040,9 +1020,7 @@ long DeviceImpl::get_attr_poll_ring_depth(std::string &attr_name)
                     TangoSys_OMemStream o;
                     o << "System property attr_poll_ring_depth for device " << device_name << " has wrong syntax"
                       << std::ends;
-                    Except::throw_exception((const char *) API_BadConfigurationProperty,
-                                            o.str(),
-                                            (const char *) "DeviceImpl::get_poll_ring_depth()");
+                    TANGO_THROW_EXCEPTION(API_BadConfigurationProperty, o.str());
                 }
                 break;
             }
@@ -1237,8 +1215,7 @@ Tango::DevState DeviceImpl::dev_state()
                                 o << " has not been updated";
                                 o << "Hint: Did the server follow Tango V5 attribute reading framework ?" << std::ends;
 
-                                Except::throw_exception((const char *) API_AttrValueNotSet, o.str(),
-                                                        (const char *) "DeviceImpl::dev_state");
+                                TANGO_THROW_EXCEPTION(API_AttrValueNotSet, o.str());
                             }
                         }
                     }
@@ -1967,9 +1944,7 @@ Tango::DevCmdInfoList *DeviceImpl::command_list_query()
     }
     catch (std::bad_alloc &)
     {
-        Except::throw_exception((const char *) API_MemoryAllocation,
-                                (const char *) "Can't allocate memory in server",
-                                (const char *) "DeviceImpl::command_list_query");
+        TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
     }
 
 //
@@ -2016,9 +1991,7 @@ Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
     }
     catch (std::bad_alloc &)
     {
-        Except::throw_exception((const char *) API_MemoryAllocation,
-                                (const char *) "Can't allocate memory in server",
-                                (const char *) "DeviceImpl::command_query");
+        TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
     }
 
 //
@@ -2069,9 +2042,7 @@ Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
         TangoSys_OMemStream o;
 
         o << "Command " << command << " not found" << std::ends;
-        Except::throw_exception((const char *) API_CommandNotFound,
-                                o.str(),
-                                (const char *) "DeviceImpl::command_query");
+        TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
     }
 
 //
@@ -2114,9 +2085,7 @@ Tango::DevInfo *DeviceImpl::info()
     }
     catch (std::bad_alloc &)
     {
-        Except::throw_exception((const char *) API_MemoryAllocation,
-                                (const char *) "Can't allocate memory in server",
-                                (const char *) "DeviceImpl::info");
+        TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
     }
 
 //
@@ -2300,9 +2269,7 @@ Tango::AttributeConfigList *DeviceImpl::get_attribute_config(const Tango::DevVar
     }
     catch (std::bad_alloc &)
     {
-        Except::throw_exception((const char *) API_MemoryAllocation,
-                                (const char *) "Can't allocate memory in server",
-                                (const char *) "DeviceImpl::get_attribute_config");
+        TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
     }
 
 //
@@ -2386,9 +2353,7 @@ void DeviceImpl::set_attribute_config(const Tango::AttributeConfigList &new_conf
     long nb_dev_attr = dev_attr->get_attr_nb();
     if (nb_dev_attr == 0)
     {
-        Except::throw_exception((const char *) API_AttrNotFound,
-                                (const char *) "The device does not have any attribute",
-                                (const char *) "DeviceImpl::set_attribute_config");
+        TANGO_THROW_EXCEPTION(API_AttrNotFound, "The device does not have any attribute");
     }
 
 //
@@ -2407,9 +2372,7 @@ void DeviceImpl::set_attribute_config(const Tango::AttributeConfigList &new_conf
             std::transform(tmp_name.begin(), tmp_name.end(), tmp_name.begin(), ::tolower);
             if ((tmp_name == "state") || (tmp_name == "status"))
             {
-                Except::throw_exception((const char *) API_AttrNotFound,
-                                        (const char *) "Cannot set config for attribute state or status",
-                                        (const char *) "DeviceImpl::set_attribute_config");
+                TANGO_THROW_EXCEPTION(API_AttrNotFound, "Cannot set config for attribute state or status");
             }
 
             Attribute &attr = dev_attr->get_attr_by_name(new_conf[i].name);
@@ -2569,9 +2532,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
 
         if (nb_dev_attr == 0)
         {
-            Except::throw_exception((const char *) API_AttrNotFound,
-                                    (const char *) "The device does not have any attribute",
-                                    (const char *) "DeviceImpl::read_attributes");
+            TANGO_THROW_EXCEPTION(API_AttrNotFound, "The device does not have any attribute");
         }
         if (vers >= 3)
         {
@@ -2641,9 +2602,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                     o << "Client too old to get data for attribute " << real_names[i].in();
                     o << ".\nPlease, use a client linked with Tango V5";
                     o << " and a device inheriting from Device_3Impl" << std::ends;
-                    Except::throw_exception((const char *) API_NotSupportedFeature,
-                                            o.str(),
-                                            (const char *) "DeviceImpl::read_attributes");
+                    TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
                 }
                 att.set_value_flag(false);
                 att.get_when().tv_sec = 0;
@@ -2661,9 +2620,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                         o << "Client too old to get data for attribute " << real_names[i].in();
                         o << ".\nPlease, use a client linked with Tango V5";
                         o << " and a device inheriting from Device_3Impl" << std::ends;
-                        Except::throw_exception((const char *) API_NotSupportedFeature,
-                                                o.str(),
-                                                (const char *) "DeviceImpl::read_attributes");
+                        TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
                     }
                 }
                 else
@@ -2716,9 +2673,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                     o << "It is not possible to read state/status as attributes with your\n";
                     o << "Tango software release. Please, re-link with Tango V5." << std::ends;
 
-                    Except::throw_exception((const char *) API_NotSupportedFeature,
-                                            o.str(),
-                                            (const char *) "Device_Impl::read_attributes");
+                    TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
                 }
 
                 if (attr_vect[idx]->is_allowed(this, Tango::READ_REQ) == false)
@@ -2728,9 +2683,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                     o << "It is currently not allowed to read attribute ";
                     o << att.get_name() << std::ends;
 
-                    Except::throw_exception((const char *) API_AttrNotAllowed,
-                                            o.str(),
-                                            (const char *) "Device_Impl::read_attributes");
+                    TANGO_THROW_EXCEPTION(API_AttrNotAllowed, o.str());
                 }
                 attr_vect[idx]->read(this, att);
             }
@@ -2761,9 +2714,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
         }
         catch (std::bad_alloc &)
         {
-            Except::throw_exception((const char *) API_MemoryAllocation,
-                                    (const char *) "Can't allocate memory in server",
-                                    (const char *) "DeviceImpl::read_attributes");
+            TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
         }
 
 //
@@ -2810,9 +2761,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                         o << " has not been updated" << std::ends;
                     }
 
-                    Except::throw_exception((const char *) API_AttrValueNotSet,
-                                            o.str(),
-                                            (const char *) "DeviceImpl::read_attributes");
+                    TANGO_THROW_EXCEPTION(API_AttrValueNotSet, o.str());
                 }
                 else
                 {
@@ -3018,9 +2967,7 @@ void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
         long nb_dev_attr = dev_attr->get_attr_nb();
         if (nb_dev_attr == 0)
         {
-            Except::throw_exception((const char *) API_AttrNotFound,
-                                    (const char *) "The device does not have any attribute",
-                                    (const char *) "DeviceImpl::write_attributes");
+            TANGO_THROW_EXCEPTION(API_AttrNotFound, "The device does not have any attribute");
         }
 
 //
@@ -3051,9 +2998,7 @@ void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
                 o << dev_attr->get_attr_by_ind(updated_attr[i]).get_name();
                 o << " is not writable" << std::ends;
 
-                Except::throw_exception((const char *) API_AttrNotWritable,
-                                        o.str(),
-                                        (const char *) "DeviceImpl::write_attributes");
+                TANGO_THROW_EXCEPTION(API_AttrNotWritable, o.str());
             }
         }
 
@@ -3116,9 +3061,7 @@ void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
                     o << ". The device state is " << Tango::DevStateName[get_state()] << std::ends;
 
 
-                    Except::throw_exception((const char *) API_AttrNotAllowed,
-                                            o.str(),
-                                            (const char *) "Device_Impl::write_attributes");
+                    TANGO_THROW_EXCEPTION(API_AttrNotAllowed, o.str());
                 }
                 attr_vect[att.get_attr_idx()]->write(this, att);
                 att.copy_data(values[i].value);
@@ -3140,9 +3083,7 @@ void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
                 }
                 catch (Tango::DevFailed &e)
                 {
-                    Except::re_throw_exception(e, (const char *) API_AttrNotAllowed,
-                                               (const char *) "Failed to store memorized attribute value in db",
-                                               (const char *) "Device_Impl::write_attributes");
+                    TANGO_RETHROW_EXCEPTION(e, API_AttrNotAllowed, "Failed to store memorized attribute value in db");
                 }
             }
         }
@@ -3227,9 +3168,7 @@ void DeviceImpl::add_attribute(Tango::Attr *new_attr)
           << " already exists for your device but with other definition";
         o << "\n(data type, data format or data write type)" << std::ends;
 
-        Except::throw_exception((const char *) API_AttrNotFound,
-                                o.str(),
-                                (const char *) "DeviceImpl::add_attribute");
+        TANGO_THROW_EXCEPTION(API_AttrNotFound, o.str());
     }
 
     if (already_there == true)
@@ -3309,9 +3248,7 @@ void DeviceImpl::add_attribute(Tango::Attr *new_attr)
               << " already exists for your device class but with other definition";
             o << "\n(data type, data format or data write type)" << std::ends;
 
-            Except::throw_exception((const char *) API_AttrNotFound,
-                                    o.str(),
-                                    (const char *) "DeviceImpl::add_attribute");
+            TANGO_THROW_EXCEPTION(API_AttrNotFound, o.str());
         }
     }
 
@@ -3398,9 +3335,7 @@ void DeviceImpl::remove_attribute(Tango::Attr *rem_attr, bool free_it, bool clea
         o << "Attribute " << attr_name << " is not defined as attribute for your device.";
         o << "\nCan't remove it" << std::ends;
 
-        Except::throw_exception((const char *) API_AttrNotFound,
-                                o.str(),
-                                (const char *) "DeviceImpl::remove_attribute");
+        TANGO_THROW_EXCEPTION(API_AttrNotFound, o.str());
     }
 
 //
@@ -3606,9 +3541,7 @@ void DeviceImpl::remove_attribute(std::string &rem_attr_name, bool free_it, bool
         o << "Attribute " << rem_attr_name << " is not defined as attribute for your device.";
         o << "\nCan't remove it" << std::ends;
 
-        Except::re_throw_exception(e, (const char *) API_AttrNotFound,
-                                   o.str(),
-                                   (const char *) "DeviceImpl::remove_attribute");
+        TANGO_RETHROW_EXCEPTION(e, API_AttrNotFound, o.str());
     }
 
 }
@@ -3687,7 +3620,7 @@ void DeviceImpl::add_command(Tango::Command *new_cmd, bool device_level)
           << " already exists for your device but with other definition";
         o << "\n(command input data type or command output data type)" << std::ends;
 
-        Except::throw_exception(API_CommandNotFound, o.str(), "DeviceImpl::add_command");
+        TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
     }
 
     if (already_there == true)
@@ -3793,7 +3726,7 @@ void DeviceImpl::remove_command(Tango::Command *rem_cmd, bool free_it, bool clea
             o << "Command " << cmd_name << " is not defined as command for your device.";
             o << "\nCan't remove it" << std::ends;
 
-            Except::throw_exception(API_CommandNotFound, o.str(), "DeviceImpl::remove_command");
+            TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
         }
     }
 
@@ -3954,7 +3887,7 @@ void DeviceImpl::remove_command(const std::string &rem_cmd_name, bool free_it, b
             o << "Command " << rem_cmd_name << " is not defined as a command for your device.";
             o << "\nCan't remove it" << std::ends;
 
-            Except::re_throw_exception(e, API_CommandNotFound, o.str(), "DeviceImpl::remove_command");
+            TANGO_RETHROW_EXCEPTION(e, API_CommandNotFound, o.str());
         }
     }
 
@@ -4058,9 +3991,7 @@ void DeviceImpl::init_cmd_poll_ext_trig(std::string cmd_name)
         TangoSys_OMemStream o;
 
         o << "State and status are handled as attributes for the polling" << std::ends;
-        Except::throw_exception((const char *) API_CommandNotFound,
-                                o.str(),
-                                (const char *) "DeviceImpl::init_poll_ext_trig");
+        TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
     }
 
 //
@@ -4595,8 +4526,7 @@ void DeviceImpl::lock(client_addr *cl, int validity)
             {
                 TangoSys_OMemStream o;
                 o << "Device " << get_name() << " is already locked by another client" << std::ends;
-                Except::throw_exception((const char *) API_DeviceLocked, o.str(),
-                                        (const char *) "Device_Impl::lock");
+                TANGO_THROW_EXCEPTION(API_DeviceLocked, o.str());
             }
         }
         else
@@ -4660,8 +4590,7 @@ void DeviceImpl::relock(client_addr *cl)
                 TangoSys_OMemStream o;
                 o << get_name() << ": ";
                 o << "Device " << get_name() << " is already locked by another client" << std::ends;
-                Except::throw_exception((const char *) API_DeviceLocked, o.str(),
-                                        (const char *) "Device_Impl::relock");
+                TANGO_THROW_EXCEPTION(API_DeviceLocked, o.str());
             }
 
             device_locked = true;
@@ -4672,8 +4601,7 @@ void DeviceImpl::relock(client_addr *cl)
             TangoSys_OMemStream o;
             o << get_name() << ": ";
             o << "Device " << get_name() << " is not locked. Can't re-lock it" << std::ends;
-            Except::throw_exception((const char *) API_DeviceNotLocked, o.str(),
-                                    (const char *) "Device_Impl::relock");
+            TANGO_THROW_EXCEPTION(API_DeviceNotLocked, o.str());
         }
     }
     else
@@ -4681,8 +4609,7 @@ void DeviceImpl::relock(client_addr *cl)
         TangoSys_OMemStream o;
         o << get_name() << ": ";
         o << "Device " << get_name() << " is not locked. Can't re-lock it" << std::ends;
-        Except::throw_exception((const char *) API_DeviceNotLocked, o.str(),
-                                (const char *) "Device_Impl::relock");
+        TANGO_THROW_EXCEPTION(API_DeviceNotLocked, o.str());
     }
 
 }
@@ -4720,8 +4647,7 @@ Tango::DevLong DeviceImpl::unlock(bool forced)
                 {
                     TangoSys_OMemStream o;
                     o << "Device " << get_name() << " is locked by another client, can't unlock it" << std::ends;
-                    Except::throw_exception((const char *) API_DeviceLocked, o.str(),
-                                            (const char *) "Device_Impl::unlock");
+                    TANGO_THROW_EXCEPTION(API_DeviceLocked, o.str());
                 }
             }
         }
@@ -5000,7 +4926,7 @@ void DeviceImpl::check_lock(const char *meth, const char *cmd)
                 TangoSys_OMemStream o2;
                 o << "Device " << get_name() << " has been unlocked by an administrative client!!!" << std::ends;
                 o2 << "Device_Impl::" << meth << std::ends;
-                Except::throw_exception((const char *) DEVICE_UNLOCKED_REASON, o.str(), o2.str());
+                Except::throw_exception(DEVICE_UNLOCKED_REASON, o.str(), o2.str());
             }
             delete old_locker_client;
             old_locker_client = NULL;
@@ -5028,7 +4954,7 @@ void DeviceImpl::throw_locked_exception(const char *meth)
     TangoSys_OMemStream o2;
     o << "Device " << get_name() << " is locked by another client" << std::ends;
     o2 << "Device_Impl::" << meth << std::ends;
-    Except::throw_exception((const char *) API_DeviceLocked, o.str(), o2.str());
+    Except::throw_exception(API_DeviceLocked, o.str(), o2.str());
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -5793,7 +5719,7 @@ bool DeviceImpl::is_there_subscriber(const std::string &att_name, EventType even
             break;
 
         default:
-            Except::throw_exception(API_UnsupportedFeature, "Unsupported event type", "Device::get_cmd_by_name");
+            TANGO_THROW_EXCEPTION(API_UnsupportedFeature, "Unsupported event type");
             break;
     }
 
@@ -5949,7 +5875,7 @@ Command &DeviceImpl::get_local_cmd_by_name(const std::string &cmd_name)
         TangoSys_OMemStream o;
 
         o << cmd_name << " command not found" << std::ends;
-        Except::throw_exception(API_CommandNotFound, o.str(), "Device::get_cmd_by_name");
+        TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
     }
 
     return *(*pos);
@@ -5985,9 +5911,7 @@ void DeviceImpl::remove_local_command(const std::string &cmd_name)
         TangoSys_OMemStream o;
 
         o << cmd_name << " command not found" << std::ends;
-        Except::throw_exception((const char *) API_CommandNotFound,
-                                o.str(),
-                                (const char *) "DeviceImpl::remove_local_command");
+        TANGO_THROW_EXCEPTION(API_CommandNotFound, o.str());
     }
 
     command_list.erase(pos);
@@ -6100,8 +6024,7 @@ void DeviceImpl::push_dev_intr(bool ev_client)
                 if ((devintr_shared.cmd_pending == true) && (interupted == 0))
                 {
                     cout4 << "TIME OUT" << std::endl;
-                    Except::throw_exception(API_CommandTimedOut, "Device interface change event thread blocked !!!",
-                                            "DeviceImpl::push_dev_intr");
+                    TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Device interface change event thread blocked !!!");
                 }
             }
         }
@@ -6175,7 +6098,7 @@ void DeviceImpl::end_pipe_config()
                 std::stringstream ss;
                 ss << "Can't get device pipe properties for device " << device_name << std::ends;
 
-                Except::throw_exception(API_DatabaseAccess, ss.str(), "DeviceImpl::end_pipe_config");
+                TANGO_THROW_EXCEPTION(API_DatabaseAccess, ss.str());
             }
 
 //

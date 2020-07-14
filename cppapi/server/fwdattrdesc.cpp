@@ -312,7 +312,7 @@ void FwdAttr::read(DeviceImpl *dev,Attribute &attr)
 		desc = desc + name + " is a forwarded attribute and its root device (";
 		desc = desc + fwd_dev_name;
 		desc = desc + ") is not yet available";
-		Tango::Except::throw_exception(API_AttrConfig,desc,"FwdAttr::read");
+		TANGO_THROW_EXCEPTION(API_AttrConfig, desc);
 	}
 
 //
@@ -331,7 +331,7 @@ void FwdAttr::read(DeviceImpl *dev,Attribute &attr)
 		std::string desc("Attribute ");
 		desc = desc + name + " is a forwarded attribute.\n";
 		desc = desc + "Check device status to get more info";
-		Tango::Except::re_throw_exception(e,API_AttrConfig,desc,"FwdAttr::read()");
+		TANGO_RETHROW_EXCEPTION(e, API_AttrConfig, desc);
 	}
 
 //
@@ -410,7 +410,7 @@ void FwdAttr::read(DeviceImpl *dev,Attribute &attr)
 	{
 		std::stringstream ss;
 		ss << "Reading root attribute " << fwd_root_att << " on device " << fwd_dev_name << " failed!";
-		Tango::Except::re_throw_exception(e,API_AttributeFailed,ss.str(),"FwdAttr::read");
+		TANGO_RETHROW_EXCEPTION(e, API_AttributeFailed, ss.str());
 	}
 
 }
@@ -443,7 +443,7 @@ void FwdAttr::write(TANGO_UNUSED(DeviceImpl *dev),WAttribute &attr)
 		desc = desc + name + " is a forwarded attribute and its root device (";
 		desc = desc + fwd_dev_name;
 		desc = desc + ") is not yet available";
-		Tango::Except::throw_exception(API_AttrConfig,desc,"FwdAttr::write");
+		TANGO_THROW_EXCEPTION(API_AttrConfig, desc);
 	}
 
 //
@@ -462,7 +462,7 @@ void FwdAttr::write(TANGO_UNUSED(DeviceImpl *dev),WAttribute &attr)
 		std::string desc("Attribute ");
 		desc = desc + name + " is a forwarded attribute.\n";
 		desc = desc + "Check device status to get more info";
-		Tango::Except::re_throw_exception(e,API_AttrConfig,desc,"FwdAttr::write()");
+		TANGO_RETHROW_EXCEPTION(e, API_AttrConfig, desc);
 	}
 
 //
@@ -552,7 +552,7 @@ void FwdAttr::write(TANGO_UNUSED(DeviceImpl *dev),WAttribute &attr)
 	{
 		std::stringstream ss;
 		ss << "Writing root attribute " << fwd_root_att << " on device " << fwd_dev_name << " failed!";
-		Tango::Except::re_throw_exception(e,API_AttributeFailed,ss.str(),"FwdAttr::write");
+		TANGO_RETHROW_EXCEPTION(e, API_AttributeFailed, ss.str());
 	}
 }
 
@@ -694,8 +694,7 @@ std::string &FwdAttr::get_label_from_default_properties()
 
 	if (ctr == nb_prop)
 	{
-		Except::throw_exception(API_AttrOptProp,"Property label not defined in list",
-								"FwdAttr::get_label_from_default_properties");
+		TANGO_THROW_EXCEPTION(API_AttrOptProp, "Property label not defined in list");
 	}
 
 	return user_default_properties[ctr].get_value();

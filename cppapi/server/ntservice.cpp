@@ -128,9 +128,7 @@ NTEventLogger::NTEventLogger(const char* service, DWORD eventId)
     eventSource_ = ::RegisterEventSource(NULL, service);
     if(eventSource_ == 0)
 	{
-		Except::throw_exception((const char *)API_DatabaseAccess,
-				        (const char *)"RegisterEventsource failed",
-				        (const char *)"NTEventLogger::NTEventLogger");
+		TANGO_THROW_EXCEPTION(API_DatabaseAccess, "RegisterEventsource failed");
 	}
 }
 

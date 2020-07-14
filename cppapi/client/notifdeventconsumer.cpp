@@ -256,15 +256,11 @@ void NotifdEventConsumer::connect_event_system(std::string &device_name,std::str
   	}
 	catch (CORBA::COMM_FAILURE &)
 	{
-		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Caught CORBA::COMM_FAILURE exception while creating event filter (check filter)",
-                       	(const char*)"NotifdEventConsumer::connect_event_system()");
+		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Caught CORBA::COMM_FAILURE exception while creating event filter (check filter)");
   	}
 	catch (...)
 	{
-		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Caught exception while creating event filter (check filter)",
-                       	(const char*)"NotifdEventConsumer::connect_event_system()");
+		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Caught exception while creating event filter (check filter)");
   	}
 
 //
@@ -341,9 +337,7 @@ void NotifdEventConsumer::connect_event_system(std::string &device_name,std::str
 		catch (...) { }
 
     	filter = CosNotifyFilter::Filter::_nil();
-		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Caught exception while creating event filter (check filter)",
-                       	(const char*)"NotifdEventConsumer::connect_event_system()");
+		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Caught exception while creating event filter (check filter)");
   	}
 	else
 	{
@@ -417,9 +411,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 			o << channel_name;
 			o << " has no event channel defined in the database\n";
 			o << "Maybe the server is not running or is not linked with Tango release 4.x (or above)... " << std::ends;
-			Except::throw_exception((const char *)API_NotificationServiceFailed,
-			      			o.str(),
-			      			(const char *)"NotifdEventConsumer::connect_event_channel");
+			TANGO_THROW_EXCEPTION(API_NotificationServiceFailed, o.str());
 		}
 
      	received.inout() >>= dev_import_list;
@@ -451,9 +443,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 			o << channel_name;
 			o << " has no event channel\n";
 			o << "Maybe the server is not running or is not linked with Tango release 4.x (or above)... " << std::ends;
-			Except::throw_exception((const char *)API_NotificationServiceFailed,
-			      			o.str(),
-			      			(const char *)"NotifdEventConsumer::connect_event_channel");
+			TANGO_THROW_EXCEPTION(API_NotificationServiceFailed, o.str());
 		}
 	}
 
@@ -477,16 +467,12 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 		}
 		catch (...)
 		{
-         	EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                        	(const char*)"Failed to narrow EventChannel from notification daemon (hint: make sure the notifd process is running on this host)",
-                        	(const char*)"NotifdEventConsumer::connect_event_channel()");
+         	TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Failed to narrow EventChannel from notification daemon (hint: make sure the notifd process is running on this host)");
 		}
 	}
 	else
 	{
-    	EventSystemExcept::throw_exception((const char*)API_EventChannelNotExported,
-                        	(const char*)"Failed to narrow EventChannel (hint: make sure a notifd process is running on the server host)",
-                        	(const char*)"NotifdEventConsumer::connect_event_channel()");
+    	TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_EventChannelNotExported, "Failed to narrow EventChannel (hint: make sure a notifd process is running on the server host)");
 	}
 
 //
@@ -504,16 +490,12 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 		if (CORBA::is_nil(consumerAdmin))
 		{
         		//cerr << "Could not get CosNotifyChannelAdmin::ConsumerAdmin" << std::endl;
-			EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       		(const char*)"Failed to get default Consumer admin from notification daemon (hint: make sure the notifd process is running on this host)",
-                       		(const char*)"NotifdEventConsumer::connect_event_channel()");
+			TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Failed to get default Consumer admin from notification daemon (hint: make sure the notifd process is running on this host)");
     	}
 	}
 	catch (...)
 	{
-     	EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Failed to get default Consumer admin from notification daemon (hint: make sure the notifd process is running on this host)",
-                       	(const char*)"NotifdEventConsumer::connect_event_channel()");
+     	TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Failed to get default Consumer admin from notification daemon (hint: make sure the notifd process is running on this host)");
 	}
 
 //
@@ -531,9 +513,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 		if (CORBA::is_nil(proxySupplier))
 		{
         		//cerr << "Could not get CosNotifyChannelAdmin::ProxySupplier" << std::endl;
-			EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       		(const char*)"Failed to obtain a push supplier from notification daemon (hint: make sure the notifd process is running on this host)",
-                       		(const char*)"NotifdEventConsumer::connect_event_channel()");
+			TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Failed to obtain a push supplier from notification daemon (hint: make sure the notifd process is running on this host)");
     	}
 
         structuredProxyPushSupplier =
@@ -542,9 +522,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 		if (CORBA::is_nil(structuredProxyPushSupplier))
 		{
        			//cerr << "Tango::NotifdEventConsumer::NotifdEventConsumer() could not get CosNotifyChannelAdmin::StructuredProxyPushSupplier" << std::endl;
-       		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       		(const char*)"Failed to narrow the push supplier from notification daemon (hint: make sure the notifd process is running on this host)",
-                       		(const char*)"NotifdEventConsumer::connect_event_channel()");
+       		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Failed to narrow the push supplier from notification daemon (hint: make sure the notifd process is running on this host)");
     	}
 
 //
@@ -556,9 +534,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 	}
 	catch(const CosNotifyChannelAdmin::AdminLimitExceeded&)
 	{
-		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Failed to get PushSupplier from notification daemon due to AdminLimitExceeded (hint: make sure the notifd process is running on this host)",
-                       	(const char*)"NotifdEventConsumer::connect_event_channel()");
+		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Failed to get PushSupplier from notification daemon due to AdminLimitExceeded (hint: make sure the notifd process is running on this host)");
 	}
 
 //
@@ -625,9 +601,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 	catch (...)
 	{
                 //cerr << "Caught exception obtaining filter object" << std::endl;
-		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Caught exception while creating heartbeat filter (check filter)",
-                       	(const char*)"NotifdEventConsumer::connect_event_channel()");
+		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Caught exception while creating heartbeat filter (check filter)");
 	}
 
 //
@@ -664,9 +638,7 @@ void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Databa
 
 		filter = CosNotifyFilter::Filter::_nil();
 
-		EventSystemExcept::throw_exception((const char*)API_NotificationServiceFailed,
-                       	(const char*)"Caught exception while adding constraint for heartbeat (check filter)",
-                       	(const char*)"NotifdEventConsumer::connect_event_channel()");
+		TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotificationServiceFailed, "Caught exception while adding constraint for heartbeat (check filter)");
 	}
 }
 
