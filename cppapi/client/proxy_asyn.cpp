@@ -358,7 +358,7 @@ DeviceData Connection::command_inout_reply(long id)
                     remove_asyn_request(id);
 
                     ApiCommExcept::re_throw_exception(cb_excep_mess,
-                          "API_DeviceTimedOut",
+                          API_DeviceTimedOut,
                           desc.str(),
                           "Connection::command_inout_reply()");
                 }
@@ -371,7 +371,7 @@ DeviceData Connection::command_inout_reply(long id)
                     ss << "Failed to execute command_inout_asynch on device " << dev_name();
 
                     ApiCommExcept::re_throw_exception(cb_excep_mess,
-                                          "API_CommunicationFailed",ss.str(),
+                                          API_CommunicationFailed,ss.str(),
                                           "Connection::command_inout_reply()");
                 }
 			}
@@ -467,7 +467,7 @@ DeviceData Connection::command_inout_reply(long id)
 			remove_asyn_request(id);
 
 			ApiCommExcept::re_throw_exception(cb_excep_mess,
-						  "API_CommunicationFailed",
+						  API_CommunicationFailed,
 						  desc.str(),
 						  "Connection::command_inout_reply()");
 
@@ -684,7 +684,7 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
                     remove_asyn_request(id);
 
                     ApiCommExcept::re_throw_exception(cb_excep_mess,
-                              "API_DeviceTimedOut",
+                              API_DeviceTimedOut,
                               desc.str(),
                               "Connection::command_inout_reply()");
                 }
@@ -697,7 +697,7 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
                     ss << "Failed to execute command_inout_asynch on device " << dev_name();
 
                     ApiCommExcept::re_throw_exception(cb_excep_mess,
-                                          "API_CommunicationFailed",ss.str(),
+                                          API_CommunicationFailed,ss.str(),
                                           "Connection::command_inout_reply()");
                 }
 			}
@@ -791,7 +791,7 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
 			remove_asyn_request(id);
 
 			ApiCommExcept::re_throw_exception(cb_excep_mess,
-						          "API_CommunicationFailed",desc.str(),
+						          API_CommunicationFailed,desc.str(),
 						          "Connection::command_inout_reply()");
 
 
@@ -1873,7 +1873,7 @@ void DeviceProxy::read_attr_except(CORBA::Request_ptr req,long id,read_attr_type
                 desc << std::ends;
 
                 remove_asyn_request(id);
-                ApiCommExcept::re_throw_exception(cb_excep_mess,"API_DeviceTimedOut",desc.str(),meth.c_str());
+                ApiCommExcept::re_throw_exception(cb_excep_mess,API_DeviceTimedOut,desc.str(),meth.c_str());
             }
             else
             {
@@ -1882,7 +1882,7 @@ void DeviceProxy::read_attr_except(CORBA::Request_ptr req,long id,read_attr_type
 
                 std::stringstream ss;
                 ss << "Failed to execute read_attribute_asynch on device " << device_name;
-                ApiCommExcept::re_throw_exception(cb_excep_mess,"API_CommunicationFailed",ss.str(),meth.c_str());
+                ApiCommExcept::re_throw_exception(cb_excep_mess,API_CommunicationFailed,ss.str(),meth.c_str());
             }
 		}
 	}
@@ -1982,11 +1982,11 @@ void DeviceProxy::read_attr_except(CORBA::Request_ptr req,long id,read_attr_type
 
 		if (type == SIMPLE)
 			ApiCommExcept::re_throw_exception(cb_excep_mess,
-							  "API_CommunicationFailed",desc.str(),
+							  API_CommunicationFailed,desc.str(),
 							  "DeviceProxy::read_attribute_reply()");
 		else
 			ApiCommExcept::re_throw_exception(cb_excep_mess,
-							  "API_CommunicationFailed",desc.str(),
+							  API_CommunicationFailed,desc.str(),
 							  "DeviceProxy::read_attributes_reply()");
 	}
 
@@ -2525,7 +2525,7 @@ void DeviceProxy::write_attr_except(CORBA::Request_ptr req,long id,TgRequest::Re
 
                 remove_asyn_request(id);
                 ApiCommExcept::re_throw_exception(cb_excep_mess,
-                                  "API_DeviceTimedOut",
+                                  API_DeviceTimedOut,
                                   desc.str(),
                                   "DeviceProxy::write_attributes_reply()");
             }
@@ -2537,7 +2537,7 @@ void DeviceProxy::write_attr_except(CORBA::Request_ptr req,long id,TgRequest::Re
                 std::stringstream ss;
                 ss << "Failed to execute write_attribute_asynch on device " << device_name;
                 ApiCommExcept::re_throw_exception(cb_excep_mess,
-                                "API_CommunicationFailed",ss.str(),"DeviceProxy::write_attributes_reply");
+                                API_CommunicationFailed,ss.str(),"DeviceProxy::write_attributes_reply");
             }
 		}
 	}
@@ -2713,7 +2713,7 @@ void DeviceProxy::write_attr_except(CORBA::Request_ptr req,long id,TgRequest::Re
 		remove_asyn_request(id);
 
 		ApiCommExcept::re_throw_exception(cb_excep_mess,
-						  "API_CommunicationFailed",desc.str(),
+						  API_CommunicationFailed,desc.str(),
 						  "DeviceProxy::write_attributes_reply()");
 	}
 }
@@ -2772,7 +2772,7 @@ void DeviceProxy::retrieve_read_args(TgRequest &req,std::vector<std::string> &at
 		desc << std::ends;
 
 		ApiCommExcept::re_throw_exception(cb_excep_mess,
-							  			  "API_CommunicationFailed",
+							  			  API_CommunicationFailed,
                         			  	  desc.str(),
 							  			  "DeviceProxy::redo_simpl_call()");
 	}
@@ -2877,7 +2877,7 @@ void DeviceProxy::redo_synch_write_call(TgRequest &req)
 		desc << "Failed to redo the call synchronously on device " << device_name << std::ends;
 
 		ApiCommExcept::re_throw_exception(cb_excep_mess,
-							  			  "API_CommunicationFailed",
+							  			  API_CommunicationFailed,
                         			  	  desc.str(),
 							  			  "DeviceProxy::redo_synch_write_call()");
 	}
@@ -2927,7 +2927,7 @@ DeviceData Connection::redo_synch_cmd(TgRequest &req)
 		desc << "Failed to redo the call synchronously on device " << dev_name() << std::ends;
 
 		ApiCommExcept::re_throw_exception(cb_excep_mess,
-							  			  "API_CommunicationFailed",
+							  			  API_CommunicationFailed,
                         			  	  desc.str(),
 							  			  "DeviceProxy::redo_synch_write_call()");
 	}
@@ -3020,7 +3020,7 @@ void Connection::omni420_timeout(int id,char *cb_excep_mess)
     {
         ss << "Timeout (" << timeout << " mS) exceeded on device " << dev_name();
         ApiCommExcept::re_throw_exception(cb_excep_mess,
-                              "API_DeviceTimedOut",ss.str(),
+                              API_DeviceTimedOut,ss.str(),
                               "Connection::command_inout_reply()");
     }
     else
@@ -3029,7 +3029,7 @@ void Connection::omni420_timeout(int id,char *cb_excep_mess)
 
         ss << "Failed to execute command_inout_asynch on device " << dev_name();
         ApiCommExcept::re_throw_exception(cb_excep_mess,
-                              "API_CommunicationFailed",ss.str(),
+                              API_CommunicationFailed,ss.str(),
                               "Connection::command_inout_reply()");
     }
 }
@@ -3066,7 +3066,7 @@ DeviceData Connection::omni420_except(int id,char *cb_excep_mess,TgRequest &req)
     remove_asyn_request(id);
 
     ApiCommExcept::re_throw_exception(cb_excep_mess,
-						  "API_CommunicationFailed",ss.str(),"Connection::command_inout_reply");
+						  API_CommunicationFailed,ss.str(),"Connection::command_inout_reply");
 
     DeviceData dummy;
     return dummy;
@@ -3106,7 +3106,7 @@ void DeviceProxy::omni420_timeout_attr(int id,char *cb_excep_mess,read_attr_type
     {
         ss << "Timeout (" << timeout << " mS) exceeded on device " << dev_name();
         ApiCommExcept::re_throw_exception(cb_excep_mess,
-                              "API_DeviceTimedOut",ss.str(),meth.c_str());
+                              API_DeviceTimedOut,ss.str(),meth.c_str());
     }
     else
     {
@@ -3114,7 +3114,7 @@ void DeviceProxy::omni420_timeout_attr(int id,char *cb_excep_mess,read_attr_type
 
         ss << "Failed to execute command_inout_asynch on device " << dev_name();
         ApiCommExcept::re_throw_exception(cb_excep_mess,
-                              "API_CommunicationFailed",ss.str(),meth.c_str());
+                              API_CommunicationFailed,ss.str(),meth.c_str());
     }
 }
 
@@ -3144,7 +3144,7 @@ void DeviceProxy::omni420_except_attr(int id,char *cb_excep_mess,read_attr_type 
         meth = "DeviceProxy::read_attributes_reply()";
 
     ApiCommExcept::re_throw_exception(cb_excep_mess,
-						  "API_CommunicationFailed",ss.str(),meth.c_str());
+						  API_CommunicationFailed,ss.str(),meth.c_str());
 }
 
 void DeviceProxy::omni420_timeout_wattr(int id,char *cb_excep_mess)
@@ -3175,7 +3175,7 @@ void DeviceProxy::omni420_timeout_wattr(int id,char *cb_excep_mess)
     {
         ss << "Timeout (" << timeout << " mS) exceeded on device " << dev_name();
         ApiCommExcept::re_throw_exception(cb_excep_mess,
-                          "API_DeviceTimedOut",ss.str(),"DeviceProxy::write_attributes_reply()");
+                          API_DeviceTimedOut,ss.str(),"DeviceProxy::write_attributes_reply()");
     }
     else
     {
@@ -3183,7 +3183,7 @@ void DeviceProxy::omni420_timeout_wattr(int id,char *cb_excep_mess)
 
         ss << "Failed to execute write_attribute_asynch on device " << dev_name();
         ApiCommExcept::re_throw_exception(cb_excep_mess,
-                              "API_CommunicationFailed",ss.str(),"DeviceProxy::write_attributes_reply()");
+                              API_CommunicationFailed,ss.str(),"DeviceProxy::write_attributes_reply()");
     }
 }
 
@@ -3207,7 +3207,7 @@ void DeviceProxy::omni420_except_wattr(int id,char *cb_excep_mess)
     remove_asyn_request(id);
 
     ApiCommExcept::re_throw_exception(cb_excep_mess,
-						  "API_CommunicationFailed",ss.str(),"DeviceProxy::write_attributes_reply()");
+						  API_CommunicationFailed,ss.str(),"DeviceProxy::write_attributes_reply()");
 }
 
 } // End of tango namespace

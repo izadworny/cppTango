@@ -933,7 +933,7 @@ DevAttrHistory_5 *FwdAttribute::read_root_att_history(long n)
 				dp->set_connection_state(CONNECTION_NOTOK);
 				TangoSys_OMemStream desc;
 				desc << "Attribute_history failed on device " << get_fwd_dev_name() << std::ends;
-				ApiCommExcept::re_throw_exception(one,"API_CommunicationFailed",
+				ApiCommExcept::re_throw_exception(one,API_CommunicationFailed,
 								         desc.str(),"FwdAttribute::read_root_att_history()");
 			}
 		}
@@ -948,7 +948,7 @@ DevAttrHistory_5 *FwdAttribute::read_root_att_history(long n)
 				dp->set_connection_state(CONNECTION_NOTOK);
 				TangoSys_OMemStream desc;
 				desc << "Attribute_history failed on device " << get_fwd_dev_name() << std::ends;
-				ApiCommExcept::re_throw_exception(comm,"API_CommunicationFailed",
+				ApiCommExcept::re_throw_exception(comm,API_CommunicationFailed,
 											desc.str(),"FwdAttribute::read_root_att_history()");
 			}
 		}
@@ -957,7 +957,7 @@ DevAttrHistory_5 *FwdAttribute::read_root_att_history(long n)
 			dp->set_connection_state(CONNECTION_NOTOK);
 			TangoSys_OMemStream desc;
 			desc << "Attribute_history failed on device " << get_fwd_dev_name() << std::ends;
-			ApiCommExcept::re_throw_exception(ce,"API_CommunicationFailed",
+			ApiCommExcept::re_throw_exception(ce,API_CommunicationFailed,
                         			      desc.str(),"FwdAttribute::read_root_att_history()");
 		}
 	}
@@ -1103,7 +1103,7 @@ AttributeValueList_5 *FwdAttribute::write_read_root_att(Tango::AttributeValueLis
 				TangoSys_OMemStream desc;
 				desc << "Failed to execute write_read_attribute on device " << get_fwd_dev_name() << std::ends;
 				ApiCommExcept::re_throw_exception(one,
-							      (const char*)"API_CommunicationFailed",
+							      (const char*)API_CommunicationFailed,
                         				      desc.str(),
 							      (const char*)"FwdAttribute::write_read_root_att()");
 			}
@@ -1120,7 +1120,7 @@ AttributeValueList_5 *FwdAttribute::write_read_root_att(Tango::AttributeValueLis
 				TangoSys_OMemStream desc;
 				desc << "Failed to execute write_attribute on device " << get_fwd_dev_name() << std::ends;
 				ApiCommExcept::re_throw_exception(comm,
-							      (const char*)"API_CommunicationFailed",
+							      (const char*)API_CommunicationFailed,
                         				      desc.str(),
 							      (const char*)"FwdAttribute::write_read_root_att");
 			}
@@ -1132,7 +1132,7 @@ AttributeValueList_5 *FwdAttribute::write_read_root_att(Tango::AttributeValueLis
 			TangoSys_OMemStream desc;
 			desc << "Failed to execute write_attributes on device " << get_fwd_dev_name() << std::ends;
 			ApiCommExcept::re_throw_exception(ce,
-						      (const char*)"API_CommunicationFailed",
+						      (const char*)API_CommunicationFailed,
                         			      desc.str(),
 						      (const char*)"FwdAttribute::write_read_root_att()");
 		}

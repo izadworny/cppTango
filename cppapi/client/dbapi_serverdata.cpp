@@ -480,7 +480,7 @@ DbServerData::TangoDevice::TangoDevice(std::string &na):DeviceProxy(na),name(na)
 	catch (DevFailed &e)
 	{
 		std::string reason(e.errors[0].reason.in());
-		if (reason != "API_CommandNotFound")
+		if (reason != API_CommandNotFound)
 			throw;
 	}
 
@@ -687,7 +687,7 @@ DbServerData::TangoClass::TangoClass(const std::string &na,const std::string &fu
 	catch (DevFailed &e)
 	{
 		std::string reason(e.errors[0].reason.in());
-		if (reason != "API_CommandNotFound")
+		if (reason != API_CommandNotFound)
 			throw;
 	}
 
