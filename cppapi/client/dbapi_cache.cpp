@@ -432,7 +432,7 @@ const DevVarStringArray *DbServerCache::get_class_property(DevVarStringArray *in
 			TangoSys_OMemStream o;
 			o << "Class " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-			Tango::Except::throw_exception((const char *)"DB_ClassNotFoundInCache",o.str(),
+			Tango::Except::throw_exception((const char *)DB_ClassNotFoundInCache,o.str(),
 										   (const char *)"DbServerCache::get_dev_property");
 		}
 	}
@@ -550,7 +550,7 @@ const DevVarStringArray *DbServerCache::get_dev_property(DevVarStringArray *in_p
 			TangoSys_OMemStream o;
 			o << "Device " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-			Tango::Except::throw_exception((const char *)"DB_DeviceNotFoundInCache",o.str(),
+			Tango::Except::throw_exception((const char *)DB_DeviceNotFoundInCache,o.str(),
 										   (const char *)"DbServerCache::get_dev_property");
 	    }
 		ret_obj_prop.length(ret_length);
@@ -567,7 +567,7 @@ const DevVarStringArray *DbServerCache::get_dev_property(DevVarStringArray *in_p
 			TangoSys_OMemStream o;
 			o << "Device " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-			Tango::Except::throw_exception((const char *)"DB_DeviceNotFoundInCache",o.str(),
+			Tango::Except::throw_exception((const char *)DB_DeviceNotFoundInCache,o.str(),
 										   (const char *)"DbServerCache::get_dev_property");
 		}
 		else
@@ -722,7 +722,7 @@ const DevVarStringArray *DbServerCache::get_class_att_property(DevVarStringArray
 		TangoSys_OMemStream o;
 		o << "Class " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-		Tango::Except::throw_exception((const char *)"DB_ClassNotFoundInCache",o.str(),
+		Tango::Except::throw_exception((const char *)DB_ClassNotFoundInCache,o.str(),
 										   (const char *)"DbServerCache::get_dev_property");
 	}
 
@@ -813,7 +813,7 @@ const DevVarStringArray *DbServerCache::get_dev_att_property(DevVarStringArray *
 			TangoSys_OMemStream o;
 			o << "Device " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-			Tango::Except::throw_exception((const char *)"DB_DeviceNotFoundInCache",o.str(),
+			Tango::Except::throw_exception((const char *)DB_DeviceNotFoundInCache,o.str(),
 											(const char *)"DbServerCache::get_dev_att_property");
 		}
 		else
@@ -1132,7 +1132,7 @@ const DevVarStringArray *DbServerCache::get_obj_property(DevVarStringArray *in_p
 		TangoSys_OMemStream o;
 		o << "Object " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-		Tango::Except::throw_exception((const char *)"DB_DeviceNotFoundInCache",o.str(),
+		Tango::Except::throw_exception((const char *)DB_DeviceNotFoundInCache,o.str(),
 									   (const char *)"DbServerCache::get_obj_property");
 	}
 	else
@@ -1188,7 +1188,7 @@ const DevVarStringArray *DbServerCache::get_device_property_list(DevVarStringArr
 			TangoSys_OMemStream o;
 			o << "Device " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-			Tango::Except::throw_exception((const char *)"DB_DeviceNotFoundInCache",o.str(),
+			Tango::Except::throw_exception((const char *)DB_DeviceNotFoundInCache,o.str(),
 										   (const char *)"DbServerCache::get_device_property_list");
 		}
 		else
@@ -1406,7 +1406,7 @@ const DevVarLongStringArray *DbServerCache::import_tac_dev(std::string &tac_dev)
 		TangoSys_OMemStream o;
 		o << "Device " << tac_dev << " not defined in database" << std::ends;
 
-		Tango::Except::throw_exception((const char *)"DB_DeviceNotDefined",o.str(),
+		Tango::Except::throw_exception((const char *)DB_DeviceNotDefined,o.str(),
 									   (const char *)"DbServerCache::import_tac_dev");
 	}
 
@@ -1454,7 +1454,7 @@ const DevVarStringArray *DbServerCache::get_class_pipe_property(DevVarStringArra
 	if (proc_release < 109)
 	{
 		std::string mess("Your database stored procedure is too old to support pipe. Please update to stored procedure release 1.9 or more");
-		Tango::Except::throw_exception("DB_TooOldStoredProc",mess,"DbServerCache::get_class_pipe_property");
+		Tango::Except::throw_exception(DB_TooOldStoredProc,mess,"DbServerCache::get_class_pipe_property");
 	}
 
 	int found_pipe = 0;
@@ -1523,7 +1523,7 @@ const DevVarStringArray *DbServerCache::get_class_pipe_property(DevVarStringArra
 		TangoSys_OMemStream o;
 		o << "Class " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-		Tango::Except::throw_exception("DB_ClassNotFoundInCache",o.str(),
+		Tango::Except::throw_exception(DB_ClassNotFoundInCache,o.str(),
 										   "DbServerCache::get_class_pipe_property");
 	}
 
@@ -1562,7 +1562,7 @@ const DevVarStringArray *DbServerCache::get_dev_pipe_property(DevVarStringArray 
 	if (proc_release < 109)
 	{
 		std::string mess("Your database stored procedure is too old to support pipe. Please update to stored procedure release 1.9 or more");
-		Tango::Except::throw_exception("DB_TooOldStoredProc",mess,"DbServerCache::get_dev_pipe_property");
+		Tango::Except::throw_exception(DB_TooOldStoredProc,mess,"DbServerCache::get_dev_pipe_property");
 	}
 
 	int found_pipe = 0;
@@ -1626,7 +1626,7 @@ const DevVarStringArray *DbServerCache::get_dev_pipe_property(DevVarStringArray 
 			TangoSys_OMemStream o;
 			o << "Device " << (*in_param)[0] << " not found in DB cache" << std::ends;
 
-			Tango::Except::throw_exception((const char *)"DB_DeviceNotFoundInCache",o.str(),
+			Tango::Except::throw_exception((const char *)DB_DeviceNotFoundInCache,o.str(),
 											(const char *)"DbServerCache::get_dev_pipe_property");
 		}
 		else

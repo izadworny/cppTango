@@ -1156,7 +1156,7 @@ void Database::get_device_property(std::string dev, DbData &db_data,DbServerCach
 		}
 		catch(Tango::DevFailed &e)
 		{
-			if (::strcmp(e.errors[0].reason.in(),"DB_DeviceNotFoundInCache") == 0)
+			if (::strcmp(e.errors[0].reason.in(),DB_DeviceNotFoundInCache) == 0)
 			{
 
 //
@@ -1371,7 +1371,7 @@ void Database::get_device_attribute_property(std::string dev, DbData &db_data, D
 		}
 		catch (Tango::DevFailed &e)
 		{
-			if (::strcmp(e.errors[0].reason.in(),"DB_DeviceNotFoundInCache") == 0)
+			if (::strcmp(e.errors[0].reason.in(),DB_DeviceNotFoundInCache) == 0)
 			{
 
 //
@@ -1688,7 +1688,7 @@ void Database::get_class_property(std::string device_class, DbData &db_data, DbS
 		}
 		catch(Tango::DevFailed &e)
 		{
-			if (::strcmp(e.errors[0].reason.in(),"DB_ClassNotFoundInCache") == 0)
+			if (::strcmp(e.errors[0].reason.in(),DB_ClassNotFoundInCache) == 0)
 			{
 
 //
@@ -1918,7 +1918,7 @@ void Database::get_class_attribute_property(std::string device_class, DbData &db
 		}
 		catch (Tango::DevFailed &e)
 		{
-			if (::strcmp(e.errors[0].reason.in(),"DB_ClassNotFoundInCache") == 0)
+			if (::strcmp(e.errors[0].reason.in(),DB_ClassNotFoundInCache) == 0)
 			{
 
 //
@@ -2496,7 +2496,7 @@ void Database::get_property(std::string obj, DbData &db_data,DbServerCache *db_c
 		}
 		catch(Tango::DevFailed &e)
 		{
-			if (::strcmp(e.errors[0].reason.in(),"DB_DeviceNotFoundInCache") == 0)
+			if (::strcmp(e.errors[0].reason.in(),DB_DeviceNotFoundInCache) == 0)
 			{
 
 //
@@ -2902,7 +2902,7 @@ void Database::get_device_property_list(std::string &dev, const std::string &wil
 		}
 		catch(Tango::DevFailed &e)
 		{
-			if (::strcmp(e.errors[0].reason.in(),"DB_DeviceNotFoundInCache") == 0)
+			if (::strcmp(e.errors[0].reason.in(),DB_DeviceNotFoundInCache) == 0)
 			{
 
 //
@@ -4401,7 +4401,7 @@ AccessControlType Database::check_access_control(std::string &devname)
 	}
 	catch (Tango::DevFailed &e)
 	{
-		if (::strcmp(e.errors[0].reason.in(),API_DeviceNotExported) == 0 || ::strcmp(e.errors[0].reason.in(),"DB_DeviceNotDefined") == 0)
+		if (::strcmp(e.errors[0].reason.in(),API_DeviceNotExported) == 0 || ::strcmp(e.errors[0].reason.in(),DB_DeviceNotDefined) == 0)
 		{
 			std::string tmp_err_desc(e.errors[0].desc.in());
 			tmp_err_desc = tmp_err_desc + "\nControlled access service defined in Db but unreachable --> Read access given to all devices...";
@@ -4789,10 +4789,10 @@ void Database::get_class_pipe_property(std::string device_class, DbData &db_data
 		{
 			std::string err_reason(e.errors[0].reason.in());
 
-			if (err_reason == "DB_ClassNotFoundInCache" || err_reason == "DB_TooOldStoredProc")
+			if (err_reason == DB_ClassNotFoundInCache || err_reason == DB_TooOldStoredProc)
 			{
 
-				if (err_reason == "DB_TooOldStoredProc")
+				if (err_reason == DB_TooOldStoredProc)
 				{
 					cout << "WARNING: You database stored procedure is too old to support device pipe" << std::endl;
 					cout << "Please, update to stored procedure release 1.9 or more" << std::endl;
@@ -4949,9 +4949,9 @@ void Database::get_device_pipe_property(std::string dev, DbData &db_data, DbServ
 		{
 			std::string err_reason(e.errors[0].reason.in());
 
-			if (err_reason == "DB_DeviceNotFoundInCache" || err_reason == "DB_TooOldStoredProc")
+			if (err_reason == DB_DeviceNotFoundInCache || err_reason == DB_TooOldStoredProc)
 			{
-				if (err_reason == "DB_TooOldStoredProc")
+				if (err_reason == DB_TooOldStoredProc)
 				{
 					cout << "WARNING: You database stored procedure is too old to support device pipe" << std::endl;
 					cout << "Please, update to stored procedure release 1.9 or more" << std::endl;
