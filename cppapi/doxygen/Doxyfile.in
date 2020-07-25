@@ -814,6 +814,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = @PROJECT_BINARY_DIR@/cppapi/server/tango_const.h \
+                         @PROJECT_SOURCE_DIR@/cppapi/include/server/attribute.h \
+                         @PROJECT_SOURCE_DIR@/cppapi/include/server/w_attribute.h \
                          @PROJECT_SOURCE_DIR@/cppapi/server/attrdesc.h \
                          @PROJECT_SOURCE_DIR@/cppapi/server/attribute.h \
                          @PROJECT_SOURCE_DIR@/cppapi/server/attrprop.h \
