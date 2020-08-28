@@ -50,10 +50,6 @@ std::string Layout::format (const LoggingEvent& event)
             << sep
             << event.logger_name
             << sep
-#ifdef LOG4TANGO_HAS_NDC
-            << event.ndc 
-            << sep  
-#endif
             << event.message
             << std::ends;
      

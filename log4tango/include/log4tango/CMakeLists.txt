@@ -14,7 +14,6 @@ set(HEADER_FILES
                 LogStreambuf.hh
                 LoggingEvent.hh
                 Level.hh
-                NDC.hh
                 Filter.hh
                 Export.hh
                 Portability.hh)
