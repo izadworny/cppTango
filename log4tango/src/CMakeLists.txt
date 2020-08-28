@@ -18,8 +18,7 @@ set(SOURCES
                 StringUtil.hh
                 StringUtil.cpp
                 DummyThreads.cpp
-                MSThreads.cpp
-                PThreads.cpp
+                StandardThreads.cpp
                 PortabilityImpl.hh
                 PortabilityImpl.cpp)
 
