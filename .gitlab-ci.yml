@@ -250,6 +250,7 @@ clang-tidy:
       -DBUILD_TESTING=OFF
       -DUSE_PCH=OFF
       -DTANGO_USE_USING_NAMESPACE=OFF
+    - make -C build idl_source
     - >
       run-clang-tidy-11
       -p build -header-filter='.*' 'cppapi/(?!server/idl)' 'log4tango/src'
