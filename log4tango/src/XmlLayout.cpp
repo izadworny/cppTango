@@ -54,15 +54,19 @@ namespace log4tango {
       return out.str();
     };
 
+    auto ts = [](const LoggingEvent& event) -> std::string {
+      std::ostringstream out;
+      auto ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        event.timestamp.time_since_epoch()).count();
+      out << ts_ms;
+      return out.str();
+    };
+
     std::string buf;
     buf.append("<log4j:event logger=\"");
     buf.append(event.logger_name);
     buf.append("\" timestamp=\"");
-    double ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        event.timestamp.time_since_epoch()).count();
-    char ts_str[32];
-    ::sprintf(ts_str, "%.0f", double(ts_ms));
-    buf.append(ts_str);
+    buf.append(ts(event));
     buf.append("\" level=\"");
     buf.append(log4tango::Level::get_name(event.level));
     buf.append("\" thread=\"");
