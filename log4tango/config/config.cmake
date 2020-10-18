@@ -19,8 +19,8 @@ LOG4TANGO_CHECK_INCLUDE_FILE("sys/stat.h"     HAVE_SYS_STAT_H)
 LOG4TANGO_CHECK_INCLUDE_FILE("sys/types.h"    HAVE_SYS_TYPES_H)
 LOG4TANGO_CHECK_INCLUDE_FILE("unistd.h"       HAVE_UNISTD_H)
 
-if(CMAKE_THREAD_LIBS_INIT)
-    set(LOG4TANGO_HAVE_THREADING "/**/")
+if(NOT DEFINED Threads_FOUND)
+  message(FATAL_ERROR "Could not find a suitable threading library")
 endif()
 
 configure_file(config/config.h.in ${PROJECT_BINARY_DIR}/log4tango/include/log4tango/config.h)
