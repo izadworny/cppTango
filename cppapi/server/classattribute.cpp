@@ -80,6 +80,8 @@ AttrProperty::AttrProperty(const std::string &name,const long &value):attr_name(
 {
 }
 
+AttrProperty::~AttrProperty() = default;
+
 //+-----------------------------------------------------------------------------------------------------------------
 //
 // method :
