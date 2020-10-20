@@ -94,9 +94,7 @@ class AsynchRequest
       obj_names = _obj_names;
     };
     //- dtor
-    virtual ~AsynchRequest () {
-      //-noop impl
-    };
+    virtual ~AsynchRequest();
     //- group_element_enabled accessor
     inline bool group_element_enabled () const {
       return group_element_enabled_m;
@@ -149,8 +147,16 @@ public:
               const std::string& obj_name,
               const DevFailed& exception,
               bool group_element_enabled = true);
+
   //- dtor
-  virtual ~GroupReply ();
+  virtual ~GroupReply();
+
+  GroupReply(const GroupReply &);
+  GroupReply & operator=(const GroupReply &);
+
+  GroupReply(GroupReply &&);
+  GroupReply & operator=(GroupReply &&);
+
 ///@publicsection
 /**
  * Check if the group element corresponding to this reply is enabled.
@@ -265,7 +271,7 @@ public:
                  const std::string& obj_name,
                  bool group_element_enabled);
   //- dtor
-  virtual ~GroupCmdReply ();
+  virtual ~GroupCmdReply();
 ///@publicsection
   //- data accessor (may throw Tango::DevFailed)
 /**
@@ -350,7 +356,7 @@ public:
                   const std::string& obj_name,
                   bool group_element_enabled);
   //- dtor
-  virtual ~GroupAttrReply ();
+  virtual ~GroupAttrReply();
 ///@publicsection
   //- data accessor (may throw Tango::DevFailed)
 /**

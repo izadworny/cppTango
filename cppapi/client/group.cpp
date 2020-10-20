@@ -100,6 +100,8 @@ DeviceNames GroupElementFactory::resolve_device_names(const std::string& name_or
     }
 }
 
+AsynchRequest::~AsynchRequest() = default;
+
 DeviceNames GroupElementFactory::resolve_local_device_names(const std::string& name_or_pattern)
 {
     std::string& name_or_patern_non_const = const_cast<std::string&>(name_or_pattern);
@@ -265,10 +267,14 @@ GroupReply::GroupReply (const std::string& _dev_name,
 
 }
 //-----------------------------------------------------------------------------
-GroupReply::~GroupReply ()
-{
-  //-noop impl
-}
+GroupReply::~GroupReply() = default;
+
+GroupReply::GroupReply(const GroupReply &) = default;
+GroupReply & GroupReply::operator=(const GroupReply &) = default;
+
+GroupReply::GroupReply(GroupReply &&) = default;
+GroupReply & GroupReply::operator=(GroupReply &&) = default;
+
 //-----------------------------------------------------------------------------
 bool GroupReply::enable_exception (bool exception_mode)
 {
@@ -285,11 +291,8 @@ GroupReplyList::GroupReplyList ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupReplyList::~GroupReplyList ()
-{
-  //-noop impl
-}
+
+GroupReplyList::~GroupReplyList() = default;
 
 //=============================================================================
 // class GroupCmdReply : reply to command executed on a group
@@ -329,11 +332,10 @@ GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
 {
   //-noop impl
 }
+
+GroupCmdReply::~GroupCmdReply() = default;
+
 //-----------------------------------------------------------------------------
-GroupCmdReply::~GroupCmdReply ()
-{
-  //-noop impl
-}
 //-----------------------------------------------------------------------------
 /*const*/ DeviceData& GroupCmdReply::get_data ()
 {
@@ -481,11 +483,8 @@ GroupCmdReplyList::GroupCmdReplyList ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupCmdReplyList::~GroupCmdReplyList ()
-{
-  //-noop impl
-}
+
+GroupCmdReplyList::~GroupCmdReplyList() = default;
 
 //=============================================================================
 // class GroupAttrReply : reply to read/write attr on a group
@@ -525,11 +524,9 @@ GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupAttrReply::~GroupAttrReply ()
-{
-  //-noop impl
-}
+
+GroupAttrReply::~GroupAttrReply() = default;
+
 //-----------------------------------------------------------------------------
 /*const*/ DeviceAttribute& GroupAttrReply::get_data ()
 {
@@ -561,11 +558,8 @@ GroupAttrReplyList::GroupAttrReplyList ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupAttrReplyList::~GroupAttrReplyList ()
-{
-  //-noop impl
-}
+
+GroupAttrReplyList::~GroupAttrReplyList() = default;
 
 //=============================================================================
 // class GroupElement
