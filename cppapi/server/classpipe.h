@@ -53,7 +53,7 @@ class PipeProperty
 {
 public:
 	PipeProperty(const std::string &name,const std::string &value):prop_name(name),prop_value(value) {}
-	~PipeProperty() {};
+	~PipeProperty();
 
 	const std::string &get_value() {return prop_value;}
 	const std::string &get_name() {return prop_name;}
