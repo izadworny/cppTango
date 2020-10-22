@@ -25,6 +25,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Log4Tango.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <chrono>
+
 #include "PortabilityImpl.hh"
 #include <log4tango/LoggingEvent.hh>
 #include <log4tango/threading/Threading.hh>
@@ -43,7 +45,8 @@ LoggingEvent::LoggingEvent (const std::string& _logger_name,
 #ifdef LOG4TANGO_HAS_NDC
     ndc(_ndc),
 #endif
-    level(_level)
+    level(_level),
+    timestamp(std::chrono::system_clock::now())
 {
   //-- thread_name = threading::get_thread_id();
   thread_id =  std::this_thread::get_id();
