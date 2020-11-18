@@ -255,15 +255,6 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
 };
 
-class GetLongSize : public Tango::Command {
-public:
-	GetLongSize(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~GetLongSize() {}
-
-	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
-	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
-};
-
 class IOSetWAttrLimit : public Tango::Command {
 public:
 	IOSetWAttrLimit(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
