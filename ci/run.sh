@@ -11,6 +11,7 @@ echo "BUILD_SHARED_LIBS=$BUILD_SHARED_LIBS"
 echo "TANGO_USE_USING_NAMESPACE=$TANGO_USE_USING_NAMESPACE"
 echo "TANGO_USE_LIBCPP=$TANGO_USE_LIBCPP"
 echo "WARNINGS_AS_ERRORS=$WARNINGS_AS_ERRORS"
+echo "TOOLCHAIN_FILE=$TOOLCHAIN_FILE"
 echo "############################"
 
 docker exec cpp_tango mkdir -p /home/tango/src/build
@@ -25,6 +26,11 @@ SOURCE_DIR=/home/tango/src
 BUILD_DIR=${SOURCE_DIR}/build
 
 ADDITIONAL_ARGS=""
+
+if [[ -f "$TOOLCHAIN_FILE" && -s "$TOOLCHAIN_FILE" ]]
+then
+  ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/${TOOLCHAIN_FILE}"
+fi
 
 docker exec cpp_tango cmake                                \
   -H${SOURCE_DIR}                                          \

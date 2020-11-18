@@ -10,6 +10,7 @@ variables: &variables
   TANGO_USE_JPEG: "ON"
   BUILD_SHARED_LIBS: "ON"
   TANGO_USE_LIBCPP: "OFF"
+  TOOLCHAIN_FILE: ""
 
 services:
   - docker:20.10.1-dind
@@ -35,6 +36,7 @@ workflow:
         --name cpp_tango
         --user root
         -e TANGO_HOST=${TANGO_HOST}
+        -e TOOLCHAIN_FILE=${TOOLCHAIN_FILE}
         -e DOCKER_HOST=tcp://$(getent hosts docker | awk '{ print $1 }'):2375
         -v `pwd`:/home/tango/src
         -v `pwd`/idl:/home/tango/idl
@@ -199,6 +201,20 @@ debian11-no-jpeg:
     <<: *variables
     OS_TYPE: debian11
     STOCK_CPPZMQ: "OFF"
+    TANGO_USE_JPEG: "OFF"
+
+debian11-cross-32bit:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: debian11-cross-32bit
+    CMAKE_BUILD_TYPE: "Debug"
+    RUN_TESTS: "OFF"
+    STOCK_CPPZMQ: "OFF"
+    TANGO_USE_USING_NAMESPACE: "OFF"
+    TOOLCHAIN_FILE: "configure/toolchain-i686.cmake"
+    USE_PCH: "OFF"
+    WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_JPEG: "OFF"
 
 debian10:
