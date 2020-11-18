@@ -21,10 +21,12 @@ TANGO_USE_LIBCPP=${TANGO_USE_LIBCPP:-OFF}
 USE_PCH=${USE_PCH:-OFF}
 BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS:-ON}
 WARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS:-OFF}
+SOURCE_DIR=/home/tango/src
+BUILD_DIR=${SOURCE_DIR}/build
 
 docker exec cpp_tango cmake                                \
-  -H/home/tango/src                                        \
-  -B/home/tango/src/build                                  \
+  -H${SOURCE_DIR}                                          \
+  -B${BUILD_DIR}                                           \
   -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}                 \
   -DCMAKE_VERBOSE_MAKEFILE=ON                              \
   -DCPPZMQ_BASE=/home/tango                                \
@@ -36,4 +38,4 @@ docker exec cpp_tango cmake                                \
   -DWARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS}               \
   -DTANGO_ENABLE_COVERAGE=${TANGO_ENABLE_COVERAGE:-OFF}
 
-docker exec cpp_tango make -C /home/tango/src/build $MAKEFLAGS
+docker exec cpp_tango make -C ${BUILD_DIR} $MAKEFLAGS
