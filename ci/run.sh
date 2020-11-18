@@ -24,6 +24,8 @@ WARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS:-OFF}
 SOURCE_DIR=/home/tango/src
 BUILD_DIR=${SOURCE_DIR}/build
 
+ADDITIONAL_ARGS=""
+
 docker exec cpp_tango cmake                                \
   -H${SOURCE_DIR}                                          \
   -B${BUILD_DIR}                                           \
@@ -36,6 +38,7 @@ docker exec cpp_tango cmake                                \
   -DTANGO_USE_JPEG=${TANGO_USE_JPEG}                        \
   -DTANGO_USE_LIBCPP=${TANGO_USE_LIBCPP}                     \
   -DWARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS}               \
-  -DTANGO_ENABLE_COVERAGE=${TANGO_ENABLE_COVERAGE:-OFF}
+  -DTANGO_ENABLE_COVERAGE=${TANGO_ENABLE_COVERAGE:-OFF}    \
+  ${ADDITIONAL_ARGS}
 
 docker exec cpp_tango make -C ${BUILD_DIR} $MAKEFLAGS
