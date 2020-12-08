@@ -1620,7 +1620,7 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 
 	data_out->length(2);
 	(*data_out)[0] = Tango::string_dup((*data_in)[0]); index++;
-	auto num_prop = data_in->length() - 1;
+	const auto num_prop = data_in->length() - 1;
 	(*data_out)[index] = to_corba_string(num_prop); index++;
 
 	unsigned long nb_classes_defined = m_server.classes.size();
@@ -1639,7 +1639,6 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 				{
 					if (equalsIgnoreCase((*data_in)[j].in(), m_server.classes[i]->properties[m]->name))
 					{
-						num_prop++;
 						auto num_val = m_server.classes[i]->properties[m]->value.size();
 						seq_length = seq_length + 2 + num_val;
 						(*data_out).length(seq_length);
