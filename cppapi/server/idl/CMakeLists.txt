@@ -28,6 +28,12 @@ function(add_after_in_file FILENAME SEARCH CONTENT)
     replace_in_file(${FILENAME} "${SEARCH}" "${SEARCH} ${CONTENT}")
 endfunction()
 
+add_after_in_file(tango.h "#define __tango_hh__" "\n\n\
+//Added by Tango team\n\
+#ifdef __clang_analyzer__\n\
+#pragma clang system_header\n\
+#endif\n")
+
 add_after_in_file(tango.h "typedef _CORBA_ConstrType_Variable_Var<AttributeValue_4> _var_type;" "\n\n\
     //Added by Tango team\n\
     virtual ~AttributeValue_4() {if (mut_ptr != NULL)mut_ptr->unlock();}\n\
