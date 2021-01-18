@@ -30,6 +30,8 @@
 //
 //-==================================================================================================================
 
+#ifndef _POLLRING_TPP
+#define _POLLRING_TPP
 
 namespace Tango
 {
@@ -883,3 +885,5 @@ void PollRing::get_attr_history(long n,T *ptr,long type)
 }
 
 } // End of Tango namespace
+
+#endif
