@@ -10,6 +10,12 @@ target_link_libraries(tango PUBLIC ${ZMQ_PKG_LIBRARIES} ${OMNIORB_PKG_LIBRARIES}
 target_include_directories(tango SYSTEM PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS})
 target_compile_options(tango PUBLIC ${ZMQ_PKG_CFLAGS_OTHER} ${OMNIORB_PKG_CFLAGS_OTHER} ${OMNICOS_PKG_CFLAGS_OTHER} ${OMNIDYN_PKG_CFLAGS_OTHER})
 
+set_target_properties(
+    log4tango_objects client_objects idl_objects
+    jpeg_objects jpeg_mmx_objects server_objects
+    PROPERTIES
+    UNITY_BUILD_CODE_BEFORE_INCLUDE "// NOLINTNEXTLINE(bugprone-suspicious-include)")
+
 if(BUILD_SHARED_LIBS)
   target_compile_options(tango PRIVATE -fPIC)
   target_compile_definitions(tango PUBLIC _REENTRANT)
