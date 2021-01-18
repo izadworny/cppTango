@@ -1,0 +1,22 @@
+# vim: filetype=yaml
+
+Checks: >
+  -*,
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  bugprone-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -readability-named-parameter,
+
+CheckOptions:
+  - key: >-
+      misc-non-private-member-variables-in-classes
+      .IgnoreClassesWithAllMemberVariablesBeingPublic
+    value: true
+  - key: modernize-use-auto.MinTypeNameLength
+    value: 20
