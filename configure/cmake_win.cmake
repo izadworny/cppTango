@@ -112,7 +112,6 @@ if (TANGO_INSTALL_DEPENDENCIES)
         install(FILES $ENV{OMNI_BASE}/lib/x86_win32/omniDynamic421_rtd.lib DESTINATION lib COMPONENT dynamic)
         install(FILES $ENV{OMNI_BASE}/lib/x86_win32/omnithread40_rtd.lib DESTINATION lib COMPONENT dynamic)
         install(FILES $ENV{OMNI_BASE}/lib/x86_win32/COS421_rtd.lib DESTINATION lib COMPONENT dynamic)
-        install(FILES $ENV{OMNI_BASE}/lib/x86_win32/msvcstubd.lib DESTINATION lib COMPONENT dynamic)
 
     else(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
@@ -129,7 +128,6 @@ if (TANGO_INSTALL_DEPENDENCIES)
         install(FILES $ENV{OMNI_BASE}/lib/x86_win32/omniDynamic421_rt.lib DESTINATION lib COMPONENT dynamic)
         install(FILES $ENV{OMNI_BASE}/lib/x86_win32/omnithread40_rt.lib DESTINATION lib COMPONENT dynamic)
         install(FILES $ENV{OMNI_BASE}/lib/x86_win32/COS421_rt.lib DESTINATION lib COMPONENT dynamic)
-        install(FILES $ENV{OMNI_BASE}/lib/x86_win32/msvcstub.lib DESTINATION lib COMPONENT dynamic)
 
     endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
