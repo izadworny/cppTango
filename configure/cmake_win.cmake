@@ -30,30 +30,30 @@ if(PTHREAD_WIN)
     link_directories(${PTHREAD_WIN}/lib)
 endif()
 
-add_library(${TANGO_LIBRARY_NAME} $<TARGET_OBJECTS:log4tango_objects>
+add_library(tango $<TARGET_OBJECTS:log4tango_objects>
         $<TARGET_OBJECTS:idl_objects>
         $<TARGET_OBJECTS:client_objects>
         $<TARGET_OBJECTS:jpeg_objects>
         $<TARGET_OBJECTS:jpeg_mmx_objects>
         $<TARGET_OBJECTS:server_objects>)
 
-set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES COMPILE_DEFINITIONS
+set_target_properties(tango PROPERTIES COMPILE_DEFINITIONS
         "${windows_defs}")
 
-target_compile_options(${TANGO_LIBRARY_NAME} PUBLIC ${ZMQ_PKG_CFLAGS_OTHER} ${OMNIORB_PKG_CFLAGS_OTHER} ${OMNICOS_PKG_CFLAGS_OTHER} ${OMNIDYN_PKG_CFLAGS_OTHER})
+target_compile_options(tango PUBLIC ${ZMQ_PKG_CFLAGS_OTHER} ${OMNIORB_PKG_CFLAGS_OTHER} ${OMNICOS_PKG_CFLAGS_OTHER} ${OMNIDYN_PKG_CFLAGS_OTHER})
 
 if(BUILD_SHARED_LIBS)
-    target_link_libraries(${TANGO_LIBRARY_NAME} PUBLIC ${WIN32_LIBS} ${OMNIORB_PKG_LIBRARIES_DYN} ${ZMQ_PKG_LIBRARIES_DYN} ${PTHREAD_WIN_PKG_LIBRARIES_DYN} ${CMAKE_DL_LIBS})
+    target_link_libraries(tango PUBLIC ${WIN32_LIBS} ${OMNIORB_PKG_LIBRARIES_DYN} ${ZMQ_PKG_LIBRARIES_DYN} ${PTHREAD_WIN_PKG_LIBRARIES_DYN} ${CMAKE_DL_LIBS})
 else()
-    target_link_libraries(${TANGO_LIBRARY_NAME} PUBLIC ${WIN32_LIBS} ${OMNIORB_PKG_LIBRARIES_STA} ${ZMQ_PKG_LIBRARIES_STA} ${PTHREAD_WIN_PKG_LIBRARIES_STA} ${CMAKE_DL_LIBS})
-    set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES OUTPUT_NAME ${TANGO_LIBRARY_OUTPUT_NAME})
-    set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES PREFIX "lib")
+    target_link_libraries(tango PUBLIC ${WIN32_LIBS} ${OMNIORB_PKG_LIBRARIES_STA} ${ZMQ_PKG_LIBRARIES_STA} ${PTHREAD_WIN_PKG_LIBRARIES_STA} ${CMAKE_DL_LIBS})
+    set_target_properties(tango PROPERTIES OUTPUT_NAME ${TANGO_LIBRARY_OUTPUT_NAME})
+    set_target_properties(tango PROPERTIES PREFIX "lib")
 endif()
 
-set_property(TARGET ${TANGO_LIBRARY_NAME} PROPERTY LINK_FLAGS "/force:multiple")
-target_include_directories(${TANGO_LIBRARY_NAME} SYSTEM PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS})
+set_property(TARGET tango PROPERTY LINK_FLAGS "/force:multiple")
+target_include_directories(tango SYSTEM PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS})
 
-set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES
+set_target_properties(tango PROPERTIES
         VERSION ${LIBRARY_VERSION}
         SOVERSION ${SO_VERSION})
 
@@ -68,7 +68,7 @@ endif()
 
 #install code
 
-install(TARGETS ${TANGO_LIBRARY_NAME}
+install(TARGETS tango
         ARCHIVE DESTINATION lib COMPONENT static
         RUNTIME DESTINATION bin COMPONENT dynamic)
 
