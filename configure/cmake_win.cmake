@@ -22,13 +22,7 @@ message("Tango library is '${TANGO_LIBRARY_NAME}'")
 #dump version into a file, later used by AppVeyor
 file(WRITE ${PROJECT_BINARY_DIR}/VERSION ${LIBRARY_VERSION})
 
-#include and link directories
-
-include_directories(SYSTEM ${PTHREAD_WIN_PKG_INCLUDE_DIRS})
 set(WIN32_LIBS "ws2_32.lib;mswsock.lib;advapi32.lib;comctl32.lib;odbc32.lib;")
-if(PTHREAD_WIN)
-    link_directories(${PTHREAD_WIN}/lib)
-endif()
 
 add_library(tango $<TARGET_OBJECTS:log4tango_objects>
         $<TARGET_OBJECTS:idl_objects>
@@ -55,7 +49,7 @@ else()
 endif()
 
 set_property(TARGET tango PROPERTY LINK_FLAGS "/force:multiple")
-target_include_directories(tango SYSTEM PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS})
+target_include_directories(tango SYSTEM PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS} ${PTHREAD_WIN_PKG_INCLUDE_DIRS})
 
 set_target_properties(tango PROPERTIES
         VERSION ${LIBRARY_VERSION}
