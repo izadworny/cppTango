@@ -1,5 +1,5 @@
 find_package (Threads REQUIRED)
-find_program(PYTHON_INTERPRETER NAMES python3)
+find_program(PYTHON_INTERPRETER NAMES python3 python)
 
 if(NOT PYTHON_INTERPRETER)
   message(FATAL_ERROR "Could not find python 3.")
