@@ -40,6 +40,10 @@ add_library(tango $<TARGET_OBJECTS:log4tango_objects>
 set_target_properties(tango PROPERTIES COMPILE_DEFINITIONS
         "${windows_defs}")
 
+if(BUILD_SHARED_LIBS)
+  set_target_properties(tango PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+endif()
+
 target_compile_options(tango PUBLIC ${ZMQ_PKG_CFLAGS_OTHER} ${OMNIORB_PKG_CFLAGS_OTHER} ${OMNICOS_PKG_CFLAGS_OTHER} ${OMNIDYN_PKG_CFLAGS_OTHER})
 
 if(BUILD_SHARED_LIBS)
