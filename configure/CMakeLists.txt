@@ -240,4 +240,9 @@ endif()
 
 include(GNUInstallDirs)
 
+if(WIN32)
+  # multi process compilation
+  add_compile_options(/MP)
+endif()
+
 option(TANGO_USE_USING_NAMESPACE "Use \"using namespace\" in header files (deprecated, but ON for backwards compatibility.)." ON)
