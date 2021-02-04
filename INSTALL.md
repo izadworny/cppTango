@@ -275,10 +275,10 @@ cmake --build . --target install
 - Configure with
 
 ```
-cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release           \
-      -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="c:/projects/tango-idl"    \
-      -DOMNI_BASE="c:/projects/omniorb" -DZMQ_BASE="c:/projects/zeromq" -DCPPZMQ_BASE="c:/projects/zeromq" \
-      -DPTHREAD_WIN="c:/projects/pthreads-win32" -DUSE_PCH=OFF -DBUILD_TESTING=OFF ..
+cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release             \
+       -DIDL_BASE="c:/projects/tango-idl" -DOMNI_BASE="c:/projects/omniorb" -DZMQ_BASE="c:/projects/zeromq"  \
+       -DCPPZMQ_BASE="c:/projects/zeromq" -DPTHREAD_WIN="c:/projects/pthreads-win32"                         \
+       -DBUILD_SHARED_LIBS=ON -DUSE_PCH=OFF -DBUILD_TESTING=OFF ..
 ```
 
 - Compile with `cmake --build .`

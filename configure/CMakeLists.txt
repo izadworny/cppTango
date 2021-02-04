@@ -186,6 +186,10 @@ endif()
 if(WIN32)
   # multi processor compilation
   add_compile_options(/MP)
+
+  # select the correct MSVC runtime library version (shared vs static and debug vs release)
+  # TODO use CMAKE_MSVC_RUNTIME_LIBRARY once 3.15 is mandatory
+  add_compile_options(/M$<IF:$<BOOL:${BUILD_SHARED_LIBS}>,D,T>$<$<CONFIG:Debug>:d>)
 endif()
 
 include(configure/coveralls.cmake)
