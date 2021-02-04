@@ -31,7 +31,6 @@ if(CMAKE_CL_64)
 endif()
 message("static_defs: ${static_defs}")
 
-list(APPEND dyn_defs "_LIB")
 list(APPEND dyn_defs "_WINDOWS")
 list(APPEND dyn_defs "LOG4TANGO_BUILD_DLL")
 list(APPEND dyn_defs "_USRDLL")
