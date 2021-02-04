@@ -221,6 +221,12 @@ if (TANGO_ENABLE_COVERAGE)
 endif()
 
 include(GNUInstallDirs)
+
+if(WIN32)
+  # multi process compilation
+  add_compile_options(/MP)
+endif()
+
 include(configure/coveralls.cmake)
 
 option(TANGO_JPEG_MMX "Build MMX support" ON)
