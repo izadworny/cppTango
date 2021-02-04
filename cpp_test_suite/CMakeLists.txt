@@ -1,6 +1,8 @@
 project(test_suite)
 
-set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g")
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g")
+endif()
 
 #TODO different OS
 set(SERV_NAME "DevTest")
