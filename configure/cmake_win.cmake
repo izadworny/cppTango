@@ -95,6 +95,7 @@ install(DIRECTORY cppapi/client/ DESTINATION include COMPONENT headers FILES_MAT
 install(DIRECTORY cppapi/client/helpers/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
 install(FILES cppapi/server/resource.h DESTINATION include COMPONENT headers)
 install(FILES cppapi/server/tango.h DESTINATION include COMPONENT headers)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cppapi/server/tango_const.h DESTINATION include COMPONENT headers)
 
 if (TANGO_INSTALL_DEPENDENCIES)
     install(DIRECTORY $ENV{OMNI_BASE}/include/COS DESTINATION include COMPONENT)
