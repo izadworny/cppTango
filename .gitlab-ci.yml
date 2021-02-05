@@ -208,3 +208,70 @@ debian8:
     # SONAR_SCANNER: "ON"
     # COVERALLS: "ON"
     STOCK_CPPZMQ: "OFF"
+
+clang-tidy:
+  image: ubuntu:focal
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+    CC: /usr/lib/llvm-11/bin/clang
+    CXX: /usr/lib/llvm-11/bin/clang++
+  services: []
+  before_script:
+    - apt-get update
+    - >
+      apt-get install -y
+      clang-tidy-11
+      cmake
+      git
+      omniidl
+      python3-minimal
+      ruby-dev
+      libcos4-dev
+      libomniorb4-dev
+      libomnithread4-dev
+      libzmq3-dev
+    # Install tango-idl.
+    - git clone -b tango-9-lts --depth 1 https://github.com/tango-controls/tango-idl.git /idl
+    - cmake -B/idl/build /idl
+    - make -C /idl/build install
+    # Install codeclimate. This is needed for generating HTML report.
+    - git clone -b v0.85.22 --depth 1 https://github.com/codeclimate/codeclimate.git /codeclimate
+    - gem build -C /codeclimate /codeclimate/codeclimate.gemspec
+    - gem install /codeclimate/codeclimate-*.gem
+    # Create build directory for cppTango.
+    - mkdir build
+  script:
+    - >
+      cmake . -B build
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      -DCMAKE_UNITY_BUILD=ON
+      -DCMAKE_UNITY_BUILD_BATCH_SIZE=0
+      -DBUILD_TESTING=OFF
+      -DUSE_PCH=OFF
+      -DTANGO_USE_USING_NAMESPACE=OFF
+    - >
+      run-clang-tidy-11
+      -p build -header-filter='.*' 'cppapi/(?!server/idl)' 'log4tango/src'
+      > clang-tidy-output.txt
+    # Print warning summary (check name and occurrence count).
+    - >
+      grep -E 'warning: .+ \[.+\]$' clang-tidy-output.txt
+      | sort | uniq | sed -E 's|^.+ \[(.+)\]|\1|' | sort | uniq -c
+    # Produce a report in Code Climate JSON format.
+    - >
+      cat clang-tidy-output.txt
+      | ./ci/clang-tidy-to-code-climate.py "$(pwd)/"
+      > code-quality-report.json
+    # Produce a report in HTML format.
+    - >
+      cat code-quality-report.json
+      | ruby -I/codeclimate/lib ci/code-climate-json-to-html.rb "$(pwd)"
+      > code-quality-report.html
+  artifacts:
+    reports:
+       codequality: code-quality-report.json
+    paths:
+      - clang-tidy-output.txt
+      - code-quality-report.json
+      - code-quality-report.html
