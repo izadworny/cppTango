@@ -54,7 +54,13 @@ else()
     set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES PREFIX "lib")
 endif()
 
-set_property(TARGET ${TANGO_LIBRARY_NAME} PROPERTY LINK_FLAGS "/force:multiple")
+# Always generate separate PDB files for shared builds, even for release build types
+#
+# https://docs.microsoft.com/en-us/cpp/build/reference/z7-zi-zi-debug-information-format
+# https://docs.microsoft.com/en-us/cpp/build/reference/debug-generate-debug-info
+target_compile_options(${TANGO_LIBRARY_NAME} PRIVATE "/Zi")
+set_property(TARGET ${TANGO_LIBRARY_NAME} PROPERTY LINK_FLAGS "/force:multiple /DEBUG")
+
 set_property(TARGET ${TANGO_LIBRARY_NAME} PROPERTY PUBLIC_HEADER ${INCLUDE_OBJECT_MS})
 target_include_directories(${TANGO_LIBRARY_NAME}  PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS})
 
