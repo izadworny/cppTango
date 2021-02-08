@@ -275,3 +275,53 @@ clang-tidy:
       - clang-tidy-output.txt
       - code-quality-report.json
       - code-quality-report.html
+
+cmake-with-locations:
+  image: debian:buster
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  services: []
+  before_script:
+    - apt-get update
+    - >
+      apt-get install -y
+      build-essential
+      cmake
+      curl
+      git
+      pkg-config
+      python3-dev
+      python3-minimal
+    # Install tango-idl
+    - git clone -b tango-9-lts --depth 1 https://github.com/tango-controls/tango-idl.git /idl
+    - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
+    - make -C /idl/build install
+    # Install libzmq
+    - git clone -b v4.0.5 --depth 1 https://github.com/zeromq/zeromq4-x.git /zmq
+    - cmake -B /zmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/zmq /zmq
+    - make -C /zmq/build install
+    # Install cppzmq
+    - git clone -b v4.2.3 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - export PKG_CONFIG_PATH=/usr/local/zmq/lib/pkgconfig
+    - cmake -B /cppzmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq /cppzmq
+    - make -C /cppzmq/build install
+    # Install omniORB
+    - curl -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.1/omniORB-4.2.1.tar.bz2/download -o /omniORB.tar.bz2
+    - mkdir /omniORB
+    - tar xaf /omniORB.tar.bz2 --strip-components=1 -C /omniORB
+    - cd /omniORB
+    - ./configure --prefix=/usr/local/omniORB
+    - make
+    - make install
+    - cd $CI_PROJECT_DIR
+    - mkdir build
+  script:
+    - >
+      cmake . -B build
+      -DCMAKE_BUILD_TYPE=Debug
+      -DBUILD_TESTING=ON
+      -DCPPZMQ_BASE=/usr/local/cppzmq
+      -DIDL_BASE=/usr/local/tango-idl
+      -DOMNI_BASE=/usr/local/omniORB
+      -DZMQ_BASE=/usr/local/zmq
+    - make -C build
