@@ -155,6 +155,7 @@ sudo make install
 ```bash
 wget -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.4/omniORB-4.2.4.tar.bz2/download -O omniORB-4.2.4.tar.bz2
 tar xjf omniORB-4.2.4.tar.bz2
+cd omniORB-4.2.4
 ./configure
 make [-j NUMBER_OF_CPUS]
 sudo make install
