@@ -334,3 +334,10 @@ Example commands to run clang-tidy on all files (excluding the tests):
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=0 ...
 run-clang-tidy.py -header-filter='.*' 'cppapi/(?!server/idl)' 'log4tango/src'
 ```
+
+# Execucting gitlab CI jobs locally
+
+For faster development it is possible to execute gitlab CI jobs locally on the development machine.
+
+* Install gitlab runner, see https://docs.gitlab.com/runner/install
+* `gitlab-runner exec --env "MAKEFLAGS=-j NUMBER_OF_CPUS" JOBNAME`
