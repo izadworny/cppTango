@@ -7,7 +7,7 @@ The following software packages are required to build cppTango:
 - [tango-idl](https://github.com/tango-controls/tango-idl)
 - [omniorb](http://omniorb.sourceforge.net), 4.2.1 or newer
 - [libzmq](https://github.com/zeromq/libzmq), 4.0.5 or newer
-- [cppzmq](https://github.com/zeromq/cppzmq), 4.2.2 or newer
+- [cppzmq](https://github.com/zeromq/cppzmq), 4.2.3 or newer
 
 In the following we assume a linux-based system, see [here](#building-on-windows) for building on Windows.
 
@@ -142,10 +142,10 @@ sudo make install
 ```bash
 git clone https://github.com/zeromq/cppzmq
 cd cppzmq
-git checkout v4.2.2
+git checkout v4.2.3
 mkdir build
 cd build
-cmake -DENABLE_DRAFTS=OFF -DZMQ_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..
 make [-j NUMBER_OF_CPUS]
 sudo make install
 ```
