@@ -146,7 +146,7 @@ if(NOT WIN32)
   try_compile(TANGO_ZMQ_HAS_DISCONNECT ${CMAKE_BINARY_DIR}/test_cppzmq_disconnect
               SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_disconnect.cpp
               COMPILE_DEFINITIONS "-I ${CPPZMQ_BASE}/include -I ${ZMQ_BASE}/include"
-              LINK_LIBRARIES "${ZMQ_PKG_LIBRARIES}")
+              LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
 
   message(STATUS "Check if zmq::socket has a disconnect method: ${TANGO_ZMQ_HAS_DISCONNECT}")
 
@@ -160,7 +160,7 @@ if(NOT WIN32)
               -DMINIMUM_VERSION_MAJOR=${ZMQ_MIN_VER_MAJOR}
               -DMINIMUM_VERSION_MINOR=${ZMQ_MIN_VER_MINOR}
               -DMINIMUM_VERSION_PATCH=${ZMQ_MIN_VER_PATCH}"
-              LINK_LIBRARIES "${ZMQ_PKG_LIBRARIES}")
+              LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
 
   set(msg "Check if libzmq version is >= ${ZMQ_MIN_VER_MAJOR}.${ZMQ_MIN_VER_MINOR}.${ZMQ_MIN_VER_PATCH}: ${TANGO_ZMQ_USABLE_VERSION}")
 

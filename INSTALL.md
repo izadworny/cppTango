@@ -7,7 +7,7 @@ The following software packages are required to build cppTango:
 - [tango-idl](https://github.com/tango-controls/tango-idl)
 - [omniorb](http://omniorb.sourceforge.net), 4.2.1 or newer
 - [libzmq](https://github.com/zeromq/libzmq), 4.0.5 or newer
-- [cppzmq](https://github.com/zeromq/cppzmq), 4.2.2 or newer
+- [cppzmq](https://github.com/zeromq/cppzmq), 4.2.3 or newer
 
 In the following we assume a linux-based system, see [here](#building-on-windows) for building on Windows.
 
@@ -142,10 +142,10 @@ sudo make install
 ```bash
 git clone https://github.com/zeromq/cppzmq
 cd cppzmq
-git checkout v4.2.2
+git checkout v4.2.3
 mkdir build
 cd build
-cmake -DENABLE_DRAFTS=OFF -DZMQ_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..
 make [-j NUMBER_OF_CPUS]
 sudo make install
 ```
@@ -155,6 +155,7 @@ sudo make install
 ```bash
 wget -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.4/omniORB-4.2.4.tar.bz2/download -O omniORB-4.2.4.tar.bz2
 tar xjf omniORB-4.2.4.tar.bz2
+cd omniORB-4.2.4
 ./configure
 make [-j NUMBER_OF_CPUS]
 sudo make install
@@ -333,3 +334,10 @@ Example commands to run clang-tidy on all files (excluding the tests):
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=0 ...
 run-clang-tidy.py -header-filter='.*' 'cppapi/(?!server/idl)' 'log4tango/src'
 ```
+
+# Execucting gitlab CI jobs locally
+
+For faster development it is possible to execute gitlab CI jobs locally on the development machine.
+
+* Install gitlab runner, see https://docs.gitlab.com/runner/install
+* `gitlab-runner exec --env "MAKEFLAGS=-j NUMBER_OF_CPUS" JOBNAME`
