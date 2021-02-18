@@ -43,9 +43,9 @@ For more information please visit [www.tango-controls.org](http://www.tango-cont
 
 # Important branches
 
-- tango-9-lts: Tango 9 Long Term Support (LTS) development
-- 9.3-backports: Tango 9.3 binary compatible LTS version development
-- master: Future Tango version without CORBA (not yet functional)
+- main: Tango development version
+- 9.3-backports: Tango 9.3 stable version
+- tango-v10: Future Tango version without CORBA (not yet functional)
 
 # Documentation
 
