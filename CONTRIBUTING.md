@@ -17,7 +17,7 @@ We don't need a signed CLA (contributors license agreement) from you.
 - Start hacking
 - Create a pull request with your changes
 
-Your fixes should always be based on the default branch `tango-9-lts`. Only
+Your fixes should always be based on the default branch `main`. Only
 after accepting a PR against that branch, we can start integrating a fix for
 the current stable version in the `9.3-backports` branch.
 
@@ -38,7 +38,7 @@ path forward:
 - Follow the coding style. This is at the moment messy at best, but still
   we don't want to get worse.
 - Your PR needs two review approvals, including one from the code owners listed
-  [here](https://github.com/tango-controls/cppTango/blob/tango-9-lts/CODEOWNERS).
+  [here](https://gitlab.com/tango-controls/cppTango/-/blob/main/CODEOWNERS).
 - Be prepared to adapt your pull request to the review responses. Code review
   is done for ensuring higher code quality and communicating implementations
   details to newcomers and not for annoying anyone or slowing down development.
