@@ -70,7 +70,7 @@ init:
   #RDP from start
   #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   # Tango IDL
-  - cmd: git clone --depth 1 --quiet https://github.com/tango-controls/tango-idl %IDL_SOURCE%
+  - cmd: git clone --depth 1 --quiet https://gitlab.com/tango-controls/tango-idl %IDL_SOURCE%
   - cmd: cd "C:\projects\"
   # Zmq
   - cmd: cd "C:\projects\"
