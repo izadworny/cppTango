@@ -15,7 +15,8 @@ We don't need a signed CLA (contributors license agreement) from you.
 - Add your fork as new remote: `git remote add myFork git@github.com:<user>/cppTango.git`
 - Create a new branch for your work
 - Start hacking
-- Create a pull request with your changes
+- Create a merge request with your changes in draft mode
+- Once CI passes, mark the merge request as ready
 
 Your fixes should always be based on the default branch `main`. Only
 after accepting a PR against that branch, we can start integrating a fix for
