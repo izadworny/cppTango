@@ -209,6 +209,85 @@ debian8:
     # COVERALLS: "ON"
     STOCK_CPPZMQ: "OFF"
 
+clang-analyzer:
+  image: ubuntu:focal
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+    CC: /usr/lib/llvm-12/bin/clang
+    CXX: /usr/lib/llvm-12/bin/clang++
+  services: []
+  before_script:
+    - apt-get update
+    - >
+      apt-get install -y
+      cmake
+      curl
+      gnupg
+      omniidl
+      libcos4-dev
+      libomniorb4-dev
+      libomnithread4-dev
+      libzmq3-dev
+    - curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+    - >
+      echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
+      > /etc/apt/sources.list.d/llvm-toolchain-12.list
+    - apt-get update
+    - apt-get install -y clang-tools-12
+    # Install tango-idl.
+    - mkdir /idl
+    - >
+      curl https://gitlab.com/tango-controls/tango-idl/-/archive/main/tango-idl-main.tar.gz
+      | tar --strip-components=1 -C /idl -zxf -
+    - cmake -B/idl/build /idl
+    - make -C /idl/build install
+    # Create build directory for cppTango.
+    - mkdir build
+    # scan-build expects 'clang' binary to be available on PATH.
+    - ln -s /usr/bin/clang-12 /usr/local/bin/clang
+    - ln -s /usr/bin/clang-extdef-mapping-12 /usr/local/bin/clang-extdef-mapping
+  script:
+    - >
+      cmake . -B build
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      -DBUILD_TESTING=OFF
+      -DUSE_PCH=OFF
+      -DTANGO_USE_USING_NAMESPACE=OFF
+    # scan-build command must be wrapped in quotes because
+    # --analyzer-config option cannot contain whitespaces.
+    - "/usr/share/clang/scan-build-py-12/bin/analyze-build \
+      -v \
+      --cdb build/compile_commands.json \
+      --exclude build/cppapi/server/idl \
+      --keep-empty \
+      --output clang-analyzer-results \
+      --force-analyze-debug-code \
+      --analyzer-config \
+        stable-report-filename=true,\
+        aggressive-binary-operation-simplification=true \
+      --enable-checker core \
+      --enable-checker cplusplus \
+      --enable-checker deadcode \
+      --enable-checker nullability \
+      --enable-checker optin.cplusplus \
+      --enable-checker optin.performance \
+      --enable-checker optin.portability \
+      --enable-checker security \
+      --enable-checker unix \
+      --enable-checker alpha.clone \
+      --enable-checker alpha.core \
+      --enable-checker alpha.cplusplus \
+      --enable-checker alpha.deadcode \
+      --enable-checker alpha.nondeterminism \
+      --enable-checker alpha.unix \
+      > clang-analyzer-output.txt"
+  artifacts:
+    when: always
+    paths:
+      - clang-analyzer-output.txt
+      - clang-analyzer-results
+
 clang-tidy:
   image: ubuntu:focal
   variables:
@@ -269,6 +348,7 @@ clang-tidy:
       | ruby -I/codeclimate/lib ci/code-climate-json-to-html.rb "$(pwd)"
       > code-quality-report.html
   artifacts:
+    when: always
     reports:
        codequality: code-quality-report.json
     paths:
