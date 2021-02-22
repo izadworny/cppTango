@@ -231,7 +231,7 @@ clang-tidy:
       libomnithread4-dev
       libzmq3-dev
     # Install tango-idl.
-    - git clone -b tango-9-lts --depth 1 https://github.com/tango-controls/tango-idl.git /idl
+    - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
     - cmake -B/idl/build /idl
     - make -C /idl/build install
     # Install codeclimate. This is needed for generating HTML report.
@@ -293,7 +293,7 @@ cmake-with-locations:
       python3-dev
       python3-minimal
     # Install tango-idl
-    - git clone -b tango-9-lts --depth 1 https://github.com/tango-controls/tango-idl.git /idl
+    - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
     - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
     - make -C /idl/build install
     # Install libzmq

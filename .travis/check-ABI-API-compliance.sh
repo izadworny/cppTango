@@ -4,7 +4,7 @@ set -e
 
 if [[ -z "$CI_TARGET_BRANCH" ]]
 then
-  CI_TARGET_BRANCH=tango-9-lts
+  CI_TARGET_BRANCH=main
 fi
 
 if [[ -z "$CMAKE_BUILD_PARALLEL_LEVEL" ]]
