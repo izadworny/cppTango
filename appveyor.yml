@@ -1,8 +1,9 @@
 version: 0.0.{build}
 branches:
   only:
-    - tango-9-lts
+    - main
     - 9.3-backports
+
 environment:
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -185,7 +186,7 @@ init:
   #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   # Tango IDL
   - cmd: set TANGOIDLDIR=C:\projects\tangoidl
-  - cmd: git clone --depth 1 --quiet https://github.com/tango-controls/tango-idl %TANGOIDLDIR%
+  - cmd: git clone --depth 1 --quiet https://gitlab.com/tango-controls/tango-idl %TANGOIDLDIR%
   - cmd: cd "C:\projects\"
   # Zmq
   - cmd: cd "C:\projects\"

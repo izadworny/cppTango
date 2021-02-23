@@ -1,6 +1,6 @@
 # Prerequisites
 
-* [tango-idl](https://github.com/tango-controls/tango-idl)
+* [tango-idl](https://gitlab.com/tango-controls/tango-idl)
 * Other required packages can be installed on apt-based linux systems via
   * add deb-src entries for main and contrib (debian) or main, restricted and universe (ubuntu) into /etc/apt/sources.list
   * `sudo apt-get update`
@@ -9,7 +9,7 @@
 
 # How to build and install
 
-- `git clone https://github.com/tango-controls/cppTango`
+- `git clone https://gitlab.com/tango-controls/cppTango`
 - `cd cppTango`
 - `mkdir build`
 - `cd build`
