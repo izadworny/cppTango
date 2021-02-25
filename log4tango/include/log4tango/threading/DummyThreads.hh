@@ -38,6 +38,8 @@ namespace threading {
 
 std::string get_thread_id (void);
 
+long thread_id (void);
+
 typedef int Mutex;
 
 typedef int ScopedLock;

@@ -39,6 +39,11 @@ std::string get_thread_id (void)
   return std::string("unknown");
 }
 
+long thread_id (void)
+{
+  return -1;
+}
+
 } // namespace threading
 
 } // namespace log4tango
