@@ -50,7 +50,7 @@ public:
 	FwdAttribute(std::vector<AttrProperty> &,Attr &,const std::string &,long);
 	~FwdAttribute();
 
-	virtual bool is_fwd_att() const {return true;}
+	bool is_fwd_att() const override {return true;}
 	std::string &get_fwd_dev_name() {return fwd_dev_name;}
 	std::string &get_fwd_att_name() {return fwd_att_name;}
 
