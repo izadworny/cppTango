@@ -35,6 +35,8 @@
 #include <eventsupplier.h>
 #include <device_3.tpp>
 #include <tango_clock.h>
+
+#include <cassert>
 #include <new>
 #include <numeric>
 
@@ -44,11 +46,15 @@ namespace Tango
 namespace
 {
 
-bool is_error_stored(const Tango::AttributeIdlData& data, int index)
+bool is_error_stored(const Tango::AttributeIdlData& data, long index)
 {
+    // For historical reasons we are using signed index type in some places
+    // and -1 is used as a sentinel value. This should be fixed at some point.
+    assert(index >= 0);
+
     const auto& errors =
-        data.data_5 ? (*data.data_5)[index].err_list :
-        data.data_4 ? (*data.data_4)[index].err_list :
+        data.data_5 != nullptr ? (*data.data_5)[index].err_list :
+        data.data_4 != nullptr ? (*data.data_4)[index].err_list :
         (*data.data_3)[index].err_list;
 
     return errors.length() > 0;
@@ -63,17 +69,25 @@ void store_error(AttributeValueT& attr_val, const DevErrorList& errors, const ch
     clear_att_dim(attr_val);
 }
 
-void store_error(Tango::AttributeIdlData& data, int index, const Tango::DevErrorList& errors, const char* name)
+void store_error(Tango::AttributeIdlData& data, long index, const Tango::DevErrorList& errors, const char* name)
 {
-    if (data.data_5)
+    assert(index >= 0); // See comment in is_error_stored.
+
+    if (data.data_5 != nullptr)
+    {
         store_error((*data.data_5)[index], errors, name);
-    else if (data.data_4)
+    }
+    else if (data.data_4 != nullptr)
+    {
         store_error((*data.data_4)[index], errors, name);
+    }
     else
+    {
         store_error((*data.data_3)[index], errors, name);
+    }
 }
 
-void store_error(Tango::AttributeIdlData& data, int index, const Tango::DevFailed& dev_failed, const char* name)
+void store_error(Tango::AttributeIdlData& data, long index, const Tango::DevFailed& dev_failed, const char* name)
 {
     store_error(data, index, dev_failed.errors, name);
 }
@@ -357,7 +371,7 @@ void Device_3Impl::read_attributes_no_except(
 
     auto readable_attributes = get_readable_attributes(attributes);
 
-    for (auto& entry : attributes)
+    for (const auto& entry : attributes)
     {
         Attribute& att = *entry.first;
         if (att.is_readable())
@@ -371,7 +385,7 @@ void Device_3Impl::read_attributes_no_except(
 
     call_read_attr_hardware_if_needed(readable_attributes, state_wanted);
 
-    for (auto& entry : attributes)
+    for (const auto& entry : attributes)
     {
         Attribute& att = *entry.first;
         const long index = entry.second;
@@ -465,7 +479,7 @@ AttributeIndices Device_3Impl::get_readable_attributes(
 {
     AttributeIndices result{};
     result.reserve(attributes.size());
-    for (auto& entry : attributes)
+    for (const auto& entry : attributes)
     {
         Attribute& att = *entry.first;
         if (att.get_writable() != Tango::WRITE || att.is_fwd_att())
@@ -511,7 +525,7 @@ void Device_3Impl::update_readable_attribute_value(
     try
     {
         std::vector<Tango::Attr *> &attr_vect = device_class->get_class_attr()->get_attr_list();
-        if (attr_vect[att.get_attr_idx()]->is_allowed(this,Tango::READ_REQ) == false)
+        if (!attr_vect[att.get_attr_idx()]->is_allowed(this,Tango::READ_REQ))
         {
             is_allowed_failed = true;
 
@@ -543,11 +557,13 @@ void Device_3Impl::update_readable_attribute_value(
 
         att.set_value_flag(false);
 
-        if (att.is_mem_exception() == false)
+        if (!att.is_mem_exception())
+        {
             attr_vect[att.get_attr_idx()]->read(this,att);
+        }
         else
         {
-            Tango::WAttribute &w_att = static_cast<Tango::WAttribute &>(att);
+            Tango::WAttribute &w_att = static_cast<Tango::WAttribute &>(att); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
             Tango::DevFailed df(w_att.get_mem_exception());
 
             TangoSys_OMemStream o;
@@ -560,8 +576,10 @@ void Device_3Impl::update_readable_attribute_value(
 // Check alarm
 //
 
-        if ((att.is_alarmed().any() == true) && (att.get_quality() != Tango::ATTR_INVALID))
+        if (att.is_alarmed().any() && (att.get_quality() != Tango::ATTR_INVALID))
+        {
             att.check_alarm();
+        }
     }
     catch (Tango::DevFailed &e)
     {
@@ -569,7 +587,7 @@ void Device_3Impl::update_readable_attribute_value(
 
         if (aid.data_5 != nullptr)
         {
-            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
+            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && !is_allowed_failed)
             {
                 cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
                 omni_mutex *attr_mut = att.get_attr_mutex();
@@ -578,7 +596,7 @@ void Device_3Impl::update_readable_attribute_value(
         }
         else if (aid.data_4 != nullptr)
         {
-            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
+            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && !is_allowed_failed)
             {
                 cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
                 omni_mutex *attr_mut = att.get_attr_mutex();
@@ -600,7 +618,7 @@ void Device_3Impl::update_readable_attribute_value(
 
         if (aid.data_5 != nullptr)
         {
-            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
+            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && !is_allowed_failed)
             {
                 cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to a severe error which is not a DevFailed" << std::endl;
                 omni_mutex *attr_mut = att.get_attr_mutex();
@@ -609,7 +627,7 @@ void Device_3Impl::update_readable_attribute_value(
         }
         else if (aid.data_4 != nullptr)
         {
-            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
+            if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && !is_allowed_failed)
             {
                 cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to severe error which is not a DevFailed" << std::endl;
                 omni_mutex *attr_mut = att.get_attr_mutex();
@@ -631,9 +649,9 @@ void Device_3Impl::update_writable_attribute_value(
     Tango::AttrWriteType w_type = att.get_writable();
     try
     {
-        if (att.is_mem_exception() == true)
+        if (att.is_mem_exception())
         {
-            Tango::WAttribute &w_att = static_cast<Tango::WAttribute &>(att);
+            Tango::WAttribute &w_att = static_cast<Tango::WAttribute &>(att); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
             Tango::DevFailed df(w_att.get_mem_exception());
 
             TangoSys_OMemStream o;
@@ -644,7 +662,9 @@ void Device_3Impl::update_writable_attribute_value(
         else
         {
             if ((w_type == Tango::READ_WITH_WRITE) || (w_type == Tango::WRITE))
+            {
                 att.set_rvalue();
+            }
         }
     }
     catch (Tango::DevFailed &e)
@@ -691,10 +711,14 @@ void Device_3Impl::read_and_store_state_for_network_transfer(
     {
         alarmed_not_read(wanted_attr);
         state_from_read = true;
-        if (is_alarm_state_forced() == true)
+        if (is_alarm_state_forced())
+        {
             d_state = DeviceImpl::dev_state();
+        }
         else
+        {
             d_state = dev_state();
+        }
         state_from_read = false;
     }
     catch (Tango::DevFailed &e)
@@ -730,10 +754,14 @@ void Device_3Impl::read_and_store_status_for_network_transfer(
 
     try
     {
-        if (is_alarm_state_forced() == true)
+        if (is_alarm_state_forced())
+        {
             d_status = DeviceImpl::dev_status();
+        }
         else
+        {
             d_status = dev_status();
+        }
     }
     catch (Tango::DevFailed &e)
     {
@@ -777,7 +805,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
     Tango::AttrQuality qual = att.get_quality();
     if (qual != Tango::ATTR_INVALID)
     {
-        if (att.get_value_flag() == false)
+        if (!att.get_value_flag())
         {
             TangoSys_OMemStream o;
 
@@ -786,7 +814,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                 std::string att_name = att.get_name();
                 std::transform(att_name.begin(),att_name.end(),att_name.begin(),::tolower);
 
-                std::vector<PollObj *>::iterator ite = get_polled_obj_by_type_name(Tango::POLL_ATTR,att_name);
+                auto ite = get_polled_obj_by_type_name(Tango::POLL_ATTR,att_name);
                 auto upd = (*ite)->get_upd();
                 if (upd == PollClock::duration::zero())
                 {
@@ -814,7 +842,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
             const char *reas = API_AttrValueNotSet;
             AttrSerialModel atsm = att.get_attr_serial_model();
 
-            if (aid.data_5 != NULL)
+            if (aid.data_5 != nullptr)
             {
                 if ((atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
                 {
@@ -824,7 +852,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                 }
                 one_error((*aid.data_5)[index_in_data],reas,TANGO_EXCEPTION_ORIGIN,s,att);
             }
-            else if (aid.data_4 != NULL)
+            else if (aid.data_4 != nullptr)
             {
                 if ((atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
                 {
@@ -835,7 +863,9 @@ void Device_3Impl::store_attribute_for_network_transfer(
                 one_error((*aid.data_4)[index_in_data],reas,TANGO_EXCEPTION_ORIGIN,s,att);
             }
             else
+            {
                 one_error((*aid.data_3)[index_in_data],reas,TANGO_EXCEPTION_ORIGIN,s,att);
+            }
         }
         else
         {
@@ -847,7 +877,9 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     (w_type == Tango::READ_WITH_WRITE))
                 {
                     if ((w_type == Tango::READ_WRITE) || (w_type == Tango::READ_WITH_WRITE))
+                    {
                         dev_attr->add_write_value(att);
+                    }
                 }
 
 //
@@ -861,18 +893,24 @@ void Device_3Impl::store_attribute_for_network_transfer(
 //
 
                 if (att.get_when().tv_sec == 0)
+                {
                     att.set_time();
+                }
 
                 AttrSerialModel atsm = att.get_attr_serial_model();
                 if (aid.data_5 != nullptr)
                 {
-                    if ((atsm != ATTR_NO_SYNC) && ((att.is_fwd_att() == true) || (w_type != Tango::WRITE)))
+                    if ((atsm != ATTR_NO_SYNC) && (att.is_fwd_att() || (w_type != Tango::WRITE)))
                     {
                         cout4 << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
                         if (atsm == ATTR_BY_KERNEL)
+                        {
                             GIVE_ATT_MUTEX_5(aid.data_5,index_in_data,att);
+                        }
                         else
+                        {
                             GIVE_USER_ATT_MUTEX_5(aid.data_5,index_in_data,att);
+                        }
                     }
                     init_out_data((*aid.data_5)[index_in_data],att,w_type);
                     (*aid.data_5)[index_in_data].data_format = att.get_data_format();
@@ -880,13 +918,17 @@ void Device_3Impl::store_attribute_for_network_transfer(
                 }
                 else if (aid.data_4 != nullptr)
                 {
-                    if ((atsm != ATTR_NO_SYNC) && ((att.is_fwd_att() == true) || (w_type != Tango::WRITE)))
+                    if ((atsm != ATTR_NO_SYNC) && (att.is_fwd_att() || (w_type != Tango::WRITE)))
                     {
                         cout4 << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
                         if (atsm == ATTR_BY_KERNEL)
+                        {
                             GIVE_ATT_MUTEX(aid.data_4,index_in_data,att);
+                        }
                         else
+                        {
                             GIVE_USER_ATT_MUTEX(aid.data_4,index_in_data,att);
+                        }
                     }
                     init_out_data((*aid.data_4)[index_in_data],att,w_type);
                     (*aid.data_4)[index_in_data].data_format = att.get_data_format();
@@ -922,9 +964,13 @@ void Device_3Impl::store_attribute_for_network_transfer(
     else
     {
         if (qual != Tango::ATTR_INVALID)
+        {
             qual = Tango::ATTR_INVALID;
+        }
         if (att.get_when().tv_sec == 0)
+        {
             att.set_time();
+        }
 
         AttrSerialModel atsm = att.get_attr_serial_model();
 
@@ -1016,7 +1062,7 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 		}
 		catch (Tango::DevFailed &e)
 		{
-			store_error(aid, i, e, names[i]);
+			store_error(aid, long(i), e, names[i]);
 		}
 	}
 
@@ -1291,7 +1337,7 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 		}
 		catch (Tango::DevFailed &e)
 		{
-			store_error(aid, i, e, names[i]);
+			store_error(aid, long(i), e, names[i]);
 		}
 	}
 }

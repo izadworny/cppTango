@@ -48,6 +48,8 @@ public:
     public:
         ContextManager(std::string device_name);
         ~ContextManager();
+        ContextManager(const ContextManager&) = delete;
+        ContextManager& operator=(const ContextManager&) = delete;
     private:
         SubDevDiag& diag;
         std::string previous_device_name;

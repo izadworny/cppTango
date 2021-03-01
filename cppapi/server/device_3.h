@@ -341,10 +341,10 @@ private:
         const AttributeIndicesInData&,
         long& state_index_in_data,
         long& status_index_in_data);
-    AttributeIndices get_readable_attributes(const AttributeAndIndexInDataPairs&);
+    static AttributeIndices get_readable_attributes(const AttributeAndIndexInDataPairs&);
     void call_read_attr_hardware_if_needed(const AttributeIndices&, bool state_wanted);
     void update_readable_attribute_value(Attribute&, AttributeIdlData&, long index_in_data);
-    void update_writable_attribute_value(Attribute&, AttributeIdlData&, long index_in_data);
+    static void update_writable_attribute_value(Attribute&, AttributeIdlData&, long index_in_data);
     void store_attribute_for_network_transfer(Attribute&, AttributeIdlData&, long index_in_data);
     void read_and_store_state_for_network_transfer(AttributeIdlData&, long index_in_data, const AttributeIndices&);
     void read_and_store_status_for_network_transfer(AttributeIdlData&, long index_in_data);
