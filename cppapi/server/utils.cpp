@@ -1846,11 +1846,12 @@ void Util::server_init(TANGO_UNUSED(bool with_window))
 //
 
 		DServerClass::init();
-
-//
-// Configure polling from the polling properties. In case of python DS, we need to release the Python GIL
-// because the polling_configure method will send cmd to the polling thread which will try to get the Python GIL
-//
+		DServer *dserver = get_dserver_device();
+		dserver->server_init_hook();
+		//
+		// Configure polling from the polling properties. In case of python DS, we need to release the Python GIL
+		// because the polling_configure method will send cmd to the polling thread which will try to get the Python GIL
+		//
 
 		int th_id = th->id();
 		PyLock *lock_ptr;
