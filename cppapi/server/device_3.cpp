@@ -585,7 +585,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					del.length(1);
 
 					del[0].severity = Tango::ERR;
-					del[0].origin = Tango::string_dup("Device_3Impl::read_attributes_no_except");
+					del[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 					del[0].reason = Tango::string_dup(API_CorbaSysException);
 					del[0].desc = Tango::string_dup("Unforseen exception when trying to read attribute. It was even not a Tango DevFailed exception");
 
@@ -845,7 +845,6 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 
 						std::string s = o.str();
 
-						const char *ori = "Device_3Impl::read_attributes_no_except";
 						const char *reas = API_AttrValueNotSet;
 						AttrSerialModel atsm = att.get_attr_serial_model();
 
@@ -857,7 +856,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 								omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 								attr_mut->unlock();
 							}
-							one_error((*aid.data_5)[index],reas,ori,s,att);
+							one_error((*aid.data_5)[index],reas,TANGO_EXCEPTION_ORIGIN,s,att);
 						}
 						else if (aid.data_4 != NULL)
 						{
@@ -867,10 +866,10 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 								omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 								attr_mut->unlock();
 							}
-							one_error((*aid.data_4)[index],reas,ori,s,att);
+							one_error((*aid.data_4)[index],reas,TANGO_EXCEPTION_ORIGIN,s,att);
 						}
 						else
-							one_error((*aid.data_3)[index],reas,ori,s,att);
+							one_error((*aid.data_3)[index],reas,TANGO_EXCEPTION_ORIGIN,s,att);
 					}
 					else
 					{
@@ -1109,15 +1108,14 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 				o << "Attribute " << att.get_name() << " not polled" << std::ends;
 				std::string s = o.str();
 
-				const char *ori = "Device_3Impl::read_attributes_from_cache";
 				const char *reas = API_AttrNotPolled;
 
 				if (aid.data_5 != NULL)
-					one_error((*aid.data_5)[non_polled[i]],reas,ori,s,att);
+					one_error((*aid.data_5)[non_polled[i]],reas,TANGO_EXCEPTION_ORIGIN,s,att);
 				else if (aid.data_4 != NULL)
-					one_error((*aid.data_4)[non_polled[i]],reas,ori,s,att);
+					one_error((*aid.data_4)[non_polled[i]],reas,TANGO_EXCEPTION_ORIGIN,s,att);
 				else
-					one_error((*aid.data_3)[non_polled[i]],reas,ori,s,att);
+					one_error((*aid.data_3)[non_polled[i]],reas,TANGO_EXCEPTION_ORIGIN,s,att);
 
 				not_polled_attr++;
 				continue;
@@ -1184,21 +1182,20 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 			o << "No data available in cache for attribute " << names[i] << std::ends;
 			std::string s = o.str();
 
-			const char *ori = "Device_3Impl::read_attributes_from_cache";
 			const char *reas = API_NoDataYet;
 
 			if (aid.data_5 != nullptr)
 			{
-				one_error((*aid.data_5)[i],reas,ori,s,names[i]);
+				one_error((*aid.data_5)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 				(*aid.data_5)[i].data_format = FMT_UNKNOWN;
 			}
 			else if (aid.data_4 != nullptr)
 			{
-				one_error((*aid.data_4)[i],reas,ori,s,names[i]);
+				one_error((*aid.data_4)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 				(*aid.data_4)[i].data_format = FMT_UNKNOWN;
 			}
 			else
-				one_error((*aid.data_3)[i],reas,ori,s,names[i]);
+				one_error((*aid.data_3)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 
 			continue;
         }
@@ -1213,15 +1210,14 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 			o << "No data available in cache for attribute " << names[i] << std::ends;
 			std::string s = o.str();
 
-			const char *ori = "Device_3Impl::read_attributes_from_cache";
 			const char *reas = API_NoDataYet;
 
 			if (aid.data_5 != nullptr)
-				one_error((*aid.data_5)[i],reas,ori,s,names[i]);
+				one_error((*aid.data_5)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 			else if (aid.data_4 != nullptr)
-				one_error((*aid.data_4)[i],reas,ori,s,names[i]);
+				one_error((*aid.data_4)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 			else
-				one_error((*aid.data_3)[i],reas,ori,s,names[i]);
+				one_error((*aid.data_3)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 
 			continue;
 		}
@@ -1244,15 +1240,14 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 				o << " not updated any more" << std::ends;
 				std::string s = o.str();
 
-				const char *ori = "Device_3Impl::read_attributes_from_cache";
 				const char *reas = API_NotUpdatedAnyMore;
 
 				if (aid.data_5 != nullptr)
-					one_error((*aid.data_5)[i],reas,ori,s,names[i]);
+					one_error((*aid.data_5)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 				else if (aid.data_4 != nullptr)
-					one_error((*aid.data_4)[i],reas,ori,s,names[i]);
+					one_error((*aid.data_4)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 				else
-					one_error((*aid.data_3)[i],reas,ori,s,names[i]);
+					one_error((*aid.data_3)[i],reas,TANGO_EXCEPTION_ORIGIN,s,names[i]);
 
 				continue;
 			}

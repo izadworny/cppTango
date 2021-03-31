@@ -606,8 +606,8 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
                     Tango::DevErrorList errors;
                     errors.length(1);
                     errors[0].reason = API_WrongEventData;
-                    errors[0].origin = "DeviceClass::set_memorized_values()";
-                    errors[0].desc = CORBA::string_dup(ss.str().c_str());
+                    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+                    errors[0].desc = Tango::string_dup(ss.str().c_str());
                     errors[0].severity = ERR;
 
                     WAttribute &att = device_list[i]->get_device_attr()->get_w_attr_by_name(att_val[k].name.in());

@@ -1685,7 +1685,7 @@ void DServer::rem_obj_polling(const Tango::DevVarStringArray *argin,bool with_db
 
 		ex.errors[0].severity = ERR;
 		ex.errors[0].reason = Tango::string_dup(API_PollObjNotFound);
-		ex.errors[0].origin = Tango::string_dup("DServer::rem_obj_polling");
+		ex.errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 		std::stringstream ss;
 		ss << "No event possible on attribute " << obj_name << ". Polling has just being stopped!";
 		ex.errors[0].desc = Tango::string_dup(ss.str().c_str());

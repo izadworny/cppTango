@@ -1062,7 +1062,7 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes_reply(long id)
 
 					err_list.inout().length(nb_except + 1);
 					err_list[nb_except].reason = Tango::string_dup(API_AttributeFailed);
-					err_list[nb_except].origin = Tango::string_dup("DeviceProxy::read_attribute()");
+					err_list[nb_except].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 					std::string st = desc.str();
 					err_list[nb_except].desc = Tango::string_dup(st.c_str());
@@ -1254,7 +1254,7 @@ DeviceAttribute *DeviceProxy::read_attribute_reply(long id)
 
 				err_list.inout().length(nb_except + 1);
 				err_list[nb_except].reason = Tango::string_dup(API_AttributeFailed);
-				err_list[nb_except].origin = Tango::string_dup("DeviceProxy::read_attribute_reply()");
+				err_list[nb_except].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 				std::string st = desc.str();
 				err_list[nb_except].desc = Tango::string_dup(st.c_str());
@@ -1498,7 +1498,7 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes_reply(long id,long ca
 
 				err_list.inout().length(nb_except + 1);
 				err_list[nb_except].reason = Tango::string_dup(API_AttributeFailed);
-				err_list[nb_except].origin = Tango::string_dup("DeviceProxy::read_attributes_reply()");
+				err_list[nb_except].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 				std::string st = desc.str();
 				err_list[nb_except].desc = Tango::string_dup(st.c_str());
@@ -1730,7 +1730,7 @@ DeviceAttribute *DeviceProxy::read_attribute_reply(long id,long call_timeout)
 
 			err_list.inout().length(nb_except + 1);
 			err_list[nb_except].reason = Tango::string_dup(API_AttributeFailed);
-			err_list[nb_except].origin = Tango::string_dup("DeviceProxy::read_attribute_reply()");
+			err_list[nb_except].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 			std::string st = desc.str();
 			err_list[nb_except].desc = Tango::string_dup(st.c_str());

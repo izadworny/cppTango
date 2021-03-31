@@ -904,7 +904,7 @@ void NotifdEventConsumer::push_structured_event(const CosNotification::Structure
 						errors.length(1);
 
 						errors[0].severity = Tango::ERR;
-						errors[0].origin = Tango::string_dup("NotifdEventConsumer::push_structured_event()");
+						errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 						errors[0].reason = Tango::string_dup(API_IncompatibleAttrDataType);
 						errors[0].desc = Tango::string_dup("Unknown structure used to pass attribute value (Need compilation ?)");
 						dev_attr = NULL;

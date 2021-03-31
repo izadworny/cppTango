@@ -322,13 +322,13 @@ void Connection::Cb_Cmd_Request(CORBA::Request_ptr req,Tango::CallBack *cb_ptr)
 				errors[0].desc = Tango::string_dup(cb_excep_mess);
 				errors[0].severity = Tango::ERR;
 				errors[0].reason = Tango::string_dup(API_CorbaException);
-				errors[0].origin = Tango::string_dup("Connection::Cb_Cmd_Request()");
+				errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 				std::string st = desc.str();
 				errors[1].desc = Tango::string_dup(st.c_str());
 				errors[1].severity = Tango::ERR;
 				errors[1].reason = Tango::string_dup(API_DeviceTimedOut);
-				errors[1].origin = Tango::string_dup("Connection::Cb_Cmd_request()");
+				errors[1].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 			}
 		}
 
@@ -358,7 +358,7 @@ void Connection::Cb_Cmd_Request(CORBA::Request_ptr req,Tango::CallBack *cb_ptr)
 
 			std::string st = desc.str();
 			errors[nb_err].desc = Tango::string_dup(st.c_str());
-			errors[nb_err].origin = Tango::string_dup("Connection::Cb_Cmd_Request()");
+			errors[nb_err].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 			errors[nb_err].reason = Tango::string_dup(API_CommandFailed);
 		}
 		else if (((sys_ex = CORBA::SystemException::_downcast(ex_ptr)) != NULL) &&
@@ -385,13 +385,13 @@ void Connection::Cb_Cmd_Request(CORBA::Request_ptr req,Tango::CallBack *cb_ptr)
 			errors[0].desc = Tango::string_dup(cb_excep_mess);
 			errors[0].severity = Tango::ERR;
 			errors[0].reason = Tango::string_dup(API_CorbaException);
-			errors[0].origin = Tango::string_dup("Connection::Cb_Cmd_Request()");
+			errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 			std::string st = desc.str();
 			errors[1].desc = Tango::string_dup(st.c_str());
 			errors[1].severity = Tango::ERR;
 			errors[1].reason = Tango::string_dup(API_CommunicationFailed);
-			errors[1].origin = Tango::string_dup("Connection::Cb_Cmd_request()");
+			errors[1].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 		}
 	}
 
@@ -509,7 +509,7 @@ void Connection::Cb_ReadAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb_
 
 					err_list.inout().length(nb_except + 1);
 					err_list[nb_except].reason = Tango::string_dup(API_AttributeFailed);
-					err_list[nb_except].origin = Tango::string_dup("Connection::Cb_ReadAttr_Request");
+					err_list[nb_except].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 					std::string st = desc.str();
 					err_list[nb_except].desc = Tango::string_dup(st.c_str());
 					err_list[nb_except].severity = Tango::ERR;
@@ -561,13 +561,13 @@ void Connection::Cb_ReadAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb_
 				errors[0].desc = Tango::string_dup(cb_excep_mess);
 				errors[0].severity = Tango::ERR;
 				errors[0].reason = Tango::string_dup(API_CorbaException);
-				errors[0].origin = Tango::string_dup("Connection::Cb_ReadAttr_Request()");
+				errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 				std::string st = desc.str();
 				errors[1].desc = Tango::string_dup(st.c_str());
 				errors[1].severity = Tango::ERR;
 				errors[1].reason = Tango::string_dup(API_DeviceTimedOut);
-				errors[1].origin = Tango::string_dup("Connection::Cb_ReadAttr_request()");
+				errors[1].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 			}
 		}
 
@@ -601,7 +601,7 @@ void Connection::Cb_ReadAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb_
 
 			std::string st = desc.str();
 			errors[nb_err].desc = Tango::string_dup(st.c_str());
-			errors[nb_err].origin = Tango::string_dup("Connection::Cb_ReadAttr_Request()");
+			errors[nb_err].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 			errors[nb_err].reason = Tango::string_dup(API_AttributeFailed);
 		}
 		else if (((sys_ex = CORBA::SystemException::_downcast(ex_ptr)) != NULL) &&
@@ -632,13 +632,13 @@ void Connection::Cb_ReadAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb_
 			errors[0].desc = Tango::string_dup(cb_excep_mess);
 			errors[0].severity = Tango::ERR;
 			errors[0].reason = Tango::string_dup(API_CorbaException);
-			errors[0].origin = Tango::string_dup("Connection::Cb_ReadAttr_Request()");
+			errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 			std::string st = desc.str();
 			errors[1].desc = Tango::string_dup(st.c_str());
 			errors[1].severity = Tango::ERR;
 			errors[1].reason = Tango::string_dup(API_CommunicationFailed);
-			errors[1].origin = Tango::string_dup("Connection::Cb_ReadAttr_Request()");
+			errors[1].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 		}
 	}
 
@@ -735,13 +735,13 @@ void Connection::Cb_WriteAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb
 				err_3.errors[0].desc = Tango::string_dup(cb_excep_mess);
 				err_3.errors[0].severity = Tango::ERR;
 				err_3.errors[0].reason = Tango::string_dup(API_CorbaException);
-				err_3.errors[0].origin = Tango::string_dup("Connection::Cb_WriteAttr_Request()");
+				err_3.errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 				std::string st = desc.str();
 				err_3.errors[1].desc = Tango::string_dup(st.c_str());
 				err_3.errors[1].severity = Tango::ERR;
 				err_3.errors[1].reason = Tango::string_dup(API_DeviceTimedOut);
-				err_3.errors[1].origin = Tango::string_dup("Connection::Cb_WriteAttr_request()");
+				err_3.errors[1].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 			}
 		}
 
@@ -779,7 +779,7 @@ void Connection::Cb_WriteAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb
 				err_3.errors[0].severity = Tango::ERR;
 				std::string st = desc.str();
 				err_3.errors[0].desc = Tango::string_dup(st.c_str());
-				err_3.errors[0].origin = Tango::string_dup("Connection::Cb_WriteAttr_Request()");
+				err_3.errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 				err_3.errors[0].reason = Tango::string_dup(API_AttributeFailed);
 
 				err_3.err_list.resize(1);
@@ -819,7 +819,7 @@ void Connection::Cb_WriteAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb
 
 					std::string st = desc.str();
 					err_3.errors[0].desc = Tango::string_dup(st.c_str());
-					err_3.errors[0].origin = Tango::string_dup("Connection::Cb_WriteAttr_Request()");
+					err_3.errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 					err_3.errors[0].reason = Tango::string_dup(API_AttributeFailed);
 
 					err_3.err_list.resize(1);
@@ -859,13 +859,13 @@ void Connection::Cb_WriteAttr_Request(CORBA::Request_ptr req,Tango::CallBack *cb
 			err_3.errors[0].desc = Tango::string_dup(cb_excep_mess);
 			err_3.errors[0].severity = Tango::ERR;
 			err_3.errors[0].reason = Tango::string_dup(API_CorbaException);
-			err_3.errors[0].origin = Tango::string_dup("Connection::Cb_WriteAttr_Request()");
+			err_3.errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
 			std::string st = desc.str();
 			err_3.errors[1].desc = Tango::string_dup(st.c_str());
 			err_3.errors[1].severity = Tango::ERR;
 			err_3.errors[1].reason = Tango::string_dup(API_CommunicationFailed);
-			err_3.errors[1].origin = Tango::string_dup("Connection::Cb_WriteAttr_Request()");
+			err_3.errors[1].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 		}
 	}
 

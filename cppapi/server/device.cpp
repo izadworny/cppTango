@@ -5065,12 +5065,12 @@ void DeviceImpl::data_into_net_object(Attribute &att, AttributeIdlData &aid,
             {
                 (*aid.data_3)[index].err_list.length(1);
                 (*aid.data_3)[index].err_list[0].severity = Tango::ERR;
-                (*aid.data_3)[index].err_list[0].reason = CORBA::string_dup(API_NotSupportedFeature);
-                (*aid.data_3)[index].err_list[0].origin = CORBA::string_dup("Device_3Impl::read_attributes_no_except");
-                (*aid.data_3)[index].err_list[0].desc = CORBA::string_dup(
+                (*aid.data_3)[index].err_list[0].reason = Tango::string_dup(API_NotSupportedFeature);
+                (*aid.data_3)[index].err_list[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+                (*aid.data_3)[index].err_list[0].desc = Tango::string_dup(
                     "The DevEncoded data type is available only for device implementing IDL 4 and above");
                 (*aid.data_3)[index].quality = Tango::ATTR_INVALID;
-                (*aid.data_3)[index].name = CORBA::string_dup(att.get_name().c_str());
+                (*aid.data_3)[index].name = Tango::string_dup(att.get_name().c_str());
                 clear_att_dim((*aid.data_3)[index]);
             }
             else
@@ -5435,13 +5435,13 @@ void DeviceImpl::polled_data_into_net_object(AttributeIdlData &aid,
 
                 (*aid.data_3)[index].err_list.length(1);
                 (*aid.data_3)[index].err_list[0].severity = Tango::ERR;
-                (*aid.data_3)[index].err_list[0].reason = CORBA::string_dup(API_NotSupportedFeature);
-                (*aid.data_3)[index].err_list[0].origin = CORBA::string_dup("Device_3Impl::read_attributes_from_cache");
+                (*aid.data_3)[index].err_list[0].reason = Tango::string_dup(API_NotSupportedFeature);
+                (*aid.data_3)[index].err_list[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 
                 std::string s = o.str();
-                (*aid.data_3)[index].err_list[0].desc = CORBA::string_dup(s.c_str());
+                (*aid.data_3)[index].err_list[0].desc = Tango::string_dup(s.c_str());
                 (*aid.data_3)[index].quality = Tango::ATTR_INVALID;
-                (*aid.data_3)[index].name = CORBA::string_dup(names[index]);
+                (*aid.data_3)[index].name = Tango::string_dup(names[index]);
                 clear_att_dim((*aid.data_3)[index]);
             }
             break;

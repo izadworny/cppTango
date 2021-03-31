@@ -2117,8 +2117,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 						o << ev_name << std::ends;
 
 						errors.length(1);
-						errors[0].reason = API_WrongEventData;
-						errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+						errors[0].reason = Tango::string_dup(API_WrongEventData);
+						errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 						errors[0].desc = Tango::string_dup(o.str().c_str());
 						errors[0].severity = ERR;
 					}
@@ -2151,8 +2151,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 								o << ev_name << std::ends;
 
 								errors.length(1);
-								errors[0].reason = API_WrongEventData;
-								errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+								errors[0].reason = Tango::string_dup(API_WrongEventData);
+								errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 								errors[0].desc = Tango::string_dup(o.str().c_str());
 								errors[0].severity = ERR;
 							}
@@ -2175,8 +2175,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 								o << ev_name << std::ends;
 
 								errors.length(1);
-								errors[0].reason = API_WrongEventData;
-								errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+								errors[0].reason = Tango::string_dup(API_WrongEventData);
+								errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 								errors[0].desc = Tango::string_dup(o.str().c_str());
 								errors[0].severity = ERR;
 							}
@@ -2207,8 +2207,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 							o << ev_name << std::ends;
 
 							errors.length(1);
-							errors[0].reason = API_WrongEventData;
-							errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+							errors[0].reason = Tango::string_dup(API_WrongEventData);
+							errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 							errors[0].desc = Tango::string_dup(o.str().c_str());
 							errors[0].severity = ERR;
 						}
@@ -2228,8 +2228,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 							o << ev_name << std::ends;
 
 							errors.length(1);
-							errors[0].reason = API_WrongEventData;
-							errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+							errors[0].reason = Tango::string_dup(API_WrongEventData);
+							errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 							errors[0].desc = Tango::string_dup(o.str().c_str());
 							errors[0].severity = ERR;
 						}
@@ -2268,8 +2268,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 								o << ev_name << std::ends;
 
 								errors.length(1);
-								errors[0].reason = API_WrongEventData;
-								errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+								errors[0].reason = Tango::string_dup(API_WrongEventData);
+								errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 								errors[0].desc = Tango::string_dup(o.str().c_str());
 								errors[0].severity = ERR;
 							}
@@ -2306,8 +2306,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 								o << ev_name << std::ends;
 
 								errors.length(1);
-								errors[0].reason = API_WrongEventData;
-								errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+								errors[0].reason = Tango::string_dup(API_WrongEventData);
+								errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 								errors[0].desc = Tango::string_dup(o.str().c_str());
 								errors[0].severity = ERR;
 							}
@@ -2330,8 +2330,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 								o << ev_name << std::ends;
 
 								errors.length(1);
-								errors[0].reason = API_WrongEventData;
-								errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+								errors[0].reason = Tango::string_dup(API_WrongEventData);
+								errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 								errors[0].desc = Tango::string_dup(o.str().c_str());
 								errors[0].severity = ERR;
 							}
@@ -2353,8 +2353,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 								o << ev_name << std::ends;
 
 								errors.length(1);
-								errors[0].reason = API_WrongEventData;
-								errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+								errors[0].reason = Tango::string_dup(API_WrongEventData);
+								errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 								errors[0].desc = Tango::string_dup(o.str().c_str());
 								errors[0].severity = ERR;
 							}
@@ -2390,8 +2390,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 							o << ev_name << std::ends;
 
 							errors.length(1);
-							errors[0].reason = API_WrongEventData;
-							errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+							errors[0].reason = Tango::string_dup(API_WrongEventData);
+							errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
 							errors[0].desc = Tango::string_dup(o.str().c_str());
 							errors[0].severity = ERR;
 						}
@@ -2418,8 +2418,8 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
                 {
                     DevErrorList missed_errors;
                     missed_errors.length(1);
-                    missed_errors[0].reason = API_MissedEvents;
-                    missed_errors[0].origin = "ZmqEventConsumer::push_zmq_event()";
+                    missed_errors[0].reason = Tango::string_dup(API_MissedEvents);
+                    missed_errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
                     missed_errors[0].desc = "Missed some events! Zmq queue has reached HWM?";
                     missed_errors[0].severity = ERR;
 
