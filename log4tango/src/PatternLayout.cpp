@@ -189,7 +189,7 @@ namespace log4tango {
         bool _printMillis;
     };
 
-    const char* const TimeStampComponent::FORMAT_ISO8601 = "%Y-%m-%d %H:%M:%S,%l";
+    const char* const TimeStampComponent::FORMAT_ISO8601 = "%Y-%m-%dT%H:%M:%S,%l%z";
     const char* const TimeStampComponent::FORMAT_ABSOLUTE = "%H:%M:%S,%l";
     const char* const TimeStampComponent::FORMAT_DATE = "%d %b %Y %H:%M:%S,%l";
 
@@ -261,11 +261,7 @@ namespace log4tango {
     bool _alignLeft;
 };
 
-#ifdef LOG4TANGO_HAS_NDC
-    const char* PatternLayout::BASIC_CONVERSION_PATTERN = "%R %p %c %x: %m%n";
-#else
-    const char* PatternLayout::BASIC_CONVERSION_PATTERN = "%R %p %c %m%n";
-#endif
+const char* PatternLayout::BASIC_CONVERSION_PATTERN = "%d %p %c %m";
 
 PatternLayout::PatternLayout() {
   set_conversion_pattern(BASIC_CONVERSION_PATTERN);
