@@ -31,19 +31,29 @@ test-windows:
      - conda config --add channels conda-forge
      - conda init powershell
      - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
-     - conda install -y -vvv omniorb cppzmq zeromq tango-idl
+     - conda install -y omniorb cppzmq zeromq tango-idl
     # # See https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/14
     # - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     # - RefreshEnv
   script:
     - md build
     - cd build
-C:\tools\miniconda3\Library\
     - >
       cmake 
+      -DBUILD_SHARED_LIBS=ON
+      -DUSE_PCH=ON
+      -DCMAKE_BUILD_TYPE=Debug
+      -DTANGO_INSTALL_DEPENDENCIES=OFF
       -DCMAKE_VERBOSE_MAKEFILE=ON 
       -DCPPZMQ_BASE="C:\tools\miniconda3\Library\" 
       -DIDL_BASE="C:\tools\miniconda3\Library\" 
-      -DOMNI_BASE="C:\tools\miniconda3\Library\" 
+      -DOMNI_BASE="C:\tools\miniconda3\Library\"
       -DZMQ_BASE="C:\tools\miniconda3\Library\" 
+      -DTANGO_JPEG_MMX=OFF
+      -DBUILD_TESTING=OFF
       ..
+    - cmake --build . --config Debug
+    - cpack -C Debug -G ZIP
+  artifacts:
+    paths:
+      - build/*.zip
