@@ -21,12 +21,7 @@ environment:
       ARCH: x64-msvc15
       VCPKG_DEFAULT_TRIPLET: x64-windows
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-      MSVCVERSION: v141
-      MSVCYEAR: "vs2017"
-      MSVCABR: "15"
-      VC_VER: 15.0
       PYTHONPATH: c:\Python37-x64\
-      PYTHONPATHOMNI: "/cygdrive/c/Python37-x64/python"
       PYVER: "py37"
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: ON
@@ -35,12 +30,7 @@ environment:
       platform: win32
       ARCH: win32-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017"
-      MSVCVERSION: v141
-      MSVCYEAR: "vs2017"
-      MSVCABR: "15"
-      VC_VER: 15.0
       PYTHONPATH: c:\Python37\
-      PYTHONPATHOMNI: "/cygdrive/c/Python37/python"
       PYVER: "py37"
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: OFF
