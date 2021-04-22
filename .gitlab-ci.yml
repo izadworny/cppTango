@@ -31,7 +31,7 @@ test-windows:
      - conda config --add channels conda-forge
      - conda init powershell
      - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
-     - conda install -y omniorb cppzmq zeromq tango-idl
+     - conda install -y -vvv omniorb cppzmq zeromq tango-idl
     # # See https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/14
     # - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     # - RefreshEnv
