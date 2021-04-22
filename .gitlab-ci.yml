@@ -2,8 +2,6 @@ stages:
   - build
 
 variables: &variables
-  DEBIAN_FRONTEND: noninteractive
-  DOCKER_HOST: tcp://docker:2375
   # Build parameters. We later override them at job level if needed.
   SONAR_SCANNER: "OFF"
   COVERALLS: "OFF"
@@ -31,24 +29,21 @@ test-windows:
      - conda config --add channels conda-forge
      - conda init powershell
      - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
-     - conda install -y omniorb cppzmq zeromq tango-idl
-    # # See https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/14
-    # - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-    # - RefreshEnv
+     - conda install -y omniorb cppzmq zeromq tango-idl pthreads-win32
   script:
     - md build
     - cd build
     - >
-      cmake 
+      cmake
       -DBUILD_SHARED_LIBS=ON
       -DUSE_PCH=ON
-      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_BUILD_TYPE=Release
       -DTANGO_INSTALL_DEPENDENCIES=OFF
-      -DCMAKE_VERBOSE_MAKEFILE=ON 
-      -DCPPZMQ_BASE="C:\tools\miniconda3\Library\" 
-      -DIDL_BASE="C:\tools\miniconda3\Library\" 
+      -DCMAKE_VERBOSE_MAKEFILE=ON
+      -DCPPZMQ_BASE="C:\tools\miniconda3\Library\"
+      -DIDL_BASE="C:\tools\miniconda3\Library\"
       -DOMNI_BASE="C:\tools\miniconda3\Library\"
-      -DZMQ_BASE="C:\tools\miniconda3\Library\" 
+      -DZMQ_BASE="C:\tools\miniconda3\Library\"
       -DTANGO_JPEG_MMX=OFF
       -DBUILD_TESTING=OFF
       ..
