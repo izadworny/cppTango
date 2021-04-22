@@ -19,7 +19,11 @@ endif()
 if(${PLATFORM} EQUAL 64)
     target_compile_definitions(jpeg_mmx_objects PRIVATE _64BITS)
 else()
-    target_compile_options(jpeg_mmx_objects PRIVATE -O0)
+
+    if(NOT WIN32)
+        target_compile_options(jpeg_mmx_objects PRIVATE -O0)
+    endif()
+
     if(TANGO_JPEG_MMX)
         target_compile_definitions(jpeg_mmx_objects PRIVATE JPG_USE_ASM)
     endif()
