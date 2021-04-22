@@ -38,4 +38,12 @@ test-windows:
   script:
     - md build
     - cd build
-    - cmake ..
+C:\tools\miniconda3\Library\
+    - >
+      cmake 
+      -DCMAKE_VERBOSE_MAKEFILE=ON 
+      -DCPPZMQ_BASE="C:\tools\miniconda3\Library\" 
+      -DIDL_BASE="C:\tools\miniconda3\Library\" 
+      -DOMNI_BASE="C:\tools\miniconda3\Library\" 
+      -DZMQ_BASE="C:\tools\miniconda3\Library\" 
+      ..
