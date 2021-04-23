@@ -24,6 +24,7 @@ test-windows:
   before_script:
      - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
      - choco install -y miniconda3 --params="'/AddToPath:1'"
+     # - choco install wixtoolset
      - RefreshEnv
      - conda config --add channels conda-forge
      - conda init powershell
