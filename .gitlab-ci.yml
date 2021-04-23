@@ -47,7 +47,7 @@ test-windows:
       -DBUILD_TESTING=OFF
       ..
     - cmake --build . --config Debug
-    - cpack -C Debug -G WIX
+    # - cpack -C Debug -G WIX
     - cpack -C Debug -G ZIP
   artifacts:
     paths:
