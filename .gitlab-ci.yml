@@ -24,12 +24,11 @@ test-windows:
   before_script:
      - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
      - choco install -y miniconda3 --params="'/AddToPath:1'"
-     - choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --version=3.20.1
      - RefreshEnv
      - conda config --add channels conda-forge
      - conda init powershell
      - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
-     - conda install -y omniorb==4.2.4 cppzmq==4.7.1 zeromq==4.3.2 tango-idl pthreads-win32
+     - conda install -y cmake==3.20.1 omniorb==4.2.4 cppzmq==4.7.1 zeromq==4.3.2 tango-idl pthreads-win32
   script:
     - md build
     - cd build
@@ -48,7 +47,9 @@ test-windows:
       -DBUILD_TESTING=OFF
       ..
     - cmake --build . --config Debug
+    - cpack -C Debug -G WIX
     - cpack -C Debug -G ZIP
   artifacts:
     paths:
       - build/*.zip
+      - build/*.msi
