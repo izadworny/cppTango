@@ -29,7 +29,7 @@ test-windows:
      - conda config --add channels conda-forge
      - conda init powershell
      - "if (test-path $PROFILE.CurrentUserAllHosts) { & $PROFILE.CurrentUserAllHosts}"
-     - conda install -y omniorb cppzmq zeromq tango-idl pthreads-win32
+     - conda install -y omniorb==4.2.4 cppzmq==4.7.1 zeromq==4.3.2 tango-idl pthreads-win32
   script:
     - md build
     - cd build
