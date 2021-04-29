@@ -42,7 +42,7 @@ class LOG4TANGO_EXPORT LayoutAppender : public Appender
 {
 public:
 
-  typedef Layout DefaultLayoutType;
+  typedef PatternLayout DefaultLayoutType;
 
   LayoutAppender(const std::string& name);
 
