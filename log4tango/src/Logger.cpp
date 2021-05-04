@@ -91,73 +91,82 @@ void Logger::call_appenders (const LoggingEvent& event)
   }
 }
 
-void Logger::log_unconditionally(Level::Value level, 
-                                   const char* format, ...) 
+void Logger::log_unconditionally(const std::string& file,
+                                 int line,
+                                 Level::Value level,
+                                 const char* format, ...)
 {
   va_list va;
   va_start(va, format);
-  log_unconditionally(level, StringUtil::vform(format, va));
+  log_unconditionally(file, line, level, StringUtil::vform(format, va));
   va_end(va);
 }
 
-void Logger::log_unconditionally(Level::Value level, 
-                                 const std::string& message) 
+void Logger::log_unconditionally(const std::string& file,
+                                 int line,
+                                 Level::Value level,
+                                 const std::string& message)
 {
-  LoggingEvent event(get_name(), message, level);
+  LoggingEvent event{
+    get_name(),
+    message,
+    level,
+    file,
+    line};
   call_appenders(event);
 }
 
-void Logger::log (Level::Value level, const char* format, ...)
+void Logger::log (const std::string& file, int line, Level::Value level, const char* format, ...)
 { 
   if (is_level_enabled(level)) {
     va_list va;
     va_start(va, format);
-    log_unconditionally(level, StringUtil::vform(format, va));
+    log_unconditionally(file, line, level, StringUtil::vform(format, va));
     va_end(va);
   }
 }
     
-void Logger::debug (const char* format, ...) {
+void Logger::debug (const std::string& file, int line, const char* format, ...) {
   if (is_level_enabled(Level::DEBUG)) {
     va_list va;
     va_start(va,format);
-    log_unconditionally(Level::DEBUG, StringUtil::vform(format, va));
+    log_unconditionally(file, line, Level::DEBUG, StringUtil::vform(format, va));
     va_end(va);
   }
 }
     
-void Logger::info (const char* format, ...) {
+void Logger::info (const std::string& file, int line, const char* format, ...) {
   if (is_level_enabled(Level::INFO)) {
     va_list va;
     va_start(va,format);
-    log_unconditionally(Level::INFO, StringUtil::vform(format, va));
+    log_unconditionally(file, line, Level::INFO, StringUtil::vform(format, va));
     va_end(va);
   }
 }
 
-void Logger::warn (const char* format, ...) {
+void Logger::warn (const std::string& file, int line, const char* format, ...) {
   if (is_level_enabled(Level::WARN)) {
     va_list va;
     va_start(va,format);
-    log_unconditionally(Level::WARN, StringUtil::vform(format, va));
+    log_unconditionally(file, line, Level::WARN, StringUtil::vform(format, va));
     va_end(va);
   }
 }
 
-void Logger::error (const char* format, ...) {
+void Logger::error (const std::string& file, int line, const char* format, ...) {
   if (is_level_enabled(Level::ERROR)) {
     va_list va;
     va_start(va,format);
-    log_unconditionally(Level::ERROR, StringUtil::vform(format, va));
+    log_unconditionally(file, line, Level::ERROR, StringUtil::vform(format, va));
     va_end(va);
   }
 }
 
-void Logger::fatal (const char* format, ...) {
+void Logger::fatal (const std::string& file, int line, const char* format, ...) {
   if (is_level_enabled(Level::FATAL)) {
     va_list va;
     va_start(va,format);
-    log_unconditionally(Level::FATAL, StringUtil::vform(format, va));
+    log_unconditionally(file, line, Level::FATAL, StringUtil::vform(format, va));
     va_end(va);
   }
 }

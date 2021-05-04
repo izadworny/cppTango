@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 
     {
 	clock.start();
-	for (int i = 0; i < count; i++) log.error("%s", buffer);
+	for (int i = 0; i < count; i++) log.error(__FILE__, __LINE__, "%s", buffer);
 	clock.stop();
 	results[0] = ((float)clock.elapsed()) / count;
     }
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
     {
 	std::string str(size, 'X');
 	clock.start();
-	for (int i = 0; i < count; i++) log.error(str);
+	for (int i = 0; i < count; i++) log.error(__FILE__, __LINE__, str);
 	clock.stop();
 	results[2] = ((float)clock.elapsed()) / count;
     }
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     }
     {
 	clock.start();
-	for (int i = 0; i < count; i++) log.error("%s", buffer);
+	for (int i = 0; i < count; i++) log.error(__FILE__, __LINE__, "%s", buffer);
 	clock.stop();
 	results[3] = ((float)clock.elapsed()) / count;
     }
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
     {
 	std::string str(size, 'X');
 	clock.start();
-	for (int i = 0; i < count; i++) log.error(str);
+	for (int i = 0; i < count; i++) log.error(__FILE__, __LINE__, str);
 	clock.stop();
 	results[5] = ((float)clock.elapsed()) / count;
     }

@@ -47,53 +47,66 @@
 
 #include <tango_current_function.h>
 
+#define TANGO_EXPAND_ARGS(...) __VA_ARGS__
+#define TANGO_STRIP_PARENS(X) X
+
 //-------------------------------------------------------------
 // LOGGING MACROS (FOR DEVICE DEVELOPERS)
 //-------------------------------------------------------------
 #define LOG_FATAL(X) \
-    get_logger()->fatal X
+    get_logger()->fatal( \
+        __FILE__, __LINE__, \
+        TANGO_STRIP_PARENS( TANGO_EXPAND_ARGS X ))
 
 #define LOG_ERROR(X) \
-    get_logger()->error X
+    API_LOGGER->error( \
+        __FILE__, __LINE__, \
+        TANGO_STRIP_PARENS( TANGO_EXPAND_ARGS X ))
 
 #define LOG_WARN(X) \
-    get_logger()->warn X
+    get_logger()->warn( \
+        __FILE__, __LINE__, \
+        TANGO_STRIP_PARENS( TANGO_EXPAND_ARGS X ))
 
 #define LOG_INFO(X) \
-    get_logger()->info X
+    get_logger()->info( \
+        __FILE__, __LINE__, \
+        TANGO_STRIP_PARENS( TANGO_EXPAND_ARGS X ))
 
 #define LOG_DEBUG(X) \
-    get_logger()->debug X
+    get_logger()->debug( \
+        __FILE__, __LINE__, \
+        TANGO_STRIP_PARENS( TANGO_EXPAND_ARGS X ))
 
 #define DEV_FATAL_STREAM(device) \
   if (device->get_logger()->is_fatal_enabled()) \
     device->get_logger()->fatal_stream() \
       << log4tango::LogInitiator::_begin_log \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define DEV_ERROR_STREAM(device) \
   if (device->get_logger()->is_error_enabled()) \
     device->get_logger()->error_stream() \
       << log4tango::LogInitiator::_begin_log \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define DEV_WARN_STREAM(device) \
   if (device->get_logger()->is_warn_enabled()) \
     device->get_logger()->warn_stream() \
       << log4tango::LogInitiator::_begin_log \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define DEV_INFO_STREAM(device) \
   if (device->get_logger()->is_info_enabled()) \
     device->get_logger()->info_stream() \
       << log4tango::LogInitiator::_begin_log \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define DEV_DEBUG_STREAM(device) \
   if (device->get_logger()->is_debug_enabled()) \
     device->get_logger()->debug_stream() \
       << log4tango::LogInitiator::_begin_log \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define ENDLOG \
   log4tango::LogSeparator::_end_log

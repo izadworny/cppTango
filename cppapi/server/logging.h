@@ -47,7 +47,7 @@
     if (API_LOGGER)                                         \
       API_LOGGER->get_stream(log4tango::Level::INFO, false) \
         << log4tango::LogInitiator::_begin_log              \
-        << "(" TANGO_FILE_AND_LINE ") "
+        << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #else
 
@@ -60,7 +60,7 @@
   if (API_LOGGER && API_LOGGER->is_info_enabled()) \
     API_LOGGER->info_stream()                      \
       << log4tango::LogInitiator::_begin_log       \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define cout2 cout1
 
@@ -69,7 +69,7 @@
   if (API_LOGGER && API_LOGGER->is_debug_enabled()) \
     API_LOGGER->debug_stream()                      \
       << log4tango::LogInitiator::_begin_log        \
-      << "(" TANGO_FILE_AND_LINE ") "
+      << log4tango::LoggerStream::SourceLocation{__FILE__, __LINE__}
 
 #define cout4 cout3
 #define cout5 cout4
