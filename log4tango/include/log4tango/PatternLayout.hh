@@ -84,6 +84,8 @@ public:
    * <li><b>%%R</b> - seconds since Jan 1, 1970</li>
    * <li><b>%%u</b> - clock ticks since process start</li>
    * <li><b>%%x</b> - the NDC</li>
+   * <li><b>%%F</b> - the file name where the logging request was issued</li>
+   * <li><b>%%L</b> - the line number from where the logging request was issued</li>
    * </ul>
    * @param conversionPattern the conversion pattern
    * @exception ConfigureFailure if the pattern is invalid
