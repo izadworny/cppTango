@@ -72,6 +72,38 @@ endif()
 set(LIBRARY_VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 set(SO_VERSION "${MAJOR_VERSION}${MINOR_VERSION}")
 
+find_package(Git QUIET)
+if(EXISTS "${CMAKE_SOURCE_DIR}/.git" AND Git_FOUND)
+  execute_process(
+      COMMAND "${GIT_EXECUTABLE}" describe --tags --exclude=*test* --always HEAD
+      WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+      OUTPUT_VARIABLE GIT_DESCRIBE_STDOUT
+      ERROR_VARIABLE GIT_DESCRIBE_STDERR
+      RESULT_VARIABLE GIT_DESCRIBE_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  if(GIT_DESCRIBE_RESULT)
+    # older git versions (< 2.13) don't know about --exclude
+    # in case we errored out, retry without it
+    execute_process(
+        COMMAND "${GIT_EXECUTABLE}" describe --tags --always HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE GIT_DESCRIBE_STDOUT
+        ERROR_VARIABLE GIT_DESCRIBE_STDERR
+        RESULT_VARIABLE GIT_DESCRIBE_RESULT
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+  endif()
+
+  if(GIT_DESCRIBE_RESULT)
+    message(WARNING "Could not fetch the git revision (error ${GIT_DESCRIBE_RESULT}): ${GIT_DESCRIBE_STDERR}")
+    set(GIT_DESCRIBE_STDOUT "unknown")
+  endif()
+else()
+    set(GIT_DESCRIBE_STDOUT "unknown")
+endif()
+
+set(TANGO_GIT_REVISION "${GIT_DESCRIBE_STDOUT}")
+
 set(TANGO_HOST $ENV{TANGO_HOST})
 include(configure/CMakeLists.txt)
 
