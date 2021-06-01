@@ -41,7 +41,4 @@ endmacro()
 #sstream
 LOG4TANGO_CHECK_COMPILER_FEATURE("config/check_sstream.cpp" SSTREAM)
 
-#namespace
-LOG4TANGO_CHECK_COMPILER_FEATURE("config/check_namespace.cpp" NAMESPACES)
-
 configure_file(config/config.h.in ${PROJECT_BINARY_DIR}/log4tango/include/log4tango/config.h)

@@ -57,11 +57,6 @@
 # define LOG4TANGO_VERSION  "0.3.4"
 #endif
 
-/* define if the compiler implements namespaces */
-#ifndef LOG4TANGO_HAVE_NAMESPACES
-# define LOG4TANGO_HAVE_NAMESPACES 1
-#endif
-
 /* define if the compiler has stringstream */
 #ifndef LOG4TANGO_HAVE_SSTREAM
 # define LOG4TANGO_HAVE_SSTREAM 1
