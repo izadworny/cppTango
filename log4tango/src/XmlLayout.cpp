@@ -73,56 +73,12 @@ namespace log4tango {
     buf.append(id());
     buf.append("\">\r\n");
     buf.append("<log4j:message><![CDATA[");
-#if APPEND_ECAPING_CDATA_IMPLEMENTED
-    appendEscapingCDATA(buf, event.message);	
-#else
     buf.append(event.message);
-#endif
     buf.append("]]></log4j:message>\r\n"); 
     buf.append("<log4j:NDC><![CDATA[");
     buf.append("]]></log4j:NDC>\r\n");	  
     buf.append("</log4j:event>\r\n\r\n");
     return buf;
-  }
- 
- /*
-  * Ensures that embeded CDEnd strings (]]>) are handled properly
-  * within message, NDC and throwable tag text.
-  *
-  * @param buf StringBuffer holding the XML data to this point.  The
-  * initial CDStart (<![CDATA[) and final CDEnd (]]>) of the CDATA
-  * section are the responsibility of the calling method.
-  * @param str The String that is inserted into an existing CDATA Section within buf.  
-  */
-
-  void XMLLayout::appendEscapingCDATA(std::string buf, std::string str) 
-  {
-    const std::string CDATA_START("<![CDATA[");
-    const std::string CDATA_END("]]>");
-    const std::string CDATA_PSEUDO_END("]]&gt;");
-    const std::string CDATA_EMBEDED_END = CDATA_END + CDATA_PSEUDO_END + CDATA_START;
-    const int CDATA_END_LEN = CDATA_END.size();
-
-    std::string::size_type end = str.find(CDATA_END);
-    
-    if (end == std::string::npos) {
-      buf.append(str);
-      return;
-    }
-
-    unsigned int start = 0;
-    while (end != std::string::npos) {
-      buf.append(str.substr(start, end - start));
-      buf.append(CDATA_EMBEDED_END);
-      start = end + CDATA_END_LEN;
-      if (start < str.size()) {
-	      end = str.find(CDATA_END, start);
-      } else {
-	      return;
-      }
-    }
-
-    buf.append(str.substr(start));
   }
 
 } // namespace log4tango 
