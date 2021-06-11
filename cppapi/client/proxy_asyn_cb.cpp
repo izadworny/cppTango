@@ -117,7 +117,7 @@ void Connection::command_inout_asynch(const char *command, DeviceData &data_in, 
 
 	ApiUtil *au = ApiUtil::instance();
 	add_asyn_cb_request(req_seq[0],&cb,this,TgRequest::CMD_INOUT);
-	CORBA::ORB_ptr orb = au->get_orb();
+	CORBA::ORB_var orb = au->get_orb();
 	orb->send_multiple_requests_deferred(req_seq);
 	if (au->get_asynch_cb_sub_model() == PUSH_CALLBACK)
 		au->get_pasyn_table()->signal();
@@ -171,7 +171,7 @@ void Connection::command_inout_asynch(string &command,CallBack &cb)
 void Connection::get_asynch_replies()
 {
 
-	CORBA::ORB_ptr orb = ApiUtil::instance()->get_orb();
+	CORBA::ORB_var orb = ApiUtil::instance()->get_orb();
 
 //
 // First get all replies from ORB buffers
@@ -967,7 +967,7 @@ void Connection::get_asynch_replies(long call_timeout)
 
 	if (get_pasyn_cb_ctr() != 0)
 	{
-		CORBA::ORB_ptr orb = ApiUtil::instance()->get_orb();
+		CORBA::ORB_var orb = ApiUtil::instance()->get_orb();
 		CORBA::Request_ptr req;
 
 		if (call_timeout != 0)
@@ -1203,7 +1203,7 @@ void DeviceProxy::read_attributes_asynch(vector<string> &attr_names,CallBack &cb
 
 	ApiUtil *au = ApiUtil::instance();
 	add_asyn_cb_request(req_seq[0],&cb,this,TgRequest::READ_ATTR);
-	CORBA::ORB_ptr orb = au->get_orb();
+	CORBA::ORB_var orb = au->get_orb();
 	orb->send_multiple_requests_deferred(req_seq);
 	if (au->get_asynch_cb_sub_model() == PUSH_CALLBACK)
 		au->get_pasyn_table()->signal();
@@ -1304,7 +1304,7 @@ void DeviceProxy::write_attributes_asynch(vector<DeviceAttribute> &attr_list,
 
 	ApiUtil *au = ApiUtil::instance();
 	add_asyn_cb_request(req_seq[0],&cb,this,TgRequest::WRITE_ATTR);
-	CORBA::ORB_ptr orb = au->get_orb();
+	CORBA::ORB_var orb = au->get_orb();
 	orb->send_multiple_requests_deferred(req_seq);
 	if (au->get_asynch_cb_sub_model() == PUSH_CALLBACK)
 		au->get_pasyn_table()->signal();
@@ -1403,7 +1403,7 @@ void DeviceProxy::write_attribute_asynch(DeviceAttribute &attr,CallBack &cb)
 
 	ApiUtil *au = ApiUtil::instance();
 	add_asyn_cb_request(req_seq[0],&cb,this,TgRequest::WRITE_ATTR_SINGLE);
-	CORBA::ORB_ptr orb = au->get_orb();
+	CORBA::ORB_var orb = au->get_orb();
 	orb->send_multiple_requests_deferred(req_seq);
 	if (au->get_asynch_cb_sub_model() == PUSH_CALLBACK)
 		au->get_pasyn_table()->signal();
