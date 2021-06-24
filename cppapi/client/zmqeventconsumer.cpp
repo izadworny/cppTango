@@ -1069,6 +1069,7 @@ void ZmqEventConsumer::cleanup_EventChannel_map()
             evt_ch.adm_device_proxy = NULL;
         }
         delete evt_ch.channel_monitor;
+        evt_ch.channel_monitor = NULL;
     }
 
 //
