@@ -75,7 +75,7 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 | `TANGO_JPEG_MMX`             | `ON`                                   | Build the jpeg support with MMX extensions (32bit Linux only)
 | `TANGO_INSTALL_DEPENDENCIES` | `OFF`                                  | Install dependencies of tango as well (Windows only)
 | `TANGO_USE_USING_NAMESPACE`  | `ON`                                   | `ON` will include the `std` namespace in tango headers. Choose `OFF` for modern builds.
-| `USE_PCH`                    | `OFF`                                  | Use precompiled headers (makes compilation much faster)
+| `USE_PCH`                    | `ON`                                   | Use precompiled headers (makes compilation much faster)
 | `WARNINGS_AS_ERRORS`         | `OFF`                                  | Treat compiler warnings as errors
 | `ZMQ_BASE`                   |                                        | libzmq installed path
 
