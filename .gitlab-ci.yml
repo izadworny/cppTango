@@ -452,3 +452,40 @@ alpine:
       -DOMNI_BASE=/usr/local/omniORB
       -DZMQ_BASE=/usr/local/zmq
     - make -C build
+
+doxygen-documentation:
+  image: debian:buster
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+  services: []
+  before_script:
+    - apt-get update
+    - >
+      apt-get install -y
+      build-essential
+      cmake
+      doxygen
+      git
+      graphviz
+      libcos4-dev
+      libomniorb4-dev
+      libomnithread4-dev
+      libzmq3-dev
+      omniidl
+      pkg-config
+    # Install tango-idl
+    - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
+    - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
+    - make -C /idl/build install
+    - mkdir build
+  script:
+    - >
+      cmake . -B build
+      -DCMAKE_BUILD_TYPE=Debug
+      -DBUILD_TESTING=OFF
+      -DIDL_BASE=/usr/local/tango-idl
+    - make -C build doc
+  artifacts:
+    when: always
+    paths:
+      - build/doc_html
