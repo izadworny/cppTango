@@ -188,20 +188,22 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(const EvChanIte &ipo
 //
 // Forget exception which could happen during massive restart of device server process running on the same host
 //
-					try
-					{
-					    event_consumer->disconnect_event_channel(adm_name,ipos->second.endpoint,epos->second.endpoint);
-					}
-					catch (Tango::DevFailed &) {}
-					event_consumer->connect_event_channel(adm_name,
-									      epos->second.get_device_proxy().get_device_db(),
-									      true,subscriber_out);
+                    try
+                    {
+                        event_consumer->disconnect_event_channel(adm_name,ipos->second.endpoint,epos->second.endpoint);
+                    }
+                    catch (Tango::DevFailed &) {}
+                    event_consumer->connect_event_channel(adm_name,
+                                  epos->second.get_device_proxy().get_device_db(),
+                                  true,subscriber_out);
 
                     dd = subscriber_out;
-					if (ipos->second.adm_device_proxy != NULL)
-						delete ipos->second.adm_device_proxy;
-					ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
-					TANGO_LOG_DEBUG << "Reconnected to zmq event channel" << std::endl;
+
+                    if (ipos->second.adm_device_proxy != NULL)
+                        delete ipos->second.adm_device_proxy;
+
+                    ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
+                    TANGO_LOG_DEBUG << "Reconnected to zmq event channel" << std::endl;
 				}
 				catch(...)
 				{
