@@ -143,12 +143,18 @@ Please install cppzmq (https://github.com/zeromq/cppzmq) on your system and/or u
 endif()
 
 if(NOT WIN32)
-  try_compile(TANGO_ZMQ_HAS_DISCONNECT ${CMAKE_BINARY_DIR}/test_cppzmq_disconnect
-              SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_disconnect.cpp
+  try_compile(TANGO_CPPZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_cppzmq_features
+              SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_features.cpp
               COMPILE_DEFINITIONS "-I ${CPPZMQ_BASE}/include -I ${ZMQ_BASE}/include"
               LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
 
-  message(STATUS "Check if zmq::socket has a disconnect method: ${TANGO_ZMQ_HAS_DISCONNECT}")
+  set(msg "Check if cppzmq is present and recent enough: ${TANGO_CPPZMQ_USABLE_VERSION}")
+
+  if(${TANGO_CPPZMQ_USABLE_VERSION})
+    message(STATUS ${msg})
+  else()
+    message(FATAL_ERROR ${msg})
+  endif()
 
   set(ZMQ_MIN_VER_MAJOR 4)
   set(ZMQ_MIN_VER_MINOR 0)
@@ -169,9 +175,6 @@ if(NOT WIN32)
   else()
     message(FATAL_ERROR ${msg})
   endif()
-else()
-  set(TANGO_ZMQ_HAS_DISCONNECT TRUE)
-  message(STATUS "Check if zmq::socket has a disconnect method: ${TANGO_ZMQ_HAS_DISCONNECT} (hardcoded)")
 endif()
 
 if(NOT WIN32)

@@ -704,10 +704,8 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 //
 
             const char *event_name = &(tmp_ptr[1]);
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
             const char *endpoint = &(tmp_ptr[1 + ::strlen(event_name) + 1]);
             const char *endpoint_event = &(tmp_ptr[1 + ::strlen(event_name) + ::strlen(endpoint) + 2]);
-#endif
 
 //
 // Unsubscribe this event from the heartbeat socket
@@ -726,7 +724,6 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
                 multi_tango_host(heartbeat_sub_sock,UNSUBSCRIBE,base_name);
             }
 
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
 //
 // Remove the endpoint in the vector of already connected heartbeat and disconnect the socket to this endpoint
 //
@@ -749,7 +746,6 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 				connected_pub.erase(pos);
 				disconnect_socket(*event_sub_sock, endpoint_event);
 			}
-#endif
         }
         break;
 
@@ -1261,14 +1257,7 @@ void ZmqEventConsumer::connect_event_channel(std::string &channel_name,TANGO_UNU
         buffer[length] = ZMQ_CONNECT_HEARTBEAT;
         length++;
 
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
-		buffer[length] = 0;
-#else
-        if (reconnect == true)
-            buffer[length] = 1;
-        else
-            buffer[length] = 0;
-#endif
+        buffer[length] = 0;
         length++;
 
         ::strcpy(&(buffer[length]),ev_svr_data->svalue[valid_endpoint << 1].in());
@@ -1632,14 +1621,7 @@ void ZmqEventConsumer::connect_event_system(TANGO_UNUSED(std::string &device_nam
             buffer[length] = ZMQ_CONNECT_EVENT;
         length++;
 
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
-		buffer[length] = 0;
-#else
-        if (filters.size() == 1 && filters[0] == "reconnect")
-            buffer[length] = 1;
-        else
-            buffer[length] = 0;
-#endif
+        buffer[length] = 0;
         length++;
 
         ::strcpy(&(buffer[length]),endpoint.c_str());
@@ -3466,7 +3448,6 @@ ReceivedFromAdmin ZmqEventConsumer::initialize_received_from_admin(const Tango::
     return result;
 }
 
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
 void ZmqEventConsumer::disconnect_socket(zmq::socket_t& socket, const char* endpoint)
 {
     try
@@ -3482,11 +3463,6 @@ void ZmqEventConsumer::disconnect_socket(zmq::socket_t& socket, const char* endp
         }
     }
 }
-#else
-void ZmqEventConsumer::disconnect_socket(zmq::socket_t& TANGO_UNUSED(socket), const char* TANGO_UNUSED(endpoint))
-{
-}
-#endif
 
 //--------------------------------------------------------------------------------------------------------------------
 //
