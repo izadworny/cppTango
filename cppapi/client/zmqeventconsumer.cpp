@@ -57,7 +57,6 @@ using namespace CORBA;
 
 namespace Tango {
 
-
 ZmqEventConsumer *ZmqEventConsumer::_instance = NULL;
 //omni_mutex EventConsumer::ev_consumer_inst_mutex;
 
@@ -124,10 +123,6 @@ ZmqEventConsumer *ZmqEventConsumer::create()
 
 void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 {
-	int linger = 0;
-	int reconnect_ivl = -1;
-	int send_hwm = SUB_SEND_HWM;
-
 //
 // Store thread ID
 //
@@ -141,17 +136,19 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 //
 
 	heartbeat_sub_sock = new zmq::socket_t(zmq_context,ZMQ_SUB);
-	heartbeat_sub_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+	heartbeat_sub_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
+
+	int reconnect_ivl = -1;
 	try
 	{
-		heartbeat_sub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+		heartbeat_sub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 	}
 	catch (zmq::error_t &)
 	{
 		reconnect_ivl = 30000;
-		heartbeat_sub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+		heartbeat_sub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 	}
-	heartbeat_sub_sock->setsockopt(ZMQ_SNDHWM,&send_hwm,sizeof(send_hwm));
+	heartbeat_sub_sock->set(zmq::sockopt::sndhwm, SUB_SEND_HWM);
 
 //
 // Create the subscriber socket used to receive events coming from different DS. This socket subscribe to everything
@@ -160,16 +157,16 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 //
 
 	event_sub_sock = new zmq::socket_t(zmq_context,ZMQ_SUB);
-	event_sub_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
-	event_sub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
-	event_sub_sock->setsockopt(ZMQ_SNDHWM,&send_hwm,sizeof(send_hwm));
+	event_sub_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
+	event_sub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
+	event_sub_sock->set(zmq::sockopt::sndhwm, SUB_SEND_HWM);
 
 //
 // Create the control socket (REQ/REP pattern) and binds it
 //
 
 	control_sock = new zmq::socket_t(zmq_context,ZMQ_REP);
-	control_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+	control_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
 	control_sock->bind(CTRL_SOCK_ENDPOINT);
 
 	set_ctrl_sock_bound();
@@ -778,7 +775,7 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 // Subscribe to the new heartbeat event
 //
 
-            heartbeat_sub_sock->setsockopt(ZMQ_SUBSCRIBE,event_name,::strlen(event_name));
+            heartbeat_sub_sock->set(zmq::sockopt::subscribe,event_name);
 
 //
 // Most of the time, we have only one TANGO_HOST to take into account and we dont need to execute following code.
@@ -809,7 +806,7 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 // Unsubscribe this event from the heartbeat socket
 //
 
-            heartbeat_sub_sock->setsockopt(ZMQ_UNSUBSCRIBE,event_name,::strlen(event_name));
+            heartbeat_sub_sock->set(zmq::sockopt::unsubscribe,event_name);
 
 //
 // Most of the time, we have only one TANGO_HOST to take into account and we don need to execute following code.
@@ -897,7 +894,7 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 // Subscribe to the new event
 //
 
-            event_sub_sock->setsockopt(ZMQ_SUBSCRIBE,event_name,::strlen(event_name));
+            event_sub_sock->set(zmq::sockopt::subscribe,event_name);
 
 //
 // Most of the time, we have only one TANGO_HOST to take into account and we don't need to execute following code.
@@ -944,7 +941,7 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 
             if (mcast == false)
             {
-                event_sub_sock->setsockopt(ZMQ_UNSUBSCRIBE,event_name,::strlen(event_name));
+                event_sub_sock->set(zmq::sockopt::unsubscribe,event_name);
 
 //
 // Most of the time, we have only one TANGO_HOST to take into account and we don need to execute following code.
@@ -1022,16 +1019,10 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 // Set socket rate, ivl linger and hwm
 //
 
-                int local_rate = rate;
-                tmp_sock->setsockopt(ZMQ_RATE,&local_rate,sizeof(local_rate));
-
-                int local_ivl = ivl;
-                tmp_sock->setsockopt(ZMQ_RECOVERY_IVL,&local_ivl,sizeof(local_ivl));
-
-                int linger = 0;
-                tmp_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
-
-                tmp_sock->setsockopt(ZMQ_RCVHWM,&sub_hwm,sizeof(sub_hwm));
+                tmp_sock->set(zmq::sockopt::rate, static_cast<int>(rate));
+                tmp_sock->set(zmq::sockopt::recovery_ivl, static_cast<int>(ivl));
+                tmp_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
+                tmp_sock->set(zmq::sockopt::rcvhwm, static_cast<int>(sub_hwm));
 
 //
 // Connect the socket
@@ -1043,7 +1034,7 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 // Subscribe to the new event
 //
 
-                tmp_sock->setsockopt(ZMQ_SUBSCRIBE,event_name,::strlen(event_name));
+                tmp_sock->set(zmq::sockopt::subscribe,event_name);
 
 //
 // Store socket in map
@@ -1143,9 +1134,9 @@ void ZmqEventConsumer::multi_tango_host(zmq::socket_t *sock,SocketCmd cmd,std::s
             std::string new_tango_host = env_var_fqdn_prefix[loop] + ev_name;
             const char * tmp_ev_name = new_tango_host.c_str();
             if (cmd == SUBSCRIBE)
-                sock->setsockopt(ZMQ_SUBSCRIBE,tmp_ev_name,::strlen(tmp_ev_name));
+                sock->set(zmq::sockopt::subscribe,tmp_ev_name);
             else
-                sock->setsockopt(ZMQ_UNSUBSCRIBE,tmp_ev_name,::strlen(tmp_ev_name));
+                sock->set(zmq::sockopt::unsubscribe,tmp_ev_name);
         }
     }
 }
@@ -3506,7 +3497,7 @@ void ZmqEventConsumer::set_socket_hwm(int hwm)
     event_sub_sock->getsockopt(ZMQ_RCVHWM,&current_sub_hwm, &curr_sub_hw_size);
     if(hwm != current_sub_hwm)
     {
-        event_sub_sock->setsockopt(ZMQ_RCVHWM, &hwm, sizeof(hwm));
+        event_sub_sock->set(zmq::sockopt::rcvhwm, hwm);
     }
 }
 

@@ -86,18 +86,17 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
 
     heartbeat_pub_sock = new zmq::socket_t(zmq_context,ZMQ_PUB);
 
-    int linger = 0;
 	int reconnect_ivl = -1;
 
-	heartbeat_pub_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+	heartbeat_pub_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
 	try
 	{
-		heartbeat_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+		heartbeat_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 	}
 	catch (zmq::error_t &)
 	{
 		reconnect_ivl = 30000;
-		heartbeat_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+		heartbeat_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 	}
 
     heartbeat_endpoint = "tcp://";
@@ -451,18 +450,17 @@ void ZmqEventSupplier::create_event_socket()
 //
 
         event_pub_sock = new zmq::socket_t(zmq_context,ZMQ_PUB);
-        int linger = 0;
-		int reconnect_ivl = -1;
-        event_pub_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+        int reconnect_ivl = -1;
+        event_pub_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
 
 		try
 		{
-			event_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+			event_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 		}
 		catch (zmq::error_t &)
 		{
 			reconnect_ivl = 30000;
-			event_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+			event_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 		}
 
         event_endpoint = "tcp://";
@@ -487,7 +485,7 @@ void ZmqEventSupplier::create_event_socket()
         if (hwm == -1)
             hwm = admin_dev->zmq_pub_event_hwm;
 
-        event_pub_sock->setsockopt(ZMQ_SNDHWM,&hwm,sizeof(hwm));
+        event_pub_sock->set(zmq::sockopt::sndhwm,hwm);
 
 //
 // Bind the publisher socket to one ephemeral port
@@ -661,8 +659,7 @@ void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,Mcas
     }
     ms.endpoint = ms.endpoint + mcast_data;
 
-    int linger = 0;
-    ms.pub_socket->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+    ms.pub_socket->set(zmq::sockopt::linger, DEFAULT_LINGER);
 
 //
 // Change multicast hops
@@ -671,16 +668,13 @@ void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,Mcas
     Tango::Util *tg = Tango::Util::instance();
     DServer *admin_dev = tg->get_dserver_device();
 
-    int nb_hops = admin_dev->mcast_hops;
-    ms.pub_socket->setsockopt(ZMQ_MULTICAST_HOPS,&nb_hops,sizeof(nb_hops));
+    ms.pub_socket->set(zmq::sockopt::multicast_hops,static_cast<int>(admin_dev->mcast_hops));
 
 //
 // Change PGM rate to default value (80 Mbits/sec) or to user defined value
 //
 
-    int local_rate = rate;
-
-    ms.pub_socket->setsockopt(ZMQ_RATE,&local_rate,sizeof(local_rate));
+    ms.pub_socket->set(zmq::sockopt::rate, rate);
 
 //
 // Bind the publisher socket to the specified port
