@@ -127,10 +127,12 @@ if(PTHREAD_WIN)
 endif()
 
 if(NOT WIN32)
-  try_compile(TANGO_CPPZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_cppzmq_features
-              SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_features.cpp
-              COMPILE_DEFINITIONS "-I ${CPPZMQ_BASE}/include -I ${ZMQ_BASE}/include"
-              LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
+  if(NOT DEFINED TANGO_CPPZMQ_USABLE_VERSION)
+    try_compile(TANGO_CPPZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_cppzmq_features
+                SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_features.cpp
+                COMPILE_DEFINITIONS "-I ${CPPZMQ_BASE}/include -I ${ZMQ_BASE}/include"
+                LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
+  endif()
 
   set(msg "Check if cppzmq is present and recent enough: ${TANGO_CPPZMQ_USABLE_VERSION}")
 
@@ -144,13 +146,15 @@ if(NOT WIN32)
   set(ZMQ_MIN_VER_MINOR 0)
   set(ZMQ_MIN_VER_PATCH 5)
 
-  try_compile(TANGO_ZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_zmq_version
-              SOURCES ${CMAKE_SOURCE_DIR}/configure/test_zmq_version.cpp
-              COMPILE_DEFINITIONS "-I ${ZMQ_BASE}/include
-              -DMINIMUM_VERSION_MAJOR=${ZMQ_MIN_VER_MAJOR}
-              -DMINIMUM_VERSION_MINOR=${ZMQ_MIN_VER_MINOR}
-              -DMINIMUM_VERSION_PATCH=${ZMQ_MIN_VER_PATCH}"
-              LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
+  if(NOT DEFINED TANGO_ZMQ_USABLE_VERSION)
+    try_compile(TANGO_ZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_zmq_version
+                SOURCES ${CMAKE_SOURCE_DIR}/configure/test_zmq_version.cpp
+                COMPILE_DEFINITIONS "-I ${ZMQ_BASE}/include
+                -DMINIMUM_VERSION_MAJOR=${ZMQ_MIN_VER_MAJOR}
+                -DMINIMUM_VERSION_MINOR=${ZMQ_MIN_VER_MINOR}
+                -DMINIMUM_VERSION_PATCH=${ZMQ_MIN_VER_PATCH}"
+                LINK_LIBRARIES "$<$<BOOL:${ZMQ_BASE}>:-L ${ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
+  endif()
 
   set(msg "Check if libzmq version is >= ${ZMQ_MIN_VER_MAJOR}.${ZMQ_MIN_VER_MINOR}.${ZMQ_MIN_VER_PATCH}: ${TANGO_ZMQ_USABLE_VERSION}")
 
