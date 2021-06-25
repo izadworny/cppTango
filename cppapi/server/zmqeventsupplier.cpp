@@ -245,12 +245,12 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
     endian_mess.rebuild(1);
     memcpy(endian_mess.data(),&host_endian,1);
 
-    endian_mess_2.copy(&endian_mess);
+    endian_mess_2.copy(endian_mess);
 
     endian_mess_heartbeat.rebuild(1);
     memcpy(endian_mess_heartbeat.data(),&host_endian,1);
 
-    endian_mess_heartbeat_2.copy(&endian_mess_heartbeat);
+    endian_mess_heartbeat_2.copy(endian_mess_heartbeat);
 
 //
 // Init heartbeat call info
@@ -269,7 +269,7 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
     heartbeat_call_mess.rebuild(heartbeat_call_cdr.bufSize());
     memcpy(heartbeat_call_mess.data(),heartbeat_call_cdr.bufPtr(),heartbeat_call_cdr.bufSize());
 
-    heartbeat_call_mess_2.copy(&heartbeat_call_mess);
+    heartbeat_call_mess_2.copy(heartbeat_call_mess);
 
 //
 // Build heartbeat name
@@ -908,8 +908,8 @@ void ZmqEventSupplier::push_heartbeat_event()
 // For reference counting on zmq messages which do not have a local scope
 //
 
-                endian_mess_heartbeat.copy(&endian_mess_heartbeat_2);
-                heartbeat_call_mess.copy(&heartbeat_call_mess_2);
+                endian_mess_heartbeat.copy(endian_mess_heartbeat_2);
+                heartbeat_call_mess.copy(heartbeat_call_mess_2);
 
                 nb_event--;
             }
@@ -917,9 +917,9 @@ void ZmqEventSupplier::push_heartbeat_event()
             {
                 cout3 << "ZmqEventSupplier::push_heartbeat_event() failed !\n";
                 if (endian_mess_sent == true)
-                    endian_mess_heartbeat.copy(&endian_mess_heartbeat_2);
+                    endian_mess_heartbeat.copy(endian_mess_heartbeat_2);
                 if (call_mess_sent == true)
-                    heartbeat_call_mess.copy(&heartbeat_call_mess_2);
+                    heartbeat_call_mess.copy(heartbeat_call_mess_2);
 
                 TangoSys_OMemStream o;
                 o << "Can't push ZMQ heartbeat event for event ";
@@ -1407,9 +1407,9 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 
 		if (send_nb == 2)
 		{
-			name_mess_cpy.copy(&name_mess);
-			event_call_mess_cpy.copy(&event_call_mess);
-			data_mess_cpy.copy(&data_mess);
+			name_mess_cpy.copy(name_mess);
+			event_call_mess_cpy.copy(event_call_mess);
+			data_mess_cpy.copy(data_mess);
 		}
 
 		while(send_nb > 0)
@@ -1464,10 +1464,10 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 						zmq::socket_t *old_pub = pub;
 						pub = event_pub_sock;
 
-						name_mess.copy(&name_mess_cpy);
-						endian_mess.copy(&endian_mess_2);
-						event_call_mess.copy(&event_call_mess_cpy);
-						data_mess.copy(&data_mess_cpy);
+						name_mess.copy(name_mess_cpy);
+						endian_mess.copy(endian_mess_2);
+						event_call_mess.copy(event_call_mess_cpy);
+						data_mess.copy(data_mess_cpy);
 
 						pub->send(*name_mess_ptr,zmq::send_flags::sndmore);
 						pub->send(*endian_mess_ptr,zmq::send_flags::sndmore);
@@ -1478,21 +1478,21 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 						pub = old_pub;
 
 						name_mess_ptr = &name_mess_cpy;
-						endian_mess.copy(&endian_mess_2);
+						endian_mess.copy(endian_mess_2);
 						event_call_mess_ptr = &event_call_mess_cpy;
 						data_mess_ptr = &data_mess_cpy;
 					}
 					else
 					{
 						name_mess_ptr = &name_mess_cpy;
-						endian_mess.copy(&endian_mess_2);
+						endian_mess.copy(endian_mess_2);
 						event_call_mess_ptr = &event_call_mess_cpy;
 						data_mess_ptr = &data_mess_cpy;
 					}
 				}
 
 				name_mess_ptr = &name_mess_cpy;
-				endian_mess.copy(&endian_mess_2);
+				endian_mess.copy(endian_mess_2);
 				event_call_mess_ptr = &event_call_mess_cpy;
 				data_mess_ptr = &data_mess_cpy;
 			}
@@ -1509,7 +1509,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 // For reference counting on zmq messages which do not have a local scope
 //
 
-		endian_mess.copy(&endian_mess_2);
+		endian_mess.copy(endian_mess_2);
 
 //
 // release mutex if we haven't use ZMQ no copy mode
@@ -1533,7 +1533,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 	{
 		cout3 << "ZmqEventSupplier::push_event() failed !!!!!!!!!!!\n";
 		if (endian_mess_sent == true)
-			endian_mess.copy(&endian_mess_2);
+			endian_mess.copy(endian_mess_2);
 
 		if (large_message_created == false)
 			push_mutex.release();
