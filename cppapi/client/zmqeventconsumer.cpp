@@ -203,10 +203,10 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 // Init messages used by multicast event
 //
 
-		zmq_msg_t mcast_received_event_name;
-		zmq_msg_t mcast_received_endian;
-		zmq_msg_t mcast_received_call;
-		zmq_msg_t mcast_received_event_data;
+		zmq::message_t mcast_received_event_name;
+		zmq::message_t mcast_received_endian;
+		zmq::message_t mcast_received_call;
+		zmq::message_t mcast_received_event_data;
 
 //
 // Wait for message. The try/catch is usefull when the process is running under gdb control
@@ -367,33 +367,24 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 
 //
 // Something received by the event socket (mcast transport)?
-//
-// What is stored in the zmq::pollitem_t structure is the real C zmq socket, not the C++ zmq::socket_t class instance.
-// There is no way to create a zmq::socket_t class instance from a C zmq socket. Only in 11/2012, some C++11 move
-// ctor/assignment operator has been added to the socket_t class allowing creation of zmq::socket_t class from C zmq
-// socket. Nevertheless, today (11/2012), it is still not official
-//
 
 		for (int loop = 3;loop < nb_poll_item;loop++)
 		{
 			if (items[loop].revents & ZMQ_POLLIN)
 			{
-				zmq_msg_init(&mcast_received_event_name);
-				zmq_msg_init(&mcast_received_endian);
-				zmq_msg_init(&mcast_received_call);
-				zmq_msg_init(&mcast_received_event_data);
+				mcast_received_event_name.rebuild();
+				mcast_received_endian.rebuild();
+				mcast_received_call.rebuild();
+				mcast_received_event_data.rebuild();
 
-				zmq_recvmsg(items[loop].socket,&mcast_received_event_name,0);
-				zmq_recvmsg(items[loop].socket,&mcast_received_endian,0);
-				zmq_recvmsg(items[loop].socket,&mcast_received_call,0);
-				zmq_recvmsg(items[loop].socket,&mcast_received_event_data,0);
+				zmq::socket_ref s(zmq::from_handle, items[loop].socket);
+
+				s.recv(mcast_received_event_name, zmq::recv_flags::none);
+				s.recv(mcast_received_endian, zmq::recv_flags::none);
+				s.recv(mcast_received_call, zmq::recv_flags::none);
+				s.recv(mcast_received_event_data, zmq::recv_flags::none);
 
 				process_event(mcast_received_event_name,mcast_received_endian,mcast_received_call,mcast_received_event_data);
-
-				zmq_msg_close(&mcast_received_event_name);
-				zmq_msg_close(&mcast_received_endian);
-				zmq_msg_close(&mcast_received_call);
-				zmq_msg_close(&mcast_received_event_data);
 
 				items[loop].revents = 0;
 			}
@@ -584,87 +575,6 @@ void ZmqEventConsumer::process_event(zmq::message_t &received_event_name,zmq::me
 //
 
     push_zmq_event(event_name,endian,event_data,receiv_call->call_is_except,receiv_call->ctr);
-
-}
-
-
-void ZmqEventConsumer::process_event(zmq_msg_t &received_event_name,zmq_msg_t &received_endian,zmq_msg_t &received_call,zmq_msg_t &event_data)
-{
-//
-// For debug and logging purposes
-//
-
-    if (omniORB::trace(20))
-    {
-        omniORB::logger log;
-        log << "ZMQ: A event message has been received" << '\n';
-    }
-    if (omniORB::trace(30))
-    {
-        {
-            omniORB::logger log;
-            log << "ZMQ: Event name" << '\n';
-        }
-        omni::giopStream::dumpbuf((unsigned char *)zmq_msg_data(&received_event_name),zmq_msg_size(&received_event_name));
-
-        {
-            omniORB::logger log;
-            log << "ZMQ: Endianness" << '\n';
-        }
-        omni::giopStream::dumpbuf((unsigned char *)zmq_msg_data(&received_endian),zmq_msg_size(&received_endian));
-
-        {
-            omniORB::logger log;
-            log << "ZMQ: Call info" << '\n';
-        }
-        omni::giopStream::dumpbuf((unsigned char *)zmq_msg_data(&received_call),zmq_msg_size(&received_call));
-
-        {
-            omniORB::logger log;
-            log << "ZMQ: Event data" << '\n';
-        }
-        omni::giopStream::dumpbuf((unsigned char *)zmq_msg_data(&event_data),zmq_msg_size(&event_data));
-    }
-
-//
-// Extract data from messages
-//
-
-    const ZmqCallInfo *receiv_call;
-
-    unsigned char endian = ((char *)zmq_msg_data(&received_endian))[0];
-    std::string event_name((char *)zmq_msg_data(&received_event_name),zmq_msg_size(&received_event_name));
-
-    cdrMemoryStream call_info((char *)zmq_msg_data(&received_call),zmq_msg_size(&received_call));
-    call_info.setByteSwapFlag(endian);
-
-    ZmqCallInfo_var c_info_var = new ZmqCallInfo;
-    try
-    {
-        (ZmqCallInfo &)c_info_var <<= call_info;
-    }
-    catch (...)
-    {
-        std::string st("Received a malformed event call info data for event ");
-		st = st + event_name;
-		print_error_message(st.c_str());
-        unsigned char *tmp = (unsigned char *)zmq_msg_data(&received_call);
-        for (unsigned int loop = 0;loop < zmq_msg_size(&received_call);loop++)
-        {
-           std::cerr << "Event data[" << loop << "] = " << std::hex << (int)tmp[loop] << std::dec << std::endl;
-        }
-        return;
-    }
-    receiv_call = &c_info_var.in();
-
-//
-// Call the event method
-//
-
-    zmq::message_t cpp_ev_data;
-    cpp_ev_data.rebuild(zmq_msg_data(&event_data),zmq_msg_size(&event_data),NULL);
-
-    push_zmq_event(event_name,endian,cpp_ev_data,receiv_call->call_is_except,receiv_call->ctr);
 
 }
 
