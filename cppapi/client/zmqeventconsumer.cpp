@@ -350,7 +350,7 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 
 			zmq::message_t reply(ret_str.size());
 			::memcpy((void *)reply.data(),ret_str.data(),ret_str.size());
-			control_sock->send(reply);
+			control_sock->send(reply, zmq::send_flags::none);
 
 			if (ret == true)
 			{
@@ -1209,7 +1209,7 @@ void ZmqEventConsumer::cleanup_EventChannel_map()
 
         zmq::message_t send_data(length);
         ::memcpy(send_data.data(),buffer,length);
-        sender.send(send_data);
+        sender.send(send_data, zmq::send_flags::none);
 
         sender.recv(reply);
     }
@@ -1376,8 +1376,7 @@ void ZmqEventConsumer::connect_event_channel(std::string &channel_name,TANGO_UNU
 
         zmq::message_t send_data(length);
         ::memcpy(send_data.data(),buffer,length);
-
-        sender.send(send_data);
+        sender.send(send_data, zmq::send_flags::none);
 
         sender.recv(reply);
     }
@@ -1507,7 +1506,7 @@ void ZmqEventConsumer::disconnect_event_channel(std::string &channel_name,std::s
 
         zmq::message_t send_data(length);
         ::memcpy(send_data.data(),buffer,length);
-        sender.send(send_data);
+        sender.send(send_data, zmq::send_flags::none);
 
         sender.recv(reply);
     }
@@ -1600,7 +1599,7 @@ void ZmqEventConsumer::disconnect_event(std::string &event_name,std::string &end
 
         zmq::message_t send_data(length);
         ::memcpy(send_data.data(),buffer,length);
-        sender.send(send_data);
+        sender.send(send_data, zmq::send_flags::none);
 
         sender.recv(reply);
     }
@@ -1765,8 +1764,7 @@ void ZmqEventConsumer::connect_event_system(TANGO_UNUSED(std::string &device_nam
 
         zmq::message_t send_data(length);
         ::memcpy(send_data.data(),buffer,length);
-
-        sender.send(send_data);
+        sender.send(send_data, zmq::send_flags::none);
 
         sender.recv(reply);
     }
@@ -4008,7 +4006,7 @@ DelayEvent::DelayEvent(EventConsumer *ec):released(false),eve_con(NULL)
 
             zmq::message_t send_data(length);
             ::memcpy(send_data.data(),buffer,length);
-            sender.send(send_data);
+            sender.send(send_data, zmq::send_flags::none);
 
             sender.recv(reply);
         }
@@ -4086,7 +4084,7 @@ void DelayEvent::release()
 
             zmq::message_t send_data(length);
             ::memcpy(send_data.data(),buffer,length);
-            sender.send(send_data);
+            sender.send(send_data, zmq::send_flags::none);
 
             sender.recv(reply);
             released = true;

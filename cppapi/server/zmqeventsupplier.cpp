@@ -883,10 +883,10 @@ void ZmqEventSupplier::push_heartbeat_event()
 
                 adm_dev->last_heartbeat_zmq = now_time;
 
-                heartbeat_pub_sock->send(name_mess,ZMQ_SNDMORE);
-                heartbeat_pub_sock->send(endian_mess_heartbeat,ZMQ_SNDMORE);
+                heartbeat_pub_sock->send(name_mess,zmq::send_flags::sndmore);
+                heartbeat_pub_sock->send(endian_mess_heartbeat,zmq::send_flags::sndmore);
                 endian_mess_sent = true;
-                heartbeat_pub_sock->send(heartbeat_call_mess,0);
+                heartbeat_pub_sock->send(heartbeat_call_mess,zmq::send_flags::none);
                 call_mess_sent = true;
 
 //
@@ -901,7 +901,7 @@ void ZmqEventSupplier::push_heartbeat_event()
                 memcpy(dummy_mess.data(),(void *)dummy_message.data(),dummy_message.size());
 
                 push_mutex.lock();
-                event_pub_sock->send(dummy_mess);
+                event_pub_sock->send(dummy_mess, zmq::send_flags::none);
                 push_mutex.unlock();
 
 //
@@ -1419,32 +1419,30 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 // Push the event
 //
 
-			bool ret;
-
-			ret = pub->send(*name_mess_ptr,ZMQ_SNDMORE);
-			if (ret == false)
+			auto ret = pub->send(*name_mess_ptr,zmq::send_flags::sndmore);
+			if (!ret)
 			{
 				std::cerr << "Name message returned false, assertion!!!!" << std::endl;
 				assert(false);
 			}
 
-			ret = pub->send(*endian_mess_ptr,ZMQ_SNDMORE);
-			if (ret == false)
+			ret = pub->send(*endian_mess_ptr,zmq::send_flags::sndmore);
+			if (!ret)
 			{
 				std::cerr << "Endian message returned false, assertion!!!!" << std::endl;
 				assert(false);
 			}
 			endian_mess_sent = true;
 
-			ret = pub->send(*event_call_mess_ptr,ZMQ_SNDMORE);
-			if (ret == false)
+			ret = pub->send(*event_call_mess_ptr,zmq::send_flags::sndmore);
+			if (!ret)
 			{
 				std::cerr << "Call message returned false, assertion!!!!" << std::endl;
 				assert(false);
 			}
 
-			ret = pub->send(*data_mess_ptr,0);
-			if (ret == false)
+			ret = pub->send(*data_mess_ptr,zmq::send_flags::none);
+			if (!ret)
 			{
 				std::cerr << "Data message returned false, assertion!!!!" << std::endl;
 				assert(false);
@@ -1471,11 +1469,11 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 						event_call_mess.copy(&event_call_mess_cpy);
 						data_mess.copy(&data_mess_cpy);
 
-						pub->send(*name_mess_ptr,ZMQ_SNDMORE);
-						pub->send(*endian_mess_ptr,ZMQ_SNDMORE);
+						pub->send(*name_mess_ptr,zmq::send_flags::sndmore);
+						pub->send(*endian_mess_ptr,zmq::send_flags::sndmore);
 						endian_mess_sent = true;
-						pub->send(*event_call_mess_ptr,ZMQ_SNDMORE);
-						pub->send(*data_mess_ptr,0);
+						pub->send(*event_call_mess_ptr,zmq::send_flags::sndmore);
+						pub->send(*data_mess_ptr,zmq::send_flags::none);
 
 						pub = old_pub;
 
