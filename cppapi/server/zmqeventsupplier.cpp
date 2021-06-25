@@ -385,7 +385,7 @@ void ZmqEventSupplier::tango_bind(zmq::socket_t *sock,std::string &endpoint)
 
 	try
 	{
-		sock->bind(base_endpoint.c_str());
+		sock->bind(base_endpoint);
 
 		std::string str = sock->get(zmq::sockopt::last_endpoint);
 
