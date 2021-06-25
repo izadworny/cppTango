@@ -3016,6 +3016,9 @@ FwdEventData *ZmqEventConsumer::newFwdEventData(zmq::message_t &event_data,
 //		Do some ZMQ specific tasks like checking release compatibility or lower case the admin device name
 //		which is used in the heartbeat event name.
 //
+//		Even if the current Tango  version does not work with zmq 3.x we need to keep these checks as the
+//		other tango version across the network might still be using an old zmq version.
+//
 // argument :
 //		in :
 //			- dd : The result of the event subscription command
