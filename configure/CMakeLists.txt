@@ -126,22 +126,6 @@ if(PTHREAD_WIN)
     endif()
 endif()
 
-#####  Ensure zmq.hpp file is present #####
-include(CheckIncludeFileCXX)
-# set CMAKE_REQUIRED_INCLUDES to take the currently defined include directories into account when looking for zmq.hpp
-get_property(CMAKE_REQUIRED_INCLUDES DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
-# Clear HAVE_ZMQ_HPP variable from the cache to force the check every time
-# Thanks to this, the user do not have to clear the CMake cache himself when using different -DCPPZMQ_BASE options
-unset(HAVE_ZMQ_HPP CACHE)
-CHECK_INCLUDE_FILE_CXX(zmq.hpp HAVE_ZMQ_HPP)
-if(NOT HAVE_ZMQ_HPP)
-    message(FATAL_ERROR "zmq.hpp include file not found. \n
-Please install cppzmq (https://github.com/zeromq/cppzmq) on your system and/or use \
--DCPPZMQ_BASE=<cppzmq home folder> option to specify where zmq.hpp file is installed \
-(CMake will look for it under <CPPZMQ_BASE>/include, <ZMQ_BASE>/include, \
-<OMNI_BASE>/include and system include directories).")
-endif()
-
 if(NOT WIN32)
   try_compile(TANGO_CPPZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_cppzmq_features
               SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_features.cpp
