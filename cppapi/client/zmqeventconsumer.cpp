@@ -230,27 +230,26 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 		if (items[1].revents & ZMQ_POLLIN)
 		{
 //cout << "For the heartbeat socket" << std::endl;
-			bool res;
 			try
 			{
-				res = heartbeat_sub_sock->recv(&received_event_name,ZMQ_DONTWAIT);
-				if (res == false)
+				auto res = heartbeat_sub_sock->recv(received_event_name,zmq::recv_flags::dontwait);
+				if (!res)
 				{
 					print_error_message("First Zmq recv call on heartbeat socket returned false! De-synchronized event system?");
 					items[1].revents = 0;
 					continue;
 				}
 
-				res = heartbeat_sub_sock->recv(&received_endian,ZMQ_DONTWAIT);
-				if (res == false)
+				res = heartbeat_sub_sock->recv(received_endian,zmq::recv_flags::dontwait);
+				if (!res)
 				{
 					print_error_message("Second Zmq recv call on heartbeat socket returned false! De-synchronized event system?");
 					items[1].revents = 0;
 					continue;
 				}
 
-				res = heartbeat_sub_sock->recv(&received_call,ZMQ_DONTWAIT);
-				if (res == false)
+				res = heartbeat_sub_sock->recv(received_call,zmq::recv_flags::dontwait);
+				if (!res)
 				{
 					print_error_message("Third Zmq recv call on heartbeat socket returned false! De-synchronized event system?");
 					items[1].revents = 0;
@@ -276,36 +275,34 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 
 		if (items[2].revents & ZMQ_POLLIN)
 		{
-//cout << "For the event socket" << std::endl;
-			bool res;
 			try
 			{
-				res = event_sub_sock->recv(&received_event_name,ZMQ_DONTWAIT);
-				if (res == false)
+				auto res = event_sub_sock->recv(received_event_name,zmq::recv_flags::dontwait);
+				if (!res)
 				{
 					print_error_message("First Zmq recv call on event socket returned false! De-synchronized event system?");
 					items[2].revents = 0;
 					continue;
 				}
 
-				res = event_sub_sock->recv(&received_endian,ZMQ_DONTWAIT);
-				if (res == false)
+				res = event_sub_sock->recv(received_endian,zmq::recv_flags::dontwait);
+				if (!res)
 				{
 					print_error_message("Second Zmq recv call on event socket returned false! De-synchronized event system?");
 					items[2].revents = 0;
 					continue;
 				}
 
-				res = event_sub_sock->recv(&received_call,ZMQ_DONTWAIT);
-				if (res == false)
+				res = event_sub_sock->recv(received_call,zmq::recv_flags::dontwait);
+				if(!res)
 				{
 					print_error_message("Third Zmq recv call on event socket returned false! De-synchronized event system?");
 					items[2].revents = 0;
 					continue;
 				}
 
-				res = event_sub_sock->recv(&received_event_data,ZMQ_DONTWAIT);
-				if (res == false)
+				res = event_sub_sock->recv(received_event_data,zmq::recv_flags::dontwait);
+				if(!res)
 				{
 					print_error_message("Forth Zmq recv call on event socket returned false! De-synchronized event system?");
 					items[2].revents = 0;
@@ -332,7 +329,7 @@ void *ZmqEventConsumer::run_undetached(TANGO_UNUSED(void *arg))
 		if (items[0].revents & ZMQ_POLLIN)
 		{
 //cout << "For the control socket" << std::endl;
-			control_sock->recv(&received_ctrl);
+			control_sock->recv(received_ctrl);
 
 			std::string ret_str;
 			bool ret = false;
@@ -1214,7 +1211,7 @@ void ZmqEventConsumer::cleanup_EventChannel_map()
         ::memcpy(send_data.data(),buffer,length);
         sender.send(send_data);
 
-        sender.recv(&reply);
+        sender.recv(reply);
     }
     catch(zmq::error_t &) {}
 }
@@ -1382,7 +1379,7 @@ void ZmqEventConsumer::connect_event_channel(std::string &channel_name,TANGO_UNU
 
         sender.send(send_data);
 
-        sender.recv(&reply);
+        sender.recv(reply);
     }
     catch(zmq::error_t &e)
     {
@@ -1512,7 +1509,7 @@ void ZmqEventConsumer::disconnect_event_channel(std::string &channel_name,std::s
         ::memcpy(send_data.data(),buffer,length);
         sender.send(send_data);
 
-        sender.recv(&reply);
+        sender.recv(reply);
     }
     catch (zmq::error_t &e)
     {
@@ -1605,7 +1602,7 @@ void ZmqEventConsumer::disconnect_event(std::string &event_name,std::string &end
         ::memcpy(send_data.data(),buffer,length);
         sender.send(send_data);
 
-        sender.recv(&reply);
+        sender.recv(reply);
     }
     catch (zmq::error_t &e)
     {
@@ -1771,7 +1768,7 @@ void ZmqEventConsumer::connect_event_system(TANGO_UNUSED(std::string &device_nam
 
         sender.send(send_data);
 
-        sender.recv(&reply);
+        sender.recv(reply);
     }
     catch(zmq::error_t &e)
     {
@@ -4013,7 +4010,7 @@ DelayEvent::DelayEvent(EventConsumer *ec):released(false),eve_con(NULL)
             ::memcpy(send_data.data(),buffer,length);
             sender.send(send_data);
 
-            sender.recv(&reply);
+            sender.recv(reply);
         }
         catch (zmq::error_t &e)
         {
@@ -4091,7 +4088,7 @@ void DelayEvent::release()
             ::memcpy(send_data.data(),buffer,length);
             sender.send(send_data);
 
-            sender.recv(&reply);
+            sender.recv(reply);
             released = true;
 			eve_con->subscription_monitor.rel_monitor();
         }
