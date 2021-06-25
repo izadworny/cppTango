@@ -3487,10 +3487,7 @@ void ZmqEventConsumer::get_subscribed_event_ids(DeviceProxy *_dev,std::vector<in
  */
 void ZmqEventConsumer::set_socket_hwm(int hwm)
 {
-    int current_sub_hwm = SUB_HWM;
-    size_t curr_sub_hw_size = sizeof(current_sub_hwm);
-    event_sub_sock->getsockopt(ZMQ_RCVHWM,&current_sub_hwm, &curr_sub_hw_size);
-    if(hwm != current_sub_hwm)
+    if(hwm != event_sub_sock->get(zmq::sockopt::rcvhwm))
     {
         event_sub_sock->set(zmq::sockopt::rcvhwm, hwm);
     }

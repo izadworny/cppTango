@@ -383,16 +383,12 @@ void ZmqEventSupplier::tango_bind(zmq::socket_t *sock,std::string &endpoint)
     std::string base_endpoint(endpoint);
     base_endpoint = base_endpoint + "*";
 
-    char buf[80];
-    size_t buf_len = sizeof(buf);
-
 	try
 	{
 		sock->bind(base_endpoint.c_str());
 
-		sock->getsockopt(ZMQ_LAST_ENDPOINT,buf,&buf_len);
+		std::string str = sock->get(zmq::sockopt::last_endpoint);
 
-		std::string str(buf);
 		std::string::size_type pos = str.rfind(':');
 		std::string port_str = str.substr(pos + 1);
 		endpoint = endpoint + port_str;
