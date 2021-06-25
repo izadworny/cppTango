@@ -1147,7 +1147,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 		mess_ptr = ev_value.zmq_mess->data();
 		mess_size = ev_value.zmq_mess->size();
 
-		data_mess.move(ev_value.zmq_mess);
+		data_mess.move(*(ev_value.zmq_mess));
 	}
 	else
 	{
