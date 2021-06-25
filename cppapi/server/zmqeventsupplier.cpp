@@ -676,12 +676,16 @@ void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,Mcas
 // Bind the publisher socket to the specified port
 //
 
-    if (zmq_bind(static_cast<void*>(*ms.pub_socket),ms.endpoint.c_str()) != 0)
+    try
+    {
+      ms.pub_socket->bind(ms.endpoint);
+    }
+    catch(zmq::error_t &e)
     {
         TangoSys_OMemStream o;
         o << "Can't bind ZMQ socket with endpoint ";
         o << ms.endpoint;
-        o << "\nZmq error: " << zmq_strerror(zmq_errno()) << std::ends;
+        o << "\nZmq error: " << e.what() << std::ends;
 
         Except::throw_exception((const char *)API_ZmqFailed,
                                     o.str(),
