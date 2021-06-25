@@ -340,4 +340,4 @@ run-clang-tidy.py -header-filter='.*' 'cppapi/(?!server/idl)' 'log4tango/src'
 For faster development it is possible to execute gitlab CI jobs locally on the development machine.
 
 * Install gitlab runner, see https://docs.gitlab.com/runner/install
-* `gitlab-runner exec --env "MAKEFLAGS=-j NUMBER_OF_CPUS" JOBNAME`
+* `gitlab-runner exec docker --env "MAKEFLAGS=-j NUMBER_OF_CPUS" JOBNAME`
