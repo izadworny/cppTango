@@ -356,6 +356,7 @@ clang-tidy:
       - code-quality-report.json
       - code-quality-report.html
 
+# job to build against custom library locations and minimum support version of dependent libraries
 cmake-with-locations:
   image: debian:buster
   variables:
