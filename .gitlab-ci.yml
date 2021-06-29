@@ -365,7 +365,7 @@ cmake-with-locations-and-min-versions:
   services: []
   parallel:
     matrix:
-      - BUILD_TYPE: [Release, Debug]
+      - BUILD_TYPE: [Release, Debug, RelWithDebInfo, MinSizeRel]
   before_script:
     - apt-get update
     - >
