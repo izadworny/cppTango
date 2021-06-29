@@ -160,13 +160,10 @@ endif()
 
 if(NOT WIN32)
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        message("found GNU compiler ...")
         if(CMAKE_BUILD_TYPE STREQUAL "Release")
-            message("setup for release build ...")
             add_definitions(-D_FORTIFY_SOURCE=2)
             add_compile_options(-fstack-protector-strong)
         else()
-            message("setup for debug build ...")
             add_compile_options(-Wall -Wextra -Wformat -Werror=format-security -pedantic -Og -g)
         endif()
 
