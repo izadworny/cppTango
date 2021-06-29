@@ -387,30 +387,43 @@ cmake-with-locations-and-min-versions:
   variables:
     DEBIAN_FRONTEND: noninteractive
   services: []
+  parallel:
+    matrix:
+      - BUILD_TYPE: [Release, Debug]
   before_script:
     - apt-get update
     - >
       apt-get install -y
       build-essential
-      cmake
       curl
       git
       pkg-config
       python3-dev
       python3-minimal
+    # Install cmake
+    - curl -L https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh -o /tmp/cmake-install.sh
+    - chmod +x /tmp/cmake-install.sh
+    - cd /usr/local
+    - /tmp/cmake-install.sh --skip-license --exclude-subdir
     # Install tango-idl
     - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
-    - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
-    - make -C /idl/build install
+    - mkdir /idl/build
+    - cd /idl/build
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
+    - make install
     # Install libzmq
     - git clone -b v4.0.5 --depth 1 https://github.com/zeromq/zeromq4-x.git /zmq
-    - cmake -B /zmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/zmq /zmq
-    - make -C /zmq/build install
+    - mkdir /zmq/build
+    - cd /zmq/build
+    - cmake -DCMAKE_INSTALL_PREFIX=/usr/local/zmq /zmq
+    - make install
     # Install cppzmq
     - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - mkdir /cppzmq/build
+    - cd /cppzmq/build
     - export PKG_CONFIG_PATH=/usr/local/zmq/lib/pkgconfig
-    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq /cppzmq
-    - make -C /cppzmq/build install
+    - cmake -DCPPZMQ_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq /cppzmq
+    - make install
     # Install omniORB
     - curl -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.1/omniORB-4.2.1.tar.bz2/download -o /omniORB.tar.bz2
     - mkdir /omniORB
@@ -421,16 +434,17 @@ cmake-with-locations-and-min-versions:
     - make install
     - cd $CI_PROJECT_DIR
     - mkdir build
+    - cd build
   script:
     - >
-      cmake . -B build
+      cmake ..
       -DCMAKE_BUILD_TYPE=Debug
       -DBUILD_TESTING=ON
       -DCPPZMQ_BASE=/usr/local/cppzmq
       -DIDL_BASE=/usr/local/tango-idl
       -DOMNI_BASE=/usr/local/omniORB
       -DZMQ_BASE=/usr/local/zmq
-    - make -C build
+    - make
 
 alpine:
   image: alpine:3.13
@@ -468,15 +482,16 @@ alpine:
     - cd $CI_PROJECT_DIR
     - mkdir build
   script:
+    - cd build
     - >
-      cmake . -B build
-      -DCMAKE_BUILD_TYPE=Debug
+      cmake ..
+      -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       -DBUILD_TESTING=ON
       -DCPPZMQ_BASE=/usr/local/cppzmq
       -DIDL_BASE=/usr/local/tango-idl
       -DOMNI_BASE=/usr/local/omniORB
       -DZMQ_BASE=/usr/local/zmq
-    - make -C build
+    - make
 
 doxygen-documentation:
   image: debian:buster
