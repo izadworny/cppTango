@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.8.12)
 
+# don't let cmake guess file extensions
+if(POLICY CMP0115)
+    cmake_policy(SET CMP0115 NEW)
+endif()
+
 project(cppTango)
 
 include(CTest)
