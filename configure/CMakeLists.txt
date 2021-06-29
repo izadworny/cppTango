@@ -200,11 +200,13 @@ if(NOT WIN32)
 
     #setup for GNU CXX compiler
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        if(CMAKE_BUILD_TYPE STREQUAL "Release")
+      if(CMAKE_BUILD_TYPE MATCHES "(Release|RelWithDebInfo|MinSizeRel)")
             add_definitions(-D_FORTIFY_SOURCE=2)
-        else()
+      elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
             add_compile_options(-O0 -Wall -Wextra -pedantic)
-        endif()
+      else()
+          message(FATAL_ERROR "Invalid CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+      endif()
     endif()
 endif()
 

@@ -24,7 +24,7 @@
 - `-DOMNI_BASE=<omniORB4 home folder>`
 - `-DCPPZMQ_BASE=<cppzmq home folder>`
 - `-DZMQ_BASE=<zmq home folder>`
-- `-DCMAKE_BUILD_TYPE=<Release|Debug>`
+- `-DCMAKE_BUILD_TYPE=<Release|Debug|RelWithDebInfo|MinSizeRel>` `RelWithDebInfo` and `MinSizeRel` are Linux only
 - `-DCMAKE_VERBOSE_MAKEFILE=true`
 - `-DTANGO_USE_USING_NAMESPACE=<ON|OFF>` choose `OFF` for modern builds
 - `-DBUILD_TESTING=<ON|OFF>` Build the test suite (`ON` by default)
