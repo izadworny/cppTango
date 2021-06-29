@@ -200,12 +200,9 @@ if(NOT WIN32)
 
     #setup for GNU CXX compiler
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        message("found GNU compiler ...")
         if(CMAKE_BUILD_TYPE STREQUAL "Release")
-            message("setup for release build ...")
             add_definitions(-D_FORTIFY_SOURCE=2)
         else()
-            message("setup for debug build ...")
             add_compile_options(-O0 -Wall -Wextra -pedantic)
         endif()
     endif()
