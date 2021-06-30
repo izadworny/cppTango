@@ -1102,13 +1102,13 @@ int EventConsumer::subscribe_event (DeviceProxy *device,
 	if (!device)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"DeviceProxy* is nullptr and stateful (stateless == false) mode is used.",
+                       	"DeviceProxy* is a nullptr.",
 												"EventConsumer::subscribe_event()");
 	}
-	else if (stateless && !callback)
+	else if (!callback)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"Callback* is nullptr and stateless mode is used.",
+                       	"Callback* is a nullptr.",
                        	"EventConsumer::subscribe_event()");
 	}
 
@@ -1151,7 +1151,7 @@ int EventConsumer::subscribe_event (DeviceProxy *device,
 	else if (!device)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"DeviceProxy* is nullptr and stateful (stateless == false) mode is used.",
+                       	"DeviceProxy* is a nullptr",
                        	"EventConsumer::subscribe_event()");
 	}
 

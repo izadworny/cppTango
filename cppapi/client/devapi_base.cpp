@@ -6042,7 +6042,7 @@ void DeviceProxy::read_attribute(const std::string &attr_str, AttributeValue_4 *
     int ctr = 0;
     Tango::DevSource local_source;
 
-    if (version < 4)
+    if (version > 0 && version < 4)
     {
         std::stringstream ss;
         ss << "Device " << dev_name()
@@ -6100,7 +6100,7 @@ void DeviceProxy::read_attribute(const std::string &attr_str, AttributeValue_5 *
     int ctr = 0;
     Tango::DevSource local_source;
 
-    if (version < 5)
+    if (version > 0 && version < 5)
     {
         std::stringstream ss;
         ss << "Device " << dev_name()
@@ -6943,7 +6943,7 @@ void DeviceProxy::write_attribute(const AttributeValueList_4 &attr_val)
 // Check that the device supports IDL V4
 //
 
-    if (version < 4)
+    if (version > 0 && version < 4)
     {
         TangoSys_OMemStream desc;
         desc << "Failed to write_attribute on device " << device_name;
@@ -8193,7 +8193,7 @@ int DeviceProxy::subscribe_event(const std::string &attr_name, EventType event,
 
 int DeviceProxy::subscribe_event(EventType event, CallBack *callback, bool stateless)
 {
-    if (version < MIN_IDL_DEV_INTR)
+    if (version > 0 && version < MIN_IDL_DEV_INTR)
     {
         std::stringstream ss;
         ss << "Device " << dev_name() << " does not support device interface change event\n";
@@ -8227,7 +8227,7 @@ int DeviceProxy::subscribe_event(EventType event, CallBack *callback, bool state
 
 int DeviceProxy::subscribe_event(EventType event, int event_queue_size, bool stateless)
 {
-    if (version < MIN_IDL_DEV_INTR)
+    if (version > 0 && version < MIN_IDL_DEV_INTR)
     {
         std::stringstream ss;
         ss << "Device " << dev_name() << " does not support device interface change event\n";
