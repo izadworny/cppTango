@@ -1099,10 +1099,17 @@ int EventConsumer::subscribe_event (DeviceProxy *device,
 				   const std::vector<std::string> &filters,
 					bool stateless)
 {
-	if ((device == NULL) || (callback == NULL))
+	if (!device)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"Device or callback pointer NULL","EventConsumer::subscribe_event()");
+                       	"DeviceProxy* is nullptr and stateful (stateless == false) mode is used.",
+												"EventConsumer::subscribe_event()");
+	}
+	else if (stateless && !callback)
+	{
+		EventSystemExcept::throw_exception(API_InvalidArgs,
+                       	"Callback* is nullptr and stateless mode is used.",
+                       	"EventConsumer::subscribe_event()");
 	}
 
 	return (subscribe_event (device, attribute, event, callback, NULL, filters, stateless));
@@ -1135,10 +1142,16 @@ int EventConsumer::subscribe_event (DeviceProxy *device,
 				   const std::vector<std::string> &filters,
 				   bool stateless)
 {
-	if ((device == NULL) || (event_queue_size < 0))
+	if (event_queue_size < 0)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"Device pointer is NULL or the event queue size is invalid",
+                       	"Event queue size is invalid",
+                       	"EventConsumer::subscribe_event()");
+	}
+	else if (!device)
+	{
+		EventSystemExcept::throw_exception(API_InvalidArgs,
+                       	"DeviceProxy* is nullptr and stateful (stateless == false) mode is used.",
                        	"EventConsumer::subscribe_event()");
 	}
 
@@ -1291,10 +1304,23 @@ int EventConsumer::subscribe_event (DeviceProxy *device,
 				   CallBack *callback,
 				   bool stateless)
 {
-	if ((device == NULL) || (callback == NULL) || (event != INTERFACE_CHANGE_EVENT))
+	if (event != INTERFACE_CHANGE_EVENT)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"Device,callback pointer NULL or unsupported event type","EventConsumer::subscribe_event()");
+                       	"Unsupported event type",
+												"EventConsumer::subscribe_event()");
+	}
+	else if (!device)
+	{
+		EventSystemExcept::throw_exception(API_InvalidArgs,
+                       	"DeviceProxy* is nullptr and stateful (stateless == false) mode is used.",
+												"EventConsumer::subscribe_event()");
+	}
+	else if (stateless && !callback)
+	{
+		EventSystemExcept::throw_exception(API_InvalidArgs,
+                       	"Callback* is nullptr and stateless mode is used.",
+                       	"EventConsumer::subscribe_event()");
 	}
 
 	std::vector<std::string> filters;
@@ -1307,10 +1333,23 @@ int EventConsumer::subscribe_event (DeviceProxy *device,
 				   int event_queue_size,
 				   bool stateless)
 {
-	if ((device == NULL) || (event != INTERFACE_CHANGE_EVENT))
+	if (event_queue_size < 0)
 	{
 		EventSystemExcept::throw_exception(API_InvalidArgs,
-                       	"Device NULL or unsupported event type","EventConsumer::subscribe_event()");
+                       	"Event queue size is invalid",
+                       	"EventConsumer::subscribe_event()");
+	}
+	else if (event != INTERFACE_CHANGE_EVENT)
+	{
+		EventSystemExcept::throw_exception(API_InvalidArgs,
+                       	"Unsupported event type",
+                       	"EventConsumer::subscribe_event()");
+	}
+	else if (!device)
+	{
+		EventSystemExcept::throw_exception(API_InvalidArgs,
+                       	"DeviceProxy* is nullptr and stateful (stateless == false) mode is used.",
+                       	"EventConsumer::subscribe_event()");
 	}
 
 	std::vector<std::string> filters;
