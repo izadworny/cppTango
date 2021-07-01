@@ -37,16 +37,12 @@ function(tango_add_test name_tag name command_tag command)
         ${ARGN})
 endfunction()
 
-add_subdirectory(cxxtest)
-
-add_subdirectory(old_tests)
-add_subdirectory(new_tests)
-
-
 add_subdirectory(asyn)
-add_subdirectory(event)
-
 add_subdirectory(cpp_test_ds)
+add_subdirectory(cxxtest)
+add_subdirectory(event)
+add_subdirectory(new_tests)
+add_subdirectory(old_tests)
 
 if(USE_PCH)
     tango_add_pch(tango_test_pch cxx_syntax "${OMNIORB_PKG_CFLAGS_OTHER}")
