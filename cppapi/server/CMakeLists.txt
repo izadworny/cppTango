@@ -165,7 +165,7 @@ else()
     endif()
     if(USE_PCH)
         tango_add_pch(tango_pch server_objects "")
-        tango_target_pch(server_objects tango_pch)
+        tango_target_pch(server_objects)
     endif()
 endif()
 
