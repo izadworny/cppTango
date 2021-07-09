@@ -46,7 +46,6 @@ workflow:
         -v `pwd`/.sonar:/home/tango/.sonar
         -v `pwd`/idl:/home/tango/idl
         -v `pwd`/cppzmq:/home/tango/cppzmq
-        -v `pwd`/tango_admin:/home/tango/tango_admin
         -v `pwd`/coveralls-cmake:/home/tango/coveralls-cmake
         -v `pwd`/build-wrapper-linux-x86:/home/tango/build-wrapper-linux-x86
         -v `pwd`/sonar-scanner:/home/tango/sonar-scanner
@@ -57,8 +56,6 @@ workflow:
   script:
     - set -e
     - .travis/run.sh
-    - .travis/install_tango.sh
-    - .travis/install_tango_admin.sh
     - .travis/test.sh
     - set +e
     - test ${SONAR_SCANNER} = "ON" && .travis/sonar.sh || true

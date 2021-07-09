@@ -48,9 +48,5 @@ server_path="${3:-cpp_test_ds}"
     exit "$server_exit_code"
 ) &
 
-if hash tango_admin 2>/dev/null; then
-    instance_lower="$(echo "$server/$instance" | awk '{print tolower($0)}')"
-    tango_admin --ping-device "dserver/${instance_lower}" 7
-else
-    sleep 7
-fi
+instance_lower="$(echo "$server/$instance" | awk '{print tolower($0)}')"
+"@CMAKE_CURRENT_BINARY_DIR@/tango_admin.sh" --ping-device "dserver/${instance_lower}" 7
