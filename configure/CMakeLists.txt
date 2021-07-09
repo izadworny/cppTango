@@ -175,6 +175,35 @@ if(NOT WIN32)
             message("setup for debug build ...")
             add_compile_options(-Wall -Wextra -Wformat -Werror=format-security -pedantic -Og -g)
         endif()
+
+        if(TANGO_ENABLE_SANITIZER STREQUAL "ASAN")
+            add_compile_options(-fsanitize=address -fsanitize=leak
+                -fno-omit-frame-pointer
+                -Og -g)
+            add_link_options(-fsanitize=address -fsanitize=leak)
+        elseif(TANGO_ENABLE_SANITIZER STREQUAL "TSAN")
+            add_compile_options(-fsanitize=thread -Og -g)
+            add_link_options(-fsanitize=thread)
+        elseif(TANGO_ENABLE_SANITIZER STREQUAL "UBSAN")
+            add_compile_options(-fsanitize=undefined
+                -fno-omit-frame-pointer
+                -Og -g)
+            add_link_options(-fsanitize=undefined)
+            if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+                add_compile_options(
+                    -fsanitize=implicit-integer-truncation
+                    -fsanitize=implicit-integer-arithmetic-value-change
+                    -fsanitize=implicit-conversion
+                    -fsanitize=integer
+                    -fsanitize=nullability)
+            endif()
+        elseif(TANGO_ENABLE_SANITIZER STREQUAL "MSAN")
+            add_compile_options(-fsanitize=memory
+                -fno-omit-frame-pointer
+                -fsanitize-memory-track-origins
+                -Og -g)
+            add_link_options(-fsanitize=memory)
+        endif()
     endif()
 endif()
 

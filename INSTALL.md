@@ -72,6 +72,7 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 | `IDL_BASE`                   |                                        | tangoidl installed path
 | `OMNI_BASE`                  |                                        | omniORB4 installed path
 | `TANGO_ENABLE_COVERAGE`      | `OFF`                                  | Instrument code for coverage analysis (Requires CMake 3.13+)
+| `TANGO_ENABLE_SANITIZER`     | *empty*                                | Compile with sanitizers, one of: `ASAN`, `TSAN`, `UBSAN` or `MSAN` (Requires CMake 3.13+ and Clang/GCC)
 | `TANGO_JPEG_MMX`             | `ON`                                   | Build the jpeg support with MMX extensions (32bit Linux only)
 | `TANGO_INSTALL_DEPENDENCIES` | `OFF`                                  | Install dependencies of tango as well (Windows only)
 | `TANGO_USE_USING_NAMESPACE`  | `ON`                                   | `ON` will include the `std` namespace in tango headers. Choose `OFF` for modern builds.
