@@ -60,7 +60,7 @@ workflow:
     - set +e
     - test ${SONAR_SCANNER} = "ON" && .travis/sonar.sh || true
   after_script:
-    - docker stop cpp_tango
+    - docker stop cpp_tango || true
     - find build -name 'core.*' -exec gzip "{}" \;
     - mkdir -p build/cpp_test_suite/test_results
     - gzip -r build/cpp_test_suite/test_results
@@ -530,3 +530,74 @@ doxygen-documentation:
     when: always
     paths:
       - build/doc_html
+
+sanitizer:
+  <<: *job-template
+  # Failures are temporarily allowed until sanitizer issues are fixed.
+  allow_failure: true
+  image: ubuntu:focal
+  variables:
+    <<: *variables
+    CC: /usr/lib/llvm-12/bin/clang
+    CXX: /usr/lib/llvm-12/bin/clang++
+    ASAN_OPTIONS: detect_stack_use_after_return=1
+    TSAN_OPTIONS: second_deadlock_stack=1
+    UBSAN_OPTIONS: "\
+      print_stacktrace=1,\
+      report_error_type=1,\
+      halt_on_error=1,\
+      suppressions=$CI_PROJECT_DIR/cpp_test_suite/suppressions-ubsan.supp"
+  # Increase timeout, this is required by UBSAN job.
+  timeout: 2h
+  parallel:
+    matrix:
+      - SANITIZER: [ASAN, TSAN, UBSAN]
+  before_script:
+    - ulimit -c unlimited
+    - echo "core.%e.%p.%t" > /proc/sys/kernel/core_pattern
+    - echo "1" > /proc/sys/net/ipv4/ip_forward
+    - apt-get update
+    - >
+      apt-get install -y
+      clang-12
+      cmake
+      docker.io
+      git
+      iproute2
+      libcos4-dev
+      libomniorb4-dev
+      libomnithread4-dev
+      libzmq3-dev
+      omniidl
+      python3-minimal
+    # Setup a route to the containers running inside dind.
+    - >
+      ip route add
+      $(docker network inspect -f '{{(index .IPAM.Config 0).Subnet}}' bridge)
+      via
+      $(getent hosts docker | awk '{ print $1 }')
+      dev eth0
+    # Symbolizer is required for sanitizers.
+    - ln -s /usr/lib/llvm-12/bin/llvm-symbolizer /usr/local/bin
+    # Install tango-idl.
+    - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
+    - cmake -B/idl/build /idl
+    - make -C /idl/build install
+    # Install cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
+    - make -C /cppzmq/build install
+    # Create build directory for cppTango.
+    - mkdir build
+  script:
+    - cd build
+    - >
+      cmake ..
+      -DCMAKE_BUILD_TYPE=Debug
+      -DBUILD_TESTING=ON
+      -DUSE_PCH=ON
+      -DTANGO_ENABLE_SANITIZER=$SANITIZER
+    - make
+    - docker pull tangocs/mysql:9.2.2
+    - docker pull tangocs/tango-cs:latest
+    - ctest -j$(nproc) --output-on-failure
