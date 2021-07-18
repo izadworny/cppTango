@@ -61,9 +61,7 @@ workflow:
     - test ${SONAR_SCANNER} = "ON" && .travis/sonar.sh || true
   after_script:
     - docker stop cpp_tango || true
-    - find build -name 'core.*' -exec gzip "{}" \;
     - mkdir -p build/cpp_test_suite/test_results
-    - gzip -r build/cpp_test_suite/test_results
   artifacts:
     when: always
     paths:
@@ -147,9 +145,7 @@ coverage:
     OS_TYPE: debian10
     STOCK_CPPZMQ: "OFF"
   after_script:
-    - find build -name 'core.*' -exec gzip "{}" \;
     - mkdir -p build/cpp_test_suite/test_results
-    - gzip -r build/cpp_test_suite/test_results
     - mkdir coverage
     - >
         docker exec --workdir /home/tango/src cpp_tango
@@ -170,7 +166,7 @@ coverage:
       cobertura: coverage.xml
     paths:
       - build/cpp_test_suite/test_results
-      - build/cpp_test_suite/*/core.*.gz
+      - build/cpp_test_suite/*/core.*
       - coverage.xml
       - coverage.tar.gz
 
