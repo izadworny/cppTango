@@ -228,21 +228,15 @@ clang-analyzer:
     - apt-get update
     - >
       apt-get install -y
+      clang-tools-12
       cmake
       curl
       git
-      gnupg
       omniidl
       libcos4-dev
       libomniorb4-dev
       libomnithread4-dev
       libzmq3-dev
-    - curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-    - >
-      echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
-      > /etc/apt/sources.list.d/llvm-toolchain-12.list
-    - apt-get update
-    - apt-get install -y clang-tools-12
     # Install cppzmq
     - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
     - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
@@ -267,6 +261,7 @@ clang-analyzer:
       -DBUILD_TESTING=OFF
       -DUSE_PCH=OFF
       -DTANGO_USE_USING_NAMESPACE=OFF
+    - make -C build idl_source
     # scan-build command must be wrapped in quotes because
     # --analyzer-config option cannot contain whitespaces.
     - "/usr/share/clang/scan-build-py-12/bin/analyze-build \
