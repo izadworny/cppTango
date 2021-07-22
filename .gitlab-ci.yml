@@ -210,15 +210,6 @@ debian9:
     OS_TYPE: debian9
     STOCK_CPPZMQ: "OFF"
 
-debian8:
-  <<: *job-template
-  variables:
-    <<: *variables
-    OS_TYPE: debian8
-    # SONAR_SCANNER: "ON"
-    # COVERALLS: "ON"
-    STOCK_CPPZMQ: "OFF"
-
 clang-analyzer:
   image: ubuntu:focal
   variables:
