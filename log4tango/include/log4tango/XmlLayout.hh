@@ -53,12 +53,6 @@ public:
    * Formats the LoggingEvent in XML
    **/
   virtual std::string format (const LoggingEvent& event);
-
-private:
-  /**
-   * Ensures that embeded CDEnd strings (]]>) are handled properly
-   **/
-  void appendEscapingCDATA(std::string buf, std::string str);
 };
 
 } // namespace log4tango

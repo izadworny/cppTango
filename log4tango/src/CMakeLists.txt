@@ -13,16 +13,9 @@ set(SOURCES
                 LoggerStream.cpp
                 LoggingEvent.cpp
                 Level.cpp
-                NDC.cpp
                 Filter.cpp
                 StringUtil.hh
-                StringUtil.cpp
-                DllMain.cpp
-                DummyThreads.cpp
-                MSThreads.cpp
-                PThreads.cpp
-                PortabilityImpl.hh
-                PortabilityImpl.cpp)
+                StringUtil.cpp)
 
 add_library(log4tango_objects OBJECT ${SOURCES})
 
