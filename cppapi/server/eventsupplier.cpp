@@ -613,6 +613,15 @@ bool EventSupplier::detect_and_push_archive_event(DeviceImpl *device_impl,
         now.tv_sec = now.tv_sec - DELTA_T;
     }
 
+// Extract archive period and store it in a local variable. This requires
+// locking attribute monitor and must be done before event_mutex is acquired
+// to avoid holding two locks at the same time.
+    int arch_period;
+    TangoMonitor &mon1 = device_impl->get_att_conf_monitor();
+    mon1.get_monitor();
+    arch_period = attr.archive_period;
+    mon1.rel_monitor();
+
 //
 // get the mutex to synchronize the sending of events
 //
@@ -635,12 +644,6 @@ bool EventSupplier::detect_and_push_archive_event(DeviceImpl *device_impl,
         now_ms = (double) now.tv_sec * 1000. + (double) now.tv_usec / 1000.;
     }
     ms_since_last_periodic = now_ms - attr.archive_last_periodic;
-
-    int arch_period;
-    TangoMonitor &mon1 = device_impl->get_att_conf_monitor();
-    mon1.get_monitor();
-    arch_period = attr.archive_period;
-    mon1.rel_monitor();
 
 //
 // Specify the precision interval for the archive period testing 2% are used for periods < 5000 ms and
@@ -977,21 +980,20 @@ bool EventSupplier::detect_and_push_periodic_event(DeviceImpl *device_impl,
         now_ms = (double) now.tv_sec * 1000. + (double) now.tv_usec / 1000.;
     }
 
-//
-// get the mutex to synchronize the sending of events
-//
-
-    omni_mutex_lock l(event_mutex);
-
-//
-// get the event period
-//
-
+// Extract event period and store it in a local variable. This requires
+// locking attribute monitor and must be done before event_mutex is acquired
+// to avoid holding two locks at the same time.
     int eve_period;
     TangoMonitor &mon1 = device_impl->get_att_conf_monitor();
     mon1.get_monitor();
     eve_period = attr.event_period;
     mon1.rel_monitor();
+
+//
+// get the mutex to synchronize the sending of events
+//
+
+    omni_mutex_lock l(event_mutex);
 
 //
 // Specify the precision interval for the event period testing 2% are used for periods < 5000 ms and
