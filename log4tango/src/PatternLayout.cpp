@@ -136,33 +136,33 @@ namespace log4tango {
             }
             std::string::size_type pos = timeFormat.find("%l");
             if (pos == std::string::npos) {
-                _printMillis = false;
+                _printFraction = false;
                 _timeFormat1 = timeFormat; 
             } else {
-                _printMillis = true;
+                _printFraction = true;
                 _timeFormat1 = timeFormat.substr(0, pos);
                 _timeFormat2 = timeFormat.substr(pos + 2);
             }
         }
 
         virtual void append(std::ostringstream& out, const LoggingEvent& event) {
-            struct tm *currentTime;
-	    time_t t = std::chrono::system_clock::to_time_t(event.timestamp);
-            currentTime = std::localtime(&t);
-            char formatted[100];
             std::string timeFormat;
-            if (_printMillis) {
-	        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(
-		    event.timestamp.time_since_epoch()).count() % 1000;
+            if (_printFraction) {
+                constexpr int precision = 6;
+                using Duration = std::chrono::microseconds;
+                auto fraction = std::chrono::duration_cast<Duration>(
+                    event.timestamp.time_since_epoch()) % std::chrono::seconds(1);
                 std::ostringstream formatStream;
                 formatStream << _timeFormat1 
-                             << std::setw(3) << std::setfill('0')
-                             << milliseconds
+                             << std::setw(precision) << std::setfill('0') << fraction.count()
                              << _timeFormat2;
                 timeFormat = formatStream.str();
             } else {
                 timeFormat = _timeFormat1;
             }
+            char formatted[100];
+            std::time_t t = std::chrono::system_clock::to_time_t(event.timestamp);
+            std::tm *currentTime = std::localtime(&t);
             std::strftime(formatted, sizeof(formatted), timeFormat.c_str(), currentTime);
             out << formatted;
         }
@@ -170,7 +170,7 @@ namespace log4tango {
         private:
         std::string _timeFormat1;
         std::string _timeFormat2;
-        bool _printMillis;
+        bool _printFraction;
     };
 
     const char* const TimeStampComponent::FORMAT_ISO8601 = "%Y-%m-%dT%H:%M:%S,%l%z";
