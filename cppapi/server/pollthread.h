@@ -165,8 +165,8 @@ private:
 	std::vector<long>        rem_upd;
 	std::vector<std::string>      rem_name;
 	bool				send_heartbeat;
-	u_int				heartbeat_ctr;
-	u_int               previous_nb_late;
+	unsigned int	    heartbeat_ctr;
+	unsigned int        previous_nb_late;
 	bool                polling_bef_9;
 
 	ClntIdent 			dummy_cl_id;

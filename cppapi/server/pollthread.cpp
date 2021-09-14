@@ -1316,7 +1316,7 @@ void PollThread::compute_sleep_time()
 		after_d = (double)after.tv_sec + ((double)after.tv_usec / 1000000);
 
         bool discard = false;
-        u_int nb_late = 0;
+        unsigned int nb_late = 0;
 
         if (polling_bef_9 == false)
         {
