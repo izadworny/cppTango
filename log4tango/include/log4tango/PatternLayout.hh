@@ -76,7 +76,7 @@ public:
    *  If no date format specifier is given then the following format is used:
    *  "Wed Jan 02 02:03:55 1980". The date format specifier admits the same syntax 
    *  as the ANSI C function strftime, with 1 addition. The addition is the specifier
-   *  %%l for milliseconds, padded with zeros to make 3 digits.</li>
+   *  %%l for microseconds, padded with zeros to make 6 digits.</li>
    * <li><b>%%m</b> - the message</li>
    * <li><b>%%n</b> - the platform specific line separator</li>
    * <li><b>%%p</b> - the level</li>
