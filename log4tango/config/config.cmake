@@ -34,7 +34,7 @@ check_library_exists(pthread pthread_getattr_np "" HAVE_PTHREAD_GETATTR_NP)
 check_library_exists(pthread pthread_create "" HAVE_PTHREAD_CREATE)
 check_include_file("pthread.h;pthread_np.h" HAVE_PTHREAD_NP_H)
 
-if(CMAKE_THREAD_LIBS_INIT)
+if(CMAKE_THREAD_LIBS_INIT OR HAVE_PTHREAD_CREATE)
     set(LOG4TANGO_HAVE_THREADING "/**/")
 endif()
 
