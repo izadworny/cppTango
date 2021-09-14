@@ -10,5 +10,4 @@ SET(SCRIPTS
 
 foreach(SCRIPT ${SCRIPTS})
     configure_file(${SCRIPT}.cmake ${SCRIPT} @ONLY)
-    execute_process(COMMAND chmod +x ${CMAKE_CURRENT_BINARY_DIR}/${SCRIPT})
 endforeach(SCRIPT)
