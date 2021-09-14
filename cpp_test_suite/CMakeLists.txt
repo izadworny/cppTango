@@ -24,7 +24,7 @@ function(TEST_SUITE_ADD_TEST test)
     target_compile_definitions(${test} PUBLIC VALGRIND _PTHREADS)
     target_link_libraries(${test} tango ${CMAKE_DL_LIBS})
     if(USE_PCH)
-        tango_target_test_pch(${test} tango_test_pch)
+        tango_target_test_pch(${test})
     endif()
         #TODO generalize tests
 #    add_test(NAME "CPP::${test}"  COMMAND $<TARGET_FILE:${test}> ${DEV1} ${DEV2} ${DEV3} ${DEV1_ALIAS})
