@@ -169,6 +169,8 @@ def state_read_code(line, state):
         return (state_read_text, next_state, state)
     elif PATTERN_NOTE.match(line):
         return (state_ignore_lines, None, state)
+    elif line.startswith("note: this fix will not be applied"):
+        return (state_ignore_lines, None, state)
     elif line.startswith("clang-tidy"):  # New file is being processed.
         return (state_ignore_lines, None, state)
     else:
@@ -197,8 +199,19 @@ def generate(lines):
     for line in itertools.chain(lines, [None]):
         handler, next_state, old_state = handler(line, next_state)
         if old_state is not None:
-            issue = make_issue(old_state)
-            yield issue
+            yield old_state
+
+
+def issues(states):
+    prev_code = None
+    for state in states:
+        if not state.code:
+            # Workaround for cases where two or more issues are reported for
+            # the same code location. Location of the second issue is omited
+            # in clang-tidy output but we need that for fingerprint calculation.
+            state = dataclasses.replace(state, code=prev_code)
+        prev_code = state.code
+        yield make_issue(state)
 
 
 def unique(issues):
@@ -221,7 +234,7 @@ def unique(issues):
 
 def main():
     lines = (line.rstrip("\n") for line in sys.stdin)
-    entries = unique(generate(lines))
+    entries = unique(issues(generate(lines)))
     json.dump(list(entries), sys.stdout)
 
 
