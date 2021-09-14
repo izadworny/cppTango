@@ -187,16 +187,14 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(EvChanIte &ipos,Even
 
 					std::string adm_name = ipos->second.full_adm_name;
 
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
 //
 // Forget exception which could happen during massive restart of device server process running on the same host
 //
-                    try
-                    {
-                        event_consumer->disconnect_event_channel(adm_name,ipos->second.endpoint,epos->second.endpoint);
-                    }
-                    catch (Tango::DevFailed &e) {}
-#endif
+					try
+					{
+					    event_consumer->disconnect_event_channel(adm_name,ipos->second.endpoint,epos->second.endpoint);
+					}
+					catch (Tango::DevFailed &e) {}
 					event_consumer->connect_event_channel(adm_name,
 									      epos->second.get_device_proxy().get_device_db(),
 									      true,subscriber_out);
@@ -405,9 +403,7 @@ void EventConsumerKeepAliveThread::re_subscribe_event(EvCbIte &epos,EvChanIte &i
 void EventConsumerKeepAliveThread::reconnect_to_zmq_event(EvChanIte &ipos,EventConsumer *event_consumer,DeviceData &dd)
 {
 	EvCbIte epos;
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
 	bool disconnect_called = false;
-#endif
 
 	cout3 << "Entering KeepAliveThread::reconnect_to_zmq_event()" << std::endl;
 
@@ -447,13 +443,11 @@ void EventConsumerKeepAliveThread::reconnect_to_zmq_event(EvChanIte &ipos,EventC
 						std::string prefix = fqen.substr(0,pos + 1);
 						d_name.insert(0,prefix);
 
-#ifdef TANGO_ZMQ_HAS_DISCONNECT
 						if (disconnect_called == false)
 						{
 							event_consumer->disconnect_event(epos->second.fully_qualified_event_name,epos->second.endpoint);
 							disconnect_called = true;
 						}
-#endif
 						event_consumer->connect_event_system(d_name,epos->second.obj_name,epos->second.event_name,
 						                                     vs,ipos,epos->second,dd,ipos->second.valid_endpoint);
 

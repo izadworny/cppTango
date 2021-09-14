@@ -86,18 +86,17 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
 
     heartbeat_pub_sock = new zmq::socket_t(zmq_context,ZMQ_PUB);
 
-    int linger = 0;
 	int reconnect_ivl = -1;
 
-	heartbeat_pub_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+	heartbeat_pub_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
 	try
 	{
-		heartbeat_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+		heartbeat_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 	}
 	catch (zmq::error_t &)
 	{
 		reconnect_ivl = 30000;
-		heartbeat_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+		heartbeat_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 	}
 
     heartbeat_endpoint = "tcp://";
@@ -246,12 +245,12 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
     endian_mess.rebuild(1);
     memcpy(endian_mess.data(),&host_endian,1);
 
-    endian_mess_2.copy(&endian_mess);
+    endian_mess_2.copy(endian_mess);
 
     endian_mess_heartbeat.rebuild(1);
     memcpy(endian_mess_heartbeat.data(),&host_endian,1);
 
-    endian_mess_heartbeat_2.copy(&endian_mess_heartbeat);
+    endian_mess_heartbeat_2.copy(endian_mess_heartbeat);
 
 //
 // Init heartbeat call info
@@ -270,7 +269,7 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
     heartbeat_call_mess.rebuild(heartbeat_call_cdr.bufSize());
     memcpy(heartbeat_call_mess.data(),heartbeat_call_cdr.bufPtr(),heartbeat_call_cdr.bufSize());
 
-    heartbeat_call_mess_2.copy(&heartbeat_call_mess);
+    heartbeat_call_mess_2.copy(heartbeat_call_mess);
 
 //
 // Build heartbeat name
@@ -384,16 +383,12 @@ void ZmqEventSupplier::tango_bind(zmq::socket_t *sock,std::string &endpoint)
     std::string base_endpoint(endpoint);
     base_endpoint = base_endpoint + "*";
 
-    char buf[80];
-    size_t buf_len = sizeof(buf);
-
 	try
 	{
-		sock->bind(base_endpoint.c_str());
+		sock->bind(base_endpoint);
 
-		sock->getsockopt(ZMQ_LAST_ENDPOINT,buf,&buf_len);
+		std::string str = sock->get(zmq::sockopt::last_endpoint);
 
-		std::string str(buf);
 		std::string::size_type pos = str.rfind(':');
 		std::string port_str = str.substr(pos + 1);
 		endpoint = endpoint + port_str;
@@ -451,18 +446,17 @@ void ZmqEventSupplier::create_event_socket()
 //
 
         event_pub_sock = new zmq::socket_t(zmq_context,ZMQ_PUB);
-        int linger = 0;
-		int reconnect_ivl = -1;
-        event_pub_sock->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+        int reconnect_ivl = -1;
+        event_pub_sock->set(zmq::sockopt::linger, DEFAULT_LINGER);
 
 		try
 		{
-			event_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+			event_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 		}
 		catch (zmq::error_t &)
 		{
 			reconnect_ivl = 30000;
-			event_pub_sock->setsockopt(ZMQ_RECONNECT_IVL,&reconnect_ivl,sizeof(reconnect_ivl));
+			event_pub_sock->set(zmq::sockopt::reconnect_ivl, reconnect_ivl);
 		}
 
         event_endpoint = "tcp://";
@@ -487,7 +481,7 @@ void ZmqEventSupplier::create_event_socket()
         if (hwm == -1)
             hwm = admin_dev->zmq_pub_event_hwm;
 
-        event_pub_sock->setsockopt(ZMQ_SNDHWM,&hwm,sizeof(hwm));
+        event_pub_sock->set(zmq::sockopt::sndhwm,hwm);
 
 //
 // Bind the publisher socket to one ephemeral port
@@ -661,8 +655,7 @@ void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,Mcas
     }
     ms.endpoint = ms.endpoint + mcast_data;
 
-    int linger = 0;
-    ms.pub_socket->setsockopt(ZMQ_LINGER,&linger,sizeof(linger));
+    ms.pub_socket->set(zmq::sockopt::linger, DEFAULT_LINGER);
 
 //
 // Change multicast hops
@@ -671,27 +664,28 @@ void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,Mcas
     Tango::Util *tg = Tango::Util::instance();
     DServer *admin_dev = tg->get_dserver_device();
 
-    int nb_hops = admin_dev->mcast_hops;
-    ms.pub_socket->setsockopt(ZMQ_MULTICAST_HOPS,&nb_hops,sizeof(nb_hops));
+    ms.pub_socket->set(zmq::sockopt::multicast_hops,static_cast<int>(admin_dev->mcast_hops));
 
 //
 // Change PGM rate to default value (80 Mbits/sec) or to user defined value
 //
 
-    int local_rate = rate;
-
-    ms.pub_socket->setsockopt(ZMQ_RATE,&local_rate,sizeof(local_rate));
+    ms.pub_socket->set(zmq::sockopt::rate, rate);
 
 //
 // Bind the publisher socket to the specified port
 //
 
-    if (zmq_bind(static_cast<void*>(*ms.pub_socket),ms.endpoint.c_str()) != 0)
+    try
+    {
+      ms.pub_socket->bind(ms.endpoint);
+    }
+    catch(zmq::error_t &e)
     {
         TangoSys_OMemStream o;
         o << "Can't bind ZMQ socket with endpoint ";
         o << ms.endpoint;
-        o << "\nZmq error: " << zmq_strerror(zmq_errno()) << std::ends;
+        o << "\nZmq error: " << e.what() << std::ends;
 
         Except::throw_exception((const char *)API_ZmqFailed,
                                     o.str(),
@@ -889,10 +883,10 @@ void ZmqEventSupplier::push_heartbeat_event()
 
                 adm_dev->last_heartbeat_zmq = now_time;
 
-                heartbeat_pub_sock->send(name_mess,ZMQ_SNDMORE);
-                heartbeat_pub_sock->send(endian_mess_heartbeat,ZMQ_SNDMORE);
+                heartbeat_pub_sock->send(name_mess,zmq::send_flags::sndmore);
+                heartbeat_pub_sock->send(endian_mess_heartbeat,zmq::send_flags::sndmore);
                 endian_mess_sent = true;
-                heartbeat_pub_sock->send(heartbeat_call_mess,0);
+                heartbeat_pub_sock->send(heartbeat_call_mess,zmq::send_flags::none);
                 call_mess_sent = true;
 
 //
@@ -907,15 +901,15 @@ void ZmqEventSupplier::push_heartbeat_event()
                 memcpy(dummy_mess.data(),(void *)dummy_message.data(),dummy_message.size());
 
                 push_mutex.lock();
-                event_pub_sock->send(dummy_mess);
+                event_pub_sock->send(dummy_mess, zmq::send_flags::none);
                 push_mutex.unlock();
 
 //
 // For reference counting on zmq messages which do not have a local scope
 //
 
-                endian_mess_heartbeat.copy(&endian_mess_heartbeat_2);
-                heartbeat_call_mess.copy(&heartbeat_call_mess_2);
+                endian_mess_heartbeat.copy(endian_mess_heartbeat_2);
+                heartbeat_call_mess.copy(heartbeat_call_mess_2);
 
                 nb_event--;
             }
@@ -923,9 +917,9 @@ void ZmqEventSupplier::push_heartbeat_event()
             {
                 cout3 << "ZmqEventSupplier::push_heartbeat_event() failed !\n";
                 if (endian_mess_sent == true)
-                    endian_mess_heartbeat.copy(&endian_mess_heartbeat_2);
+                    endian_mess_heartbeat.copy(endian_mess_heartbeat_2);
                 if (call_mess_sent == true)
-                    heartbeat_call_mess.copy(&heartbeat_call_mess_2);
+                    heartbeat_call_mess.copy(heartbeat_call_mess_2);
 
                 TangoSys_OMemStream o;
                 o << "Can't push ZMQ heartbeat event for event ";
@@ -1153,7 +1147,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 		mess_ptr = ev_value.zmq_mess->data();
 		mess_size = ev_value.zmq_mess->size();
 
-		data_mess.move(ev_value.zmq_mess);
+		data_mess.move(*(ev_value.zmq_mess));
 	}
 	else
 	{
@@ -1413,9 +1407,9 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 
 		if (send_nb == 2)
 		{
-			name_mess_cpy.copy(&name_mess);
-			event_call_mess_cpy.copy(&event_call_mess);
-			data_mess_cpy.copy(&data_mess);
+			name_mess_cpy.copy(name_mess);
+			event_call_mess_cpy.copy(event_call_mess);
+			data_mess_cpy.copy(data_mess);
 		}
 
 		while(send_nb > 0)
@@ -1425,32 +1419,30 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 // Push the event
 //
 
-			bool ret;
-
-			ret = pub->send(*name_mess_ptr,ZMQ_SNDMORE);
-			if (ret == false)
+			auto ret = pub->send(*name_mess_ptr,zmq::send_flags::sndmore);
+			if (!ret)
 			{
 				std::cerr << "Name message returned false, assertion!!!!" << std::endl;
 				assert(false);
 			}
 
-			ret = pub->send(*endian_mess_ptr,ZMQ_SNDMORE);
-			if (ret == false)
+			ret = pub->send(*endian_mess_ptr,zmq::send_flags::sndmore);
+			if (!ret)
 			{
 				std::cerr << "Endian message returned false, assertion!!!!" << std::endl;
 				assert(false);
 			}
 			endian_mess_sent = true;
 
-			ret = pub->send(*event_call_mess_ptr,ZMQ_SNDMORE);
-			if (ret == false)
+			ret = pub->send(*event_call_mess_ptr,zmq::send_flags::sndmore);
+			if (!ret)
 			{
 				std::cerr << "Call message returned false, assertion!!!!" << std::endl;
 				assert(false);
 			}
 
-			ret = pub->send(*data_mess_ptr,0);
-			if (ret == false)
+			ret = pub->send(*data_mess_ptr,zmq::send_flags::none);
+			if (!ret)
 			{
 				std::cerr << "Data message returned false, assertion!!!!" << std::endl;
 				assert(false);
@@ -1472,35 +1464,35 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 						zmq::socket_t *old_pub = pub;
 						pub = event_pub_sock;
 
-						name_mess.copy(&name_mess_cpy);
-						endian_mess.copy(&endian_mess_2);
-						event_call_mess.copy(&event_call_mess_cpy);
-						data_mess.copy(&data_mess_cpy);
+						name_mess.copy(name_mess_cpy);
+						endian_mess.copy(endian_mess_2);
+						event_call_mess.copy(event_call_mess_cpy);
+						data_mess.copy(data_mess_cpy);
 
-						pub->send(*name_mess_ptr,ZMQ_SNDMORE);
-						pub->send(*endian_mess_ptr,ZMQ_SNDMORE);
+						pub->send(*name_mess_ptr,zmq::send_flags::sndmore);
+						pub->send(*endian_mess_ptr,zmq::send_flags::sndmore);
 						endian_mess_sent = true;
-						pub->send(*event_call_mess_ptr,ZMQ_SNDMORE);
-						pub->send(*data_mess_ptr,0);
+						pub->send(*event_call_mess_ptr,zmq::send_flags::sndmore);
+						pub->send(*data_mess_ptr,zmq::send_flags::none);
 
 						pub = old_pub;
 
 						name_mess_ptr = &name_mess_cpy;
-						endian_mess.copy(&endian_mess_2);
+						endian_mess.copy(endian_mess_2);
 						event_call_mess_ptr = &event_call_mess_cpy;
 						data_mess_ptr = &data_mess_cpy;
 					}
 					else
 					{
 						name_mess_ptr = &name_mess_cpy;
-						endian_mess.copy(&endian_mess_2);
+						endian_mess.copy(endian_mess_2);
 						event_call_mess_ptr = &event_call_mess_cpy;
 						data_mess_ptr = &data_mess_cpy;
 					}
 				}
 
 				name_mess_ptr = &name_mess_cpy;
-				endian_mess.copy(&endian_mess_2);
+				endian_mess.copy(endian_mess_2);
 				event_call_mess_ptr = &event_call_mess_cpy;
 				data_mess_ptr = &data_mess_cpy;
 			}
@@ -1517,7 +1509,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 // For reference counting on zmq messages which do not have a local scope
 //
 
-		endian_mess.copy(&endian_mess_2);
+		endian_mess.copy(endian_mess_2);
 
 //
 // release mutex if we haven't use ZMQ no copy mode
@@ -1541,7 +1533,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 	{
 		cout3 << "ZmqEventSupplier::push_event() failed !!!!!!!!!!!\n";
 		if (endian_mess_sent == true)
-			endian_mess.copy(&endian_mess_2);
+			endian_mess.copy(endian_mess_2);
 
 		if (large_message_created == false)
 			push_mutex.release();

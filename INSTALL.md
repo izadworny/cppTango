@@ -7,7 +7,7 @@ The following software packages are required to build cppTango:
 - [tango-idl](https://gitlab.com/tango-controls/tango-idl)
 - [omniorb](http://omniorb.sourceforge.net), 4.2.1 or newer
 - [libzmq](https://github.com/zeromq/libzmq), 4.0.5 or newer
-- [cppzmq](https://github.com/zeromq/cppzmq), 4.2.3 or newer
+- [cppzmq](https://github.com/zeromq/cppzmq), 4.7.1 or newer
 
 In the following we assume a linux-based system, see [here](#building-on-windows) for building on Windows.
 
@@ -142,10 +142,10 @@ sudo make install
 ```bash
 git clone https://github.com/zeromq/cppzmq
 cd cppzmq
-git checkout v4.2.3
+git checkout v4.7.1
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..
+cmake -DCPPZMQ_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local ..
 make [-j NUMBER_OF_CPUS]
 sudo make install
 ```
@@ -340,4 +340,4 @@ run-clang-tidy.py -header-filter='.*' 'cppapi/(?!server/idl)' 'log4tango/src'
 For faster development it is possible to execute gitlab CI jobs locally on the development machine.
 
 * Install gitlab runner, see https://docs.gitlab.com/runner/install
-* `gitlab-runner exec --env "MAKEFLAGS=-j NUMBER_OF_CPUS" JOBNAME`
+* `gitlab-runner exec docker --env "MAKEFLAGS=-j NUMBER_OF_CPUS" JOBNAME`

@@ -77,6 +77,7 @@ abi-api-compliance-check:
   variables:
     <<: *variables
     RUN_TESTS: "OFF"
+    STOCK_CPPZMQ: "OFF"
   rules:
     # This job runs only for merge requests.
     - if: $CI_MERGE_REQUEST_IID
@@ -96,6 +97,7 @@ abi-api-compliance-check:
         -dit
         cpp_tango
     - .travis/install_tango_idl.sh
+    - test ${STOCK_CPPZMQ} = "OFF" && .travis/install_cppzmq.sh || true
   script:
     - >
         docker exec
@@ -120,6 +122,7 @@ llvm-latest:
     WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_USING_NAMESPACE: "OFF"
     USE_PCH: "OFF"
+    STOCK_CPPZMQ: "OFF"
 
 gcc-latest:
   <<: *job-template
@@ -130,12 +133,14 @@ gcc-latest:
     WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_USING_NAMESPACE: "OFF"
     USE_PCH: "OFF"
+    STOCK_CPPZMQ: "OFF"
 
 ubuntu-20.04:
   <<: *job-template
   variables:
     <<: *variables
     OS_TYPE: ubuntu-20.04
+    STOCK_CPPZMQ: "OFF"
 
 debian10:
   <<: *job-template
@@ -143,6 +148,7 @@ debian10:
     <<: *variables
     TANGO_ENABLE_COVERAGE: "ON"
     OS_TYPE: debian10
+    STOCK_CPPZMQ: "OFF"
   after_script:
     - find build -name 'core.*' -exec gzip "{}" \;
     - mkdir -p build/cpp_test_suite/test_results
@@ -178,6 +184,7 @@ debian10-static:
     OS_TYPE: debian10
     RUN_TESTS: "OFF"
     BUILD_SHARED_LIBS: "OFF"
+    STOCK_CPPZMQ: "OFF"
 
 debian10-no-pch:
   <<: *job-template
@@ -186,6 +193,7 @@ debian10-no-pch:
     OS_TYPE: debian10
     USE_PCH: "OFF"
     RUN_TESTS: "OFF"
+    STOCK_CPPZMQ: "OFF"
 
 debian10-release:
   <<: *job-template
@@ -193,20 +201,13 @@ debian10-release:
     <<: *variables
     OS_TYPE: debian10
     CMAKE_BUILD_TYPE: Release
+    STOCK_CPPZMQ: "OFF"
 
 debian9:
   <<: *job-template
   variables:
     <<: *variables
     OS_TYPE: debian9
-
-debian8:
-  <<: *job-template
-  variables:
-    <<: *variables
-    OS_TYPE: debian8
-    # SONAR_SCANNER: "ON"
-    # COVERALLS: "ON"
     STOCK_CPPZMQ: "OFF"
 
 clang-analyzer:
@@ -222,6 +223,7 @@ clang-analyzer:
       apt-get install -y
       cmake
       curl
+      git
       gnupg
       omniidl
       libcos4-dev
@@ -234,6 +236,10 @@ clang-analyzer:
       > /etc/apt/sources.list.d/llvm-toolchain-12.list
     - apt-get update
     - apt-get install -y clang-tools-12
+    # Install cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
+    - make -C /cppzmq/build install
     # Install tango-idl.
     - mkdir /idl
     - >
@@ -309,6 +315,10 @@ clang-tidy:
       libomniorb4-dev
       libomnithread4-dev
       libzmq3-dev
+    # Install cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
+    - make -C /cppzmq/build install
     # Install tango-idl.
     - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
     - cmake -B/idl/build /idl
@@ -357,6 +367,7 @@ clang-tidy:
       - code-quality-report.json
       - code-quality-report.html
 
+# job to build against custom library locations and minimum support version of dependent libraries
 cmake-with-locations:
   image: debian:buster
   variables:
@@ -382,9 +393,9 @@ cmake-with-locations:
     - cmake -B /zmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/zmq /zmq
     - make -C /zmq/build install
     # Install cppzmq
-    - git clone -b v4.2.3 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
     - export PKG_CONFIG_PATH=/usr/local/zmq/lib/pkgconfig
-    - cmake -B /cppzmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq /cppzmq
+    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq /cppzmq
     - make -C /cppzmq/build install
     # Install omniORB
     - curl -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.1/omniORB-4.2.1.tar.bz2/download -o /omniORB.tar.bz2

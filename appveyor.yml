@@ -76,8 +76,8 @@ init:
   - cmd: cd "C:\projects\"
   - cmd: md zeromq
   - cmd: cd "C:\projects\"
-  - appveyor DownloadFile https://github.com/tango-controls/zmq-windows-ci/releases/download/4.0.5/zmq-4.0.5_%ARCH%.zip
-  - cmd: 7z -y x zmq-4.0.5_%ARCH%.zip -oC:\projects\zeromq\
+  - appveyor DownloadFile https://github.com/tango-controls/zmq-windows-ci/releases/download/4.0.5-2/zmq-4.0.5-2_%ARCH%.zip
+  - cmd: 7z -y x zmq-4.0.5-2_%ARCH%.zip -oC:\projects\zeromq\
   #- cmd: move C:\projects\zeromq\lib\Release\libzmq*mt-4*.lib C:\projects\zeromq\lib\Release\libzmq.lib
   # OmniOrb
   - cmd: cd "C:\projects\"
