@@ -42,8 +42,6 @@
 
 #include <chrono>
 
-#ifdef TANGO_HAS_LOG4TANGO
-
 #include <tangoappender.h>
 
 #define USE_ASYNC_CALL
@@ -197,5 +195,3 @@ namespace Tango
   }
 
 } // namespace tango
-
-#endif // TANGO_HAS_LOG4TANGO
