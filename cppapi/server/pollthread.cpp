@@ -204,6 +204,26 @@ void *PollThread::run_undetached(TANGO_UNUSED(void *ptr))
 #endif
 			std::cerr << "Trying to re-enter the main loop" << std::endl;
 		}
+		catch (const Tango::DevFailed &e)
+		{
+			std::cerr << "OUPS !! A Tango::DevFailed exception received by a polling thread !!!!!!!!" << std::endl;
+			Tango::Except::print_exception(e);
+#ifndef _TG_WINDOWS_
+			time_t t = time(NULL);
+			std::cerr << ctime(&t);
+#endif
+			std::cerr << "Trying to re-enter the main loop" << std::endl;
+		}
+		catch (const CORBA::Exception &e)
+		{
+			std::cerr << "OUPS !! A CORBA::Exception exception received by a polling thread !!!!!!!!" << std::endl;
+			Tango::Except::print_exception(e);
+#ifndef _TG_WINDOWS_
+			time_t t = time(NULL);
+			std::cerr << ctime(&t);
+#endif
+			std::cerr << "Trying to re-enter the main loop" << std::endl;
+		}
 		catch (const std::exception &ex)
 		{
 			std::cerr << "OUPS !! An unforeseen standard exception has been received by a polling thread !!!!!!" << std::endl;
@@ -213,6 +233,14 @@ void *PollThread::run_undetached(TANGO_UNUSED(void *ptr))
 			std::cerr << ctime(&t);
 #endif
 			std::cerr << "Trying to re-enter the main loop" << std::endl;
+		}
+		catch (...)
+		{
+			// omni_thread::exit which is implemented via pthread_exit on *nix
+			// might be throwing an exception to cleanup the thread stack
+			// and we need to allow that to propagate further up
+			cout5 << "Received an unknown exception, probably about to exit." << std::endl;
+			throw;
 		}
 	}
 
