@@ -142,7 +142,7 @@ ubuntu-20.04:
     OS_TYPE: ubuntu-20.04
     STOCK_CPPZMQ: "OFF"
 
-debian10:
+coverage:
   <<: *job-template
   variables:
     <<: *variables
@@ -177,31 +177,43 @@ debian10:
       - coverage.xml
       - coverage.tar.gz
 
-debian10-static:
+debian11-static:
   <<: *job-template
   variables:
     <<: *variables
-    OS_TYPE: debian10
+    OS_TYPE: debian11
     RUN_TESTS: "OFF"
     BUILD_SHARED_LIBS: "OFF"
     STOCK_CPPZMQ: "OFF"
 
-debian10-no-pch:
+debian11-no-pch:
   <<: *job-template
   variables:
     <<: *variables
-    OS_TYPE: debian10
+    OS_TYPE: debian11
     USE_PCH: "OFF"
     RUN_TESTS: "OFF"
     STOCK_CPPZMQ: "OFF"
 
-debian10-release:
+debian11-release:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: debian11
+    CMAKE_BUILD_TYPE: Release
+    STOCK_CPPZMQ: "OFF"
+
+debian11:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: debian11
+
+debian10:
   <<: *job-template
   variables:
     <<: *variables
     OS_TYPE: debian10
-    CMAKE_BUILD_TYPE: Release
-    STOCK_CPPZMQ: "OFF"
 
 debian9:
   <<: *job-template
