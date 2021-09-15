@@ -208,12 +208,14 @@ debian11:
   variables:
     <<: *variables
     OS_TYPE: debian11
+    STOCK_CPPZMQ: "OFF"
 
 debian10:
   <<: *job-template
   variables:
     <<: *variables
     OS_TYPE: debian10
+    STOCK_CPPZMQ: "OFF"
 
 debian9:
   <<: *job-template
@@ -451,9 +453,9 @@ alpine:
     - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
     - make -C /idl/build install
     # Install cppzmq
-    - git clone -b v4.2.3 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
     - export PKG_CONFIG_PATH=/usr/local/zmq/lib/pkgconfig
-    - cmake -B /cppzmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq /cppzmq
+    - cmake -B /cppzmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
     - make -C /cppzmq/build install
     # Install omniORB
     - curl -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.4/omniORB-4.2.4.tar.bz2/download -o /omniORB.tar.bz2
@@ -500,6 +502,10 @@ doxygen-documentation:
     - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
     - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
     - make -C /idl/build install
+    # Install cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
+    - make -C /cppzmq/build install
     - mkdir build
   script:
     - >
