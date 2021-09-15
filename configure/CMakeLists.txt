@@ -1,5 +1,4 @@
 include(FindPkgConfig)
-include(FindDoxygen)
 include(GNUInstallDirs)
 
 if(NOT CMAKE_BUILD_TYPE)
