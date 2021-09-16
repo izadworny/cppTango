@@ -71,14 +71,14 @@ if(WIN32)
 else(WIN32)
     add_library(client_objects OBJECT ${SOURCES})
     target_compile_options(client_objects PRIVATE -fPIC)
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_definitions(client_objects PRIVATE _REENTRANT _TANGO_LIB)
-    else()
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         # Do not define _TANGO_LIB when compiling Tango debug library on Linux
         # in order to keep the same behaviour as in the past:
         # cout messages are not redirected to the logging system but are
         # instead displayed directly on the console
         target_compile_definitions(client_objects PRIVATE _REENTRANT)
+    else()
+        target_compile_definitions(client_objects PRIVATE _REENTRANT _TANGO_LIB)
     endif()
 endif(WIN32)
 install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango")
