@@ -19,6 +19,7 @@
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
+#include <numeric>
 #include <tango.h>
 
 // DbInfo                              done
@@ -2044,52 +2045,45 @@ CORBA::Any*  FileDatabase :: DbGetDeviceList(CORBA::Any& send)
 CORBA::Any*  FileDatabase :: DbInfo(CORBA::Any&){
 	CORBA::Any* any_ptr = new CORBA::Any();
 
+	auto generate_string = [](std::string prefix, CORBA::ULong size) -> char*
+	{
+		prefix += std::to_string(size);
+		return Tango::string_dup(prefix.c_str());
+	};
+
+	auto prop_func = [](CORBA::ULong init, auto s) -> CORBA::ULong
+	{
+		return init + s->properties.size();
+	};
+
+	auto prop_attr_func = [](CORBA::ULong init, auto s) -> CORBA::ULong
+	{
+		return init + s->attribute_properties.size();
+	};
+
+	auto accumulate = [](auto const& vec, auto func) -> CORBA::ULong
+	{
+		return std::accumulate(std::begin(vec), std::end(vec), 0u, func) ;
+	};
+
 	Tango::DevVarStringArray* data_out  = new DevVarStringArray;
 	data_out->length(13);
-	char temp_str[256];
-	std::snprintf(temp_str, sizeof(temp_str),"TANGO FileDatabase  %s", filename.c_str());
-	(*data_out)[0] = Tango::string_dup(temp_str);
+
+	auto header = std::string("TANGO FileDatabase  ") + filename;
+	(*data_out)[0] = Tango::string_dup(header.c_str());
 	(*data_out)[1] = Tango::string_dup("");
 	(*data_out)[2] = Tango::string_dup("Running since ----");
 	(*data_out)[3] = Tango::string_dup("");
-#ifdef TANGO_LONG64
-	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %lu", m_server.devices.size());
-#else
-	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %zu", m_server.devices.size());
-#endif
-	(*data_out)[4] = Tango::string_dup(temp_str);
-#ifdef TANGO_LONG64
-	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %lu", m_server.devices.size());
-#else
-	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %zu", m_server.devices.size());
-#endif
-	(*data_out)[5] = Tango::string_dup(temp_str);
+	(*data_out)[4] = generate_string("Devices defined = ", m_server.devices.size());
+	(*data_out)[5] = generate_string("Devices exported = ", m_server.devices.size());
 	(*data_out)[6] = Tango::string_dup("Device servers defined = 1");
 	(*data_out)[7] = Tango::string_dup("Device servers exported = 1");
 	(*data_out)[8] = Tango::string_dup("");
-	long temp_long = 0;
-	for(std::vector<t_tango_class*>::iterator it = m_server.classes.begin(); it != m_server.classes.end(); ++it)
-		temp_long += (*it)->properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Class properties defined = %ld", temp_long);
-	(*data_out)[9] = Tango::string_dup(temp_str);
+	(*data_out)[9] = generate_string("Class properties defined = ", accumulate(m_server.classes, prop_func));
+	(*data_out)[10] = generate_string("Device properties defined = ", accumulate(m_server.devices, prop_func));
+	(*data_out)[11] = generate_string("Class attribute properties defined = ", accumulate(m_server.classes, prop_attr_func));
+	(*data_out)[12] = generate_string("Device attribute properties defined = ", accumulate(m_server.devices, prop_attr_func));
 
-	temp_long = 0;
-	for(std::vector<t_device*>::iterator ite = m_server.devices.begin(); ite != m_server.devices.end(); ++ite)
-		temp_long += (*ite)->properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Device properties defined = %ld", temp_long);
-	(*data_out)[10] = Tango::string_dup(temp_str);
-
-	temp_long = 0;
-	for(std::vector<t_tango_class*>::iterator iter = m_server.classes.begin(); iter != m_server.classes.end(); ++iter)
-		temp_long += (*iter)->attribute_properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Class attribute properties defined = %ld", temp_long);
-	(*data_out)[11] = Tango::string_dup(temp_str);
-
-	temp_long = 0;
-	for(std::vector<t_device*>::iterator itera = m_server.devices.begin(); itera != m_server.devices.end(); ++itera)
-		temp_long += (*itera)->attribute_properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Device attribute properties defined = %ld", temp_long);
-	(*data_out)[12] = Tango::string_dup(temp_str);
 	(*any_ptr) <<= data_out;
 
 	return any_ptr;
