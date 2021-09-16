@@ -2243,7 +2243,6 @@ CORBA::Any*  FileDatabase :: DbGetProperty(CORBA::Any& send)
 
 	const Tango::DevVarStringArray* data_in = NULL;
 	Tango::DevVarStringArray* data_out  = new DevVarStringArray;
-	char num_attr_str[256];
 	const char* zero_str = "0";
 
 	cout4 << "FILEDATABASE: entering DbGetProperty" << endl;
@@ -2251,7 +2250,6 @@ CORBA::Any*  FileDatabase :: DbGetProperty(CORBA::Any& send)
 	send >>= data_in;
 
 	data_out->length(2);
-	std::snprintf(num_attr_str, sizeof(num_attr_str),"%ud",data_in->length()-1);
 	(*data_out)[0] = Tango::string_dup((*data_in)[0]);
 	(*data_out)[1] = Tango::string_dup(zero_str);
 
