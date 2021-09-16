@@ -2192,7 +2192,7 @@ std::ostream &operator<<(std::ostream &o_str, const DeviceData &dd)
                 break;
 
             case CORBA::tk_ulonglong:
-                unsigned long ull_tmp;
+                Tango::DevULong64 ull_tmp;
                 dd.any >>= ull_tmp;
                 o_str << ull_tmp;
                 break;
