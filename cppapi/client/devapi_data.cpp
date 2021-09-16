@@ -2162,11 +2162,7 @@ std::ostream &operator<<(std::ostream &o_str, const DeviceData &dd)
                 break;
 
             case CORBA::tk_longlong:
-#ifdef TANGO_LONG32
-                long long ll_tmp;
-#else
-                long ll_tmp;
-#endif
+                Tango::DevLong64 ll_tmp;
                 dd.any >>= ll_tmp;
                 o_str << ll_tmp;
                 break;
