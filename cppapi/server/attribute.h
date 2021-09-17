@@ -193,6 +193,12 @@ public:
 	Attribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,const std::string &dev_name,long idx);
 //@}
 
+// remove once https://gitlab.com/tango-controls/cppTango/-/issues/786 is fixed
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#endif
+
 /**@name Destructor
  * Only one desctructor is defined for this class
  */
@@ -202,6 +208,10 @@ public:
  */
 	virtual ~Attribute();
 //@}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 /**@name Check attribute methods
  * Miscellaneous method returning boolean flag according to attribute state
