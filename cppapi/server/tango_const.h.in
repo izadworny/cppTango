@@ -242,9 +242,7 @@ const int MAX_DATA_ELT_IN_PIPE_BLOB		   = 20;
 
 const char* const USER_ENV_VAR_FILE        = ".tangorc";
 
-#ifndef HAVE_CONFIG_H
 const char* const TANGO_RC_FILE            = "/etc/tangorc";
-#endif
 const char* const WINDOWS_ENV_VAR_FILE     = "tangorc";
 
 

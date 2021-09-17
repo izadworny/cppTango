@@ -27,10 +27,6 @@
 //
 //+==================================================================================================================
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <tango.h>
 #include <eventconsumer.h>
 #include <api_util.tpp>

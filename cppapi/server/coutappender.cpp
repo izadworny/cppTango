@@ -68,10 +68,6 @@
 //
 //-=============================================================================
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <tango.h>
 
 #include <coutappender.h>

@@ -36,10 +36,6 @@
 //-============================================================================
 
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <tango.h>
 #include <attribute.h>
 #include <w_attribute.h>

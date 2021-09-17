@@ -31,10 +31,6 @@
 //
 //-===================================================================================================================
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"

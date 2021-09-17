@@ -36,10 +36,6 @@
 //
 //-============================================================================
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <tango.h>
 #include <device_2.h>
 #include <tango_clock.h>
