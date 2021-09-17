@@ -229,7 +229,7 @@ void GroupElementFactory::parse_name (const std::string& p, std::string &db_host
 }
 
 //=============================================================================
-// class GroupCmdReply
+// class GroupReply
 //=============================================================================
 GroupReply::GroupReply ()
   : dev_name_m("unknown"),
