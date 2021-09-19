@@ -35,10 +35,6 @@ static const char *Vers = "$Revision$";
 //
 //-=============================================================================
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <w32win.h>
 #include <resource.h>
 

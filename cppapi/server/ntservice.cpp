@@ -19,10 +19,6 @@
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <ntservice.h>
 
 #include <tango.h>

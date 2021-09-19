@@ -35,10 +35,6 @@ static const char *RcsId = "$Id$\n$Name$";
 //
 //-=============================================================================
 
-#if HAVE_CONFIG_H
-#include <ac_config.h>
-#endif
-
 #include <coutbuf.h>
 #include <resource.h>
 #include <commctrl.h>
