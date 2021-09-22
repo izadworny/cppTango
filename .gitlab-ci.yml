@@ -225,6 +225,7 @@ clang-analyzer:
       libomniorb4-dev
       libomnithread4-dev
       libzmq3-dev
+      libjpeg-dev
     # Install cppzmq
     - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
     - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
@@ -305,6 +306,7 @@ clang-tidy:
       libomniorb4-dev
       libomnithread4-dev
       libzmq3-dev
+      libjpeg-dev
     # Install cppzmq
     - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
     - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
@@ -376,6 +378,7 @@ cmake-with-locations-and-min-versions:
       pkg-config
       python3-dev
       python3-minimal
+      libjpeg-dev
     # Install cmake
     - curl -L https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh -o /tmp/cmake-install.sh
     - chmod +x /tmp/cmake-install.sh
@@ -438,6 +441,7 @@ alpine:
       libzmq
       make
       zeromq-dev
+      jpeg-dev
     # Install tango-idl
     - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
     - cmake -B /idl/build -DCMAKE_INSTALL_PREFIX=/usr/local/tango-idl /idl
@@ -488,6 +492,7 @@ doxygen-documentation:
       libomnithread4-dev
       libzmq3-dev
       omniidl
+      libjpeg-dev
       pkg-config
     # Install tango-idl
     - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
@@ -549,6 +554,7 @@ sanitizer:
       libzmq3-dev
       omniidl
       python3-minimal
+      libjpeg-dev
     # Setup a route to the containers running inside dind.
     - >
       ip route add

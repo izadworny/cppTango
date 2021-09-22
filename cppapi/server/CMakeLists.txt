@@ -137,8 +137,6 @@ set(HEADERS attrdesc.h
             )
 
 add_subdirectory(idl)
-add_subdirectory(jpeg)
-add_subdirectory(jpeg_mmx)
 
 if(WIN32)
     set(SOURCES_WIN

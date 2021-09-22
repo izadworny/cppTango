@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
   libcos4-dev                            \
   libomnithread3-dev                     \
   python3                                \
+  libjpeg-dev                            \
   libzmq3-dev
 
 RUN apt-get install -y \

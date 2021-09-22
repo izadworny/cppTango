@@ -16,6 +16,7 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: x64
       ARCH: x64-msvc15
+      VCPKG_DEFAULT_TRIPLET: x64-windows
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       MSVCVERSION: v141
       MSVCYEAR: "vs2017"
@@ -42,6 +43,7 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc14
+      VCPKG_DEFAULT_TRIPLET: x64-windows
       CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
       MSVCVERSION: v140
       MSVCYEAR: "vs2015"
@@ -95,6 +97,11 @@ init:
   - cmd: cd "C:\projects\"
   - appveyor DownloadFile https://github.com/tango-controls/Pthread_WIN32/releases/download/2.9.1/pthreads-win32-2.9.1_%ARCH%.zip
   - cmd: 7z -y x pthreads-win32-2.9.1_%ARCH%.zip -oC:\projects\pthreads-win32\
+  - cmd: cd "C:\projects\cppTango"
+  - ps: |-
+      pushd c:\projects
+      vcpkg install libjpeg-turbo
+      popd
   - cmd: cd "C:\projects\cppTango"
 
 install:

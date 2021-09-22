@@ -1101,6 +1101,7 @@ struct ranges_const2type
                                                                                \
   TANGO_CXX11_ABI std::string ranges_const2type<Tango::constant>::str = #type;
 
+#cmakedefine TANGO_USE_JPEG
 
 } // End of Tango namespace
 

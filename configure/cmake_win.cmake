@@ -33,8 +33,6 @@ endif()
 add_library(${TANGO_LIBRARY_NAME} $<TARGET_OBJECTS:log4tango_objects>
         $<TARGET_OBJECTS:idl_objects>
         $<TARGET_OBJECTS:client_objects>
-        $<TARGET_OBJECTS:jpeg_objects>
-        $<TARGET_OBJECTS:jpeg_mmx_objects>
         $<TARGET_OBJECTS:server_objects>)
 
 set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES COMPILE_DEFINITIONS
@@ -74,7 +72,7 @@ install(TARGETS ${TANGO_LIBRARY_NAME}
 
 install(DIRECTORY log4tango/include/log4tango DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "threading" EXCLUDE)
 install(DIRECTORY log4tango/include/log4tango/threading DESTINATION include/log4tango COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-install(DIRECTORY cppapi/server/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "server_objects_sta.dir" EXCLUDE PATTERN "server_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "idl" EXCLUDE PATTERN "jpeg" EXCLUDE PATTERN "jpeg_mmx" EXCLUDE)
+install(DIRECTORY cppapi/server/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "server_objects_sta.dir" EXCLUDE PATTERN "server_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "idl" EXCLUDE)
 install(DIRECTORY cppapi/client/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "client_objects_sta.dir" EXCLUDE PATTERN "client_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "helpers" EXCLUDE)
 install(DIRECTORY cppapi/client/helpers/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
 install(FILES cppapi/server/resource.h DESTINATION include COMPONENT headers)

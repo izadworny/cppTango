@@ -1,6 +1,8 @@
 include(FindPkgConfig)
 include(GNUInstallDirs)
 
+option(TANGO_USE_JPEG "Build jpeg support" ON)
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -103,6 +105,24 @@ if(ZMQ_BASE)
     include_directories(SYSTEM ${ZMQ_BASE}/include)
 else()
     pkg_search_module(ZMQ_PKG REQUIRED libzmq)
+endif()
+
+# Check for jpeg support
+if(TANGO_USE_JPEG)
+    if(JPEG_BASE)
+        message("Using JPEG_BASE=${JPEG_BASE}")
+        include_directories(SYSTEM ${JPEG_BASE}/include)
+        link_directories(${JPEG_BASE}/lib)
+        if (WIN32)
+            set(JPEG_PKG_LIBRARIES_STA "jpeg-static.lib")
+            set(JPEG_PKG_LIBRARIES_DYN "jpeg.lib")
+            set(JPEG_DLL "${JPEG_BASE}/bin/turbojpeg.dll")
+        else()
+            set(JPEG_LIBRARIES "-ljpeg")
+        endif()
+    else()
+        find_package(JPEG REQUIRED)
+    endif()
 endif()
 
 if(PTHREAD_WIN)
@@ -218,4 +238,3 @@ endif()
 include(GNUInstallDirs)
 
 option(TANGO_USE_USING_NAMESPACE "Use \"using namespace\" in header files (deprecated, but ON for backwards compatibility.)." ON)
-option(TANGO_JPEG_MMX "Build MMX support" ON)

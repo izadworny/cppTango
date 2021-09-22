@@ -9,12 +9,17 @@ The following software packages are required to build cppTango:
 - [libzmq](https://github.com/zeromq/libzmq), 4.0.5 or newer
 - [cppzmq](https://github.com/zeromq/cppzmq), 4.7.1 or newer
 
+Additionally cppTango can be built with jpeg support.
+In this case a jpeg implementation must be present:
+
+- [libjpeg-turbo](https://www.libjpeg-turbo.org/), 1.5.2 or newer
+
 In the following we assume a linux-based system, see [here](#building-on-windows) for building on Windows.
 
 On current debian systems the dependencies, except tango-idl, are available as distribution packages:
 
 ```bash
-sudo apt install cmake build-essential git libcos4-dev libomniorb4-dev libomnithread4-dev libzmq3-dev omniidl python3
+sudo apt install cmake build-essential git libcos4-dev libomniorb4-dev libomnithread4-dev libzmq3-dev omniidl libjpeg-dev python3
 ```
 
 If your linux does not have precompiled packages for these dependencies jump to the
@@ -72,8 +77,8 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 | `OMNI_BASE`                  |                                        | omniORB4 installed path
 | `TANGO_ENABLE_COVERAGE`      | `OFF`                                  | Instrument code for coverage analysis (Requires CMake 3.13+)
 | `TANGO_ENABLE_SANITIZER`     | *empty*                                | Compile with sanitizers, one of: `ASAN`, `TSAN`, `UBSAN` or `MSAN` (Requires CMake 3.13+ and Clang/GCC)
-| `TANGO_JPEG_MMX`             | `ON`                                   | Build the jpeg support with MMX extensions (32bit Linux only)
 | `TANGO_INSTALL_DEPENDENCIES` | `OFF`                                  | Install dependencies of tango as well (Windows only)
+| `TANGO_USE_JPEG`             | `ON`                                   | Build with jpeg support, in this case a jpeg library implementation is needed.
 | `TANGO_USE_USING_NAMESPACE`  | `ON`                                   | `ON` will include the `std` namespace in tango headers. Choose `OFF` for modern builds.
 | `USE_PCH`                    | `ON`                                   | Use precompiled headers (makes compilation much faster)
 | `WARNINGS_AS_ERRORS`         | `OFF`                                  | Treat compiler warnings as errors
