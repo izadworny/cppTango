@@ -594,7 +594,7 @@ sanitizer:
     - ctest -j$(nproc) --output-on-failure
 
 build-conda-dev-package:
-  stage: build
+  stage: test
   image: registry.gitlab.com/tango-controls/docker/conda-build:latest
   services: []
   script:
