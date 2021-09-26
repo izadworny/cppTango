@@ -620,7 +620,8 @@ publish-conda-dev-package:
     - pip install https://github.com/Anaconda-Platform/anaconda-client/archive/refs/tags/1.8.0.tar.gz
   script:
     - anaconda --token $ANACONDA_TOKEN upload pkg/*/*.tar.bz2 --label dev
-  dependencies:
-    - build-conda-dev-package
+  needs:
+    - job: build-conda-dev-package
+      artifacts: true
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
