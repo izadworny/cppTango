@@ -1,26 +1,20 @@
 set(SOURCES
-                Appender.cpp
-                AppenderAttachable.cpp
-                LayoutAppender.cpp
-                FileAppender.cpp
-                RollingFileAppender.cpp
-                OstreamAppender.cpp
-                Layout.cpp
-                PatternLayout.cpp
-                XmlLayout.cpp
-                Logger.cpp
-                LogSeparator.cpp
-                LoggerStream.cpp
-                LoggingEvent.cpp
-                Level.cpp
-                Filter.cpp
-                StringUtil.hh
-                StringUtil.cpp)
+                ${CMAKE_CURRENT_SOURCE_DIR}/Appender.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/AppenderAttachable.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/LayoutAppender.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/FileAppender.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/RollingFileAppender.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/OstreamAppender.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/Layout.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/PatternLayout.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/XmlLayout.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/LogSeparator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/LoggerStream.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/LoggingEvent.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/Level.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/Filter.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/StringUtil.hh
+                ${CMAKE_CURRENT_SOURCE_DIR}/StringUtil.cpp
+                PARENT_SCOPE)
 
-add_library(log4tango_objects OBJECT ${SOURCES})
-
-if(WIN32)
-    target_compile_definitions(log4tango_objects PRIVATE "${windows_defs}")
-else()
-    target_compile_options(log4tango_objects PRIVATE -fPIC)
-endif()

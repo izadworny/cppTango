@@ -1,23 +1,21 @@
-set(HEADER_FILES
-                Appender.hh
-                AppenderAttachable.hh
-                LayoutAppender.hh
-                FileAppender.hh
-                RollingFileAppender.hh
-                OstreamAppender.hh
-                Layout.hh
-                PatternLayout.hh
-                XmlLayout.hh
-                Logger.hh
-                LogSeparator.hh
-                LoggerStream.hh
-                LogStreambuf.hh
-                LoggingEvent.hh
-                Level.hh
-                Filter.hh
-                Export.hh
-                Portability.hh)
-
-install(FILES ${HEADER_FILES}
-        DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/log4tango)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/log4tango)
+set(HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Appender.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/AppenderAttachable.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/LayoutAppender.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/FileAppender.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/RollingFileAppender.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/OstreamAppender.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/Layout.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/PatternLayout.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/XmlLayout.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/Logger.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/LogSeparator.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/LoggerStream.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/LogStreambuf.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/LoggingEvent.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/Level.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/Filter.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/Export.hh
+    ${CMAKE_CURRENT_SOURCE_DIR}/Portability.hh
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    PARENT_SCOPE)

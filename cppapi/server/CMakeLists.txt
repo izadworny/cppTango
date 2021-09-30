@@ -57,81 +57,81 @@ set(SOURCES attrdesc.cpp
             w_pipe.cpp
             zmqeventsupplier.cpp)
 
-set(HEADERS attrdesc.h
-            attribute.h
-            attribute.tpp
-            attrsetval.tpp
-            attribute_spec.tpp
-            attrmanip.h
-            attrprop.h
-            attrprop.tpp
-            auto_tango_monitor.h
-            basiccommand.h
-            blackbox.h
-            classattribute.h
-            classpipe.h
-            command.h
-            pipe.h
-            pipe.tpp
-            coutappender.h
-            coutbuf.h
-            device.h
-            device_2.h
-            device_3.h
-            device_3.tpp
-            device_4.h
-            device_5.h
-            deviceclass.h
-            devintr.h
-            dintrthread.h
-            dserver.h
-            dserverclass.h
-            dserversignal.h
-            eventsupplier.h
-            except.h
-            fwdattrdesc.h
-            fwdattribute.h
-            fwdattribute.tpp
-            fwdattribute_spec.tpp
-            log4tango.h
-            logcmds.h
-            logging.h
-            logstream.h
-            multiattribute.h
-            ntservice.h
-            pipedesc.h
-            pollcmds.h
-            pollext.h
-            pollext.tpp
-            pollobj.h
-            pollring.h
-            pollring.tpp
-            pollthread.h
-            pollthread.tpp
-            readers_writers_lock.h
-            rootattreg.h
-            seqvec.h
-            tango.h
-            tango_config.h
-            tango_monitor.h
-            tangoappender.h
-            tangorollingfileappender.h
-            utils.h
-            utils.tpp
-            utils_spec.tpp
-            w32win.h
-            w_attribute.h
-            w_attribute.tpp
-            w_attrsetval.tpp
-            w_attribute_spec.tpp
-            w_pipe.h
-            w_pipe.tpp
-            subdev_diag.h
-            encoded_attribute.h
-            encoded_format.h
-            event_subscription_state.h
-            tango_optional.h
-            tango_clock.h
+set(HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/attrdesc.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/attribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/attribute.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/attrsetval.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/attribute_spec.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/attrmanip.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/attrprop.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/attrprop.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/auto_tango_monitor.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/basiccommand.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/blackbox.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/classattribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/classpipe.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/command.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pipe.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pipe.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/coutappender.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/coutbuf.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/device.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/device_2.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/device_3.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/device_3.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/device_4.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/device_5.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/deviceclass.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/devintr.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/dintrthread.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/dserver.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/dserverclass.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/dserversignal.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/eventsupplier.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/except.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/fwdattrdesc.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/fwdattribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/fwdattribute.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/fwdattribute_spec.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/log4tango.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/logcmds.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/logging.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/logstream.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/multiattribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/ntservice.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pipedesc.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollcmds.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollext.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollext.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollobj.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollring.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollring.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollthread.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/pollthread.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/readers_writers_lock.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/rootattreg.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/seqvec.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tango.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tango_config.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tango_monitor.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tangoappender.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tangorollingfileappender.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/utils.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/utils.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/utils_spec.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/w32win.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/w_attribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/w_attribute.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/w_attrsetval.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/w_attribute_spec.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/w_pipe.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/w_pipe.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/subdev_diag.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/encoded_attribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/encoded_format.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/event_subscription_state.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tango_optional.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/tango_clock.h
             )
 
 add_subdirectory(idl)
@@ -175,5 +175,9 @@ endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tango_const.h.in ${CMAKE_CURRENT_BINARY_DIR}/tango_const.h)
 
-install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango")
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tango_const.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango")
+list(APPEND HEADERS ${CMAKE_CURRENT_BINARY_DIR}/tango_const.h)
+
+set_target_properties(server_objects
+    PROPERTIES
+    PUBLIC_HEADER "${HEADERS}"
+)

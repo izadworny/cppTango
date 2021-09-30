@@ -1,6 +1,5 @@
-set(HELPERS DeviceProxyHelper.h
-            PogoHelper.h
-            TangoExceptionsHelper.h
-            Xstring.h)
-
-install(FILES ${HELPERS} DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango")
+set(HELPERS ${CMAKE_CURRENT_SOURCE_DIR}/DeviceProxyHelper.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/PogoHelper.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/TangoExceptionsHelper.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Xstring.h
+            PARENT_SCOPE)

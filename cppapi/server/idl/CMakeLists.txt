@@ -44,5 +44,15 @@ else()
       target_compile_options(idl_objects PRIVATE -Wno-sometimes-uninitialized -Wno-unused-variable -Wno-unused-parameter)
     endif()
 
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tango.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/idl")
+endif()
+    
+set_target_properties(idl_objects
+    PROPERTIES
+    PUBLIC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/tango.h
+    )
+
+# In version previous 3.13 install must be done in the same directory
+# And for 3.7 at least, we cannot use install on objects targets
+if(${CMAKE_VERSION} VERSION_LESS "3.13.0")
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tango.h" DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/idl)
 endif()

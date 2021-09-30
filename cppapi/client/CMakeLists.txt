@@ -30,33 +30,36 @@ set(SOURCES dbapi_class.cpp
             notifdeventconsumer.cpp
             zmqeventconsumer.cpp)
 
-set(HEADERS accessproxy.h
-            apiexcept.h
-            cbthread.h
-            dbapi.h
-            devapi.h
-            devasyn.h
-            event.h
-            eventconsumer.h
-            filedatabase.h
-            group.h
-            lockthread.h
-            Database.h
-            DbDevice.h
-            ApiUtil.h
-            DeviceData.h
-            DeviceAttribute.h
-            DevicePipe.h
-            Connection.h
-            DeviceProxy.h
-            AttributeProxy.h
-            event.tpp
-            devapi_attr.tpp
-            devapi_utils.tpp
-            api_util.tpp
-            devapi_pipe.tpp)
+set(HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/accessproxy.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/apiexcept.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/cbthread.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/dbapi.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/devapi.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/devasyn.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/event.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/eventconsumer.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/filedatabase.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/group.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/lockthread.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Database.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/DbDevice.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/ApiUtil.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/DeviceData.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/DeviceAttribute.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/DevicePipe.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/Connection.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/DeviceProxy.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/AttributeProxy.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/event.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/devapi_attr.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/devapi_utils.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/api_util.tpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/devapi_pipe.tpp)
 
 add_subdirectory(helpers)
+
+        #list(APPEND HEADERS ${HELPERS})
+
 add_library(client_objects OBJECT ${SOURCES})
 add_dependencies(client_objects idl_objects)
 
@@ -82,4 +85,7 @@ else()
         tango_target_pch(client_objects)
     endif()
 endif()
-install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango")
+set_target_properties(client_objects
+    PROPERTIES
+    PUBLIC_HEADER "${HEADERS};${HELPERS}"
+)
