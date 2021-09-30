@@ -6,9 +6,6 @@ if [[ "$RUN_TESTS" == "ON" ]]
 then
   docker pull tangocs/mysql:9.2.2
   docker pull tangocs/tango-cs:latest
-  git clone -b Release_1.15 --depth 1 https://gitlab.com/tango-controls/tango_admin.git
-else
-  mkdir tango_admin
 fi
 
 if [[ "$SONAR_SCANNER" == "ON" ||  "$COVERALLS" == "ON" ]]

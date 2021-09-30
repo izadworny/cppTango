@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 # vim: syntax=sh
 
-pids="$(find \
-    "$TANGO_TEST_CASE_DIRECTORY/server_pids/" \
-    -maxdepth 1 \
-    -mindepth 1 \
-    -type d \
-    -printf "%f\n" \
-    2> /dev/null)"
+export SHELLOPTS
+set -o errexit
+set -o nounset
 
-echo "Killing PIDS: " $pids
+pids=$(tr '\n' ' ' <"${TANGO_TEST_CASE_DIRECTORY}/server_pids")
 
-kill $pids &>/dev/null
-
-sleep 2
+echo "Killing PIDs: $pids"
+kill -s TERM --timeout 5000 KILL -- $pids &>/dev/null

@@ -6,6 +6,7 @@ SET(SCRIPTS
     setup_devices.sh
     start_server.sh
     kill_server.sh
+    tango_admin.sh
 )
 
 foreach(SCRIPT ${SCRIPTS})
