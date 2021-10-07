@@ -1,6 +1,6 @@
-FROM debian:buster
+FROM debian:bullseye
 
-ARG LLVM_VERSION=12
+ARG LLVM_VERSION=13
 
 ARG APP_UID=2000
 
@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y \
   python3
 
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - &&                                                  \
-    echo "deb http://apt.llvm.org/buster/ llvm-toolchain-buster-${LLVM_VERSION} main" | tee -a /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye-${LLVM_VERSION} main" | tee -a /etc/apt/sources.list && \
     apt-get update -qq &&                                                                                               \
     apt-get install --no-install-recommends -y                                                                          \
         clang-${LLVM_VERSION}                                                                                           \
