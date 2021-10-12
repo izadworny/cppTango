@@ -30,10 +30,6 @@ requirements:
     - cppzmq
     - zeromq
     - tango-idl
-  run:
-    - {{ pin_compatible('omniorb', max_pin='x.x') }}
-    # zeromq max_pin set in pin_run_as_build in conda-forge-pinning
-    - zeromq
 
 test:
   commands:
