@@ -2781,11 +2781,6 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                 {
                     TangoSys_OMemStream o;
                     delete back;
-                    for (long j = 0; j < i; j++)
-                    {
-                        att = dev_attr->get_attr_by_name(real_names[j]);
-                        att.delete_seq();
-                    }
 
                     try
                     {
