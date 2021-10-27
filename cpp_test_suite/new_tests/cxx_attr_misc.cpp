@@ -1102,6 +1102,60 @@ cout << "status = " << status << endl;
         TS_ASSERT_EQUALS(Tango::ALARM, device1->state());
         TS_ASSERT_EQUALS(Tango::ATTR_ALARM, device1->read_attribute(attr_name).get_quality());
     }
+
+/*
+ * Tests for reading multiple attributes in a single network call where the last
+ * attribute has a valid quality but the read callback does not set any value.
+ *
+ * For Device IDLv3 (or better) no value is returned from the server for such
+ * attributes and API_AttrValueNotSet exception is thrown if value extraction
+ * is attempted but other attributes are not affected.
+ *
+ * For v1 and v2 the whole call fails with API_AttrValueNotSet exception.
+ * Previously this scenario resulted in a crash due to double-delete problem.
+ */
+
+    void test_multiple_attributes_read_in_one_call_last_has_no_data_dev_impl_3()
+    {
+        Tango::DevVarStringArray attribute_names;
+        std::vector<std::string> attribute_names_value = {"Long_attr", "attr_no_data"};
+        attribute_names << attribute_names_value;
+
+        std::unique_ptr<std::vector<Tango::DeviceAttribute>> result;
+
+        TS_ASSERT_THROWS_NOTHING(
+            result = std::unique_ptr<std::vector<Tango::DeviceAttribute>>(
+                device1->read_attributes(attribute_names_value)));
+
+        TS_ASSERT_EQUALS(2u, result->size());
+
+        Tango::DevLong long_value = 0;
+        Tango::DevShort short_value = 0;
+
+        TS_ASSERT_THROWS_NOTHING((*result)[0] >> long_value);
+
+        TS_ASSERT_THROWS_ASSERT(
+            (*result)[1] >> short_value,
+            Tango::DevFailed &e,
+            TS_ASSERT(std::string(e.errors[0].reason.in()) == API_AttrValueNotSet));
+    }
+
+    void test_multiple_attributes_read_in_one_call_last_has_no_data_dev_impl_1_2()
+    {
+        Tango::DevVarStringArray attribute_names;
+        std::vector<std::string> attribute_names_value = {"Long_attr", "attr_no_data"};
+        attribute_names << attribute_names_value;
+
+        AttributeValueList_var result;
+
+        // Note that we are using get_device() to access raw CORBA stub and
+        // explicitly call DeviceImpl::read_attributes. This is required to
+        // bypass dispatching logic in DeviceProxy and force use of IDLv1/v2.
+        TS_ASSERT_THROWS_ASSERT(
+            result = device1->get_device()->read_attributes(attribute_names),
+            Tango::DevFailed &e,
+            TS_ASSERT(std::string(e.errors[0].reason.in()) == API_AttrValueNotSet));
+    }
 };
 #undef cout
 #endif // AttrMiscTestSuite_h
