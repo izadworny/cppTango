@@ -589,6 +589,6 @@ sanitizer:
       -DUSE_PCH=ON
       -DTANGO_ENABLE_SANITIZER=$SANITIZER
     - make
-    - docker pull tangocs/mysql:9.2.2
-    - docker pull tangocs/tango-cs:latest
+    - docker pull registry.gitlab.com/tango-controls/docker/mysql
+    - docker pull registry.gitlab.com/tango-controls/docker/tango-db
     - ctest -j$(nproc) --output-on-failure
