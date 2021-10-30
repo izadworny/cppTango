@@ -588,7 +588,65 @@ sanitizer:
       -DBUILD_TESTING=ON
       -DUSE_PCH=ON
       -DTANGO_ENABLE_SANITIZER=$SANITIZER
-    - make
+    - make -j$(nproc)
+    - docker pull tangocs/mysql:9.2.2
+    - docker pull tangocs/tango-cs:latest
+    - ctest -j$(nproc) --output-on-failure
+
+valgrind:
+  <<: *job-template
+  image: ubuntu:focal
+  allow_failure: true
+  variables:
+    <<: *variables
+    DEBIAN_FRONTEND: noninteractive
+    TANGO_TEST_CASE_VALGRIND_CLIENT: 1
+    TANGO_TEST_CASE_VALGRIND_SERVER: 1
+  timeout: 2h
+  before_script:
+    - ulimit -c unlimited
+    - echo "core.%e.%p.%t" > /proc/sys/kernel/core_pattern
+    - echo "1" > /proc/sys/net/ipv4/ip_forward
+    - apt-get update
+    - >
+      apt-get install -y
+      g++
+      cmake
+      docker.io
+      git
+      iproute2
+      omniidl
+      libcos4-dev
+      libomniorb4-dev
+      libomnithread4-dev
+      libzmq3-dev
+      valgrind
+    # Setup a route to the containers running inside dind.
+    - >
+      ip route add
+      $(docker network inspect -f '{{(index .IPAM.Config 0).Subnet}}' bridge)
+      via
+      $(getent hosts docker | awk '{ print $1 }')
+      dev eth0
+    # Install tango-idl.
+    - git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git /idl
+    - cmake -B/idl/build /idl
+    - make -C /idl/build install
+    # Install cppzmq
+    - git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git /cppzmq
+    - cmake -B /cppzmq/build -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
+    - make -C /cppzmq/build install
+    # Create build directory for cppTango.
+    - mkdir build
+  script:
+    - cd build
+    - >
+      cmake ..
+      -DCMAKE_BUILD_TYPE=Debug
+      -DBUILD_TESTING=ON
+      -DUSE_PCH=ON
+      -DTANGO_USE_USING_NAMESPACE=OFF
+    - make -j$(nproc)
     - docker pull tangocs/mysql:9.2.2
     - docker pull tangocs/tango-cs:latest
     - ctest -j$(nproc) --output-on-failure
