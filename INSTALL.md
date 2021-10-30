@@ -239,9 +239,37 @@ manually, from `build/` directory run:
 source ./cpp_test_suite/environment/setup_database.sh  # source to get TANGO_HOST
 ./cpp_test_suite/environment/setup_devices.sh
 # attach the debugger or perform some additional configuration
-TANGO_TEST_CASE_SKIP_FIXTURE=1 ctest -V -R ds_cache
+env TANGO_TEST_CASE_SKIP_FIXTURE=1 ctest -V -R ds_cache
 killall DevTest FwdTest
 docker stop tango_cs mysql_db
+```
+
+## Using Valgrind in tests
+
+It is possible to run the test programs and test device servers under Valgrind.
+This is controlled with a number of environment variables:
+
+* `TANGO_TEST_CASE_VALGRIND_CLIENT`: if set, Valgrind will be used to run the
+  test program,
+* `TANGO_TEST_CASE_VALGRIND_SERVER`: if set, Valgrind will be used to run the
+  test device server(s),
+* `TANGO_TEST_CASE_VALGRIND_OPTIONS`: if set, overrides default flags passed
+  to Valgrind.
+
+For example following command can be used to run device servers under Valgrind:
+
+```bash
+env TANGO_TEST_CASE_VALGRIND_SERVER=1 ctest -V -R cxx_attr_conf
+```
+
+Following command will run the test program under Valgrind, stop on the first
+error and wait for attaching a debugger:
+
+```bash
+env \
+   TANGO_TEST_CASE_VALGRIND_CLIENT=1 \
+   TANGO_TEST_CASE_VALGRIND_OPTIONS="--tool=memcheck --leak-check=full --track-origins=yes --vgdb=yes --vgdb-error=0" \
+   ctest -V -R cxx_attr_conf
 ```
 
 # Building on windows

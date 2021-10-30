@@ -6,6 +6,24 @@ set -o nounset
 
 : "${TANGO_TEST_CASE_SKIP_FIXTURE:=}" # Not set by default.
 
+default_valgrind_options=(
+    --tool=memcheck
+    --leak-check=full
+    --track-origins=yes
+    --suppressions='@PROJECT_SOURCE_DIR@/suppressions-valgrind.supp'
+    --show-error-list=yes
+    --verbose
+    --error-exitcode=80)
+
+default_valgrind_options_str=$(printf "'%s' " "${default_valgrind_options[@]}")
+
+# Export valgrind options to use from the start_server.sh script.
+set -o allexport
+: "${TANGO_TEST_CASE_VALGRIND_CLIENT:=}"
+: "${TANGO_TEST_CASE_VALGRIND_SERVER:=}"
+: "${TANGO_TEST_CASE_VALGRIND_OPTIONS:="${default_valgrind_options_str}"}"
+set +o allexport
+
 if [ $# -lt 1 ]; then
     echo "usage: $0 <executable> [args...]"
     exit 1
@@ -97,7 +115,14 @@ fi
 set +o errexit
 set -o pipefail
 
-"${tc_program}" "$@" 2>&1 | tee "${TANGO_TEST_CASE_DIRECTORY}/testcase.log"
+if [[ -z "${TANGO_TEST_CASE_VALGRIND_CLIENT}" ]]; then
+    "${tc_program}" "$@" 2>&1 | tee "${TANGO_TEST_CASE_DIRECTORY}/testcase.log"
+else
+    declare -a "valgrind_options=($TANGO_TEST_CASE_VALGRIND_OPTIONS)"
+    valgrind "${valgrind_options[@]}" "${tc_program}" "$@" \
+        2>&1 | tee "${TANGO_TEST_CASE_DIRECTORY}/testcase.log"
+fi
+
 tc_exit_code="$?"
 
 set +o pipefail

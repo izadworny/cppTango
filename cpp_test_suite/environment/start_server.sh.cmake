@@ -31,7 +31,13 @@ server_path="${3:-cpp_test_ds}"
         exec 1<>"${TANGO_TEST_CASE_DIRECTORY}/${server}_${instance}_${server_pid}_stdout.log"
         exec 2>&1
 
-        exec "@PROJECT_BINARY_DIR@/${server_path}/${server}" "$instance" -v5
+        if [[ -z "${TANGO_TEST_CASE_VALGRIND_SERVER}" ]]; then
+            exec "@PROJECT_BINARY_DIR@/${server_path}/${server}" "$instance" -v5
+        else
+            declare -a "valgrind_options=($TANGO_TEST_CASE_VALGRIND_OPTIONS)"
+            exec valgrind "${valgrind_options[@]}" \
+                "@PROJECT_BINARY_DIR@/${server_path}/${server}" "$instance" -v5
+        fi
     ) &
     server_pid="$!"
 

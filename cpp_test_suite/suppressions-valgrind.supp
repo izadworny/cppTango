@@ -1,0 +1,25 @@
+# Padding bytes in GIOP messages are not initialised. This is observed in most
+# calls made by the client because Request header contains a response_expected
+# flag (one octet) followed by key size (four octets) that needs to be aligned
+# to a four-octet boundary, leaving three padding bytes.
+# See src/lib/omniORB/orbcore/giopImpl10.cc (giopImpl10::marshalRequestHeader)
+{
+  OmniOrbSendUninitialisedBytesUnix
+  Memcheck:Param
+  socketcall.sendto(msg)
+  fun:send
+  fun:_ZN4omni14unixConnection4SendEPvmRK11omni_time_t
+  fun:_ZN4omni10giopStream9sendChunkEPNS_17giopStream_BufferE
+  fun:_ZN4omni10giopImpl1216outputMessageEndEPNS_10giopStreamE
+}
+
+# Same as OmniOrbSendUninitialisedBytesUnix but for TCP socket.
+{
+  OmniOrbSendUninitialisedBytesTcp
+  Memcheck:Param
+  socketcall.sendto(msg)
+  fun:send
+  fun:_ZN4omni13tcpConnection4SendEPvmRK11omni_time_t
+  fun:_ZN4omni10giopStream9sendChunkEPNS_17giopStream_BufferE
+  fun:_ZN4omni10giopImpl1016outputMessageEndEPNS_10giopStreamE
+}
