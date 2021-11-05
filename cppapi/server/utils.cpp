@@ -3168,5 +3168,95 @@ long _convert_tango_lib_release()
 	return ret;
 }
 
+std::ostream& operator<<(std::ostream& o_str, const CmdArgType& type)
+{
+    o_str << data_type_to_string(type);
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const AttrDataFormat& format)
+{
+    switch (format)
+    {
+        case Tango::FMT_UNKNOWN:
+            o_str << "Unknown" << std::endl;
+            break;
+
+        case Tango::SCALAR :
+            o_str << "Scalar" << std::endl;
+            break;
+
+        case Tango::SPECTRUM :
+            o_str << "Spectrum" << std::endl;
+            break;
+
+        case Tango::IMAGE :
+            o_str << "Image" << std::endl;
+            break;
+    }
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const AttrWriteType& writable)
+{
+    switch (writable)
+    {
+        case Tango::WRITE:
+            o_str << "Write" << std::endl;
+            break;
+
+        case Tango::READ:
+            o_str << "Read" << std::endl;
+            break;
+
+        case Tango::READ_WRITE:
+            o_str << "Read/Write" << std::endl;
+            break;
+
+        case Tango::READ_WITH_WRITE:
+            o_str << "Read with write" << std::endl;
+            break;
+
+        default:
+            break;
+    }
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const PipeWriteType& writable)
+{
+    switch (writable)
+    {
+        case Tango::PIPE_READ:
+            o_str << "Read" << std::endl;
+            break;
+
+        case Tango::PIPE_READ_WRITE:
+            o_str << "Read/Write" << std::endl;
+            break;
+
+        default:
+            break;
+    }
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const DispLevel& level)
+{
+    switch (level)
+    {
+        case DL_UNKNOWN :
+            o_str << "Unknown" << std::endl;
+            break;
+
+        case OPERATOR:
+            o_str << "Operator" << std::endl;
+            break;
+
+        case EXPERT:
+            o_str << "Expert" << std::endl;
+            break;
+
+        default:
+            break;
+    }
+    return o_str;
+}
 
 } // End of Tango namespace

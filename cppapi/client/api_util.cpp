@@ -458,24 +458,7 @@ void ApiUtil::get_asynch_replies()
 // Process request
 //
 
-            switch (tg_req.req_type)
-            {
-                case TgRequest::CMD_INOUT :
-                    tg_req.dev->Cb_Cmd_Request(req, tg_req.cb_ptr);
-                    break;
-
-                case TgRequest::READ_ATTR :
-                    tg_req.dev->Cb_ReadAttr_Request(req, tg_req.cb_ptr);
-                    break;
-
-                case TgRequest::WRITE_ATTR :
-                case TgRequest::WRITE_ATTR_SINGLE :
-                    tg_req.dev->Cb_WriteAttr_Request(req, tg_req.cb_ptr);
-                    break;
-            }
-
-            tg_req.dev->dec_asynch_counter(CALL_BACK);
-            asyn_p_table->remove_request(tg_req.dev, req);
+            process_request(tg_req.dev, tg_req, req);
         }
     }
     catch (CORBA::BAD_INV_ORDER &e)
@@ -497,29 +480,33 @@ void ApiUtil::get_asynch_replies()
     {
         if (pos->second.arrived == true)
         {
-            switch (pos->second.req_type)
-            {
-                case TgRequest::CMD_INOUT :
-                    pos->first->Cb_Cmd_Request(pos->second.request, pos->second.cb_ptr);
-                    break;
-
-                case TgRequest::READ_ATTR :
-                    pos->first->Cb_ReadAttr_Request(pos->second.request, pos->second.cb_ptr);
-                    break;
-
-                case TgRequest::WRITE_ATTR :
-                case TgRequest::WRITE_ATTR_SINGLE :
-                    pos->first->Cb_WriteAttr_Request(pos->second.request, pos->second.cb_ptr);
-                    break;
-            }
-            pos->first->dec_asynch_counter(CALL_BACK);
-            asyn_p_table->remove_request(pos->first, pos->second.request);
+            process_request(pos->first, pos->second, pos->second.request);
         }
 
     }
 
 }
 
+void ApiUtil::process_request(Connection* connection, const TgRequest& tg_req, CORBA::Request_ptr& req)
+{
+    switch (tg_req.req_type)
+    {
+        case TgRequest::CMD_INOUT :
+            connection->Cb_Cmd_Request(req, tg_req.cb_ptr);
+            break;
+
+        case TgRequest::READ_ATTR :
+            connection->Cb_ReadAttr_Request(req, tg_req.cb_ptr);
+            break;
+
+        case TgRequest::WRITE_ATTR :
+        case TgRequest::WRITE_ATTR_SINGLE :
+            connection->Cb_WriteAttr_Request(req, tg_req.cb_ptr);
+            break;
+    }
+    connection->dec_asynch_counter(CALL_BACK);
+    asyn_p_table->remove_request(connection, req);
+}
 
 //------------------------------------------------------------------------------------------------------------------
 //
@@ -1731,45 +1718,7 @@ std::ostream &operator<<(std::ostream &o_str, const AttributeInfo &p)
 //
 
     o_str << "Attribute name = " << p.name << std::endl;
-    o_str << "Attribute data_type = ";
-    switch (p.data_type)
-    {
-        case Tango::DEV_SHORT :
-            o_str << "Tango::DevShort" << std::endl;
-            break;
-
-        case Tango::DEV_LONG :
-            o_str << "Tango::DevLong" << std::endl;
-            break;
-
-        case Tango::DEV_DOUBLE :
-            o_str << "Tango::DevDouble" << std::endl;
-            break;
-
-        case Tango::DEV_STRING :
-            o_str << "Tango::DevString" << std::endl;
-            break;
-
-        case Tango::DEV_FLOAT :
-            o_str << "Tango::DevFloat" << std::endl;
-            break;
-
-        case Tango::DEV_USHORT :
-            o_str << "Tango::DevUShort" << std::endl;
-            break;
-
-        case Tango::DEV_UCHAR :
-            o_str << "Tango::DevUChar" << std::endl;
-            break;
-
-        case Tango::DEV_BOOLEAN :
-            o_str << "Tango::DevBoolean" << std::endl;
-            break;
-
-        case Tango::DEV_STATE :
-            o_str << "Tango::DevState" << std::endl;
-            break;
-    }
+    o_str << "Attribute data_type = " << (CmdArgType)p.data_type << std::endl;
 
     o_str << "Attribute data_format = ";
     switch (p.data_format)
@@ -2042,112 +1991,31 @@ std::ostream &operator<<(std::ostream &o_str, const AttributeInfoEx &p)
 //
 
     o_str << "Attribute name = " << p.name << std::endl;
-    o_str << "Attribute data_type = ";
-    switch (p.data_type)
+    o_str << "Attribute data_type = " << (CmdArgType)p.data_type << std::endl;
+
+    if(p.data_type == Tango::DEV_ENUM)
     {
-        case Tango::DEV_SHORT :
-            o_str << "Tango::DevShort" << std::endl;
-            break;
-
-        case Tango::DEV_LONG :
-            o_str << "Tango::DevLong" << std::endl;
-            break;
-
-        case Tango::DEV_DOUBLE :
-            o_str << "Tango::DevDouble" << std::endl;
-            break;
-
-        case Tango::DEV_STRING :
-            o_str << "Tango::DevString" << std::endl;
-            break;
-
-        case Tango::DEV_FLOAT :
-            o_str << "Tango::DevFloat" << std::endl;
-            break;
-
-        case Tango::DEV_USHORT :
-            o_str << "Tango::DevUShort" << std::endl;
-            break;
-
-        case Tango::DEV_UCHAR :
-            o_str << "Tango::DevUChar" << std::endl;
-            break;
-
-        case Tango::DEV_BOOLEAN :
-            o_str << "Tango::DevBoolean" << std::endl;
-            break;
-
-        case Tango::DEV_STATE :
-            o_str << "Tango::DevState" << std::endl;
-            break;
-
-        case Tango::DEV_ULONG :
-            o_str << "Tango::DevULong" << std::endl;
-            break;
-
-        case Tango::DEV_ULONG64 :
-            o_str << "Tango::DevULong64" << std::endl;
-            break;
-
-        case Tango::DEV_ENCODED :
-            o_str << "Tango::DevEncoded" << std::endl;
-            break;
-
-        case Tango::DEV_ENUM :
-            o_str << "Tango::DevEnum" << std::endl;
-            for (size_t loop = 0; loop < p.enum_labels.size(); loop++)
-            {
-                o_str << "\tEnumeration label = " << p.enum_labels[loop] << std::endl;
-            }
-            break;
-
-        case Tango::DATA_TYPE_UNKNOWN :
-            o_str << "Unknown" << std::endl;
-            break;
+        for (size_t loop = 0; loop < p.enum_labels.size(); loop++)
+        {
+            o_str << "\tEnumeration label = " << p.enum_labels[loop] << std::endl;
+        }
     }
 
-    o_str << "Attribute data_format = ";
+    o_str << "Attribute data_format = " << p.data_format;
     switch (p.data_format)
     {
-        case Tango::FMT_UNKNOWN:
-            o_str << " Unknown" << std::endl;
-            break;
-
-        case Tango::SCALAR :
-            o_str << "scalar" << std::endl;
-            break;
-
         case Tango::SPECTRUM :
-            o_str << "spectrum, max_dim_x = " << p.max_dim_x << std::endl;
+            o_str << ", max_dim_x = " << p.max_dim_x << std::endl;
             break;
 
         case Tango::IMAGE :
-            o_str << "image, max_dim_x = " << p.max_dim_x << ", max_dim_y = " << p.max_dim_y << std::endl;
+            o_str << ", max_dim_x = " << p.max_dim_x << ", max_dim_y = " << p.max_dim_y << std::endl;
             break;
-    }
-
-    o_str << "Attribute writable type = ";
-    switch (p.writable)
-    {
-        case Tango::WRITE:
-            o_str << "Write" << std::endl;
-            break;
-
-        case Tango::READ:
-            o_str << "Read" << std::endl;
-            break;
-
-        case Tango::READ_WRITE:
-            o_str << "Read/Write" << std::endl;
-            break;
-
-        case Tango::READ_WITH_WRITE:
-            o_str << "Read with write" << std::endl;
-            break;
-
         default:
             break;
     }
+
+    o_str << "Attribute writable type = " << p.writable << std::endl;
 
     if ((p.writable == Tango::WRITE) || (p.writable == Tango::READ_WRITE))
     {
@@ -2174,24 +2042,7 @@ std::ostream &operator<<(std::ostream &o_str, const AttributeInfoEx &p)
         }
     }
 
-    o_str << "Attribute display level = ";
-    switch (p.disp_level)
-    {
-        case DL_UNKNOWN :
-            o_str << "Unknown" << std::endl;
-            break;
-
-        case OPERATOR:
-            o_str << "Operator" << std::endl;
-            break;
-
-        case EXPERT:
-            o_str << "Expert" << std::endl;
-            break;
-
-        default:
-            break;
-    }
+    o_str << "Attribute display level = " << p.disp_level << std::endl;
 
     o_str << "Attribute writable_attr_name = " << p.writable_attr_name << std::endl;
     if (p.root_attr_name.empty() == false)
@@ -2328,24 +2179,7 @@ std::ostream &operator<<(std::ostream &o_str, const PipeInfo &p)
         o_str << "READ_WRITE" << std::endl;
     }
 
-    o_str << "Pipe display level = ";
-    switch (p.disp_level)
-    {
-        case DL_UNKNOWN :
-            o_str << "Unknown";
-            break;
-
-        case OPERATOR:
-            o_str << "Operator";
-            break;
-
-        case EXPERT:
-            o_str << "Expert";
-            break;
-
-        default:
-            break;
-    }
+    o_str << "Pipe display level = " << p.disp_level << std::endl;
 
     unsigned int i;
     for (i = 0; i < p.extensions.size(); i++)

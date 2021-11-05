@@ -76,6 +76,20 @@ class W32Win;
 // should be moved into a private header once we have that.
 extern thread_local bool is_tango_library_thread;
 
+// Template metaprogramming to infer
+// underlying type for DevVarArray types.
+// and vice versa
+template<class T>
+struct get_type;
+  
+template<class T>
+struct tango_type_traits;
+  
+template<template<class> class T, class U>
+struct get_type<T<U>> {
+        using type = U;
+};
+
 class Interceptors
 {
 public:
@@ -1154,6 +1168,12 @@ struct DevDbUpd
 
 long _convert_tango_lib_release();
 
+// Helper functions to display types, format and so on as strings.
+std::ostream& operator<<(std::ostream& o_str, const CmdArgType& type);
+std::ostream& operator<<(std::ostream& o_str, const AttrDataFormat& format);
+std::ostream& operator<<(std::ostream& o_str, const AttrWriteType& writable);
+std::ostream& operator<<(std::ostream& o_str, const PipeWriteType& writable);
+std::ostream& operator<<(std::ostream& o_str, const DispLevel& level);
 } // End of Tango namespace
 
 #endif /* UTILS */
