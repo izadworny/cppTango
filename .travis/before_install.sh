@@ -4,8 +4,8 @@ set -e
 
 if [[ "$RUN_TESTS" == "ON" ]]
 then
-  docker pull registry.gitlab.com/tango-controls/docker/mysql
-  docker pull registry.gitlab.com/tango-controls/docker/tango-db
+  docker pull registry.gitlab.com/tango-controls/docker/mysql:5.16-mysql-5
+  docker pull registry.gitlab.com/tango-controls/docker/tango-db:5.16
 fi
 
 if [[ "$SONAR_SCANNER" == "ON" ||  "$COVERALLS" == "ON" ]]
