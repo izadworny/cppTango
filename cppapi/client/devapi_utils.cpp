@@ -116,424 +116,82 @@ void DeviceProxy::from_hist4_2_DataHistory(const DevCmdHistory_4_var &hist_4,std
 // Get data ptr and data size
 //
 
-	const Tango::DevVarDoubleArray *tmp_db;
-	const Tango::DevVarShortArray *tmp_sh;
-	const Tango::DevVarLongArray *tmp_lg;
-	const Tango::DevVarLong64Array *tmp_lg64;
-	const Tango::DevVarStringArray *tmp_str;
-	const Tango::DevVarFloatArray *tmp_fl;
-	const Tango::DevVarBooleanArray *tmp_boo;
-	const Tango::DevVarUShortArray *tmp_ush;
-	const Tango::DevVarCharArray *tmp_uch;
-	const Tango::DevVarULongArray *tmp_ulg;
-	const Tango::DevVarULong64Array *tmp_ulg64;
-	const Tango::DevVarStateArray *tmp_state;
-	const Tango::DevVarLongStringArray *tmp_lg_str;
-	const Tango::DevVarDoubleStringArray *tmp_db_str;
-	const Tango::DevVarEncodedArray *tmp_enc;
-
-	unsigned int seq_size = 0;
-	unsigned int seq_size_str = 0;
-	unsigned int seq_size_num = 0;
-
 	switch (hist_4->cmd_type)
 	{
 		case DEV_LONG:
+                    extract_value<Tango::DevLong>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_LONGARRAY:
-		hist_4->value >>= tmp_lg;
-		seq_size = tmp_lg->length();
-		break;
-
+                    extract_value<Tango::DevVarLongArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_LONG64:
+                    extract_value<Tango::DevLong64>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_LONG64ARRAY:
-		hist_4->value >>= tmp_lg64;
-		seq_size = tmp_lg64->length();
-		break;
-
+                    extract_value<Tango::DevVarLong64Array>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_SHORT:
+                    extract_value<Tango::DevShort>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_SHORTARRAY:
-		hist_4->value >>= tmp_sh;
-		seq_size = tmp_sh->length();
-		break;
-
+                    extract_value<Tango::DevVarShortArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_DOUBLE:
+                    extract_value<Tango::DevDouble>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_DOUBLEARRAY:
-		hist_4->value >>= tmp_db;
-		seq_size = tmp_db->length();
-		break;
-
+                    extract_value<Tango::DevVarDoubleArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_STRING:
+                    extract_value<Tango::DevString>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_STRINGARRAY:
-		hist_4->value >>= tmp_str;
-		seq_size = tmp_str->length();
-		break;
-
+                    extract_value<Tango::DevVarStringArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_FLOAT:
+                    extract_value<Tango::DevFloat>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_FLOATARRAY:
-		hist_4->value >>= tmp_fl;
-		seq_size = tmp_fl->length();
-		break;
-
+                    extract_value<Tango::DevVarFloatArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_BOOLEAN:
-		hist_4->value >>= tmp_boo;
-		seq_size = tmp_boo->length();
-		break;
-
+                    extract_value<Tango::DevBoolean>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_USHORT:
+                    extract_value<Tango::DevUShort>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_USHORTARRAY:
-		hist_4->value >>= tmp_ush;
-		seq_size = tmp_ush->length();
-		break;
-
+                    extract_value<Tango::DevVarUShortArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_CHARARRAY:
-		hist_4->value >>= tmp_uch;
-		seq_size = tmp_uch->length();
-		break;
-
+                    extract_value<Tango::DevVarCharArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_ULONG:
+                    extract_value<Tango::DevULong>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_ULONGARRAY:
-		hist_4->value >>= tmp_ulg;
-		seq_size = tmp_ulg->length();
-		break;
-
+                    extract_value<Tango::DevVarULongArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_ULONG64:
+                    extract_value<Tango::DevULong64>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_ULONG64ARRAY:
-		hist_4->value >>= tmp_ulg64;
-		seq_size = tmp_ulg64->length();
-		break;
-
+                    extract_value<Tango::DevVarULong64Array>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_STATE:
-		hist_4->value >>= tmp_state;
-		seq_size = tmp_state->length();
-		break;
-
+                    extract_value<Tango::DevState>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_LONGSTRINGARRAY:
-		hist_4->value >>= tmp_lg_str;
-		seq_size_str = tmp_lg_str->svalue.length();
-		seq_size_num = tmp_lg_str->lvalue.length();
-		break;
-
+                    extract_value<Tango::DevVarLongStringArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEVVAR_DOUBLESTRINGARRAY:
-		hist_4->value >>= tmp_db_str;
-		seq_size_str = tmp_db_str->svalue.length();
-		seq_size_num = tmp_db_str->dvalue.length();
-		break;
-
+                    extract_value<Tango::DevVarDoubleStringArray>(hist_4->value, *ddh, ad);
+                    break;
 		case DEV_ENCODED:
-		hist_4->value >>= tmp_enc;
-		seq_size = tmp_enc->length();
-		break;
+                    extract_value<Tango::DevEncoded>(hist_4->value, *ddh, ad);
+                    break;
 	}
 
-//
-// Copy data
-//
-
-	int base = seq_size;
-	int base_str = seq_size_str;
-	int base_num = seq_size_num;
-
-	for (loop = 0;loop < h_depth;loop++)
-	{
-
-		if ((*ddh)[loop].failed() == true)
-			continue;
-
-//
-// Get the data length for this record
-//
-
-		int data_length = ad[loop].dim_x;
-		int data_num_length = ad[loop].dim_y;
-
-//
-// Real copy now
-//
-
-		switch (hist_4->cmd_type)
-		{
-			case Tango::DEV_SHORT:
-			{
-				Tango::DevShort tmp_data = (*tmp_sh)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_SHORTARRAY:
-			{
-				const CORBA::Short *c_seq_buff = tmp_sh->get_buffer();
-				CORBA::Short *seq_buff = const_cast<CORBA::Short*>(c_seq_buff);
-				Tango::DevVarShortArray ShortSeq = DevVarShortArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= ShortSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_LONG:
-			{
-				Tango::DevLong tmp_data = (*tmp_lg)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_LONGARRAY:
-			{
-				const CORBA::Long *c_seq_buff = tmp_lg->get_buffer();
-				CORBA::Long *seq_buff = const_cast<CORBA::Long*>(c_seq_buff);
-				Tango::DevVarLongArray LongSeq = DevVarLongArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= LongSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_FLOAT:
-			{
-				Tango::DevFloat tmp_data = (*tmp_fl)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_FLOATARRAY:
-			{
-				const CORBA::Float *c_seq_buff = tmp_fl->get_buffer();
-				CORBA::Float *seq_buff = const_cast<CORBA::Float*>(c_seq_buff);
-				Tango::DevVarFloatArray FloatSeq = DevVarFloatArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= FloatSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_DOUBLE:
-			{
-				Tango::DevDouble tmp_data = (*tmp_db)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_DOUBLEARRAY:
-			{
-				const CORBA::Double *c_seq_buff = tmp_db->get_buffer();
-				CORBA::Double *seq_buff = const_cast<CORBA::Double*>(c_seq_buff);
-				Tango::DevVarDoubleArray DoubleSeq = DevVarDoubleArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= DoubleSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_LONG64:
-			{
-				Tango::DevLong64 tmp_data = (*tmp_lg64)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_LONG64ARRAY:
-			{
-				const CORBA::LongLong *c_seq_buff = tmp_lg64->get_buffer();
-				CORBA::LongLong *seq_buff = const_cast<CORBA::LongLong*>(c_seq_buff);
-				Tango::DevVarLong64Array Long64Seq = DevVarLong64Array(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= Long64Seq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_STRING:
-			{
-				Tango::ConstDevString tmp_data = (*tmp_str)[base - 1].in();
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_STRINGARRAY:
-			{
-				const Tango::ConstDevString *c_seq_buff = tmp_str->get_buffer();
-				char **seq_buff = const_cast<char **>(c_seq_buff);
-				Tango::DevVarStringArray StrSeq = DevVarStringArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= StrSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_BOOLEAN:
-			{
-				Tango::DevBoolean tmp_data = (*tmp_boo)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= CORBA::Any::from_boolean(tmp_data);
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_USHORT:
-			{
-				Tango::DevUShort tmp_data = (*tmp_ush)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_USHORTARRAY:
-			{
-				const Tango::DevUShort *c_seq_buff = tmp_ush->get_buffer();
-				Tango::DevUShort *seq_buff = const_cast<Tango::DevUShort*>(c_seq_buff);
-				Tango::DevVarUShortArray UshSeq = DevVarUShortArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= UshSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_ULONG:
-			{
-				Tango::DevULong tmp_data = (*tmp_ulg)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_ULONGARRAY:
-			{
-				const Tango::DevULong *c_seq_buff = tmp_ulg->get_buffer();
-				Tango::DevULong *seq_buff = const_cast<Tango::DevULong*>(c_seq_buff);
-				Tango::DevVarULongArray UlgSeq = DevVarULongArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= UlgSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_ULONG64:
-			{
-				Tango::DevULong64 tmp_data = (*tmp_ulg64)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_ULONG64ARRAY:
-			{
-				const Tango::DevULong64 *c_seq_buff = tmp_ulg64->get_buffer();
-				Tango::DevULong64 *seq_buff = const_cast<Tango::DevULong64*>(c_seq_buff);
-				Tango::DevVarULong64Array Ulg64Seq = DevVarULong64Array(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= Ulg64Seq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_CHARARRAY:
-			{
-				const Tango::DevUChar *c_seq_buff = tmp_uch->get_buffer();
-				Tango::DevUChar *seq_buff = const_cast<Tango::DevUChar*>(c_seq_buff);
-				Tango::DevVarCharArray CharSeq = DevVarCharArray(data_length,data_length,&(seq_buff[base - data_length]),false);
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= CharSeq;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_STATE:
-			{
-				Tango::DevState tmp_data = (*tmp_state)[base - 1];
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= tmp_data;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_LONGSTRINGARRAY:
-			{
-				Tango::DevVarLongStringArray *dvlsa = new Tango::DevVarLongStringArray();
-				dvlsa->svalue.length(data_length);
-				dvlsa->lvalue.length(data_num_length);
-
-				int ll;
-				for (ll = 0;ll < data_length;ll++)
-					dvlsa->svalue[ll] = tmp_lg_str->svalue[(base_str - data_length) + ll];
-				for (ll = 0;ll < data_num_length;ll++)
-					dvlsa->lvalue[ll] = tmp_lg_str->lvalue[(base_num - data_num_length) + ll];
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= dvlsa;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEVVAR_DOUBLESTRINGARRAY:
-			{
-				Tango::DevVarDoubleStringArray *dvdsa = new Tango::DevVarDoubleStringArray();
-				dvdsa->svalue.length(data_length);
-				dvdsa->dvalue.length(data_num_length);
-
-				int ll;
-				for (ll = 0;ll < data_length;ll++)
-					dvdsa->svalue[ll] = tmp_db_str->svalue[(base_str - data_length) + ll];
-				for (ll = 0;ll < data_num_length;ll++)
-					dvdsa->dvalue[ll] = tmp_db_str->dvalue[(base_num - data_num_length) + ll];
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= dvdsa;
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-
-			case Tango::DEV_ENCODED:
-			{
-/*				Tango::DevEncoded &tmp_data = (*tmp_enc)[base - 1];
-
-				Tango::DevEncoded EncSeq;
-				EncSeq.encoded_format = Tango::string_dup(tmp_data.encoded_format);
-				unsigned int buffer_length = tmp_data.encoded_data.length();
-				EncSeq.encoded_data.length(buffer_length);
-				for (unsigned int ll = 0;ll << buffer_length;++ll)
-					EncSeq.encoded_data[ll] = tmp_data.encoded_data[ll];*/
-
-				CORBA::Any *any_ptr = new CORBA::Any();
-				(*any_ptr) <<= (*tmp_enc)[base - 1];
-				(*ddh)[loop].any = any_ptr;
-			}
-			break;
-		}
-
-		if ((hist_4->cmd_type == DEVVAR_LONGSTRINGARRAY) || (hist_4->cmd_type == DEVVAR_DOUBLESTRINGARRAY))
-		{
-			base_str = base_str - data_length;
-			base_num = base_num - data_num_length;
-		}
-		else
-			base = base - data_length;
-
-	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------

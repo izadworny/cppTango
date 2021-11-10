@@ -601,6 +601,7 @@ private:
     };
 
     std::unique_ptr<DeviceDataHistoryExt>    ext_hist;
+    
 };
 
 typedef std::vector<DeviceDataHistory> DeviceDataHistoryList;

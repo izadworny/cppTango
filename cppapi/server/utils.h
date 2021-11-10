@@ -82,6 +82,18 @@ extern thread_local bool is_tango_library_thread;
 template<class T>
 struct get_type;
   
+template<>
+struct get_type<_CORBA_Sequence_Boolean>
+{
+    using type = Tango::DevBoolean;
+};
+
+template<>
+struct get_type<_CORBA_Sequence_Octet>
+{
+    using type = Tango::DevUChar;
+};
+
 template<class T>
 struct tango_type_traits;
   

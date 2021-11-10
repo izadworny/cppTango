@@ -9703,4 +9703,29 @@ int DeviceProxy::get_tango_lib_version()
     return ret;
 }
 
+template void DeviceProxy::extract_value<Tango::DevLong>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevULong>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarLongArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarULongArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevLong64>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevULong64>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarLong64Array>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarULong64Array>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevShort>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevUShort>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarShortArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarUShortArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevDouble>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarDoubleArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevFloat>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarFloatArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevBoolean>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarBooleanArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevString>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarStringArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarCharArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevState>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevVarStateArray>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+template void DeviceProxy::extract_value<Tango::DevEncoded>(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList&);
+
 } // End of Tango namespace

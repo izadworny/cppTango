@@ -812,6 +812,7 @@ inline void Attribute::set_max_warning(const std::string &new_max_warning_str)
 }
 
 
+
 template<>
 struct tango_type_traits<Tango::DevShort>
 {
@@ -896,6 +897,97 @@ struct tango_type_traits<Tango::DevState>
     using type = Tango::DevState;
     static constexpr CmdArgType type_value = DEV_STATE; 
 };
+template<>
+struct tango_type_traits<Tango::DevEncoded>
+{
+    using array_type = Tango::DevVarEncodedArray;
+    using type = Tango::DevEncoded;
+    static constexpr CmdArgType type_value = DEV_ENCODED; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarShortArray>
+{
+    using array_type = Tango::DevVarShortArray;
+    using type = Tango::DevVarShortArray;
+    static constexpr CmdArgType type_value = DEVVAR_SHORTARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarUShortArray>
+{
+    using array_type = Tango::DevVarUShortArray;
+    using type = Tango::DevVarUShortArray;
+    static constexpr CmdArgType type_value = DEVVAR_USHORTARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarLongArray>
+{
+    using array_type = Tango::DevVarLongArray;
+    using type = Tango::DevVarLongArray;
+    static constexpr CmdArgType type_value = DEVVAR_LONGARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarULongArray>
+{
+    using array_type = Tango::DevVarULongArray;
+    using type = Tango::DevVarULongArray;
+    static constexpr CmdArgType type_value = DEVVAR_ULONGARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarLong64Array>
+{
+    using array_type = Tango::DevVarLong64Array;
+    using type = Tango::DevVarLong64Array;
+    static constexpr CmdArgType type_value = DEVVAR_LONG64ARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarULong64Array>
+{
+    using array_type = Tango::DevVarULong64Array;
+    using type = Tango::DevVarULong64Array;
+    static constexpr CmdArgType type_value = DEVVAR_ULONG64ARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarCharArray>
+{
+    using array_type = Tango::DevVarCharArray;
+    using type = Tango::DevVarCharArray;
+    static constexpr CmdArgType type_value = DEVVAR_CHARARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarFloatArray>
+{
+    using array_type = Tango::DevVarFloatArray;
+    using type = Tango::DevVarFloatArray;
+    static constexpr CmdArgType type_value = DEVVAR_FLOATARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarDoubleArray>
+{
+    using array_type = Tango::DevVarDoubleArray;
+    using type = Tango::DevVarDoubleArray;
+    static constexpr CmdArgType type_value = DEVVAR_DOUBLEARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarStringArray>
+{
+    using array_type = Tango::DevVarStringArray;
+    using type = Tango::DevVarStringArray;
+    static constexpr CmdArgType type_value = DEVVAR_STRINGARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarBooleanArray>
+{
+    using array_type = Tango::DevVarBooleanArray;
+    using type = Tango::DevVarBooleanArray;
+    static constexpr CmdArgType type_value = DEVVAR_BOOLEANARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarStateArray>
+{
+    using array_type = Tango::DevVarStateArray;
+    using type = Tango::DevVarStateArray;
+    static constexpr CmdArgType type_value = DEVVAR_STATEARRAY; 
+};
 
 template<>
 inline Tango::DevVarULong64Array** Attribute::get_value_storage()
@@ -903,50 +995,49 @@ inline Tango::DevVarULong64Array** Attribute::get_value_storage()
     return &value.ulg64_seq;
 }
 
-
 template<>
 inline Tango::DevVarShortArray** Attribute::get_value_storage()
 {
     return &value.sh_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarDoubleArray** Attribute::get_value_storage()
 {
     return &value.db_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarStringArray** Attribute::get_value_storage()
 {
     return &value.str_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarFloatArray** Attribute::get_value_storage()
 {
     return &value.fl_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarBooleanArray** Attribute::get_value_storage()
 {
     return &value.boo_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarUShortArray** Attribute::get_value_storage()
 {
     return &value.ush_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarCharArray** Attribute::get_value_storage()
 {
     return &value.cha_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarLong64Array** Attribute::get_value_storage()
 {
     return &value.lg64_seq;
@@ -958,97 +1049,97 @@ inline Tango::DevVarLongArray** Attribute::get_value_storage()
     return &value.lg_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarULongArray** Attribute::get_value_storage()
 {
     return &value.ulg_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarStateArray** Attribute::get_value_storage()
 {
     return &value.state_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevVarEncodedArray** Attribute::get_value_storage()
 {
     return &value.enc_seq;
 }
 
-    template<>
+template<>
 inline Tango::DevULong64 (&Attribute::get_tmp_storage())[2]
 {
     return tmp_ulo64;
 }
 
-    template<>
+template<>
 inline Tango::DevLong64 (&Attribute::get_tmp_storage())[2]
 {
     return tmp_lo64;
 }
 
-    template<>
+template<>
 inline Tango::DevULong (&Attribute::get_tmp_storage())[2]
 {
     return tmp_ulo;
 }
 
-    template<>
+template<>
 inline Tango::DevState (&Attribute::get_tmp_storage())[2]
 {
     return tmp_state;
 }
 
-    template<>
+template<>
 inline Tango::DevShort (&Attribute::get_tmp_storage())[2]
 {
     return tmp_sh;
 }
 
-    template<>
+template<>
 inline Tango::DevLong (&Attribute::get_tmp_storage())[2]
 {
     return tmp_lo;
 }
 
-    template<>
+template<>
 inline Tango::DevFloat (&Attribute::get_tmp_storage())[2]
 {
     return tmp_fl;
 }
 
-    template<>
+template<>
 inline Tango::DevDouble (&Attribute::get_tmp_storage())[2]
 {
     return tmp_db;
 }
 
-    template<>
+template<>
 inline Tango::DevString (&Attribute::get_tmp_storage())[2]
 {
     return tmp_str;
 }
 
-    template<>
+template<>
 inline Tango::DevUShort (&Attribute::get_tmp_storage())[2]
 {
     return tmp_ush;
 }
 
-    template<>
+template<>
 inline Tango::DevBoolean (&Attribute::get_tmp_storage())[2]
 {
     return tmp_boo;
 }
 
-    template<>
+template<>
 inline Tango::DevUChar (&Attribute::get_tmp_storage())[2]
 {
     return tmp_cha;
 }
 
-    template<>
+template<>
 inline Tango::DevEncoded (&Attribute::get_tmp_storage())[2]
 {
     return tmp_enc;
