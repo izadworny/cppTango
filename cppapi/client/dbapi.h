@@ -133,16 +133,16 @@ private :
 	bool ext_dbase;
 
 public :
-	DbAttribute(std::string &, std::string &);
-	DbAttribute(std::string &, std::string &, Database *);
-	DbAttribute(std::string &,std::string &, std::string &,std::string &);
+	DbAttribute(const std::string &,const std::string &);
+	DbAttribute(const std::string &,const std::string &, Database *);
+	DbAttribute(const std::string &,const std::string &,const std::string &,const std::string &);
 	~DbAttribute();
 //
 // methods
 //
 	void get_property(DbData&);
-	void put_property(DbData&);
-	void delete_property(DbData&);
+	void put_property(const DbData&);
+	void delete_property(const DbData&);
 };
 
 /**********************************************************************
@@ -332,7 +332,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void put_property(DbData &db);
+	void put_property(const DbData &db);
 /**
  * Remove class property from database
  *
@@ -343,7 +343,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void delete_property(DbData &db);
+	void delete_property(const DbData &db);
 /**
  * Get class attribute property from database
  *
@@ -365,7 +365,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void put_attribute_property(DbData &db);
+	void put_attribute_property(const DbData &db);
 /**
  * Remove class attribute property from database
  *
@@ -376,7 +376,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void delete_attribute_property(DbData &db);
+	void delete_attribute_property(const DbData &db);
 /**
  * Get class pipe property from database
  *
@@ -398,7 +398,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void put_pipe_property(DbData &db);
+	void put_pipe_property(const DbData &db);
 /**
  * Remove class pipe property from database
  *
@@ -409,7 +409,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void delete_pipe_property(DbData &db);
+	void delete_pipe_property(const DbData &db);
 //@}
 
 /// @privatesection
@@ -647,17 +647,17 @@ std::vector<std::string> value_string;
 //	void operator << (char *&);
 	void operator << (const char *);
 //	void operator << (const char *&);
-	void operator << (std::string&);
+	void operator << (const std::string&);
 
-	void operator << (std::vector<std::string>&);
-	void operator << (std::vector<short>&);
-	void operator << (std::vector<unsigned short>&);
-	void operator << (std::vector<DevLong>&);
-	void operator << (std::vector<DevULong>&);
-	void operator << (std::vector<DevLong64>&);
-	void operator << (std::vector<DevULong64>&);
-	void operator << (std::vector<float>&);
-	void operator << (std::vector<double>&);
+	void operator << (const std::vector<std::string>&);
+	void operator << (const std::vector<short>&);
+	void operator << (const std::vector<unsigned short>&);
+	void operator << (const std::vector<DevLong>&);
+	void operator << (const std::vector<DevULong>&);
+	void operator << (const std::vector<DevLong64>&);
+	void operator << (const std::vector<DevULong64>&);
+	void operator << (const std::vector<float>&);
+	void operator << (const std::vector<double>&);
 
 //
 // extract methods
@@ -684,6 +684,7 @@ std::vector<std::string> value_string;
 	bool operator >> (std::vector<DevULong64>&);
 	bool operator >> (std::vector<float>&);
 	bool operator >> (std::vector<double>&);
+
 
 private :
 
@@ -721,8 +722,8 @@ public:
 // constructor methods
 //
 
-  DbHistory(std::string ,std::string ,std::vector<std::string> &);
-  DbHistory(std::string ,std::string ,std::string ,std::vector<std::string> &);
+  DbHistory(std::string ,std::string ,const std::vector<std::string> &);
+  DbHistory(std::string ,std::string ,std::string ,const std::vector<std::string> &);
 
 //
 // getter methods
@@ -768,7 +769,7 @@ private:
   bool    deleted;    // Deleted flag
 
   std::string format_mysql_date(std::string );
-  void make_db_datum(std::vector<std::string> &);
+  void make_db_datum(const std::vector<std::string> &);
 };
 
 /**********************************************************************
@@ -929,7 +930,7 @@ public:
 		DevEltIdx		*devs_idx;
 	}ClassEltIdx;
 
-	DbServerCache(Database *,std::string &,std::string &);
+	DbServerCache(Database *,const std::string &,const std::string &);
 	~DbServerCache();
 
 	const DevVarLongStringArray *import_adm_dev();
@@ -944,7 +945,7 @@ public:
 	const DevVarStringArray *get_device_property_list(DevVarStringArray *);
 	const DevVarStringArray *get_class_pipe_property(DevVarStringArray *);
 	const DevVarStringArray *get_dev_pipe_property(DevVarStringArray *);
-	const DevVarLongStringArray *import_tac_dev(std::string &);
+	const DevVarLongStringArray *import_tac_dev(const std::string &);
 
 	const EltIdx &get_imp_dat() {return imp_adm;}
 	const EltIdx &get_imp_notifd_event() {return imp_notifd_event;}
@@ -1046,7 +1047,7 @@ private:
         std::vector<TangoAttribute>  attributes;
         std::vector<TangoPipe>		pipes;
 
-        TangoDevice(std::string &);
+        TangoDevice(const std::string &);
 
 		std::string get_name() {return name;}
         std::vector<TangoProperty> &get_properties() {return properties;}

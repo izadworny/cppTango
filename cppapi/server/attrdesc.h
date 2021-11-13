@@ -278,7 +278,7 @@ public:
  *
  * @param	def_enum_labels	The enumeration labels
  */
-	void set_enum_labels(std::vector<std::string> &def_enum_labels)
+	void set_enum_labels(const std::vector<std::string> &def_enum_labels)
 	{
 		for (size_t loop = 0;loop < def_enum_labels.size();loop++)
 		{
@@ -544,7 +544,7 @@ public:
 
 	std::vector<AttrProperty>	&get_class_properties() {return class_properties;}
 	std::vector<AttrProperty>	&get_user_default_properties() {return user_default_properties;}
-	void set_class_properties(std::vector<AttrProperty> &in_prop) {class_properties=in_prop;}
+	void set_class_properties(const std::vector<AttrProperty> &in_prop) {class_properties=in_prop;}
 	void check_type();
 
 	virtual bool is_fwd() {return false;}

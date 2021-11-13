@@ -303,7 +303,7 @@ void FileDatabase :: read_char(ifstream& f)
 		CrtLine++;
 }
 
-int FileDatabase :: class_lex(string& tmp_word)
+int FileDatabase :: class_lex(const string& tmp_word)
 {
 /* exepction */
 	if(tmp_word.empty()) return 0;
@@ -2374,7 +2374,7 @@ CORBA::Any* FileDatabase::DbPutDevicePipeProperty(CORBA::Any&)
 //
 //-----------------------------------------------------------------------------
 
-void FileDatabase::write_event_channel_ior(string &ior_string)
+void FileDatabase::write_event_channel_ior(const string &ior_string)
 {
 
 //

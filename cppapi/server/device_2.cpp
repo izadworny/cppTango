@@ -57,23 +57,23 @@ namespace Tango
 //
 //--------------------------------------------------------------------------
 
-Device_2Impl::Device_2Impl(DeviceClass *device_class,std::string &dev_name):
+Device_2Impl::Device_2Impl(DeviceClass *device_class,const std::string &dev_name):
 DeviceImpl(device_class,dev_name),ext_2(nullptr)
 {
 	idl_version = 2;
 }
 
 Device_2Impl::Device_2Impl(DeviceClass *device_class,
-			   std::string &dev_name,
-			   std::string &desc):
+			   const std::string &dev_name,
+			   const std::string &desc):
 DeviceImpl(device_class,dev_name,desc),ext_2(nullptr)
 {
 	idl_version = 2;
 }
 
 Device_2Impl::Device_2Impl(DeviceClass *device_class,
-	           	   std::string &dev_name,std::string &desc,
-	           	   Tango::DevState dev_state,std::string &dev_status):
+		   const std::string &dev_name,const std::string &desc,
+		   Tango::DevState dev_state,const std::string &dev_status):
 DeviceImpl(device_class,dev_name,desc,dev_state,dev_status),ext_2(nullptr)
 {
 	idl_version = 2;

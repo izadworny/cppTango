@@ -764,7 +764,7 @@ Tango::DevVarStringArray *DServer::query_sub_device()
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-void DServer::restart(std::string &d_name)
+void DServer::restart(const std::string &d_name)
 {
 	NoSyncModelTangoMonitor mon(this);
 
@@ -1902,7 +1902,7 @@ void DServer::get_event_misc_prop(Tango::Util *tg)
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DServer::mcast_event_for_att(std::string &dev_name,std::string &att_name,std::vector<std::string> &m_event)
+void DServer::mcast_event_for_att(const std::string &dev_name,const std::string &att_name,std::vector<std::string> &m_event)
 {
 
 	m_event.clear();

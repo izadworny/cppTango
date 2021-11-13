@@ -163,7 +163,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed
  */
-	void add_device(DbDevInfo &dev_info);
+	void add_device(const DbDevInfo &dev_info);
 /**
  * Delete a device from the database.
  *
@@ -199,7 +199,7 @@ public :
  *
  * @exception ConnectionFailed, CommunicationFailed, DevFailed
  */
-	DbDevImportInfo import_device(std::string &dev_name);
+	DbDevImportInfo import_device(const std::string &dev_name);
 /**
  * Export a device into the database.
  *
@@ -221,7 +221,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device (DB_SQLError, DB_DeviceNotDefined)
  */
-	void export_device(DbDevExportInfo &info);
+	void export_device(const DbDevExportInfo &info);
 /**
  * Unexport a device in the database.
  *
@@ -245,7 +245,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDevFullInfo get_device_info(std::string &dev_name);
+	DbDevFullInfo get_device_info(const std::string &dev_name);
 /**
  * Get class name for a device
  *
@@ -260,7 +260,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::string get_class_for_device(std::string &dev_name);
+	std::string get_class_for_device(const std::string &dev_name);
 /**
  * Get device inheritance scheme
  *
@@ -279,7 +279,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_class_inheritance_for_device(std::string &dev_name);
+	DbDatum get_class_inheritance_for_device(const std::string &dev_name);
 //@}
 
 /**@name Server oriented methods */
@@ -295,7 +295,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device (DB_SQLError)
  */
-	void add_server(std::string &ds_name, DbDevInfos &devs);
+	void add_server(const std::string &ds_name,const DbDevInfos &devs);
 /**
  * Delete a device server process from the database.
  *
@@ -305,7 +305,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device (DB_SQLError)
  */
-	void delete_server(std::string &ds_name);
+	void delete_server(const std::string &ds_name);
 /**
  * Delete a device server process from the database.
  *
@@ -316,7 +316,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device (DB_SQLError)
  */
-	void export_server(DbDevExportInfos &devs);
+	void export_server(const DbDevExportInfos &devs);
 /**
  * Unexport all devices from a device server in the database.
  *
@@ -326,7 +326,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device (DB_SQLError)
  */
-	void unexport_server(std::string &ds_name);
+	void unexport_server(const std::string &ds_name);
 /**
  * Rename a device server in the database.
  *
@@ -362,7 +362,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_services(std::string &service_name,std::string &inst_name);
+	DbDatum get_services(const std::string &service_name,const std::string &inst_name);
 /**
  * Get services list from database
  *
@@ -382,7 +382,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_service_list(std::string &service_name);
+	DbDatum get_device_service_list(const std::string &service_name);
 /**
  * Register a service in the database
  *
@@ -401,7 +401,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void register_service(std::string &service_name,std::string &inst_name,std::string &dev_name);
+	void register_service(const std::string &service_name,const std::string &inst_name,const std::string &dev_name);
 /**
  * Unregister a service from the database
  *
@@ -418,7 +418,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void unregister_service(std::string &service_name,std::string &inst_name);
+	void unregister_service(const std::string &service_name,const std::string &inst_name);
 //@}
 
 /**@name Object property oriented methods */
@@ -471,7 +471,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_property(std::string obj_name, DbData &db);
+	void put_property(std::string obj_name, const DbData &db);
 /**
  * Delete object property from database
  *
@@ -490,7 +490,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_property(std::string obj_name, DbData &db);
+	void delete_property(std::string obj_name, const DbData &db);
 /**
  * Get object property history from database
  *
@@ -528,7 +528,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_property_history(std::string &obj_name,std::string &prop_name);
+	std::vector<DbHistory> get_property_history(const std::string &obj_name,const std::string &prop_name);
 //@}
 
 /**@name Device property oriented methods */
@@ -581,7 +581,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_device_property(std::string dev_name, DbData &db);
+	void put_device_property(std::string dev_name, const DbData &db);
 /**
  * Delete device property from database
  *
@@ -600,7 +600,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_device_property(std::string dev_name, DbData &db);
+	void delete_device_property(std::string dev_name, const DbData &db);
 /**
  * Get device property history from database
  *
@@ -614,7 +614,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_device_property_history(std::string &dev_name,std::string &prop_name);
+	std::vector<DbHistory> get_device_property_history(const std::string &dev_name,const std::string &prop_name);
 //@}
 
 /**@name Device attribute property oriented methods */
@@ -711,7 +711,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_device_attribute_property(std::string dev_name, DbData &db);
+	void put_device_attribute_property(std::string dev_name, const DbData &db);
 /**
  * Delete device attribute property from database
  *
@@ -731,7 +731,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_device_attribute_property(std::string dev_name, DbData &db);
+	void delete_device_attribute_property(std::string dev_name, const DbData &db);
 /**
  * Get device attribute property history from database
  *
@@ -747,7 +747,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_device_attribute_property_history(std::string &dev_name,std::string &prop_name,std::string &att_name);
+	std::vector<DbHistory> get_device_attribute_property_history(const std::string &dev_name,const std::string &prop_name,const std::string &att_name);
 /**
  * Get list of attribute with data in database for a specific device
  *
@@ -760,7 +760,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void get_device_attribute_list(std::string &dev_name,std::vector<std::string> &att_list);
+	void get_device_attribute_list(const std::string &dev_name,std::vector<std::string> &att_list);
 /**
  * Get list of pipe with data in database for a specific device
  *
@@ -870,7 +870,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_device_pipe_property(std::string dev_name, DbData &db);
+	void put_device_pipe_property(std::string dev_name, const DbData &db);
 /**
  * Delete device pipe property from database
  *
@@ -890,7 +890,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_device_pipe_property(std::string dev_name, DbData &db);
+	void delete_device_pipe_property(std::string dev_name, const DbData &db);
 /**
  * Get device pipe property history from database
  *
@@ -906,7 +906,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_device_pipe_property_history(std::string &dev_name,std::string &pipe_name,std::string &prop_name);
+	std::vector<DbHistory> get_device_pipe_property_history(const std::string &dev_name,const std::string &pipe_name,const std::string &prop_name);
 //@}
 
 /**@name Class property oriented methods */
@@ -959,7 +959,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_class_property(std::string class_name, DbData &db);
+	void put_class_property(std::string class_name, const DbData &db);
 /**
  * Delete class property from database
  *
@@ -978,7 +978,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_class_property(std::string class_name, DbData &db);
+	void delete_class_property(std::string class_name, const DbData &db);
 /**
  * Get class property history from database
  *
@@ -993,7 +993,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_class_property_history(std::string &class_name,std::string &prop_name);
+	std::vector<DbHistory> get_class_property_history(const std::string &class_name,const std::string &prop_name);
 //@}
 
 /**@name Class attribute property oriented methods */
@@ -1087,7 +1087,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_class_attribute_property(std::string class_name, DbData &db);
+	void put_class_attribute_property(std::string class_name, const DbData &db);
 /**
  * Delete class attribute property from database
  *
@@ -1108,7 +1108,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_class_attribute_property(std::string class_name, DbData &db);
+	void delete_class_attribute_property(std::string class_name, const DbData &db);
 /**
  * Get class attribute property history from database
  *
@@ -1124,7 +1124,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_class_attribute_property_history(std::string &class_name,std::string &att_name,std::string &prop_name);
+	std::vector<DbHistory> get_class_attribute_property_history(const std::string &class_name,const std::string &att_name,const std::string &prop_name);
 //@}
 
 /**@name Class pipe property oriented methods */
@@ -1216,7 +1216,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_class_pipe_property(std::string class_name, DbData &db);
+	void put_class_pipe_property(std::string class_name, const DbData &db);
 /**
  * Delete class pipe property from database
  *
@@ -1237,7 +1237,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_class_pipe_property(std::string class_name, DbData &db);
+	void delete_class_pipe_property(std::string class_name, const DbData &db);
 /**
  * Get class pipe property history from database
  *
@@ -1253,7 +1253,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	std::vector<DbHistory> get_class_pipe_property_history(std::string &class_name,std::string &pipe_name,std::string &prop_name);
+	std::vector<DbHistory> get_class_pipe_property_history(const std::string &class_name,const std::string &pipe_name,const std::string &prop_name);
 //@}
 
 /**@name Alias oriented methods */
@@ -1321,7 +1321,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_device_alias(std::string &dev_name,std::string &dev_alias);
+	void put_device_alias(const std::string &dev_name,const std::string &dev_alias);
 /**
  * Delete device alias
  *
@@ -1331,7 +1331,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_device_alias(std::string &dev_alias);
+	void delete_device_alias(const std::string &dev_alias);
 /**
  * Get attribute name from its alias
  *
@@ -1379,7 +1379,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void put_attribute_alias(std::string &att_name,std::string &att_alias);
+	void put_attribute_alias(std::string &att_name,const std::string &att_alias);
 /**
  * Delete attribute alias
  *
@@ -1389,7 +1389,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	void delete_attribute_alias(std::string &att_alias);
+	void delete_attribute_alias(const std::string &att_alias);
 //@}
 
 /**@name Database browsing oriented methods */
@@ -1428,7 +1428,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_host_list(std::string &wildcard);
+	DbDatum get_host_list(const std::string &wildcard);
 /**
  * Get std::list of Tango classes embedded in a device server proess
  *
@@ -1449,7 +1449,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_server_class_list(std::string &ds_name);
+	DbDatum get_server_class_list(const std::string &ds_name);
 /**
  * Get std::list of all Tango device server process
  *
@@ -1484,7 +1484,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_instance_name_list(std::string &ds_name);
+	DbDatum get_instance_name_list(const std::string &ds_name);
 /**
  * Get std::list of device server processes
  *
@@ -1519,7 +1519,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_server_list(std::string &wildcard);
+	DbDatum get_server_list(const std::string &wildcard);
 /**
  * Get std::list of device server processes running on a host
  *
@@ -1538,7 +1538,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_host_server_list(std::string &host_name);
+	DbDatum get_host_server_list(const std::string &host_name);
 /**
  * Get std::list of devices served by a device server process
  *
@@ -1551,7 +1551,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_name(std::string &ds_name, std::string &class_name);
+	DbDatum get_device_name(const std::string &ds_name,const std::string &class_name);
 /**
  * Get std::list of exported devices
  *
@@ -1563,7 +1563,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_exported(std::string &filter);
+	DbDatum get_device_exported(const std::string &filter);
 /**
  * Get std::list of device domain names
  *
@@ -1575,7 +1575,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_domain(std::string &wildcard);
+	DbDatum get_device_domain(const std::string &wildcard);
 /**
  * Get std::list of device family name
  *
@@ -1587,7 +1587,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_family(std::string &wildcard);
+	DbDatum get_device_family(const std::string &wildcard);
 /**
  * Get std::list of device member name
  *
@@ -1599,7 +1599,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_member(std::string &wildcard);
+	DbDatum get_device_member(const std::string &wildcard);
 /**
  * Get std::list of devices/classes for a specified device server
  *
@@ -1619,7 +1619,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_class_list(std::string &ds_name);
+	DbDatum get_device_class_list(const std::string &ds_name);
 /**
  * Get std::list of exported device for a class
  *
@@ -1638,7 +1638,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_exported_for_class(std::string &class_name);
+	DbDatum get_device_exported_for_class(const std::string &class_name);
 /**
  * Get object (free property) std::list
  *
@@ -1658,7 +1658,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_object_list(std::string &wildcard);
+	DbDatum get_object_list(const std::string &wildcard);
 /**
  * Get object property std::list
  *
@@ -1679,7 +1679,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-    DbDatum get_object_property_list(std::string &obj_name,std::string &wildcard);
+    DbDatum get_object_property_list(const std::string &obj_name,const std::string &wildcard);
 /**
  * Get Tango class std::list
  *
@@ -1698,7 +1698,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_class_list(std::string &wildcard);
+	DbDatum get_class_list(const std::string &wildcard);
 /**
  * Get class property std::list
  *
@@ -1717,7 +1717,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_class_property_list(std::string &class_name);
+	DbDatum get_class_property_list(const std::string &class_name);
 /**
  * Get class attribute std::list
  *
@@ -1738,7 +1738,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_class_attribute_list(std::string &class_name,std::string &wildcard);
+	DbDatum get_class_attribute_list(const std::string &class_name,const std::string &wildcard);
 /**
  * Get class pipe std::list
  *
@@ -1787,7 +1787,7 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_device_alias_list(std::string &filter);
+	DbDatum get_device_alias_list(const std::string &filter);
 /**
  * Get attribute alias std::list
  *
@@ -1802,26 +1802,26 @@ public :
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
-	DbDatum get_attribute_alias_list(std::string &filter);
+	DbDatum get_attribute_alias_list(const std::string &filter);
 //@}
 
 
 ///@privatesection
-	Database(std::string &host, int port, CORBA::ORB *orb=NULL);
-	Database(std::string &file);
+	Database(const std::string &host, int port, CORBA::ORB *orb=NULL);
+	Database(const std::string &file);
 
 	Database(const Database &);
 	Database & operator=(const Database &);
 
 	void write_filedatabase();
 	void reread_filedatabase();
-	void write_event_channel_ior_filedatabase(std::string &);
+	void write_event_channel_ior_filedatabase(const std::string &);
 	void build_connection ();
 	void post_reconnection();
 	~Database();
 	inline Device_var &get_dbase() { return device;}
 	void check_tango_host(const char *);
-	AccessControlType check_access_control(std::string &);
+	AccessControlType check_access_control(const std::string &);
 	bool is_control_access_checked() {return access_checked;}
 	void set_access_checked(bool val) {access_checked = val;}
 
@@ -1830,7 +1830,7 @@ public :
 
 	DevErrorList &get_access_except_errors() {return access_except_errors;}
 	void clear_access_except_errors() {access_except_errors.length(0);}
-	bool is_command_allowed(std::string &,std::string &);
+	bool is_command_allowed(const std::string &,const std::string &);
 
 	bool is_multi_tango_host() {return db_multi_svc;}
 	std::vector<std::string> &get_multi_host() {return multi_db_host;}
@@ -1849,21 +1849,21 @@ public :
 // general methods
 //
 
-	CORBA::Any *fill_server_cache(std::string &,std::string &);
+	CORBA::Any *fill_server_cache(const std::string &,const std::string &);
 
 //
 // device methods
 //
 
-	DbDatum get_device_name(std::string &, std::string &,DbServerCache *dsc);
+	DbDatum get_device_name(const std::string &,const std::string &,DbServerCache *dsc);
 
 //
 // server methods
 //
 
-	DbServerInfo get_server_info(std::string &);
-	void put_server_info(DbServerInfo &);
-	void delete_server_info(std::string &);
+	DbServerInfo get_server_info(const std::string &);
+	void put_server_info(const DbServerInfo &);
+	void delete_server_info(const std::string &);
 
 //
 // property methods
@@ -1872,12 +1872,12 @@ public :
 	void get_property(std::string, DbData &,DbServerCache *dsc);
 	void get_property_forced(std::string, DbData &,DbServerCache *dsc = NULL);
 	void get_device_property(std::string, DbData &, DbServerCache *dsc);
-	DbDatum get_device_property_list(std::string &,std::string &);
+	DbDatum get_device_property_list(const std::string &,const std::string &);
 	void get_device_property_list(std::string &,const std::string &,std::vector<std::string> &,DbServerCache *dsc = NULL);
 	void get_device_attribute_property(std::string, DbData &, DbServerCache *dsc);
 	void get_device_pipe_property(std::string, DbData &, DbServerCache *dsc);
-	void delete_all_device_attribute_property(std::string, DbData &);
-	void delete_all_device_pipe_property(std::string, DbData &);
+	void delete_all_device_attribute_property(std::string, const DbData &);
+	void delete_all_device_pipe_property(std::string, const DbData &);
 	void get_class_property(std::string, DbData &, DbServerCache *dsc);
 	void get_class_attribute_property(std::string, DbData &, DbServerCache *dsc);
 	void get_class_pipe_property(std::string, DbData &, DbServerCache *dsc);
@@ -1887,8 +1887,8 @@ public :
 //
 
 	void export_event(DevVarStringArray *);
-	void unexport_event(std::string &);
-	CORBA::Any *import_event(std::string &);
+	void unexport_event(const std::string &);
+	CORBA::Any *import_event(const std::string &);
 
 };
 

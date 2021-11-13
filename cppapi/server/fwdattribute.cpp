@@ -55,7 +55,7 @@ namespace Tango
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-FwdAttribute::FwdAttribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,std::string &dev_name,long idx)
+FwdAttribute::FwdAttribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,const std::string &dev_name,long idx)
 :WAttribute(prop_list,tmp_attr,dev_name,idx)
 {
 	FwdAttr &attr = static_cast<FwdAttr &>(tmp_attr);
@@ -551,7 +551,7 @@ void FwdAttribute::set_att_config(AttributeInfoEx *aie_ptr)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void FwdAttribute::convert_event_prop(std::string &prop_str,double *ptr)
+void FwdAttribute::convert_event_prop(const std::string &prop_str,double *ptr)
 {
 	std::stringstream ss;
 

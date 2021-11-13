@@ -311,7 +311,7 @@ public:
  * @param [in] datum The data to be inserted into the DevicePipeBlob
  * @exception WrongData if requested
  */
-	DevicePipeBlob & operator << (short &datum);
+	DevicePipeBlob & operator << (const short &datum);
 /**
  * Set blob data element number
  *
@@ -328,7 +328,7 @@ public:
  *
  * @param [in] names The blob data element names
  */
-	void set_data_elt_names(std::vector<std::string> &names);
+	void set_data_elt_names(const std::vector<std::string> &names);
 //@}
 
 /**@name Extracting data from a DevicePipeBlob
@@ -616,24 +616,24 @@ public:
 	DevicePipeBlob(DevicePipeBlob &&);
 	DevicePipeBlob & operator=(DevicePipeBlob &&);
 
-	DevicePipeBlob & operator << (DevBoolean &);
-//	DevicePipeBlob & operator << (short &);
-	DevicePipeBlob & operator << (DevLong &);
-	DevicePipeBlob & operator << (DevLong64 &);
-	DevicePipeBlob & operator << (float &);
-	DevicePipeBlob & operator << (double &);
-	DevicePipeBlob & operator << (DevUChar &);
-	DevicePipeBlob & operator << (DevUShort &);
-	DevicePipeBlob & operator << (DevULong &);
-	DevicePipeBlob & operator << (DevULong64 &);
-	DevicePipeBlob & operator << (DevString &);
-	DevicePipeBlob & operator << (DevState &);
-	DevicePipeBlob & operator << (DevEncoded &);
+	DevicePipeBlob & operator << (const DevBoolean &);
+//	DevicePipeBlob & operator << (const short &);
+	DevicePipeBlob & operator << (const DevLong &);
+	DevicePipeBlob & operator << (const DevLong64 &);
+	DevicePipeBlob & operator << (const float &);
+	DevicePipeBlob & operator << (const double &);
+	DevicePipeBlob & operator << (const DevUChar &);
+	DevicePipeBlob & operator << (const DevUShort &);
+	DevicePipeBlob & operator << (const DevULong &);
+	DevicePipeBlob & operator << (const DevULong64 &);
+	DevicePipeBlob & operator << (const DevString &);
+	DevicePipeBlob & operator << (const DevState &);
+	DevicePipeBlob & operator << (const DevEncoded &);
 	DevicePipeBlob & operator << (const std::string &);
 
-	DevicePipeBlob & operator << (DevicePipeBlob &);
+	DevicePipeBlob & operator << (const DevicePipeBlob &);
 
-	DevicePipeBlob & operator << (std::vector<DevBoolean> &);
+	DevicePipeBlob & operator << (const std::vector<DevBoolean> &);
 	DevicePipeBlob & operator << (std::vector<short> &);
 	DevicePipeBlob & operator << (std::vector<DevLong> &);
 	DevicePipeBlob & operator << (std::vector<DevLong64> &);
@@ -646,7 +646,7 @@ public:
 	DevicePipeBlob & operator << (std::vector<DevString> &);
 	DevicePipeBlob & operator << (std::vector<DevState> &);
 	DevicePipeBlob & operator << (std::vector<DevEncoded> &);
-	DevicePipeBlob & operator << (std::vector<std::string> &);
+	DevicePipeBlob & operator << (const std::vector<std::string> &);
 
 	DevicePipeBlob & operator << (DevVarBooleanArray &);
 	DevicePipeBlob & operator << (DevVarShortArray &);
@@ -897,7 +897,7 @@ public :
  *
  * @param [in] names The blob data element names
  */
-	void set_data_elt_names(std::vector<std::string> &names) {the_root_blob.set_data_elt_names(names);}
+	void set_data_elt_names(const std::vector<std::string> &names) {the_root_blob.set_data_elt_names(names);}
 //@}
 
 /**@name Extracting data from a DevicePipe

@@ -106,10 +106,10 @@ public:
 	MultiClassAttribute();
 	~MultiClassAttribute();
 
-	void init_class_attribute(std::string &class_name,long base = 0);
+	void init_class_attribute(const std::string &class_name,long base = 0);
 
 	std::vector<Tango::Attr *> &get_attr_list() {return attr_list;}
-	Attr &get_attr(std::string &attr_name);
+	Attr &get_attr(const std::string &attr_name);
 	void remove_attr(const std::string &,const std::string &);
 
 protected:

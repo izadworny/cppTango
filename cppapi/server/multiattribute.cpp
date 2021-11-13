@@ -82,7 +82,7 @@ static OptAttrProp Tango_OptAttrProp[] = {
 //
 //------------------------------------------------------------------------------------------------------------------
 
-MultiAttribute::MultiAttribute(std::string &dev_name,DeviceClass *dev_class_ptr,DeviceImpl *dev)
+MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_class_ptr,DeviceImpl *dev)
 :ext(new MultiAttribute::MultiAttributeExt)
 {
 	long i;
@@ -375,8 +375,8 @@ MultiAttribute::~MultiAttribute()
 //------------------------------------------------------------------------------------------------------------------
 
 
-void MultiAttribute::concat(std::vector<AttrProperty> &dev_prop,
-						    std::vector<AttrProperty> &class_prop,
+void MultiAttribute::concat(const std::vector<AttrProperty> &dev_prop,
+						    const std::vector<AttrProperty> &class_prop,
 							std::vector<AttrProperty> &result)
 {
 
@@ -424,8 +424,8 @@ void MultiAttribute::concat(std::vector<AttrProperty> &dev_prop,
 //
 //--------------------------------------------------------------------------
 
-void MultiAttribute::add_default(std::vector<AttrProperty> &prop_list, TANGO_UNUSED(std::string &dev_name),
-				 std::string &att_name,long att_data_type)
+void MultiAttribute::add_default(std::vector<AttrProperty> &prop_list, TANGO_UNUSED(const std::string &dev_name),
+				 const std::string &att_name,long att_data_type)
 {
 
 //
@@ -506,7 +506,7 @@ void MultiAttribute::add_default(std::vector<AttrProperty> &prop_list, TANGO_UNU
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void MultiAttribute::add_user_default(std::vector<AttrProperty> &prop_list,std::vector<AttrProperty> &user_default)
+void MultiAttribute::add_user_default(std::vector<AttrProperty> &prop_list,const std::vector<AttrProperty> &user_default)
 {
 
 //
@@ -544,7 +544,7 @@ void MultiAttribute::add_user_default(std::vector<AttrProperty> &prop_list,std::
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void MultiAttribute::check_associated(long index, std::string &dev_name)
+void MultiAttribute::check_associated(long index, const std::string &dev_name)
 {
 	Attribute& attribute = *attr_list[index];
 	const AttrWriteType write_type = attribute.get_writable();
@@ -690,7 +690,7 @@ void MultiAttribute::check_idl_release(DeviceImpl *dev)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void MultiAttribute::add_attribute(std::string &dev_name,DeviceClass *dev_class_ptr,long index)
+void MultiAttribute::add_attribute(const std::string &dev_name,DeviceClass *dev_class_ptr,long index)
 {
 	cout4 << "Entering MultiAttribute::add_attribute" << std::endl;
 
@@ -873,7 +873,7 @@ void MultiAttribute::add_attribute(std::string &dev_name,DeviceClass *dev_class_
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void MultiAttribute::add_fwd_attribute(std::string &dev_name,DeviceClass *dev_class_ptr,long index, Attr *new_attr)
+void MultiAttribute::add_fwd_attribute(const std::string &dev_name,DeviceClass *dev_class_ptr,long index, Attr *new_attr)
 {
 	cout4 << "Entering MultiAttribute::add_fwd_attribute" << std::endl;
 
@@ -1005,7 +1005,7 @@ void MultiAttribute::add_fwd_attribute(std::string &dev_name,DeviceClass *dev_cl
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void MultiAttribute::remove_attribute(std::string &attr_name,bool update_idx)
+void MultiAttribute::remove_attribute(const std::string &attr_name,bool update_idx)
 {
 	cout4 << "Entering MultiAttribute::remove_attribute" << std::endl;
 
@@ -1806,7 +1806,7 @@ void MultiAttribute::add_attr(Attribute *att)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void MultiAttribute::update(Attribute &att,std::string &dev_name)
+void MultiAttribute::update(const Attribute &att,const std::string &dev_name)
 {
 	long ind = get_attr_ind_by_name(att.get_name().c_str());
 

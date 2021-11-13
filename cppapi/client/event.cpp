@@ -385,7 +385,7 @@ void EventConsumer::shutdown_keep_alive_thread()
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void EventConsumer::connect(DeviceProxy *device_proxy,std::string &d_name,DeviceData &dd,std::string &adm_name,bool &necm)
+void EventConsumer::connect(DeviceProxy *device_proxy,const std::string &d_name,DeviceData &dd,const std::string &adm_name,bool &necm)
 {
 	std::string channel_name = adm_name;
 
@@ -3416,8 +3416,8 @@ ChannelType EventConsumer::get_event_system_for_event_id(int event_id)
 //
 //-----------------------------------------------------------------------
 
-EventData::EventData(DeviceProxy *dev,std::string &nam,std::string &evt,
-          Tango::DeviceAttribute *attr_value_in, DevErrorList &errors_in) :
+EventData::EventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,
+          Tango::DeviceAttribute *attr_value_in, const DevErrorList &errors_in) :
           device(dev),attr_name(nam),event(evt),attr_value(attr_value_in),
           errors(errors_in)
 {
@@ -3502,12 +3502,12 @@ FwdEventData::FwdEventData():EventData(),av_5(nullptr),event_data(nullptr)
 {
 }
 
-FwdEventData::FwdEventData(DeviceProxy *dev,std::string &_s1,std::string &_s2,Tango::DeviceAttribute *_da,DevErrorList &_del) :
+FwdEventData::FwdEventData(DeviceProxy *dev,const std::string &_s1,const std::string &_s2,Tango::DeviceAttribute *_da,const DevErrorList &_del) :
                   EventData(dev,_s1,_s2,_da,_del),av_5(nullptr),event_data(nullptr)
 {
 }
 
-FwdEventData::FwdEventData(DeviceProxy *dev,std::string &_s1,std::string &_s2,Tango::DeviceAttribute *_da,DevErrorList &_del,zmq::message_t *_m) :
+FwdEventData::FwdEventData(DeviceProxy *dev,const std::string &_s1,const std::string &_s2,Tango::DeviceAttribute *_da,const DevErrorList &_del,zmq::message_t *_m) :
                   EventData(dev,_s1,_s2,_da,_del),av_5(nullptr),event_data(_m)
 {
 }
@@ -3524,8 +3524,8 @@ FwdEventData::FwdEventData(DeviceProxy *dev,std::string &_s1,std::string &_s2,Ta
 //
 //-----------------------------------------------------------------------
 
-AttrConfEventData::AttrConfEventData(DeviceProxy *dev,std::string &nam,std::string &evt,
-                  Tango::AttributeInfoEx *attr_conf_in,DevErrorList &errors_in) :
+AttrConfEventData::AttrConfEventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,
+                  Tango::AttributeInfoEx *attr_conf_in,const DevErrorList &errors_in) :
                   device(dev),attr_name(nam),event(evt),attr_conf(attr_conf_in),
                   errors(errors_in)
 {
@@ -3617,8 +3617,8 @@ FwdAttrConfEventData::FwdAttrConfEventData():AttrConfEventData(),fwd_attr_conf(n
 }
 
 
-FwdAttrConfEventData::FwdAttrConfEventData(DeviceProxy *dev,std::string &nam,std::string &evt,
-                  Tango::AttributeInfoEx *attr_conf_in,DevErrorList &errors_in) :
+FwdAttrConfEventData::FwdAttrConfEventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,
+                  Tango::AttributeInfoEx *attr_conf_in,const DevErrorList &errors_in) :
                   AttrConfEventData(dev,nam,evt,attr_conf_in,errors_in),fwd_attr_conf(nullptr)
 {
 }
@@ -3636,7 +3636,7 @@ FwdAttrConfEventData::FwdAttrConfEventData(DeviceProxy *dev,std::string &nam,std
 //
 //-----------------------------------------------------------------------
 
-DataReadyEventData::DataReadyEventData(DeviceProxy *dev,AttDataReady *dr,std::string &evt,DevErrorList &errors_in)
+DataReadyEventData::DataReadyEventData(DeviceProxy *dev,AttDataReady *dr,const std::string &evt,const DevErrorList &errors_in)
 :event(evt),errors(errors_in)
 {
 	device = dev;
@@ -3728,9 +3728,9 @@ void DataReadyEventData::set_time()
 //
 //-----------------------------------------------------------------------
 
-DevIntrChangeEventData::DevIntrChangeEventData(DeviceProxy *dev,std::string &evt,std::string &d_name,
+DevIntrChangeEventData::DevIntrChangeEventData(DeviceProxy *dev,const std::string &evt,const std::string &d_name,
 								DevCmdInfoList_2 *c_list,AttributeConfigList_5 *a_list,
-								bool d_s,DevErrorList &errors_in)
+								bool d_s,const DevErrorList &errors_in)
 :event(evt),device_name(d_name),dev_started(d_s),errors(errors_in)
 {
 	device = dev;
@@ -3793,9 +3793,9 @@ DevIntrChangeEventData::DevIntrChangeEventData(DeviceProxy *dev,std::string &evt
 	}
 }
 
-DevIntrChangeEventData::DevIntrChangeEventData(DeviceProxy *dev,std::string &evt,std::string &d_name,
+DevIntrChangeEventData::DevIntrChangeEventData(DeviceProxy *dev,const std::string &evt,const std::string &d_name,
 								CommandInfoList *c_list,AttributeInfoListEx *a_list,
-								bool d_s,DevErrorList &errors_in)
+								bool d_s,const DevErrorList &errors_in)
 :event(evt),device_name(d_name),dev_started(d_s),errors(errors_in)
 {
 	device = dev;
@@ -3882,8 +3882,8 @@ void DevIntrChangeEventData::set_time()
 //
 //-----------------------------------------------------------------------
 
-PipeEventData::PipeEventData(DeviceProxy *dev,std::string &nam,std::string &evt,
-          Tango::DevicePipe *pipe_value_in, DevErrorList &errors_in) :
+PipeEventData::PipeEventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,
+          Tango::DevicePipe *pipe_value_in, const DevErrorList &errors_in) :
           device(dev),pipe_name(nam),event(evt),pipe_value(pipe_value_in),
           errors(errors_in)
 {

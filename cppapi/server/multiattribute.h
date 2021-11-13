@@ -86,7 +86,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	MultiAttribute(std::string &dev_name,DeviceClass *dev_class,DeviceImpl *dev);
+	MultiAttribute(const std::string &dev_name,DeviceClass *dev_class,DeviceImpl *dev);
 //@}
 
 /**@name Destructor
@@ -261,17 +261,17 @@ public:
 /// @privatesection
 
 	void add_write_value(Attribute &);
-	void add_attribute(std::string &,DeviceClass *,long);
-	void add_fwd_attribute(std::string &,DeviceClass *,long,Attr *);
-	void remove_attribute(std::string &,bool);
+	void add_attribute(const std::string &,DeviceClass *,long);
+	void add_fwd_attribute(const std::string &,DeviceClass *,long,Attr *);
+	void remove_attribute(const std::string &,bool);
 	std::vector<long> &get_w_attr_list() {return writable_attr_list;}
 	bool is_att_quality_alarmed();
 	AttributeEventSubscriptionStates get_event_subscription_states();
 	void set_event_subscription_states(const AttributeEventSubscriptionStates&);
 	void add_alarmed_quality_factor(std::string &);
-	void add_default(std::vector<AttrProperty> &,std::string &,std::string &,long);
+	void add_default(std::vector<AttrProperty> &,const std::string &,const std::string &,long);
 	void add_attr(Attribute *att);
-	void update(Attribute &,std::string &);
+	void update(const Attribute &,const std::string &);
 	void check_idl_release(DeviceImpl *);
 	bool is_opt_prop(const std::string &);
 
@@ -300,9 +300,9 @@ private:
 		}
     };
 
-	void concat(std::vector<AttrProperty> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &);
-	void add_user_default(std::vector<AttrProperty> &,std::vector<AttrProperty> &);
-	void check_associated(long,std::string &);
+	void concat(const std::vector<AttrProperty> &,const std::vector<AttrProperty> &,std::vector<AttrProperty> &);
+	void add_user_default(std::vector<AttrProperty> &,const std::vector<AttrProperty> &);
+	void check_associated(long,const std::string &);
 
     std::unique_ptr<MultiAttributeExt>           ext;           // Class extension
 };

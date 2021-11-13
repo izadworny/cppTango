@@ -368,8 +368,8 @@ void RootAttRegistry::RootAttUserCallBack::push_event(Tango::DataReadyEventData 
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::RootAttConfCallBack::add_att(std::string &root_att_name,std::string &local_dev_name,
-													std::string &local_att_name,FwdAttr *att,DeviceImpl *dev)
+void RootAttRegistry::RootAttConfCallBack::add_att(const std::string &root_att_name,const std::string &local_dev_name,
+													const std::string &local_att_name,FwdAttr *att,DeviceImpl *dev)
 {
 	DeviceImpl *the_local_dev;
 	try
@@ -424,7 +424,7 @@ void RootAttRegistry::RootAttConfCallBack::add_att(std::string &root_att_name,st
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::RootAttConfCallBack::remove_att(std::string &root_att_name)
+void RootAttRegistry::RootAttConfCallBack::remove_att(const std::string &root_att_name)
 {
 	omni_mutex_lock oml(the_lock);
 
@@ -486,7 +486,7 @@ void RootAttRegistry::RootAttConfCallBack::remove_att(std::string &root_att_name
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::RootAttConfCallBack::clear_attrdesc(std::string &root_att_name)
+void RootAttRegistry::RootAttConfCallBack::clear_attrdesc(const std::string &root_att_name)
 {
 	std::map<std::string,NameFwdAttr>::iterator ite;
 	ite = map_attrdesc.find(root_att_name);
@@ -521,7 +521,7 @@ void RootAttRegistry::RootAttConfCallBack::clear_attrdesc(std::string &root_att_
 //--------------------------------------------------------------------------------------------------------------------
 
 
-bool RootAttRegistry::RootAttConfCallBack::is_root_att_in_map(std::string &root_att_name)
+bool RootAttRegistry::RootAttConfCallBack::is_root_att_in_map(const std::string &root_att_name)
 {
 	bool ret = false;
 
@@ -552,7 +552,7 @@ bool RootAttRegistry::RootAttConfCallBack::is_root_att_in_map(std::string &root_
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-int RootAttRegistry::RootAttConfCallBack::count_root_dev(std::string &root_dev_name)
+int RootAttRegistry::RootAttConfCallBack::count_root_dev(const std::string &root_dev_name)
 {
 	int ret = 0;
 	std::map<std::string,NameFwdAttr>::iterator pos;
@@ -584,7 +584,7 @@ int RootAttRegistry::RootAttConfCallBack::count_root_dev(std::string &root_dev_n
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::RootAttConfCallBack::update_device_impl(std::string &local_dev_name,DeviceImpl *local_dev)
+void RootAttRegistry::RootAttConfCallBack::update_device_impl(const std::string &local_dev_name,DeviceImpl *local_dev)
 {
 	omni_mutex_lock oml(the_lock);
 	std::map<std::string,DeviceImpl *>::iterator ite;
@@ -610,7 +610,7 @@ void RootAttRegistry::RootAttConfCallBack::update_device_impl(std::string &local
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::RootAttConfCallBack::update_err_kind(std::string &root_att_name,FwdAttError err)
+void RootAttRegistry::RootAttConfCallBack::update_err_kind(const std::string &root_att_name,FwdAttError err)
 {
 	omni_mutex_lock oml(the_lock);
 	std::map<std::string,struct NameFwdAttr>::iterator ite;
@@ -670,7 +670,7 @@ bool RootAttRegistry::RootAttConfCallBack::is_root_dev_not_started_err()
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::add_root_att(std::string &device_name,std::string &att_name,std::string &local_dev_name,std::string &local_att_name,
+void RootAttRegistry::add_root_att(const std::string &device_name,const std::string &att_name,const std::string &local_dev_name,const std::string &local_att_name,
 								   FwdAttr *attdesc,DeviceImpl *dev)
 {
 	DeviceProxy *the_dev;
@@ -788,7 +788,7 @@ void RootAttRegistry::add_root_att(std::string &device_name,std::string &att_nam
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::clear_attrdesc(std::string &dev_name,std::string &att_name)
+void RootAttRegistry::clear_attrdesc(const std::string &dev_name,const std::string &att_name)
 {
 	std::string full_att_name = dev_name + '/' + att_name;
 	cbp.clear_attrdesc(full_att_name);
@@ -809,7 +809,7 @@ void RootAttRegistry::clear_attrdesc(std::string &dev_name,std::string &att_name
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::remove_root_att(std::string &root_dev_name,std::string &root_att_name)
+void RootAttRegistry::remove_root_att(const std::string &root_dev_name,const std::string &root_att_name)
 {
 	std::string full_root_att_name = root_dev_name + '/' + root_att_name;
 	std::map<std::string,DeviceProxy *>::iterator pos = dps.find(root_dev_name);
@@ -880,7 +880,7 @@ void RootAttRegistry::remove_root_att(std::string &root_dev_name,std::string &ro
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-DeviceProxy *RootAttRegistry::get_root_att_dp(std::string &device_name)
+DeviceProxy *RootAttRegistry::get_root_att_dp(const std::string &device_name)
 {
 	std::map<std::string,DeviceProxy *>::iterator ite;
 	ite = dps.find(device_name);
@@ -943,7 +943,7 @@ std::string RootAttRegistry::RootAttConfCallBack::get_local_att_name(const std::
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-DeviceImpl *RootAttRegistry::RootAttConfCallBack::get_local_dev(std::string &local_dev_name)
+DeviceImpl *RootAttRegistry::RootAttConfCallBack::get_local_dev(const std::string &local_dev_name)
 {
 	std::map<std::string,DeviceImpl *>::iterator ite;
 	ite = local_dis.find(local_dev_name);
@@ -971,7 +971,7 @@ DeviceImpl *RootAttRegistry::RootAttConfCallBack::get_local_dev(std::string &loc
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::RootAttConfCallBack::update_label(std::string &root_name,std::string &new_label)
+void RootAttRegistry::RootAttConfCallBack::update_label(const std::string &root_name,const std::string &new_label)
 {
 	std::map<std::string,struct NameFwdAttr>::iterator ite;
 	ite = map_attrdesc.find(root_name);
@@ -1005,7 +1005,7 @@ void RootAttRegistry::RootAttConfCallBack::update_label(std::string &root_name,s
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-bool RootAttRegistry::check_root_dev_release(std::string &root_dev_name)
+bool RootAttRegistry::check_root_dev_release(const std::string &root_dev_name)
 {
 	bool ret = true;
 
@@ -1035,7 +1035,7 @@ bool RootAttRegistry::check_root_dev_release(std::string &root_dev_name)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-bool RootAttRegistry::is_event_subscribed(std::string &ev,EventType et)
+bool RootAttRegistry::is_event_subscribed(const std::string &ev,EventType et)
 {
 	bool ret = false;
 	std::map<std::string,std::vector<UserEvent> >::iterator pos;
@@ -1075,7 +1075,7 @@ bool RootAttRegistry::is_event_subscribed(std::string &ev,EventType et)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::subscribe_user_event(std::string &dev_name,std::string &att_name,EventType et)
+void RootAttRegistry::subscribe_user_event(const std::string &dev_name,const std::string &att_name,EventType et)
 {
 
 //
@@ -1150,7 +1150,7 @@ void RootAttRegistry::subscribe_user_event(std::string &dev_name,std::string &at
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void RootAttRegistry::unsubscribe_user_event(std::string &dev_name,std::string &att_name,EventType et)
+void RootAttRegistry::unsubscribe_user_event(const std::string &dev_name,const std::string &att_name,EventType et)
 {
 
 //
@@ -1357,7 +1357,7 @@ void RootAttRegistry::auto_unsub()
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-bool RootAttRegistry::check_loop(std::string &device_name,std::string &att_name,std::string &local_dev_name,std::string &local_att_name)
+bool RootAttRegistry::check_loop(const std::string &device_name,const std::string &att_name,const std::string &local_dev_name,const std::string &local_att_name)
 {
 	std::string tg_host;
 	int tg_port;

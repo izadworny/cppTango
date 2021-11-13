@@ -45,7 +45,7 @@ namespace Tango
 //
 //------------------------------------------------------------------------------------------------------------------
 
-DbDevice::DbDevice(std::string &dev_name, Database *dev_dbase):ext(nullptr)
+DbDevice::DbDevice(const std::string &dev_name, Database *dev_dbase):ext(nullptr)
 {
 	name = dev_name;
 	dbase = dev_dbase;
@@ -63,7 +63,7 @@ DbDevice::DbDevice(std::string &dev_name, Database *dev_dbase):ext(nullptr)
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-DbDevice::DbDevice(std::string &dev_name):ext(nullptr)
+DbDevice::DbDevice(const std::string &dev_name):ext(nullptr)
 {
 	name = dev_name;
 	db_ind = ApiUtil::instance()->get_db_ind();
@@ -81,7 +81,7 @@ DbDevice::DbDevice(std::string &dev_name):ext(nullptr)
 //
 //------------------------------------------------------------------------------------------------------------------
 
-DbDevice::DbDevice(std::string &dev_name,std::string &host,std::string &port_str):ext(nullptr)
+DbDevice::DbDevice(const std::string &dev_name,const std::string &host,const std::string &port_str):ext(nullptr)
 {
 	name = dev_name;
 
@@ -162,7 +162,7 @@ DbDevImportInfo DbDevice::import_device()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::export_device(DbDevExportInfo &dev_export)
+void DbDevice::export_device(const DbDevExportInfo &dev_export)
 {
 	if (ext_dbase == true)
 		dbase->export_device(dev_export);
@@ -215,7 +215,7 @@ void DbDevice::get_property(DbData &db_data)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::put_property(DbData &db_data)
+void DbDevice::put_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->put_device_property(name, db_data);
@@ -237,7 +237,7 @@ void DbDevice::put_property(DbData &db_data)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::delete_property(DbData &db_data)
+void DbDevice::delete_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->delete_device_property(name, db_data);
@@ -281,7 +281,7 @@ void DbDevice::get_attribute_property(DbData &db_data)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::put_attribute_property(DbData &db_data)
+void DbDevice::put_attribute_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->put_device_attribute_property(name, db_data);
@@ -303,7 +303,7 @@ void DbDevice::put_attribute_property(DbData &db_data)
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::delete_attribute_property(DbData &db_data)
+void DbDevice::delete_attribute_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->delete_device_attribute_property(name, db_data);
@@ -347,7 +347,7 @@ void DbDevice::get_pipe_property(DbData &db_data)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::put_pipe_property(DbData &db_data)
+void DbDevice::put_pipe_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->put_device_pipe_property(name, db_data);
@@ -369,7 +369,7 @@ void DbDevice::put_pipe_property(DbData &db_data)
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DbDevice::delete_pipe_property(DbData &db_data)
+void DbDevice::delete_pipe_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->delete_device_pipe_property(name, db_data);

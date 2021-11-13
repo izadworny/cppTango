@@ -140,7 +140,7 @@ public:
 	void set_orb(CORBA::ORB_ptr orb_in) {_orb = orb_in;}
 	void create_orb();
 	int	get_db_ind();
-	int	get_db_ind(std::string &host,int port);
+	int	get_db_ind(const std::string &host,int port);
 	std::vector<Database *> &get_db_vect() {return db_vect;}
 	bool in_server() {return in_serv;}
 	void in_server(bool serv) {in_serv = serv;}
@@ -199,7 +199,7 @@ public:
 	static void attr_to_device(const AttributeValue_5 *,long,DeviceAttribute *);
 
 	static void device_to_attr(const DeviceAttribute &,AttributeValue_4 &);
-	static void device_to_attr(const DeviceAttribute &,AttributeValue &,std::string &);
+	static void device_to_attr(const DeviceAttribute &,AttributeValue &,const std::string &);
 
 //
 // Conv. between AttributeConfig and AttributeInfoEx

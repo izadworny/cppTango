@@ -107,14 +107,14 @@ public:
  *
  * @param new_name The new pipe name
  */
-	void set_name(std::string &new_name) {name=new_name;}
+	void set_name(const std::string &new_name) {name=new_name;}
 
 /**
  * Set default attribute properties
  *
  * @param	prop	The user default property class
  */
- 	void set_default_properties(UserDefaultPipeProp &prop);
+	void set_default_properties(const UserDefaultPipeProp &prop);
 
 /**
  * Return the pipe name in lower case letters.
@@ -227,7 +227,7 @@ public:
  *
  * @param [in] names The blob data element names
  */
-	void set_data_elt_names(std::vector<std::string> &names) {the_blob.set_data_elt_names(names);}
+	void set_data_elt_names(const std::vector<std::string> &names) {the_blob.set_data_elt_names(names);}
 /**
  * Get blob data element number
  *
@@ -363,7 +363,7 @@ public:
 	bool is_desc_lib_default() {return desc==DescNotSpec;}
 	void set_upd_properties(const PipeConfig &,DeviceImpl *);
 	void set_properties(const Tango::PipeConfig &,DeviceImpl *,std::vector<Attribute::AttPropDb> &);
-	void upd_database(std::vector<Attribute::AttPropDb> &,std::string &);
+	void upd_database(std::vector<Attribute::AttPropDb> &,const std::string &);
 	std::vector<PipeProperty> &get_user_default_properties() {return user_def_prop;}
 	void set_one_str_prop(const char *,const CORBA::String_member &,std::string &,std::vector<Attribute::AttPropDb> &,std::vector<PipeProperty> &,std::vector<PipeProperty> &,const char *);
 	bool prop_in_list(const char *,std::string &,size_t,std::vector<PipeProperty> &);

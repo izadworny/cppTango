@@ -55,7 +55,7 @@
 class DeviceProxy: public Tango::Connection
 {
 private :
-	void real_constructor(std::string &,bool ch_acc=true);
+	void real_constructor(const std::string &,bool ch_acc=true);
 
 	Tango::DbDevice 	*db_dev;
 	std::string 				device_name;
@@ -70,7 +70,7 @@ private :
 
 	void connect_to_adm_device();
 
-	void retrieve_read_args(TgRequest &,std::vector<std::string> &);
+	void retrieve_read_args(const TgRequest &,std::vector<std::string> &);
 	DeviceAttribute *redo_synch_read_call(TgRequest &);
 	std::vector<DeviceAttribute> *redo_synch_reads_call(TgRequest &);
 	void redo_synch_write_call(TgRequest &);
@@ -110,15 +110,15 @@ protected :
 		Attr
 	};
 
-	bool is_polled(polled_object,std::string &, std::string &);
+	bool is_polled(polled_object,const std::string &, std::string &);
 	virtual void reconnect(bool);
 	void get_remaining_param(AttributeInfoListEx *);
-	template <typename T> void from_hist_2_AttHistory(T &,std::vector<DeviceAttributeHistory> *);
-	void from_hist4_2_DataHistory(DevCmdHistory_4_var &,std::vector<DeviceDataHistory> *);
+	template <typename T> void from_hist_2_AttHistory(const T &,std::vector<DeviceAttributeHistory> *);
+	void from_hist4_2_DataHistory(const DevCmdHistory_4_var &,std::vector<DeviceDataHistory> *);
 	void ask_locking_status(std::vector<std::string> &,std::vector<DevLong> &);
-	void get_locker_host(std::string &,std::string &);
+	void get_locker_host(const std::string &,std::string &);
 
-	void same_att_name(std::vector<std::string> &,const char *);
+	void same_att_name(const std::vector<std::string> &,const char *);
 
 private:
     class DeviceProxyExt
@@ -161,7 +161,7 @@ public :
  * @throws WrongNameSyntax, ConnectionFailed
  *
  */
-	DeviceProxy(std::string &name, CORBA::ORB *orb=NULL);
+	DeviceProxy(const std::string &name, CORBA::ORB *orb=NULL);
 /**
  * Create a DeviceProxy instance.
  *
@@ -189,7 +189,7 @@ public :
 	DeviceProxy(const char *name, CORBA::ORB *orb=NULL);
 //@}
 /// @privatesection
-	DeviceProxy(std::string &name, bool ch_access, CORBA::ORB *orb=NULL);
+	DeviceProxy(const std::string &name, bool ch_access, CORBA::ORB *orb=NULL);
 	DeviceProxy(const char *, bool ch_access, CORBA::ORB *orb=NULL);
 
 	DeviceProxy(const DeviceProxy &);
@@ -438,7 +438,7 @@ public :
  * @return The command information std::list: One CommandInfo structure per command
  * @throws NonSupportedFeature, ConnectionFailed, CommunicationFailed, DevFailed from device
  */
-	virtual std::vector<DeviceDataHistory> *command_history(std::string &cmd_name,int depth);
+	virtual std::vector<DeviceDataHistory> *command_history(const std::string &cmd_name,int depth);
 /**
  * Retrieve command history from polling buffer.
  *
@@ -552,7 +552,7 @@ public :
  * @return A vector of AttributeInfo structures with one element per attribute
  * @throws ConnectionFailed, CommunicationFailed, DevFailed from device
  */
-	virtual AttributeInfoList *get_attribute_config(std::vector<std::string> &att_names);
+	virtual AttributeInfoList *get_attribute_config(const std::vector<std::string> &att_names);
 /**
  * Get attribute configuration (extended) for a list of attributes
  *
@@ -565,7 +565,7 @@ public :
  * @return A vector of AttributeInfoEx structures with one element per attribute
  * @throws ConnectionFailed, CommunicationFailed, DevFailed from device
  */
-	virtual AttributeInfoListEx *get_attribute_config_ex(std::vector<std::string> &att_names);
+	virtual AttributeInfoListEx *get_attribute_config_ex(const std::vector<std::string> &att_names);
 /**
  * Get attribute configuration (extended) for a single attribute
  *
@@ -586,7 +586,7 @@ public :
  * @param [in] atts New attributes configuration
  * @throws ConnectionFailed, CommunicationFailed, DevUnlocked, DevFailed from device
  */
-	virtual void set_attribute_config(AttributeInfoList &atts);
+	virtual void set_attribute_config(const AttributeInfoList &atts);
 /**
  * Set extended attribute configuration
  *
@@ -596,7 +596,7 @@ public :
  * @param [in] atts New extended attributes configuration
  * @throws ConnectionFailed, CommunicationFailed, DevUnlocked, DevFailed from device
  */
-	virtual void set_attribute_config(AttributeInfoListEx &atts);
+	virtual void set_attribute_config(const AttributeInfoListEx &atts);
 /**
  * Read the list of specified attributes
  *
@@ -631,7 +631,7 @@ public :
  * @return A std::vector of DeviceAttribute instances with one element for each read attribute
  * @throws ConnectionFailed, CommunicationFailed
  */
-	virtual std::vector<DeviceAttribute> *read_attributes(std::vector<std::string> &att_names);
+	virtual std::vector<DeviceAttribute> *read_attributes(const std::vector<std::string> &att_names);
 /**
  * Read a single attribute
  *
@@ -645,7 +645,7 @@ public :
  * @return The attribute value in a DeviceAttribute instance
  * @throws ConnectionFailed, CommunicationFailed
  */
-	virtual DeviceAttribute read_attribute(std::string &att_name);
+	virtual DeviceAttribute read_attribute(const std::string &att_name);
 /**
  * Read the list of specified attributes
  *
@@ -687,7 +687,7 @@ public :
  * @param [in] attr_in Attributes name and value
  * @throws ConnectionFailed, CommunicationFailed, DeviceUnlocked, DevFailed or NamedDevFailedList from device
  */
-    virtual void write_attributes(std::vector<DeviceAttribute> &attr_in);
+    virtual void write_attributes(const std::vector<DeviceAttribute> &attr_in);
 /**
  * Write a single attribute
  *
@@ -699,7 +699,7 @@ public :
  * @param [in] attr_in Attribute name and value
  * @throws ConnectionFailed, CommunicationFailed, DeviceUnlocked, DevFailed from device
  */
-	virtual void write_attribute(DeviceAttribute &attr_in);
+	virtual void write_attribute(const DeviceAttribute &attr_in);
 /**
  * Write and read a single attribute
  *
@@ -714,7 +714,7 @@ public :
  * @return The read attribute data
  * @throws ConnectionFailed, CommunicationFailed, DeviceUnlocked, DevFailed from device
  */
-	virtual DeviceAttribute write_read_attribute(DeviceAttribute &attr_in);
+	virtual DeviceAttribute write_read_attribute(const DeviceAttribute &attr_in);
 /**
  * Write and read attribute(s)
  *
@@ -732,7 +732,7 @@ public :
  * @return The read attribute(s) data
  * @throws ConnectionFailed, CommunicationFailed, DeviceUnlocked, DevFailed from device
  */
-	virtual std::vector<DeviceAttribute> *write_read_attributes(std::vector<DeviceAttribute> &attr_in,std::vector<std::string> &r_names);
+	virtual std::vector<DeviceAttribute> *write_read_attributes(const std::vector<DeviceAttribute> &attr_in,const std::vector<std::string> &r_names);
 /**
  * Retrieve attribute history from polling buffer
  *
@@ -775,7 +775,7 @@ public :
  * @return The read attribute history data
  * @throws NonSupportedFeature, ConnectionFailed, CommunicationFailed, DevFailed from device
  */
-	virtual std::vector<DeviceAttributeHistory> *attribute_history(std::string &att_name,int depth);
+	virtual std::vector<DeviceAttributeHistory> *attribute_history(const std::string &att_name,int depth);
 /**
  * Retrieve attribute history from polling buffer
  *
@@ -835,7 +835,7 @@ public :
  * @return A vector of PipeInfo structures with one element per pipe
  * @throws ConnectionFailed, CommunicationFailed, DevFailed from device
  */
-	virtual PipeInfoList *get_pipe_config(std::vector<std::string> &pipe_names);
+	virtual PipeInfoList *get_pipe_config(const std::vector<std::string> &pipe_names);
 /**
  * Get pipe configuration for a single pipe
  *
@@ -854,7 +854,7 @@ public :
  * @param [in] pipes New pipes configuration
  * @throws ConnectionFailed, CommunicationFailed, DevUnlocked, DevFailed from device
  */
-	virtual void set_pipe_config(PipeInfoList &pipes);
+	virtual void set_pipe_config(const PipeInfoList &pipes);
 /**
  * Query all pipes name
  *
@@ -909,7 +909,7 @@ public :
  * @return The call identifier
  * @throws ConnectionFailed
  */
-    virtual long read_attribute_asynch(std::string &att_name);
+    virtual long read_attribute_asynch(const std::string &att_name);
 /**
  * Read a single attribute asynchronously
  *
@@ -931,7 +931,7 @@ public :
  * @return The call identifier
  * @throws ConnectionFailed
  */
-	virtual long read_attributes_asynch(std::vector <std::string> &att_names);
+	virtual long read_attributes_asynch(const std::vector <std::string> &att_names);
 /**
  * Check if an asynchronous read_attributes call is arrived
  *
@@ -1019,7 +1019,7 @@ public :
  * @return The call identifier
  * @throws ConnectionFailed
  */
-	virtual long write_attribute_asynch(DeviceAttribute &argin);
+	virtual long write_attribute_asynch(const DeviceAttribute &argin);
 /**
  * Write asynchronously alist of attributes
  *
@@ -1033,7 +1033,7 @@ public :
  * @return The call identifier
  * @throws ConnectionFailed
  */
-	virtual long write_attributes_asynch(std::vector<DeviceAttribute> &argin);
+	virtual long write_attributes_asynch(const std::vector<DeviceAttribute> &argin);
 /**
  * Check if the answer of one asynchronous write_attribute (single attribute) call is arrived
  *
@@ -1107,7 +1107,7 @@ public :
  * @param [in] cb The call-back object
  * @throws ConnectionFailed
  */
-	virtual void read_attribute_asynch(std::string &att_name,CallBack &cb);
+	virtual void read_attribute_asynch(const std::string &att_name,CallBack &cb);
 /**
  * Read asynchronously in callback model a list of attributes
  *
@@ -1119,7 +1119,7 @@ public :
  * @param [in] cb The call-back object
  * @throws ConnectionFailed
  */
-	virtual void read_attributes_asynch(std::vector<std::string> &att_names,CallBack &cb);
+	virtual void read_attributes_asynch(const std::vector<std::string> &att_names,CallBack &cb);
 /**
  * Write asynchronously in callback model a single attribute
  *
@@ -1131,7 +1131,7 @@ public :
  * @param [in] cb The call-back object
  * @throws ConnectionFailed
  */
-	virtual void write_attribute_asynch(DeviceAttribute &argin,CallBack &cb);
+	virtual void write_attribute_asynch(const DeviceAttribute &argin,CallBack &cb);
 /**
  * Write asynchronously in callback model a list of attributes
  *
@@ -1143,7 +1143,7 @@ public :
  * @param [in] cb The call-back object
  * @throws ConnectionFailed
  */
-	virtual void write_attributes_asynch(std::vector<DeviceAttribute> &argin,CallBack &cb);
+	virtual void write_attributes_asynch(const std::vector<DeviceAttribute> &argin,CallBack &cb);
 //@}
 
 /** @name Asynchronous related methods */
@@ -1176,7 +1176,7 @@ public :
  * @param [in] cmd_name The command name
  * @return Flag set to true if the command is polled
  */
-	virtual bool is_command_polled(std::string &cmd_name);
+	virtual bool is_command_polled(const std::string &cmd_name);
 /**
  * Check if a command is polled
  *
@@ -1194,7 +1194,7 @@ public :
  * @param [in] att_name The attribute name
  * @return Flag set to true if the attribute is polled
  */
-	virtual bool is_attribute_polled(std::string &att_name);
+	virtual bool is_attribute_polled(const std::string &att_name);
 /**
  * Check if one attribute is polled
  *
@@ -1212,7 +1212,7 @@ public :
  * @param [in] cmd_name The command name
  * @return The command polling period
  */
-	virtual int get_command_poll_period(std::string &cmd_name);
+	virtual int get_command_poll_period(const std::string &cmd_name);
 /**
  * Get command polling period
  *
@@ -1231,7 +1231,7 @@ public :
  * @param [in] att_name The attribute name
  * @return The attribute polling period
  */
-	virtual int get_attribute_poll_period(std::string &att_name);
+	virtual int get_attribute_poll_period(const std::string &att_name);
 /**
  * Get attribute polling period
  *
@@ -1270,7 +1270,7 @@ public :
  * @param [in] cmd_name The command name
  * @param [in] polling_period The polling period
  */
-	virtual void poll_command(std::string &cmd_name, int polling_period);
+	virtual void poll_command(const std::string &cmd_name, int polling_period);
 /**
  * Poll a command
  *
@@ -1290,7 +1290,7 @@ public :
  * @param [in] att_name The attribute name
  * @param [in] polling_period The polling period
  */
-	virtual void poll_attribute(std::string &att_name, int polling_period);
+	virtual void poll_attribute(const std::string &att_name, int polling_period);
 /**
  * Poll an attribute
  *
@@ -1308,7 +1308,7 @@ public :
  *
  * @param [in] cmd_name The command name
  */
-	virtual void stop_poll_command(std::string &cmd_name);
+	virtual void stop_poll_command(const std::string &cmd_name);
 /**
  * Stop polling a command
  *
@@ -1324,7 +1324,7 @@ public :
  *
  * @param [in] att_name The attribute name
  */
-	virtual void stop_poll_attribute(std::string &att_name);
+	virtual void stop_poll_attribute(const std::string &att_name);
 /**
  * Stop polling an attribute
  *
@@ -1611,7 +1611,7 @@ public :
  * @param [out] db The property value
  * @throws NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database device
  */
-	virtual void get_property(std::string &prop_name, DbData &db);
+	virtual void get_property(const std::string &prop_name, DbData &db);
 /**
  * Get a list of device properties
  *
@@ -1622,7 +1622,7 @@ public :
  * @param [out] db The properties values
  * @throws NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database device
  */
-	virtual void get_property(std::vector<std::string> &prop_names, DbData &db);
+	virtual void get_property(const std::vector<std::string> &prop_names, DbData &db);
 /**
  * Get property(ies) for a device
  *
@@ -1642,7 +1642,7 @@ public :
  * @param [in] db The property(ies) names and values
  * @throws NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database device
  */
-	virtual void put_property(DbData &db);
+	virtual void put_property(const DbData &db);
 /**
  * Delete a single device property
  *
@@ -1651,7 +1651,7 @@ public :
  * @param [in] prop_name The property name
  * @throws NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database device
  */
-	virtual void delete_property(std::string &prop_name);
+	virtual void delete_property(const std::string &prop_name);
 /**
  * Delete a list of device properties
  *
@@ -1660,7 +1660,7 @@ public :
  * @param [in] prop_names The property names list
  * @throws NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database device
  */
-	virtual void delete_property(std::vector<std::string> &prop_names);
+	virtual void delete_property(const std::vector<std::string> &prop_names);
 /**
  * Delete property(ies) for a device
  *
@@ -1670,7 +1670,7 @@ public :
  * @param [in] db The property names
  * @throws NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database device
  */
-	virtual void delete_property(DbData &db);
+	virtual void delete_property(const DbData &db);
 /**
  * Get list of property names for a device
  *
@@ -1904,7 +1904,7 @@ public :
 
 /// @privatesection
 
-	virtual void parse_name(std::string &);
+	virtual void parse_name(const std::string &);
 	virtual Database *get_device_db();
 
 	DeviceProxy *get_adm_device() {return adm_device;}
@@ -1916,7 +1916,7 @@ public :
 	void read_attribute(const std::string &,AttributeValue_4 *&);
 	void read_attribute(const std::string &,AttributeValue_5 *&);
 	void read_attribute(const char *,DeviceAttribute &);
-	void read_attribute(std::string &at,DeviceAttribute &da) {read_attribute(at.c_str(),da);}
+	void read_attribute(const std::string &at,DeviceAttribute &da) {read_attribute(at.c_str(),da);}
 
 //
 // Old event methods

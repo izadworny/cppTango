@@ -207,9 +207,9 @@ template void Attribute::check_hard_coded_properties(const AttributeConfig_3 &);
 template void Attribute::set_hard_coded_properties(const AttributeConfig &);
 template void Attribute::set_hard_coded_properties(const AttributeConfig_3 &);
 
-template void Attribute::set_upd_properties(const AttributeConfig &,std::string &,bool);
-template void Attribute::set_upd_properties(const AttributeConfig_3 &,std::string &,bool);
-template void Attribute::set_upd_properties(const AttributeConfig_5 &,std::string &,bool);
+template void Attribute::set_upd_properties(const AttributeConfig &,const std::string &,bool);
+template void Attribute::set_upd_properties(const AttributeConfig_3 &,const std::string &,bool);
+template void Attribute::set_upd_properties(const AttributeConfig_5 &,const std::string &,bool);
 
 template void Attribute::Attribute_2_AttributeValue_base(AttributeValue_4 *,Tango::DeviceImpl *);
 template void Attribute::Attribute_2_AttributeValue_base(AttributeValue_5 *,Tango::DeviceImpl *);

@@ -171,7 +171,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DServer::event_subscription(std::string &dev_name,std::string &obj_name,std::string &action,std::string &event,std::string &obj_name_lower,
+void DServer::event_subscription(const std::string &dev_name,const std::string &obj_name,const std::string &action,std::string &event,const std::string &obj_name_lower,
 								 ChannelType ct,std::string &mcast_data,int &rate,int &ivl,DeviceImpl *dev,int client_lib)
 {
     Tango::Util *tg = Tango::Util::instance();

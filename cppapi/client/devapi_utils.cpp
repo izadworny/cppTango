@@ -44,7 +44,7 @@ namespace Tango
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DeviceProxy::from_hist4_2_DataHistory(DevCmdHistory_4_var &hist_4,std::vector<DeviceDataHistory> *ddh)
+void DeviceProxy::from_hist4_2_DataHistory(const DevCmdHistory_4_var &hist_4,std::vector<DeviceDataHistory> *ddh)
 {
 
 //

@@ -559,7 +559,7 @@ public:
 	void device_factory(const Tango::DevVarStringArray *devlist);
 
 protected:
-	DServerClass(std::string &);
+	DServerClass(const std::string &);
 	TANGO_IMP static DServerClass *_instance;
 };
 

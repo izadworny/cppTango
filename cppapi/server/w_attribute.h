@@ -79,7 +79,7 @@ public:
  * @param idx The index of the related Attr object in the MultiClassAttribute
  *            vector of Attr object
  */
-	WAttribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,std::string &dev_name,long idx);
+	WAttribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,const std::string &dev_name,long idx);
 //@}
 
 /**@name Destructor

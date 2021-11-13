@@ -47,7 +47,7 @@ namespace Tango
 //-----------------------------------------------------------------------------
 
 
-void Connection::command_inout_asynch(const char *command, DeviceData &data_in, CallBack &cb)
+void Connection::command_inout_asynch(const char *command, const DeviceData &data_in, CallBack &cb)
 {
 
 //
@@ -128,7 +128,7 @@ void Connection::command_inout_asynch(const char *command, DeviceData &data_in, 
 //-----------------------------------------------------------------------------
 
 
-void Connection::command_inout_asynch(std::string &command, DeviceData &data_in, CallBack &cb)
+void Connection::command_inout_asynch(const std::string &command, const DeviceData &data_in, CallBack &cb)
 {
 	command_inout_asynch(command.c_str(),data_in,cb);
 }
@@ -139,7 +139,7 @@ void Connection::command_inout_asynch(const char *command,CallBack &cb)
 	command_inout_asynch(command,data_in,cb);
 }
 
-void Connection::command_inout_asynch(std::string &command,CallBack &cb)
+void Connection::command_inout_asynch(const std::string &command,CallBack &cb)
 {
 	DeviceData data_in;
 	command_inout_asynch(command.c_str(),data_in,cb);
@@ -1086,7 +1086,7 @@ void Connection::get_asynch_replies(long call_timeout)
 //-----------------------------------------------------------------------------
 
 
-void DeviceProxy::read_attributes_asynch(std::vector<std::string> &attr_names,CallBack &cb)
+void DeviceProxy::read_attributes_asynch(const std::vector<std::string> &attr_names, CallBack &cb)
 {
 
 //
@@ -1182,7 +1182,7 @@ void DeviceProxy::read_attributes_asynch(std::vector<std::string> &attr_names,Ca
 		au->get_pasyn_table()->signal();
 }
 
-void DeviceProxy::read_attribute_asynch(std::string &attr_name,CallBack &cb)
+void DeviceProxy::read_attribute_asynch(const std::string &attr_name,CallBack &cb)
 {
 	std::vector<std::string> tmp_att_names(1,attr_name);
 	read_attributes_asynch(tmp_att_names,cb);
@@ -1201,7 +1201,7 @@ void DeviceProxy::read_attribute_asynch(std::string &attr_name,CallBack &cb)
 //-----------------------------------------------------------------------------
 
 
-void DeviceProxy::write_attributes_asynch(std::vector<DeviceAttribute> &attr_list,
+void DeviceProxy::write_attributes_asynch(const std::vector<DeviceAttribute> &attr_list,
 					  CallBack &cb)
 {
 
@@ -1303,7 +1303,7 @@ void DeviceProxy::write_attributes_asynch(std::vector<DeviceAttribute> &attr_lis
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::write_attribute_asynch(DeviceAttribute &attr,CallBack &cb)
+void DeviceProxy::write_attribute_asynch(const DeviceAttribute &attr,CallBack &cb)
 {
 
 //

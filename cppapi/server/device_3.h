@@ -99,7 +99,7 @@ public:
  * @param	dev_name	The device name
  *
  */
-	Device_3Impl(DeviceClass *device_class,std::string &dev_name);
+	Device_3Impl(DeviceClass *device_class,const std::string &dev_name);
 
 /**
  * Constructs a newly allocated Device_3Impl object from its name and its description.
@@ -113,7 +113,7 @@ public:
  * @param	desc	The device description
  *
  */
-	Device_3Impl(DeviceClass *device_class,std::string &dev_name,std::string &desc);
+	Device_3Impl(DeviceClass *device_class,const std::string &dev_name,const std::string &desc);
 
 /**
  * Constructs a newly allocated Device_3Impl object from all its creation
@@ -130,8 +130,8 @@ public:
  *
  */
 	Device_3Impl(DeviceClass *device_class,
-	           std::string &dev_name,std::string &desc,
-	           Tango::DevState dev_state,std::string &dev_status);
+	           const std::string &dev_name,const std::string &desc,
+	           Tango::DevState dev_state,const std::string &dev_status);
 
 /**
  * Constructs a newly allocated Device_3Impl object from all its creation
@@ -283,7 +283,7 @@ public:
 //@}
 
 /// @privatesection
-	void write_attributes_in_db(std::vector<long> &,std::vector<long> &);
+	void write_attributes_in_db(const std::vector<long> &,const std::vector<long> &);
 	void add_state_status_attrs();
 	void read_attributes_from_cache(const Tango::DevVarStringArray&,Tango::AttributeIdlData &);
 	void delete_dev() {ext_3->delete_dev();}
@@ -292,16 +292,16 @@ public:
 protected:
 /// @privatesection
 	void read_attributes_no_except(const Tango::DevVarStringArray&,Tango::AttributeIdlData &,bool,std::vector<long> &);
-	void write_attributes_in_db(std::vector<long> &,std::vector<AttIdx> &);
+	void write_attributes_in_db(const std::vector<long> &,const std::vector<AttIdx> &);
 	void add_alarmed(std::vector<long> &);
-	long reading_state_necessary(std::vector<AttIdx> &);
+	long reading_state_necessary(const std::vector<AttIdx> &);
 	void state2attr(Tango::DevState,Tango::AttributeValue_3 &);
 	void state2attr(Tango::DevState,Tango::AttributeValue_4 &);
 	void state2attr(Tango::DevState,Tango::AttributeValue_5 &);
 	void status2attr(Tango::ConstDevString,Tango::AttributeValue_3 &);
 	void status2attr(Tango::ConstDevString,Tango::AttributeValue_4 &);
 	void status2attr(Tango::ConstDevString,Tango::AttributeValue_5 &);
-	void alarmed_not_read(std::vector<AttIdx> &);
+	void alarmed_not_read(const std::vector<AttIdx> &);
 
 	void write_attributes_34(const Tango::AttributeValueList *,const Tango::AttributeValueList_4 *);
 

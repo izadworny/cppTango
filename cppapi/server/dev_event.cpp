@@ -64,7 +64,7 @@ namespace Tango
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::push_event(std::string attr_name, std::vector<std::string> &filt_names,std::vector<double> &filt_vals,DevFailed *except)
+void DeviceImpl::push_event(std::string attr_name, const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,DevFailed *except)
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);
@@ -98,7 +98,7 @@ void DeviceImpl::push_event(std::string attr_name, std::vector<std::string> &fil
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevShort *p_data, long x,long y ,bool release)
 {
 	// get the tango synchroisation monitor
@@ -115,7 +115,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevLong *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -131,7 +131,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 	attr.fire_event(filt_names,filt_vals);
 }
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevLong64 *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -148,7 +148,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 
-void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event(std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			    Tango::DevFloat *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -166,7 +166,7 @@ void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt
 
 
 
-void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event(std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			    Tango::DevDouble *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -184,7 +184,7 @@ void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt
 
 
 
-void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event(std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			    Tango::DevString *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -202,7 +202,7 @@ void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt
 
 
 
-void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event(std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			    Tango::DevBoolean *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -220,7 +220,7 @@ void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt
 
 
 
-void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event(std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			    Tango::DevUShort *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -238,7 +238,7 @@ void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt
 
 
 
-void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event(std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			    Tango::DevUChar *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -254,7 +254,7 @@ void DeviceImpl::push_event(std::string attr_name,std::vector<std::string> &filt
 	attr.fire_event(filt_names,filt_vals);
 }
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevULong *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -270,7 +270,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 	attr.fire_event(filt_names,filt_vals);
 }
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevULong64 *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -286,7 +286,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 	attr.fire_event(filt_names,filt_vals);
 }
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevState *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -302,7 +302,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 	attr.fire_event(filt_names,filt_vals);
 }
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevEncoded *p_data, long x, long y , bool release)
 {
 	// get the tango synchroisation monitor
@@ -318,7 +318,7 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 	attr.fire_event(filt_names,filt_vals);
 }
 
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevString *p_str, Tango::DevUChar *p_data, long size , bool release)
 {
 	// get the tango synchroisation monitor
@@ -357,11 +357,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 //
 //----------------------------------------------------------------------------------------------------------------
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevShort *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevShort *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -380,11 +380,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevLong *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevLong *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -403,11 +403,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevLong64 *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevLong64 *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -426,11 +426,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevFloat *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevFloat *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -449,11 +449,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevDouble *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevDouble *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -472,11 +472,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevString *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevString *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -495,11 +495,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevBoolean *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevBoolean *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -518,11 +518,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevUShort *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevUShort *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -541,11 +541,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevUChar *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevUChar *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -564,11 +564,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevULong *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevULong *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -587,11 +587,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevULong64 *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevULong64 *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -610,11 +610,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevState *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevState *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -633,11 +633,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevEncoded *p_data,struct _timeb &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevEncoded *p_data,struct timeval &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
 #endif
@@ -656,11 +656,11 @@ void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &fil
 }
 
 #ifdef _TG_WINDOWS_
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size, struct _timeb &t, Tango::AttrQuality qual,
 			     bool release)
 #else
-void DeviceImpl::push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,
+void DeviceImpl::push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
 			     Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size, struct timeval &t, Tango::AttrQuality qual,
 			     bool release)
 #endif

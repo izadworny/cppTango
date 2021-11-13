@@ -61,7 +61,7 @@ namespace Tango
 */
 //===============================================================
 
-AccessProxy::AccessProxy(std::string &devname) : DeviceProxy(devname,false),
+AccessProxy::AccessProxy(const std::string &devname) : DeviceProxy(devname,false),
 forced(false)
 {
 	real_ctor();
@@ -108,7 +108,7 @@ void AccessProxy::real_ctor()
  */
 //===============================================================
 
-AccessControlType AccessProxy::check_access_control(std::string &devname)
+AccessControlType AccessProxy::check_access_control(const std::string &devname)
 {
 	if (forced)
 		return ACCESS_WRITE;
@@ -285,7 +285,7 @@ AccessControlType AccessProxy::check_access_control(std::string &devname)
  */
 //===============================================================
 
-bool AccessProxy::is_command_allowed(std::string &classname,std::string &cmd)
+bool AccessProxy::is_command_allowed(std::string &classname,const std::string &cmd)
 {
 	bool ret = false;
 
@@ -339,7 +339,7 @@ bool AccessProxy::is_command_allowed(std::string &classname,std::string &cmd)
  */
 //===============================================================
 
-void AccessProxy::get_allowed_commands(std::string &classname,std::vector<std::string> &allowed)
+void AccessProxy::get_allowed_commands(const std::string &classname,std::vector<std::string> &allowed)
 {
 	try
 	{

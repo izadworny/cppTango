@@ -8,7 +8,7 @@
 // Copyright (C) :      2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
-//                      FRANCE
+//                      FRANCEcppapi/client/dbapi_datum.cpp
 //
 // This file is part of Tango.
 //
@@ -717,11 +717,11 @@ bool DbDatum::operator >> (double& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::string &) - insert a string into DbDatum
+// DbDatum::operator <<(const std::string &) - insert a string into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::string& datum)
+void DbDatum::operator << (const std::string& datum)
 {
 	value_string.resize(1);
 	value_string[0] = datum;
@@ -827,11 +827,11 @@ bool DbDatum::operator >> (const char*& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<short> &) - insert a vector<short> into DbDatum
+// DbDatum::operator <<(const std::vector<short> &) - insert a vector<short> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<short>& datum)
+void DbDatum::operator << (const std::vector<short>& datum)
 {
 	std::ostringstream ostream;
 	value_string.resize(datum.size());
@@ -895,11 +895,11 @@ bool DbDatum::operator >> (std::vector<short>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<unsigned short> &) - insert a vector<unsigned short> into DbDatum
+// DbDatum::operator <<(const std::vector<unsigned short> &) - insert a vector<unsigned short> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<unsigned short>& datum)
+void DbDatum::operator << (const std::vector<unsigned short>& datum)
 {
 	std::ostringstream ostream;
 	value_string.resize(datum.size());
@@ -962,11 +962,11 @@ bool DbDatum::operator >> (std::vector<unsigned short>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<DevLong> &) - insert a vector<DevLong> into DbDatum
+// DbDatum::operator <<(const std::vector<DevLong> &) - insert a vector<DevLong> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<DevLong>& datum)
+void DbDatum::operator << (const std::vector<DevLong>& datum)
 {
 	std::ostringstream ostream;
 
@@ -1030,11 +1030,11 @@ bool DbDatum::operator >> (std::vector<DevLong>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<DevULong> &) - insert a vector<DevULong> into DbDatum
+// DbDatum::operator <<(const std::vector<DevULong> &) - insert a vector<DevULong> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<DevULong>& datum)
+void DbDatum::operator << (const std::vector<DevULong>& datum)
 {
 	std::ostringstream ostream;
 
@@ -1098,11 +1098,11 @@ bool DbDatum::operator >> (std::vector<DevULong>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<DevLong64> &) - insert a vector<DevLong64> into DbDatum
+// DbDatum::operator <<(const std::vector<DevLong64> &) - insert a vector<DevLong64> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<DevLong64>& datum)
+void DbDatum::operator << (const std::vector<DevLong64>& datum)
 {
 	std::ostringstream ostream;
 
@@ -1166,11 +1166,11 @@ bool DbDatum::operator >> (std::vector<DevLong64>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<DevULong64> &) - insert a vector<DevULong64> into DbDatum
+// DbDatum::operator <<(const std::vector<DevULong64> &) - insert a vector<DevULong64> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<DevULong64>& datum)
+void DbDatum::operator << (const std::vector<DevULong64>& datum)
 {
 	std::ostringstream ostream;
 
@@ -1234,11 +1234,11 @@ bool DbDatum::operator >> (std::vector<DevULong64>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<float> &) - insert a vector<float> into DbDatum
+// DbDatum::operator <<(const std::vector<float> &) - insert a vector<float> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<float>& datum)
+void DbDatum::operator << (const std::vector<float>& datum)
 {
 	std::ostringstream ostream;
 
@@ -1317,11 +1317,11 @@ bool DbDatum::operator >> (std::vector<float>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<double> &) - insert a vector<double> into DbDatum
+// DbDatum::operator <<(const std::vector<double> &) - insert a vector<double> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<double>& datum)
+void DbDatum::operator << (const std::vector<double>& datum)
 {
 	std::ostringstream ostream;
 	value_string.resize(datum.size());
@@ -1400,11 +1400,11 @@ bool DbDatum::operator >> (std::vector<double>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DbDatum::operator <<(std::vector<std::string> &) - insert a vector<string> into DbDatum
+// DbDatum::operator <<(const std::vector<std::string> &) - insert a vector<string> into DbDatum
 //
 //-----------------------------------------------------------------------------
 
-void DbDatum::operator << (std::vector<std::string>& datum)
+void DbDatum::operator << (const std::vector<std::string>& datum)
 {
 	value_string.resize(datum.size());
 	for (unsigned int i=0; i<datum.size(); i++)

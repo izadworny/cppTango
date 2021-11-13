@@ -112,7 +112,7 @@ public:
  *
  */
 	CORBA::Any *command_handler(DeviceImpl *device,
-				    std::string &command,const CORBA::Any &in_any);
+				    const std::string &command,const CORBA::Any &in_any);
 /**
  * Create command objects for all command supported by this class of device.
  *
@@ -276,7 +276,7 @@ public:
  *
  * @param dev_type The new TANGO device type name
  */
-	void set_type(std::string &dev_type) {type = dev_type;}
+	void set_type(const std::string &dev_type) {type = dev_type;}
 /**
  * Set the TANGO device type name.
  *
@@ -361,7 +361,7 @@ protected:
  * @param 	s	The Tango device class name
  *
  */
-	DeviceClass(std::string &s);
+	DeviceClass(const std::string &s);
 //@}
 
 /**@name Miscellaneous protected methods */
@@ -442,11 +442,11 @@ public:
 	std::vector<std::string> &get_nodb_name_list() {return nodb_name_list;}
 	void set_memorized_values(bool flag, long idx = 0,bool from_init = false);
 
-	void add_wiz_dev_prop(std::string &name,std::string &desc,std::string &def);
-	void add_wiz_dev_prop(std::string &name,std::string &desc);
+	void add_wiz_dev_prop(const std::string &name,const std::string &desc,const std::string &def);
+	void add_wiz_dev_prop(const std::string &name,const std::string &desc);
 
-	void add_wiz_class_prop(std::string &name,std::string &desc,std::string &def);
-	void add_wiz_class_prop(std::string &name,std::string &desc);
+	void add_wiz_class_prop(const std::string &name,const std::string &desc,const std::string &def);
+	void add_wiz_class_prop(const std::string &name,const std::string &desc);
 
 	std::vector<std::string> &get_wiz_class_prop() {return wiz_class_prop;}
 	std::vector<std::string> &get_wiz_dev_prop() {return wiz_dev_prop;}
@@ -457,8 +457,8 @@ public:
 	std::string &get_svn_tag() {return svn_tag;}
 	std::string &get_svn_location() {return svn_location;}
 
-	void set_cvs_tag(std::string &str) {cvs_tag=str;}
-	void set_cvs_location(std::string &str) {cvs_location=str;}
+	void set_cvs_tag(const std::string &str) {cvs_tag=str;}
+	void set_cvs_location(const std::string &str) {cvs_location=str;}
 
 	void add_device(DeviceImpl *dev) {device_list.push_back(dev);}
 	void delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_poa);
@@ -495,7 +495,7 @@ private:
     };
 
 	void get_class_system_resource();
-	void throw_mem_value(DeviceImpl *,Attribute &);
+	void throw_mem_value(DeviceImpl *,const Attribute &);
 
 	std::vector<std::string>			wiz_class_prop;
 	std::vector<std::string>			wiz_dev_prop;

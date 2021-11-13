@@ -181,7 +181,7 @@ MultiClassAttribute::MultiClassAttribute()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void MultiClassAttribute::init_class_attribute(std::string &class_name,long base)
+void MultiClassAttribute::init_class_attribute(const std::string &class_name,long base)
 {
 	cout4 << "Entering MultiClassAttribute::init_class_attribute" << std::endl;
 	long i;
@@ -308,7 +308,7 @@ void MultiClassAttribute::init_class_attribute(std::string &class_name,long base
 //--------------------------------------------------------------------------------------------------------------------
 
 
-Attr &MultiClassAttribute::get_attr(std::string &attr_name)
+Attr &MultiClassAttribute::get_attr(const std::string &attr_name)
 {
 //
 // Search for the wanted attribute in the attr_list vector from its name

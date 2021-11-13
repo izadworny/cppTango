@@ -76,7 +76,7 @@ namespace Tango {
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-bool EventConsumerKeepAliveThread::reconnect_to_channel(EvChanIte &ipos,EventConsumer *event_consumer)
+bool EventConsumerKeepAliveThread::reconnect_to_channel(const EvChanIte &ipos,EventConsumer *event_consumer)
 {
 	bool ret = true;
 	EvCbIte epos;
@@ -146,7 +146,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_channel(EvChanIte &ipos,EventCon
 //
 //---------------------------------------------------------------------------------------------------------------------
 
-bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(EvChanIte &ipos,EventConsumer *event_consumer,DeviceData &dd)
+bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(const EvChanIte &ipos,EventConsumer *event_consumer,DeviceData &dd)
 {
 	bool ret = true;
 	EvCbIte epos;
@@ -231,7 +231,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(EvChanIte &ipos,Even
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void EventConsumerKeepAliveThread::reconnect_to_event(EvChanIte &ipos,EventConsumer *event_consumer)
+void EventConsumerKeepAliveThread::reconnect_to_event(const EvChanIte &ipos,EventConsumer *event_consumer)
 {
 	EvCbIte epos;
 
@@ -299,7 +299,7 @@ void EventConsumerKeepAliveThread::reconnect_to_event(EvChanIte &ipos,EventConsu
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void EventConsumerKeepAliveThread::re_subscribe_event(EvCbIte &epos,EvChanIte &ipos)
+void EventConsumerKeepAliveThread::re_subscribe_event(const EvCbIte &epos,const EvChanIte &ipos)
 {
 
 //
@@ -392,7 +392,7 @@ void EventConsumerKeepAliveThread::re_subscribe_event(EvCbIte &epos,EvChanIte &i
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void EventConsumerKeepAliveThread::reconnect_to_zmq_event(EvChanIte &ipos,EventConsumer *event_consumer,DeviceData &dd)
+void EventConsumerKeepAliveThread::reconnect_to_zmq_event(const EvChanIte &ipos,EventConsumer *event_consumer,DeviceData &dd)
 {
 	EvCbIte epos;
 	bool disconnect_called = false;
@@ -844,7 +844,7 @@ void EventConsumerKeepAliveThread::fwd_not_conected_event(ZmqEventConsumer *even
 //--------------------------------------------------------------------------------------------------------------------
 
 void EventConsumerKeepAliveThread::confirm_subscription(ZmqEventConsumer *event_consumer,
-														std::map<std::string,EventChannelStruct>::iterator &ipos)
+														const std::map<std::string,EventChannelStruct>::iterator &ipos)
 {
 	std::vector<std::string> cmd_params;
 	std::vector<std::map<std::string,EventCallBackStruct>::difference_type> vd;
@@ -983,7 +983,7 @@ void EventConsumerKeepAliveThread::confirm_subscription(ZmqEventConsumer *event_
 void EventConsumerKeepAliveThread::main_reconnect(ZmqEventConsumer *event_consumer,
 												  NotifdEventConsumer *notifd_event_consumer,
 													std::map<std::string,EventCallBackStruct>::iterator &epos,
-													std::map<std::string,EventChannelStruct>::iterator &ipos)
+													const std::map<std::string,EventChannelStruct>::iterator &ipos)
 {
 
 //
@@ -1357,9 +1357,9 @@ void EventConsumerKeepAliveThread::main_reconnect(ZmqEventConsumer *event_consum
 
 void EventConsumerKeepAliveThread::re_subscribe_after_reconnect(ZmqEventConsumer *event_consumer,
 												  				NotifdEventConsumer *notifd_event_consumer,
-												  				std::map<std::string,EventCallBackStruct>::iterator &epos,
-																std::map<std::string,EventChannelStruct>::iterator &ipos,
-																std::string &domain_name)
+																const std::map<std::string,EventCallBackStruct>::iterator &epos,
+																const std::map<std::string,EventChannelStruct>::iterator &ipos,
+																const std::string &domain_name)
 {
 	DeviceData subscriber_in;
 	std::vector<std::string> subscriber_info;
@@ -1823,7 +1823,7 @@ void EventConsumerKeepAliveThread::re_subscribe_after_reconnect(ZmqEventConsumer
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void EventConsumerKeepAliveThread::stateless_subscription_failed(std::vector<EventNotConnected>::iterator &vpos,DevFailed &e,time_t &now)
+void EventConsumerKeepAliveThread::stateless_subscription_failed(const std::vector<EventNotConnected>::iterator &vpos,const DevFailed &e,const time_t &now)
 {
 
 //

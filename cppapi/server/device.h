@@ -113,7 +113,7 @@ public:
  * @param	dev_name	The device name
  *
  */
-	DeviceImpl(DeviceClass *device_class,std::string &dev_name);
+	DeviceImpl(DeviceClass *device_class,const std::string &dev_name);
 
 /**
  * Constructs a newly allocated DeviceImpl object from its name and its description.
@@ -127,7 +127,7 @@ public:
  * @param	desc	The device description
  *
  */
-	DeviceImpl(DeviceClass *device_class,std::string &dev_name,std::string &desc);
+	DeviceImpl(DeviceClass *device_class,const std::string &dev_name,const std::string &desc);
 /**
  * Constructs a newly allocated DeviceImpl object from all its creation
  * parameters.
@@ -143,8 +143,8 @@ public:
  *
  */
 	DeviceImpl(DeviceClass *device_class,
-	           std::string &dev_name,std::string &desc,
-	           Tango::DevState dev_state,std::string &dev_status);
+	           const std::string &dev_name,const std::string &desc,
+	           Tango::DevState dev_state,const std::string &dev_status);
 /**
  * Constructs a newly allocated DeviceImpl object from all its creation
  * parameters with some default values.
@@ -612,7 +612,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
- 	void remove_attribute(std::string &rem_attr_name,bool free_it = false,bool clean_db = true);
+	void remove_attribute(const std::string &rem_attr_name,bool free_it = false,bool clean_db = true);
 
 /**
  * Add a new command to the device command list.
@@ -2391,7 +2391,7 @@ public:
  * @param filt_vals The filterable fields value (as double)
  * @param except Pointer to a Tango::DevFailed exception. Default value is NULL.
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,DevFailed *except = NULL);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,DevFailed *except = NULL);
 
 /**
  * Push a user event for an attribute with Tango::DevShort attribute data type.
@@ -2414,7 +2414,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevShort *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevShort *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevLong attribute data type.
@@ -2437,7 +2437,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevLong  *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong  *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevLong64 attribute data type.
@@ -2460,7 +2460,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevLong64  *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong64  *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevFloat attribute data type.
@@ -2483,7 +2483,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevFloat *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevFloat *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevDouble attribute data type.
@@ -2506,7 +2506,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevDouble *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevDouble *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevString attribute data type.
@@ -2529,7 +2529,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevString *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevBoolean attribute data type.
@@ -2552,7 +2552,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevBoolean *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevBoolean *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevUShort attribute data type.
@@ -2575,7 +2575,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevUShort *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUShort *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevUChar attribute data type.
@@ -2598,7 +2598,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevUChar *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUChar *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevULong attribute data type.
@@ -2621,7 +2621,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevULong  *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong  *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevULong64 attribute data type.
@@ -2644,7 +2644,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevULong64  *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong64  *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevState attribute data type.
@@ -2667,7 +2667,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevState  *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevState  *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevEncoded attribute data type.
@@ -2690,7 +2690,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevEncoded *p_data, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevEncoded *p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevEncoded attribute data type
@@ -2714,7 +2714,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevString  *p_str_data, Tango::DevUChar *p_data, long size, bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString  *p_str_data, Tango::DevUChar *p_data, long size, bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevShort attribute data type.
@@ -2739,9 +2739,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 /**
  * Push a user event for an attribute with Tango::DevLong attribute data type.
@@ -2766,9 +2766,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevLong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevLong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -2794,9 +2794,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevLong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevLong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -2822,9 +2822,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevFloat *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevFloat *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevFloat *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevFloat *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 /**
  * Push a user event for an attribute with Tango::DevDouble attribute data type.
@@ -2849,9 +2849,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevDouble *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevDouble *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevDouble *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevDouble *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 /**
  * Push a user event for an attribute with Tango::DevString attribute data type.
@@ -2876,9 +2876,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevString *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevString *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 /**
  * Push a user event for an attribute with Tango::DevBoolean attribute data type.
@@ -2903,9 +2903,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevBoolean *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevBoolean *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevBoolean *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevBoolean *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 /**
  * Push a user event for an attribute with Tango::DevUShort attribute data type.
@@ -2930,9 +2930,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevUShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevUShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 /**
  * Push a user event for an attribute with Tango::DevUChar attribute data type.
@@ -2957,9 +2957,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevUChar *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUChar *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevUChar *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUChar *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -2985,9 +2985,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevULong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevULong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -3013,9 +3013,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevULong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevULong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -3041,9 +3041,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevState *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevState *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevState *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevState *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -3069,9 +3069,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevEncoded *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevEncoded *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevEncoded *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevEncoded *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -3099,9 +3099,9 @@ public:
  * <b>DevFailed</b> exception specification
  */
 #ifdef _TG_WINDOWS_
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, struct _timeb  &t, Tango::AttrQuality qual,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, struct _timeb  &t, Tango::AttrQuality qual,bool release = false);
 #else
-	void push_event (std::string attr_name,std::vector<std::string> &filt_names,std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, struct timeval &t, Tango::AttrQuality qual,bool release = false);
+	void push_event (std::string attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, struct timeval &t, Tango::AttrQuality qual,bool release = false);
 #endif
 //@}
 
@@ -3364,8 +3364,8 @@ public:
 	TangoMonitor &get_pipe_conf_monitor() {return pipe_conf_mon;}
 
 	long get_dev_idl_version() {return idl_version;}
-	long get_cmd_poll_ring_depth(std::string &);
-	long get_attr_poll_ring_depth(std::string &);
+	long get_cmd_poll_ring_depth(const std::string &);
+	long get_attr_poll_ring_depth(const std::string &);
 	std::vector<long> &get_alarmed_not_read() {return alrmd_not_read;}
 	void poll_lists_2_v5();
 
@@ -3389,7 +3389,7 @@ public:
 	void clean_locker_ptrs() {locker_client=NULL;old_locker_client=NULL;}
 	void set_locking_param(client_addr *,client_addr *,time_t,DevLong,DevLong);
 
-	void set_alias_name_lower(std::string &al) {alias_name_lower = al;}
+	void set_alias_name_lower(const std::string &al) {alias_name_lower = al;}
 	std::string &get_alias_name_lower() {return alias_name_lower;}
 
 	void push_att_conf_event(Attribute *);

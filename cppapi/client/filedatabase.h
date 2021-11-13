@@ -120,7 +120,7 @@ public:
 	std::string  parse_res_file(const std::string& file_name);
 	void display();
 	std::string get_display();
-	void write_event_channel_ior(std::string &);
+	void write_event_channel_ior(const std::string &);
 
 
 	CORBA::Any*      DbInfo(CORBA::Any&);
@@ -176,7 +176,7 @@ private:
 	t_server 		m_server;
 
 	void read_char(std::ifstream& f);
-	int class_lex(std::string& word);
+	int class_lex(const std::string& word);
 	void  jump_line(std::ifstream& f);
 	void  jump_space(std::ifstream& f);
 	std::string read_word(std::ifstream& f);

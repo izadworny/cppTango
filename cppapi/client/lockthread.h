@@ -94,7 +94,7 @@ class TangoMonitor;
 class LockThread: public omni_thread
 {
 public:
-	LockThread(LockThCmd &,TangoMonitor &,DeviceProxy *,std::string &, LockClock::duration);
+	LockThread(LockThCmd &,TangoMonitor &,DeviceProxy *,const std::string &, LockClock::duration);
 
 	void run(void *);
 

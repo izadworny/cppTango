@@ -117,7 +117,7 @@ void LastAttrValue::store(
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-Attribute::Attribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,std::string &dev_name,long idx)
+Attribute::Attribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,const std::string &dev_name,long idx)
 :
     date(true),
     quality(Tango::ATTR_VALID),
@@ -679,8 +679,8 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-bool Attribute::init_check_val_prop (std::vector<AttrProperty> &prop_list,std::string &dev_name,const char* prop_name,
-                                    std::string& prop_str,Tango::Attr_CheckVal &prop,Tango::Attr_CheckVal &prop_comp)
+bool Attribute::init_check_val_prop (std::vector<AttrProperty> &prop_list,const std::string &dev_name,const char* prop_name,
+                                    std::string& prop_str,Tango::Attr_CheckVal &prop,const Tango::Attr_CheckVal &prop_comp)
 {
     prop_str = get_attr_value(prop_list, prop_name);
 
@@ -941,7 +941,7 @@ bool Attribute::init_check_val_prop (std::vector<AttrProperty> &prop_list,std::s
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Attribute::init_opt_prop(std::vector<AttrProperty> &prop_list,std::string &dev_name)
+void Attribute::init_opt_prop(std::vector<AttrProperty> &prop_list,const std::string &dev_name)
 {
 
 //
@@ -1228,7 +1228,7 @@ void Attribute::init_enum_prop(std::vector<AttrProperty> &prop_list)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Attribute::build_check_enum_labels(std::string &labs)
+void Attribute::build_check_enum_labels(const std::string &labs)
 {
 	std::string::size_type pos = 0;
 	std::string::size_type start = 0;
@@ -1422,7 +1422,7 @@ void Attribute::throw_err_data_type(const char *prop_name,const std::string &dev
 //
 //--------------------------------------------------------------------------
 
-void Attribute::throw_min_max_value(std::string &dev_name,std::string &memorized_value,MinMaxValueCheck check_type)
+void Attribute::throw_min_max_value(const std::string &dev_name,const std::string &memorized_value,MinMaxValueCheck check_type)
 {
 	TangoSys_OMemStream o;
 
@@ -1454,7 +1454,7 @@ bool Attribute::is_polled()
         dev = tg->get_device_by_name(d_name);
     }
 
-	std::string &att_name = get_name_lower();
+	const std::string &att_name = get_name_lower();
 
 	std::vector<std::string> &attr_list = dev->get_polled_attr();
 
@@ -4601,7 +4601,7 @@ void Attribute::fire_archive_event(DevFailed *except)
 //--------------------------------------------------------------------------------------------------------------------
 
 
-void Attribute::fire_event(std::vector<std::string> &filt_names,std::vector<double> &filt_vals,DevFailed *except)
+void Attribute::fire_event(const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,DevFailed *except)
 {
 	cout4 << "Attribute::fire_event() entring ..." << std::endl;
 
@@ -5013,7 +5013,7 @@ void Attribute::set_quality(Tango::AttrQuality qua,bool send_event)
 //
 //--------------------------------------------------------------------------
 
-void Attribute::upd_att_prop_db(Tango::Attr_CheckVal &new_value,
+void Attribute::upd_att_prop_db(const Tango::Attr_CheckVal &new_value,
 				const char *prop_name)
 {
 	cout4 << "Entering upd_att_prop_db method for attribute " << name <<", property = " << prop_name << std::endl;
@@ -5237,7 +5237,7 @@ void Attribute::set_attr_serial_model(AttrSerialModel ser_model)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-DeviceClass *Attribute::get_att_device_class(std::string &dev_name)
+DeviceClass *Attribute::get_att_device_class(const std::string &dev_name)
 {
 
 //
@@ -5390,7 +5390,7 @@ void Attribute::log_alarm_quality() const
 //
 //--------------------------------------------------------------------------
 
-void Attribute::avns_in_db(const char *prop_name,std::string &dev_name)
+void Attribute::avns_in_db(const char *prop_name,const std::string &dev_name)
 {
     Tango::Util *tg = Tango::Util::instance();
 

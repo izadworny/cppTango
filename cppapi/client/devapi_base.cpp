@@ -374,7 +374,7 @@ void Connection::set_source(Tango::DevSource sou)
 //
 //-----------------------------------------------------------------------------
 
-void Connection::connect(std::string &corba_name)
+void Connection::connect(const std::string &corba_name)
 {
     bool retry = true;
     long db_retries = DB_START_PHASE_RETRIES;
@@ -936,7 +936,7 @@ int Connection::get_env_var(const char *env_var_name, std::string &env_var)
 //
 //-----------------------------------------------------------------------------
 
-int Connection::get_env_var_from_file(std::string &f_name, const char *env_var, std::string &ret_env_var)
+int Connection::get_env_var_from_file(const std::string &f_name, const char *env_var, std::string &ret_env_var)
 {
     std::ifstream inFile;
     std::string file_line;
@@ -1166,7 +1166,7 @@ void Connection::set_timeout_millis(int millisecs)
 //-----------------------------------------------------------------------------
 
 
-DeviceData Connection::command_inout(std::string &command)
+DeviceData Connection::command_inout(const std::string &command)
 {
     DeviceData data_in;
 
@@ -1180,7 +1180,7 @@ DeviceData Connection::command_inout(std::string &command)
 //-----------------------------------------------------------------------------
 
 
-DeviceData Connection::command_inout(std::string &command, DeviceData &data_in)
+DeviceData Connection::command_inout(const std::string &command, const DeviceData &data_in)
 {
 //
 // We are using a pointer to an Any as the return value of the command_inout
@@ -1393,7 +1393,7 @@ DeviceData Connection::command_inout(std::string &command, DeviceData &data_in)
 //-----------------------------------------------------------------------------
 
 
-CORBA::Any_var Connection::command_inout(std::string &command, CORBA::Any &any)
+CORBA::Any_var Connection::command_inout(const std::string &command, const CORBA::Any &any)
 {
     int ctr = 0;
     Tango::DevSource local_source;
@@ -1592,7 +1592,7 @@ CORBA::Any_var Connection::command_inout(std::string &command, CORBA::Any &any)
 //
 //-----------------------------------------------------------------------------
 
-DeviceProxy::DeviceProxy(std::string &name, CORBA::ORB *orb)
+DeviceProxy::DeviceProxy(const std::string &name, CORBA::ORB *orb)
     : Connection(orb),
       db_dev(NULL),
       is_alias(false),
@@ -1615,7 +1615,7 @@ DeviceProxy::DeviceProxy(const char *na, CORBA::ORB *orb)
     real_constructor(name, true);
 }
 
-DeviceProxy::DeviceProxy(std::string &name, bool need_check_acc, CORBA::ORB *orb)
+DeviceProxy::DeviceProxy(const std::string &name, bool need_check_acc, CORBA::ORB *orb)
     : Connection(orb),
       db_dev(NULL),
       is_alias(false),
@@ -1638,7 +1638,7 @@ DeviceProxy::DeviceProxy(const char *na, bool need_check_acc, CORBA::ORB *orb)
     real_constructor(name, need_check_acc);
 }
 
-void DeviceProxy::real_constructor(std::string &name, bool need_check_acc)
+void DeviceProxy::real_constructor(const std::string &name, bool need_check_acc)
 {
 
 //
@@ -1950,7 +1950,7 @@ DeviceProxy &DeviceProxy::operator=(const DeviceProxy &rval)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::parse_name(std::string &full_name)
+void DeviceProxy::parse_name(const std::string &full_name)
 {
     std::string name_wo_prot;
     std::string name_wo_db_mod;
@@ -3430,7 +3430,7 @@ std::vector<std::string> *DeviceProxy::get_command_list()
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::get_property(std::string &property_name, DbData &db_data)
+void DeviceProxy::get_property(const std::string &property_name, DbData &db_data)
 {
     if (dbase_used == false)
     {
@@ -3458,7 +3458,7 @@ void DeviceProxy::get_property(std::string &property_name, DbData &db_data)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::get_property(std::vector<std::string> &property_names, DbData &db_data)
+void DeviceProxy::get_property(const std::vector<std::string> &property_names, DbData &db_data)
 {
     if (dbase_used == false)
     {
@@ -3514,7 +3514,7 @@ void DeviceProxy::get_property(DbData &db_data)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::put_property(DbData &db_data)
+void DeviceProxy::put_property(const DbData &db_data)
 {
     if (dbase_used == false)
     {
@@ -3539,7 +3539,7 @@ void DeviceProxy::put_property(DbData &db_data)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::delete_property(std::string &property_name)
+void DeviceProxy::delete_property(const std::string &property_name)
 {
     if (dbase_used == false)
     {
@@ -3568,7 +3568,7 @@ void DeviceProxy::delete_property(std::string &property_name)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::delete_property(std::vector<std::string> &property_names)
+void DeviceProxy::delete_property(const std::vector<std::string> &property_names)
 {
     if (dbase_used == false)
     {
@@ -3600,7 +3600,7 @@ void DeviceProxy::delete_property(std::vector<std::string> &property_names)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::delete_property(DbData &db_data)
+void DeviceProxy::delete_property(const DbData &db_data)
 {
     if (dbase_used == false)
     {
@@ -3658,7 +3658,7 @@ void DeviceProxy::get_property_list(const std::string &wildcard, std::vector<std
 //
 //-----------------------------------------------------------------------------
 
-AttributeInfoList *DeviceProxy::get_attribute_config(std::vector<std::string> &attr_string_list)
+AttributeInfoList *DeviceProxy::get_attribute_config(const std::vector<std::string> &attr_string_list)
 {
     AttributeConfigList_var attr_config_list;
     AttributeConfigList_2_var attr_config_list_2;
@@ -3829,7 +3829,7 @@ AttributeInfoList *DeviceProxy::get_attribute_config(std::vector<std::string> &a
 //
 //-----------------------------------------------------------------------------
 
-AttributeInfoListEx *DeviceProxy::get_attribute_config_ex(std::vector<std::string> &attr_string_list)
+AttributeInfoListEx *DeviceProxy::get_attribute_config_ex(const std::vector<std::string> &attr_string_list)
 {
     AttributeConfigList_var attr_config_list;
     AttributeConfigList_2_var attr_config_list_2;
@@ -4325,7 +4325,7 @@ AttributeInfoEx DeviceProxy::get_attribute_config(const std::string &attr_string
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::set_attribute_config(AttributeInfoList &dev_attr_list)
+void DeviceProxy::set_attribute_config(const AttributeInfoList &dev_attr_list)
 {
     AttributeConfigList attr_config_list;
     DevVarStringArray attr_list;
@@ -4430,7 +4430,7 @@ void DeviceProxy::set_attribute_config(AttributeInfoList &dev_attr_list)
     return;
 }
 
-void DeviceProxy::set_attribute_config(AttributeInfoListEx &dev_attr_list)
+void DeviceProxy::set_attribute_config(const AttributeInfoListEx &dev_attr_list)
 {
     AttributeConfigList attr_config_list;
     AttributeConfigList_3 attr_config_list_3;
@@ -4654,7 +4654,7 @@ void DeviceProxy::set_attribute_config(AttributeInfoListEx &dev_attr_list)
 //
 //-----------------------------------------------------------------------------
 
-PipeInfoList *DeviceProxy::get_pipe_config(std::vector<std::string> &pipe_string_list)
+PipeInfoList *DeviceProxy::get_pipe_config(const std::vector<std::string> &pipe_string_list)
 {
     PipeConfigList_var pipe_config_list_5;
     PipeInfoList *dev_pipe_config = new PipeInfoList();
@@ -4796,7 +4796,7 @@ PipeInfo DeviceProxy::get_pipe_config(const std::string &pipe_name)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::set_pipe_config(PipeInfoList &dev_pipe_list)
+void DeviceProxy::set_pipe_config(const PipeInfoList &dev_pipe_list)
 {
 //
 // Error if device does not support IDL 5
@@ -5320,7 +5320,7 @@ DevicePipe DeviceProxy::write_read_pipe(DevicePipe &pipe_data)
 //
 //-----------------------------------------------------------------------------
 
-std::vector<DeviceAttribute> *DeviceProxy::read_attributes(std::vector<std::string> &attr_string_list)
+std::vector<DeviceAttribute> *DeviceProxy::read_attributes(const std::vector<std::string> &attr_string_list)
 {
     AttributeValueList_var attr_value_list;
     AttributeValueList_3_var attr_value_list_3;
@@ -5532,7 +5532,7 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes(std::vector<std::stri
 //-----------------------------------------------------------------------------
 
 
-DeviceAttribute DeviceProxy::read_attribute(std::string &attr_string)
+DeviceAttribute DeviceProxy::read_attribute(const std::string &attr_string)
 {
     AttributeValueList_var attr_value_list;
     AttributeValueList_3_var attr_value_list_3;
@@ -5855,7 +5855,7 @@ void DeviceProxy::read_attribute(const std::string &attr_str, AttributeValue_5 *
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::write_attributes(std::vector<DeviceAttribute> &attr_list)
+void DeviceProxy::write_attributes(const std::vector<DeviceAttribute> &attr_list)
 {
     AttributeValueList attr_value_list;
     AttributeValueList_4 attr_value_list_4;
@@ -6181,7 +6181,7 @@ void DeviceProxy::write_attributes(std::vector<DeviceAttribute> &attr_list)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::write_attribute(DeviceAttribute &dev_attr)
+void DeviceProxy::write_attribute(const DeviceAttribute &dev_attr)
 {
     AttributeValueList attr_value_list;
     AttributeValueList_4 attr_value_list_4;
@@ -6800,7 +6800,7 @@ AttributeInfoListEx *DeviceProxy::attribute_list_query_ex()
 //
 //-----------------------------------------------------------------------------
 
-std::vector<DeviceDataHistory> *DeviceProxy::command_history(std::string &cmd_name, int depth)
+std::vector<DeviceDataHistory> *DeviceProxy::command_history(const std::string &cmd_name, int depth)
 {
     if (version == 1)
     {
@@ -6911,7 +6911,7 @@ std::vector<DeviceDataHistory> *DeviceProxy::command_history(std::string &cmd_na
 //
 //-----------------------------------------------------------------------------
 
-std::vector<DeviceAttributeHistory> *DeviceProxy::attribute_history(std::string &cmd_name, int depth)
+std::vector<DeviceAttributeHistory> *DeviceProxy::attribute_history(const std::string &cmd_name, int depth)
 {
     if (version == 1)
     {
@@ -7109,7 +7109,7 @@ std::vector<std::string> *DeviceProxy::polling_status()
 //
 //-----------------------------------------------------------------------------
 
-bool DeviceProxy::is_polled(polled_object obj, std::string &obj_name, std::string &upd)
+bool DeviceProxy::is_polled(polled_object obj, const std::string &obj_name, std::string &upd)
 {
     bool ret = false;
     std::vector<std::string> *poll_str;
@@ -7199,7 +7199,7 @@ bool DeviceProxy::is_polled(polled_object obj, std::string &obj_name, std::strin
 //
 //-----------------------------------------------------------------------------
 
-int DeviceProxy::get_command_poll_period(std::string &cmd_name)
+int DeviceProxy::get_command_poll_period(const std::string &cmd_name)
 {
     std::string poll_per;
     bool poll = is_polled(Cmd, cmd_name, poll_per);
@@ -7227,7 +7227,7 @@ int DeviceProxy::get_command_poll_period(std::string &cmd_name)
 //
 //-----------------------------------------------------------------------------
 
-int DeviceProxy::get_attribute_poll_period(std::string &attr_name)
+int DeviceProxy::get_attribute_poll_period(const std::string &attr_name)
 {
     std::string poll_per;
     bool poll = is_polled(Attr, attr_name, poll_per);
@@ -7256,7 +7256,7 @@ int DeviceProxy::get_attribute_poll_period(std::string &attr_name)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::poll_command(std::string &cmd_name, int period)
+void DeviceProxy::poll_command(const std::string &cmd_name, int period)
 {
     std::string poll_per;
     bool poll = is_polled(Cmd, cmd_name, poll_per);
@@ -7340,7 +7340,7 @@ void DeviceProxy::poll_command(std::string &cmd_name, int period)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::poll_attribute(std::string &attr_name, int period)
+void DeviceProxy::poll_attribute(const std::string &attr_name, int period)
 {
     std::string poll_per;
     bool poll = is_polled(Attr, attr_name, poll_per);
@@ -7423,7 +7423,7 @@ void DeviceProxy::poll_attribute(std::string &attr_name, int period)
 //
 //-----------------------------------------------------------------------------
 
-bool DeviceProxy::is_command_polled(std::string &cmd_name)
+bool DeviceProxy::is_command_polled(const std::string &cmd_name)
 {
     std::string upd;
     return is_polled(Cmd, cmd_name, upd);
@@ -7435,7 +7435,7 @@ bool DeviceProxy::is_command_polled(std::string &cmd_name)
 //
 //-----------------------------------------------------------------------------
 
-bool DeviceProxy::is_attribute_polled(std::string &attr_name)
+bool DeviceProxy::is_attribute_polled(const std::string &attr_name)
 {
     std::string upd;
     return is_polled(Attr, attr_name, upd);
@@ -7447,7 +7447,7 @@ bool DeviceProxy::is_attribute_polled(std::string &attr_name)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::stop_poll_command(std::string &cmd_name)
+void DeviceProxy::stop_poll_command(const std::string &cmd_name)
 {
     check_connect_adm_device();
 
@@ -7479,7 +7479,7 @@ void DeviceProxy::stop_poll_command(std::string &cmd_name)
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::stop_poll_attribute(std::string &attr_name)
+void DeviceProxy::stop_poll_attribute(const std::string &attr_name)
 {
     check_connect_adm_device();
 
@@ -8888,7 +8888,7 @@ void DeviceProxy::ask_locking_status(std::vector<std::string> &v_str, std::vecto
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::get_locker_host(std::string &f_addr, std::string &ip_addr)
+void DeviceProxy::get_locker_host(const std::string &f_addr, std::string &ip_addr)
 {
 //
 // The hostname is returned in the following format:
@@ -8955,7 +8955,7 @@ void DeviceProxy::get_locker_host(std::string &f_addr, std::string &ip_addr)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute DeviceProxy::write_read_attribute(DeviceAttribute &dev_attr)
+DeviceAttribute DeviceProxy::write_read_attribute(const DeviceAttribute &dev_attr)
 {
 
 //
@@ -9216,7 +9216,7 @@ DeviceAttribute DeviceProxy::write_read_attribute(DeviceAttribute &dev_attr)
 //
 //-----------------------------------------------------------------------------
 
-std::vector<DeviceAttribute> *DeviceProxy::write_read_attributes(std::vector<DeviceAttribute> &attr_list, std::vector<std::string> &r_names)
+std::vector<DeviceAttribute> *DeviceProxy::write_read_attributes(const std::vector<DeviceAttribute> &attr_list, const std::vector<std::string> &r_names)
 {
 
 //
@@ -9484,7 +9484,7 @@ std::vector<DeviceAttribute> *DeviceProxy::write_read_attributes(std::vector<Dev
 //-----------------------------------------------------------------------------
 
 
-void DeviceProxy::same_att_name(std::vector<std::string> &attr_list, const char *met_name)
+void DeviceProxy::same_att_name(const std::vector<std::string> &attr_list, const char *met_name)
 {
     if (attr_list.size() > 1)
     {

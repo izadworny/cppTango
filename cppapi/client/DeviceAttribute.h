@@ -111,19 +111,19 @@ public :
  *
  * Create a DeviceAttribute object from attribute name and value for @b scalar attribute.
  * These constructors exists for the following data type:
- * @li DeviceAttribute(std::string &, bool);
- * @li DeviceAttribute(std::string &, short);
- * @li DeviceAttribute(std::string &, DevLong);
- * @li DeviceAttribute(std::string &, DevLong64);
- * @li DeviceAttribute(std::string &, float);
- * @li DeviceAttribute(std::string &, double);
- * @li DeviceAttribute(std::string &, unsigned char);
- * @li DeviceAttribute(std::string &, unsigned short);
- * @li DeviceAttribute(std::string &, DevULong);
- * @li DeviceAttribute(std::string &, DevULong64);
- * @li DeviceAttribute(std::string &, std::string &);
- * @li DeviceAttribute(std::string &, DevState);
- * @li DeviceAttribute(std::string &, DevEncoded &);
+ * @li DeviceAttribute(const std::string &, bool);
+ * @li DeviceAttribute(const std::string &, short);
+ * @li DeviceAttribute(const std::string &, DevLong);
+ * @li DeviceAttribute(const std::string &, DevLong64);
+ * @li DeviceAttribute(const std::string &, float);
+ * @li DeviceAttribute(const std::string &, double);
+ * @li DeviceAttribute(const std::string &, unsigned char);
+ * @li DeviceAttribute(const std::string &, unsigned short);
+ * @li DeviceAttribute(const std::string &, DevULong);
+ * @li DeviceAttribute(const std::string &, DevULong64);
+ * @li DeviceAttribute(const std::string &, const std::string &);
+ * @li DeviceAttribute(const std::string &, DevState);
+ * @li DeviceAttribute(const std::string &, const DevEncoded &);
  * @n @n
  * @li DeviceAttribute(const char *, bool);
  * @li DeviceAttribute(const char *, short);
@@ -135,49 +135,49 @@ public :
  * @li DeviceAttribute(const char *, unsigned short);
  * @li DeviceAttribute(const char *, DevULong);
  * @li DeviceAttribute(const char *, DevULong64);
- * @li DeviceAttribute(const char *, std::string &);
+ * @li DeviceAttribute(const char *, const std::string &);
  * @li DeviceAttribute(const char *, DevState);
- * @li DeviceAttribute(const char *,DevEncoded &);
+ * @li DeviceAttribute(const char *,const DevEncoded &);
  *
  * @param [in] name The attribute name
  * @param [in] val The attribute value
  */
-	DeviceAttribute(std::string &name, short val);
+	DeviceAttribute(const std::string &name, short val);
 /**
  * Create a DeviceAttribute object from attribute name and value for spectrum attribute
  *
  * Create a DeviceAttribute object from attribute name and value for @b spectrum attribute.
  * These constructors exists for the following data type:
- * @li DeviceAttribute(std::string &, std::vector<bool> &);
- * @li DeviceAttribute(std::string &, std::vector<short> &);
- * @li DeviceAttribute(std::string &, std::vector<DevLong> &);
- * @li DeviceAttribute(std::string &, std::vector<DevLong64>&);
- * @li DeviceAttribute(std::string &, std::vector<float> &);
- * @li DeviceAttribute(std::string &, std::vector<double> &);
- * @li DeviceAttribute(std::string &, std::vector<unsigned char> &);
- * @li DeviceAttribute(std::string &, std::vector<unsigned short> &);
- * @li DeviceAttribute(std::string &, std::vector<DevULong> &);
- * @li DeviceAttribute(std::string &, std::vector<DevULong64>&);
- * @li DeviceAttribute(std::string &, std::vector<std::string> & );
- * @li DeviceAttribute(std::string &, std::vector<DevState> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<bool> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<short> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevLong> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevLong64>&);
+ * @li DeviceAttribute(const std::string &, const std::vector<float> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<double> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<unsigned char> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<unsigned short> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevULong> &);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevULong64>&);
+ * @li DeviceAttribute(const std::string &, const std::vector<std::string> & );
+ * @li DeviceAttribute(const std::string &, const std::vector<DevState> &);
  * @n @n
- * @li DeviceAttribute(const char *, std::vector<bool> &);
- * @li DeviceAttribute(const char *, std::vector<short> &);
- * @li DeviceAttribute(const char *, std::vector<DevLong> &);
- * @li DeviceAttribute(const char *, std::vector<DevLong64>&);
- * @li DeviceAttribute(const char *, std::vector<float> &);
- * @li DeviceAttribute(const char *, std::vector<double> &);
- * @li DeviceAttribute(const char *, std::vector<unsigned char> &);
- * @li DeviceAttribute(const char *, std::vector<unsigned short> &);
- * @li DeviceAttribute(const char *, std::vector<DevULong> &);
- * @li DeviceAttribute(const char *, std::vector<DevULong64>&);
- * @li DeviceAttribute(const char *, std::vector<std::string> & );
- * @li DeviceAttribute(const char *, std::vector<DevState> &);
+ * @li DeviceAttribute(const char *, const std::vector<bool> &);
+ * @li DeviceAttribute(const char *, const std::vector<short> &);
+ * @li DeviceAttribute(const char *, const std::vector<DevLong> &);
+ * @li DeviceAttribute(const char *, const std::vector<DevLong64>&);
+ * @li DeviceAttribute(const char *, const std::vector<float> &);
+ * @li DeviceAttribute(const char *, const std::vector<double> &);
+ * @li DeviceAttribute(const char *, const std::vector<unsigned char> &);
+ * @li DeviceAttribute(const char *, const std::vector<unsigned short> &);
+ * @li DeviceAttribute(const char *, const std::vector<DevULong> &);
+ * @li DeviceAttribute(const char *, const std::vector<DevULong64>&);
+ * @li DeviceAttribute(const char *, const std::vector<std::string> & );
+ * @li DeviceAttribute(const char *, const std::vector<DevState> &);
  *
  * @param [in] name The attribute name
  * @param [in] val The attribute value
  */
-	DeviceAttribute(std::string &name, std::vector<short> &val);
+	DeviceAttribute(const std::string &name, const std::vector<short> &val);
 /**
  * Create a DeviceAttribute object from attribute name and value for image attribute
  *
@@ -185,82 +185,82 @@ public :
  * These constructors have two more parameters allowing the user to define the x and y image
  * dimensions.
  * These constructors exists for the following data type:
- * @li DeviceAttribute(std::string &, std::vector<bool> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<short> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<DevLong> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<DevLong64>&, int, int);
- * @li DeviceAttribute(std::string &, std::vector<float> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<double> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<unsigned char> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<unsigned short> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<DevULong> &, int, int);
- * @li DeviceAttribute(std::string &, std::vector<DevULong64>&, int, int);
- * @li DeviceAttribute(std::string &, std::vector<std::string> &, int, int );
- * @li DeviceAttribute(std::string &, std::vector<DevState> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<bool> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<short> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevLong> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevLong64>&, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<float> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<double> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<unsigned char> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<unsigned short> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevULong> &, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<DevULong64>&, int, int);
+ * @li DeviceAttribute(const std::string &, const std::vector<std::string> &, int, int );
+ * @li DeviceAttribute(const std::string &, const std::vector<DevState> &, int, int);
  * @n @n
- * DeviceAttribute(const char *, std::vector<bool> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<short> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<DevLong> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<DevLong64>&, int, int);
- * @li DeviceAttribute(const char *, std::vector<float> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<double> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<unsigned char> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<unsigned short> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<DevULong> &, int, int);
- * @li DeviceAttribute(const char *, std::vector<DevULong64>&, int, int);
- * @li DeviceAttribute(const char *, std::vector<std::string> & , int, int);
- * @li DeviceAttribute(const char *, std::vector<DevState) &, int, int);
+ * DeviceAttribute(const char *, const std::vector<bool> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<short> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<DevLong> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<DevLong64>&, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<float> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<double> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<unsigned char> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<unsigned short> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<DevULong> &, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<DevULong64>&, int, int);
+ * @li DeviceAttribute(const char *, const std::vector<std::string> & , int, int);
+ * @li DeviceAttribute(const char *, const std::vector<DevState) &, int, int);
  *
  * @param [in] name The attribute name
  * @param [in] val The attribute value
  * @param [in] dim_x The attribute X dimension
  * @param [in] dim_y The attribute Y dimension
  */
-	DeviceAttribute(std::string &name, std::vector<short> &val,int dim_x,int dim_y);
+	DeviceAttribute(const std::string &name, const std::vector<short> &val,int dim_x,int dim_y);
 //@}
 ///@privatesection
-	DeviceAttribute(std::string&, DevLong);
-	DeviceAttribute(std::string&, double);
-	DeviceAttribute(std::string&, std::string&);
-	DeviceAttribute(std::string&, const char *);
-	DeviceAttribute(std::string&, float);
-	DeviceAttribute(std::string&, bool);
-	DeviceAttribute(std::string&, unsigned short);
-	DeviceAttribute(std::string&, unsigned char);
-	DeviceAttribute(std::string&, DevLong64);
-	DeviceAttribute(std::string&, DevULong);
-	DeviceAttribute(std::string&, DevULong64);
-	DeviceAttribute(std::string&, DevState);
-	DeviceAttribute(std::string&, DevEncoded &);
+	DeviceAttribute(const std::string&, DevLong);
+	DeviceAttribute(const std::string&, double);
+	DeviceAttribute(const std::string&, const std::string&);
+	DeviceAttribute(const std::string&, const char *);
+	DeviceAttribute(const std::string&, float);
+	DeviceAttribute(const std::string&, bool);
+	DeviceAttribute(const std::string&, unsigned short);
+	DeviceAttribute(const std::string&, unsigned char);
+	DeviceAttribute(const std::string&, DevLong64);
+	DeviceAttribute(const std::string&, DevULong);
+	DeviceAttribute(const std::string&, DevULong64);
+	DeviceAttribute(const std::string&, DevState);
+	DeviceAttribute(const std::string&, const DevEncoded &);
 
-	DeviceAttribute(std::string&, std::vector<DevLong> &);
-	DeviceAttribute(std::string&, std::vector<double> &);
-	DeviceAttribute(std::string&, std::vector<std::string> &);
-	DeviceAttribute(std::string&, std::vector<float> &);
-	DeviceAttribute(std::string&, std::vector<bool> &);
-	DeviceAttribute(std::string&, std::vector<unsigned short> &);
-	DeviceAttribute(std::string&, std::vector<unsigned char> &);
-	DeviceAttribute(std::string&, std::vector<DevLong64> &);
-	DeviceAttribute(std::string&, std::vector<DevULong> &);
-	DeviceAttribute(std::string&, std::vector<DevULong64> &);
-	DeviceAttribute(std::string&, std::vector<DevState> &);
+	DeviceAttribute(const std::string&, const std::vector<DevLong> &);
+	DeviceAttribute(const std::string&, const std::vector<double> &);
+	DeviceAttribute(const std::string&, const std::vector<std::string> &);
+	DeviceAttribute(const std::string&, const std::vector<float> &);
+	DeviceAttribute(const std::string&, const std::vector<bool> &);
+	DeviceAttribute(const std::string&, const std::vector<unsigned short> &);
+	DeviceAttribute(const std::string&, const std::vector<unsigned char> &);
+	DeviceAttribute(const std::string&, const std::vector<DevLong64> &);
+	DeviceAttribute(const std::string&, const std::vector<DevULong> &);
+	DeviceAttribute(const std::string&, const std::vector<DevULong64> &);
+	DeviceAttribute(const std::string&, const std::vector<DevState> &);
 
-	DeviceAttribute(std::string&, std::vector<DevLong> &,int,int);
-	DeviceAttribute(std::string&, std::vector<double> &,int,int);
-	DeviceAttribute(std::string&, std::vector<std::string> &,int,int);
-	DeviceAttribute(std::string&, std::vector<float> &,int,int);
-	DeviceAttribute(std::string&, std::vector<bool> &,int,int);
-	DeviceAttribute(std::string&, std::vector<unsigned short> &,int,int);
-	DeviceAttribute(std::string&, std::vector<unsigned char> &,int,int);
-	DeviceAttribute(std::string&, std::vector<DevLong64> &,int,int);
-	DeviceAttribute(std::string&, std::vector<DevULong> &,int,int);
-	DeviceAttribute(std::string&, std::vector<DevULong64> &,int,int);
-	DeviceAttribute(std::string&, std::vector<DevState> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<DevLong> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<double> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<std::string> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<float> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<bool> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<unsigned short> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<unsigned char> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<DevLong64> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<DevULong> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<DevULong64> &,int,int);
+	DeviceAttribute(const std::string&, const std::vector<DevState> &,int,int);
 
 	DeviceAttribute(const char *, short);
 	DeviceAttribute(const char *, DevLong);
 	DeviceAttribute(const char *, double);
-	DeviceAttribute(const char *, std::string&);
+	DeviceAttribute(const char *, const std::string&);
 	DeviceAttribute(const char *, const char *);
 	DeviceAttribute(const char *, float);
 	DeviceAttribute(const char *, bool);
@@ -270,47 +270,47 @@ public :
 	DeviceAttribute(const char *, DevULong);
 	DeviceAttribute(const char *, DevULong64);
 	DeviceAttribute(const char *, DevState);
-	DeviceAttribute(const char *, DevEncoded &);
+	DeviceAttribute(const char *, const DevEncoded &);
 
-	DeviceAttribute(const char *, std::vector<short> &);
-	DeviceAttribute(const char *, std::vector<DevLong> &);
-	DeviceAttribute(const char *, std::vector<double> &);
-	DeviceAttribute(const char *, std::vector<std::string> &);
-	DeviceAttribute(const char *, std::vector<float> &);
-	DeviceAttribute(const char *, std::vector<bool> &);
-	DeviceAttribute(const char *, std::vector<unsigned short> &);
-	DeviceAttribute(const char *, std::vector<unsigned char> &);
-	DeviceAttribute(const char *, std::vector<DevLong64> &);
-	DeviceAttribute(const char *, std::vector<DevULong> &);
-	DeviceAttribute(const char *, std::vector<DevULong64> &);
-	DeviceAttribute(const char *, std::vector<DevState> &);
+	DeviceAttribute(const char *, const std::vector<short> &);
+	DeviceAttribute(const char *, const std::vector<DevLong> &);
+	DeviceAttribute(const char *, const std::vector<double> &);
+	DeviceAttribute(const char *, const std::vector<std::string> &);
+	DeviceAttribute(const char *, const std::vector<float> &);
+	DeviceAttribute(const char *, const std::vector<bool> &);
+	DeviceAttribute(const char *, const std::vector<unsigned short> &);
+	DeviceAttribute(const char *, const std::vector<unsigned char> &);
+	DeviceAttribute(const char *, const std::vector<DevLong64> &);
+	DeviceAttribute(const char *, const std::vector<DevULong> &);
+	DeviceAttribute(const char *, const std::vector<DevULong64> &);
+	DeviceAttribute(const char *, const std::vector<DevState> &);
 
-	DeviceAttribute(const char *, std::vector<short> &,int,int);
-	DeviceAttribute(const char *, std::vector<DevLong> &,int,int);
-	DeviceAttribute(const char *, std::vector<double> &,int,int);
-	DeviceAttribute(const char *, std::vector<std::string> &,int,int);
-	DeviceAttribute(const char *, std::vector<float> &,int,int);
-	DeviceAttribute(const char *, std::vector<bool> &,int,int);
-	DeviceAttribute(const char *, std::vector<unsigned short> &,int,int);
-	DeviceAttribute(const char *, std::vector<unsigned char> &,int,int);
-	DeviceAttribute(const char *, std::vector<DevLong64> &,int,int);
-	DeviceAttribute(const char *, std::vector<DevULong> &,int,int);
-	DeviceAttribute(const char *, std::vector<DevULong64> &,int,int);
-	DeviceAttribute(const char *, std::vector<DevState> &,int,int);
+	DeviceAttribute(const char *, const std::vector<short> &,int,int);
+	DeviceAttribute(const char *, const std::vector<DevLong> &,int,int);
+	DeviceAttribute(const char *, const std::vector<double> &,int,int);
+	DeviceAttribute(const char *, const std::vector<std::string> &,int,int);
+	DeviceAttribute(const char *, const std::vector<float> &,int,int);
+	DeviceAttribute(const char *, const std::vector<bool> &,int,int);
+	DeviceAttribute(const char *, const std::vector<unsigned short> &,int,int);
+	DeviceAttribute(const char *, const std::vector<unsigned char> &,int,int);
+	DeviceAttribute(const char *, const std::vector<DevLong64> &,int,int);
+	DeviceAttribute(const char *, const std::vector<DevULong> &,int,int);
+	DeviceAttribute(const char *, const std::vector<DevULong64> &,int,int);
+	DeviceAttribute(const char *, const std::vector<DevState> &,int,int);
 
-	template <typename T> DeviceAttribute(std::string &,T);
+	template <typename T> DeviceAttribute(const std::string &,T);
 	template <typename T> DeviceAttribute(const char *,T);
-	template <typename T> DeviceAttribute(std::string &,std::vector<T> &);
-	template <typename T> DeviceAttribute(const char *,std::vector<T> &);
-	template <typename T> DeviceAttribute(std::string &,std::vector<T> &,int,int);
-	template <typename T> DeviceAttribute(const char *,std::vector<T> &,int,int);
+	template <typename T> DeviceAttribute(const std::string &,const std::vector<T> &);
+	template <typename T> DeviceAttribute(const char *,const std::vector<T> &);
+	template <typename T> DeviceAttribute(const std::string &,const std::vector<T> &,int,int);
+	template <typename T> DeviceAttribute(const char *,const std::vector<T> &,int,int);
 
 	template <typename T> void base_val(T);
-	template <typename T> void base_vect(std::vector<T> &);
-	template <typename T> void base_vect_size(std::vector<T> &);
+	template <typename T> void base_vect(const std::vector<T> &);
+	template <typename T> void base_vect_size(const std::vector<T> &);
 
 	template <typename T> void operator << (T);
-	template <typename T> void operator << (std::vector<T> &);
+	template <typename T> void operator << (const std::vector<T> &);
 	template <typename T> void insert(std::vector<T> &,int,int);
 
 	template <typename T> bool operator >> (T &);
@@ -737,7 +737,7 @@ public :
 //	void operator << (short);
 	void operator << (DevLong);
 	void operator << (double);
-	void operator << (std::string &);
+	void operator << (const std::string &);
 	void operator << (float);
 	void operator << (bool);
 	void operator << (unsigned short);
@@ -746,22 +746,22 @@ public :
 	void operator << (DevULong);
 	void operator << (DevULong64);
 	void operator << (DevState);
-	void operator << (DevEncoded &);
+	void operator << (const DevEncoded &);
 	void operator << (DevString);
 	void operator << (const char *);
 
-	void operator << (std::vector<short> &);
-	void operator << (std::vector<DevLong> &);
-	void operator << (std::vector<double> &);
-	void operator << (std::vector<std::string> &);
-	void operator << (std::vector<float> &);
-	void operator << (std::vector<bool> &);
-	void operator << (std::vector<unsigned short> &);
-	void operator << (std::vector<unsigned char> &);
-	void operator << (std::vector<DevLong64> &);
-	void operator << (std::vector<DevULong> &);
-	void operator << (std::vector<DevULong64> &);
-	void operator << (std::vector<DevState> &);
+	void operator << (const std::vector<short> &);
+	void operator << (const std::vector<DevLong> &);
+	void operator << (const std::vector<double> &);
+	void operator << (const std::vector<std::string> &);
+	void operator << (const std::vector<float> &);
+	void operator << (const std::vector<bool> &);
+	void operator << (const std::vector<unsigned short> &);
+	void operator << (const std::vector<unsigned char> &);
+	void operator << (const std::vector<DevLong64> &);
+	void operator << (const std::vector<DevULong> &);
+	void operator << (const std::vector<DevULong64> &);
+	void operator << (const std::vector<DevState> &);
 
 	void operator << (const DevVarShortArray &datum);
 	void operator << (const DevVarLongArray &datum);
@@ -795,17 +795,17 @@ public :
 //
 
 //	void insert(std::vector<short> &,int,int);
-	void insert(std::vector<DevLong> &,int,int);
-	void insert(std::vector<double> &,int,int);
-	void insert(std::vector<std::string> &,int,int);
-	void insert(std::vector<float> &,int,int);
-	void insert(std::vector<bool> &,int,int);
-	void insert(std::vector<unsigned short> &,int,int);
-	void insert(std::vector<unsigned char> &,int,int);
-	void insert(std::vector<DevLong64> &,int,int);
-	void insert(std::vector<DevULong> &,int,int);
-	void insert(std::vector<DevULong64> &,int,int);
-	void insert(std::vector<DevState> &,int,int);
+	void insert(const std::vector<DevLong> &,int,int);
+	void insert(const std::vector<double> &,int,int);
+	void insert(const std::vector<std::string> &,int,int);
+	void insert(const std::vector<float> &,int,int);
+	void insert(const std::vector<bool> &,int,int);
+	void insert(const std::vector<unsigned short> &,int,int);
+	void insert(const std::vector<unsigned char> &,int,int);
+	void insert(const std::vector<DevLong64> &,int,int);
+	void insert(const std::vector<DevULong> &,int,int);
+	void insert(const std::vector<DevULong64> &,int,int);
+	void insert(const std::vector<DevState> &,int,int);
 
 //	void insert(const DevVarShortArray &datum,int,int);
 	void insert(const DevVarLongArray &datum,int,int);
@@ -1166,7 +1166,7 @@ public :
  *
  * @param na The attribute name
  */
-	void set_name(std::string &na) {name =  na;}
+	void set_name(const std::string &na) {name =  na;}
 /**
  * Set attribute name
  *

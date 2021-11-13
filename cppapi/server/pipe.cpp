@@ -79,7 +79,7 @@ Pipe::Pipe(const std::string &_name,Tango::DispLevel _level,PipeWriteType _pwt)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Pipe::set_default_properties(UserDefaultPipeProp &prop_list)
+void Pipe::set_default_properties(const UserDefaultPipeProp &prop_list)
 {
 
 //
@@ -212,7 +212,7 @@ void Pipe::set_upd_properties(const PipeConfig &new_conf,DeviceImpl *dev)
 //
 //---------------------------------------------------------------------------------------------------------------------
 
-void Pipe::upd_database(std::vector<Attribute::AttPropDb> &v_db,std::string &dev_name)
+void Pipe::upd_database(std::vector<Attribute::AttPropDb> &v_db,const std::string &dev_name)
 {
 
 //

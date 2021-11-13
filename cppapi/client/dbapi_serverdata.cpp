@@ -401,7 +401,7 @@ void DbServerData::remove()
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-DbServerData::TangoDevice::TangoDevice(std::string &na):DeviceProxy(na),name(na)
+DbServerData::TangoDevice::TangoDevice(const std::string &na):DeviceProxy(na),name(na)
 {
 //
 //  First read device properties

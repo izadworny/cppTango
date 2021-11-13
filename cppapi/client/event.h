@@ -72,7 +72,7 @@ class EventData
 public :
 ///@privatesection
 	EventData() {}
-	EventData(DeviceProxy *dev,std::string &nam,std::string &evt,Tango::DeviceAttribute *attr_value_in,DevErrorList &errors_in);
+	EventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,Tango::DeviceAttribute *attr_value_in,const DevErrorList &errors_in);
 
 	~EventData();
 	EventData(const EventData &);
@@ -99,8 +99,8 @@ class FwdEventData: public EventData
 {
 public:
 	FwdEventData();
-	FwdEventData(DeviceProxy *,std::string &,std::string &,Tango::DeviceAttribute *,DevErrorList &);
-	FwdEventData(DeviceProxy *,std::string &,std::string &,Tango::DeviceAttribute *,DevErrorList &,zmq::message_t *);
+	FwdEventData(DeviceProxy *,const std::string &,const std::string &,Tango::DeviceAttribute *,const DevErrorList &);
+	FwdEventData(DeviceProxy *,const std::string &,const std::string &,Tango::DeviceAttribute *,const DevErrorList &,zmq::message_t *);
 
 	void set_av_5(const AttributeValue_5 *_p) {av_5 = _p;}
 	const AttributeValue_5 *get_av_5() {return av_5;}
@@ -169,9 +169,9 @@ class AttrConfEventData
 public :
 ///@privatesection
 	AttrConfEventData() {}
-	AttrConfEventData(DeviceProxy *dev,std::string &nam,std::string &evt,
+	AttrConfEventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,
 	                  Tango::AttributeInfoEx *attr_conf_in,
-	                  DevErrorList &errors_in);
+	                  const DevErrorList &errors_in);
 	~AttrConfEventData();
 	AttrConfEventData(const AttrConfEventData &);
 	AttrConfEventData & operator=(const AttrConfEventData &);
@@ -198,7 +198,7 @@ class FwdAttrConfEventData: public AttrConfEventData
 {
 public:
 	FwdAttrConfEventData();
-	FwdAttrConfEventData(DeviceProxy *,std::string &,std::string &,Tango::AttributeInfoEx *,DevErrorList &);
+	FwdAttrConfEventData(DeviceProxy *,const std::string &,const std::string &,Tango::AttributeInfoEx *,const DevErrorList &);
 
 	void set_fwd_attr_conf(const AttributeConfig_5 *_p) {fwd_attr_conf = _p;}
 	const AttributeConfig_5 *get_fwd_attr_conf() {return fwd_attr_conf;}
@@ -263,7 +263,7 @@ class DataReadyEventData
 public :
 ///@privatesection
 	DataReadyEventData() {}
-	DataReadyEventData(DeviceProxy *,AttDataReady *,std::string &evt,DevErrorList &);
+	DataReadyEventData(DeviceProxy *,AttDataReady *,const std::string &evt,const DevErrorList &);
 	~DataReadyEventData() {};
 	DataReadyEventData(const DataReadyEventData &);
 	DataReadyEventData & operator=(const DataReadyEventData &);
@@ -346,8 +346,8 @@ class DevIntrChangeEventData
 public :
 ///@privatesection
 	DevIntrChangeEventData() {}
-	DevIntrChangeEventData(DeviceProxy *,std::string &,std::string &,DevCmdInfoList_2 *,AttributeConfigList_5 *,bool,DevErrorList &);
-	DevIntrChangeEventData(DeviceProxy *,std::string &,std::string &,CommandInfoList *,AttributeInfoListEx *,bool,DevErrorList &);
+	DevIntrChangeEventData(DeviceProxy *,const std::string &,const std::string &,DevCmdInfoList_2 *,AttributeConfigList_5 *,bool,const DevErrorList &);
+	DevIntrChangeEventData(DeviceProxy *,const std::string &,const std::string &,CommandInfoList *,AttributeInfoListEx *,bool,const DevErrorList &);
 	~DevIntrChangeEventData() {};
 	DevIntrChangeEventData(const DevIntrChangeEventData &);
 	DevIntrChangeEventData & operator=(const DevIntrChangeEventData &);
@@ -430,7 +430,7 @@ class PipeEventData
 public :
 ///@privatesection
 	PipeEventData() {}
-	PipeEventData(DeviceProxy *dev,std::string &nam,std::string &evt,Tango::DevicePipe *pipe_value_in,DevErrorList &errors_in);
+	PipeEventData(DeviceProxy *dev,const std::string &nam,const std::string &evt,Tango::DevicePipe *pipe_value_in,const DevErrorList &errors_in);
 
 	~PipeEventData();
 	PipeEventData(const PipeEventData &);

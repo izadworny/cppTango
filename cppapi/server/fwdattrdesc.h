@@ -148,9 +148,9 @@ public:
 
 	virtual void init_conf(AttrConfEventData *);
 	bool validate_fwd_att(std::vector<AttrProperty> &,const std::string &);
-	void get_root_conf(std::string &,DeviceImpl *);
+	void get_root_conf(const std::string &,DeviceImpl *);
 
-    void remove_useless_prop(std::vector<AttrProperty> &,std::string &,MultiAttribute *);
+    void remove_useless_prop(std::vector<AttrProperty> &,const std::string &,MultiAttribute *);
  	std::string &get_label_from_default_properties();
 
 protected:

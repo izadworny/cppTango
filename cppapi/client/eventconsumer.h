@@ -419,7 +419,7 @@ public :
 	virtual ~EventConsumer() {}
 
 	int connect_event(DeviceProxy *,const std::string &,EventType,CallBack *,EventQueue *,const std::vector<std::string> &,std::string &,int event_id = 0);
-	void connect(DeviceProxy *,std::string &,DeviceData &,std::string &,bool &);
+	void connect(DeviceProxy *,const std::string &,DeviceData &,const std::string &,bool &);
 
 	void shutdown();
 	void shutdown_keep_alive_thread();
@@ -488,10 +488,10 @@ protected :
 	int add_new_callback(DeviceProxy*, EvCbIte &,CallBack *,EventQueue *,int);
 	void get_fire_sync_event(DeviceProxy *,CallBack *,EventQueue *,EventType,std::string &,const std::string &,EventCallBackStruct &,std::string &);
 
-	virtual void connect_event_channel(std::string &,Database *,bool,DeviceData &) = 0;
-    virtual void disconnect_event_channel(TANGO_UNUSED(std::string &channel_name),TANGO_UNUSED(std::string &endpoint),TANGO_UNUSED(std::string &endpoint_event)) {}
-    virtual void connect_event_system(std::string &,std::string &,std::string &e,const std::vector<std::string> &,EvChanIte &,EventCallBackStruct &,DeviceData &,size_t) = 0;
-    virtual void disconnect_event(std::string &,std::string &) {}
+	virtual void connect_event_channel(const std::string &,Database *,bool,DeviceData &) = 0;
+    virtual void disconnect_event_channel(TANGO_UNUSED(const std::string &channel_name),TANGO_UNUSED(const std::string &endpoint),TANGO_UNUSED(const std::string &endpoint_event)) {}
+    virtual void connect_event_system(const std::string &,const std::string &,const std::string &e,const std::vector<std::string> &,const EvChanIte &,EventCallBackStruct &,DeviceData &,size_t) = 0;
+    virtual void disconnect_event(const std::string &,const std::string &) {}
 
     virtual void set_channel_type(EventChannelStruct &) = 0;
     virtual void zmq_specific(DeviceData &,std::string &,DeviceProxy *,const std::string &) = 0;
@@ -531,8 +531,8 @@ public :
 
 protected :
 	NotifdEventConsumer(ApiUtil *ptr);
-	virtual void connect_event_channel(std::string &,Database *,bool,DeviceData &) override;
-  virtual void connect_event_system(std::string &,std::string &,std::string &e,const std::vector<std::string> &,EvChanIte &,EventCallBackStruct &,DeviceData &,size_t) override;
+	virtual void connect_event_channel(const std::string &,Database *,bool,DeviceData &) override;
+  virtual void connect_event_system(const std::string &,const std::string &,const std::string &e,const std::vector<std::string> &,const EvChanIte &,EventCallBackStruct &,DeviceData &,size_t) override;
 
   virtual void set_channel_type(EventChannelStruct &ecs) override {ecs.channel_type = NOTIFD;}
 	virtual void zmq_specific(DeviceData &,std::string &,DeviceProxy *,const std::string &) override {}
@@ -591,10 +591,10 @@ public :
 
 protected :
 	ZmqEventConsumer(ApiUtil *ptr);
-	virtual void connect_event_channel(std::string &,Database *,bool,DeviceData &) override;
-  virtual void disconnect_event_channel(std::string &channel_name,std::string &endpoint,std::string &endpoint_event) override;
-  virtual void connect_event_system(std::string &,std::string &,std::string &e,const std::vector<std::string> &,EvChanIte &,EventCallBackStruct &,DeviceData &,size_t) override;
-  virtual void disconnect_event(std::string &,std::string &) override;
+	virtual void connect_event_channel(const std::string &,Database *,bool,DeviceData &) override;
+  virtual void disconnect_event_channel(const std::string &channel_name,const std::string &endpoint,const std::string &endpoint_event) override;
+  virtual void connect_event_system(const std::string &,const std::string &,const std::string &e,const std::vector<std::string> &,const EvChanIte &,EventCallBackStruct &,DeviceData &,size_t) override;
+  virtual void disconnect_event(const std::string &,const std::string &) override;
 
   virtual void set_channel_type(EventChannelStruct &ecs) override {ecs.channel_type = ZMQ;}
 	virtual void zmq_specific(DeviceData &,std::string &,DeviceProxy *,const std::string &) override;
@@ -641,7 +641,7 @@ private :
     bool process_ctrl(zmq::message_t &,zmq::pollitem_t *,int &);
     void process_heartbeat(zmq::message_t &,zmq::message_t &,zmq::message_t &);
     void process_event(zmq::message_t &,zmq::message_t &,zmq::message_t &,zmq::message_t &);
-    void multi_tango_host(zmq::socket_t *,SocketCmd,std::string &);
+    void multi_tango_host(zmq::socket_t *,SocketCmd,const std::string &);
 	void print_error_message(const char *mess) {ApiUtil *au=ApiUtil::instance();au->print_error_message(mess);}
 	void set_ctrl_sock_bound() {sock_bound_mutex.lock();ctrl_socket_bound=true;sock_bound_mutex.unlock();}
 	bool is_ctrl_sock_bound() {bool _b;sock_bound_mutex.lock();_b=ctrl_socket_bound;sock_bound_mutex.unlock();return _b;}
@@ -692,7 +692,7 @@ public :
     EventConsumerKeepAliveThread(const EventConsumer&);
 	EventConsumerKeepAliveThread(KeepAliveThCmd &cmd):shared_cmd(cmd){};
 	void start() {start_undetached();}
-    void stateless_subscription_failed(std::vector<EventNotConnected>::iterator &,DevFailed &,time_t &);
+    void stateless_subscription_failed(const std::vector<EventNotConnected>::iterator &,const DevFailed &,const time_t &);
     void fwd_not_conected_event(ZmqEventConsumer *);
 
 protected :
@@ -700,16 +700,16 @@ protected :
 
 private :
 	void *run_undetached(void *arg) override;
-	bool reconnect_to_channel(EvChanIte &,EventConsumer *);
-	void reconnect_to_event(EvChanIte &,EventConsumer *);
-	void re_subscribe_event(EvCbIte &,EvChanIte &);
+	bool reconnect_to_channel(const EvChanIte &,EventConsumer *);
+	void reconnect_to_event(const EvChanIte &,EventConsumer *);
+	void re_subscribe_event(const EvCbIte &,const EvChanIte &);
 
-    bool reconnect_to_zmq_channel(EvChanIte &,EventConsumer *,DeviceData &);
-	void reconnect_to_zmq_event(EvChanIte &,EventConsumer *,DeviceData &);
+    bool reconnect_to_zmq_channel(const EvChanIte &,EventConsumer *,DeviceData &);
+	void reconnect_to_zmq_event(const EvChanIte &,EventConsumer *,DeviceData &);
 	void not_conected_event(ZmqEventConsumer *,time_t,NotifdEventConsumer *);
-	void confirm_subscription(ZmqEventConsumer *,std::map<std::string,EventChannelStruct>::iterator &);
-	void main_reconnect(ZmqEventConsumer *,NotifdEventConsumer *,std::map<std::string,EventCallBackStruct>::iterator &,std::map<std::string,EventChannelStruct>::iterator &);
-	void re_subscribe_after_reconnect(ZmqEventConsumer *,NotifdEventConsumer *,std::map<std::string,EventCallBackStruct>::iterator &,std::map<std::string,EventChannelStruct>::iterator &,std::string &);
+	void confirm_subscription(ZmqEventConsumer *,const std::map<std::string,EventChannelStruct>::iterator &);
+	void main_reconnect(ZmqEventConsumer *,NotifdEventConsumer *,std::map<std::string,EventCallBackStruct>::iterator &,const std::map<std::string,EventChannelStruct>::iterator &);
+	void re_subscribe_after_reconnect(ZmqEventConsumer *,NotifdEventConsumer *,const std::map<std::string,EventCallBackStruct>::iterator &,const std::map<std::string,EventChannelStruct>::iterator &,const std::string &);
 };
 
 /********************************************************************************

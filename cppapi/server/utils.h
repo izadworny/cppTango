@@ -468,7 +468,7 @@ public:
  *
  * @return A boolean set to true if the device is restarting.
  */
-    bool is_device_restarting(std::string &d_name);
+    bool is_device_restarting(const std::string &d_name);
 //@}
 
 /**@name Database related methods */
@@ -695,7 +695,7 @@ public:
  * @param 	txt 	The new text to be displayed at the bottom of the
  * main window
  */
-	void set_main_window_text(std::string &txt) {main_win_text = txt;}
+	void set_main_window_text(const std::string &txt) {main_win_text = txt;}
 //@}
 #endif
 
@@ -805,15 +805,15 @@ public:
 	int get_polling_thread_id_by_name(const char *);
 	void check_pool_conf(DServer *,unsigned long);
 	int check_dev_poll(std::vector<std::string> &,std::vector<std::string> &,DeviceImpl *);
-	void split_string(std::string &,char,std::vector<std::string> &);
-	void upd_polling_prop(std::vector<DevDbUpd> &,DServer *);
-	int get_th_polled_devs(std::string &,std::vector<std::string> &);
+	void split_string(const std::string &,char,std::vector<std::string> &);
+	void upd_polling_prop(const std::vector<DevDbUpd> &,DServer *);
+	int get_th_polled_devs(const std::string &,std::vector<std::string> &);
 	void get_th_polled_devs(long,std::vector<std::string> &);
 	void build_first_pool_conf(std::vector<std::string> &);
-	bool is_dev_already_in_pool_conf(std::string &,std::vector<std::string>&,int);
+	bool is_dev_already_in_pool_conf(const std::string &,std::vector<std::string>&,int);
 	std::vector<std::string> &get_poll_pool_conf() {return poll_pool_conf;}
-	int get_dev_entry_in_pool_conf(std::string &);
-	void remove_dev_from_polling_map(std::string &dev_name);
+	int get_dev_entry_in_pool_conf(const std::string &);
+	void remove_dev_from_polling_map(const std::string &dev_name);
 	void remove_polling_thread_info_by_id(int);
 
 	bool is_server_event_loop_set() {if (ev_loop_func != NULL)return true;else return false;}
@@ -827,23 +827,23 @@ public:
 	void set_endpoint_specified(bool val) {endpoint_specified = val;}
 
 	std::string &get_specified_ip() {return specified_ip;}
-	void set_specified_ip(std::string &val) {specified_ip = val;}
+	void set_specified_ip(const std::string &val) {specified_ip = val;}
 
 	DevLong get_user_pub_hwm() {return user_pub_hwm;}
 
-	void add_restarting_device(std::string &d_name) {restarting_devices.push_back(d_name);}
-	void delete_restarting_device(std::string &d_name);
+	void add_restarting_device(const std::string &d_name) {restarting_devices.push_back(d_name);}
+	void delete_restarting_device(const std::string &d_name);
 
     bool is_wattr_nan_allowed() {return wattr_nan_allowed;}
 	void set_wattr_nan_allowed(bool val) {wattr_nan_allowed=val;}
 
 	RootAttRegistry &get_root_att_reg() {return root_att_reg;}
-	void event_name_2_event_type(std::string &,EventType &);
+	void event_name_2_event_type(const std::string &,EventType &);
 
 	void validate_cmd_line_classes();
 
-	static void tango_host_from_fqan(std::string &,std::string &);
-	static void tango_host_from_fqan(std::string &,std::string &,int &);
+	static void tango_host_from_fqan(const std::string &,std::string &);
+	static void tango_host_from_fqan(const std::string &,std::string &,int &);
 
     bool is_polling_bef_9_def() {return polling_bef_9_def;}
     bool get_polling_bef_9() {return polling_bef_9;}
@@ -914,9 +914,9 @@ private:
 	}
 	void check_args(int, char *[]);
 	void display_help_message();
-	DeviceImpl *find_device_name_core(std::string &);
+	DeviceImpl *find_device_name_core(const std::string &);
 	void check_orb_endpoint(int,char **);
-	void validate_sort(std::vector<std::string> &);
+	void validate_sort(const std::vector<std::string> &);
     void check_end_point_specified(int,char **);
 
 	bool  							display_help;	// display help message flag
@@ -1004,7 +1004,7 @@ private:
 //
 //-----------------------------------------------------------------------------
 
-inline bool Util::is_device_restarting(std::string &d_name)
+inline bool Util::is_device_restarting(const std::string &d_name)
 {
     bool ret = false;
 
@@ -1069,7 +1069,7 @@ inline void Util::check_orb_endpoint(int argc, char *argv[])
 //
 //-----------------------------------------------------------------------------
 
-inline void Util::event_name_2_event_type(std::string &event_name,EventType &et)
+inline void Util::event_name_2_event_type(const std::string &event_name,EventType &et)
 {
 	if (event_name == "change")
 		et = CHANGE_EVENT;
