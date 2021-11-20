@@ -1,9 +1,8 @@
-{% set name = "cppTango" %}
 {% set version = "9.4.0" %}
 
 package:
-  name: {{ name|lower }}
-  version: 9.4.0dev0
+  name: cpptango
+  version: {{ version ~ 'dev0' }}
 
 source:
   git_url: ../
@@ -33,9 +32,9 @@ requirements:
 
 test:
   commands:
-    - test -f ${PREFIX}/lib/libtango${SHLIB_EXT}
-    - test -f ${PREFIX}/lib/pkgconfig/tango.pc
-    - test -f ${PREFIX}/include/tango/tango.h
+    - test -f "${PREFIX}/lib/libtango${SHLIB_EXT}"
+    - test -f "${PREFIX}/lib/pkgconfig/tango.pc"
+    - test -f "${PREFIX}/include/tango/tango.h"
 
 outputs:
   - name: cpptango
@@ -54,7 +53,7 @@ outputs:
       - lib/libtango.so.{{ version }}.dbg
     test:
       commands:
-        - test -f ${PREFIX}/lib/libtango${SHLIB_EXT}.9.4.0.dbg
+        - test -f "${PREFIX}/lib/libtango${SHLIB_EXT}.9.4.0.dbg"
 
 about:
   home: https://www.tango-controls.org
