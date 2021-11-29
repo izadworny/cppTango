@@ -1117,6 +1117,185 @@ struct ranges_const2type
 
 #cmakedefine TANGO_USE_JPEG
 
+template<class T>
+struct tango_type_traits;
+  
+template<>
+struct tango_type_traits<Tango::DevShort>
+{
+    using ArrayType = Tango::DevVarShortArray;
+    using Type = Tango::DevShort;
+    static constexpr CmdArgType type_value = DEV_SHORT; 
+};
+template<>
+struct tango_type_traits<Tango::DevUShort>
+{
+    using ArrayType = Tango::DevVarUShortArray;
+    using Type = Tango::DevUShort;
+    static constexpr CmdArgType type_value = DEV_USHORT; 
+};
+template<>
+struct tango_type_traits<Tango::DevLong>
+{
+    using ArrayType = Tango::DevVarLongArray;
+    using Type = Tango::DevLong;
+    static constexpr CmdArgType type_value = DEV_LONG; 
+};
+template<>
+struct tango_type_traits<Tango::DevULong>
+{
+    using ArrayType = Tango::DevVarULongArray;
+    using Type = Tango::DevULong;
+    static constexpr CmdArgType type_value = DEV_ULONG; 
+};
+template<>
+struct tango_type_traits<Tango::DevLong64>
+{
+    using ArrayType = Tango::DevVarLong64Array;
+    using Type = Tango::DevLong64;
+    static constexpr CmdArgType type_value = DEV_LONG64; 
+};
+template<>
+struct tango_type_traits<Tango::DevULong64>
+{
+    using ArrayType = Tango::DevVarULong64Array;
+    using Type = Tango::DevULong64;
+    static constexpr CmdArgType type_value = DEV_ULONG64; 
+};
+template<>
+struct tango_type_traits<Tango::DevDouble>
+{
+    using ArrayType = Tango::DevVarDoubleArray;
+    using Type = Tango::DevDouble;
+    static constexpr CmdArgType type_value = DEV_DOUBLE; 
+};
+template<>
+struct tango_type_traits<Tango::DevString>
+{
+    using ArrayType = Tango::DevVarStringArray;
+    using Type = Tango::DevString;
+    static constexpr CmdArgType type_value = DEV_STRING; 
+};
+template<>
+struct tango_type_traits<Tango::DevBoolean>
+{
+    using ArrayType = Tango::DevVarBooleanArray;
+    using Type = Tango::DevBoolean;
+    static constexpr CmdArgType type_value = DEV_BOOLEAN; 
+};
+template<>
+struct tango_type_traits<Tango::DevFloat>
+{
+    using ArrayType = Tango::DevVarFloatArray;
+    using Type = Tango::DevFloat;
+    static constexpr CmdArgType type_value = DEV_FLOAT; 
+};
+template<>
+struct tango_type_traits<Tango::DevUChar>
+{
+    using ArrayType = Tango::DevVarUCharArray;
+    using Type = Tango::DevUChar;
+    static constexpr CmdArgType type_value = DEV_UCHAR; 
+};
+template<>
+struct tango_type_traits<Tango::DevState>
+{
+    using ArrayType = Tango::DevVarStateArray;
+    using Type = Tango::DevState;
+    static constexpr CmdArgType type_value = DEV_STATE; 
+};
+template<>
+struct tango_type_traits<Tango::DevEncoded>
+{
+    using ArrayType = Tango::DevVarEncodedArray;
+    using Type = Tango::DevEncoded;
+    static constexpr CmdArgType type_value = DEV_ENCODED; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarShortArray>
+{
+    using ArrayType = Tango::DevVarShortArray;
+    using Type = Tango::DevVarShortArray;
+    static constexpr CmdArgType type_value = DEVVAR_SHORTARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarUShortArray>
+{
+    using ArrayType = Tango::DevVarUShortArray;
+    using Type = Tango::DevVarUShortArray;
+    static constexpr CmdArgType type_value = DEVVAR_USHORTARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarLongArray>
+{
+    using ArrayType = Tango::DevVarLongArray;
+    using Type = Tango::DevVarLongArray;
+    static constexpr CmdArgType type_value = DEVVAR_LONGARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarULongArray>
+{
+    using ArrayType = Tango::DevVarULongArray;
+    using Type = Tango::DevVarULongArray;
+    static constexpr CmdArgType type_value = DEVVAR_ULONGARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarLong64Array>
+{
+    using ArrayType = Tango::DevVarLong64Array;
+    using Type = Tango::DevVarLong64Array;
+    static constexpr CmdArgType type_value = DEVVAR_LONG64ARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarULong64Array>
+{
+    using ArrayType = Tango::DevVarULong64Array;
+    using Type = Tango::DevVarULong64Array;
+    static constexpr CmdArgType type_value = DEVVAR_ULONG64ARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarCharArray>
+{
+    using ArrayType = Tango::DevVarCharArray;
+    using Type = Tango::DevVarCharArray;
+    static constexpr CmdArgType type_value = DEVVAR_CHARARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarFloatArray>
+{
+    using ArrayType = Tango::DevVarFloatArray;
+    using Type = Tango::DevVarFloatArray;
+    static constexpr CmdArgType type_value = DEVVAR_FLOATARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarDoubleArray>
+{
+    using ArrayType = Tango::DevVarDoubleArray;
+    using Type = Tango::DevVarDoubleArray;
+    static constexpr CmdArgType type_value = DEVVAR_DOUBLEARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarStringArray>
+{
+    using ArrayType = Tango::DevVarStringArray;
+    using Type = Tango::DevVarStringArray;
+    static constexpr CmdArgType type_value = DEVVAR_STRINGARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarBooleanArray>
+{
+    using ArrayType = Tango::DevVarBooleanArray;
+    using Type = Tango::DevVarBooleanArray;
+    static constexpr CmdArgType type_value = DEVVAR_BOOLEANARRAY; 
+};
+template<>
+struct tango_type_traits<Tango::DevVarStateArray>
+{
+    using ArrayType = Tango::DevVarStateArray;
+    using Type = Tango::DevVarStateArray;
+    static constexpr CmdArgType type_value = DEVVAR_STATEARRAY; 
+};
+
 } // End of Tango namespace
 
 

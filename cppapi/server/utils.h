@@ -94,9 +94,6 @@ struct get_type<_CORBA_Sequence_Octet>
     using type = Tango::DevUChar;
 };
 
-template<class T>
-struct tango_type_traits;
-  
 template<template<class> class T, class U>
 struct get_type<T<U>> {
         using type = U;
@@ -1186,6 +1183,7 @@ std::ostream& operator<<(std::ostream& o_str, const AttrDataFormat& format);
 std::ostream& operator<<(std::ostream& o_str, const AttrWriteType& writable);
 std::ostream& operator<<(std::ostream& o_str, const PipeWriteType& writable);
 std::ostream& operator<<(std::ostream& o_str, const DispLevel& level);
+std::ostream& operator<<(std::ostream& o_str, const FwdAttError& fae);
 } // End of Tango namespace
 
 #endif /* UTILS */

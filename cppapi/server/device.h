@@ -3470,18 +3470,6 @@ protected:
 
     std::unique_ptr<DeviceImplExt>       ext;           // Class extension
 
-	DevVarShortArray			dummy_short_att_value;
-	DevVarLongArray				dummy_long_att_value;
-	DevVarLong64Array			dummy_long64_att_value;
-	DevVarFloatArray			dummy_float_att_value;
-	DevVarDoubleArray			dummy_double_att_value;
-	DevVarStringArray			dummy_string_att_value;
-	DevVarBooleanArray			dummy_boolean_att_value;
-	DevVarUShortArray			dummy_ushort_att_value;
-	DevVarCharArray				dummy_uchar_att_value;
-	DevVarULongArray			dummy_ulong_att_value;
-	DevVarULong64Array			dummy_ulong64_att_value;
-	DevVarStateArray			dummy_state_att_value;
 	DevVarEncodedArray			dummy_encoded_att_value;
 
 //
@@ -3603,95 +3591,6 @@ inline void DeviceImpl::set_state(const Tango::DevState &new_state)
     else
         ext->alarm_state_user = 0;
 }
-
-#define DATA_IN_NET_OBJECT(A,B,C,D,E) \
-	do \
-	{ \
-		if (aid.data_5 != nullptr) \
-		{ \
-			AttributeValue_5 &att_val = polled_att->get_last_attr_value_5(false); \
-			(*aid.data_5)[index].value.A(att_val.value.A()); \
-		} \
-		else if (aid.data_4 != nullptr) \
-		{ \
-			if (vers >= 5) \
-			{ \
-				AttributeValue_5 &att_val = polled_att->get_last_attr_value_5(false); \
-				(*aid.data_4)[index].value.A(att_val.value.A()); \
-			} \
-			else \
-			{ \
-				AttributeValue_4 &att_val = polled_att->get_last_attr_value_4(false); \
-				(*aid.data_4)[index].value.A(att_val.value.A()); \
-			} \
-		} \
-		else \
-		{ \
-			if (vers >= 5) \
-			{ \
-				AttributeValue_5 &att_val = polled_att->get_last_attr_value_5(false); \
-				B &union_seq = att_val.value.A(); \
-				D = new B(union_seq.length(), \
-									union_seq.length(), \
-									const_cast<C *>(union_seq.get_buffer()), \
-									false); \
-			} \
-			else if (vers == 4) \
-			{ \
-				AttributeValue_4 &att_val = polled_att->get_last_attr_value_4(false); \
-				B &union_seq = att_val.value.A(); \
-				D = new B(union_seq.length(), \
-									union_seq.length(), \
-									const_cast<C *>(union_seq.get_buffer()), \
-									false); \
-			} \
-			else \
-			{ \
-				AttributeValue_3 &att_val = polled_att->get_last_attr_value_3(false); \
-				att_val.value >>= E; \
-				D = new B(E->length(), \
-						  E->length(), \
-						  const_cast<C *>(E->get_buffer()), \
-						  false); \
-			} \
-			(*aid.data_3)[index].value <<= D; \
-		} \
-	} \
-	while (false)
-
-
-
-#define DATA_IN_OBJECT(A,B,C,D) \
-	do \
-	{ \
-		Tango::A *ptr = att.B(); \
-		if (aid.data_5 != nullptr) \
-		{ \
-			(*aid.data_5)[index].value.D(C); \
-			A &the_seq = (*aid.data_5)[index].value.D(); \
-			the_seq.replace(ptr->length(),ptr->length(),ptr->get_buffer(),ptr->release()); \
-			if (ptr->release() == true) \
-				ptr->get_buffer(true); \
-		} \
-		else if (aid.data_4 != nullptr) \
-		{ \
-			(*aid.data_4)[index].value.D(C); \
-			A &the_seq = (*aid.data_4)[index].value.D(); \
-			the_seq.replace(ptr->length(),ptr->length(),ptr->get_buffer(),ptr->release()); \
-			if (ptr->release() == true) \
-				ptr->get_buffer(true); \
-		} \
-		else \
-		{ \
-			(*aid.data_3)[index].value <<= *ptr; \
-		} \
-\
-		if (del_seq == true) \
-			delete ptr; \
-	} \
-	while (false)
-
-
 
 } // End of Tango namespace
 

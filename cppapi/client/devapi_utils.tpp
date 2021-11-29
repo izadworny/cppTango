@@ -57,7 +57,7 @@ namespace Tango
         }
 
         template<class T, class U, typename std::enable_if<!std::is_same<T, U>::value, T>::type*>
-        CORBA::Any* create_any(const U* tmp, const size_t base, const size_t data_length)
+        CORBA::Any* create_any(const U* tmp, const size_t base, const size_t)
         {
             CORBA::Any *any_ptr = new CORBA::Any();
             (*any_ptr) <<= (*tmp)[base - 1];
@@ -73,7 +73,7 @@ namespace Tango
         }
 
         template<>
-        CORBA::Any* create_any<DevString>(const DevVarStringArray* tmp, const size_t base, const size_t data_length)
+        CORBA::Any* create_any<DevString>(const DevVarStringArray* tmp, const size_t base, const size_t)
         {
             CORBA::Any *any_ptr = new CORBA::Any();
             Tango::ConstDevString tmp_data = (*tmp)[base - 1].in();
@@ -321,7 +321,7 @@ void DeviceProxy::extract_value(CORBA::Any& value, std::vector<DeviceAttributeHi
 template<class T>
 void DeviceProxy::extract_value(CORBA::Any& value, std::vector<DeviceDataHistory>& ddh, const Tango::AttributeDimList& ad)
 {
-    const typename tango_type_traits<T>::array_type* tmp;
+    const typename tango_type_traits<T>::ArrayType* tmp;
     
     value >>= tmp;
     size_t seq_size = tmp->length();
@@ -342,9 +342,7 @@ void DeviceProxy::extract_value(CORBA::Any& value, std::vector<DeviceDataHistory
 // Get the data length for this record
 //
 
-        size_t data_length = ad[loop].dim_x;
-        size_t data_num_length = ad[loop].dim_y;
-        ++loop;
+        size_t data_length = ad[loop++].dim_x;
 
         if (hist.failed())
             continue;

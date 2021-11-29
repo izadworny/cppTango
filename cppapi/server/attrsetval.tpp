@@ -258,7 +258,7 @@ inline void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 template <class T, typename std::enable_if<!std::is_enum<T>::value || std::is_same<T, Tango::DevState>::value, T>::type*>
 inline void Attribute::set_value(T* p_data, long x, long y, bool release)
 {
-    using ArrayType = typename tango_type_traits<T>::array_type;
+    using ArrayType = typename tango_type_traits<T>::ArrayType;
 
 //
 // Throw exception if type is not correct

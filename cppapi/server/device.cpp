@@ -46,6 +46,343 @@
 namespace Tango
 {
 
+    namespace
+    {
+        template<class T>
+        T& get_any_value(Tango::AttrValUnion&);
+        
+        template<class T>
+        void set_union_value(Tango::AttrValUnion& val, T& arr);
+
+        template<class T>
+        T& get_union_value(Tango::AttrValUnion& val);
+
+        template<class T>
+        void data_in_object(Attribute &att, AttributeIdlData &aid,
+                                            long index, bool del_seq);
+
+        template<class T>
+        void data_in_net_object(AttributeIdlData &aid,
+                                            long index, long vers, PollObj *polled_att);
+
+        template<>
+        inline Tango::DevVarShortArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarShortArray tmp;
+            val.short_att_value(tmp);
+            return val.short_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarLongArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarLongArray tmp;
+            val.long_att_value(tmp);
+            return val.long_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarLong64Array& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarLong64Array tmp;
+            val.long64_att_value(tmp);
+            return val.long64_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarDoubleArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarDoubleArray tmp;
+            val.double_att_value(tmp);
+            return val.double_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarFloatArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarFloatArray tmp;
+            val.float_att_value(tmp);
+            return val.float_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarStringArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarStringArray tmp;
+            val.string_att_value(tmp);
+            return val.string_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarBooleanArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarBooleanArray tmp;
+            val.bool_att_value(tmp);
+            return val.bool_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarUShortArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarUShortArray tmp;
+            val.ushort_att_value(tmp);
+            return val.ushort_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarUCharArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarCharArray tmp;
+            val.uchar_att_value(tmp);
+            return val.uchar_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarULongArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarULongArray tmp;
+            val.ulong_att_value(tmp);
+            return val.ulong_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarULong64Array& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarULong64Array tmp;
+            val.ulong64_att_value(tmp);
+            return val.ulong64_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarStateArray& get_any_value(Tango::AttrValUnion& val)
+        {
+            Tango::DevVarStateArray tmp;
+            val.state_att_value(tmp);
+            return val.state_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarShortArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.short_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarLongArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.long_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarLong64Array& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.long64_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarDoubleArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.double_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarFloatArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.float_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarStringArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.string_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarBooleanArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.bool_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarUShortArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.ushort_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarUCharArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.uchar_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarULongArray& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.ulong_att_value();
+        }
+
+        template<>
+        inline Tango::DevVarULong64Array& get_union_value(Tango::AttrValUnion& val)
+        {
+            return val.ulong64_att_value();
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarShortArray& arr)
+        {
+            val.short_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarLongArray& arr)
+        {
+            val.long_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarLong64Array& arr)
+        {
+            val.long64_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarDoubleArray& arr)
+        {
+            val.double_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarFloatArray& arr)
+        {
+            val.float_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarStringArray& arr)
+        {
+            val.string_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarBooleanArray& arr)
+        {
+            val.bool_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarUShortArray& arr)
+        {
+            val.ushort_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarUCharArray& arr)
+        {
+            val.uchar_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarULongArray& arr)
+        {
+            val.ulong_att_value(arr);
+        }
+
+        template<>
+        inline void set_union_value(Tango::AttrValUnion& val, Tango::DevVarULong64Array& arr)
+        {
+            val.ulong64_att_value(arr);
+        }
+
+        template<class T>
+        inline void data_in_net_object(AttributeIdlData &aid,
+                                                     long index, long vers, PollObj *polled_att)
+        {
+            if (aid.data_5 != nullptr)
+            {
+                AttributeValue_5 &att_val = polled_att->get_last_attr_value_5(false);
+                set_union_value((*aid.data_5)[index].value, get_union_value<typename tango_type_traits<T>::ArrayType>(att_val.value));
+            }
+            else if (aid.data_4 != nullptr)
+            {
+                if (vers >= 5)
+                {
+                    AttributeValue_5 &att_val = polled_att->get_last_attr_value_5(false);
+                    set_union_value((*aid.data_4)[index].value, get_union_value<typename tango_type_traits<T>::ArrayType>(att_val.value));
+                }
+                else
+                {
+                    AttributeValue_4 &att_val = polled_att->get_last_attr_value_4(false);
+                    set_union_value((*aid.data_4)[index].value, get_union_value<typename tango_type_traits<T>::ArrayType>(att_val.value));
+                }
+            }
+            else
+            {
+                typename tango_type_traits<T>::ArrayType* tmp;
+                if (vers >= 5)
+                {
+                    AttributeValue_5 &att_val = polled_att->get_last_attr_value_5(false);
+                    typename tango_type_traits<T>::ArrayType &union_seq = get_union_value<typename tango_type_traits<T>::ArrayType>(att_val.value);
+                    tmp = new typename tango_type_traits<T>::ArrayType(union_seq.length(),
+                            union_seq.length(),
+                            const_cast<T *>(union_seq.get_buffer()),
+                            false);
+                }
+                else if (vers == 4)
+                {
+                    AttributeValue_4 &att_val = polled_att->get_last_attr_value_4(false);
+                    typename tango_type_traits<T>::ArrayType &union_seq = get_union_value<typename tango_type_traits<T>::ArrayType>(att_val.value);
+                    tmp = new typename tango_type_traits<T>::ArrayType(union_seq.length(),
+                            union_seq.length(),
+                            const_cast<T *>(union_seq.get_buffer()),
+                            false);
+                }
+                else
+                {
+                    const typename tango_type_traits<T>::ArrayType* tmp_cst;
+                    AttributeValue_3 &att_val = polled_att->get_last_attr_value_3(false);
+                    att_val.value >>= tmp_cst;
+                    tmp = new typename tango_type_traits<T>::ArrayType(tmp_cst->length(),
+                            tmp_cst->length(),
+                            const_cast<T *>(tmp_cst->get_buffer()),
+                            false);
+                } 
+                (*aid.data_3)[index].value <<= tmp;
+            } 
+        }
+
+        template<class T>
+        inline void data_in_object(Attribute &att, AttributeIdlData &aid,
+                                                long index, bool del_seq)
+        {
+            auto* ptr = *(att.get_value_storage<T>());
+            if (aid.data_5 != nullptr)
+            {
+                auto& the_seq = get_any_value<T>((*aid.data_5)[index].value);
+                the_seq.replace(ptr->length(),ptr->length(),ptr->get_buffer(),ptr->release());
+                if (ptr->release())
+                {
+                    ptr->get_buffer(true);
+                }
+            }
+            else if (aid.data_4 != nullptr)
+            {
+                auto& the_seq = get_any_value<T>((*aid.data_4)[index].value);
+                the_seq.replace(ptr->length(),ptr->length(),ptr->get_buffer(),ptr->release());
+                if (ptr->release() == true)
+                    ptr->get_buffer(true);
+            }
+            else
+            {
+                (*aid.data_3)[index].value <<= *ptr;
+            }
+
+            if (del_seq)
+            {
+                delete ptr;
+            }
+        }
+
+    }
 //
 // The per thread data storage key (The client identification is stored in thread specific storage) defined in utils.cpp
 //
@@ -4989,73 +5326,73 @@ void DeviceImpl::data_into_net_object(Attribute &att, AttributeIdlData &aid,
         case Tango::DEV_SHORT :
         case Tango::DEV_ENUM :
         {
-            DATA_IN_OBJECT(DevVarShortArray, get_short_value, dummy_short_att_value, short_att_value);
+            data_in_object<Tango::DevVarShortArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_LONG :
         {
-            DATA_IN_OBJECT(DevVarLongArray, get_long_value, dummy_long_att_value, long_att_value);
+            data_in_object<Tango::DevVarLongArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_LONG64 :
         {
-            DATA_IN_OBJECT(DevVarLong64Array, get_long64_value, dummy_long64_att_value, long64_att_value);
+            data_in_object<Tango::DevVarLong64Array>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_DOUBLE :
         {
-            DATA_IN_OBJECT(DevVarDoubleArray, get_double_value, dummy_double_att_value, double_att_value);
+            data_in_object<Tango::DevVarDoubleArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_STRING :
         {
-            DATA_IN_OBJECT(DevVarStringArray, get_string_value, dummy_string_att_value, string_att_value);
+            data_in_object<Tango::DevVarStringArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_FLOAT :
         {
-            DATA_IN_OBJECT(DevVarFloatArray, get_float_value, dummy_float_att_value, float_att_value);
+            data_in_object<Tango::DevVarFloatArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_BOOLEAN :
         {
-            DATA_IN_OBJECT(DevVarBooleanArray, get_boolean_value, dummy_boolean_att_value, bool_att_value);
+            data_in_object<Tango::DevVarBooleanArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_USHORT :
         {
-            DATA_IN_OBJECT(DevVarUShortArray, get_ushort_value, dummy_ushort_att_value, ushort_att_value);
+            data_in_object<Tango::DevVarUShortArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_UCHAR :
         {
-            DATA_IN_OBJECT(DevVarCharArray, get_uchar_value, dummy_uchar_att_value, uchar_att_value);
+            data_in_object<Tango::DevVarCharArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_ULONG :
         {
-            DATA_IN_OBJECT(DevVarULongArray, get_ulong_value, dummy_ulong_att_value, ulong_att_value);
+            data_in_object<Tango::DevVarULongArray>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_ULONG64 :
         {
-            DATA_IN_OBJECT(DevVarULong64Array, get_ulong64_value, dummy_ulong64_att_value, ulong64_att_value);
+            data_in_object<Tango::DevVarULong64Array>(att, aid, index, del_seq);
             break;
         }
 
         case Tango::DEV_STATE :
         {
-            DATA_IN_OBJECT(DevVarStateArray, get_state_value, dummy_state_att_value, state_att_value);
+            data_in_object<Tango::DevVarStateArray>(att, aid, index, del_seq);
             break;
         }
 
@@ -5186,28 +5523,6 @@ void DeviceImpl::polled_data_into_net_object(AttributeIdlData &aid,
                                              long index, long type, long vers, PollObj *polled_att,
                                              const DevVarStringArray &names)
 {
-    const Tango::DevVarDoubleArray *tmp_db;
-    Tango::DevVarDoubleArray *new_tmp_db;
-    const Tango::DevVarShortArray *tmp_sh;
-    Tango::DevVarShortArray *new_tmp_sh;
-    const Tango::DevVarLongArray *tmp_lg;
-    Tango::DevVarLongArray *new_tmp_lg;
-    const Tango::DevVarLong64Array *tmp_lg64;
-    Tango::DevVarLong64Array *new_tmp_lg64;
-    const Tango::DevVarStringArray *tmp_str;
-    Tango::DevVarStringArray *new_tmp_str;
-    const Tango::DevVarFloatArray *tmp_fl;
-    Tango::DevVarFloatArray *new_tmp_fl;
-    const Tango::DevVarBooleanArray *tmp_boo;
-    Tango::DevVarBooleanArray *new_tmp_boo;
-    const Tango::DevVarUShortArray *tmp_ush;
-    Tango::DevVarUShortArray *new_tmp_ush;
-    const Tango::DevVarCharArray *tmp_uch;
-    Tango::DevVarCharArray *new_tmp_uch;
-    const Tango::DevVarULongArray *tmp_ulg;
-    Tango::DevVarULongArray *new_tmp_ulg;
-    const Tango::DevVarULong64Array *tmp_ulg64;
-    Tango::DevVarULong64Array *new_tmp_ulg64;
     const Tango::DevVarStateArray *tmp_state;
     Tango::DevVarStateArray *new_tmp_state;
     Tango::DevState sta;
@@ -5216,47 +5531,47 @@ void DeviceImpl::polled_data_into_net_object(AttributeIdlData &aid,
     {
         case Tango::DEV_SHORT :
         case Tango::DEV_ENUM :
-            DATA_IN_NET_OBJECT(short_att_value, DevVarShortArray, short, new_tmp_sh, tmp_sh);
+            data_in_net_object<Tango::DevShort>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_DOUBLE :
-            DATA_IN_NET_OBJECT(double_att_value, DevVarDoubleArray, double, new_tmp_db, tmp_db);
+            data_in_net_object<Tango::DevDouble>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_LONG :
-            DATA_IN_NET_OBJECT(long_att_value, DevVarLongArray, DevLong, new_tmp_lg, tmp_lg);
+            data_in_net_object<Tango::DevLong>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_LONG64 :
-            DATA_IN_NET_OBJECT(long64_att_value, DevVarLong64Array, DevLong64, new_tmp_lg64, tmp_lg64);
+            data_in_net_object<Tango::DevLong64>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_STRING :
-            DATA_IN_NET_OBJECT(string_att_value, DevVarStringArray, char *, new_tmp_str, tmp_str);
+            data_in_net_object<Tango::DevString>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_FLOAT :
-            DATA_IN_NET_OBJECT(float_att_value, DevVarFloatArray, float, new_tmp_fl, tmp_fl);
+            data_in_net_object<Tango::DevFloat>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_BOOLEAN :
-            DATA_IN_NET_OBJECT(bool_att_value, DevVarBooleanArray, DevBoolean, new_tmp_boo, tmp_boo);
+            data_in_net_object<Tango::DevBoolean>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_USHORT :
-            DATA_IN_NET_OBJECT(ushort_att_value, DevVarUShortArray, DevUShort, new_tmp_ush, tmp_ush);
+            data_in_net_object<Tango::DevUShort>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_UCHAR :
-            DATA_IN_NET_OBJECT(uchar_att_value, DevVarUCharArray, DevUChar, new_tmp_uch, tmp_uch);
+            data_in_net_object<Tango::DevUChar>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_ULONG :
-            DATA_IN_NET_OBJECT(ulong_att_value, DevVarULongArray, DevULong, new_tmp_ulg, tmp_ulg);
+            data_in_net_object<Tango::DevULong>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_ULONG64 :
-            DATA_IN_NET_OBJECT(ulong64_att_value, DevVarULong64Array, DevULong64, new_tmp_ulg64, tmp_ulg64);
+            data_in_net_object<Tango::DevULong64>(aid, index, vers, polled_att);
             break;
 
         case Tango::DEV_STATE :
@@ -5552,80 +5867,41 @@ void DeviceImpl::build_att_list_in_status_mess(size_t nb_att, AttErrorType att_t
 
     if (att_type == Tango::DeviceImpl::FWD)
     {
+        std::stringstream alarm_msg;
+        alarm_msg << alarm_status;
         for (size_t i = 0; i < nb_att; ++i)
         {
-            alarm_status = alarm_status + "\nForwarded attribute " + fwd_att_wrong_conf[i].att_name;
+            alarm_msg << "\nForwarded attribute " + fwd_att_wrong_conf[i].att_name;
             if (fwd_att_wrong_conf[i].fae != FWD_ROOT_DEV_NOT_STARTED)
             {
-                alarm_status = alarm_status + " is not correctly configured! ";
+                alarm_msg << " is not correctly configured! ";
             }
             else
             {
-                alarm_status = alarm_status + " not reachable! ";
+                alarm_msg << " is not reachable! ";
             }
 
-            alarm_status = alarm_status + "Root attribute name = ";
-            alarm_status = alarm_status + fwd_att_wrong_conf[i].full_root_att_name;
+            alarm_msg << "\nRoot attribute name = ";
+            alarm_msg << fwd_att_wrong_conf[i].full_root_att_name;
             if (fwd_att_wrong_conf[i].fae != FWD_ROOT_DEV_NOT_STARTED)
             {
-                alarm_status = alarm_status + "\nYou can update it using the Jive tool";
+                alarm_msg << "\nYou can update it using the Jive tool";
             }
-            alarm_status = alarm_status + "\nError: ";
-            switch (fwd_att_wrong_conf[i].fae)
+            alarm_msg << "\nError: ";
+            
+            alarm_msg << fwd_att_wrong_conf[i].fae;
+
+            if(fwd_att_wrong_conf[i].fae == FWD_DOUBLE_USED)
             {
-                case FWD_WRONG_ATTR:
-                    alarm_status = alarm_status + "Attribute not found in root device";
-                    break;
-
-                case FWD_CONF_LOOP:
-                    alarm_status = alarm_status + "Loop found in root attributes configuration";
-                    break;
-
-                case FWD_WRONG_DEV:
-                    alarm_status = alarm_status + "Wrong root device";
-                    break;
-
-                case FWD_MISSING_ROOT:
-                    alarm_status = alarm_status + "Missing or wrong root attribute definition";
-                    break;
-
-                case FWD_ROOT_DEV_LOCAL_DEV:
-                    alarm_status = alarm_status + "Root device is local device";
-                    break;
-
-                case FWD_WRONG_SYNTAX:
-                    alarm_status = alarm_status + "Wrong syntax in root attribute definition";
-                    break;
-
-                case FWD_ROOT_DEV_NOT_STARTED:
-                    alarm_status =
-                        alarm_status + "Root device not started yet. Polling (if any) for this attribute not available";
-                    break;
-
-                case FWD_TOO_OLD_LOCAL_DEVICE:
-                    alarm_status = alarm_status + "Local device too old (< IDL 5)";
-                    break;
-
-                case FWD_TOO_OLD_ROOT_DEVICE:
-                    alarm_status = alarm_status + "Root device too old (< IDL 5)";
-                    break;
-
-                case FWD_DOUBLE_USED:
-                {
-                    alarm_status =
-                        alarm_status + "Root attribute already used in this device server process for attribute ";
-                    Util *tg = Util::instance();
-                    std::string root_name(fwd_att_wrong_conf[i].full_root_att_name);
-                    std::transform(root_name.begin(), root_name.end(), root_name.begin(), ::tolower);
-                    std::string local_att_name = tg->get_root_att_reg().get_local_att_name(root_name);
-                    alarm_status = alarm_status + local_att_name;
-                    break;
-                }
-
-                default:
-                    break;
+                Util *tg = Util::instance();
+                std::string root_name(fwd_att_wrong_conf[i].full_root_att_name);
+                std::transform(root_name.begin(), root_name.end(), root_name.begin(), ::tolower);
+                std::string local_att_name = tg->get_root_att_reg().get_local_att_name(root_name);
+                alarm_msg << local_att_name;
             }
+
         }
+        alarm_status = alarm_msg.str();
     }
     else
     {
