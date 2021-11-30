@@ -264,14 +264,14 @@ inline void Attribute::set_value(T* p_data, long x, long y, bool release)
 // Throw exception if type is not correct
 //
 
-	if (data_type != tango_type_traits<T>::type_value)
+	if (data_type != Tango::tango_type_traits<T>::type_value())
 	{
 		delete_data_if_needed(p_data,release);
 
 		std::stringstream o;
 
 		o << "Invalid data type for attribute " << name
-                    <<  ". Expected: " << tango_type_traits<T>::type_value 
+                    <<  ". Expected: " << Tango::tango_type_traits<T>::type_value()
                     << " got " << (CmdArgType)data_type << std::ends;
 
                 TANGO_THROW_EXCEPTION(API_AttrOptProp, o.str());

@@ -448,333 +448,69 @@ public:
  */
  //@{
 /**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevShort.
- *
- * @param val A reference to a Tango::DevShort data
- */
-	void set_write_value(Tango::DevShort val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevShort.
+ * Set the writable scalar attribute value when the attribute
+ * data type is not an enum.
  *
  * @param val A reference to the attribute set value
  * @param x The attribute set value x length. Default value is 1
  * @param y The attribute set value y length. Default value is 0
 
  */
-	void set_write_value(Tango::DevShort *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevShort.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
+        template<class T, typename std::enable_if<!std::is_enum<T>::value, T>::type* = nullptr>
+	void set_write_value(T* val, size_t x = 1, size_t y = 0);
+/**@name Set new value for attribute
+ * Miscellaneous method to set a WAttribute value
  */
-	void set_write_value(std::vector<Tango::DevShort> &val, long x = 1, long y = 0);
-
+ //@{
 /**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevLong.
- *
- * @param val A reference to a Tango::DevLong data
- */
-	void set_write_value(Tango::DevLong val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevLong.
+ * Set the writable scalar attribute value when the attribute
+ * data type is an enum.
  *
  * @param val A reference to the attribute set value
  * @param x The attribute set value x length. Default value is 1
  * @param y The attribute set value y length. Default value is 0
 
  */
-	void set_write_value(Tango::DevLong *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevLong.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevLong> &val, long x = 1, long y = 0);
+        template<class T, typename std::enable_if<std::is_enum<T>::value, T>::type* = nullptr>
+	void set_write_value(T* val, size_t x = 1, size_t y = 0);
 
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevLong64.
- *
- * @param val A reference to a Tango::DevLong64 data
+/**@name Set new value for attribute
+ * Miscellaneous method to set a WAttribute value
  */
-	void set_write_value(Tango::DevLong64 val);
+ //@{
 /**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevLong64.
+ * Set the writable spectrum or image attribute value.
  *
- * @param val A reference to the attribute set value
+ * @param val A vector of values to set.
  * @param x The attribute set value x length. Default value is 1
  * @param y The attribute set value y length. Default value is 0
 
  */
-	void set_write_value(Tango::DevLong64 *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevLong64.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevLong64> &val, long x = 1, long y = 0);
+        template<class T>
+	void set_write_value(std::vector<T> &val, size_t x = 1, size_t y = 0);
 
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevDouble.
- *
- * @param val A reference to a Tango::DevDouble
- */
-	void set_write_value(Tango::DevDouble val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevDouble.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevDouble *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevDouble.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevDouble> &val, long x = 1, long y = 0);
-
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevString.
- *
- * @param val A reference to a Tango::DevString
- */
-	void set_write_value(Tango::DevString val);
 /**
  * Set the writable scalar attribute value when the attribute data type is
  * Tango::DevString.
  *
  * @param val A reference to a std::string
  */
-	void set_write_value(std::string &val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevString.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(Tango::DevString *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevString.
- *
- * @param val A vector of string containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<std::string> &val, long x = 1, long y = 0);
-
+        void set_write_value(std::string &val);
 /**
  * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevFloat.
+ * Tango::DevString.
  *
- * @param val A reference to a Tango::DevFloat
+ * @param val A Tango::DevString
  */
-	void set_write_value(Tango::DevFloat val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevFloat.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevFloat *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevFloat.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevFloat> &val, long x = 1, long y = 0);
+        void set_write_value(Tango::DevString val);
 
 /**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevBoolean.
+ * Set the writable image or spectrum attribute value when the attribute data type is
+ * Tango::DevString.
  *
- * @param val A reference to a Tango::DevBoolean
+ * @param val A vector of std::string
  */
-	void set_write_value(Tango::DevBoolean val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevBoolean.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevBoolean *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevBoolean.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevBoolean> &val, long x = 1, long y = 0);
-
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevUShort.
- *
- * @param val A reference to a Tango::DevUShort
- */
-	void set_write_value(Tango::DevUShort val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevUShort.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevUShort *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevUShort.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevUShort> &val, long x = 1, long y = 0);
-
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevUChar.
- *
- * @param val A reference to a Tango::DevUChar
- */
-	void set_write_value(Tango::DevUChar val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevUChar.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevUChar *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevUChar.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevUChar> &val, long x = 1, long y = 0);
-
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevULong.
- *
- * @param val A reference to a Tango::DevULong data
- */
-	void set_write_value(Tango::DevULong val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevULong.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevULong *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevULong.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevULong> &val, long x = 1, long y = 0);
-
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevULong64.
- *
- * @param val A reference to a Tango::DevULong64 data
- */
-	void set_write_value(Tango::DevULong64 val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevULong64.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
-
- */
-	void set_write_value(Tango::DevULong64 *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevULong64.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevULong64> &val, long x = 1, long y = 0);
-
-/**
- * Set the writable scalar attribute value when the attribute data type is
- * Tango::DevState.
- *
- * @param val A reference to a Tango::DevState data
- */
-	void set_write_value(Tango::DevState val);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevState.
- *
- * @param val A reference to the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(Tango::DevState *val, long x = 1, long y = 0);
-/**
- * Set the writable spectrum or image attribute value when the attribute
- * data type is Tango::DevState.
- *
- * @param val A vector containing the attribute set value
- * @param x The attribute set value x length. Default value is 1
- * @param y The attribute set value y length. Default value is 0
- */
-	void set_write_value(std::vector<Tango::DevState> &val, long x = 1, long y = 0);
+        void set_write_value(std::vector<std::string> &val, size_t x, size_t y);
 //@}
 
 /// @privatesection
@@ -790,18 +526,7 @@ public:
 
 	template <typename T>
 	void set_write_value(T);
-
-	template <typename T>
-	void set_write_value(T *,long,long);
-
-	template <typename T>
-	void set_write_value(std::vector<T> &,long,long);
-
-
-
-
-
-
+        
 	void set_write_value(Tango::DevEncoded *, long x = 1,long y = 0); // Dummy method for compiler
 
 	virtual void set_rvalue();
@@ -873,8 +598,133 @@ private:
         if ((!y && nb_data != x ) || (y && nb_data != (x * y)))
             TANGO_THROW_EXCEPTION(API_AttrIncorrectDataNumber, "Incorrect data number");
     }
-    template<typename T1, typename T2>
-    void check_min_max(const unsigned int,const T1 &,const T2 &,const T2 &);
+/**
+ * method :
+ *		WAttribute::check_data_limits()
+ *
+ * description :
+ *		Check if the data received from client is valid.
+ *      It will check for nan value if needed, if itis not below the min (if one defined) or above the max
+ *      (if one defined), and for enum if it is in the accepted range.
+ *       This method throws exception in case of threshold violation.
+ *
+ * args :
+ *		in :
+ *          - nb_data : Data number
+ *          - seq : The received data
+ *          - min : The min allowed value
+ *          - max : The max allowed value
+ */
+    template<typename T>
+    void check_data_limits(const size_t,const typename tango_type_traits<T>::ArrayType&, Attr_CheckVal&, Attr_CheckVal&);
+
+    /**
+     * Check that provided enum is within limits.
+     * On data_type that are not enum, do nothing.
+     * Check that all the values provided are lower than the size of enum_labels.
+     * @param buffer with the data to be checked
+     * @param data_size number of elements in the buffer
+     */
+    template<class T>
+    void check_enum(const typename tango_type_traits<T>::ArrayType&, const size_t);
+
+/**
+ * description : 	Check the value sent by the caller and copy incoming data
+ *					for SCALAR attribute only
+ *
+ * in :			any : Reference to the object, can be union or CORBA Any
+ *                      dim_x: dim_x
+ *                      dim_y: dim_y
+ */
+    template<class T>
+    void _update_any_written_value(const T&, size_t, size_t);
+
+/**
+ * description : 	Check the value sent by the caller and copy incoming data
+ *					for SCALAR attribute only
+ *
+ * in :			any : Reference to the object CORBA Any
+ *                      dim_x: dim_x
+ *                      dim_y: dim_y
+ */
+    template<class T>
+    void _update_written_value(const CORBA::Any&, size_t, size_t);
+    
+/**
+ * description : 	Check the value sent by the caller and copy incoming data
+ *					for SCALAR attribute only
+ *
+ * in :			any : Reference to the object AttrValUnion
+ *                      dim_x: dim_x
+ *                      dim_y: dim_y
+ */
+    template<class T>
+    void _update_written_value(const Tango::AttrValUnion&, size_t, size_t);
+
+    /**
+     * Update internal sequence with provided buffer.
+     * Check if the data is in the permitted limit, if not do not update. 
+     * Update the attribute value with the buffer.
+     * Update the dim_x and dim_y properties.
+     * @param buffer with the new value
+     * @param dim_x, new dim_x.
+     * @param dim_y, new dim_y, note that for scalar, this value is ignored.
+     */
+    template<class T>
+    void update_internal_sequence(const typename tango_type_traits<T>::ArrayType&, size_t, size_t);
+    
+    /**
+     * Update internal sequence with provided buffer.
+     * The old value is kept, and then the new value is set in internal storage.
+     * Update the attribute value with the buffer.
+     * @param buffer with the new value
+     */
+    template<class T>
+    void _update_value(const T&);
+/**
+ * Get a ref to a pointer for the internal field for the value.
+ * Do not manage memory.
+ */
+    template<class T>
+    T& get_write_value_ptr();
+
+/**
+ * Get a ref to the internal field for the value.
+ * Only for scalar attribute.
+ * Do not manage memory.
+ */
+    template<class T>
+    T& get_last_written_value();
+/**
+ * Get a ref to the internal field for the value.
+ * Do not manage memory.
+ */
+    template<class T>
+    T& get_write_value();
+/**
+ * Get a ref to the internal field for the previous value.
+ * Do not manage memory.
+ */
+    template<class T>
+    T& get_old_value();
+
+    template<class T>
+    void _copy_data(const CORBA::Any&);
+
+    template<class T>
+    void _copy_data(const Tango::AttrValUnion&);
+
+/*
+ * method : 		WAttribute::copy_any_data
+ *
+ * description : 	Copy data into the attribute object in order to return
+ *			them in case of a read on this attribute
+ *			Data is copied to the buffer returned with get_last_written_value.
+ *
+ * in :			any : Reference to the CORBA Any object or the AttrValUnion
+ */
+    template<class T>
+    void _copy_any_data(const T& data);
 
 //
 // The extension class

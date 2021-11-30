@@ -66,7 +66,64 @@ typedef union _Attr_CheckVal
 	DevULong		ulg;
 	DevULong64		ulg64;
 	DevState		d_sta;
+/**
+ * Returns a ref to the proper field based on type.
+ * Does not manage memory.
+ */
+        template<class T>
+        const T& get_value();
 }Attr_CheckVal;
+
+template<>
+inline const Tango::DevShort& Attr_CheckVal::get_value()
+{
+    return sh;
+}
+template<>
+inline const Tango::DevLong& Attr_CheckVal::get_value()
+{
+    return lg;
+}
+template<>
+inline const Tango::DevDouble& Attr_CheckVal::get_value()
+{
+    return db;
+}
+template<>
+inline const Tango::DevFloat& Attr_CheckVal::get_value()
+{
+    return fl;
+}
+template<>
+inline const Tango::DevUShort& Attr_CheckVal::get_value()
+{
+    return ush;
+}
+template<>
+inline const Tango::DevUChar& Attr_CheckVal::get_value()
+{
+    return uch;
+}
+template<>
+inline const Tango::DevLong64& Attr_CheckVal::get_value()
+{
+    return lg64;
+}
+template<>
+inline const Tango::DevULong& Attr_CheckVal::get_value()
+{
+    return ulg;
+}
+template<>
+inline const Tango::DevULong64& Attr_CheckVal::get_value()
+{
+    return ulg64;
+}
+template<>
+inline const Tango::DevState& Attr_CheckVal::get_value()
+{
+    return d_sta;
+}
 
 typedef union _Attr_Value
 {
@@ -1341,11 +1398,26 @@ public:
 
 	void fire_error_periodic_event(DevFailed *);
 
+        /**
+         * Extract internal value to dest.
+         * Free internal memory.
+         * @param dest, receiving Any that will contain the data.
+         */
+        void extract_value(CORBA::Any& dest);
+
 	friend class EventSupplier;
 	friend class ZmqEventSupplier;
 	friend class DServer;
 
 private:
+        /**
+         * Extract internal value to dest depending on the type.
+         * Free internal memory.
+         * @param dest, receiving Any that will contain the data.
+         */
+        template<class T>
+        void _extract_value(CORBA::Any& dest);
+
 	void set_data_size();
 	void throw_min_max_value(const std::string &,const std::string &,MinMaxValueCheck);
 	void log_quality();
@@ -1542,6 +1614,7 @@ protected:
 	bool				att_mem_exception;				// Flag set to true if the attribute is writable and
 														// memorized and if it failed at init
 	std::vector<int> 		client_lib[numEventType];		// Clients lib used (for event sending and compat)
+
 };
 
 //
