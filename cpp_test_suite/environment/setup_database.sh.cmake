@@ -15,7 +15,7 @@ docker run \
     -e MYSQL_ROOT_PASSWORD=root \
     -e MYSQL_INITDB_SKIP_TZINFO=1 \
     -d \
-    tangocs/mysql:9.2.2 \
+    registry.gitlab.com/tango-controls/docker/mysql:5.16-mysql-5 \
     --sql-mode="" \
     --innodb=OFF \
     --default-storage-engine=MyISAM \
@@ -31,7 +31,7 @@ docker run \
     -e MYSQL_DATABASE=tango \
     --link "$mysql_container":mysql_db \
     -d \
-    tangocs/tango-cs:latest \
+    registry.gitlab.com/tango-controls/docker/tango-db:5.16 \
     > /dev/null
 
 tango_ipaddr="$(docker inspect \
