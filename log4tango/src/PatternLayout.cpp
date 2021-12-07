@@ -121,6 +121,18 @@ namespace log4tango {
         }
     };
 
+    struct FilePathComponent : public PatternLayout::PatternComponent {
+        virtual void append(std::ostringstream& out, const LoggingEvent& event) {
+            out << event.file_path;
+        }
+    };
+
+    struct LineNumberComponent : public PatternLayout::PatternComponent {
+        virtual void append(std::ostringstream& out, const LoggingEvent& event) {
+            out << event.line_number;
+        }
+    };
+
     struct TimeStampComponent : public PatternLayout::PatternComponent {
         static const char* const FORMAT_ISO8601;
         static const char* const FORMAT_ABSOLUTE;
@@ -230,7 +242,7 @@ namespace log4tango {
     bool _alignLeft;
 };
 
-const char* PatternLayout::BASIC_CONVERSION_PATTERN = "%d %p %c %m";
+const char* PatternLayout::BASIC_CONVERSION_PATTERN = "%d %p (%F:%L) %c %m";
 
 PatternLayout::PatternLayout() {
   set_conversion_pattern(BASIC_CONVERSION_PATTERN);
@@ -330,8 +342,14 @@ int PatternLayout::set_conversion_pattern (const std::string& conversionPattern)
             case 'u':
                 component = new ProcessorTimeComponent();
                 break;
+            case 'F':
+                component = new FilePathComponent();
+                break;
+            case 'L':
+                component = new LineNumberComponent();
+                break;
             default:
-                return -1;                 
+                return -1;
             }
             if (component) {
                 if (!literal.empty()) {

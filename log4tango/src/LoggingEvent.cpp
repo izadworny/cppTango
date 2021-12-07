@@ -35,24 +35,20 @@ namespace log4tango {
 
 LoggingEvent::LoggingEvent (const std::string& _logger_name, 
                             const std::string& _message,
-                            Level::Value _level) 
+                            Level::Value _level,
+                            const std::string& _file_path,
+                            int _line_number)
   : logger_name(_logger_name),
     message(_message),
     level(_level),
-    timestamp(std::chrono::system_clock::now())
+    thread_id(std::this_thread::get_id()),
+    timestamp(std::chrono::system_clock::now()),
+    file_path(_file_path),
+    line_number(_line_number)
 {
   //-- thread_name = threading::get_thread_id();
-  thread_id =  std::this_thread::get_id();
 }
 
-LoggingEvent::LoggingEvent (const LoggingEvent& _src)
- : logger_name(_src.logger_name),
-   message(_src.message),
-   level(_src.level),
-   thread_id(_src.thread_id),
-   timestamp(_src.timestamp)
-{
-  //--noop
-}
+LoggingEvent::LoggingEvent (const LoggingEvent& _src) = default;
 
 } // namespace log4tango 

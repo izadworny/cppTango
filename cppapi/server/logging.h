@@ -35,6 +35,35 @@
 #define _LOGGING_H_
 
 
+#include <cstring>
+#include <tango_current_function.h>
+
+namespace Tango
+{
+namespace logging_detail
+{
+#ifdef _TG_WINDOWS_
+constexpr auto PathSeparator = '\\';
+#else
+constexpr auto PathSeparator = '/';
+#endif
+inline const char* basename(const char* path)
+{
+    auto last_dir_sep = std::strrchr(path, PathSeparator);
+    if (last_dir_sep == nullptr)
+    {
+        // No separator, the path does not contains directory components.
+        return path;
+    }
+
+    // Return next character after the directory separator. Incrementing this
+    // pointer is safe (even if the path ends with the separator character)
+    // as long as the path is null-terminated.
+    return last_dir_sep + 1;
+}
+} // logging_detail
+} // Tango
+
 // A shortcut to the core logger ------------------------------
 #define API_LOGGER Tango::Logging::get_core_logger()
 
@@ -44,7 +73,9 @@
 #define cout                                                \
     if (API_LOGGER)                                         \
       API_LOGGER->get_stream(log4tango::Level::INFO, false) \
-        << log4tango::LogInitiator::_begin_log
+        << log4tango::LogInitiator::_begin_log              \
+        << log4tango::LoggerStream::SourceLocation{ \
+            ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #else
 
@@ -56,7 +87,9 @@
 #define cout1                                      \
   if (API_LOGGER && API_LOGGER->is_info_enabled()) \
     API_LOGGER->info_stream()                      \
-      << log4tango::LogInitiator::_begin_log
+      << log4tango::LogInitiator::_begin_log       \
+      << log4tango::LoggerStream::SourceLocation{ \
+          ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define cout2 cout1
 
@@ -64,7 +97,9 @@
 #define cout3                                       \
   if (API_LOGGER && API_LOGGER->is_debug_enabled()) \
     API_LOGGER->debug_stream()                      \
-      << log4tango::LogInitiator::_begin_log
+      << log4tango::LogInitiator::_begin_log        \
+      << log4tango::LoggerStream::SourceLocation{ \
+          ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define cout4 cout3
 #define cout5 cout4

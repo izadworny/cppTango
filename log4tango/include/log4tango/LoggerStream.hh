@@ -56,6 +56,10 @@ typedef class std::ios_base&(*StdIosFlag)(class std::ios_base&);
 class LoggerStream 
 {
 public:
+    struct SourceLocation {
+        const char* file;
+        int line;
+    };
 
   /**
    * Construct a LoggerStream for given Logger with given level.
@@ -119,6 +123,19 @@ public:
   }
 
   /**
+   * Streams in a source code location.
+   *
+   * Source code location is stored internally and attached to the log event
+   * when one is generated.
+   *
+   * @returns A reference to itself.
+   **/
+  inline LOG4TANGO_EXPORT LoggerStream& operator<< (SourceLocation source_location) {
+    _source_location = source_location;
+    return *this;
+  }
+
+  /**
    * Flush the contents of the stream buffer to the Logger and
    * empties the buffer.
    **/
@@ -161,6 +178,8 @@ private:
   bool _filter;
 
   std::ostringstream* _buffer;
+
+  SourceLocation _source_location;
 };
 
 } // namespace log4tango

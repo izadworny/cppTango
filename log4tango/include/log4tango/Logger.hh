@@ -91,56 +91,75 @@ public:
 
   /** 
    * Log a message with the specified level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param level The level of this log message.
    * @param string_format Format specifier for the log .
    * @param ... The arguments for string_format 
    **/  
-  void log (Level::Value level, 
+  void log (const std::string& file,
+            int line,
+            Level::Value level,
             const char* string_format, ...);
 
   /** 
    * Log a message with the specified level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param level The level of this log message.
    * @param message string to write in the log file
    **/  
-  inline void log (Level::Value level, const std::string& message) 
+  inline void log (const std::string& file, int line,
+    Level::Value level, const std::string& message)
   { 
     if (is_level_enabled(level)) {
-      log_unconditionally(level, message);
+      log_unconditionally(file, line, level, message);
     }
   }
  
   /** 
    * Log a message with the specified level without level checking.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param level The level of this log message.
    * @param string_format Format specifier for the log .
    * @param ... The arguments for string_format 
    **/
-  void log_unconditionally (Level::Value level, 
+  void log_unconditionally (const std::string& file,
+                            int line,
+                            Level::Value level,
                             const char* string_format, ...);
 
   /** 
    * Log a message with the specified level without level checking.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param level The level of this log message.
    * @param message string to write in the log file
    **/  
-  void log_unconditionally (Level::Value level, 
+  void log_unconditionally (const std::string& file,
+                            int line,
+                            Level::Value level,
                             const std::string& message);
                 
   /** 
    * Log a message with debug level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param string_format Format specifier for the log.
    * @param ... The arguments for string_format 
    **/  
-  void debug (const char* string_format, ...);
+  void debug (const std::string& file, int line, const char* string_format, ...);
 
   /** 
    * Log a message with debug level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param message string to write in the log file
    **/  
-  inline void debug (const std::string& message) {
+  inline void debug (const std::string& file, int line, const std::string& message) {
     if (is_level_enabled(Level::DEBUG)) {
-      log_unconditionally(Level::DEBUG, message);
+      log_unconditionally(file, line, Level::DEBUG, message);
     }
   }
 
@@ -162,18 +181,22 @@ public:
 
   /** 
    * Log a message with info level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param string_format Format specifier for the log.
    * @param ... The arguments for string_format 
    **/  
-  void info (const char* string_format, ...);
+  void info (const std::string& file, int line, const char* string_format, ...);
 
   /** 
    * Log a message with info level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param message string to write in the log file
    **/  
-  inline void info (const std::string& message) {
+  inline void info (const std::string& file, int line, const std::string& message) {
     if (is_level_enabled(Level::INFO)) {
-      log_unconditionally(Level::INFO, message);
+      log_unconditionally(file, line, Level::INFO, message);
     }
   }
 
@@ -195,18 +218,22 @@ public:
       
   /** 
    * Log a message with warn level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param string_format Format specifier for the log.
    * @param ... The arguments for string_format 
    **/  
-  void warn (const char* string_format, ...);
+  void warn (const std::string& file, int line, const char* string_format, ...);
 
   /** 
    * Log a message with warn level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param message string to write in the log file
    **/  
-  inline void warn (const std::string& message) {
+  inline void warn (const std::string& file, int line, const std::string& message) {
     if (is_level_enabled(Level::WARN)) {
-      log_unconditionally(Level::WARN, message);
+      log_unconditionally(file, line, Level::WARN, message);
     }
   }
 
@@ -228,18 +255,22 @@ public:
 
   /** 
    * Log a message with error level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param string_format Format specifier for the log.
    * @param ... The arguments for string_format 
    **/  
-  void error (const char* string_format, ...);
+  void error (const std::string& file, int line, const char* string_format, ...);
 
   /** 
    * Log a message with error level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param message string to write in the log file
    **/  
-  inline void error (const std::string& message) {
+  inline void error (const std::string& file, int line, const std::string& message) {
     if (is_level_enabled(Level::ERROR)) {
-      log_unconditionally(Level::ERROR, message);
+      log_unconditionally(file, line, Level::ERROR, message);
     }
   }
 
@@ -261,18 +292,22 @@ public:
 
   /** 
    * Log a message with fatal level. 
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param string_format Format specifier for the log.
    * @param ... The arguments for string_format 
    **/  
-  void fatal(const char* string_format, ...);
+  void fatal(const std::string& file, int line, const char* string_format, ...);
 
   /** 
    * Log a message with fatal level.
+   * @param file File path of this log message.
+   * @param line Line number of this log message.
    * @param message string to write in the log file
    **/  
-  inline void fatal (const std::string& message) {
+  inline void fatal (const std::string& file, int line, const std::string& message) {
     if (is_level_enabled(Level::FATAL)) {
-      log_unconditionally(Level::FATAL, message);
+      log_unconditionally(file, line, Level::FATAL, message);
     }
   }
 

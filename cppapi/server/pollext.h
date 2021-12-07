@@ -70,9 +70,7 @@ namespace Tango
 #define __CHECK_DIM() \
 	if ((x == 0) || (y == 0)) \
 	{ \
-		Except::throw_exception((const char *)API_AttrOptProp, \
-				      (const char *)"X or Y dimension cannot be 0 for image attribute", \
-				      (const char *)"AttrData::AttrData"); \
+		TANGO_THROW_EXCEPTION(API_AttrOptProp, "X or Y dimension cannot be 0 for image attribute"); \
 	} \
 	else \
 		(void)0
@@ -80,9 +78,7 @@ namespace Tango
 #define __CHECK_DIM_X() \
 	if (x == 0) \
 	{ \
-		Except::throw_exception((const char *)API_AttrOptProp, \
-				      (const char *)"X dimension cannot be 0 for spectrum or image attribute", \
-				      (const char *)"AttrData::AttrData"); \
+		TANGO_THROW_EXCEPTION(API_AttrOptProp, "X dimension cannot be 0 for spectrum or image attribute"); \
 	} \
 	else \
 		(void)0

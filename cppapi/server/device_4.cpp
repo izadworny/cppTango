@@ -172,7 +172,7 @@ Tango::DevAttrHistory_4 *Device_4Impl::read_attribute_history_4(const char* name
 	{
 		TangoSys_OMemStream o;
 		o << "Attribute " << attr_str << " not polled" << std::ends;
-		Except::throw_exception(API_AttrNotPolled,o.str(),"Device_4Impl::read_attribute_history_4");
+		TANGO_THROW_EXCEPTION(API_AttrNotPolled, o.str());
 	}
 
 //
@@ -183,7 +183,7 @@ Tango::DevAttrHistory_4 *Device_4Impl::read_attribute_history_4(const char* name
 	{
 		TangoSys_OMemStream o;
 		o << "No data available in cache for attribute " << attr_str << std::ends;
-		Except::throw_exception(API_NoDataYet,o.str(),"Device_4Impl::read_attribute_history_4");
+		TANGO_THROW_EXCEPTION(API_NoDataYet, o.str());
 	}
 
 //
@@ -205,9 +205,7 @@ Tango::DevAttrHistory_4 *Device_4Impl::read_attribute_history_4(const char* name
 	}
 	catch (std::bad_alloc &)
 	{
-		Except::throw_exception(API_MemoryAllocation,
-							"Can't allocate memory in server",
-							"Device_4Impl::read_attribute_history_4");
+		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 
 //
@@ -316,9 +314,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 	{
 		TangoSys_OMemStream o;
 		o << "Command " << cmd_str << " not polled" << std::ends;
-		Except::throw_exception((const char *)API_CmdNotPolled,
-					o.str(),
-					(const char *)"Device_4Impl::command_inout_history_4");
+		TANGO_THROW_EXCEPTION(API_CmdNotPolled, o.str());
 	}
 
 //
@@ -329,9 +325,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 	{
 		TangoSys_OMemStream o;
 		o << "No data available in cache for command " << cmd_str << std::ends;
-		Except::throw_exception((const char *)API_NoDataYet,
-					o.str(),
-					(const char *)"Device_4Impl::command_inout_history_4");
+		TANGO_THROW_EXCEPTION(API_NoDataYet, o.str());
 	}
 
 //
@@ -353,9 +347,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 	}
 	catch (std::bad_alloc &)
 	{
-		Except::throw_exception((const char *)API_MemoryAllocation,
-				        (const char *)"Can't allocate memory in server",
-				        (const char *)"Device_4Impl::command_inout_history_4");
+		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 
 //
@@ -375,9 +367,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 		}
 		catch (std::bad_alloc &)
 		{
-			Except::throw_exception((const char *)API_MemoryAllocation,
-				        	(const char *)"Can't allocate memory in server",
-				        	(const char *)"Device_4Impl::command_inout_history_4");
+			TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 		}
 
 		if (status_cmd == true)
@@ -561,9 +551,7 @@ Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVar
 	}
 	catch (std::bad_alloc &)
 	{
-		Except::throw_exception((const char *)API_MemoryAllocation,
-				        (const char *)"Can't allocate memory in server",
-				        (const char *)"Device_4Impl::read_attributes_4");
+		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 
 //
@@ -884,8 +872,7 @@ Tango::AttributeValueList_4* Device_4Impl::write_read_attributes_4(const Tango::
 		TangoSys_OMemStream o;
 		o << "Attribute " << values[0].name << " is not a READ_WRITE or READ_WITH_WRITE attribute" << std::ends;
 
-		Except::throw_exception((const char *)API_AttrNotWritable,o.str(),
-								(const char *)"Device_4Impl::write_read_attribute_4");
+		TANGO_THROW_EXCEPTION(API_AttrNotWritable, o.str());
 	}
 
 	Tango::AttributeValueList_4 *read_val_ptr;

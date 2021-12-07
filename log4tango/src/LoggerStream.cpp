@@ -36,13 +36,17 @@
 
 namespace log4tango {
 
+namespace {
+constexpr LoggerStream::SourceLocation DefaultSourceLocation {"(unknown)", 0};
+}
+
 LoggerStream::LoggerStream (Logger& logger, Level::Value level, bool filter) 
   : _logger(logger),
     _level(level),
     _filter(filter),
-    _buffer(new std::ostringstream)
+    _buffer(new std::ostringstream),
+    _source_location(DefaultSourceLocation)
 {
-
 }
 
 LoggerStream::~LoggerStream() 
@@ -59,11 +63,14 @@ void LoggerStream::flush (void)
   if (_buffer && _buffer->tellp() > 0)
   {
     if (_filter) {
-      _logger.log(_level, _buffer->str());
+      _logger.log(
+        _source_location.file, _source_location.line, _level, _buffer->str());
     } else {
-      _logger.log_unconditionally(_level, _buffer->str());
+      _logger.log_unconditionally(
+        _source_location.file, _source_location.line, _level, _buffer->str());
     }
     _buffer->str("");
+    _source_location = DefaultSourceLocation;
   }
 }
 

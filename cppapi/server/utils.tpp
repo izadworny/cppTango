@@ -65,7 +65,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
         TangoSys_OMemStream o;
         o << "Device " << dev->get_name() << " is not polled" << std::ends;
 
-        Except::throw_exception(API_DeviceNotPolled,o.str(),"Util::fill_attr_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -97,7 +97,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
         o << "Attribute " << att_name;
         o << " of device " << dev->get_name() << " is WRITE only" << std::ends;
 
-        Except::throw_exception(API_DeviceNotPolled,o.str(),"Util::fill_attr_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -117,7 +117,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
                 o << " is not a READ_WRITE attribute. You can't set the attribute written part.";
                 o << "It is defined for record number " << i + 1 << std::ends;
 
-                Except::throw_exception(API_NotSupportedFeature,o.str(),"Util::fill_attr_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
             }
         }
     }
@@ -135,7 +135,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
         o << " is of type DEV_ENCODED. Your device supports only IDL V3.";
         o << " DEV_ENCODED data type is supported starting with IDL V4" << std::ends;
 
-        Except::throw_exception(API_NotSupportedFeature,o.str(),"Util::fill_attr_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
     }
 
 //
@@ -157,7 +157,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
                 o << " is of type DEV_ENCODED. Only Scalar attribute are supported for DEV_ENCODED";
                 o << "It is defined for record number " << i + 1 << std::ends;
 
-                Except::throw_exception(API_NotSupportedFeature,o.str(),"Util::fill_attr_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
             }
         }
     }
@@ -172,7 +172,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
         o << "The device " << dev->get_name() << " is too old to support this feature. ";
         o << "Please update your device to IDL 3 or more" << std::ends;
 
-        Except::throw_exception(API_NotSupportedFeature,o.str(),"Util::fill_attr_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_NotSupportedFeature, o.str());
     }
 
 //
@@ -189,7 +189,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
         o << " is only " << nb_poll;
         o << " which is less than " << nb_elt << "!" << std::ends;
 
-        Except::throw_exception(API_DeviceNotPolled,o.str(),"Util::fill_attr_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -227,9 +227,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception(API_MemoryAllocation,
-                                "Can't allocate memory in server",
-                                "Util::fill_attr_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
         }
         else
@@ -262,8 +260,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception(API_MemoryAllocation,
-                                "Can't allocate memory in server","Util::fill_attr_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
 
 //
@@ -498,8 +495,7 @@ void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,CmdHist
         TangoSys_OMemStream o;
         o << "Device " << dev->get_name() << " is not polled" << std::ends;
 
-        Except::throw_exception((const char *)API_DeviceNotPolled,o.str(),
-                    (const char *)"Util::fill_cmd_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -526,8 +522,7 @@ void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,CmdHist
         o << " is only " << nb_poll;
         o << " which is less than " << nb_elt << "!" << std::ends;
 
-        Except::throw_exception((const char *)API_DeviceNotPolled,o.str(),
-                    (const char *)"Util::fill_cmd_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -562,9 +557,7 @@ void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,CmdHist
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception((const char *)API_MemoryAllocation,
-                                (const char *)"Can't allocate memory in server",
-                                (const char *)"Util::fill_cmd_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
         }
         else
@@ -581,9 +574,7 @@ void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,CmdHist
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception((const char *)API_MemoryAllocation,
-                                (const char *)"Can't allocate memory in server",
-                                (const char *)"Util::fill_cmd_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
 
 //

@@ -60,10 +60,14 @@ public:
    * @param logger The logger of this event.
    * @param message  The message of this event.
    * @param level The level of this event.
+   * @param file_path The file path where this event was generated.
+   * @param line_number The line number where this event was generated.
    **/
   LoggingEvent(const std::string& logger, 
                const std::string& message, 
-               Level::Value level);
+               Level::Value level,
+               const std::string& file_path,
+               int line_number);
 
   /** Copy constructor */
   LoggingEvent(const LoggingEvent& event);
@@ -88,6 +92,12 @@ public:
       (1/1/1970 00:00:00 UTC) until logging event was created. */
   std::chrono::system_clock::time_point timestamp;
   
+  /** File path where the event was generated */
+  const std::string file_path;
+
+  /** Line number where the event was generated */
+  const int line_number;
+
 private:
   /** Prevent implicit copy */
   const LoggingEvent& operator= (const LoggingEvent&);

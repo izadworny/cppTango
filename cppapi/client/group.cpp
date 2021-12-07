@@ -188,9 +188,7 @@ void GroupElementFactory::parse_name (const std::string& p, std::string &db_host
 			TangoSys_OMemStream desc;
 			desc << protocol;
 			desc << " protocol is an unsupported protocol" << std::ends;
-			ApiWrongNameExcept::throw_exception((const char*)"API_UnsupportedProtocol",
-						desc.str(),
-						(const char*)"GroupElementFactory::parse_name()");
+			TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_UnsupportedProtocol, desc.str());
 		}
 	}
 
@@ -202,9 +200,7 @@ void GroupElementFactory::parse_name (const std::string& p, std::string &db_host
 		TangoSys_OMemStream desc;
 		desc << "Wrong device name syntax in " << p << std::ends;
 
-		ApiWrongNameExcept::throw_exception((const char *)API_WrongDeviceNameSyntax,
-				desc.str(),
-				(const char *)"GroupElementFactory::parse_name()");
+		TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_WrongDeviceNameSyntax, desc.str());
 	}
 
 	std::string bef_sep = name_wo_prot.substr(0,pos);
@@ -221,9 +217,7 @@ void GroupElementFactory::parse_name (const std::string& p, std::string &db_host
 			TangoSys_OMemStream desc;
 			desc << "Wrong device name syntax in " << p << std::ends;
 
-			ApiWrongNameExcept::throw_exception((const char *)API_WrongDeviceNameSyntax,
-					desc.str(),
-					(const char *)"GroupElementFactory::parse_name()");
+			TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_WrongDeviceNameSyntax, desc.str());
 		}
 		TangoSys_MemStream s;
 		s << db_port_str << std::ends;
@@ -350,7 +344,7 @@ GroupCmdReply::~GroupCmdReply ()
 		errors[0].severity = Tango::ERR;
 		errors[0].desc = Tango::string_dup("no available data");
 		errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		errors[0].origin = Tango::string_dup("GroupCmdReply::get_data");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     throw df;
   }
@@ -375,7 +369,7 @@ bool GroupCmdReply::extract (std::vector<DevLong>& vl, std::vector<std::string>&
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("no available data");
 		  errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		  errors[0].origin = Tango::string_dup("GroupCmdReply::extract");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       throw df;
     }
@@ -410,7 +404,7 @@ bool GroupCmdReply::extract (std::vector<DevLong>& vl, std::vector<std::string>&
 		    errors[0].severity = Tango::ERR;
 		    errors[0].desc = Tango::string_dup("unknown exception caught");
 		    errors[0].reason = Tango::string_dup("an error occurred while trying to extract data");
-		    errors[0].origin = Tango::string_dup("GroupCmdReply::extract");
+		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         exception_m = df;
         throw exception_m;
@@ -433,7 +427,7 @@ bool GroupCmdReply::extract (std::vector<double>& vd, std::vector<std::string>& 
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("no available data");
 		  errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		  errors[0].origin = Tango::string_dup("GroupCmdReply::extract");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       throw df;
     }
@@ -468,7 +462,7 @@ bool GroupCmdReply::extract (std::vector<double>& vd, std::vector<std::string>& 
 		    errors[0].severity = Tango::ERR;
 		    errors[0].desc = Tango::string_dup("unknown exception caught");
 		    errors[0].reason = Tango::string_dup("an error occurred while trying to extract data");
-		    errors[0].origin = Tango::string_dup("GroupCmdReply::extract");
+		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         exception_m = df;
         throw exception_m;
@@ -546,7 +540,7 @@ GroupAttrReply::~GroupAttrReply ()
 		errors[0].severity = Tango::ERR;
 		errors[0].desc = Tango::string_dup("no available data");
 		errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		errors[0].origin = Tango::string_dup("GroupCmdReply::get_data");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     throw df;
   }
@@ -1192,9 +1186,7 @@ long Group::command_inout_asynch_i (const std::string& c, const std::vector<Devi
          << d.size()
          << "]"
          << std::ends;
-    ApiDataExcept::throw_exception((const char*)API_MethodArgument,
-                                   (const char*)desc.str().c_str(),
-                                   (const char*)"Group::command_inout_asynch");
+    TANGO_THROW_API_EXCEPTION(ApiDataExcept, API_MethodArgument, desc.str().c_str());
   }
 
   if ( id == -1 )
@@ -1237,9 +1229,9 @@ GroupCmdReplyList Group::command_inout_reply_i (long ari, long tmo)
     Tango::DevErrorList errors(1);
     errors.length(1);
     errors[0].severity = Tango::ERR;
-    errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+    errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-    errors[0].origin = Tango::string_dup("Group::command_inout_reply");
+    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupCmdReplyList reply;
@@ -1319,9 +1311,9 @@ GroupAttrReplyList Group::read_attribute_reply_i (long ari, long tmo)
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("Group::read_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupAttrReplyList reply;
@@ -1383,9 +1375,9 @@ GroupAttrReplyList Group::read_attributes_reply_i (long ari, long tmo)
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("Group::read_attributes_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupAttrReplyList reply;
@@ -1471,9 +1463,7 @@ long Group::write_attribute_asynch_i (const std::vector<DeviceAttribute>& d, boo
          << d.size()
          << "]"
          << std::ends;
-    ApiDataExcept::throw_exception((const char*)API_MethodArgument,
-                                   (const char*)desc.str().c_str(),
-                                   (const char*)"Group::write_attribute_asynch");
+    TANGO_THROW_API_EXCEPTION(ApiDataExcept, API_MethodArgument, desc.str().c_str());
   }
   if (id == -1) {
     id = next_asynch_request_id();
@@ -1509,9 +1499,9 @@ GroupReplyList Group::write_attribute_reply_i (long ari, long tmo)
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("Group::write_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupReplyList reply;
@@ -1741,7 +1731,7 @@ long GroupDeviceElement::command_inout_asynch_i (const std::string& c, bool fgt,
 		    errors[0].severity = Tango::ERR;
 		    errors[0].desc = Tango::string_dup("unknown error");
 		    errors[0].reason = Tango::string_dup("unknown exception caught");
-		    errors[0].origin = Tango::string_dup("GroupDeviceElement::command_inout_asynch");
+		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, c, df)));
       }
@@ -1786,7 +1776,7 @@ long GroupDeviceElement::command_inout_asynch_i (const std::string& c, const Dev
 		    errors[0].severity = Tango::ERR;
 		    errors[0].desc = Tango::string_dup("unknown error");
 		    errors[0].reason = Tango::string_dup("unknown exception caught");
-		    errors[0].origin = Tango::string_dup("GroupDeviceElement::command_inout_asynch");
+		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, c, df)));
       }
@@ -1807,9 +1797,9 @@ GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::command_inout_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupCmdReply(get_name(), "unknown", df));
@@ -1852,7 +1842,7 @@ GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
 		errors[0].severity = Tango::ERR;
 		errors[0].desc = Tango::string_dup("unknown error");
 		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::command_inout_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     rl.push_back(GroupCmdReply(get_name(), it->second.obj_names[0], df));
   }
@@ -1888,7 +1878,7 @@ long GroupDeviceElement::read_attribute_asynch_i (const std::string& a, TANGO_UN
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("unknown error");
 		  errors[0].reason = Tango::string_dup("unknown exception caught");
-		  errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_asynch");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, a, df)));
     }
@@ -1908,9 +1898,9 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupAttrReply(get_name(), "unknown", df));
@@ -1946,7 +1936,7 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("internal error");
 		  errors[0].reason = Tango::string_dup("Tango::DeviceProxy::read_attribute_reply returned NULL");
-		  errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_reply");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], df));
     }
@@ -1976,7 +1966,7 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
 		errors[0].severity = Tango::ERR;
 		errors[0].desc = Tango::string_dup("unknown error");
 		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], df));
   }
@@ -2012,7 +2002,7 @@ long GroupDeviceElement::read_attributes_asynch_i (const std::vector<std::string
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("unknown error");
 		  errors[0].reason = Tango::string_dup("unknown exception caught");
-		  errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attributes_asynch");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, al, df)));
     }
@@ -2033,9 +2023,9 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupAttrReply(get_name(), "unknown", df));
@@ -2077,7 +2067,7 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("internal error");
 		  errors[0].reason = Tango::string_dup("Tango::DeviceProxy::read_attribute_reply returned NULL");
-		  errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_reply");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       for (a = 0; a < it->second.obj_names.size(); a++)
       {
@@ -2116,7 +2106,7 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
 		errors[0].severity = Tango::ERR;
 		errors[0].desc = Tango::string_dup("unknown error");
 		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::read_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     for (a = 0; a < it->second.obj_names.size(); a++)
     {
@@ -2155,7 +2145,7 @@ long GroupDeviceElement::write_attribute_asynch_i (const DeviceAttribute& d, TAN
 		  errors[0].severity = Tango::ERR;
 		  errors[0].desc = Tango::string_dup("unknown error");
 		  errors[0].reason = Tango::string_dup("unknown exception caught");
-		  errors[0].origin = Tango::string_dup("GroupDeviceElement::write_attribute_asynch");
+		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, const_cast<DeviceAttribute&>(d).get_name(), df)));
     }
@@ -2174,9 +2164,9 @@ GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
     Tango::DevErrorList errors(1);
 		errors.length(1);
 		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup("API_BadAsynPollId");
+		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
     errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::write_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupReply(get_name(), "unknown", df));
@@ -2219,7 +2209,7 @@ GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
 		errors[0].severity = Tango::ERR;
 		errors[0].desc = Tango::string_dup("unknown error");
 		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup("GroupDeviceElement::write_attribute_reply");
+		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     rl.push_back(GroupReply(get_name(), it->second.obj_names[0], df));
   }

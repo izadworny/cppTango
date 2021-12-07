@@ -74,51 +74,51 @@ void test_level()
 
   std::cout << "level is OFF: no message should be printed" << std::endl;
   cat_1.set_level(log4tango::Level::OFF);
-  cat_1.fatal("fatal log");
-  cat_1.error("error log");
-  cat_1.warn ("warn log");
-  cat_1.info ("info log");
-  cat_1.debug("debug log");
+  cat_1.fatal(__FILE__, __LINE__, "fatal log");
+  cat_1.error(__FILE__, __LINE__, "error log");
+  cat_1.warn (__FILE__, __LINE__, "warn log");
+  cat_1.info (__FILE__, __LINE__, "info log");
+  cat_1.debug(__FILE__, __LINE__, "debug log");
 
   std::cout << "level is FATAL: 1 messages should be printed" << std::endl;
   cat_1.set_level(log4tango::Level::FATAL);
-  cat_1.fatal("fatal log");
-  cat_1.error("error log");
-  cat_1.warn ("warn log");
-  cat_1.info ("info log");
-  cat_1.debug("debug log");
+  cat_1.fatal(__FILE__, __LINE__, "fatal log");
+  cat_1.error(__FILE__, __LINE__, "error log");
+  cat_1.warn (__FILE__, __LINE__, "warn log");
+  cat_1.info (__FILE__, __LINE__, "info log");
+  cat_1.debug(__FILE__, __LINE__, "debug log");
 
   std::cout << "level is ERROR: 2 messages should be printed" << std::endl;
   cat_1.set_level(log4tango::Level::ERROR);
-  cat_1.fatal("fatal log");
-  cat_1.error("error log");
-  cat_1.warn ("warn log");
-  cat_1.info ("info log");
-  cat_1.debug("debug log");
+  cat_1.fatal(__FILE__, __LINE__, "fatal log");
+  cat_1.error(__FILE__, __LINE__, "error log");
+  cat_1.warn (__FILE__, __LINE__, "warn log");
+  cat_1.info (__FILE__, __LINE__, "info log");
+  cat_1.debug(__FILE__, __LINE__, "debug log");
 
   std::cout << "level is WARN: 3 messages should be printed" << std::endl;
   cat_1.set_level(log4tango::Level::WARN);
-  cat_1.fatal("fatal log");
-  cat_1.error("error log");
-  cat_1.warn ("warn log");
-  cat_1.info ("info log");
-  cat_1.debug("debug log");
+  cat_1.fatal(__FILE__, __LINE__, "fatal log");
+  cat_1.error(__FILE__, __LINE__, "error log");
+  cat_1.warn (__FILE__, __LINE__, "warn log");
+  cat_1.info (__FILE__, __LINE__, "info log");
+  cat_1.debug(__FILE__, __LINE__, "debug log");
 
   std::cout << "level is INFO: 4 messages should be printed" << std::endl;
   cat_1.set_level(log4tango::Level::INFO);
-  cat_1.fatal("fatal log");
-  cat_1.error("error log");
-  cat_1.warn ("warn log");
-  cat_1.info ("info log");
-  cat_1.debug("debug log");
+  cat_1.fatal(__FILE__, __LINE__, "fatal log");
+  cat_1.error(__FILE__, __LINE__, "error log");
+  cat_1.warn (__FILE__, __LINE__, "warn log");
+  cat_1.info (__FILE__, __LINE__, "info log");
+  cat_1.debug(__FILE__, __LINE__, "debug log");
 
   std::cout << "level is DEBUG: 5 messages should be printed" << std::endl;
   cat_1.set_level(log4tango::Level::DEBUG);
-  cat_1.fatal("fatal log");
-  cat_1.error("error log");
-  cat_1.warn ("warn log");
-  cat_1.info ("info log");
-  cat_1.debug("debug log");
+  cat_1.fatal(__FILE__, __LINE__, "fatal log");
+  cat_1.error(__FILE__, __LINE__, "error log");
+  cat_1.warn (__FILE__, __LINE__, "warn log");
+  cat_1.info (__FILE__, __LINE__, "info log");
+  cat_1.debug(__FILE__, __LINE__, "debug log");
 
   cat_1.remove_all_appenders();
 

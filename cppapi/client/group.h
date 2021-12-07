@@ -1739,7 +1739,7 @@ bool GroupCmdReply::operator>> (T& dest)
       errors[0].severity = Tango::ERR;
       errors[0].desc = Tango::string_dup("no available data");
       errors[0].reason = Tango::string_dup("no data - group member is disabled");
-      errors[0].origin = Tango::string_dup("GroupCmdReply::operator>>");
+      errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       throw df;
     }
@@ -1774,7 +1774,7 @@ bool GroupCmdReply::operator>> (T& dest)
         errors[0].severity = Tango::ERR;
         errors[0].desc = Tango::string_dup("unknown exception caught");
         errors[0].reason = Tango::string_dup("an error occurred while trying to extract data");
-        errors[0].origin = Tango::string_dup("GroupCmdReply::operator>>");
+        errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         GroupReply::exception_m = df;
         throw GroupReply::exception_m;
@@ -1801,7 +1801,7 @@ bool GroupAttrReply::operator>> (T& dest)
 	    errors[0].severity = Tango::ERR;
 	    errors[0].desc = Tango::string_dup("no available data");
 	    errors[0].reason = Tango::string_dup("no data - group member is disabled");
-	    errors[0].origin = Tango::string_dup("GroupAttrReply::operator>>");
+	    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       throw df;
     }
@@ -1837,7 +1837,7 @@ bool GroupAttrReply::operator>> (T& dest)
 	      errors[0].severity = Tango::ERR;
 	      errors[0].desc = Tango::string_dup("unknown exception caught");
 	      errors[0].reason = Tango::string_dup("an error occurred while trying to extract data");
-	      errors[0].origin = Tango::string_dup("GroupAttrReply::operator>>");
+	      errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         GroupReply::exception_m = df;
         throw GroupReply::exception_m;
@@ -1888,9 +1888,7 @@ long Group::command_inout_asynch_i (const std::string& c, /*const*/ std::vector<
          << d.size()
          << "]"
          << std::ends;
-    ApiDataExcept::throw_exception((const char*)API_MethodArgument,
-                                   (const char*)desc.str().c_str(),
-                                   (const char*)"Group::command_inout_asynch");
+    TANGO_THROW_API_EXCEPTION(ApiDataExcept, API_MethodArgument, desc.str().c_str());
   }
 
   if (ari == -1)
@@ -1962,9 +1960,7 @@ long Group::write_attribute_asynch_i (const std::string& a, /*const*/ std::vecto
          << d.size()
          << "]"
          << std::ends;
-    ApiDataExcept::throw_exception((const char*)API_MethodArgument,
-                                   (const char*)desc.str().c_str(),
-                                   (const char*)"Group::write_attribute_asynch");
+    TANGO_THROW_API_EXCEPTION(ApiDataExcept, API_MethodArgument, desc.str().c_str());
   }
 
   if (ari == -1)

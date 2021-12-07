@@ -70,8 +70,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         TangoSys_OMemStream o;
         o << "Device " << dev->get_name() << " is not polled" << std::ends;
 
-        Except::throw_exception((const char *)API_DeviceNotPolled,o.str(),
-                    (const char *)"Util::fill_cmd_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -98,8 +97,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         o << " is only " << nb_poll;
         o << " which is less than " << nb_elt << "!" << std::ends;
 
-        Except::throw_exception((const char *)API_DeviceNotPolled,o.str(),
-                    (const char *)"Util::fill_cmd_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -134,9 +132,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception((const char *)API_MemoryAllocation,
-                                (const char *)"Can't allocate memory in server",
-                                (const char *)"Util::fill_cmd_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
         }
         else
@@ -153,9 +149,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception((const char *)API_MemoryAllocation,
-                                (const char *)"Can't allocate memory in server",
-                                (const char *)"Util::fill_cmd_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
 
 //
@@ -211,8 +205,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         TangoSys_OMemStream o;
         o << "Device " << dev->get_name() << " is not polled" << std::ends;
 
-        Except::throw_exception((const char *)API_DeviceNotPolled,o.str(),
-                    (const char *)"Util::fill_cmd_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -239,8 +232,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         o << " is only " << nb_poll;
         o << " which is less than " << nb_elt << "!" << std::ends;
 
-        Except::throw_exception((const char *)API_DeviceNotPolled,o.str(),
-                    (const char *)"Util::fill_cmd_polling_buffer");
+        TANGO_THROW_EXCEPTION(API_DeviceNotPolled, o.str());
     }
 
 //
@@ -275,9 +267,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception((const char *)API_MemoryAllocation,
-                                (const char *)"Can't allocate memory in server",
-                                (const char *)"Util::fill_cmd_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
         }
         else
@@ -294,9 +284,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
             catch (std::bad_alloc &)
             {
                 dev->get_poll_monitor().rel_monitor();
-                Except::throw_exception((const char *)API_MemoryAllocation,
-                                (const char *)"Can't allocate memory in server",
-                                (const char *)"Util::fill_cmd_polling_buffer");
+                TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
             }
 
 //

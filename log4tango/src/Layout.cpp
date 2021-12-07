@@ -48,6 +48,8 @@ std::string Layout::format (const LoggingEvent& event)
             << sep
             << Level::get_name(event.level)
             << sep
+            << '(' << event.file_path << ':' << event.line_number << ')'
+            << sep
             << event.logger_name
             << sep
             << event.message
