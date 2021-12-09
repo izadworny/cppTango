@@ -192,7 +192,7 @@ public:
 	void test_name_description_state_ans_status_CORBA_attributes(void)
 	{
 		DeviceData dout;
-		DevState state_out;
+		DevState state_out = Tango::UNKNOWN;
 		string str;
 
 		TS_ASSERT_THROWS_NOTHING(str = dserver->name());

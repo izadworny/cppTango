@@ -838,7 +838,7 @@ public:
     void test_poll_command(void) {
 
         string cmd{"IOArray1"};
-        bool poll;
+        bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
         TS_ASSERT(poll == false);
@@ -848,7 +848,7 @@ public:
 
         TS_ASSERT(poll == true);
 
-        int per;
+        int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_command_poll_period(cmd));
 
         TS_ASSERT(per == 3000);
@@ -940,7 +940,7 @@ public:
         string cmd{"IOArray1"};
         TS_ASSERT_THROWS_NOTHING(device->stop_poll_command(cmd));
 
-        bool poll;
+        bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
         TS_ASSERT(poll == false);
@@ -974,7 +974,7 @@ public:
     void test_poll_attribute(void) {
 
         string attr{"Double_attr"};
-        bool poll;
+        bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
         TS_ASSERT(poll == false);
@@ -984,7 +984,7 @@ public:
 
         TS_ASSERT(poll == true);
 
-        int per;
+        int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
 
         TS_ASSERT(per == 3000);
@@ -1036,7 +1036,7 @@ public:
         string attr{"Double_attr"};
         TS_ASSERT_THROWS_NOTHING(device->stop_poll_attribute(attr));
 
-        bool poll;
+        bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
         TS_ASSERT(poll == false);
