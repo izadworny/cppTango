@@ -425,12 +425,13 @@ public:
         auto a_hist = device->attribute_history("PollLong_attr", hist_depth);
 
         DevLong first_val;
-        for (size_t i = 0; i < a_hist->size(); i++) {
-            DevLong lo;
-            (*a_hist)[i] >> lo;
+        
+        DevLong lo;
+        (*a_hist)[0] >> lo;
+        first_val = lo;
 
-            if (i == 0)
-                first_val = lo;
+        for (size_t i = 0; i < a_hist->size(); i++) {
+            (*a_hist)[i] >> lo;
 
             if (verbose) {
                 cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
