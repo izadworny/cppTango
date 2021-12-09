@@ -79,8 +79,8 @@ public:
 		vector<DeviceAttribute> attributes;
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_attribute(toto), Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// WARNING:
 		// the copy constructor used by push_back() removes memory from the copied object;
@@ -88,16 +88,16 @@ public:
 		attributes.push_back(short_attr_w);
 		attributes.push_back(toto);
 		TS_ASSERT_THROWS_ASSERT(device1->write_attributes(attributes), Tango::NamedDevFailedList &e,
-						TS_ASSERT(string(e.err_list[0].err_stack[0].reason.in()) == API_AttrNotFound
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].reason.in()), API_AttrNotFound);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		attributes.clear();
 		attributes.push_back(short_attr_w2);
 		attributes.push_back(short_attr);
 		attributes.push_back(long_attr_w);
 		TS_ASSERT_THROWS_ASSERT(device1->write_attributes(attributes), Tango::NamedDevFailedList &e,
-						TS_ASSERT(string(e.err_list[0].err_stack[0].reason.in()) == API_AttrNotWritable
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].reason.in()), API_AttrNotWritable);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 	}
 
@@ -145,22 +145,29 @@ public:
 
 		vector<DeviceAttribute> &attributes = *attributes_vec;
 		attributes[0] >> sh;
-		TS_ASSERT(attributes[0].name == "Short_attr_w" && sh == 10);
+		TS_ASSERT_EQUALS(attributes[0].name, "Short_attr_w");
+		TS_ASSERT_EQUALS(sh, 10);
 		attributes[1] >> lg;
-		TS_ASSERT(attributes[1].name == "Long_attr_w" && lg == 1000);
+		TS_ASSERT_EQUALS(attributes[1].name, "Long_attr_w");
+		TS_ASSERT_EQUALS(lg, 1000);
 		attributes[2] >> db;
-		TS_ASSERT(attributes[2].name == "Double_attr_w" && db == 1.2345);
+		TS_ASSERT_EQUALS(attributes[2].name, "Double_attr_w");
+		TS_ASSERT_EQUALS(db, 1.2345);
 		attributes[3] >> str;
-		TS_ASSERT(attributes[3].name == "String_attr_w" && str == "Hello world");
+		TS_ASSERT_EQUALS(attributes[3].name, "String_attr_w");
+		TS_ASSERT_EQUALS(str, "Hello world");
 		attributes[4] >> fl;
-		TS_ASSERT(attributes[4].name == "Float_attr_w");
+		TS_ASSERT_EQUALS(attributes[4].name, "Float_attr_w");
 		TS_ASSERT_DELTA(fl,10.22,0.001); // floating point comparison
 		attributes[5] >> bl;
-		TS_ASSERT(attributes[5].name == "Boolean_attr_w" && bl == 0);
+		TS_ASSERT_EQUALS(attributes[5].name, "Boolean_attr_w");
+		TS_ASSERT_EQUALS(bl, 0);
 		attributes[6] >> ush;
-		TS_ASSERT(attributes[6].name == "UShort_attr_w" && ush == 1234);
+		TS_ASSERT_EQUALS(attributes[6].name, "UShort_attr_w");
+		TS_ASSERT_EQUALS(ush, 1234);
 		attributes[7] >> uch;
-		TS_ASSERT(attributes[7].name == "UChar_attr_w" && uch == 233);
+		TS_ASSERT_EQUALS(attributes[7].name, "UChar_attr_w");
+		TS_ASSERT_EQUALS(uch, 233);
 
 		attributes.clear();
 		attributes.push_back(short_attr_w);
@@ -190,11 +197,14 @@ public:
 
 		vector<DeviceAttribute> &attributes = *attributes_vec;
 		attributes[0] >> sh;
-		TS_ASSERT(attributes[0].name == "Short_attr_w" && sh == 10);
+		TS_ASSERT_EQUALS(attributes[0].name, "Short_attr_w");
+		TS_ASSERT_EQUALS(sh, 10);
 		attributes[1] >> str;
-		TS_ASSERT(attributes[1].name == "String_attr_w" && str == "Hello world");
+		TS_ASSERT_EQUALS(attributes[1].name, "String_attr_w");
+		TS_ASSERT_EQUALS(str, "Hello world");
 		attributes[2] >> bl;
-		TS_ASSERT(attributes[2].name == "Boolean_attr_w" && bl == 0);
+		TS_ASSERT_EQUALS(attributes[2].name, "Boolean_attr_w");
+		TS_ASSERT_EQUALS(bl, 0);
 	}
 };
 #undef cout

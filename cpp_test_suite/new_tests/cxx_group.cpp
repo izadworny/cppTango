@@ -100,75 +100,75 @@ public:
 		DeviceProxy *device_tmp;
 
 		// group name
-		TS_ASSERT(group->get_name() == "group");
+		TS_ASSERT_EQUALS(group->get_name(), "group");
 
 		// group size
-		TS_ASSERT(group->get_size() == 3);
+		TS_ASSERT_EQUALS(group->get_size(), 3);
 
 		// get sub group
 		sub_group_tmp = group->get_group("sub_group");
-		TS_ASSERT(sub_group_tmp != 0);
-		TS_ASSERT(sub_group_tmp->get_name() == "sub_group");
+		TS_ASSERT_DIFFERS(sub_group_tmp, nullptr);
+		TS_ASSERT_EQUALS(sub_group_tmp->get_name(), "sub_group");
 
 		// get sub group parent
 		group_tmp = sub_group_tmp->get_parent();
-		TS_ASSERT(group_tmp->get_name() == "group");
+		TS_ASSERT_EQUALS(group_tmp->get_name(), "group");
 
 		// sub_group devices names
 		devices = sub_group_tmp->get_device_list();
-		TS_ASSERT(devices.size() == 1);
-		TS_ASSERT(devices[0] == device1_name);
+		TS_ASSERT_EQUALS(devices.size(), 1u);
+		TS_ASSERT_EQUALS(devices[0], device1_name);
 
 		// devices names with forwarding
 		devices = group->get_device_list();
-		TS_ASSERT(devices.size() == 3);
-		TS_ASSERT(devices[0] == device1_name);
-		TS_ASSERT(devices[1] == device2_name);
-		TS_ASSERT(devices[2] == device3_name);
+		TS_ASSERT_EQUALS(devices.size(), 3u);
+		TS_ASSERT_EQUALS(devices[0], device1_name);
+		TS_ASSERT_EQUALS(devices[1], device2_name);
+		TS_ASSERT_EQUALS(devices[2], device3_name);
 
 		// devices names without forwarding
 		devices = group->get_device_list(false);
-		TS_ASSERT(devices.size() == 2);
-		TS_ASSERT(devices[0] == device2_name);
-		TS_ASSERT(devices[1] == device3_name);
+		TS_ASSERT_EQUALS(devices.size(), 2u);
+		TS_ASSERT_EQUALS(devices[0], device2_name);
+		TS_ASSERT_EQUALS(devices[1], device3_name);
 
 		// contains() method
-		TS_ASSERT(group->contains(device1_name) == true);
-		TS_ASSERT(group->contains("nonexistent_name") == false);
+		TS_ASSERT_EQUALS(group->contains(device1_name), true);
+		TS_ASSERT_EQUALS(group->contains("nonexistent_name"), false);
 
 		// patterns
-		TS_ASSERT(group->name_equals("group") == true);
-		TS_ASSERT(sub_group->name_matches("group") == true);
+		TS_ASSERT_EQUALS(group->name_equals("group"), true);
+		TS_ASSERT_EQUALS(sub_group->name_matches("group"), true);
 
 		// root
-		TS_ASSERT(group->is_root_group() == true);
-		TS_ASSERT(sub_group->is_root_group() == false);
+		TS_ASSERT_EQUALS(group->is_root_group(), true);
+		TS_ASSERT_EQUALS(sub_group->is_root_group(), false);
 
 		// add & remove
 		device_names[0] = device2_name;
 		device_names[1] = device3_name;
 		group->remove(device_names);
-		TS_ASSERT(group->get_size() == 1)
+		TS_ASSERT_EQUALS(group->get_size(), 1)
 		group->add(device_names);
-		TS_ASSERT(group->get_size() == 3)
+		TS_ASSERT_EQUALS(group->get_size(), 3)
 		group->remove(device3_name);
-		TS_ASSERT(group->get_size() == 2)
+		TS_ASSERT_EQUALS(group->get_size(), 2)
 		group->add(device3_name);
-		TS_ASSERT(group->get_size() == 3)
+		TS_ASSERT_EQUALS(group->get_size(), 3)
 		devices.clear();
 		devices = group->get_device_list();
-		TS_ASSERT(devices[0] == device1_name);
-		TS_ASSERT(devices[1] == device2_name);
-		TS_ASSERT(devices[2] == device3_name);
+		TS_ASSERT_EQUALS(devices[0], device1_name);
+		TS_ASSERT_EQUALS(devices[1], device2_name);
+		TS_ASSERT_EQUALS(devices[2], device3_name);
 
 		// get device
 		device_tmp = group->get_device(device2_name);
-		TS_ASSERT(device_tmp->name() == device2_name);
+		TS_ASSERT_EQUALS(device_tmp->name(), device2_name);
 		device_tmp = group->get_device(3);
-		TS_ASSERT(device_tmp->name() == device3_name);
+		TS_ASSERT_EQUALS(device_tmp->name(), device3_name);
 
 		// ping
-		TS_ASSERT(group->ping() == true);
+		TS_ASSERT_EQUALS(group->ping(), true);
 	}
 
 // Test synchronous command with forwarding (default) and no arguments
@@ -181,19 +181,19 @@ public:
 		device_names.push_back(device3_name);
 
 		GroupCmdReplyList crl = group->command_inout("State");
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
 			DevState state;
 			crl[i] >> state;
-			TS_ASSERT(state == ON);
-			TS_ASSERT(crl[i].dev_name() == device_names[i]);
-			TS_ASSERT(crl[i].obj_name() == "State");
+			TS_ASSERT_EQUALS(state, ON);
+			TS_ASSERT_EQUALS(crl[i].dev_name(), device_names[i]);
+			TS_ASSERT_EQUALS(crl[i].obj_name(), "State");
 
 			DeviceData dd = crl[i].get_data();
 			dd >> state;
-			TS_ASSERT(state == ON);
+			TS_ASSERT_EQUALS(state, ON);
 		}
 	}
 
@@ -203,13 +203,13 @@ public:
 	{
 		long request_id = group->command_inout_asynch("State");
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
 			DevState state;
 			crl[i] >> state;
-			TS_ASSERT(state == ON);
+			TS_ASSERT_EQUALS(state, ON);
 		}
 	}
 
@@ -218,13 +218,13 @@ public:
 	void test_synchronous_command_with_no_forwarding_and_no_arguments()
 	{
 		GroupCmdReplyList crl = group->command_inout("State",false);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 2);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 2u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
 			DevState state;
 			crl[i] >> state;
-			TS_ASSERT(state == ON);
+			TS_ASSERT_EQUALS(state, ON);
 		}
 	}
 
@@ -234,13 +234,13 @@ public:
 	{
 		long request_id = group->command_inout_asynch("State",false,false);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 2);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 2u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
 			DevState state;
 			crl[i] >> state;
-			TS_ASSERT(state == ON);
+			TS_ASSERT_EQUALS(state, ON);
 		}
 	}
 
@@ -252,12 +252,12 @@ public:
 		DevDouble db = 5.0;
 		dd << db;
 		GroupCmdReplyList crl = group->command_inout("IODouble",dd);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
 			crl[i] >> db;
-			TS_ASSERT(db == 10.0);
+			TS_ASSERT_EQUALS(db, 10.0);
 		}
 	}
 
@@ -270,12 +270,12 @@ public:
 		dd << db;
 		long request_id = group->command_inout_asynch("IODouble",dd);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
 			crl[i] >> db;
-			TS_ASSERT(db == 30.0);
+			TS_ASSERT_EQUALS(db, 30.0);
 		}
 	}
 
@@ -289,15 +289,15 @@ public:
 		arguments[1] = 25.0;
 		arguments[2] = 35.0;
 		GroupCmdReplyList crl = group->command_inout("IODouble",arguments);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
-		TS_ASSERT(db == 30.0);
+		TS_ASSERT_EQUALS(db, 30.0);
 		crl[1] >> db;
-		TS_ASSERT(db == 50.0);
+		TS_ASSERT_EQUALS(db, 50.0);
 		crl[2] >> db;
-		TS_ASSERT(db == 70.0);
+		TS_ASSERT_EQUALS(db, 70.0);
 	}
 
 // Test asynchronous command with forwarding (default) and several arguments
@@ -311,15 +311,15 @@ public:
 		arguments[2] = 65.0;
 		long request_id = group->command_inout_asynch("IODouble",arguments);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
-		TS_ASSERT(db == 90.0);
+		TS_ASSERT_EQUALS(db, 90.0);
 		crl[1] >> db;
-		TS_ASSERT(db == 110.0);
+		TS_ASSERT_EQUALS(db, 110.0);
 		crl[2] >> db;
-		TS_ASSERT(db == 130.0);
+		TS_ASSERT_EQUALS(db, 130.0);
 	}
 
 // Test synchronous command with forwarding (default) and several DeviceData arguments
@@ -336,15 +336,15 @@ public:
 		arguments.push_back(dd2);
 		arguments.push_back(dd3);
 		GroupCmdReplyList crl = group->command_inout("IODouble",arguments);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
-		TS_ASSERT(db == 30.0);
+		TS_ASSERT_EQUALS(db, 30.0);
 		crl[1] >> db;
-		TS_ASSERT(db == 50.0);
+		TS_ASSERT_EQUALS(db, 50.0);
 		crl[2] >> db;
-		TS_ASSERT(db == 70.0);
+		TS_ASSERT_EQUALS(db, 70.0);
 	}
 
 // Test asynchronous command with forwarding (default) and several DeviceData arguments
@@ -362,23 +362,23 @@ public:
 		arguments.push_back(dd3);
 		long request_id = group->command_inout_asynch("IODouble",arguments);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT(crl.has_failed() == false);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
-		TS_ASSERT(db == 90.0);
+		TS_ASSERT_EQUALS(db, 90.0);
 		crl[1] >> db;
-		TS_ASSERT(db == 110.0);
+		TS_ASSERT_EQUALS(db, 110.0);
 		crl[2] >> db;
-		TS_ASSERT(db == 130.0);
+		TS_ASSERT_EQUALS(db, 130.0);
 
 		// wrong number of arguments
 		DeviceData dd;
 		dd << 75.0;
 		arguments.push_back(dd);
 		TS_ASSERT_THROWS_ASSERT(group->command_inout_asynch("IODouble",arguments), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_MethodArgument
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_MethodArgument);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test synchronous command with forwarding (default) and wrong number of arguments
@@ -389,8 +389,8 @@ public:
 		arguments[0] = 15.0;
 		arguments[1] = 25.0;
 		TS_ASSERT_THROWS_ASSERT(group->command_inout("IODouble",arguments), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_MethodArgument
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_MethodArgument);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test synchronous command throwing an exception with enable exception mode ON
@@ -400,17 +400,17 @@ public:
 		DevDouble db;
 		bool last_mode = GroupReply::enable_exception(true);
 		GroupCmdReplyList crl = group->command_inout("IOExcept");
-		TS_ASSERT(crl.has_failed() == true);
-		TS_ASSERT(crl.size() == 3);
+		TS_ASSERT_EQUALS(crl.has_failed(), true);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
 		TS_ASSERT_THROWS_ASSERT(crl[0] >> db, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_ThrowException
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_ThrowException);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		TS_ASSERT_THROWS_ASSERT(crl[1] >> db, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_ThrowException
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_ThrowException);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		TS_ASSERT_THROWS_ASSERT(crl[2] >> db, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_ThrowException
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_ThrowException);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		GroupReply::enable_exception(last_mode);
 	}
 
@@ -420,14 +420,14 @@ public:
 	{
 		bool last_mode = GroupReply::enable_exception(false);
 		GroupCmdReplyList crl = group->command_inout("IOExcept");
-		TS_ASSERT(crl.has_failed() == true);
-		TS_ASSERT(crl.size() == 3);
-		TS_ASSERT(crl[0].has_failed() == true);
-		TS_ASSERT(crl[1].has_failed() == true);
-		TS_ASSERT(crl[2].has_failed() == true);
-		TS_ASSERT(string(crl[0].get_err_stack()[0].reason.in()) == API_ThrowException);
-		TS_ASSERT(string(crl[1].get_err_stack()[0].reason.in()) == API_ThrowException);
-		TS_ASSERT(string(crl[2].get_err_stack()[0].reason.in()) == API_ThrowException);
+		TS_ASSERT_EQUALS(crl.has_failed(), true);
+		TS_ASSERT_EQUALS(crl.size(), 3u);
+		TS_ASSERT_EQUALS(crl[0].has_failed(), true);
+		TS_ASSERT_EQUALS(crl[1].has_failed(), true);
+		TS_ASSERT_EQUALS(crl[2].has_failed(), true);
+		TS_ASSERT_EQUALS(string(crl[0].get_err_stack()[0].reason.in()), API_ThrowException);
+		TS_ASSERT_EQUALS(string(crl[1].get_err_stack()[0].reason.in()), API_ThrowException);
+		TS_ASSERT_EQUALS(string(crl[2].get_err_stack()[0].reason.in()), API_ThrowException);
 		GroupReply::enable_exception(last_mode);
 	}
 
@@ -441,19 +441,19 @@ public:
 		device_names.push_back(device3_name);
 
 		GroupAttrReplyList arl = group->read_attribute("Double_attr");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 3.2);
-			TS_ASSERT(arl[i].dev_name() == device_names[i]);
-			TS_ASSERT(arl[i].obj_name() == "Double_attr");
+			TS_ASSERT_EQUALS(db, 3.2);
+			TS_ASSERT_EQUALS(arl[i].dev_name(), device_names[i]);
+			TS_ASSERT_EQUALS(arl[i].obj_name(), "Double_attr");
 
 			DeviceAttribute da = arl[i].get_data();
 			da >> db;
-			TS_ASSERT(db == 3.2);
+			TS_ASSERT_EQUALS(db, 3.2);
 		}
 	}
 
@@ -463,13 +463,13 @@ public:
 	{
 		long request_id = group->read_attribute_asynch("Double_attr");
 		GroupAttrReplyList arl = group->read_attribute_reply(request_id);
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 3.2);
+			TS_ASSERT_EQUALS(db, 3.2);
 		}
 	}
 
@@ -482,38 +482,38 @@ public:
 		attributes.push_back("Float_attr");
 
 		GroupAttrReplyList arl = group->read_attributes(attributes);
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 6);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 6u);
 
 		DevDouble db;
 		DevFloat fl;
 		arl[0] >> db;
-		TS_ASSERT(db == 3.2);
-		TS_ASSERT(arl[0].dev_name() == device1_name);
-		TS_ASSERT(arl[0].obj_name() == "Double_attr");
+		TS_ASSERT_EQUALS(db, 3.2);
+		TS_ASSERT_EQUALS(arl[0].dev_name(), device1_name);
+		TS_ASSERT_EQUALS(arl[0].obj_name(), "Double_attr");
 		db = 0;
 		arl[1] >> fl;
-		TS_ASSERT(fl == 4.5);
-		TS_ASSERT(arl[1].dev_name() == device1_name);
-		TS_ASSERT(arl[1].obj_name() == "Float_attr");
+		TS_ASSERT_EQUALS(fl, 4.5);
+		TS_ASSERT_EQUALS(arl[1].dev_name(), device1_name);
+		TS_ASSERT_EQUALS(arl[1].obj_name(), "Float_attr");
 
 		arl[2] >> db;
-		TS_ASSERT(db == 3.2);
-		TS_ASSERT(arl[2].dev_name() == device2_name);
-		TS_ASSERT(arl[2].obj_name() == "Double_attr");
+		TS_ASSERT_EQUALS(db, 3.2);
+		TS_ASSERT_EQUALS(arl[2].dev_name(), device2_name);
+		TS_ASSERT_EQUALS(arl[2].obj_name(), "Double_attr");
 		arl[3] >> fl;
-		TS_ASSERT(fl == 4.5);
-		TS_ASSERT(arl[3].dev_name() == device2_name);
-		TS_ASSERT(arl[3].obj_name() == "Float_attr");
+		TS_ASSERT_EQUALS(fl, 4.5);
+		TS_ASSERT_EQUALS(arl[3].dev_name(), device2_name);
+		TS_ASSERT_EQUALS(arl[3].obj_name(), "Float_attr");
 
 		arl[4] >> db;
-		TS_ASSERT(db == 3.2);
-		TS_ASSERT(arl[4].dev_name() == device3_name);
-		TS_ASSERT(arl[4].obj_name() == "Double_attr");
+		TS_ASSERT_EQUALS(db, 3.2);
+		TS_ASSERT_EQUALS(arl[4].dev_name(), device3_name);
+		TS_ASSERT_EQUALS(arl[4].obj_name(), "Double_attr");
 		arl[5] >> fl;
-		TS_ASSERT(fl == 4.5);
-		TS_ASSERT(arl[5].dev_name() == device3_name);
-		TS_ASSERT(arl[5].obj_name() == "Float_attr");
+		TS_ASSERT_EQUALS(fl, 4.5);
+		TS_ASSERT_EQUALS(arl[5].dev_name(), device3_name);
+		TS_ASSERT_EQUALS(arl[5].obj_name(), "Float_attr");
 	}
 
 // Test read attribute synchronously with throwing exception mode on
@@ -523,17 +523,17 @@ public:
 		DevDouble db;
 		bool last_mode = GroupReply::enable_exception(true);
 		GroupAttrReplyList arl = group->read_attribute("nonexistent_attr");
-		TS_ASSERT(arl.has_failed() == true);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), true);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		TS_ASSERT_THROWS_ASSERT(arl[0] >> db, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		TS_ASSERT_THROWS_ASSERT(arl[1] >> db, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		TS_ASSERT_THROWS_ASSERT(arl[2] >> db, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		GroupReply::enable_exception(last_mode);
 	}
 
@@ -543,14 +543,14 @@ public:
 	{
 		bool last_mode = GroupReply::enable_exception(false);
 		GroupAttrReplyList arl = group->read_attribute("nonexistent_attr");
-		TS_ASSERT(arl.has_failed() == true);
-		TS_ASSERT(arl.size() == 3);
-		TS_ASSERT(arl[0].has_failed() == true);
-		TS_ASSERT(arl[1].has_failed() == true);
-		TS_ASSERT(arl[2].has_failed() == true);
-		TS_ASSERT(string(arl[0].get_err_stack()[0].reason.in()) == API_AttrNotFound);
-		TS_ASSERT(string(arl[1].get_err_stack()[0].reason.in()) == API_AttrNotFound);
-		TS_ASSERT(string(arl[2].get_err_stack()[0].reason.in()) == API_AttrNotFound);
+		TS_ASSERT_EQUALS(arl.has_failed(), true);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
+		TS_ASSERT_EQUALS(arl[0].has_failed(), true);
+		TS_ASSERT_EQUALS(arl[1].has_failed(), true);
+		TS_ASSERT_EQUALS(arl[2].has_failed(), true);
+		TS_ASSERT_EQUALS(string(arl[0].get_err_stack()[0].reason.in()), API_AttrNotFound);
+		TS_ASSERT_EQUALS(string(arl[1].get_err_stack()[0].reason.in()), API_AttrNotFound);
+		TS_ASSERT_EQUALS(string(arl[2].get_err_stack()[0].reason.in()), API_AttrNotFound);
 		GroupReply::enable_exception(last_mode);
 	}
 
@@ -563,17 +563,17 @@ public:
 		// write attribute
 		DeviceAttribute value("Double_attr_w",11.1);
 		GroupReplyList rl = group->write_attribute(value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 11.1);
+			TS_ASSERT_EQUALS(db, 11.1);
 		}
 
 		// write old value to restore the defaults and read to check if successful
@@ -581,15 +581,15 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 0.0);
+			TS_ASSERT_EQUALS(db, 0.0);
 		}
 
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");
@@ -605,17 +605,17 @@ public:
 		DeviceAttribute value("Double_attr_w",22.2);
 		long request_id = group->write_attribute_asynch(value);
 		GroupReplyList rl = group->write_attribute_reply(request_id);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 22.2);
+			TS_ASSERT_EQUALS(db, 22.2);
 		}
 
 		// write old value to restore the defaults and read to check if successful
@@ -623,15 +623,15 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 0.0);
+			TS_ASSERT_EQUALS(db, 0.0);
 		}
 
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");
@@ -649,34 +649,34 @@ public:
 		values[1] = 33.4;
 		values[2] = 33.5;
 		GroupReplyList rl = group->write_attribute("Double_attr_w",values,true);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
-		TS_ASSERT(db == 33.3);
+		TS_ASSERT_EQUALS(db, 33.3);
 		arl[1] >> db;
-		TS_ASSERT(db == 33.4);
+		TS_ASSERT_EQUALS(db, 33.4);
 		arl[2] >> db;
-		TS_ASSERT(db == 33.5);
+		TS_ASSERT_EQUALS(db, 33.5);
 
 		// write old value to restore the defaults and read to check if successful
 		rl.reset();
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 0.0);
+			TS_ASSERT_EQUALS(db, 0.0);
 		}
 
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");
@@ -695,34 +695,34 @@ public:
 		values[2] = 44.6;
 		long request_id = group->write_attribute_asynch("Double_attr_w",values,true);
 		GroupReplyList rl = group->write_attribute_reply(request_id);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
-		TS_ASSERT(db == 44.4);
+		TS_ASSERT_EQUALS(db, 44.4);
 		arl[1] >> db;
-		TS_ASSERT(db == 44.5);
+		TS_ASSERT_EQUALS(db, 44.5);
 		arl[2] >> db;
-		TS_ASSERT(db == 44.6);
+		TS_ASSERT_EQUALS(db, 44.6);
 
 		// write old value to restore the defaults and read to check if successful
 		rl.reset();
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 0.0);
+			TS_ASSERT_EQUALS(db, 0.0);
 		}
 
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");
@@ -741,34 +741,34 @@ public:
 		values.push_back(da2);
 		values.push_back(da3);
 		GroupReplyList rl = group->write_attribute(values,true);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
-		TS_ASSERT(db == 55.5);
+		TS_ASSERT_EQUALS(db, 55.5);
 		arl[1] >> db;
-		TS_ASSERT(db == 55.6);
+		TS_ASSERT_EQUALS(db, 55.6);
 		arl[2] >> db;
-		TS_ASSERT(db == 55.7);
+		TS_ASSERT_EQUALS(db, 55.7);
 
 		// write old value to restore the defaults and read to check if successful
 		rl.reset();
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 0.0);
+			TS_ASSERT_EQUALS(db, 0.0);
 		}
 
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");
@@ -788,40 +788,40 @@ public:
 		values.push_back(da3);
 		long request_id = group->write_attribute_asynch(values,true);
 		GroupReplyList rl = group->write_attribute_reply(request_id);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 
 		// wrong number of arguments
 		values.push_back(da4);
 		TS_ASSERT_THROWS_ASSERT(group->write_attribute_asynch(values,true), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_MethodArgument
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_MethodArgument);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
-		TS_ASSERT(db == 66.6);
+		TS_ASSERT_EQUALS(db, 66.6);
 		arl[1] >> db;
-		TS_ASSERT(db == 66.7);
+		TS_ASSERT_EQUALS(db, 66.7);
 		arl[2] >> db;
-		TS_ASSERT(db == 66.8);
+		TS_ASSERT_EQUALS(db, 66.8);
 
 		// write old value to restore the defaults and read to check if successful
 		rl.reset();
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT(rl.has_failed() == false);
+		TS_ASSERT_EQUALS(rl.has_failed(), false);
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT(arl.has_failed() == false);
-		TS_ASSERT(arl.size() == 3);
+		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
 			DevDouble db;
 			arl[i] >> db;
-			TS_ASSERT(db == 0.0);
+			TS_ASSERT_EQUALS(db, 0.0);
 		}
 
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");

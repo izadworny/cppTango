@@ -113,8 +113,8 @@ public:
 	void test_blackbox_device_feature(void)
 	{
 		TS_ASSERT_THROWS_ASSERT(device1->black_box(0), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_BlackBoxArgument
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_BlackBoxArgument);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		DeviceData din, dout;
 		DevLong lg_in = 10, lg_out;
@@ -122,19 +122,19 @@ public:
 		din << lg_in;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 
 		vector<string> *blackbox_out;
 		string out_str, version_str, reference_str, pid_str;
@@ -174,7 +174,7 @@ public:
 			out_str = *it;
 			out_str.erase(0,out_str.rfind(": ") + 2); // removes time stamp from the output
 
-			TS_ASSERT(out_str == reference_str);
+			TS_ASSERT_EQUALS(out_str, reference_str);
 		}
 
 		// removing properties of memorized attributes
@@ -243,8 +243,8 @@ catch (Tango::DevFailed &e)
 cout << "Again exception when talking to adm device!!!" << endl;
 }
 			cout << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
-//			TS_ASSERT (reas == API_BlackBoxEmpty);
-			if (reas == API_CorbaException)
+//			TS_ASSERT_EQUALS(reas, API_BlackBoxEmpty);
+			if (reas == "API_CorbaException")
 			{
 cout << "Too early, sleeping 4 more seconds...." << endl;
 				Tango_sleep(4);
@@ -279,11 +279,11 @@ catch (Tango::DevFailed &e)
 cout << "Again exception when talking to adm device!!!" << endl;
 }
 					cout << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
-					TS_ASSERT (reas == API_BlackBoxEmpty);
+				        TS_ASSERT_EQUALS(reas, API_BlackBoxEmpty);
 				}
 			}
 			else
-				TS_ASSERT (reas == API_BlackBoxEmpty);
+				TS_ASSERT_EQUALS(reas, API_BlackBoxEmpty);
 		}
 		catch(...)
 		{
@@ -292,15 +292,15 @@ cout << "Again exception when talking to adm device!!!" << endl;
 		}
 
 /*		TS_ASSERT_THROWS_ASSERT(device3->black_box(2), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_BlackBoxEmpty
-						&& e.errors[0].severity == Tango::ERR));*/
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_BlackBoxEmpty);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));*/
 		delete device3;
 
 		reference_str = "Operation ping requested from " + client_host;
 		TS_ASSERT_THROWS_NOTHING(blackbox_out = device2->black_box(1));
 		out_str = (*blackbox_out)[0];
 		out_str.erase(0,out_str.rfind(": ") + 2);
-		TS_ASSERT(out_str == reference_str);
+		TS_ASSERT_EQUALS(out_str, reference_str);
 	}
 };
 #undef cout

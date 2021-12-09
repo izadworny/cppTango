@@ -129,21 +129,21 @@ public:
 		attr_in.push_back(Tango::DeviceAttribute(att3_name,lg64_arr_attr));
 
 		TS_ASSERT_THROWS_ASSERT(device->write_attributes(attr_in),Tango::NamedDevFailedList &e,
-				TS_ASSERT(string(e.err_list[0].name) == att1_name
-						&& e.err_list[0].idx_in_call == 0
-						&& string(e.err_list[0].err_stack[0].reason.in()) == "DevTest_WriteAttrHardware"
-						&& string(e.err_list[0].err_stack[0].origin.in()).find("DevTest::write_attr_hardware") != std::string::npos
-						&& e.err_list[0].err_stack[0].severity == Tango::ERR
-						&& string(e.err_list[1].name) == att2_name
-						&& e.err_list[1].idx_in_call == 1
-						&& string(e.err_list[1].err_stack[0].reason.in()) == "DevTest_WriteAttrHardware"
-						&& string(e.err_list[1].err_stack[0].origin.in()).find("DevTest::write_attr_hardware") != std::string::npos
-						&& e.err_list[1].err_stack[0].severity == Tango::ERR
-						&& string(e.err_list[2].name) == att3_name
-						&& e.err_list[2].idx_in_call == 2
-						&& string(e.err_list[2].err_stack[0].reason.in()) == "DevTest_WriteAttrHardware"
-						&& string(e.err_list[2].err_stack[0].origin.in()).find("DevTest::write_attr_hardware") != std::string::npos
-						&& e.err_list[2].err_stack[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.err_list[0].name), att1_name);
+				TS_ASSERT_EQUALS(e.err_list[0].idx_in_call, 0);
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].reason.in()), "DevTest_WriteAttrHardware");
+				TS_ASSERT_DIFFERS(string(e.err_list[0].err_stack[0].origin.in()).find("DevTest::write_attr_hardware"), std::string::npos);
+				TS_ASSERT_EQUALS(e.err_list[0].err_stack[0].severity, Tango::ERR);
+				TS_ASSERT_EQUALS(string(e.err_list[1].name), att2_name);
+				TS_ASSERT_EQUALS(e.err_list[1].idx_in_call, 1);
+				TS_ASSERT_EQUALS(string(e.err_list[1].err_stack[0].reason.in()), "DevTest_WriteAttrHardware");
+				TS_ASSERT_DIFFERS(string(e.err_list[1].err_stack[0].origin.in()).find("DevTest::write_attr_hardware"), std::string::npos);
+				TS_ASSERT_EQUALS(e.err_list[1].err_stack[0].severity, Tango::ERR);
+				TS_ASSERT_EQUALS(string(e.err_list[2].name), att3_name);
+				TS_ASSERT_EQUALS(e.err_list[2].idx_in_call, 2);
+				TS_ASSERT_EQUALS(string(e.err_list[2].err_stack[0].reason.in()), "DevTest_WriteAttrHardware");
+				TS_ASSERT_DIFFERS(string(e.err_list[2].err_stack[0].origin.in()).find("DevTest::write_attr_hardware"), std::string::npos);
+				TS_ASSERT_EQUALS(e.err_list[2].err_stack[0].severity, Tango::ERR));
 
 		TS_ASSERT_THROWS_NOTHING(read_after = device->read_attributes(vs));
 
@@ -155,9 +155,9 @@ public:
 		(*read_after)[1].extract_set(read_after_att2);
 		(*read_after)[2].extract_set(read_after_att3);
 
-		TS_ASSERT(read_bef_att1 == read_after_att1);
-		TS_ASSERT(read_bef_att2 == read_after_att2);
-		TS_ASSERT(read_bef_att3 == read_after_att3);
+		TS_ASSERT_EQUALS(read_bef_att1, read_after_att1);
+		TS_ASSERT_EQUALS(read_bef_att2, read_after_att2);
+		TS_ASSERT_EQUALS(read_bef_att3, read_after_att3);
 
 		delete read_bef;
 		delete read_after;
@@ -193,12 +193,12 @@ public:
 		attr_in.push_back(Tango::DeviceAttribute(att3_name,lg64_arr_attr));
 
 		TS_ASSERT_THROWS_ASSERT(device->write_attributes(attr_in),Tango::NamedDevFailedList &e,
-				TS_ASSERT(string(e.err_list[0].name) == att1_name
-						&& e.err_list[0].idx_in_call == 0
-						&& string(e.err_list[0].err_stack[0].reason.in()) == "DevTest_WriteAttrHardware"
-						&& string(e.err_list[0].err_stack[0].origin.in()) == "DevTest::write_attr_hardware"
-						&& string(e.err_list[0].err_stack[0].desc.in()) == "aaa"
-						&& e.err_list[0].err_stack[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.err_list[0].name), att1_name);
+				TS_ASSERT_EQUALS(e.err_list[0].idx_in_call, 0);
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].reason.in()), "DevTest_WriteAttrHardware");
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].origin.in()), "DevTest::write_attr_hardware");
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].desc.in()), "aaa");
+				TS_ASSERT_EQUALS(e.err_list[0].err_stack[0].severity, Tango::ERR));
 
 		TS_ASSERT_THROWS_NOTHING(read_after = device->read_attributes(vs));
 
@@ -210,9 +210,11 @@ public:
 		(*read_after)[1].extract_set(read_after_att2);
 		(*read_after)[2].extract_set(read_after_att3);
 
-		TS_ASSERT(read_bef_att1 == read_after_att1);
-		TS_ASSERT(read_after_att2.size() == 1 && read_after_att2[0] == Tango::STANDBY);
-		TS_ASSERT(read_after_att3.size() == 1 && read_after_att3[0] == 4444);
+		TS_ASSERT_EQUALS(read_bef_att1, read_after_att1);
+		TS_ASSERT_EQUALS(read_after_att2.size(), 1u);
+		TS_ASSERT_EQUALS(read_after_att2[0], Tango::STANDBY);
+		TS_ASSERT_EQUALS(read_after_att3.size(), 1u);
+		TS_ASSERT_EQUALS(read_after_att3[0], 4444);
 
 		delete read_bef;
 		delete read_after;
@@ -248,12 +250,12 @@ public:
 		attr_in.push_back(Tango::DeviceAttribute(att3_name,lg64_arr_attr));
 
 		TS_ASSERT_THROWS_ASSERT(device->write_attributes(attr_in),Tango::NamedDevFailedList &e,
-				TS_ASSERT(string(e.err_list[0].name) == att3_name
-						&& e.err_list[0].idx_in_call == 2
-						&& string(e.err_list[0].err_stack[0].reason.in()) == "DevTest_WriteAttrHardware"
-						&& string(e.err_list[0].err_stack[0].origin.in()) == "DevTest::write_attr_hardware"
-						&& string(e.err_list[0].err_stack[0].desc.in()) == "bbb"
-						&& e.err_list[0].err_stack[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.err_list[0].name), att3_name);
+				TS_ASSERT_EQUALS(e.err_list[0].idx_in_call, 2);
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].reason.in()), "DevTest_WriteAttrHardware");
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].origin.in()), "DevTest::write_attr_hardware");
+				TS_ASSERT_EQUALS(string(e.err_list[0].err_stack[0].desc.in()), "bbb");
+				TS_ASSERT_EQUALS(e.err_list[0].err_stack[0].severity, Tango::ERR));
 
 		TS_ASSERT_THROWS_NOTHING(read_after = device->read_attributes(vs));
 
@@ -265,9 +267,11 @@ public:
 		(*read_after)[1].extract_set(read_after_att2);
 		(*read_after)[2].extract_set(read_after_att3);
 
-		TS_ASSERT(read_bef_att3 == read_after_att3);
-		TS_ASSERT(read_after_att2.size() == 1 && read_after_att2[0] == Tango::STANDBY);
-		TS_ASSERT(read_after_att1.size() == 1 && read_after_att1[0] == 111);
+		TS_ASSERT_EQUALS(read_bef_att3, read_after_att3);
+		TS_ASSERT_EQUALS(read_after_att2.size(), 1u);
+		TS_ASSERT_EQUALS(read_after_att2[0], Tango::STANDBY);
+		TS_ASSERT_EQUALS(read_after_att1.size(), 1u);
+		TS_ASSERT_EQUALS(read_after_att1[0], 111);
 
 	}
 };

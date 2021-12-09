@@ -66,7 +66,7 @@ public:
 
 	void test_test_state_on(void)
 	{
-		TS_ASSERT(device1->state() == Tango::ON);
+		TS_ASSERT_EQUALS(device1->state(), Tango::ON);
 	}
 };
 #undef cout

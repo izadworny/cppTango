@@ -208,54 +208,54 @@ public:
 
         switch (cr) {
             case EXCEPT:
-                TS_ASSERT((*d_hist)[0].has_failed() == true);
-                TS_ASSERT((*d_hist)[0].get_err_stack().length() == 1);
+                TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), true);
+                TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 1u);
                 del = (*d_hist)[0].get_err_stack();
-                TS_ASSERT(::strcmp(del[0].desc.in(), "www") == 0);
+                TS_ASSERT_EQUALS(::strcmp(del[0].desc.in(), "www"), 0);
 
                 (*d_hist)[1] >> simple_str;
-                TS_ASSERT((*d_hist)[1].has_failed() == false);
-                TS_ASSERT((*d_hist)[1].get_err_stack().length() == 0);
-                TS_ASSERT(simple_str == "Even value from IOPollStr1");
+                TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), false);
+                TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 0u);
+                TS_ASSERT_EQUALS(simple_str,"Even value from IOPollStr1");
 
                 (*d_hist)[2] >> simple_str;
-                TS_ASSERT((*d_hist)[2].has_failed() == false);
-                TS_ASSERT((*d_hist)[2].get_err_stack().length() == 0);
-                TS_ASSERT(simple_str == "Odd value from IOPollStr1");
+                TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), false);
+                TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 0u);
+                TS_ASSERT_EQUALS(simple_str, "Odd value from IOPollStr1");
                 break;
 
             case FIRST_STR:
                 (*d_hist)[0] >> simple_str;
-                TS_ASSERT((*d_hist)[0].has_failed() == false);
-                TS_ASSERT((*d_hist)[0].get_err_stack().length() == 0);
-                TS_ASSERT(simple_str == "Even value from IOPollStr1");
+                TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), false);
+                TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 0u);
+                TS_ASSERT_EQUALS(simple_str, "Even value from IOPollStr1");
 
                 (*d_hist)[1] >> simple_str;
-                TS_ASSERT((*d_hist)[1].has_failed() == false);
-                TS_ASSERT((*d_hist)[1].get_err_stack().length() == 0);
-                TS_ASSERT(simple_str == "Odd value from IOPollStr1");
+                TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), false);
+                TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 0u);
+                TS_ASSERT_EQUALS(simple_str, "Odd value from IOPollStr1");
 
-                TS_ASSERT((*d_hist)[2].has_failed() == true);
-                TS_ASSERT((*d_hist)[2].get_err_stack().length() == 1);
+                TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), true);
+                TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 1u);
                 del = (*d_hist)[2].get_err_stack();
-                TS_ASSERT(::strcmp(del[0].desc.in(), "www") == 0);
+                TS_ASSERT_EQUALS(::strcmp(del[0].desc.in(), "www"), 0);
                 break;
 
             case SECOND_STR:
                 (*d_hist)[0] >> simple_str;
-                TS_ASSERT((*d_hist)[0].has_failed() == false);
-                TS_ASSERT((*d_hist)[0].get_err_stack().length() == 0);
-                TS_ASSERT(simple_str == "Odd value from IOPollStr1");
+                TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), false);
+                TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 0u);
+                TS_ASSERT_EQUALS(simple_str, "Odd value from IOPollStr1");
 
-                TS_ASSERT((*d_hist)[1].has_failed() == true);
-                TS_ASSERT((*d_hist)[1].get_err_stack().length() == 1);
+                TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), true);
+                TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 1u);
                 del = (*d_hist)[1].get_err_stack();
-                TS_ASSERT(::strcmp(del[0].desc.in(), "www") == 0);
+                TS_ASSERT_EQUALS(::strcmp(del[0].desc.in(), "www"), 0);
 
                 (*d_hist)[2] >> simple_str;
-                TS_ASSERT((*d_hist)[2].has_failed() == false);
-                TS_ASSERT((*d_hist)[2].get_err_stack().length() == 0);
-                TS_ASSERT(simple_str == "Even value from IOPollStr1");
+                TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), false);
+                TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 0u);
+                TS_ASSERT_EQUALS(simple_str, "Even value from IOPollStr1");
                 break;
         }
 
@@ -284,24 +284,24 @@ public:
             if (i == 0)
                 first_val_first_rec = vect[0];
 
-            TS_ASSERT((*d_hist)[i].has_failed() == false);
-            TS_ASSERT((*d_hist)[i].get_err_stack().length() == 0);
+            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             if (i != 0) {
                 if (first_val_first_rec == 100) {
                     if ((i % 2) == 0) {
-                        TS_ASSERT(vect[0] == 100);
-                        TS_ASSERT(vect[1] == 200);
+                        TS_ASSERT_EQUALS(vect[0], 100);
+                        TS_ASSERT_EQUALS(vect[1], 200);
                     } else {
-                        TS_ASSERT(vect[0] == 300);
-                        TS_ASSERT(vect[1] == 400);
+                        TS_ASSERT_EQUALS(vect[0], 300);
+                        TS_ASSERT_EQUALS(vect[1], 400);
                     }
                 } else {
                     if ((i % 2) == 0) {
-                        TS_ASSERT(vect[0] == 300);
-                        TS_ASSERT(vect[1] == 400);
+                        TS_ASSERT_EQUALS(vect[0], 300);
+                        TS_ASSERT_EQUALS(vect[1], 400);
                     } else {
-                        TS_ASSERT(vect[0] == 100);
-                        TS_ASSERT(vect[1] == 200);
+                        TS_ASSERT_EQUALS(vect[0], 100);
+                        TS_ASSERT_EQUALS(vect[1], 200);
                     }
                 }
             }
@@ -321,9 +321,9 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT((*d_hist)[i].has_failed() == true);
-            TS_ASSERT((*d_hist)[i].get_err_stack().length() == 1);
-            TS_ASSERT(!strcmp((*d_hist)[i].get_err_stack()[0].reason, API_ThrowException));
+            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), true);
+            TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 1u);
+            TS_ASSERT_EQUALS(std::string((*d_hist)[i].get_err_stack()[0].reason), API_ThrowException);
         }
         delete d_hist;
     }
@@ -337,11 +337,11 @@ public:
                 cout << (*d_hist)[i] << endl;
             }
 
-            TS_ASSERT((*d_hist)[i].has_failed() == false);
-            TS_ASSERT((*d_hist)[i].get_err_stack().length() == 0);
+            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             Tango::DevState ds;
             (*d_hist)[i] >> ds;
-            TS_ASSERT(ds == Tango::ON);
+            TS_ASSERT_EQUALS(ds, Tango::ON);
         }
         delete d_hist;
     }
@@ -354,11 +354,11 @@ public:
                 cout << (*d_hist)[i] << endl;
             }
 
-            TS_ASSERT((*d_hist)[i].has_failed() == false);
-            TS_ASSERT((*d_hist)[i].get_err_stack().length() == 0);
+            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             string str;
             (*d_hist)[i] >> str;
-            TS_ASSERT(::strcmp(str.c_str(), "The device is in ON state.") == 0);
+            TS_ASSERT_EQUALS(::strcmp(str.c_str(), "The device is in ON state."), 0);
         }
         delete d_hist;
     }
@@ -384,37 +384,37 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT((*d_hist)[i].has_failed() == false);
-            TS_ASSERT((*d_hist)[i].get_err_stack().length() == 0);
+            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
 
             if (i == 0)
                 first_val_enc = the_enc.encoded_data[0];
 
             if ((i % 2) == 0) {
                 if (first_val_enc == 11) {
-                    TS_ASSERT(!strcmp(the_enc.encoded_format, "Odd - OEncoded format"));
-                    TS_ASSERT(the_enc.encoded_data.length() == 2);
-                    TS_ASSERT(the_enc.encoded_data[0] == 11);
-                    TS_ASSERT(the_enc.encoded_data[1] == 21);
+                    TS_ASSERT_EQUALS(std::string(the_enc.encoded_format), "Odd - OEncoded format");
+                    TS_ASSERT_EQUALS(the_enc.encoded_data.length(), 2u);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[0], 11);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[1], 21);
                 } else {
-                    TS_ASSERT(!strcmp(the_enc.encoded_format, "Even - OEncoded format"));
-                    TS_ASSERT(the_enc.encoded_data[0] == 10);
-                    TS_ASSERT(the_enc.encoded_data[1] == 20);
-                    TS_ASSERT(the_enc.encoded_data[2] == 30);
-                    TS_ASSERT(the_enc.encoded_data[3] == 40);
+                    TS_ASSERT_EQUALS(std::string(the_enc.encoded_format), "Even - OEncoded format");
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[0], 10);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[1], 20);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[2], 30);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[3], 40);
                 }
             } else {
                 if (first_val_enc == 11) {
-                    TS_ASSERT(!strcmp(the_enc.encoded_format, "Even - OEncoded format"));
-                    TS_ASSERT(the_enc.encoded_data[0] == 10);
-                    TS_ASSERT(the_enc.encoded_data[1] == 20);
-                    TS_ASSERT(the_enc.encoded_data[2] == 30);
-                    TS_ASSERT(the_enc.encoded_data[3] == 40);
+                    TS_ASSERT_EQUALS(std::string(the_enc.encoded_format), "Even - OEncoded format");
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[0], 10);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[1], 20);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[2], 30);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[3], 40);
                 } else {
-                    TS_ASSERT(!strcmp(the_enc.encoded_format, "Odd - OEncoded format"));
-                    TS_ASSERT(the_enc.encoded_data.length() == 2);
-                    TS_ASSERT(the_enc.encoded_data[0] == 11);
-                    TS_ASSERT(the_enc.encoded_data[1] == 21);
+                    TS_ASSERT_EQUALS(std::string(the_enc.encoded_format), "Odd - OEncoded format");
+                    TS_ASSERT_EQUALS(the_enc.encoded_data.length(), 2u);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[0], 11);
+                    TS_ASSERT_EQUALS(the_enc.encoded_data[1], 21);
                 }
             }
         }
@@ -425,8 +425,8 @@ public:
         auto a_hist = device->attribute_history("PollLong_attr", hist_depth);
 
         DevLong first_val;
-        
         DevLong lo;
+
         (*a_hist)[0] >> lo;
         first_val = lo;
 
@@ -442,23 +442,23 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT((*a_hist)[i].has_failed() == false);
-            TS_ASSERT((*a_hist)[i].get_err_stack().length() == 0);
+            TS_ASSERT_EQUALS((*a_hist)[i].has_failed(), false);
+            TS_ASSERT_EQUALS((*a_hist)[i].get_err_stack().length(), 0u);
 
-            TS_ASSERT((*a_hist)[i].get_dim_x() == 1);
-            TS_ASSERT((*a_hist)[i].get_dim_y() == 0);
+            TS_ASSERT_EQUALS((*a_hist)[i].get_dim_x(), 1);
+            TS_ASSERT_EQUALS((*a_hist)[i].get_dim_y(), 0);
 
             if (first_val == 5555) {
                 if ((i % 2) == 0) {
-                    TS_ASSERT(lo == 5555);
+                    TS_ASSERT_EQUALS(lo, 5555);
                 } else {
-                    TS_ASSERT(lo == 6666);
+                    TS_ASSERT_EQUALS(lo, 6666);
                 }
             } else {
                 if ((i % 2) == 0) {
-                    TS_ASSERT(lo == 6666);
+                    TS_ASSERT_EQUALS(lo, 6666);
                 } else {
-                    TS_ASSERT(lo == 5555);
+                    TS_ASSERT_EQUALS(lo, 5555);
                 }
             }
         }
@@ -508,87 +508,87 @@ public:
 
         switch (ar) {
             case FIRST_EXCEPT:
-                TS_ASSERT((*a_hist)[0].has_failed() == true);
-                TS_ASSERT((*a_hist)[0].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[0].get_err_stack())[0].desc.in(), "bbb") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[0].get_err_stack())[0].reason.in(), "aaaa") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[0].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[0].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].desc.in(), "bbb"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].reason.in(), "aaaa"), 0);
 
-                TS_ASSERT((*a_hist)[1].has_failed() == true);
-                TS_ASSERT((*a_hist)[1].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[1].get_err_stack())[0].desc.in(), "yyy") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[1].get_err_stack())[0].reason.in(), "xxx") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[1].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[1].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].desc.in(), "yyy"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].reason.in(), "xxx"), 0);
 
                 (*a_hist)[2] >> str;
-                TS_ASSERT(str.size() == 2);
-                TS_ASSERT(str[0] == "Hello world");
-                TS_ASSERT(str[1] == "Hello universe");
+                TS_ASSERT_EQUALS(str.size(), 2u);
+                TS_ASSERT_EQUALS(str[0], "Hello world");
+                TS_ASSERT_EQUALS(str[1], "Hello universe");
 
                 (*a_hist)[3] >> str;
-                TS_ASSERT(str.size() == 1);
-                TS_ASSERT(str[0] == "Hello Grenoble");
+                TS_ASSERT_EQUALS(str.size(), 1u);
+                TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
                 break;
 
             case SECOND_EXCEPT:
-                TS_ASSERT((*a_hist)[0].has_failed() == true);
-                TS_ASSERT((*a_hist)[0].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[0].get_err_stack())[0].desc.in(), "yyy") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[0].get_err_stack())[0].reason.in(), "xxx") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[0].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[0].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].desc.in(), "yyy"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].reason.in(), "xxx"), 0);
 
                 (*a_hist)[1] >> str;
-                TS_ASSERT(str.size() == 2);
-                TS_ASSERT(str[0] == "Hello world");
-                TS_ASSERT(str[1] == "Hello universe");
+                TS_ASSERT_EQUALS(str.size(), 2u);
+                TS_ASSERT_EQUALS(str[0], "Hello world");
+                TS_ASSERT_EQUALS(str[1], "Hello universe");
 
                 (*a_hist)[2] >> str;
-                TS_ASSERT(str.size() == 1);
-                TS_ASSERT(str[0] == "Hello Grenoble");
+                TS_ASSERT_EQUALS(str.size(), 1u);
+                TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
 
-                TS_ASSERT((*a_hist)[3].has_failed() == true);
-                TS_ASSERT((*a_hist)[3].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[3].get_err_stack())[0].desc.in(), "bbb") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[3].get_err_stack())[0].reason.in(), "aaaa") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[3].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[3].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].desc.in(), "bbb"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].reason.in(), "aaaa"), 0);
                 break;
 
             case FIRST_DATA:
                 (*a_hist)[0] >> str;
-                TS_ASSERT(str.size() == 2);
-                TS_ASSERT(str[0] == "Hello world");
-                TS_ASSERT(str[1] == "Hello universe");
+                TS_ASSERT_EQUALS(str.size(), 2u);
+                TS_ASSERT_EQUALS(str[0], "Hello world");
+                TS_ASSERT_EQUALS(str[1], "Hello universe");
 
                 (*a_hist)[1] >> str;
-                TS_ASSERT(str.size() == 1);
-                TS_ASSERT(str[0] == "Hello Grenoble");
+                TS_ASSERT_EQUALS(str.size(), 1u);
+                TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
 
-                TS_ASSERT((*a_hist)[2].has_failed() == true);
-                TS_ASSERT((*a_hist)[2].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[2].get_err_stack())[0].desc.in(), "bbb") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[2].get_err_stack())[0].reason.in(), "aaaa") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[2].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[2].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].desc.in(), "bbb"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].reason.in(), "aaaa"), 0);
 
-                TS_ASSERT((*a_hist)[3].has_failed() == true);
-                TS_ASSERT((*a_hist)[3].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[3].get_err_stack())[0].desc.in(), "yyy") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[3].get_err_stack())[0].reason.in(), "xxx") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[3].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[3].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].desc.in(), "yyy"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].reason.in(), "xxx"), 0);
                 break;
 
             case SECOND_DATA:
                 (*a_hist)[0] >> str;
-                TS_ASSERT(str.size() == 1);
-                TS_ASSERT(str[0] == "Hello Grenoble");
+                TS_ASSERT_EQUALS(str.size(), 1u);
+                TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
 
-                TS_ASSERT((*a_hist)[1].has_failed() == true);
-                TS_ASSERT((*a_hist)[1].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[1].get_err_stack())[0].desc.in(), "bbb") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[1].get_err_stack())[0].reason.in(), "aaaa") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[1].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[1].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].desc.in(), "bbb"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].reason.in(), "aaaa"), 0);
 
-                TS_ASSERT((*a_hist)[2].has_failed() == true);
-                TS_ASSERT((*a_hist)[2].get_err_stack().length() == 1);
-                TS_ASSERT(::strcmp(((*a_hist)[2].get_err_stack())[0].desc.in(), "yyy") == 0);
-                TS_ASSERT(::strcmp(((*a_hist)[2].get_err_stack())[0].reason.in(), "xxx") == 0);
+                TS_ASSERT_EQUALS((*a_hist)[2].has_failed(), true);
+                TS_ASSERT_EQUALS((*a_hist)[2].get_err_stack().length(), 1u);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].desc.in(), "yyy"), 0);
+                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].reason.in(), "xxx"), 0);
 
                 (*a_hist)[3] >> str;
-                TS_ASSERT(str.size() == 2);
-                TS_ASSERT(str[0] == "Hello world");
-                TS_ASSERT(str[1] == "Hello universe");
+                TS_ASSERT_EQUALS(str.size(), 2u);
+                TS_ASSERT_EQUALS(str[0], "Hello world");
+                TS_ASSERT_EQUALS(str[1], "Hello universe");
                 break;
         }
         delete a_hist;
@@ -604,20 +604,20 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT((*enc_hist)[i].has_failed() == false);
-            TS_ASSERT((*enc_hist)[i].get_err_stack().length() == 0);
+            TS_ASSERT_EQUALS((*enc_hist)[i].has_failed(), false);
+            TS_ASSERT_EQUALS((*enc_hist)[i].get_err_stack().length(), 0u);
 
-            TS_ASSERT((*enc_hist)[i].get_dim_x() == 1);
-            TS_ASSERT((*enc_hist)[i].get_dim_y() == 0);
+            TS_ASSERT_EQUALS((*enc_hist)[i].get_dim_x(), 1);
+            TS_ASSERT_EQUALS((*enc_hist)[i].get_dim_y(), 0);
 
             DevEncoded enc;
             (*enc_hist)[i] >> enc;
 
-            TS_ASSERT(::strcmp(enc.encoded_format, "Which format?") == 0);
-            TS_ASSERT(enc.encoded_data[0] == 97);
-            TS_ASSERT(enc.encoded_data[1] == 98);
-            TS_ASSERT(enc.encoded_data[2] == 99);
-            TS_ASSERT(enc.encoded_data[3] == 100);
+            TS_ASSERT_EQUALS(::strcmp(enc.encoded_format, "Which format?"), 0);
+            TS_ASSERT_EQUALS(enc.encoded_data[0], 97);
+            TS_ASSERT_EQUALS(enc.encoded_data[1], 98);
+            TS_ASSERT_EQUALS(enc.encoded_data[2], 99);
+            TS_ASSERT_EQUALS(enc.encoded_data[3], 100);
         }
         delete enc_hist;
     }
@@ -636,19 +636,19 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT((*a_hist)[i].has_failed() == true);
-            TS_ASSERT((*a_hist)[i].get_err_stack().length() == 1);
-            TS_ASSERT(!strcmp((*a_hist)[i].get_err_stack()[0].reason, API_AttrOptProp));
+            TS_ASSERT_EQUALS((*a_hist)[i].has_failed(), true);
+            TS_ASSERT_EQUALS((*a_hist)[i].get_err_stack().length(), 1u);
+            TS_ASSERT_EQUALS(std::string((*a_hist)[i].get_err_stack()[0].reason), API_AttrOptProp);
 //			AttributeDimension dim;
 //			dim = (*a_hist)[i].get_r_dimension();
 
-            TS_ASSERT((*a_hist)[i].get_dim_x() == 0);
-            TS_ASSERT((*a_hist)[i].get_dim_y() == 0);
+            TS_ASSERT_EQUALS((*a_hist)[i].get_dim_x(), 0);
+            TS_ASSERT_EQUALS((*a_hist)[i].get_dim_y(), 0);
 
 //			dim = (*a_hist)[i].get_w_dimension();
 
-//			TS_ASSERT ( dim.dim_x == 0);
-//			TS_ASSERT ( dim.dim_y == 0);
+//			TS_ASSERT_EQUALS(dim.dim_x, 0);
+//			TS_ASSERT_EQUALS(dim.dim_y, 0);
 
         }
         delete a_hist;
@@ -667,8 +667,8 @@ public:
         data_type = da.get_type();
         if (verbose)
             cout << "64 bits attribute data = " << hex << lo << dec << endl;
-        TS_ASSERT(lo == 0x800000000LL);
-        TS_ASSERT(data_type == Tango::DEV_LONG64);
+        TS_ASSERT_EQUALS(lo, 0x800000000LL);
+        TS_ASSERT_EQUALS(data_type, Tango::DEV_LONG64);
     }
 
     void test_getting_an_unsigned_long_64_bits_attribute_from_polling_buffer(void) {
@@ -682,8 +682,8 @@ public:
         int data_type_ulo = da_ulo.get_type();
         if (verbose)
             cout << "unsigned 64 bits attribute data = " << hex << ulo << dec << endl;
-        TS_ASSERT(ulo == 0xC000000000000000LL);
-        TS_ASSERT(data_type_ulo == Tango::DEV_ULONG64);
+        TS_ASSERT_EQUALS(ulo, 0xC000000000000000LL);
+        TS_ASSERT_EQUALS(data_type_ulo, Tango::DEV_ULONG64);
     }
 
     void test_getting_a_unsigned_long_spectrum_attribute_from_polling_buffer(void) {
@@ -695,10 +695,10 @@ public:
         vector <DevULong> v_lo;
         auto ret = (da >> v_lo);
 
-        TS_ASSERT(ret == true);
-        TS_ASSERT(v_lo[0] == 2222);
-        TS_ASSERT(v_lo[1] == 22222);
-        TS_ASSERT(v_lo[2] == 222222);
+        TS_ASSERT_EQUALS(ret, true);
+        TS_ASSERT_EQUALS(v_lo[0], 2222u);
+        TS_ASSERT_EQUALS(v_lo[1], 22222u);
+        TS_ASSERT_EQUALS(v_lo[2], 222222u);
     }
 
     void test_getting_a_state_spectrum_attribute_from_polling_buffer(void) {
@@ -710,9 +710,9 @@ public:
         vector <DevState> v_sta;
         auto ret = (da >> v_sta);
 
-        TS_ASSERT(ret == true);
-        TS_ASSERT(v_sta[0] == Tango::ON);
-        TS_ASSERT(v_sta[1] == Tango::OFF);
+        TS_ASSERT_EQUALS(ret, true);
+        TS_ASSERT_EQUALS(v_sta[0], Tango::ON);
+        TS_ASSERT_EQUALS(v_sta[1], Tango::OFF);
     }
 
     void test_getting_a_dev_encoded_attribute_from_polling_buffer(void) {
@@ -724,13 +724,13 @@ public:
         DevEncoded enc_lo;
         da >> enc_lo;
         auto data_type = da.get_type();
-        TS_ASSERT(::strcmp(enc_lo.encoded_format.in(), "Which format?") == 0);
-        TS_ASSERT(data_type == Tango::DEV_ENCODED);
-        TS_ASSERT(enc_lo.encoded_data.length() == 4);
-        TS_ASSERT(enc_lo.encoded_data[0] == 97);
-        TS_ASSERT(enc_lo.encoded_data[1] == 98);
-        TS_ASSERT(enc_lo.encoded_data[2] == 99);
-        TS_ASSERT(enc_lo.encoded_data[3] == 100);
+        TS_ASSERT_EQUALS(::strcmp(enc_lo.encoded_format.in(), "Which format?"), 0);
+        TS_ASSERT_EQUALS(data_type, Tango::DEV_ENCODED);
+        TS_ASSERT_EQUALS(enc_lo.encoded_data.length(), 4u);
+        TS_ASSERT_EQUALS(enc_lo.encoded_data[0], 97);
+        TS_ASSERT_EQUALS(enc_lo.encoded_data[1], 98);
+        TS_ASSERT_EQUALS(enc_lo.encoded_data[2], 99);
+        TS_ASSERT_EQUALS(enc_lo.encoded_data[3], 100);
     }
 
     void test_polling_status_from_device_name(void) {
@@ -776,7 +776,7 @@ public:
             cout << endl;
         }
 
-        TS_ASSERT(poll_str->size() == 0);
+        TS_ASSERT_EQUALS(poll_str->size(), 0u);
         delete poll_str;
         delete device2;
     }
@@ -825,7 +825,7 @@ public:
             cout << "Cmd " << cmd << " polling period = " << per << endl;
         }
 
-        TS_ASSERT(per == 2000);
+        TS_ASSERT_EQUALS(per, 2000);
 
         string attr("PollLong_attr");
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
@@ -833,7 +833,7 @@ public:
         if (verbose)
             cout << "Attr " << attr << " polling period = " << per << endl;
 
-        TS_ASSERT(per == 1000);
+        TS_ASSERT_EQUALS(per, 1000);
     }
 
     void test_poll_command(void) {
@@ -842,17 +842,17 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
-        TS_ASSERT(poll == false);
+        TS_ASSERT_EQUALS(poll, false);
 
         TS_ASSERT_THROWS_NOTHING(device->poll_command(cmd, 3000));
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
-        TS_ASSERT(poll == true);
+        TS_ASSERT_EQUALS(poll, true);
 
         int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_command_poll_period(cmd));
 
-        TS_ASSERT(per == 3000);
+        TS_ASSERT_EQUALS(per, 3000);
 
 #ifdef WIN32
         Sleep(3000);
@@ -863,7 +863,7 @@ public:
         TS_ASSERT_THROWS_NOTHING(device->poll_command(cmd, 5000));
         TS_ASSERT_THROWS_NOTHING(per = device->get_command_poll_period(cmd));
 
-        TS_ASSERT(per == 5000);
+        TS_ASSERT_EQUALS(per, 5000);
 
 #ifdef WIN32
         Sleep(3000);
@@ -944,7 +944,7 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
-        TS_ASSERT(poll == false);
+        TS_ASSERT_EQUALS(poll, false);
 
         vector <string> *poll_str;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
@@ -978,17 +978,17 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
-        TS_ASSERT(poll == false);
+        TS_ASSERT_EQUALS(poll, false);
 
         TS_ASSERT_THROWS_NOTHING(device->poll_attribute(attr, 3000));
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
-        TS_ASSERT(poll == true);
+        TS_ASSERT_EQUALS(poll, true);
 
         int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
 
-        TS_ASSERT(per == 3000);
+        TS_ASSERT_EQUALS(per, 3000);
 
 #ifdef WIN32
         Sleep(3000);
@@ -999,7 +999,7 @@ public:
         TS_ASSERT_THROWS_NOTHING(device->poll_attribute(attr, 5000));
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
 
-        TS_ASSERT(per == 5000);
+        TS_ASSERT_EQUALS(per, 5000);
 
 #ifdef WIN32
         Sleep(3000);
@@ -1040,7 +1040,7 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
-        TS_ASSERT(poll == false);
+        TS_ASSERT_EQUALS(poll, false);
 
         vector <string> *poll_str;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
@@ -1116,14 +1116,14 @@ public:
         vector <string> new_polling_pool_conf;
         da >> new_polling_pool_conf;
 
-        TS_ASSERT(ref_polling_pool_conf.size() == new_polling_pool_conf.size());
+        TS_ASSERT_EQUALS(ref_polling_pool_conf.size(), new_polling_pool_conf.size());
         split_string(new_polling_pool_conf[0], ',', polled_devs);
         int new_nb_polled_devs = polled_devs.size();
 
-        TS_ASSERT(new_nb_polled_devs == nb_polled_devs + 1);
+        TS_ASSERT_EQUALS(new_nb_polled_devs, nb_polled_devs + 1);
 
         auto iter = find(polled_devs.begin(), polled_devs.end(), new_dev);
-        TS_ASSERT(iter != polled_devs.end());
+        TS_ASSERT_DIFFERS(iter, polled_devs.end());
     }
 
     void test_change_polling_thread_number_and_add_2_more_devices(void) {
@@ -1174,19 +1174,19 @@ public:
         vector <string> new_polling_pool_conf{};
         dz >> new_polling_pool_conf;
 
-        TS_ASSERT(new_polling_pool_conf.size() == ref_polling_pool_conf.size() + 1);
+        TS_ASSERT_EQUALS(new_polling_pool_conf.size(), ref_polling_pool_conf.size() + 1);
 
         vector <string> polled_devs{};
         split_string(new_polling_pool_conf[1], ',', polled_devs);
         auto new_nb_polled_devs = polled_devs.size();
 
-        TS_ASSERT(new_nb_polled_devs == 2);
+        TS_ASSERT_EQUALS(new_nb_polled_devs, 2u);
 
         auto iter = find(polled_devs.begin(), polled_devs.end(), new_dev1_th2);
-        TS_ASSERT(iter != polled_devs.end());
+        TS_ASSERT_DIFFERS(iter, polled_devs.end());
 
         iter = find(polled_devs.begin(), polled_devs.end(), new_dev2_th2);
-        TS_ASSERT(iter != polled_devs.end());
+        TS_ASSERT_DIFFERS(iter, polled_devs.end());
     }
 
     void test_change_polling_thread_number_to_3_and_add_1_more_device(void) {
@@ -1232,16 +1232,16 @@ public:
         vector <string> new_polling_pool_conf{};
         dx >> new_polling_pool_conf;
 
-        TS_ASSERT(new_polling_pool_conf.size() == ref_polling_pool_conf.size() + 2);
+        TS_ASSERT_EQUALS(new_polling_pool_conf.size(), ref_polling_pool_conf.size() + 2);
 
         vector <string> polled_devs;
         split_string(new_polling_pool_conf[2], ',', polled_devs);
 
         auto new_nb_polled_devs = polled_devs.size();
-        TS_ASSERT(new_nb_polled_devs == 1);
+        TS_ASSERT_EQUALS(new_nb_polled_devs, 1u);
 
         auto iter = find(polled_devs.begin(), polled_devs.end(), new_dev1_th3);
-        TS_ASSERT(iter != polled_devs.end());
+        TS_ASSERT_DIFFERS(iter, polled_devs.end());
     }
 
     void test_delete_1_device_to_check_automatic_polling_pool_reconfiguration(void) {
@@ -1263,19 +1263,19 @@ public:
         vector <string> new_polling_pool_conf;
         dv >> new_polling_pool_conf;
 
-        TS_ASSERT(new_polling_pool_conf.size() == ref_polling_pool_conf.size() + 1);
+        TS_ASSERT_EQUALS(new_polling_pool_conf.size(), ref_polling_pool_conf.size() + 1);
 
         vector <string> polled_devs;
         split_string(new_polling_pool_conf[1], ',', polled_devs);
         auto new_nb_polled_devs = polled_devs.size();
 
-        TS_ASSERT(new_nb_polled_devs == 2);
+        TS_ASSERT_EQUALS(new_nb_polled_devs, 2u);
 
         auto iter = find(polled_devs.begin(), polled_devs.end(), new_dev1_th2);
-        TS_ASSERT(iter != polled_devs.end());
+        TS_ASSERT_DIFFERS(iter, polled_devs.end());
 
         iter = find(polled_devs.begin(), polled_devs.end(), new_dev2_th2);
-        TS_ASSERT(iter != polled_devs.end());
+        TS_ASSERT_DIFFERS(iter, polled_devs.end());
     }
 
     void reset_device_server() {

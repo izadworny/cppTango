@@ -79,7 +79,7 @@ public:
 	void test_command_list_query(void)
 	{
 		TS_ASSERT_THROWS_NOTHING(cmd_inf_list = *dserver->command_list_query());
-		TS_ASSERT(cmd_inf_list.size() == 32);
+		TS_ASSERT_EQUALS(cmd_inf_list.size(), 32u);
 	}
 
 // Test Status command
@@ -100,8 +100,8 @@ public:
 	void test_fake_command(void)
 	{
 		TS_ASSERT_THROWS_ASSERT(device1->command_query("DevToto"),Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test AddLoggingTarget command_list_query

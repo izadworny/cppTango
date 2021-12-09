@@ -87,14 +87,14 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Added_cmd"));
 		float receiv;
 		dout >> receiv;
-		TS_ASSERT(receiv == 4.0);
+		TS_ASSERT_EQUALS(receiv, 4.0);
 
 		// Command in command list?
 
 		CommandInfo ci = device1->command_query("Added_cmd");
-		TS_ASSERT(ci.cmd_name == "Added_cmd");
-		TS_ASSERT(ci.in_type == DEV_VOID);
-		TS_ASSERT(ci.out_type == DEV_FLOAT);
+		TS_ASSERT_EQUALS(ci.cmd_name, "Added_cmd");
+		TS_ASSERT_EQUALS(ci.in_type, DEV_VOID);
+		TS_ASSERT_EQUALS(ci.out_type, DEV_FLOAT);
 
 		CommandInfoList *cil;
 		TS_ASSERT_THROWS_NOTHING(cil = device1->command_list_query());
@@ -106,7 +106,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT(found == true);
+		TS_ASSERT_EQUALS(found, true);
 
 		// Command also in command list for device 2
 
@@ -120,7 +120,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT(found == true);
+		TS_ASSERT_EQUALS(found, true);
 
 		// Remove command
 
@@ -144,14 +144,14 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Added_cmd"));
 		float receiv;
 		dout >> receiv;
-		TS_ASSERT(receiv == 4.0);
+		TS_ASSERT_EQUALS(receiv, 4.0);
 
 		// Command in command list?
 
 		CommandInfo ci = device1->command_query("Added_cmd");
-		TS_ASSERT(ci.cmd_name == "Added_cmd");
-		TS_ASSERT(ci.in_type == DEV_VOID);
-		TS_ASSERT(ci.out_type == DEV_FLOAT);
+		TS_ASSERT_EQUALS(ci.cmd_name, "Added_cmd");
+		TS_ASSERT_EQUALS(ci.in_type, DEV_VOID);
+		TS_ASSERT_EQUALS(ci.out_type, DEV_FLOAT);
 
 		CommandInfoList *cil;
 		TS_ASSERT_THROWS_NOTHING(cil = device1->command_list_query());
@@ -163,7 +163,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT(found == true);
+		TS_ASSERT_EQUALS(found, true);
 
 		// Command should not be in command list for device 2
 
@@ -177,7 +177,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT(found == false);
+		TS_ASSERT_EQUALS(found, false);
 
 		// Remove command
 
