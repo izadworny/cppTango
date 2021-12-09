@@ -172,11 +172,11 @@ public:
 
 		bool po = device_local->is_attribute_polled(att_name);
 		coutv << "Local device: attribute polled : " << po << endl;
-		TS_ASSERT ( po == true);
+		TS_ASSERT_EQUALS(po, true);
 
 		int poll_period = device_local->get_attribute_poll_period(att_name);
 		coutv << "Local device: att polling period : " << poll_period << endl;
-		TS_ASSERT( poll_period == 1000);
+		TS_ASSERT_EQUALS(poll_period, 1000);
 
 // Ask remote device to subscribe to the same event
 
@@ -197,15 +197,15 @@ public:
 
 	void test_first_point_received(void)
 	{
-		TS_ASSERT (cb->cb_executed == 1);
-		TS_ASSERT (cb->val_size == 4);
+		TS_ASSERT_EQUALS(cb->cb_executed, 1);
+		TS_ASSERT_EQUALS(cb->val_size, 4);
 
 		DeviceData da;
 		da = device_remote->command_inout("IOGetCbExecuted");
 		Tango::DevLong cb = 0;
 		da >> cb;
 		coutv << "Remote event ctr = " << cb << endl;
-		TS_ASSERT (cb == 1);
+		TS_ASSERT_EQUALS(cb, 1);
 	}
 
 	void test_Callback_executed_after_a_change_for_both_events(void)
@@ -230,15 +230,15 @@ public:
 
 		coutv << "local cb excuted = " << cb->cb_executed << endl;
 
-		TS_ASSERT (cb->cb_executed == 2);
-		TS_ASSERT (cb->val_size == 4);
+		TS_ASSERT_EQUALS(cb->cb_executed, 2);
+		TS_ASSERT_EQUALS(cb->val_size, 4);
 
 		DeviceData da;
 		da = device_remote->command_inout("IOGetCbExecuted");
 		Tango::DevLong cb = 0;
 		da >> cb;
 		coutv << "remote cb excuted = " << cb << endl;
-		TS_ASSERT (cb == 2);
+		TS_ASSERT_EQUALS(cb, 2);
 	}
 
 // unsubscribe to the event. No need to stop polling on local device. The IOUnsubscribeEvent on

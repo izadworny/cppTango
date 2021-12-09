@@ -169,13 +169,13 @@ public:
 
 		// try to register class signal of out of range value
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IORegClassSig", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_SignalOutOfRange
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_SignalOutOfRange);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// try to unregister class signal of out of range value
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOUnregClassSig", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_SignalOutOfRange
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_SignalOutOfRange);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test registering and unregistering class signals

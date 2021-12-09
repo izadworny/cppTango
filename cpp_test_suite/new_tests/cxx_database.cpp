@@ -86,12 +86,12 @@ public:
 		const DevVarLongStringArray *dvlsa;
 		dd >> dvlsa;
 
-		TS_ASSERT(dbfi.name == device1_name);
-		TS_ASSERT(dbfi.ds_full_name == string(dvlsa->svalue[3]));
-		TS_ASSERT(dbfi.exported == 1);
-		TS_ASSERT(dbfi.class_name == string(dvlsa->svalue[5]));
-		TS_ASSERT(dbfi.host == string(dvlsa->svalue[4]));
-		TS_ASSERT(dbfi.pid == dvlsa->lvalue[1]);
+		TS_ASSERT_EQUALS(dbfi.name, device1_name);
+		TS_ASSERT_EQUALS(dbfi.ds_full_name, string(dvlsa->svalue[3]));
+		TS_ASSERT_EQUALS(dbfi.exported, 1);
+		TS_ASSERT_EQUALS(dbfi.class_name, string(dvlsa->svalue[5]));
+		TS_ASSERT_EQUALS(dbfi.host, string(dvlsa->svalue[4]));
+		TS_ASSERT_EQUALS(dbfi.pid, dvlsa->lvalue[1]);
 	}
 
 // The device alias
@@ -101,10 +101,10 @@ public:
 		string d_alias,d_name;
 
 		db->get_alias_from_device(device1_name,d_alias);
-		TS_ASSERT(d_alias == dev_alias);
+		TS_ASSERT_EQUALS(d_alias, dev_alias);
 
 		db->get_device_from_alias(dev_alias,d_name);
-		TS_ASSERT(d_name == device1_name);
+		TS_ASSERT_EQUALS(d_name, device1_name);
 	}
 
 // The attribute alias
@@ -117,12 +117,12 @@ public:
 		full_att_name = full_att_name + "/Short_attr";
 
 		db->get_alias_from_attribute(full_att_name,a_alias);
-		TS_ASSERT(a_alias == att_alias);
+		TS_ASSERT_EQUALS(a_alias, att_alias);
 
 		db->get_attribute_from_alias(att_alias,a_name);
 		transform(a_name.begin(),a_name.end(),a_name.begin(),::tolower);
 		transform(full_att_name.begin(),full_att_name.end(),full_att_name.begin(),::tolower);
-		TS_ASSERT(a_name == full_att_name);
+		TS_ASSERT_EQUALS(a_name, full_att_name);
 	}
 
 // Pipe class oriented calls
@@ -149,17 +149,17 @@ public:
 
 		short nb_prop;
 		get_db_data[0] >> nb_prop;
-		TS_ASSERT(nb_prop == 2);
+		TS_ASSERT_EQUALS(nb_prop, 2);
 
 		float propA, propB;
 		string prop1_name,prop2_name;
-		TS_ASSERT(get_db_data[1].name == "_tst_pipe_propA");
-		TS_ASSERT(get_db_data[2].name == "_tst_pipe_propB");
+		TS_ASSERT_EQUALS(get_db_data[1].name, "_tst_pipe_propA");
+		TS_ASSERT_EQUALS(get_db_data[2].name, "_tst_pipe_propB");
 
 		get_db_data[1] >> propA;
 		get_db_data[2] >> propB;
-		TS_ASSERT(propA == 3.0);
-		TS_ASSERT(propB == 33.0);
+		TS_ASSERT_EQUALS(propA, 3.0);
+		TS_ASSERT_EQUALS(propB, 33.0);
 
 		DbDatum db_datum;
  		TS_ASSERT_THROWS_NOTHING(db_datum = db->get_class_pipe_list("MyStepperMotor","*"));
@@ -167,8 +167,8 @@ public:
 		vector<string> pipe_list;
 		db_datum >> pipe_list;
 
-		TS_ASSERT(pipe_list.size() == 1);
-		TS_ASSERT(pipe_list[0] == "_tst_pipe");
+		TS_ASSERT_EQUALS(pipe_list.size(), 1u);
+		TS_ASSERT_EQUALS(pipe_list[0], "_tst_pipe");
 
 
 		DbData del_db_data;
@@ -203,23 +203,23 @@ public:
 
 		short nb_prop;
 		get_db_data[0] >> nb_prop;
-		TS_ASSERT(nb_prop == 2);
+		TS_ASSERT_EQUALS(nb_prop, 2);
 
 		float propA, propB;
 		string prop1_name,prop2_name;
-		TS_ASSERT(get_db_data[1].name == "_tst_pipe_propA");
-		TS_ASSERT(get_db_data[2].name == "_tst_pipe_propB");
+		TS_ASSERT_EQUALS(get_db_data[1].name, "_tst_pipe_propA");
+		TS_ASSERT_EQUALS(get_db_data[2].name, "_tst_pipe_propB");
 
 		get_db_data[1] >> propA;
 		get_db_data[2] >> propB;
-		TS_ASSERT(propA == 3.0);
-		TS_ASSERT(propB == 33.0);
+		TS_ASSERT_EQUALS(propA, 3.0);
+		TS_ASSERT_EQUALS(propB, 33.0);
 
 		vector<string> pipe_list;
  		TS_ASSERT_THROWS_NOTHING(db->get_device_pipe_list("a/b/c",pipe_list));
 
-		TS_ASSERT(pipe_list.size() == 1);
-		TS_ASSERT(pipe_list[0] == "_tst_pipe");
+		TS_ASSERT_EQUALS(pipe_list.size(), 1u);
+		TS_ASSERT_EQUALS(pipe_list[0], "_tst_pipe");
 
 		DbData del_db_data;
 		del_db_data.push_back(DbDatum("_tst_pipe"));

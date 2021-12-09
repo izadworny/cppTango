@@ -107,13 +107,13 @@ public:
 //
 
 		Tango::DevState ds = device1->state();
-		TS_ASSERT(ds == Tango::ALARM);
+		TS_ASSERT_EQUALS(ds, Tango::ALARM);
 
 		string d_status = device1->status();
 		string::size_type pos = d_status.find('.');
 		pos = pos + 2;
 		string sub_status = d_status.substr(pos);
-		TS_ASSERT(sub_status == STATUS_MEM_FAILED);
+		TS_ASSERT_EQUALS(sub_status, STATUS_MEM_FAILED);
 
 //
 // Try to read the attribute
@@ -121,9 +121,11 @@ public:
 
 		DeviceAttribute read_da = device1->read_attribute("Short_attr_w");
 		short s_val;
-		TS_ASSERT_THROWS_ASSERT(read_da >> s_val,Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == "Aaaa" && e.errors[0].severity == Tango::ERR &&
-						  string(e.errors[1].reason.in()) == API_MemAttFailedDuringInit && e.errors[1].severity == Tango::ERR));
+		TS_ASSERT_THROWS_ASSERT(read_da >> s_val, Tango::DevFailed &e,
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), "Aaaa");
+                                TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR);
+				TS_ASSERT_EQUALS(string(e.errors[1].reason.in()), API_MemAttFailedDuringInit);
+                                TS_ASSERT_EQUALS(e.errors[1].severity, Tango::ERR));
 
 //
 // Ask attribute not to throw exception any more
@@ -151,10 +153,10 @@ public:
 //
 
 		ds = device1->state();
-		TS_ASSERT(ds == Tango::ON);
+		TS_ASSERT_EQUALS(ds, Tango::ON);
 
 		d_status = device1->status();
-		TS_ASSERT(d_status == STATUS_ON);
+		TS_ASSERT_EQUALS(d_status, STATUS_ON);
 
 //
 // Read the attribute
@@ -163,7 +165,7 @@ public:
 		DeviceAttribute read_da_2 = device1->read_attribute("Short_attr_w");
 		short s_val_2;
 		read_da_2 >> s_val_2;
-		TS_ASSERT(s_val_2 == 10);
+		TS_ASSERT_EQUALS(s_val_2, 10);
 	}
 
 /*

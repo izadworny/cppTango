@@ -75,8 +75,8 @@ public:
 	void test_some_basic_exception_cases(void)
 	{
 		TS_ASSERT_THROWS_ASSERT(device1->get_attribute_config("toto"), Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 	}
 
@@ -86,23 +86,23 @@ public:
 	{
 		AttributeInfoEx att_inf;
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("Double_attr"));
-		TS_ASSERT(att_inf.name == "Double_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SCALAR);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_DOUBLE);
-		TS_ASSERT(att_inf.max_dim_x == 1);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "No description");
-		TS_ASSERT(att_inf.label == "Double_attr");
-		TS_ASSERT(att_inf.unit == "");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "%6.2f");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None"); // ?
+		TS_ASSERT_EQUALS(att_inf.name, "Double_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SCALAR);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_DOUBLE);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 1);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "No description");
+		TS_ASSERT_EQUALS(att_inf.label, "Double_attr");
+		TS_ASSERT_EQUALS(att_inf.unit, "");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "%6.2f");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None"); // ?
 	}
 
 // Get a full user default conf
@@ -111,33 +111,33 @@ public:
 	{
 		AttributeInfoEx att_inf;
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("Long_attr_w"));
-		TS_ASSERT(att_inf.name == "Long_attr_w");
-		TS_ASSERT(att_inf.writable == Tango::WRITE);
-		TS_ASSERT(att_inf.data_format == Tango::SCALAR);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_LONG);
-		TS_ASSERT(att_inf.max_dim_x == 1);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "Test description");
-		TS_ASSERT(att_inf.label == "Test label");
-		TS_ASSERT(att_inf.unit == "Kilogramme");
-		TS_ASSERT(att_inf.standard_unit == "100");
-		TS_ASSERT(att_inf.display_unit == "Et ta soeur");
-		TS_ASSERT(att_inf.format == "Tres long");
-		TS_ASSERT(att_inf.min_value == "0");
-		TS_ASSERT(att_inf.max_value == "100000");
-		TS_ASSERT(att_inf.min_alarm == "1");
-		TS_ASSERT(att_inf.max_alarm == "99999");
-		TS_ASSERT(att_inf.alarms.min_warning == "2");
-		TS_ASSERT(att_inf.alarms.max_warning == "99998");
-		TS_ASSERT(att_inf.alarms.delta_val == "10000");
-		TS_ASSERT(att_inf.alarms.delta_t == "1");
-		TS_ASSERT(att_inf.events.ch_event.abs_change == "30000");
-		TS_ASSERT(att_inf.events.ch_event.rel_change == "20000");
-		TS_ASSERT(att_inf.events.per_event.period == "2000");
-		TS_ASSERT(att_inf.events.arch_event.archive_abs_change == "33333");
-		TS_ASSERT(att_inf.events.arch_event.archive_rel_change == "22222");
-		TS_ASSERT(att_inf.events.arch_event.archive_period == "3000");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "Long_attr_w");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::WRITE);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SCALAR);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_LONG);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 1);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "Test description");
+		TS_ASSERT_EQUALS(att_inf.label, "Test label");
+		TS_ASSERT_EQUALS(att_inf.unit, "Kilogramme");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "100");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "Et ta soeur");
+		TS_ASSERT_EQUALS(att_inf.format, "Tres long");
+		TS_ASSERT_EQUALS(att_inf.min_value, "0");
+		TS_ASSERT_EQUALS(att_inf.max_value, "100000");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "1");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "99999");
+		TS_ASSERT_EQUALS(att_inf.alarms.min_warning, "2");
+		TS_ASSERT_EQUALS(att_inf.alarms.max_warning, "99998");
+		TS_ASSERT_EQUALS(att_inf.alarms.delta_val, "10000");
+		TS_ASSERT_EQUALS(att_inf.alarms.delta_t, "1");
+		TS_ASSERT_EQUALS(att_inf.events.ch_event.abs_change, "30000");
+		TS_ASSERT_EQUALS(att_inf.events.ch_event.rel_change, "20000");
+		TS_ASSERT_EQUALS(att_inf.events.per_event.period, "2000");
+		TS_ASSERT_EQUALS(att_inf.events.arch_event.archive_abs_change, "33333");
+		TS_ASSERT_EQUALS(att_inf.events.arch_event.archive_rel_change, "22222");
+		TS_ASSERT_EQUALS(att_inf.events.arch_event.archive_period, "3000");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 	}
 
 // Get a db conf with some conf defined at class level and device level
@@ -146,61 +146,61 @@ public:
 	{
 		AttributeInfoEx att_inf;
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("String_spec_attr"));
-		TS_ASSERT(att_inf.name == "String_spec_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SPECTRUM);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_STRING);
-		TS_ASSERT(att_inf.max_dim_x == 2);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "No description");
-		TS_ASSERT(att_inf.label == "Class label");
-		TS_ASSERT(att_inf.unit == "Class unit");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "Class format");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "String_spec_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SPECTRUM);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_STRING);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 2);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "No description");
+		TS_ASSERT_EQUALS(att_inf.label, "Class label");
+		TS_ASSERT_EQUALS(att_inf.unit, "Class unit");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "Class format");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 
 		TS_ASSERT_THROWS_NOTHING(att_inf = device2->get_attribute_config("String_spec_attr"));
-		TS_ASSERT(att_inf.name == "String_spec_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SPECTRUM);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_STRING);
-		TS_ASSERT(att_inf.max_dim_x == 2);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "No description");
-		TS_ASSERT(att_inf.label == "Device label");
-		TS_ASSERT(att_inf.unit == "Device unit");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "%s");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "String_spec_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SPECTRUM);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_STRING);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 2);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "No description");
+		TS_ASSERT_EQUALS(att_inf.label, "Device label");
+		TS_ASSERT_EQUALS(att_inf.unit, "Device unit");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "%s");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 
 		TS_ASSERT_THROWS_NOTHING(att_inf = device3->get_attribute_config("String_spec_attr"));
-		TS_ASSERT(att_inf.name == "String_spec_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SPECTRUM);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_STRING);
-		TS_ASSERT(att_inf.max_dim_x == 2);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "No description");
-		TS_ASSERT(att_inf.label == "Class label");
-		TS_ASSERT(att_inf.unit == "Class unit");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "Class format");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "String_spec_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SPECTRUM);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_STRING);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 2);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "No description");
+		TS_ASSERT_EQUALS(att_inf.label, "Class label");
+		TS_ASSERT_EQUALS(att_inf.unit, "Class unit");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "Class format");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 	}
 
 // Test several attributes in one call
@@ -217,71 +217,71 @@ public:
 		TS_ASSERT_THROWS_NOTHING(att_inf_list = device1->get_attribute_config_ex(attributes));
 
 		att_inf = (*att_inf_list)[0];
-		TS_ASSERT(att_inf.name == "String_spec_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SPECTRUM);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_STRING);
-		TS_ASSERT(att_inf.max_dim_x == 2);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "No description");
-		TS_ASSERT(att_inf.label == "Class label");
-		TS_ASSERT(att_inf.unit == "Class unit");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "Class format");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "String_spec_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SPECTRUM);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_STRING);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 2);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "No description");
+		TS_ASSERT_EQUALS(att_inf.label, "Class label");
+		TS_ASSERT_EQUALS(att_inf.unit, "Class unit");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "Class format");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 
 		att_inf = (*att_inf_list)[1];
-		TS_ASSERT(att_inf.name == "Long_attr_w");
-		TS_ASSERT(att_inf.writable == Tango::WRITE);
-		TS_ASSERT(att_inf.data_format == Tango::SCALAR);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_LONG);
-		TS_ASSERT(att_inf.max_dim_x == 1);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "Test description");
-		TS_ASSERT(att_inf.label == "Test label");
-		TS_ASSERT(att_inf.unit == "Kilogramme");
-		TS_ASSERT(att_inf.standard_unit == "100");
-		TS_ASSERT(att_inf.display_unit == "Et ta soeur");
-		TS_ASSERT(att_inf.format == "Tres long");
-		TS_ASSERT(att_inf.min_value == "0");
-		TS_ASSERT(att_inf.max_value == "100000");
-		TS_ASSERT(att_inf.min_alarm == "1");
-		TS_ASSERT(att_inf.max_alarm == "99999");
-		TS_ASSERT(att_inf.alarms.min_warning == "2");
-		TS_ASSERT(att_inf.alarms.max_warning == "99998");
-		TS_ASSERT(att_inf.alarms.delta_val == "10000");
-		TS_ASSERT(att_inf.alarms.delta_t == "1");
-		TS_ASSERT(att_inf.events.ch_event.abs_change == "30000");
-		TS_ASSERT(att_inf.events.ch_event.rel_change == "20000");
-		TS_ASSERT(att_inf.events.per_event.period == "2000");
-		TS_ASSERT(att_inf.events.arch_event.archive_abs_change == "33333");
-		TS_ASSERT(att_inf.events.arch_event.archive_rel_change == "22222");
-		TS_ASSERT(att_inf.events.arch_event.archive_period == "3000");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "Long_attr_w");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::WRITE);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SCALAR);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_LONG);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 1);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "Test description");
+		TS_ASSERT_EQUALS(att_inf.label, "Test label");
+		TS_ASSERT_EQUALS(att_inf.unit, "Kilogramme");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "100");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "Et ta soeur");
+		TS_ASSERT_EQUALS(att_inf.format, "Tres long");
+		TS_ASSERT_EQUALS(att_inf.min_value, "0");
+		TS_ASSERT_EQUALS(att_inf.max_value, "100000");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "1");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "99999");
+		TS_ASSERT_EQUALS(att_inf.alarms.min_warning, "2");
+		TS_ASSERT_EQUALS(att_inf.alarms.max_warning, "99998");
+		TS_ASSERT_EQUALS(att_inf.alarms.delta_val, "10000");
+		TS_ASSERT_EQUALS(att_inf.alarms.delta_t, "1");
+		TS_ASSERT_EQUALS(att_inf.events.ch_event.abs_change, "30000");
+		TS_ASSERT_EQUALS(att_inf.events.ch_event.rel_change, "20000");
+		TS_ASSERT_EQUALS(att_inf.events.per_event.period, "2000");
+		TS_ASSERT_EQUALS(att_inf.events.arch_event.archive_abs_change, "33333");
+		TS_ASSERT_EQUALS(att_inf.events.arch_event.archive_rel_change, "22222");
+		TS_ASSERT_EQUALS(att_inf.events.arch_event.archive_period, "3000");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 
 		att_inf = (*att_inf_list)[2];
-		TS_ASSERT(att_inf.name == "Double_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SCALAR);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_DOUBLE);
-		TS_ASSERT(att_inf.max_dim_x == 1);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "No description");
-		TS_ASSERT(att_inf.label == "Double_attr");
-		TS_ASSERT(att_inf.unit == "");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "%6.2f");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "Double_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SCALAR);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_DOUBLE);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 1);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "No description");
+		TS_ASSERT_EQUALS(att_inf.label, "Double_attr");
+		TS_ASSERT_EQUALS(att_inf.unit, "");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "%6.2f");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 	}
 
 // Add one attribute on the fly and get its config
@@ -299,23 +299,23 @@ public:
 //		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("Added_short_attr"));
 		att_inf = device1->get_attribute_config("Added_short_attr");
 
-		TS_ASSERT(att_inf.name == "Added_short_attr");
-		TS_ASSERT(att_inf.writable == Tango::READ);
-		TS_ASSERT(att_inf.data_format == Tango::SCALAR);
-		TS_ASSERT(att_inf.data_type == Tango::DEV_SHORT);
-		TS_ASSERT(att_inf.max_dim_x == 1);
-		TS_ASSERT(att_inf.max_dim_y == 0);
-		TS_ASSERT(att_inf.description == "Test description");
-		TS_ASSERT(att_inf.label == "From db (class)");
-		TS_ASSERT(att_inf.unit == "");
-		TS_ASSERT(att_inf.standard_unit == "No standard unit");
-		TS_ASSERT(att_inf.display_unit == "No display unit");
-		TS_ASSERT(att_inf.format == "From db (device)");
-		TS_ASSERT(att_inf.min_value == "Not specified");
-		TS_ASSERT(att_inf.max_value == "Not specified");
-		TS_ASSERT(att_inf.min_alarm == "Not specified");
-		TS_ASSERT(att_inf.max_alarm == "Not specified");
-		TS_ASSERT(att_inf.writable_attr_name == "None");
+		TS_ASSERT_EQUALS(att_inf.name, "Added_short_attr");
+		TS_ASSERT_EQUALS(att_inf.writable, Tango::READ);
+		TS_ASSERT_EQUALS(att_inf.data_format, Tango::SCALAR);
+		TS_ASSERT_EQUALS(att_inf.data_type, Tango::DEV_SHORT);
+		TS_ASSERT_EQUALS(att_inf.max_dim_x, 1);
+		TS_ASSERT_EQUALS(att_inf.max_dim_y, 0);
+		TS_ASSERT_EQUALS(att_inf.description, "Test description");
+		TS_ASSERT_EQUALS(att_inf.label, "From db (class)");
+		TS_ASSERT_EQUALS(att_inf.unit, "");
+		TS_ASSERT_EQUALS(att_inf.standard_unit, "No standard unit");
+		TS_ASSERT_EQUALS(att_inf.display_unit, "No display unit");
+		TS_ASSERT_EQUALS(att_inf.format, "From db (device)");
+		TS_ASSERT_EQUALS(att_inf.min_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_value, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.min_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.max_alarm, "Not specified");
+		TS_ASSERT_EQUALS(att_inf.writable_attr_name, "None");
 
 //		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOAddAttribute")); // ?
 		device1->command_inout("IOAddAttribute",din);
@@ -332,16 +332,16 @@ public:
 	{
 		AttributeInfoEx att_inf;
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("Double_attr"));
-		TS_ASSERT(att_inf.format == "%6.2f");
+		TS_ASSERT_EQUALS(att_inf.format, "%6.2f");
 
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("String_attr"));
-		TS_ASSERT(att_inf.format == "%s");
+		TS_ASSERT_EQUALS(att_inf.format, "%s");
 
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("Short_attr_w"));
-		TS_ASSERT(att_inf.format == "%d");
+		TS_ASSERT_EQUALS(att_inf.format, "%d");
 
 		TS_ASSERT_THROWS_NOTHING(att_inf = device1->get_attribute_config("State"));
-		TS_ASSERT(att_inf.format == "Not specified");
+		TS_ASSERT_EQUALS(att_inf.format, "Not specified");
 	}
 
 };

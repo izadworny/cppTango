@@ -106,8 +106,8 @@ public:
 		CxxTest::TangoPrinter::restore_set("my_restore_point");
 		TS_ASSERT(true);
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("UndefinedCommand"), Tango::DevFailed &e,
-								TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotFound
-										&& e.errors[0].severity == Tango::ERR));
+                                                        TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotFound);
+                                                        TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 		// if the test suite fails here, thanks to the restore point, the test suite TearDown method will restore the defaults
 		// after you set back the default configuration, append the following line
 		CxxTest::TangoPrinter::restore_unset("my_restore_point");

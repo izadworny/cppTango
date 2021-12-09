@@ -537,7 +537,7 @@ int main(int argc, char **argv) {
 
     try{
         db->put_device_pipe_property(device1_name, db_data);
-        print_changes("Set pipe properties at device level" , device1_name.c_str(), db_data);
+        print_changes("Set pipe properties at device level", device1_name.c_str(), db_data);
     }
     catch (...){
         cout << "Exception: cannot set specific attribute properties for the device: " << fwd_dev_name << std::endl;

@@ -90,36 +90,36 @@ public:
 		string str;
 
 		TS_ASSERT_THROWS_NOTHING(short_attr = device1->read_attribute("Short_attr"));
-		TS_ASSERT(short_attr.get_name() == "Short_attr");
-		TS_ASSERT(short_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(short_attr.get_dim_x() == 1);
-		TS_ASSERT(short_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(short_attr.get_name(), "Short_attr");
+		TS_ASSERT_EQUALS(short_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(short_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(short_attr.get_dim_y(), 0);
 		short_attr >> sh;
-		TS_ASSERT(sh == 12);
+		TS_ASSERT_EQUALS(sh, 12);
 
 		TS_ASSERT_THROWS_NOTHING(long_attr = device1->read_attribute("Long_attr"));
-		TS_ASSERT(long_attr.get_name() == "Long_attr");
-		TS_ASSERT(long_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(long_attr.get_dim_x() == 1);
-		TS_ASSERT(long_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(long_attr.get_name(), "Long_attr");
+		TS_ASSERT_EQUALS(long_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(long_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(long_attr.get_dim_y(), 0);
 		long_attr >> lg;
-		TS_ASSERT(lg == 1246);
+		TS_ASSERT_EQUALS(lg, 1246);
 
 		TS_ASSERT_THROWS_NOTHING(double_attr = device1->read_attribute("Double_attr"));
-		TS_ASSERT(double_attr.get_name() == "Double_attr");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 1);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_attr");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db == 3.2);
+		TS_ASSERT_EQUALS(db, 3.2);
 
 		TS_ASSERT_THROWS_NOTHING(string_attr = device1->read_attribute("String_attr"));
-		TS_ASSERT(string_attr.get_name() == "String_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 1);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str == "test_string");
+		TS_ASSERT_EQUALS(str, "test_string");
 	}
 
 // Test several SCALAR attributes in one call
@@ -140,20 +140,20 @@ public:
 		TS_ASSERT_THROWS_NOTHING(attr_vec = device1->read_attributes(name_vec));
 
 		string_attr = (*attr_vec)[0];
-		TS_ASSERT(string_attr.get_name() == "String_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 1);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str == "test_string");
+		TS_ASSERT_EQUALS(str, "test_string");
 
 		double_attr = (*attr_vec)[1];
-		TS_ASSERT(double_attr.get_name() == "Double_attr");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 1);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_attr");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db == 3.2);
+		TS_ASSERT_EQUALS(db, 3.2);
 
 		name_vec.push_back("Long_attr");
 		name_vec.push_back("Short_attr");
@@ -161,36 +161,36 @@ public:
 		TS_ASSERT_THROWS_NOTHING(attr_vec = device1->read_attributes(name_vec));
 
 		string_attr = (*attr_vec)[0];
-		TS_ASSERT(string_attr.get_name() == "String_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 1);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str == "test_string");
+		TS_ASSERT_EQUALS(str, "test_string");
 
 		double_attr = (*attr_vec)[1];
-		TS_ASSERT(double_attr.get_name() == "Double_attr");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 1);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_attr");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db == 3.2);
+		TS_ASSERT_EQUALS(db, 3.2);
 
 		long_attr = (*attr_vec)[2];
-		TS_ASSERT(long_attr.get_name() == "Long_attr");
-		TS_ASSERT(long_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(long_attr.get_dim_x() == 1);
-		TS_ASSERT(long_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(long_attr.get_name(), "Long_attr");
+		TS_ASSERT_EQUALS(long_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(long_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(long_attr.get_dim_y(), 0);
 		long_attr >> lg;
-		TS_ASSERT(lg == 1246);
+		TS_ASSERT_EQUALS(lg, 1246);
 
 		short_attr = (*attr_vec)[3];
-		TS_ASSERT(short_attr.get_name() == "Short_attr");
-		TS_ASSERT(short_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(short_attr.get_dim_x() == 1);
-		TS_ASSERT(short_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(short_attr.get_name(), "Short_attr");
+		TS_ASSERT_EQUALS(short_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(short_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(short_attr.get_dim_y(), 0);
 		short_attr >> sh;
-		TS_ASSERT(sh == 12);
+		TS_ASSERT_EQUALS(sh, 12);
 	}
 
 // Test one attribute at a time for all SPECTRUM types
@@ -204,38 +204,50 @@ public:
 		vector<string> str;
 
 		TS_ASSERT_THROWS_NOTHING(short_attr = device1->read_attribute("Short_spec_attr"));
-		TS_ASSERT(short_attr.get_name() == "Short_spec_attr");
-		TS_ASSERT(short_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(short_attr.get_dim_x() == 4);
-		TS_ASSERT(short_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(short_attr.get_name(), "Short_spec_attr");
+		TS_ASSERT_EQUALS(short_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(short_attr.get_dim_x(), 4);
+		TS_ASSERT_EQUALS(short_attr.get_dim_y(), 0);
 		short_attr >> sh;
-		TS_ASSERT(sh[0] == 10 && sh[1] == 20 && sh[2] == 30 && sh[3] == 40);
+		TS_ASSERT_EQUALS(sh[0], 10);
+		TS_ASSERT_EQUALS(sh[1], 20);
+		TS_ASSERT_EQUALS(sh[2], 30);
+		TS_ASSERT_EQUALS(sh[3], 40);
 
 		TS_ASSERT_THROWS_NOTHING(long_attr = device1->read_attribute("Long_spec_attr"));
-		TS_ASSERT(long_attr.get_name() == "Long_spec_attr");
-		TS_ASSERT(long_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(long_attr.get_dim_x() == 10);
-		TS_ASSERT(long_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(long_attr.get_name(), "Long_spec_attr");
+		TS_ASSERT_EQUALS(long_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(long_attr.get_dim_x(), 10);
+		TS_ASSERT_EQUALS(long_attr.get_dim_y(), 0);
 		long_attr >> lg;
-		TS_ASSERT(lg[0] == 0 && lg[1] == 1 && lg[2] == 2 && lg[3] == 3
-				&& lg[4] == 4 && lg[5] == 5 && lg[6] == 6 && lg[7] == 7
-				&& lg[8] == 8 && lg[9] == 9);
+                TS_ASSERT_EQUALS(lg[0], 0);
+                TS_ASSERT_EQUALS(lg[1], 1);
+                TS_ASSERT_EQUALS(lg[2], 2);
+                TS_ASSERT_EQUALS(lg[3], 3);
+                TS_ASSERT_EQUALS(lg[4], 4);
+                TS_ASSERT_EQUALS(lg[5], 5);
+                TS_ASSERT_EQUALS(lg[6], 6);
+                TS_ASSERT_EQUALS(lg[7], 7);
+                TS_ASSERT_EQUALS(lg[8], 8);
+                TS_ASSERT_EQUALS(lg[9], 9);
 
 		TS_ASSERT_THROWS_NOTHING(double_attr = device1->read_attribute("Double_spec_attr"));
-		TS_ASSERT(double_attr.get_name() == "Double_spec_attr");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 2);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_spec_attr");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db[0] == 1.11 && db[1] == 2.22);
+		TS_ASSERT_EQUALS(db[0], 1.11);
+		TS_ASSERT_EQUALS(db[1], 2.22);
 
 		TS_ASSERT_THROWS_NOTHING(string_attr = device1->read_attribute("String_spec_attr"));
-		TS_ASSERT(string_attr.get_name() == "String_spec_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 2);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_spec_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str[0] == "Hello world" && str[1] == "Hello universe");
+		TS_ASSERT_EQUALS(str[0], "Hello world");
+		TS_ASSERT_EQUALS(str[1], "Hello universe");
 	}
 
 // Test several SPECTRUM attributes in one call
@@ -254,20 +266,22 @@ public:
 		TS_ASSERT_THROWS_NOTHING(attr_vec = device1->read_attributes(name_vec));
 
 		string_attr = (*attr_vec)[0];
-		TS_ASSERT(string_attr.get_name() == "String_spec_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 2);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_spec_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str[0] == "Hello world" && str[1] == "Hello universe");
+		TS_ASSERT_EQUALS(str[0], "Hello world");
+		TS_ASSERT_EQUALS(str[1], "Hello universe");
 
 		double_attr = (*attr_vec)[1];
-		TS_ASSERT(double_attr.get_name() == "Double_spec_attr");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 2);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_spec_attr");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db[0] == 1.11 && db[1] == 2.22);
+		TS_ASSERT_EQUALS(db[0], 1.11);
+		TS_ASSERT_EQUALS(db[1], 2.22);
 	}
 
 // Test one attribute at a time for all IMAGE types
@@ -281,36 +295,46 @@ public:
 		vector<string> str;
 
 		TS_ASSERT_THROWS_NOTHING(short_attr = device1->read_attribute("Short_ima_attr"));
-		TS_ASSERT(short_attr.get_name() == "Short_ima_attr");
-		TS_ASSERT(short_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(short_attr.get_dim_x() == 2);
-		TS_ASSERT(short_attr.get_dim_y() == 2);
+		TS_ASSERT_EQUALS(short_attr.get_name(), "Short_ima_attr");
+		TS_ASSERT_EQUALS(short_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(short_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(short_attr.get_dim_y(), 2);
 		short_attr >> sh;
-		TS_ASSERT(sh[0] == 40 && sh[1] == 60 && sh[2] == 80 && sh[3] == 100);
+		TS_ASSERT_EQUALS(sh[0], 40);
+		TS_ASSERT_EQUALS(sh[1], 60);
+		TS_ASSERT_EQUALS(sh[2], 80);
+		TS_ASSERT_EQUALS(sh[3], 100);
 
 		TS_ASSERT_THROWS_NOTHING(long_attr = device1->read_attribute("Long_ima_attr"));
-		TS_ASSERT(long_attr.get_name() == "Long_ima_attr");
-		TS_ASSERT(long_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(long_attr.get_dim_x() == 3);
-		TS_ASSERT(long_attr.get_dim_y() == 2);
+		TS_ASSERT_EQUALS(long_attr.get_name(), "Long_ima_attr");
+		TS_ASSERT_EQUALS(long_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(long_attr.get_dim_x(), 3);
+		TS_ASSERT_EQUALS(long_attr.get_dim_y(), 2);
 		long_attr >> lg;
-		TS_ASSERT(lg[0] == 0 && lg[1] == 1 && lg[2] == 2 && lg[3] == 3 && lg[4] == 4 && lg[5] == 5);
+		TS_ASSERT_EQUALS(lg[0], 0);
+		TS_ASSERT_EQUALS(lg[1], 1);
+		TS_ASSERT_EQUALS(lg[2], 2);
+		TS_ASSERT_EQUALS(lg[3], 3);
+		TS_ASSERT_EQUALS(lg[4], 4);
+		TS_ASSERT_EQUALS(lg[5], 5);
 
 		TS_ASSERT_THROWS_NOTHING(double_attr = device1->read_attribute("Double_ima_attr"));
-		TS_ASSERT(double_attr.get_name() == "Double_ima_attr");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 2);
-		TS_ASSERT(double_attr.get_dim_y() == 1);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "Double_ima_attr");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 1);
 		double_attr >> db;
-		TS_ASSERT(db[0] == 5.55 && db[1] == 6.66);
+		TS_ASSERT_EQUALS(db[0], 5.55);
+		TS_ASSERT_EQUALS(db[1], 6.66);
 
 		TS_ASSERT_THROWS_NOTHING(string_attr = device1->read_attribute("String_ima_attr"));
-		TS_ASSERT(string_attr.get_name() == "String_ima_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 1);
-		TS_ASSERT(string_attr.get_dim_y() == 2);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_ima_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 2);
 		string_attr >> str;
-		TS_ASSERT(str[0] == "Hello milky way" && str[1] == "Hello moon");
+		TS_ASSERT_EQUALS(str[0], "Hello milky way");
+		TS_ASSERT_EQUALS(str[1], "Hello moon");
 	}
 
 // Test one call with all three types
@@ -331,27 +355,33 @@ public:
 		TS_ASSERT_THROWS_NOTHING(attr_vec = device1->read_attributes(name_vec));
 
 		string_attr = (*attr_vec)[0];
-		TS_ASSERT(string_attr.get_name() == "String_spec_attr");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(string_attr.get_dim_x() == 2);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "String_spec_attr");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 2);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str[0] == "Hello world" && str[1] == "Hello universe");
+		TS_ASSERT_EQUALS(str[0], "Hello world");
+		TS_ASSERT_EQUALS(str[1], "Hello universe");
 
 		double_attr = (*attr_vec)[1];
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 1);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db == 3.2);
+		TS_ASSERT_EQUALS(db, 3.2);
 
 		long_attr = (*attr_vec)[2];
-		TS_ASSERT(long_attr.get_name() == "Long_ima_attr");
-		TS_ASSERT(long_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(long_attr.get_dim_x() == 3);
-		TS_ASSERT(long_attr.get_dim_y() == 2);
+		TS_ASSERT_EQUALS(long_attr.get_name(), "Long_ima_attr");
+		TS_ASSERT_EQUALS(long_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(long_attr.get_dim_x(), 3);
+		TS_ASSERT_EQUALS(long_attr.get_dim_y(), 2);
 		long_attr >> lg;
-		TS_ASSERT(lg[0] == 0 && lg[1] == 1 && lg[2] == 2 && lg[3] == 3 && lg[4] == 4 && lg[5] == 5);
+		TS_ASSERT_EQUALS(lg[0], 0);
+		TS_ASSERT_EQUALS(lg[1], 1);
+		TS_ASSERT_EQUALS(lg[2], 2);
+		TS_ASSERT_EQUALS(lg[3], 3);
+		TS_ASSERT_EQUALS(lg[4], 4);
+		TS_ASSERT_EQUALS(lg[5], 5);
 	}
 
 // Test attributes written using the set value date and quality method
@@ -365,36 +395,36 @@ public:
 		string str;
 
 		TS_ASSERT_THROWS_NOTHING(short_attr = device1->read_attribute("attr_dq_sh"));
-		TS_ASSERT(short_attr.get_name() == "attr_dq_sh");
-		TS_ASSERT(short_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(short_attr.get_dim_x() == 1);
-		TS_ASSERT(short_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(short_attr.get_name(), "attr_dq_sh");
+		TS_ASSERT_EQUALS(short_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(short_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(short_attr.get_dim_y(), 0);
 		short_attr >> sh;
-		TS_ASSERT(sh == 77);
+		TS_ASSERT_EQUALS(sh, 77);
 
 		TS_ASSERT_THROWS_NOTHING(long_attr = device1->read_attribute("attr_dq_lo"));
-		TS_ASSERT(long_attr.get_name() == "attr_dq_lo");
-		TS_ASSERT(long_attr.get_quality() == Tango::ATTR_ALARM);
-		TS_ASSERT(long_attr.get_dim_x() == 1);
-		TS_ASSERT(long_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(long_attr.get_name(), "attr_dq_lo");
+		TS_ASSERT_EQUALS(long_attr.get_quality(), Tango::ATTR_ALARM);
+		TS_ASSERT_EQUALS(long_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(long_attr.get_dim_y(), 0);
 		long_attr >> lg;
-		TS_ASSERT(lg == 7777);
+		TS_ASSERT_EQUALS(lg, 7777);
 
 		TS_ASSERT_THROWS_NOTHING(double_attr = device1->read_attribute("attr_dq_db"));
-		TS_ASSERT(double_attr.get_name() == "attr_dq_db");
-		TS_ASSERT(double_attr.get_quality() == Tango::ATTR_VALID);
-		TS_ASSERT(double_attr.get_dim_x() == 1);
-		TS_ASSERT(double_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(double_attr.get_name(), "attr_dq_db");
+		TS_ASSERT_EQUALS(double_attr.get_quality(), Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(double_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(double_attr.get_dim_y(), 0);
 		double_attr >> db;
-		TS_ASSERT(db == 8.888);
+		TS_ASSERT_EQUALS(db, 8.888);
 
 		TS_ASSERT_THROWS_NOTHING(string_attr = device1->read_attribute("attr_dq_str"));
-		TS_ASSERT(string_attr.get_name() == "attr_dq_str");
-		TS_ASSERT(string_attr.get_quality() == Tango::ATTR_ALARM);
-		TS_ASSERT(string_attr.get_dim_x() == 1);
-		TS_ASSERT(string_attr.get_dim_y() == 0);
+		TS_ASSERT_EQUALS(string_attr.get_name(), "attr_dq_str");
+		TS_ASSERT_EQUALS(string_attr.get_quality(), Tango::ATTR_ALARM);
+		TS_ASSERT_EQUALS(string_attr.get_dim_x(), 1);
+		TS_ASSERT_EQUALS(string_attr.get_dim_y(), 0);
 		string_attr >> str;
-		TS_ASSERT(str == "Setting value date and quality");
+		TS_ASSERT_EQUALS(str, "Setting value date and quality");
 	}
 };
 #undef cout

@@ -95,30 +95,30 @@ public:
 		DataElement<vector<DevState> > de_v_sta;
 
 		size_t de_nb = pipe_data.get_data_elt_nb();
-		TS_ASSERT(de_nb == 4);
+		TS_ASSERT_EQUALS(de_nb, 4u);
 
     	pipe_data >> de_dl >> de_v_db >> de_dvush >> de_v_sta;
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase0");
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase0");
 
-		TS_ASSERT(de_dl.name == "FirstDE");
-		TS_ASSERT(de_dl.value == 666);
+		TS_ASSERT_EQUALS(de_dl.name, "FirstDE");
+		TS_ASSERT_EQUALS(de_dl.value, 666);
 
-		TS_ASSERT(de_v_db.name == "SecondDE");
-		TS_ASSERT(de_v_db.value.size() == 2);
-		TS_ASSERT(de_v_db.value[0] == 1.11);
-		TS_ASSERT(de_v_db.value[1] == 2.22);
+		TS_ASSERT_EQUALS(de_v_db.name, "SecondDE");
+		TS_ASSERT_EQUALS(de_v_db.value.size(), 2u);
+		TS_ASSERT_EQUALS(de_v_db.value[0], 1.11);
+		TS_ASSERT_EQUALS(de_v_db.value[1], 2.22);
 
-		TS_ASSERT(de_dvush.name == "ThirdDE");
-		TS_ASSERT(de_dvush.value->length() == 100);
-		TS_ASSERT((*de_dvush.value)[0] == 0);
-		TS_ASSERT((*de_dvush.value)[1] == 1);
-		TS_ASSERT((*de_dvush.value)[99] == 99);
+		TS_ASSERT_EQUALS(de_dvush.name, "ThirdDE");
+		TS_ASSERT_EQUALS(de_dvush.value->length(), 100u);
+		TS_ASSERT_EQUALS((*de_dvush.value)[0], 0);
+		TS_ASSERT_EQUALS((*de_dvush.value)[1], 1);
+		TS_ASSERT_EQUALS((*de_dvush.value)[99], 99);
 
-		TS_ASSERT(de_v_sta.name == "ForthDE");
-		TS_ASSERT(de_v_sta.value.size() == 2);
-		TS_ASSERT(de_v_sta.value[0] == ON);
-		TS_ASSERT(de_v_sta.value[1] == OFF);
+		TS_ASSERT_EQUALS(de_v_sta.name, "ForthDE");
+		TS_ASSERT_EQUALS(de_v_sta.value.size(), 2u);
+		TS_ASSERT_EQUALS(de_v_sta.value[0], ON);
+		TS_ASSERT_EQUALS(de_v_sta.value[1], OFF);
 
 		delete de_dvush.value;
 	}
@@ -135,43 +135,43 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase0");
-		TS_ASSERT(de_nb == 4);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase0");
+		TS_ASSERT_EQUALS(de_nb, 4u);
 
-		TS_ASSERT(de_names.size() == 4);
-		TS_ASSERT(de_names[0] == "FirstDE");
-		TS_ASSERT(de_names[1] == "SecondDE");
-		TS_ASSERT(de_names[2] == "ThirdDE");
-		TS_ASSERT(de_names[3] == "ForthDE");
+		TS_ASSERT_EQUALS(de_names.size(), 4u);
+		TS_ASSERT_EQUALS(de_names[0], "FirstDE");
+		TS_ASSERT_EQUALS(de_names[1], "SecondDE");
+		TS_ASSERT_EQUALS(de_names[2], "ThirdDE");
+		TS_ASSERT_EQUALS(de_names[3], "ForthDE");
 
 		int type = pipe_data.get_data_elt_type(0);
-		TS_ASSERT(type == DEV_LONG);
+		TS_ASSERT_EQUALS(type, DEV_LONG);
 
 		type = pipe_data.get_data_elt_type(1);
-		TS_ASSERT(type == DEVVAR_DOUBLEARRAY);
+		TS_ASSERT_EQUALS(type, DEVVAR_DOUBLEARRAY);
 
 		type = pipe_data.get_data_elt_type(2);
-		TS_ASSERT(type == DEVVAR_USHORTARRAY);
+		TS_ASSERT_EQUALS(type, DEVVAR_USHORTARRAY);
 
 		type = pipe_data.get_data_elt_type(3);
-		TS_ASSERT(type == DEVVAR_STATEARRAY);
+		TS_ASSERT_EQUALS(type, DEVVAR_STATEARRAY);
 
     	pipe_data >> dl >> v_db >> dvush >> v_sta;
 
-		TS_ASSERT(dl == 666);
+		TS_ASSERT_EQUALS(dl, 666);
 
-		TS_ASSERT(v_db.size() == 2);
-		TS_ASSERT(v_db[0] == 1.11);
-		TS_ASSERT(v_db[1] == 2.22);
+		TS_ASSERT_EQUALS(v_db.size(), 2u);
+		TS_ASSERT_EQUALS(v_db[0], 1.11);
+		TS_ASSERT_EQUALS(v_db[1], 2.22);
 
-		TS_ASSERT(dvush->length() == 100);
-		TS_ASSERT((*dvush)[0] == 0);
-		TS_ASSERT((*dvush)[1] == 1);
-		TS_ASSERT((*dvush)[99] == 99);
+		TS_ASSERT_EQUALS(dvush->length(), 100u);
+		TS_ASSERT_EQUALS((*dvush)[0], 0);
+		TS_ASSERT_EQUALS((*dvush)[1], 1);
+		TS_ASSERT_EQUALS((*dvush)[99], 99);
 
-		TS_ASSERT(v_sta.size() == 2);
-		TS_ASSERT(v_sta[0] == ON);
-		TS_ASSERT(v_sta[1] == OFF);
+		TS_ASSERT_EQUALS(v_sta.size(), 2u);
+		TS_ASSERT_EQUALS(v_sta[0], ON);
+		TS_ASSERT_EQUALS(v_sta[1], OFF);
 
 		delete dvush;
 	}
@@ -190,27 +190,27 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase11");
-		TS_ASSERT(de_nb == 2);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase11");
+		TS_ASSERT_EQUALS(de_nb, 2u);
 
-		TS_ASSERT(de_names.size() == 2);
-		TS_ASSERT(de_names[0] == "1DE");
-		TS_ASSERT(de_names[1] == "2DE");
+		TS_ASSERT_EQUALS(de_names.size(), 2u);
+		TS_ASSERT_EQUALS(de_names[0], "1DE");
+		TS_ASSERT_EQUALS(de_names[1], "2DE");
 
 		int type = pipe_data.get_data_elt_type(0);
-		TS_ASSERT(type == DEV_ULONG64);
+		TS_ASSERT_EQUALS(type, DEV_ULONG64);
 
 		type = pipe_data.get_data_elt_type(1);
-		TS_ASSERT(type == DEVVAR_BOOLEANARRAY);
+		TS_ASSERT_EQUALS(type, DEVVAR_BOOLEANARRAY);
 
     	pipe_data >> udl64 >> v_bool;
 
-		TS_ASSERT(udl64 == 123456);
+		TS_ASSERT_EQUALS(udl64, 123456u);
 
-		TS_ASSERT(v_bool.size() == 3);
-		TS_ASSERT(v_bool[0] == true);
-		TS_ASSERT(v_bool[1] == true);
-		TS_ASSERT(v_bool[2] == false);
+		TS_ASSERT_EQUALS(v_bool.size(), 3u);
+		TS_ASSERT_EQUALS(v_bool[0], true);
+		TS_ASSERT_EQUALS(v_bool[1], true);
+		TS_ASSERT_EQUALS(v_bool[2], false);
 	}
 
 	void test_reading_pipe_with_arrays_length_1(void)
@@ -227,26 +227,26 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase12");
-		TS_ASSERT(de_nb == 2);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase12");
+		TS_ASSERT_EQUALS(de_nb, 2u);
 
-		TS_ASSERT(de_names.size() == 2);
-		TS_ASSERT(de_names[0] == "1DE_Array");
-		TS_ASSERT(de_names[1] == "2DE_Array");
+		TS_ASSERT_EQUALS(de_names.size(), 2u);
+		TS_ASSERT_EQUALS(de_names[0], "1DE_Array");
+		TS_ASSERT_EQUALS(de_names[1], "2DE_Array");
 
 		int type = pipe_data.get_data_elt_type(0);
-		TS_ASSERT(type == DEVVAR_LONGARRAY);
+		TS_ASSERT_EQUALS(type, DEVVAR_LONGARRAY);
 
 		type = pipe_data.get_data_elt_type(1);
-		TS_ASSERT(type == DEVVAR_BOOLEANARRAY);
+		TS_ASSERT_EQUALS(type, DEVVAR_BOOLEANARRAY);
 
     	pipe_data >> v_dl >> v_bool;
 
-		TS_ASSERT(v_dl.size() == 1);
-		TS_ASSERT(v_dl[0] == 9);
+		TS_ASSERT_EQUALS(v_dl.size(), 1u);
+		TS_ASSERT_EQUALS(v_dl[0], 9);
 
-		TS_ASSERT(v_bool.size() == 1);
-		TS_ASSERT(v_bool[0] == false);
+		TS_ASSERT_EQUALS(v_bool.size(), 1u);
+		TS_ASSERT_EQUALS(v_bool[0], false);
 	}
 
 	void test_reading_pipe_with_string_types(void)
@@ -260,15 +260,15 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase1");
-		TS_ASSERT(de_nb == 5);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase1");
+		TS_ASSERT_EQUALS(de_nb, 5u);
 
-		TS_ASSERT(de_names.size() == 5);
-		TS_ASSERT(de_names[0] == "stringDE");
-		TS_ASSERT(de_names[1] == "DevStringDE");
-		TS_ASSERT(de_names[2] == "DevEncodedDE");
-		TS_ASSERT(de_names[3] == "VectorStringDE");
-		TS_ASSERT(de_names[4] == "DevVarStringArrayDE");
+		TS_ASSERT_EQUALS(de_names.size(), 5u);
+		TS_ASSERT_EQUALS(de_names[0], "stringDE");
+		TS_ASSERT_EQUALS(de_names[1], "DevStringDE");
+		TS_ASSERT_EQUALS(de_names[2], "DevEncodedDE");
+		TS_ASSERT_EQUALS(de_names[3], "VectorStringDE");
+		TS_ASSERT_EQUALS(de_names[4], "DevVarStringArrayDE");
 
 		string str;
 		DevString ds = nullptr;
@@ -278,25 +278,24 @@ public:
 
 		pipe_data >> str >> ds >> enc >> v_str >> dvsa;
 
-		TS_ASSERT(str == "Hello");
+		TS_ASSERT_EQUALS(str, "Hello");
 
-		string tmp("Hola");
-		TS_ASSERT(strcmp(ds,tmp.c_str()) == 0);
+		TS_ASSERT_EQUALS(std::string(ds), "Hola");
 
 		string tmp_enc("Format");
-		TS_ASSERT(strcmp(enc.encoded_format,tmp_enc.c_str()) == 0);
-		TS_ASSERT(enc.encoded_data.length() == 2);
-		TS_ASSERT(enc.encoded_data[0] == 0);
-		TS_ASSERT(enc.encoded_data[1] == 1);
+		TS_ASSERT_EQUALS(std::string(enc.encoded_format), tmp_enc);
+		TS_ASSERT_EQUALS(enc.encoded_data.length(), 2u);
+		TS_ASSERT_EQUALS(enc.encoded_data[0], 0);
+		TS_ASSERT_EQUALS(enc.encoded_data[1], 1);
 
-		TS_ASSERT(v_str.size() == 3);
-		TS_ASSERT(v_str[0] == "Bonjour");
-		TS_ASSERT(v_str[1] == "le");
-		TS_ASSERT(v_str[2] == "monde");
+		TS_ASSERT_EQUALS(v_str.size(), 3u);
+		TS_ASSERT_EQUALS(v_str[0], "Bonjour");
+		TS_ASSERT_EQUALS(v_str[1], "le");
+		TS_ASSERT_EQUALS(v_str[2], "monde");
 
-		TS_ASSERT(dvsa->length() == 1);
+		TS_ASSERT_EQUALS(dvsa->length(), 1u);
 		string tmp_dvsa("Why not?");
-		TS_ASSERT(strcmp((*dvsa)[0],tmp_dvsa.c_str()) == 0);
+		TS_ASSERT_EQUALS(std::string((*dvsa)[0]), tmp_dvsa);
 
 		delete dvsa;
 		delete [] ds;
@@ -313,12 +312,12 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase2");
-		TS_ASSERT(de_nb == 2);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase2");
+		TS_ASSERT_EQUALS(de_nb, 2u);
 
-		TS_ASSERT(de_names.size() == 2);
-		TS_ASSERT(de_names[0] == "FirstDE");
-		TS_ASSERT(de_names[1] == "SecondDE");
+		TS_ASSERT_EQUALS(de_names.size(), 2u);
+		TS_ASSERT_EQUALS(de_names[0], "FirstDE");
+		TS_ASSERT_EQUALS(de_names[1], "SecondDE");
 
 		vector<double> v_db;
 		DevLong dl;
@@ -326,12 +325,12 @@ public:
 		pipe_data["SecondDE"] >> v_db;
 		pipe_data["FirstDE"] >> dl;
 
-		TS_ASSERT(v_db.size() == 3);
-		TS_ASSERT(v_db[0] == 3.33);
-		TS_ASSERT(v_db[1] == 4.44);
-		TS_ASSERT(v_db[2] == 5.55);
+		TS_ASSERT_EQUALS(v_db.size(), 3u);
+		TS_ASSERT_EQUALS(v_db[0], 3.33);
+		TS_ASSERT_EQUALS(v_db[1], 4.44);
+		TS_ASSERT_EQUALS(v_db[2], 5.55);
 
-		TS_ASSERT(dl == 999);
+		TS_ASSERT_EQUALS(dl, 999);
 	}
 
 	void test_reading_pipe_initialized_with_data_elt(void)
@@ -341,12 +340,12 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobDE");
-		TS_ASSERT(de_nb == 4);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobDE");
+		TS_ASSERT_EQUALS(de_nb, 4u);
 
-		TS_ASSERT(de_names.size() == 4);
-		TS_ASSERT(de_names[0] == "FirstDE");
-		TS_ASSERT(de_names[1] == "SecondDE");
+		TS_ASSERT_EQUALS(de_names.size(), 4u);
+		TS_ASSERT_EQUALS(de_names[0], "FirstDE");
+		TS_ASSERT_EQUALS(de_names[1], "SecondDE");
 
 		vector<double> v_db;
 		DevLong dl;
@@ -354,11 +353,11 @@ public:
 		pipe_data["SecondDE"] >> v_db;
 		pipe_data["FirstDE"] >> dl;
 
-		TS_ASSERT(v_db.size() == 2);
-		TS_ASSERT(v_db[0] == 1.11);
-		TS_ASSERT(v_db[1] == 2.22);
+		TS_ASSERT_EQUALS(v_db.size(), 2u);
+		TS_ASSERT_EQUALS(v_db[0], 1.11);
+		TS_ASSERT_EQUALS(v_db[1], 2.22);
 
-		TS_ASSERT(dl == 666);
+		TS_ASSERT_EQUALS(dl, 666);
 	}
 
 	void test_reading_pipe_with_blob_inside_blob(void)
@@ -372,33 +371,33 @@ public:
 		size_t de_nb = pipe_data.get_data_elt_nb();
 		vector<string> de_names = pipe_data.get_data_elt_names();
 
-		TS_ASSERT(pipe_data.get_root_blob_name() == "BlobCase3");
-		TS_ASSERT(de_nb == 2);
+		TS_ASSERT_EQUALS(pipe_data.get_root_blob_name(), "BlobCase3");
+		TS_ASSERT_EQUALS(de_nb, 2u);
 
-		TS_ASSERT(de_names.size() == 2);
-		TS_ASSERT(de_names[0] == "1DE");
-		TS_ASSERT(de_names[1] == "2DE");
+		TS_ASSERT_EQUALS(de_names.size(), 2u);
+		TS_ASSERT_EQUALS(de_names[0], "1DE");
+		TS_ASSERT_EQUALS(de_names[1], "2DE");
 
-		TS_ASSERT(pipe_data.get_data_elt_type(0) == DEV_PIPE_BLOB);
-		TS_ASSERT(pipe_data.get_data_elt_type(1) == DEVVAR_LONGARRAY);
+		TS_ASSERT_EQUALS(pipe_data.get_data_elt_type(0), DEV_PIPE_BLOB);
+		TS_ASSERT_EQUALS(pipe_data.get_data_elt_type(1), DEVVAR_LONGARRAY);
 
 		vector<DevLong> v_dl;
 		pipe_data["2DE"] >> v_dl;
 
-		TS_ASSERT(v_dl.size() == 4);
-		TS_ASSERT(v_dl[0] == 3);
-		TS_ASSERT(v_dl[1] == 4);
-		TS_ASSERT(v_dl[2] == 5);
-		TS_ASSERT(v_dl[3] == 6);
+		TS_ASSERT_EQUALS(v_dl.size(), 4u);
+		TS_ASSERT_EQUALS(v_dl[0], 3);
+		TS_ASSERT_EQUALS(v_dl[1], 4);
+		TS_ASSERT_EQUALS(v_dl[2], 5);
+		TS_ASSERT_EQUALS(v_dl[3], 6);
 
 		DevicePipeBlob inner_dpb;
 		pipe_data["1DE"] >> inner_dpb;
 
-		TS_ASSERT(inner_dpb.get_name() == "Inner");
-		TS_ASSERT(inner_dpb.get_data_elt_nb() == 3);
-		TS_ASSERT(inner_dpb.get_data_elt_name(0) == "InnerFirstDE");
-		TS_ASSERT(inner_dpb.get_data_elt_name(1) == "InnerSecondDE");
-		TS_ASSERT(inner_dpb.get_data_elt_name(2) == "InnerThirdDE");
+		TS_ASSERT_EQUALS(inner_dpb.get_name(), "Inner");
+		TS_ASSERT_EQUALS(inner_dpb.get_data_elt_nb(), 3u);
+		TS_ASSERT_EQUALS(inner_dpb.get_data_elt_name(0), "InnerFirstDE");
+		TS_ASSERT_EQUALS(inner_dpb.get_data_elt_name(1), "InnerSecondDE");
+		TS_ASSERT_EQUALS(inner_dpb.get_data_elt_name(2), "InnerThirdDE");
 
 		DevicePipeBlob inner_inner_dpb;
 		string inner_str;
@@ -406,24 +405,24 @@ public:
 
 		inner_dpb >> inner_str >> inner_inner_dpb >> inner_bool;
 
-		TS_ASSERT (inner_str == "Grenoble");
-		TS_ASSERT (inner_bool = true);
+		TS_ASSERT_EQUALS(inner_str, "Grenoble");
+		TS_ASSERT(inner_bool);
 
-		TS_ASSERT(inner_inner_dpb.get_name() == "InnerInner");
-		TS_ASSERT(inner_inner_dpb.get_data_elt_nb() == 2);
-		TS_ASSERT(inner_inner_dpb.get_data_elt_name(0) == "InnerInnerFirstDE");
-		TS_ASSERT(inner_inner_dpb.get_data_elt_name(1) == "InnerInnerSecondDE");
+		TS_ASSERT_EQUALS(inner_inner_dpb.get_name(), "InnerInner");
+		TS_ASSERT_EQUALS(inner_inner_dpb.get_data_elt_nb(), 2u);
+		TS_ASSERT_EQUALS(inner_inner_dpb.get_data_elt_name(0), "InnerInnerFirstDE");
+		TS_ASSERT_EQUALS(inner_inner_dpb.get_data_elt_name(1), "InnerInnerSecondDE");
 
 		DataElement<DevLong> de_dl;
 		DataElement<vector<double> > de_v_db;
 
 		inner_inner_dpb >> de_dl >> de_v_db;
 
-		TS_ASSERT(de_dl.name == "InnerInnerFirstDE");
-		TS_ASSERT(de_dl.value == 111);
+		TS_ASSERT_EQUALS(de_dl.name, "InnerInnerFirstDE");
+		TS_ASSERT_EQUALS(de_dl.value, 111);
 
-		TS_ASSERT(de_v_db.value.size() == 1);
-		TS_ASSERT(de_v_db.value[0] == 3.33);
+		TS_ASSERT_EQUALS(de_v_db.value.size(), 1u);
+		TS_ASSERT_EQUALS(de_v_db.value[0], 3.33);
 	}
 
 	void test_reading_pipe_with_error_cases(void)
@@ -443,25 +442,25 @@ public:
 		vector<DevState> v_sta;
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data >> dl >> v_db >> v_us >> v_sta >> dl_extra;, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeWrongArg
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeWrongArg);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		pipe_data = device1->read_pipe("rPipe");
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data >> dl >> dl_extra;, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_IncompatibleArgumentType
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_IncompatibleArgumentType);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		d_in << (short)4;
 		device1->command_inout("SetPipeOutput",d_in);
 
 		pipe_data = device1->read_pipe("rPipe");
 
-		TS_ASSERT(pipe_data.get_data_elt_nb() == 2);
+		TS_ASSERT_EQUALS(pipe_data.get_data_elt_nb(), 2u);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data >> dl >> dl;, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_EmptyDataElement
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_EmptyDataElement);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Same error with bit test instead of exceptions
 
@@ -473,16 +472,16 @@ public:
 		pipe_data.exceptions(bs);
 
 		pipe_data >> dl;
-		TS_ASSERT(pipe_data.has_failed() == false);
+		TS_ASSERT_EQUALS(pipe_data.has_failed(), false);
 
 		pipe_data >> dl;
-		TS_ASSERT(pipe_data.has_failed() == true);
+		TS_ASSERT_EQUALS(pipe_data.has_failed(), true);
 
 		bitset<DevicePipeBlob::numFlags> bs_err = pipe_data.state();
-		TS_ASSERT(bs_err.test(DevicePipeBlob::isempty_flag) == true);
-		TS_ASSERT(bs_err.test(DevicePipeBlob::wrongtype_flag) == false);
-		TS_ASSERT(bs_err.test(DevicePipeBlob::notenoughde_flag) == false);
-		TS_ASSERT(bs_err.test(DevicePipeBlob::blobdenamenotset_flag) == false);
+		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::isempty_flag), true);
+		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::wrongtype_flag), false);
+		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::notenoughde_flag), false);
+		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::blobdenamenotset_flag), false);
 
 		bs.set();
 		pipe_data.exceptions(bs);
@@ -493,14 +492,14 @@ public:
 		device1->command_inout("SetPipeOutput",d_in);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("rpipe");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeValueNotSet
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeValueNotSet);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Error pipe not found
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("pi");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeNotFound
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNotFound);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Not allowed error
 
@@ -508,8 +507,8 @@ public:
 		device1->command_inout("IOState",d_in);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("rpipe");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeNotAllowed
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNotAllowed);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		d_in << Tango::ON;
 		device1->command_inout("IOState",d_in);
@@ -520,8 +519,8 @@ public:
 		device1->command_inout("SetPipeOutput",d_in);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("rpipe");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeDuplicateDEName
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeDuplicateDEName);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Duplicate DE name
 
@@ -529,8 +528,8 @@ public:
 		device1->command_inout("SetPipeOutput",d_in);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("rpipe");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeNoDataElement
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNoDataElement);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Mixing insertion method type
 
@@ -538,8 +537,8 @@ public:
 		device1->command_inout("SetPipeOutput",d_in);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("rpipe");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_NotSupportedFeature
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_NotSupportedFeature);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Not enough data element
 
@@ -547,8 +546,8 @@ public:
 		device1->command_inout("SetPipeOutput",d_in);
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data = device1->read_pipe("rpipe");, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeWrongArg
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeWrongArg);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Mixing extraction method type
 
@@ -563,8 +562,8 @@ public:
     	pipe_data >> de_dl;
 
 		TS_ASSERT_THROWS_ASSERT(pipe_data["SecondDE"] >> de_v_db;, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_NotSupportedFeature
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_NotSupportedFeature);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 	void test_writing_pipe(void)
@@ -601,16 +600,16 @@ public:
 		v_fl.push_back(8.88);
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeNoDataElement
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNoDataElement);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Empty data element
 
 		dp.set_data_elt_names(de_names);
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_EmptyDataElement
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_EmptyDataElement);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Pipe not found
 
@@ -619,8 +618,8 @@ public:
 		dp << str << v_fl;
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeNotFound
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNotFound);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Pipe not writable
 
@@ -629,8 +628,8 @@ public:
 		dp << str << v_fl;
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_PipeNotWritable
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNotWritable);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Wrong data sent to pipe
 
@@ -641,8 +640,8 @@ public:
 		dp << v_fl;
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_IncompatibleArgumentType
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_IncompatibleArgumentType);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		de_names.clear();
 		de_names.push_back("111");
@@ -653,8 +652,8 @@ public:
 		dp << str << str;
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_IncompatibleArgumentType
-								&& e.errors[0].severity == Tango::ERR));
+						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_IncompatibleArgumentType);
+						TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 	void test_write_read_pipe(void)
@@ -679,19 +678,19 @@ public:
 		DataElement<vector<double> > de_v_db;
 
 		size_t de_nb = r_dp.get_data_elt_nb();
-		TS_ASSERT(de_nb == 2);
+		TS_ASSERT_EQUALS(de_nb, 2u);
 
     	r_dp >> de_dl >> de_v_db;
 
-		TS_ASSERT(r_dp.get_root_blob_name() == "RWPipeBlob");
+		TS_ASSERT_EQUALS(r_dp.get_root_blob_name(), "RWPipeBlob");
 
-		TS_ASSERT(de_dl.name == "RW_1DE");
-		TS_ASSERT(de_dl.value == 666);
+		TS_ASSERT_EQUALS(de_dl.name, "RW_1DE");
+		TS_ASSERT_EQUALS(de_dl.value, 666);
 
-		TS_ASSERT(de_v_db.name == "RW_2DE");
-		TS_ASSERT(de_v_db.value.size() == 2);
-		TS_ASSERT(de_v_db.value[0] == 1.11);
-		TS_ASSERT(de_v_db.value[1] == 2.22);
+		TS_ASSERT_EQUALS(de_v_db.name, "RW_2DE");
+		TS_ASSERT_EQUALS(de_v_db.value.size(), 2u);
+		TS_ASSERT_EQUALS(de_v_db.value[0], 1.11);
+		TS_ASSERT_EQUALS(de_v_db.value[1], 2.22);
 	}
 };
 

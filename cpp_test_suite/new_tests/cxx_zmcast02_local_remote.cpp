@@ -184,27 +184,27 @@ public:
 
 		bool po = device_local->is_attribute_polled(att_name);
 		coutv << "Local device: attribute polled : " << po << endl;
-		TS_ASSERT ( po == true);
+		TS_ASSERT_EQUALS(po, true);
 
 		int poll_period = device_local->get_attribute_poll_period(att_name);
 		coutv << "Local device: att polling period : " << poll_period << endl;
-		TS_ASSERT( poll_period == 1000);
+		TS_ASSERT_EQUALS(poll_period, 1000);
 
 		po = device_remote->is_attribute_polled(att_name);
 		coutv << "Remote device: attribute polled : " << po << endl;
-		TS_ASSERT ( po == true);
+		TS_ASSERT_EQUALS(po, true);
 
 		poll_period = device_remote->get_attribute_poll_period(att_name);
 		coutv << "Remote device: att polling period : " << poll_period << endl;
-		TS_ASSERT( poll_period == 1000);
+		TS_ASSERT_EQUALS(poll_period, 1000);
 	}
 
 // Check that first point has been received
 
 	void test_first_point_received(void)
 	{
-		TS_ASSERT (cb->cb_executed == 2);
-		TS_ASSERT (cb->val_size == 4);
+		TS_ASSERT_EQUALS(cb->cb_executed, 2);
+		TS_ASSERT_EQUALS(cb->val_size, 4);
 	}
 
 	void test_Callback_executed_after_a_change_for_both_events(void)
@@ -230,8 +230,8 @@ public:
 
 		coutv << "cb excuted = " << cb->cb_executed << endl;
 
-		TS_ASSERT (cb->cb_executed == 4);
-		TS_ASSERT (cb->val_size == 4);
+		TS_ASSERT_EQUALS(cb->cb_executed, 4);
+		TS_ASSERT_EQUALS(cb->val_size, 4);
 	}
 
 // unsubscribe to the event

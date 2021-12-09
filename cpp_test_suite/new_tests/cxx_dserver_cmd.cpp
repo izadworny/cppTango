@@ -123,7 +123,7 @@ public:
         // execute QueryClass command
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("QueryClass"));
         dout >> str_arr;
-        TS_ASSERT(string((*str_arr)[0].in()) == "DevTest");
+        TS_ASSERT_EQUALS(string((*str_arr)[0].in()), "DevTest");
 
         // execute QueryDevice command
         vector <string> serv_dev_vec, usr_dev_vec;
@@ -139,9 +139,9 @@ public:
         sort(serv_dev_vec.begin(), serv_dev_vec.end());    // sort expected and returned device names
         sort(usr_dev_vec.begin(), usr_dev_vec.end());        // in alphabetical order to compare the vectors
 
-        TS_ASSERT(serv_dev_vec[0] == usr_dev_vec[0]);
-        TS_ASSERT(serv_dev_vec[1] == usr_dev_vec[1]);
-        TS_ASSERT(serv_dev_vec[2] == usr_dev_vec[2]);
+        TS_ASSERT_EQUALS(serv_dev_vec[0], usr_dev_vec[0]);
+        TS_ASSERT_EQUALS(serv_dev_vec[1], usr_dev_vec[1]);
+        TS_ASSERT_EQUALS(serv_dev_vec[2], usr_dev_vec[2]);
     }
 
 // Test trace levels commands
@@ -157,8 +157,8 @@ public:
         din << dserver_name_in;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("GetLoggingLevel", din));
         dout >> dserver_level_out;
-        TS_ASSERT((*dserver_level_out).lvalue[0] == dsloglevel);
-        TS_ASSERT((*dserver_level_out).svalue[0].in() == dserver_name);
+        TS_ASSERT_EQUALS((*dserver_level_out).lvalue[0], dsloglevel);
+        TS_ASSERT_EQUALS((*dserver_level_out).svalue[0].in(), dserver_name);
 
         // set logging level to 5
         DevVarLongStringArray dserver_level_in;
@@ -174,14 +174,14 @@ public:
         const DevVarStringArray *query_class_out;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("QueryClass"));
         dout >> query_class_out;
-        TS_ASSERT(string((*query_class_out)[0].in()) == "DevTest");
+        TS_ASSERT_EQUALS(string((*query_class_out)[0].in()), "DevTest");
 
         // get logging level again and check if 5
         din << dserver_name_in;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("GetLoggingLevel", din));
         dout >> dserver_level_out;
-        TS_ASSERT((*dserver_level_out).lvalue[0] == 5);
-        TS_ASSERT((*dserver_level_out).svalue[0].in() == dserver_name);
+        TS_ASSERT_EQUALS((*dserver_level_out).lvalue[0], 5);
+        TS_ASSERT_EQUALS((*dserver_level_out).svalue[0].in(), dserver_name);
 
         // restore logging level to defaluts
         dserver_level_in.lvalue[0] = dsloglevel;
@@ -193,8 +193,8 @@ public:
         din << dserver_name_in;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("GetLoggingLevel", din));
         dout >> dserver_level_out;
-        TS_ASSERT((*dserver_level_out).lvalue[0] == dsloglevel);
-        TS_ASSERT((*dserver_level_out).svalue[0].in() == dserver_name);
+        TS_ASSERT_EQUALS((*dserver_level_out).lvalue[0], dsloglevel);
+        TS_ASSERT_EQUALS((*dserver_level_out).svalue[0].in(), dserver_name);
     }
 
 // Test set output file commands
@@ -207,7 +207,7 @@ public:
         din << dserver_name;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("GetLoggingTarget", din));
         dout >> logging_target_out;
-        TS_ASSERT((*logging_target_out).length() == 1);//console::cout
+        TS_ASSERT_EQUALS((*logging_target_out).length(), 1u);//console::cout
 
         // set logging level to 5
         DevVarLongStringArray dserver_level_in;
@@ -230,8 +230,8 @@ public:
         din << fake_logging_target;
 
         TS_ASSERT_THROWS_ASSERT(dserver->command_inout("AddLoggingTarget", din), Tango::DevFailed & e,
-                                TS_ASSERT(string(e.errors[0].reason.in()) == API_CannotOpenFile
-                                          && e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CannotOpenFile);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
         // add logging target
         DevVarStringArray logging_target;
@@ -246,7 +246,7 @@ public:
         const DevVarStringArray *query_class_out;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("QueryClass"));
         dout >> query_class_out;
-        TS_ASSERT(string((*query_class_out)[0].in()) == "DevTest");
+        TS_ASSERT_EQUALS(string((*query_class_out)[0].in()), "DevTest");
 
         // remove logging target
         DevVarStringArray remove_logging_target;
@@ -272,7 +272,7 @@ public:
         din << dserver_name;
         TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("GetLoggingTarget", din));
         dout >> check_logging_target;
-        TS_ASSERT((*check_logging_target).length() == 1);//console::cout
+        TS_ASSERT_EQUALS((*check_logging_target).length(), 1u);//console::cout
     }
 
 // Test comparing input with output

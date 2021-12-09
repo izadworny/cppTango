@@ -104,11 +104,11 @@ public:
 		DevState state;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> str;
-		TS_ASSERT(str == "The device is in ON state.");
+		TS_ASSERT_EQUALS(str, "The device is in ON state.");
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state;
-		TS_ASSERT(state == Tango::ON);
+		TS_ASSERT_EQUALS(state, Tango::ON);
 	}
 
 // Test DevRestart commnd
@@ -121,14 +121,14 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-		TS_ASSERT(state_out == Tango::OFF);
+		TS_ASSERT_EQUALS(state_out, Tango::OFF);
 
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("DevRestart", din));
 		Tango_sleep(3);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-		TS_ASSERT(state_out == Tango::ON);
+		TS_ASSERT_EQUALS(state_out, Tango::ON);
 	}
 
 // Test name, description, state and status CORBA attributes
@@ -139,16 +139,16 @@ public:
 		string str;
 		DevState state;
 
-		TS_ASSERT(device1->name() == device1_name);
-		TS_ASSERT(device1->description() == "A TANGO device");
+		TS_ASSERT_EQUALS(device1->name(), device1_name);
+		TS_ASSERT_EQUALS(device1->description(), "A TANGO device");
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> str;
-		TS_ASSERT(str == "The device is in ON state.");
+		TS_ASSERT_EQUALS(str, "The device is in ON state.");
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state;
-		TS_ASSERT(state == Tango::ON);
+		TS_ASSERT_EQUALS(state, Tango::ON);
 	}
 
 // Ping the device
@@ -162,12 +162,12 @@ public:
 
 	void test_info_call(void)
 	{
-		TS_ASSERT(device1->info().dev_class == "DevTest");
-		TS_ASSERT(device1->info().dev_type == dev_type);
-		TS_ASSERT(device1->info().doc_url == "Doc URL = " + doc_url);
-		TS_ASSERT(device1->info().server_host == server_host);
-		TS_ASSERT(device1->info().server_id == full_ds_name);
-		TS_ASSERT(device1->info().server_version == server_version);
+		TS_ASSERT_EQUALS(device1->info().dev_class, "DevTest");
+		TS_ASSERT_EQUALS(device1->info().dev_type, dev_type);
+		TS_ASSERT_EQUALS(device1->info().doc_url, "Doc URL = " + doc_url);
+		TS_ASSERT_EQUALS(device1->info().server_host, server_host);
+		TS_ASSERT_EQUALS(device1->info().server_id, full_ds_name);
+		TS_ASSERT_EQUALS(device1->info().server_version, server_version);
 	}
 };
 #undef cout

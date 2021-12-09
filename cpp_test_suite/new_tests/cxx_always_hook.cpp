@@ -141,7 +141,7 @@ public:
 		din << lg_in;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 	}
 
 // Test changing logging level
@@ -178,7 +178,7 @@ public:
 		din << lg_in;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOLong", din));
 		dout >> lg_out;
-		TS_ASSERT(lg_out == 20);
+		TS_ASSERT_EQUALS(lg_out, 20);
 
 		// restore device and device server logging level to default
 		DevVarLongStringArray reset_device_level;

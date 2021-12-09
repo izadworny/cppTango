@@ -124,11 +124,11 @@ public:
 
 		bool po = local_device->is_attribute_polled(att_name);
 		coutv << "attribute polled : " << po << endl;
-		TS_ASSERT ( po == true);
+		TS_ASSERT_EQUALS(po, true);
 
 		int poll_period = local_device->get_attribute_poll_period(att_name);
 		coutv << "att polling period : " << poll_period << endl;
-		TS_ASSERT( poll_period == 1000);
+		TS_ASSERT_EQUALS(poll_period, 1000);
 	}
 
 	void test_Subscribe_multicast_event_remotely(void)
@@ -143,24 +143,24 @@ public:
 
 		bool po = remote_device->is_attribute_polled(att_name);
 		coutv << "attribute polled : " << po << endl;
-		TS_ASSERT ( po == true);
+		TS_ASSERT_EQUALS(po, true);
 
 		int poll_period = remote_device->get_attribute_poll_period(att_name);
 		coutv << "att polling period : " << poll_period << endl;
-		TS_ASSERT( poll_period == 1000);
+		TS_ASSERT_EQUALS(poll_period, 1000);
 	}
 
 // Check that first point has been received
 
 	void test_first_point_received_locally_and_remotely(void)
 	{
-		TS_ASSERT (cb_local->cb_executed == 1);
-		TS_ASSERT (cb_local->val == 30);
-		TS_ASSERT (cb_local->val_size == 4);
+		TS_ASSERT_EQUALS(cb_local->cb_executed, 1);
+		TS_ASSERT_EQUALS(cb_local->val, 30);
+		TS_ASSERT_EQUALS(cb_local->val_size, 4);
 
-		TS_ASSERT (cb_remote->cb_executed == 1);
-		TS_ASSERT (cb_remote->val == 30);
-		TS_ASSERT (cb_remote->val_size == 4);
+		TS_ASSERT_EQUALS(cb_remote->cb_executed, 1);
+		TS_ASSERT_EQUALS(cb_remote->val, 30);
+		TS_ASSERT_EQUALS(cb_remote->val_size, 4);
 	}
 
 	void test_Callback_executed_after_a_change_localy_and_remotely(void)
@@ -187,13 +187,13 @@ public:
 		coutv << "local cb excuted = " << cb_local->cb_executed << endl;
 		coutv << "remote cb executed = " << cb_remote->cb_executed << endl;
 
-		TS_ASSERT (cb_local->cb_executed == 2);
-		TS_ASSERT (cb_local->val == 31);
-		TS_ASSERT (cb_local->val_size == 4);
+		TS_ASSERT_EQUALS(cb_local->cb_executed, 2);
+		TS_ASSERT_EQUALS(cb_local->val, 31);
+		TS_ASSERT_EQUALS(cb_local->val_size, 4);
 
-		TS_ASSERT (cb_remote->cb_executed == 2);
-		TS_ASSERT (cb_remote->val == 31);
-		TS_ASSERT (cb_remote->val_size == 4);
+		TS_ASSERT_EQUALS(cb_remote->cb_executed, 2);
+		TS_ASSERT_EQUALS(cb_remote->val, 31);
+		TS_ASSERT_EQUALS(cb_remote->val_size, 4);
 	}
 
 // unsubscribe to the event

@@ -88,12 +88,12 @@ public:
 		PipeInfo pi;
 		pi = device1->get_pipe_config("PipeConf1");
 
-		TS_ASSERT(pi.name == "PipeConf1");
-		TS_ASSERT(pi.disp_level == OPERATOR);
-		TS_ASSERT(pi.writable == PIPE_READ);
+		TS_ASSERT_EQUALS(pi.name, "PipeConf1");
+		TS_ASSERT_EQUALS(pi.disp_level, OPERATOR);
+		TS_ASSERT_EQUALS(pi.writable, PIPE_READ);
 
-		TS_ASSERT(pi.label == "PipeConf1");
-		TS_ASSERT(pi.description == "No description");
+		TS_ASSERT_EQUALS(pi.label, "PipeConf1");
+		TS_ASSERT_EQUALS(pi.description, "No description");
 	}
 
 	void test_pipe_with_user_conf(void)
@@ -101,12 +101,12 @@ public:
 		PipeInfo pi;
 		pi = device1->get_pipe_config("PipeConf2");
 
-		TS_ASSERT(pi.name == "PipeConf2");
-		TS_ASSERT(pi.disp_level == OPERATOR);
-		TS_ASSERT(pi.writable == PIPE_READ);
+		TS_ASSERT_EQUALS(pi.name, "PipeConf2");
+		TS_ASSERT_EQUALS(pi.disp_level, OPERATOR);
+		TS_ASSERT_EQUALS(pi.writable, PIPE_READ);
 
-		TS_ASSERT(pi.label == "PipeLabel");
-		TS_ASSERT(pi.description == "A Tango pipe with user defined desc");
+		TS_ASSERT_EQUALS(pi.label, "PipeLabel");
+		TS_ASSERT_EQUALS(pi.description, "A Tango pipe with user defined desc");
 	}
 
 	void test_pipe_with_user_and_db_conf(void)
@@ -114,12 +114,12 @@ public:
 		PipeInfo pi;
 		pi = device1->get_pipe_config("PipeConf3");
 
-		TS_ASSERT(pi.name == "PipeConf3");
-		TS_ASSERT(pi.disp_level == OPERATOR);
-		TS_ASSERT(pi.writable == PIPE_READ);
+		TS_ASSERT_EQUALS(pi.name, "PipeConf3");
+		TS_ASSERT_EQUALS(pi.disp_level, OPERATOR);
+		TS_ASSERT_EQUALS(pi.writable, PIPE_READ);
 
-		TS_ASSERT(pi.label == "OverWrittenPipeLabel");
-		TS_ASSERT(pi.description == "No description");
+		TS_ASSERT_EQUALS(pi.label, "OverWrittenPipeLabel");
+		TS_ASSERT_EQUALS(pi.description, "No description");
 	}
 
 	void test_pipe_with_db_class_device_conf(void)
@@ -127,12 +127,12 @@ public:
 		PipeInfo pi;
 		pi = device1->get_pipe_config("PipeConf4");
 
-		TS_ASSERT(pi.name == "PipeConf4");
-		TS_ASSERT(pi.disp_level == OPERATOR);
-		TS_ASSERT(pi.writable == PIPE_READ);
+		TS_ASSERT_EQUALS(pi.name, "PipeConf4");
+		TS_ASSERT_EQUALS(pi.disp_level, OPERATOR);
+		TS_ASSERT_EQUALS(pi.writable, PIPE_READ);
 
-		TS_ASSERT(pi.label == "DB_class_def_label");
-		TS_ASSERT(pi.description == "DB_device_def_desc");
+		TS_ASSERT_EQUALS(pi.label, "DB_class_def_label");
+		TS_ASSERT_EQUALS(pi.description, "DB_device_def_desc");
 	}
 
 	void test_pipe_with_db_class_conf(void)
@@ -140,12 +140,12 @@ public:
 		PipeInfo pi;
 		pi = device1->get_pipe_config("PipeConf5");
 
-		TS_ASSERT(pi.name == "PipeConf5");
-		TS_ASSERT(pi.disp_level == OPERATOR);
-		TS_ASSERT(pi.writable == PIPE_READ);
+		TS_ASSERT_EQUALS(pi.name, "PipeConf5");
+		TS_ASSERT_EQUALS(pi.disp_level, OPERATOR);
+		TS_ASSERT_EQUALS(pi.writable, PIPE_READ);
 
-		TS_ASSERT(pi.label == "ClassDefinedLabel");
-		TS_ASSERT(pi.description == "No description");
+		TS_ASSERT_EQUALS(pi.label, "ClassDefinedLabel");
+		TS_ASSERT_EQUALS(pi.description, "No description");
 	}
 
 
@@ -193,11 +193,11 @@ public:
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT(pi.description == "toto");
+		TS_ASSERT_EQUALS(pi.description, "toto");
 
 		pi2 = device2->get_pipe_config(pipe_name);
 cout << "pi2.description = " << pi2.description << endl;
-		TS_ASSERT(pi2.description == "No description");
+		TS_ASSERT_EQUALS(pi2.description, "No description");
 
 // Return to lib
 
@@ -230,7 +230,7 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT(pi.description == dev_desc);
+		TS_ASSERT_EQUALS(pi.description, dev_desc);
 
 // Return to class
 
@@ -240,7 +240,7 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT(pi.description == class_desc);
+		TS_ASSERT_EQUALS(pi.description, class_desc);
 
 		Tango::DeviceData dd;
 		string dev_name = device1->name();
@@ -248,7 +248,7 @@ cout << "pi2.description = " << pi2.description << endl;
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT(pi.description == class_desc);
+		TS_ASSERT_EQUALS(pi.description, class_desc);
 
 		pi.description = dev_desc;
 		pi_list.clear();
@@ -263,11 +263,11 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == user_desc);
+		TS_ASSERT_EQUALS(pi.description, user_desc);
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == user_desc);
+		TS_ASSERT_EQUALS(pi.description, user_desc);
 
 		pi.description = dev_desc;
 		pi_list.clear();
@@ -287,7 +287,7 @@ cout << "pi2.description = " << pi2.description << endl;
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == lib_desc);
+		TS_ASSERT_EQUALS(pi.description, lib_desc);
 
 		pi.description = dev_desc;
 		pi_list.clear();
@@ -302,12 +302,12 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == class_desc);
+		TS_ASSERT_EQUALS(pi.description, class_desc);
 
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == class_desc);
+		TS_ASSERT_EQUALS(pi.description, class_desc);
 
 //  Return to user bis
 
@@ -317,12 +317,12 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == user_desc);
+		TS_ASSERT_EQUALS(pi.description, user_desc);
 
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == user_desc);
+		TS_ASSERT_EQUALS(pi.description, user_desc);
 
 // return to lib bis
 
@@ -332,12 +332,12 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == lib_desc);
+		TS_ASSERT_EQUALS(pi.description, lib_desc);
 
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == lib_desc);
+		TS_ASSERT_EQUALS(pi.description, lib_desc);
 
 // User input == user default
 
@@ -352,12 +352,12 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == user_desc);
+		TS_ASSERT_EQUALS(pi.description, user_desc);
 
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == user_desc);
+		TS_ASSERT_EQUALS(pi.description, user_desc);
 
 // User input == class default
 
@@ -372,12 +372,12 @@ cout << "pi2.description = " << pi2.description << endl;
 		device1->set_pipe_config(pi_list);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == class_desc);
+		TS_ASSERT_EQUALS(pi.description, class_desc);
 
 		root_admin->command_inout("DevRestart",dd);
 
 		pi = device1->get_pipe_config(pipe_name);
-		TS_ASSERT (pi.description == class_desc);
+		TS_ASSERT_EQUALS(pi.description, class_desc);
 	}
 
 };

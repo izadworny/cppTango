@@ -80,7 +80,7 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IODevListByClass", din));
 		dout >> dev_name;
-		TS_ASSERT(dev_name == name);
+		TS_ASSERT_EQUALS(dev_name, name);
 	}
 
 // Test get_device_list_by_class exception
@@ -92,8 +92,8 @@ public:
 		din << class_name;
 
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IODevListByClass", din), Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_ClassNotFound
-								&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_ClassNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test get_dserver_device
@@ -106,7 +106,7 @@ public:
 		dout >> dserver_name_tmp;
 		string dserver_name_tmp_str(dserver_name_tmp);
 //		transform(dserver_name_tmp_str.begin(), dserver_name_tmp_str.end(), dserver_name_tmp_str.begin(), ::tolower);
-		TS_ASSERT(dserver_name_tmp_str == dserver_name);
+		TS_ASSERT_EQUALS(dserver_name_tmp_str, dserver_name);
 	}
 
 // Test get_device_by_name
@@ -118,7 +118,7 @@ public:
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IODevByName", din));
 		dout >> device1_name_tmp;
-		TS_ASSERT(device1_name_tmp == device1_name);
+		TS_ASSERT_EQUALS(device1_name_tmp, device1_name);
 	}
 
 // Test get_device_by_name exception
@@ -129,8 +129,8 @@ public:
 		const char *fake_name = "dev/test/1000";
 		din << fake_name;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IODevByName", din), Tango::DevFailed &e,
-								TS_ASSERT(string(e.errors[0].reason.in()) == API_DeviceNotFound
-										&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_DeviceNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 };
 #undef cout

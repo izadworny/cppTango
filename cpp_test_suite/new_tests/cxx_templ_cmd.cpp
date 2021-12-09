@@ -106,8 +106,8 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTemplState"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotAllowed
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotAllowed);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		state_in = Tango::ON;
 		din << state_in;
@@ -148,8 +148,8 @@ public:
 
 		din << lg;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTemplInState", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotAllowed
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotAllowed);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		state_in = Tango::ON;
 		din << state_in;
@@ -164,10 +164,10 @@ public:
 		const DevVarLongArray *out;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOTemplOut"));
 		dout >> out;
-		TS_ASSERT((*out)[0] == 10
-				&& (*out)[1] == 20
-				&& (*out)[2] == 30
-				&& (*out)[3] == 40);
+		TS_ASSERT_EQUALS((*out)[0], 10);
+		TS_ASSERT_EQUALS((*out)[1], 20);
+		TS_ASSERT_EQUALS((*out)[2], 30);
+		TS_ASSERT_EQUALS((*out)[3], 40);
 	}
 
 // Test IOTemplOutState
@@ -178,10 +178,10 @@ public:
 		const DevVarLongArray *out;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOTemplOutState"));
 		dout >> out;
-		TS_ASSERT((*out)[0] == 10
-				&& (*out)[1] == 20
-				&& (*out)[2] == 30
-				&& (*out)[3] == 40);
+		TS_ASSERT_EQUALS((*out)[0], 10);
+		TS_ASSERT_EQUALS((*out)[1], 20);
+		TS_ASSERT_EQUALS((*out)[2], 30);
+		TS_ASSERT_EQUALS((*out)[3], 40);
 	}
 
 // Test IOTemplOutState exception
@@ -196,8 +196,8 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTemplOutState"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotAllowed
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotAllowed);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		state_in = Tango::ON;
 		din << state_in;
@@ -214,8 +214,8 @@ public:
 		din << db;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOTemplInOut", din));
 		dout >> out;
-		TS_ASSERT((*out)[0] == 3.4
-				&& (*out)[1] == 6.8);
+		TS_ASSERT_EQUALS((*out)[0], 3.4);
+		TS_ASSERT_EQUALS((*out)[1], 6.8);
 	}
 
 // Test IOTemplInOutState
@@ -228,8 +228,8 @@ public:
 		din << db;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOTemplInOutState", din));
 		dout >> out;
-		TS_ASSERT((*out)[0] == 4.2
-				&& (*out)[1] == 8.4);
+		TS_ASSERT_EQUALS((*out)[0], 4.2);
+		TS_ASSERT_EQUALS((*out)[1], 8.4);
 	}
 
 // Test IOTemplInOutState exception
@@ -246,8 +246,8 @@ public:
 
 		din << db;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTemplInOutState", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotAllowed
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotAllowed);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		state_in = Tango::ON;
 		din << state_in;

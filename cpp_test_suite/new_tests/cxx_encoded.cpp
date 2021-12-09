@@ -84,10 +84,10 @@ public:
 		dd_out >> de_out;
 
 		string tmp_str(de_out.encoded_format);
-		TS_ASSERT(tmp_str == "Returned string");
-		TS_ASSERT(de_out.encoded_data.length() == 2)
-		TS_ASSERT(de_out.encoded_data[0] == 0x20);
-		TS_ASSERT(de_out.encoded_data[1] == 0x22);
+		TS_ASSERT_EQUALS(tmp_str, "Returned string");
+		TS_ASSERT_EQUALS(de_out.encoded_data.length(), 2u);
+		TS_ASSERT_EQUALS(de_out.encoded_data[0], 0x20);
+		TS_ASSERT_EQUALS(de_out.encoded_data[1], 0x22);
 
 //-----------------
 
@@ -104,11 +104,11 @@ public:
 		vector<unsigned char> received_data;
 		dd_out.extract(received_str,received_data);
 
-		TS_ASSERT(received_str == "Returned string");
-		TS_ASSERT(received_data.size() == 3)
-		TS_ASSERT(received_data[0] == 0x40);
-		TS_ASSERT(received_data[1] == 0x42);
-		TS_ASSERT(received_data[2] == 0x44);
+		TS_ASSERT_EQUALS(received_str, "Returned string");
+		TS_ASSERT_EQUALS(received_data.size(), 3u)
+		TS_ASSERT_EQUALS(received_data[0], 0x40);
+		TS_ASSERT_EQUALS(received_data[1], 0x42);
+		TS_ASSERT_EQUALS(received_data[2], 0x44);
 
 //---------------
 
@@ -127,9 +127,9 @@ public:
 
 		string t_str(received_str_ptr);
 
-		TS_ASSERT(t_str == "Returned string");
-		TS_ASSERT(received_data_length == 1)
-		TS_ASSERT(received_data_ptr[0] == 0x20);
+		TS_ASSERT_EQUALS(t_str, "Returned string");
+		TS_ASSERT_EQUALS(received_data_length, 1u)
+		TS_ASSERT_EQUALS(received_data_ptr[0], 0x20);
 
 //-----------
 

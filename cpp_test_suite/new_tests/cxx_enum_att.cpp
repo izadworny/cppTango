@@ -117,16 +117,16 @@ public:
 		Tango::AttributeInfoEx aie;
 		TS_ASSERT_THROWS_NOTHING(aie = device1->get_attribute_config("Enum_attr_rw"));
 
-		TS_ASSERT(aie.name == "Enum_attr_rw");
-		TS_ASSERT(aie.writable == Tango::READ_WRITE);
-		TS_ASSERT(aie.data_format == Tango::SCALAR);
-		TS_ASSERT(aie.data_type == Tango::DEV_ENUM);
+		TS_ASSERT_EQUALS(aie.name, "Enum_attr_rw");
+		TS_ASSERT_EQUALS(aie.writable, Tango::READ_WRITE);
+		TS_ASSERT_EQUALS(aie.data_format, Tango::SCALAR);
+		TS_ASSERT_EQUALS(aie.data_type, Tango::DEV_ENUM);
 
-		TS_ASSERT(aie.enum_labels.size() == 4);
-		TS_ASSERT(aie.enum_labels[0] == "North");
-		TS_ASSERT(aie.enum_labels[1] == "South");
-		TS_ASSERT(aie.enum_labels[2] == "East");
-		TS_ASSERT(aie.enum_labels[3] == "West");
+		TS_ASSERT_EQUALS(aie.enum_labels.size(), 4u);
+		TS_ASSERT_EQUALS(aie.enum_labels[0], "North");
+		TS_ASSERT_EQUALS(aie.enum_labels[1], "South");
+		TS_ASSERT_EQUALS(aie.enum_labels[2], "East");
+		TS_ASSERT_EQUALS(aie.enum_labels[3], "West");
 
 // Change enum labels
 
@@ -143,11 +143,11 @@ public:
 		Tango::AttributeInfoEx aie2;
 		TS_ASSERT_THROWS_NOTHING(aie2 = device1->get_attribute_config("Enum_attr_rw"));
 
-		TS_ASSERT(aie2.enum_labels.size() == 4);
-		TS_ASSERT(aie2.enum_labels[0] == "Nord");
-		TS_ASSERT(aie2.enum_labels[1] == "Sud");
-		TS_ASSERT(aie2.enum_labels[2] == "Est");
-		TS_ASSERT(aie2.enum_labels[3] == "Ouest");
+		TS_ASSERT_EQUALS(aie2.enum_labels.size(), 4u);
+		TS_ASSERT_EQUALS(aie2.enum_labels[0], "Nord");
+		TS_ASSERT_EQUALS(aie2.enum_labels[1], "Sud");
+		TS_ASSERT_EQUALS(aie2.enum_labels[2], "Est");
+		TS_ASSERT_EQUALS(aie2.enum_labels[3], "Ouest");
 
 // Restart device and get att conf
 
@@ -156,11 +156,11 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(aie2 = device1->get_attribute_config("Enum_attr_rw"));
 
-		TS_ASSERT(aie2.enum_labels.size() == 4);
-		TS_ASSERT(aie2.enum_labels[0] == "Nord");
-		TS_ASSERT(aie2.enum_labels[1] == "Sud");
-		TS_ASSERT(aie2.enum_labels[2] == "Est");
-		TS_ASSERT(aie2.enum_labels[3] == "Ouest");
+		TS_ASSERT_EQUALS(aie2.enum_labels.size(), 4u);
+		TS_ASSERT_EQUALS(aie2.enum_labels[0], "Nord");
+		TS_ASSERT_EQUALS(aie2.enum_labels[1], "Sud");
+		TS_ASSERT_EQUALS(aie2.enum_labels[2], "Est");
+		TS_ASSERT_EQUALS(aie2.enum_labels[3], "Ouest");
 
 // Reset to user default
 
@@ -171,11 +171,11 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(aie2 = device1->get_attribute_config("Enum_attr_rw"));
 
-		TS_ASSERT(aie2.enum_labels.size() == 4);
-		TS_ASSERT(aie2.enum_labels[0] == "North");
-		TS_ASSERT(aie2.enum_labels[1] == "South");
-		TS_ASSERT(aie2.enum_labels[2] == "East");
-		TS_ASSERT(aie2.enum_labels[3] == "West");
+		TS_ASSERT_EQUALS(aie2.enum_labels.size(), 4u);
+		TS_ASSERT_EQUALS(aie2.enum_labels[0], "North");
+		TS_ASSERT_EQUALS(aie2.enum_labels[1], "South");
+		TS_ASSERT_EQUALS(aie2.enum_labels[2], "East");
+		TS_ASSERT_EQUALS(aie2.enum_labels[3], "West");
 
 // Two times the same label is invalid
 
@@ -186,8 +186,8 @@ public:
 		aile[0].enum_labels.push_back("North");
 
 		TS_ASSERT_THROWS_ASSERT(device1->set_attribute_config(aile),Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrOptProp
-								&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrOptProp);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Reset to lib default is invalid
 
@@ -195,8 +195,8 @@ public:
 		aile[0].enum_labels.push_back("Not specified");
 
 		TS_ASSERT_THROWS_ASSERT(device1->set_attribute_config(aile),Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrOptProp
-								&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrOptProp);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 // Change enum labels number is not authorized from outside the Tango class
 
@@ -205,8 +205,8 @@ public:
 		aile[0].enum_labels.push_back("South");
 
 		TS_ASSERT_THROWS_ASSERT(device1->set_attribute_config(aile),Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_NotSupportedFeature
-								&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_NotSupportedFeature);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test read/write enumerated attribute
@@ -218,8 +218,8 @@ public:
 
 		short sh;
 		TS_ASSERT_THROWS_NOTHING(da >> sh);
-		TS_ASSERT(sh == 1);
-		TS_ASSERT(da.get_type() == Tango::DEV_ENUM);
+		TS_ASSERT_EQUALS(sh, 1);
+		TS_ASSERT_EQUALS(da.get_type(), Tango::DEV_ENUM);
 
 		TS_ASSERT_THROWS_NOTHING(da = device1->read_attribute("Enum_spec_attr_rw"));
 
@@ -228,15 +228,15 @@ public:
 		TS_ASSERT_THROWS_NOTHING(da.extract_read(v_sh_read));
 		TS_ASSERT_THROWS_NOTHING(da.extract_set(v_sh_write));
 
-		TS_ASSERT(v_sh_read.size() == 3);
-		TS_ASSERT(v_sh_read[0] == 1);
-		TS_ASSERT(v_sh_read[1] == 0);
-		TS_ASSERT(v_sh_read[2] == 3);
+		TS_ASSERT_EQUALS(v_sh_read.size(), 3u);
+		TS_ASSERT_EQUALS(v_sh_read[0], 1);
+		TS_ASSERT_EQUALS(v_sh_read[1], 0);
+		TS_ASSERT_EQUALS(v_sh_read[2], 3);
 
-		TS_ASSERT(v_sh_write.size() == 1);
-		TS_ASSERT(v_sh_write[0] == 0);
+		TS_ASSERT_EQUALS(v_sh_write.size(), 1u);
+		TS_ASSERT_EQUALS(v_sh_write[0], 0);
 
-		TS_ASSERT(da.get_type() == Tango::DEV_ENUM);
+		TS_ASSERT_EQUALS(da.get_type(), Tango::DEV_ENUM);
 	}
 
 	void test_enum_attribute_writing()
@@ -252,9 +252,9 @@ public:
 		TS_ASSERT_THROWS_NOTHING(da_read = device1->read_attribute("Enum_attr_rw"));
 		vector<short> sh_rd;
 		TS_ASSERT_THROWS_NOTHING(da_read >> sh_rd);
-		TS_ASSERT(sh_rd.size() == 2);
-		TS_ASSERT(sh_rd[0] == 1);
-		TS_ASSERT(sh_rd[1] == 2);
+		TS_ASSERT_EQUALS(sh_rd.size(), 2u);
+		TS_ASSERT_EQUALS(sh_rd[0], 1);
+		TS_ASSERT_EQUALS(sh_rd[1], 2);
 
 // Spectrum att
 
@@ -272,14 +272,14 @@ public:
 		TS_ASSERT_THROWS_NOTHING(da_read2.extract_read(v_sh_read));
 		TS_ASSERT_THROWS_NOTHING(da_read2.extract_set(v_sh_write));
 
-		TS_ASSERT(v_sh_read.size() == 3);
-		TS_ASSERT(v_sh_read[0] == 1);
-		TS_ASSERT(v_sh_read[1] == 0);
-		TS_ASSERT(v_sh_read[2] == 3);
+		TS_ASSERT_EQUALS(v_sh_read.size(), 3u);
+		TS_ASSERT_EQUALS(v_sh_read[0], 1);
+		TS_ASSERT_EQUALS(v_sh_read[1], 0);
+		TS_ASSERT_EQUALS(v_sh_read[2], 3);
 
-		TS_ASSERT(v_sh_write.size() == 2);
-		TS_ASSERT(v_sh_write[0] == 1);
-		TS_ASSERT(v_sh_write[1] == 1);
+		TS_ASSERT_EQUALS(v_sh_write.size(), 2u);
+		TS_ASSERT_EQUALS(v_sh_write[0], 1);
+		TS_ASSERT_EQUALS(v_sh_write[1], 1);
 	}
 
 	void test_enum_attribute_write_read()
@@ -294,10 +294,10 @@ public:
 
 		vector<short> sh_rd;
 		TS_ASSERT_THROWS_NOTHING(da_rd >> sh_rd);
-		TS_ASSERT(sh_rd.size() == 2);
-		TS_ASSERT(sh_rd[0] == 1);
-		TS_ASSERT(sh_rd[1] == 1);
-		TS_ASSERT(da_rd.get_type() == Tango::DEV_ENUM);
+		TS_ASSERT_EQUALS(sh_rd.size(), 2u);
+		TS_ASSERT_EQUALS(sh_rd[0], 1);
+		TS_ASSERT_EQUALS(sh_rd[1], 1);
+		TS_ASSERT_EQUALS(da_rd.get_type(), Tango::DEV_ENUM);
 	}
 
 	void test_enum_attribute_memorized()
@@ -324,9 +324,9 @@ public:
 		TS_ASSERT_THROWS_NOTHING(da_read = device1->read_attribute("Enum_attr_rw"));
 		vector<short> sh_rd;
 		TS_ASSERT_THROWS_NOTHING(da_read >> sh_rd);
-		TS_ASSERT(sh_rd.size() == 2);
-		TS_ASSERT(sh_rd[0] == 1);
-		TS_ASSERT(sh_rd[1] == 2);
+		TS_ASSERT_EQUALS(sh_rd.size(), 2u);
+		TS_ASSERT_EQUALS(sh_rd[0], 1);
+		TS_ASSERT_EQUALS(sh_rd[1], 2);
 	}
 
 	void test_enum_attribute_polling()
@@ -356,8 +356,8 @@ public:
 
 		short sh;
 		TS_ASSERT_THROWS_NOTHING(da >> sh);
-		TS_ASSERT(sh == 1);
-		TS_ASSERT(da.get_type() == Tango::DEV_ENUM);
+		TS_ASSERT_EQUALS(sh, 1);
+		TS_ASSERT_EQUALS(da.get_type(), Tango::DEV_ENUM);
 		device1->set_source(CACHE_DEV);
 
 // Read data history
@@ -369,12 +369,12 @@ public:
  		for (int i = 0;i < 5;i++)
  		{
     		bool fail = (*hist)[i].has_failed();
-			TS_ASSERT(fail == false);
+			TS_ASSERT_EQUALS(fail, false);
 
 			DevShort hist_val;
 			(*hist)[i] >> hist_val;
-			TS_ASSERT(hist_val == 1);
-			TS_ASSERT((*hist)[i].get_type() == Tango::DEV_ENUM);
+			TS_ASSERT_EQUALS(hist_val, 1);
+			TS_ASSERT_EQUALS((*hist)[i].get_type(), Tango::DEV_ENUM);
  		}
  		delete hist;
 
@@ -392,7 +392,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = adm_dev->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 
 		CxxTest::TangoPrinter::restore_unset("poll_att");
 	}
@@ -407,10 +407,10 @@ public:
 		Tango::AttributeInfoEx aie;
 		TS_ASSERT_THROWS_NOTHING(aie = device1->get_attribute_config("Added_enum_attr"));
 
-		TS_ASSERT(aie.enum_labels.size() == 3);
-		TS_ASSERT(aie.enum_labels[0] == "Red");
-		TS_ASSERT(aie.enum_labels[1] == "Green");
-		TS_ASSERT(aie.enum_labels[2] == "Blue");
+		TS_ASSERT_EQUALS(aie.enum_labels.size(), 3u);
+		TS_ASSERT_EQUALS(aie.enum_labels[0], "Red");
+		TS_ASSERT_EQUALS(aie.enum_labels[1], "Green");
+		TS_ASSERT_EQUALS(aie.enum_labels[2], "Blue");
 
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IORemoveAttribute",din));
 	}
@@ -424,8 +424,8 @@ public:
 /*		TS_ASSERT_THROWS_NOTHING(da = device1->read_attribute("DynEnum_attr"));
 
 		TS_ASSERT_THROWS_ASSERT(da >> sh,Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrConfig
-								&& e.errors[0].severity == Tango::ERR));*/
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrConfig);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));*/
 
 // Add labels to the enum
 
@@ -434,15 +434,15 @@ public:
 
 		da >> sh;
 
-		TS_ASSERT(sh == 2);
-		TS_ASSERT(da.get_type() == Tango::DEV_ENUM);
+		TS_ASSERT_EQUALS(sh, 2);
+		TS_ASSERT_EQUALS(da.get_type(), Tango::DEV_ENUM);
 
 // Get att config, add one label and check it is there in conf
 
 		Tango::AttributeInfoEx aie,aie2;
 		TS_ASSERT_THROWS_NOTHING(aie = device1->get_attribute_config("DynEnum_attr"));
 
-		TS_ASSERT(aie.enum_labels.size() == 4);
+		TS_ASSERT_EQUALS(aie.enum_labels.size(), 4u);
 
 		Tango::ConstDevString ds = "Four";
 		Tango::DeviceData din;
@@ -450,8 +450,8 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("AddEnumLabel",din));
 
 		TS_ASSERT_THROWS_NOTHING(aie2 = device1->get_attribute_config("DynEnum_attr"));
-		TS_ASSERT(aie2.enum_labels.size() == 5);
-		TS_ASSERT(aie2.enum_labels[4] == "Four");
+		TS_ASSERT_EQUALS(aie2.enum_labels.size(), 5u);
+		TS_ASSERT_EQUALS(aie2.enum_labels[4], "Four");
 
 // Check forbidden value
 
@@ -461,8 +461,8 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(da = device1->read_attribute("DynEnum_attr"));
 		TS_ASSERT_THROWS_ASSERT(da >> sh,Tango::DevFailed &e,
-						TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrOptProp
-								&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrOptProp);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		f_val = 4;
 		din << f_val;

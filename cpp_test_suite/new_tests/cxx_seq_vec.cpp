@@ -81,7 +81,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecShort
@@ -104,7 +104,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecLong
@@ -124,7 +124,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecFloat
@@ -146,7 +146,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecDouble
@@ -167,7 +167,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecUShort
@@ -192,7 +192,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecULong
@@ -213,7 +213,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 
 // Test IOSeqVecString
@@ -235,7 +235,7 @@ public:
 			Except::print_exception(e);
 		}
 		dout >> output;
-		TS_ASSERT(input == output);
+		TS_ASSERT_EQUALS(input, output);
 	}
 };
 #undef cout

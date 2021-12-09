@@ -126,11 +126,11 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("Status"));
 		dout >> str;
-		TS_ASSERT(str == "The device is ON\nThe polling is ON");
+		TS_ASSERT_EQUALS(str, "The device is ON\nThe polling is ON");
 
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("State"));
 		dout >> state;
-		TS_ASSERT(state == Tango::ON);
+		TS_ASSERT_EQUALS(state, Tango::ON);
 	}
 
 // Test DevRestart command on the dserver device
@@ -146,14 +146,14 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-		TS_ASSERT(state_out == Tango::OFF);
+		TS_ASSERT_EQUALS(state_out, Tango::OFF);
 
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
 		Tango_sleep(3);
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-		TS_ASSERT(state_out == Tango::ON);
+		TS_ASSERT_EQUALS(state_out, Tango::ON);
 	}
 
 // Test DevRestart command on classical device
@@ -167,15 +167,15 @@ public:
 		str = "a/b/c";
 		din << str;
 		TS_ASSERT_THROWS_ASSERT(dserver->command_inout("DevRestart", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_DeviceNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_DeviceNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		state_in = Tango::OFF;
 		din << state_in;
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-		TS_ASSERT(state_out == Tango::OFF);
+		TS_ASSERT_EQUALS(state_out, Tango::OFF);
 
 		str = device1_name;
 		din << str;
@@ -184,7 +184,7 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-		TS_ASSERT(state_out == Tango::ON);
+		TS_ASSERT_EQUALS(state_out, Tango::ON);
 	}
 
 // Test name, description, state ans status CORBA attributes
@@ -192,21 +192,21 @@ public:
 	void test_name_description_state_ans_status_CORBA_attributes(void)
 	{
 		DeviceData dout;
-		DevState state_out;
+		DevState state_out = Tango::UNKNOWN;
 		string str;
 
 		TS_ASSERT_THROWS_NOTHING(str = dserver->name());
-		TS_ASSERT(str == dserver_name);
+		TS_ASSERT_EQUALS(str, dserver_name);
 
 		TS_ASSERT_THROWS_NOTHING(str = dserver->description());
-		TS_ASSERT(str == "A device server device !!");
+		TS_ASSERT_EQUALS(str, "A device server device !!");
 
 		TS_ASSERT_THROWS_NOTHING(str = dserver->status());
 cout << "str = " << str << endl;
-		TS_ASSERT(str == "The device is ON\nThe polling is ON");
+		TS_ASSERT_EQUALS(str, "The device is ON\nThe polling is ON");
 
 		TS_ASSERT_THROWS_NOTHING(state_out = dserver->state());
-		TS_ASSERT(state_out == Tango::ON);
+		TS_ASSERT_EQUALS(state_out, Tango::ON);
 	}
 
 // Ping the device
@@ -220,13 +220,13 @@ cout << "str = " << str << endl;
 
 	void test_info_call(void)
 	{
-		TS_ASSERT(dserver->info().dev_class == "DServer");
+		TS_ASSERT_EQUALS(dserver->info().dev_class, "DServer");
 		// TODO: uncomment the following if needed
-//		TS_ASSERT(dserver->info().dev_type == "Uninitialised");
-		TS_ASSERT(dserver->info().doc_url == "Doc URL = " + doc_url);
-		TS_ASSERT(dserver->info().server_host == server_host);
-		TS_ASSERT(dserver->info().server_id == full_ds_name);
-		TS_ASSERT(dserver->info().server_version == server_version);
+//		TS_ASSERT_EQUALS(dserver->info().dev_type, "Uninitialised");
+		TS_ASSERT_EQUALS(dserver->info().doc_url, "Doc URL = " + doc_url);
+		TS_ASSERT_EQUALS(dserver->info().server_host, server_host);
+		TS_ASSERT_EQUALS(dserver->info().server_id, full_ds_name);
+		TS_ASSERT_EQUALS(dserver->info().server_version, server_version);
 	}
 
     /* Tests that subscriber can receive events immediately after

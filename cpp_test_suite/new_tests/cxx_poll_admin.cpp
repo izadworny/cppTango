@@ -231,26 +231,26 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 
 		// check if polling is available
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT(status == "The device is ON\nThe polling is ON");
+		TS_ASSERT_EQUALS(status, "The device is ON\nThe polling is ON");
 
 		// stop polling and check status
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("StopPolling"));
 		CxxTest::TangoPrinter::restore_set("polling");
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT(status == "The device is ON\nThe polling is OFF");
+		TS_ASSERT_EQUALS(status, "The device is ON\nThe polling is OFF");
 
 		// start polling and check status
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("StartPolling"));
 		CxxTest::TangoPrinter::restore_unset("polling");
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT(status == "The device is ON\nThe polling is ON");
+		TS_ASSERT_EQUALS(status, "The device is ON\nThe polling is ON");
 	}
 
 // Test polling status for a non polled device
@@ -263,15 +263,15 @@ public:
 		string mock_device = "toto";
 		din << mock_device;
 		TS_ASSERT_THROWS_ASSERT(dserver->command_inout("DevPollStatus", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_DeviceNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_DeviceNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// get polling status for a non polled device
 		string status;
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("DevPollStatus", din));
 		dout >> status;
-		TS_ASSERT(status == "");
+		TS_ASSERT_EQUALS(status, "");
 	}
 
 // Start polling a command
@@ -303,7 +303,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
 		Tango_sleep(3);
 
@@ -316,7 +316,7 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status = string((*status_arr)[0].in()).substr(0,status_ref.length());
-		TS_ASSERT(status == status_ref);
+		TS_ASSERT_EQUALS(status, status_ref);
 	}
 
 // Update command polling period
@@ -347,7 +347,7 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status = string((*status_arr)[0].in()).substr(0,status_ref.length());
-		TS_ASSERT(status == status_ref);
+		TS_ASSERT_EQUALS(status, status_ref);
 	}
 
 // Stop polling the command
@@ -370,7 +370,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Start polling an attribute
@@ -402,7 +402,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
 		Tango_sleep(3);
 
@@ -415,7 +415,7 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status = string((*status_arr)[0].in()).substr(0,status_ref.length());
-		TS_ASSERT(status == status_ref);
+		TS_ASSERT_EQUALS(status, status_ref);
 	}
 
 // Update attribute polling period
@@ -446,7 +446,7 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status = string((*status_arr)[0].in()).substr(0,status_ref.length());
-		TS_ASSERT(status == status_ref);
+		TS_ASSERT_EQUALS(status, status_ref);
 	}
 
 // Stop polling the attribute
@@ -469,7 +469,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Start polling an attribute and a command
@@ -512,7 +512,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
 		Tango_sleep(3);
 
@@ -527,9 +527,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 	}
 
 // Stop polling the attribute and the command
@@ -562,7 +562,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Start polling for several devices
@@ -623,8 +623,8 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
-		TS_ASSERT((*polled_devices)[1].in() == device2_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[1].in(), device2_name);
 
 		Tango_sleep(3);
 
@@ -640,9 +640,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// get polling status for the device2
 		din << device2_name;
@@ -651,9 +651,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 	}
 
 // Stop polling for several devices
@@ -701,7 +701,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Test device polling after a restart
@@ -743,7 +743,7 @@ public:
 		// check device polling after a restart
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
 		Tango_sleep(3);
 
@@ -758,9 +758,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// stop attribute polling
 		DevVarStringArray rem_attr_poll;
@@ -785,7 +785,7 @@ public:
 		// confirm that the device is not polled
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Poll object which returns an exception
@@ -821,13 +821,13 @@ public:
 		// extract the first and the last 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other, middle 3 lines could also be compared
 		status[0] = status_arr_str.substr(0,status_ref[0].length()); // first 3 lines
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		pos = status_arr_str.rfind("\n");
 		if(pos != string::npos)
 			status_arr_str.erase(pos);
 		status[1] = status_arr_str.substr(status_arr_str.length() - status_ref[1].length(),
 				status_ref[1].length()); // last 3 lines
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// restart the device
 		din << device1_name;
@@ -844,13 +844,13 @@ public:
 		// extract the first and the last 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other, middle 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length()); // first 3 lines
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		pos = status_arr_str.rfind("\n");
 		if(pos != string::npos)
 			status_arr_str.erase(pos);
 		status[1] = status_arr_str.substr(status_arr_str.length() - status_ref[1].length(),
 				status_ref[1].length()); // last 3 lines
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// stop attribute polling
 		DevVarStringArray rem_attr_poll;
@@ -865,7 +865,7 @@ public:
 		// confirm that the device is not polled
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Start polling for several devices (test the ServerRestart command)
@@ -920,8 +920,8 @@ public:
 		// check if the devices are polled
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
-		TS_ASSERT((*polled_devices)[1].in() == device2_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[1].in(), device2_name);
 
 		Tango_sleep(3);
 
@@ -934,9 +934,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// get polling status for the device2
 		din << device2_name;
@@ -945,9 +945,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// restart server
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
@@ -956,8 +956,8 @@ public:
 		// check if the devices are still polled
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
-		TS_ASSERT((*polled_devices)[1].in() == device2_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[1].in(), device2_name);
 
 		Tango_sleep(3);
 
@@ -970,9 +970,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		// get polling status for the device2
 		din << device2_name;
@@ -981,9 +981,9 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other 3 lines could also be compared
 		status[0] = string((*status_arr)[0].in()).substr(0,status_ref[0].length());
-		TS_ASSERT(status[0] == status_ref[0]);
+		TS_ASSERT_EQUALS(status[0], status_ref[0]);
 		status[1] = string((*status_arr)[1].in()).substr(0,status_ref[1].length());
-		TS_ASSERT(status[1] == status_ref[1]);
+		TS_ASSERT_EQUALS(status[1], status_ref[1]);
 
 		DevVarStringArray rem_attr_poll, rem_cmd_poll;
 
@@ -1024,7 +1024,7 @@ public:
 		// confirm that the devices are not polled
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 	}
 
 // Start a command externally triggered
@@ -1052,7 +1052,7 @@ public:
 		const DevVarStringArray *polled_devices;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
-		TS_ASSERT((*polled_devices)[0].in() == device1_name);
+		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
 		// get polling status for the device
 		status_ref = "Polled command name = IOStr1\nPolling externally triggered\nPolling ring buffer depth = 10\nNo data recorded yet";
@@ -1060,21 +1060,21 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("DevPollStatus", din));
 		dout >> status_arr;
 		status = (*status_arr)[0].in();
-		TS_ASSERT(status == status_ref);
+		TS_ASSERT_EQUALS(status, status_ref);
 
 		// trigger polling for a non-existing command
 		string mock_command = "toto";
 		din << mock_command;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTrigPoll", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_PollObjNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PollObjNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// trigger polling for a non-polled command
 		string non_polled_command = "IOPollStr1";
 		din << non_polled_command;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTrigPoll", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_PollObjNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PollObjNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// add polling for a non externally triggered command
 		cmd_poll.lvalue[0] = 500;
@@ -1090,8 +1090,8 @@ public:
 		string non_ext_trig_command = "IOPollStr1";
 		din << non_ext_trig_command;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOTrigPoll", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_NotSupported
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_NotSupported);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// stop polling for the non externally triggered command
 		rem_cmd_poll.length(3);
@@ -1116,7 +1116,7 @@ public:
 		// extract the first 3 lines of the status and compare with the reference string
 		// TODO: although device/time dependent, the other line could also be compared
 		status = string((*status_arr)[0].in()).substr(0,status_ref.length());
-		TS_ASSERT(status == status_ref);
+		TS_ASSERT_EQUALS(status, status_ref);
 
 		// stop polling for the externally triggered command
 		rem_cmd_poll[0] = device1_name.c_str();

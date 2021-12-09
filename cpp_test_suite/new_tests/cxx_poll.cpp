@@ -176,10 +176,10 @@ public:
 		dout >> polled_devices;
 		for (unsigned int i = 0;i < polled_devices->length();i++)
 			cout << "Polled device = " << (*polled_devices)[i] << endl;
-		TS_ASSERT((*polled_devices).length() == 0);
+		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 
 		// check if the data source is set to polling buffer and than device (CACHE_DEV)
-		TS_ASSERT(device1->get_source() == Tango::CACHE_DEV);
+		TS_ASSERT_EQUALS(device1->get_source(), Tango::CACHE_DEV);
 
 		// set the data source to device (DEV)
 		TS_ASSERT_THROWS_NOTHING(device1->set_source(Tango::DEV));
@@ -188,25 +188,25 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOVoid"));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOStr1"));
 		dout >> str_out;
-		TS_ASSERT(str_out == "Hello from IOStr1");
+		TS_ASSERT_EQUALS(str_out, "Hello from IOStr1");
 
 		// execute non-existing command
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOxxx"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// now set the data source to polling buffer (CACHE)
 		TS_ASSERT_THROWS_NOTHING(device1->set_source(Tango::CACHE));
 
 		// execute non-existing command
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOxxx"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// execute non-polled command
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOStr1"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CmdNotPolled
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CmdNotPolled);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// set the data source again to device (DEV)
 		TS_ASSERT_THROWS_NOTHING(device1->set_source(Tango::DEV));
@@ -214,17 +214,17 @@ public:
 		// read an attribute
 		TS_ASSERT_THROWS_NOTHING(short_attr = device1->read_attribute("Short_attr"));
 		short_attr >> sh;
-		TS_ASSERT(short_attr.name == "Short_attr");
-		TS_ASSERT(short_attr.quality == Tango::ATTR_VALID);
-		TS_ASSERT(short_attr.dim_x == 1);
-		TS_ASSERT(short_attr.dim_y == 0);
-		TS_ASSERT(sh == 12);
+		TS_ASSERT_EQUALS(short_attr.name, "Short_attr");
+		TS_ASSERT_EQUALS(short_attr.quality, Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(short_attr.dim_x, 1);
+		TS_ASSERT_EQUALS(short_attr.dim_y, 0);
+		TS_ASSERT_EQUALS(sh, 12);
 
 		// read a non-existing attribute
 		TS_ASSERT_THROWS_NOTHING(mock_attr = device1->read_attribute("xxx"));
 		TS_ASSERT_THROWS_ASSERT(mock_attr >> sh, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// set the data source again to polling buffer (CACHE)
 		TS_ASSERT_THROWS_NOTHING(device1->set_source(Tango::CACHE));
@@ -232,14 +232,14 @@ public:
 		// again read a non-existing attribute
 		TS_ASSERT_THROWS_NOTHING(mock_attr = device1->read_attribute("xxx"));
 		TS_ASSERT_THROWS_ASSERT(mock_attr >> sh, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// read a non-polled attribute
 		TS_ASSERT_THROWS_NOTHING(short_attr = device1->read_attribute("Short_attr"));
 		TS_ASSERT_THROWS_ASSERT(short_attr >> sh, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotPolled
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotPolled);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test commands and attributes obtained from polling buffer
@@ -297,31 +297,31 @@ public:
 		string str_out;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOStr1"));
 		dout >> str_out;
-		TS_ASSERT(str_out == "Hello from IOStr1");
+		TS_ASSERT_EQUALS(str_out, "Hello from IOStr1");
 
 		// read an attribute
 		DeviceAttribute db_attr;
 		DevDouble db;
 		TS_ASSERT_THROWS_NOTHING(db_attr = device1->read_attribute("Double_attr"));
 		db_attr >> db;
-		TS_ASSERT(db_attr.name == "Double_attr");
-		TS_ASSERT(db_attr.quality == Tango::ATTR_VALID);
-		TS_ASSERT(db_attr.dim_x == 1);
-		TS_ASSERT(db_attr.dim_y == 0);
-		TS_ASSERT(db == 3.2);
+		TS_ASSERT_EQUALS(db_attr.name, "Double_attr");
+		TS_ASSERT_EQUALS(db_attr.quality, Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(db_attr.dim_x, 1);
+		TS_ASSERT_EQUALS(db_attr.dim_y, 0);
+		TS_ASSERT_EQUALS(db, 3.2);
 
 		// read an attribute which throws an exception
 		DeviceAttribute mock_attr;
 		DevLong lg;
 		TS_ASSERT_THROWS_NOTHING(mock_attr = device1->read_attribute("attr_wrong_size"));
 		TS_ASSERT_THROWS_ASSERT(mock_attr >> lg, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrOptProp
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrOptProp);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// execute a command which throws an exception
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOExcept"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_ThrowException
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_ThrowException);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Check the CACHE_DEV source parameter
@@ -345,17 +345,17 @@ public:
 		// read an attribute from cache
 		TS_ASSERT_THROWS_NOTHING(db_attr = device1->read_attribute("Double_attr"));
 		db_attr >> db;
-		TS_ASSERT(db_attr.name == "Double_attr");
-		TS_ASSERT(db_attr.quality == Tango::ATTR_VALID);
-		TS_ASSERT(db_attr.dim_x == 1);
-		TS_ASSERT(db_attr.dim_y == 0);
-		TS_ASSERT(db == 3.2);
+		TS_ASSERT_EQUALS(db_attr.name, "Double_attr");
+		TS_ASSERT_EQUALS(db_attr.quality, Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(db_attr.dim_x, 1);
+		TS_ASSERT_EQUALS(db_attr.dim_y, 0);
+		TS_ASSERT_EQUALS(db, 3.2);
 
 		// read an attribute from cache, which throws an exception
 		TS_ASSERT_THROWS_NOTHING(mock_attr = device1->read_attribute("attr_wrong_size"));
 		TS_ASSERT_THROWS_ASSERT(mock_attr >> lg, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrOptProp
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrOptProp);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		//
 		// If data not in cache, while data source is set to cache, throw exception
@@ -367,13 +367,13 @@ public:
 		// read a non-polled attribute from cache
 		TS_ASSERT_THROWS_NOTHING(lg_attr = device1->read_attribute("Long_attr"));
 		TS_ASSERT_THROWS_ASSERT(lg_attr >> lg, Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_AttrNotPolled
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotPolled);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		// execute non-polled command with polling buffer as data source
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOStr2"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CmdNotPolled
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CmdNotPolled);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		//
 		// If data not in cache, read from device
@@ -385,16 +385,16 @@ public:
 		// try to read a non-polled attribute from cache and then from device
 		TS_ASSERT_THROWS_NOTHING(lg_attr = device1->read_attribute("Long_attr"));
 		lg_attr >> lg;
-		TS_ASSERT(lg_attr.name == "Long_attr");
-		TS_ASSERT(lg_attr.quality == Tango::ATTR_VALID);
-		TS_ASSERT(lg_attr.dim_x == 1);
-		TS_ASSERT(lg_attr.dim_y == 0);
-		TS_ASSERT(lg == 1246);
+		TS_ASSERT_EQUALS(lg_attr.name, "Long_attr");
+		TS_ASSERT_EQUALS(lg_attr.quality, Tango::ATTR_VALID);
+		TS_ASSERT_EQUALS(lg_attr.dim_x, 1);
+		TS_ASSERT_EQUALS(lg_attr.dim_y, 0);
+		TS_ASSERT_EQUALS(lg, 1246);
 
 		// execute non-polled command firstly with polling buffer and then device as the data source
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("IOStr2"));
 		dout >> str_out;
-		TS_ASSERT(str_out == "Hello from IOStr2");
+		TS_ASSERT_EQUALS(str_out, "Hello from IOStr2");
 
 		//
 		// Restore polling to defaults

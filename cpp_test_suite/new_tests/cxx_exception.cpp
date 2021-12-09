@@ -91,8 +91,8 @@ public:
 		DeviceData din;
 		din << in_except;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOThrow", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == "Test Exception"
-						&& e.errors[0].severity == Tango::PANIC));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), "Test Exception");
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::PANIC));
 	}
 
 // Test throw exception with several levels
@@ -111,12 +111,12 @@ public:
 		DeviceData din;
 		din << in_except;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOReThrow", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == "Test exception level 1"
-						&& string(e.errors[1].reason.in()) == "Test exception level 2"
-						&& string(e.errors[2].reason.in()) == "Test exception level 3"
-						&& e.errors[0].severity == Tango::PANIC
-						&& e.errors[1].severity == Tango::ERR
-						&& e.errors[2].severity == Tango::PANIC));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), "Test exception level 1");
+				TS_ASSERT_EQUALS(string(e.errors[1].reason.in()), "Test exception level 2");
+				TS_ASSERT_EQUALS(string(e.errors[2].reason.in()), "Test exception level 3");
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::PANIC);
+				TS_ASSERT_EQUALS(e.errors[1].severity, Tango::ERR);
+				TS_ASSERT_EQUALS(e.errors[2].severity, Tango::PANIC));
 	}
 
 // Test command not found exception
@@ -124,8 +124,8 @@ public:
 	void test_command_not_found_exception(void)
 	{
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("DevToto"), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotFound
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotFound);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 
 // Test command not allowed in this state exception
@@ -141,13 +141,13 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
 //		cout << "----> STATE: " << state_out << endl;
-		TS_ASSERT(state_out == Tango::OFF);
+		TS_ASSERT_EQUALS(state_out, Tango::OFF);
 
 		DevLong num = 1L;
 		din << num;
 		TS_ASSERT_THROWS_ASSERT(device1->command_inout("IOLong", din), Tango::DevFailed &e,
-				TS_ASSERT(string(e.errors[0].reason.in()) == API_CommandNotAllowed
-						&& e.errors[0].severity == Tango::ERR));
+				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_CommandNotAllowed);
+				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 
 		state_in = Tango::ON;
 		din << state_in;
@@ -155,7 +155,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
 //		cout << "----> STATE: " << state_out << endl;
-		TS_ASSERT(state_out == Tango::ON);
+		TS_ASSERT_EQUALS(state_out, Tango::ON);
 	}
 };
 #undef cout
