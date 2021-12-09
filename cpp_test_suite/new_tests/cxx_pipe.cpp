@@ -280,11 +280,10 @@ public:
 
 		TS_ASSERT_EQUALS(str, "Hello");
 
-		string tmp("Hola");
-		TS_ASSERT_EQUALS(strcmp(ds,tmp.c_str()), 0);
+		TS_ASSERT_EQUALS(std::string(ds), "Hola");
 
 		string tmp_enc("Format");
-		TS_ASSERT_EQUALS(strcmp(enc.encoded_format,tmp_enc.c_str()), 0);
+		TS_ASSERT_EQUALS(std::string(enc.encoded_format), tmp_enc);
 		TS_ASSERT_EQUALS(enc.encoded_data.length(), 2u);
 		TS_ASSERT_EQUALS(enc.encoded_data[0], 0);
 		TS_ASSERT_EQUALS(enc.encoded_data[1], 1);
@@ -296,7 +295,7 @@ public:
 
 		TS_ASSERT_EQUALS(dvsa->length(), 1u);
 		string tmp_dvsa("Why not?");
-		TS_ASSERT_EQUALS(strcmp((*dvsa)[0],tmp_dvsa.c_str()), 0);
+		TS_ASSERT_EQUALS(std::string((*dvsa)[0]), tmp_dvsa);
 
 		delete dvsa;
 		delete [] ds;

@@ -406,7 +406,7 @@ public:
 		da >> lo;
 		int data_type = da.get_type();
 
-		TS_ASSERT_EQUALS(::strcmp(lo.encoded_format.in(),"Which format?"), 0);
+		TS_ASSERT_EQUALS(std::string(lo.encoded_format.in()), "Which format?");
 		TS_ASSERT_EQUALS(data_type, Tango::DEV_ENCODED);
 #ifndef COMPAT
 		AttrDataFormat data_format = da.get_data_format();
@@ -523,7 +523,7 @@ public:
 #ifndef COMPAT
 		(*received)[12] >> enc;
 		TS_ASSERT_EQUALS(enc.encoded_data.length(), 4u);
-		TS_ASSERT_EQUALS(::strcmp(enc.encoded_format.in(),"Which format?"), 0);
+		TS_ASSERT_EQUALS(std::string(enc.encoded_format.in()), "Which format?");
 #endif
 
 		delete received;

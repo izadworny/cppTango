@@ -971,7 +971,7 @@ cout << "required time for command SetGetProperties = " << elapsed << endl;
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
 cout << "status = " << status << endl;
-		TS_ASSERT_EQUALS(strcmp(status,"The device is in ALARM state.\nAlarm : Value too low for Long_attr"), 0);
+		TS_ASSERT_EQUALS(std::string(status), "The device is in ALARM state.\nAlarm : Value too low for Long_attr");
 
 		lg = 1200;
 		din << lg;
@@ -981,7 +981,7 @@ cout << "status = " << status << endl;
 		TS_ASSERT_EQUALS(state, Tango::ON);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT_EQUALS(strcmp(status,"The device is in ON state."), 0);
+		TS_ASSERT_EQUALS(std::string(status), "The device is in ON state.");
 
 		state = Tango::ON;
 		din << state;
@@ -991,7 +991,7 @@ cout << "status = " << status << endl;
 		TS_ASSERT_EQUALS(state, Tango::ON);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT_EQUALS(strcmp(status,"The device is in ON state."), 0);
+		TS_ASSERT_EQUALS(std::string(status), "The device is in ON state.");
 
 		lg = 2000;
 		din << lg;
@@ -1001,7 +1001,7 @@ cout << "status = " << status << endl;
 		TS_ASSERT_EQUALS(state, Tango::ALARM);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT_EQUALS(strcmp(status,"The device is in ALARM state.\nAlarm : Value too high for Long_attr"), 0);
+		TS_ASSERT_EQUALS(std::string(status), "The device is in ALARM state.\nAlarm : Value too high for Long_attr");
 
 		lg = 1200;
 		din << lg;
@@ -1011,7 +1011,7 @@ cout << "status = " << status << endl;
 		TS_ASSERT_EQUALS(state, Tango::ON);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT_EQUALS(strcmp(status,"The device is in ON state."), 0);
+		TS_ASSERT_EQUALS(std::string(status), "The device is in ON state.");
 
 		state = Tango::ON;
 		din << state;
@@ -1021,7 +1021,7 @@ cout << "status = " << status << endl;
 		TS_ASSERT_EQUALS(state, Tango::ON);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
-		TS_ASSERT_EQUALS(strcmp(status,"The device is in ON state."), 0);
+		TS_ASSERT_EQUALS(std::string(status), "The device is in ON state.");
 	}
 
 	void set_Long_attr_value(DevLong value)

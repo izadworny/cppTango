@@ -211,7 +211,7 @@ public:
                 TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), true);
                 TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 1u);
                 del = (*d_hist)[0].get_err_stack();
-                TS_ASSERT_EQUALS(::strcmp(del[0].desc.in(), "www"), 0);
+                TS_ASSERT_EQUALS(std::string(del[0].desc.in()), "www");
 
                 (*d_hist)[1] >> simple_str;
                 TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), false);
@@ -238,7 +238,7 @@ public:
                 TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), true);
                 TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 1u);
                 del = (*d_hist)[2].get_err_stack();
-                TS_ASSERT_EQUALS(::strcmp(del[0].desc.in(), "www"), 0);
+                TS_ASSERT_EQUALS(std::string(del[0].desc.in()), "www");
                 break;
 
             case SECOND_STR:
@@ -250,7 +250,7 @@ public:
                 TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), true);
                 TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 1u);
                 del = (*d_hist)[1].get_err_stack();
-                TS_ASSERT_EQUALS(::strcmp(del[0].desc.in(), "www"), 0);
+                TS_ASSERT_EQUALS(std::string(del[0].desc.in()), "www");
 
                 (*d_hist)[2] >> simple_str;
                 TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), false);
@@ -358,7 +358,7 @@ public:
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             string str;
             (*d_hist)[i] >> str;
-            TS_ASSERT_EQUALS(::strcmp(str.c_str(), "The device is in ON state."), 0);
+            TS_ASSERT_EQUALS(str, "The device is in ON state.");
         }
         delete d_hist;
     }
@@ -510,13 +510,13 @@ public:
             case FIRST_EXCEPT:
                 TS_ASSERT_EQUALS((*a_hist)[0].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[0].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].desc.in(), "bbb"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].reason.in(), "aaaa"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].desc.in()), "bbb");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].reason.in()), "aaaa");
 
                 TS_ASSERT_EQUALS((*a_hist)[1].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[1].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].desc.in(), "yyy"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].reason.in(), "xxx"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].desc.in()), "yyy");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].reason.in()), "xxx");
 
                 (*a_hist)[2] >> str;
                 TS_ASSERT_EQUALS(str.size(), 2u);
@@ -531,8 +531,8 @@ public:
             case SECOND_EXCEPT:
                 TS_ASSERT_EQUALS((*a_hist)[0].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[0].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].desc.in(), "yyy"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[0].get_err_stack())[0].reason.in(), "xxx"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].desc.in()), "yyy");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].reason.in()), "xxx");
 
                 (*a_hist)[1] >> str;
                 TS_ASSERT_EQUALS(str.size(), 2u);
@@ -545,8 +545,8 @@ public:
 
                 TS_ASSERT_EQUALS((*a_hist)[3].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[3].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].desc.in(), "bbb"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].reason.in(), "aaaa"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].desc.in()), "bbb");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].reason.in()), "aaaa");
                 break;
 
             case FIRST_DATA:
@@ -561,13 +561,13 @@ public:
 
                 TS_ASSERT_EQUALS((*a_hist)[2].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[2].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].desc.in(), "bbb"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].reason.in(), "aaaa"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].desc.in()), "bbb");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].reason.in()), "aaaa");
 
                 TS_ASSERT_EQUALS((*a_hist)[3].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[3].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].desc.in(), "yyy"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[3].get_err_stack())[0].reason.in(), "xxx"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].desc.in()), "yyy");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].reason.in()), "xxx");
                 break;
 
             case SECOND_DATA:
@@ -577,13 +577,13 @@ public:
 
                 TS_ASSERT_EQUALS((*a_hist)[1].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[1].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].desc.in(), "bbb"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[1].get_err_stack())[0].reason.in(), "aaaa"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].desc.in()), "bbb");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].reason.in()), "aaaa");
 
                 TS_ASSERT_EQUALS((*a_hist)[2].has_failed(), true);
                 TS_ASSERT_EQUALS((*a_hist)[2].get_err_stack().length(), 1u);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].desc.in(), "yyy"), 0);
-                TS_ASSERT_EQUALS(::strcmp(((*a_hist)[2].get_err_stack())[0].reason.in(), "xxx"), 0);
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].desc.in()), "yyy");
+                TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].reason.in()), "xxx");
 
                 (*a_hist)[3] >> str;
                 TS_ASSERT_EQUALS(str.size(), 2u);
@@ -613,7 +613,7 @@ public:
             DevEncoded enc;
             (*enc_hist)[i] >> enc;
 
-            TS_ASSERT_EQUALS(::strcmp(enc.encoded_format, "Which format?"), 0);
+            TS_ASSERT_EQUALS(std::string(enc.encoded_format), "Which format?");
             TS_ASSERT_EQUALS(enc.encoded_data[0], 97);
             TS_ASSERT_EQUALS(enc.encoded_data[1], 98);
             TS_ASSERT_EQUALS(enc.encoded_data[2], 99);
@@ -724,7 +724,7 @@ public:
         DevEncoded enc_lo;
         da >> enc_lo;
         auto data_type = da.get_type();
-        TS_ASSERT_EQUALS(::strcmp(enc_lo.encoded_format.in(), "Which format?"), 0);
+        TS_ASSERT_EQUALS(std::string(enc_lo.encoded_format.in()), "Which format?");
         TS_ASSERT_EQUALS(data_type, Tango::DEV_ENCODED);
         TS_ASSERT_EQUALS(enc_lo.encoded_data.length(), 4u);
         TS_ASSERT_EQUALS(enc_lo.encoded_data[0], 97);
