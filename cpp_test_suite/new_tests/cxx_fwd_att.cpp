@@ -666,7 +666,7 @@ public:
  		for (int i = 0;i < 5;i++)
  		{
     		bool fail = (*hist)[i].has_failed();
-			TS_ASSERT_EQUALS(fail, false);
+			TS_ASSERT(!fail);
 
 			DevShort hist_val;
 			(*hist)[i] >> hist_val;
@@ -769,10 +769,10 @@ public:
 		fwd_device->lock();
 
 		bool lo = device1->is_locked();
-		TS_ASSERT_EQUALS(lo, true);
+		TS_ASSERT(lo);
 
 		lo = device2->is_locked();
-		TS_ASSERT_EQUALS(lo, true);
+		TS_ASSERT(lo);
 
 		Tango::Database db;
 		DbDevFullInfo fi = db.get_device_info(fwd_device_name);
@@ -788,13 +788,13 @@ public:
 
 		fwd_device->unlock();
 		lo = fwd_device->is_locked();
-		TS_ASSERT_EQUALS(lo, false);
+		TS_ASSERT(!lo);
 
 		lo = device1->is_locked();
-		TS_ASSERT_EQUALS(lo, false);
+		TS_ASSERT(!lo);
 
 		lo = device2->is_locked();
-		TS_ASSERT_EQUALS(lo, false);
+		TS_ASSERT(!lo);
 	}
 
 	void test_reading_state_forwarded_attribute(void)

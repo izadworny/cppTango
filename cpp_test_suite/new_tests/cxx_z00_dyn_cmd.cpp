@@ -106,7 +106,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT_EQUALS(found, true);
+		TS_ASSERT(found);
 
 		// Command also in command list for device 2
 
@@ -120,7 +120,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT_EQUALS(found, true);
+		TS_ASSERT(found);
 
 		// Remove command
 
@@ -163,7 +163,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT_EQUALS(found, true);
+		TS_ASSERT(found);
 
 		// Command should not be in command list for device 2
 
@@ -177,7 +177,7 @@ public:
 				found = true;
 		}
 
-		TS_ASSERT_EQUALS(found, false);
+		TS_ASSERT(!found);
 
 		// Remove command
 

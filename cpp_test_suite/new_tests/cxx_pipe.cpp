@@ -208,9 +208,9 @@ public:
 		TS_ASSERT_EQUALS(udl64, 123456u);
 
 		TS_ASSERT_EQUALS(v_bool.size(), 3u);
-		TS_ASSERT_EQUALS(v_bool[0], true);
-		TS_ASSERT_EQUALS(v_bool[1], true);
-		TS_ASSERT_EQUALS(v_bool[2], false);
+		TS_ASSERT(v_bool[0]);
+		TS_ASSERT(v_bool[1]);
+		TS_ASSERT(!v_bool[2]);
 	}
 
 	void test_reading_pipe_with_arrays_length_1(void)
@@ -246,7 +246,7 @@ public:
 		TS_ASSERT_EQUALS(v_dl[0], 9);
 
 		TS_ASSERT_EQUALS(v_bool.size(), 1u);
-		TS_ASSERT_EQUALS(v_bool[0], false);
+		TS_ASSERT(!v_bool[0]);
 	}
 
 	void test_reading_pipe_with_string_types(void)
@@ -472,16 +472,16 @@ public:
 		pipe_data.exceptions(bs);
 
 		pipe_data >> dl;
-		TS_ASSERT_EQUALS(pipe_data.has_failed(), false);
+		TS_ASSERT(!pipe_data.has_failed());
 
 		pipe_data >> dl;
-		TS_ASSERT_EQUALS(pipe_data.has_failed(), true);
+		TS_ASSERT(pipe_data.has_failed());
 
 		bitset<DevicePipeBlob::numFlags> bs_err = pipe_data.state();
-		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::isempty_flag), true);
-		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::wrongtype_flag), false);
-		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::notenoughde_flag), false);
-		TS_ASSERT_EQUALS(bs_err.test(DevicePipeBlob::blobdenamenotset_flag), false);
+		TS_ASSERT(bs_err.test(DevicePipeBlob::isempty_flag));
+		TS_ASSERT(!bs_err.test(DevicePipeBlob::wrongtype_flag));
+		TS_ASSERT(!bs_err.test(DevicePipeBlob::notenoughde_flag));
+		TS_ASSERT(!bs_err.test(DevicePipeBlob::blobdenamenotset_flag));
 
 		bs.set();
 		pipe_data.exceptions(bs);

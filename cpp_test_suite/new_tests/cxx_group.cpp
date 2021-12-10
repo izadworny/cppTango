@@ -133,16 +133,16 @@ public:
 		TS_ASSERT_EQUALS(devices[1], device3_name);
 
 		// contains() method
-		TS_ASSERT_EQUALS(group->contains(device1_name), true);
-		TS_ASSERT_EQUALS(group->contains("nonexistent_name"), false);
+		TS_ASSERT(group->contains(device1_name));
+		TS_ASSERT(!group->contains("nonexistent_name"));
 
 		// patterns
-		TS_ASSERT_EQUALS(group->name_equals("group"), true);
-		TS_ASSERT_EQUALS(sub_group->name_matches("group"), true);
+		TS_ASSERT(group->name_equals("group"));
+		TS_ASSERT(sub_group->name_matches("group"));
 
 		// root
-		TS_ASSERT_EQUALS(group->is_root_group(), true);
-		TS_ASSERT_EQUALS(sub_group->is_root_group(), false);
+		TS_ASSERT(group->is_root_group());
+		TS_ASSERT(!sub_group->is_root_group());
 
 		// add & remove
 		device_names[0] = device2_name;
@@ -168,7 +168,7 @@ public:
 		TS_ASSERT_EQUALS(device_tmp->name(), device3_name);
 
 		// ping
-		TS_ASSERT_EQUALS(group->ping(), true);
+		TS_ASSERT(group->ping());
 	}
 
 // Test synchronous command with forwarding (default) and no arguments
@@ -181,7 +181,7 @@ public:
 		device_names.push_back(device3_name);
 
 		GroupCmdReplyList crl = group->command_inout("State");
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
@@ -203,7 +203,7 @@ public:
 	{
 		long request_id = group->command_inout_asynch("State");
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
@@ -218,7 +218,7 @@ public:
 	void test_synchronous_command_with_no_forwarding_and_no_arguments()
 	{
 		GroupCmdReplyList crl = group->command_inout("State",false);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 2u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
@@ -234,7 +234,7 @@ public:
 	{
 		long request_id = group->command_inout_asynch("State",false,false);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 2u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
@@ -252,7 +252,7 @@ public:
 		DevDouble db = 5.0;
 		dd << db;
 		GroupCmdReplyList crl = group->command_inout("IODouble",dd);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
@@ -270,7 +270,7 @@ public:
 		dd << db;
 		long request_id = group->command_inout_asynch("IODouble",dd);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 		for(size_t i = 0; i < crl.size(); i++)
 		{
@@ -289,7 +289,7 @@ public:
 		arguments[1] = 25.0;
 		arguments[2] = 35.0;
 		GroupCmdReplyList crl = group->command_inout("IODouble",arguments);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
@@ -311,7 +311,7 @@ public:
 		arguments[2] = 65.0;
 		long request_id = group->command_inout_asynch("IODouble",arguments);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
@@ -336,7 +336,7 @@ public:
 		arguments.push_back(dd2);
 		arguments.push_back(dd3);
 		GroupCmdReplyList crl = group->command_inout("IODouble",arguments);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
@@ -362,7 +362,7 @@ public:
 		arguments.push_back(dd3);
 		long request_id = group->command_inout_asynch("IODouble",arguments);
 		GroupCmdReplyList crl = group->command_inout_reply(request_id);
-		TS_ASSERT_EQUALS(crl.has_failed(), false);
+		TS_ASSERT(!crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 
 		crl[0] >> db;
@@ -400,7 +400,7 @@ public:
 		DevDouble db;
 		bool last_mode = GroupReply::enable_exception(true);
 		GroupCmdReplyList crl = group->command_inout("IOExcept");
-		TS_ASSERT_EQUALS(crl.has_failed(), true);
+		TS_ASSERT(crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
 		TS_ASSERT_THROWS_ASSERT(crl[0] >> db, Tango::DevFailed &e,
 				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_ThrowException);
@@ -420,11 +420,11 @@ public:
 	{
 		bool last_mode = GroupReply::enable_exception(false);
 		GroupCmdReplyList crl = group->command_inout("IOExcept");
-		TS_ASSERT_EQUALS(crl.has_failed(), true);
+		TS_ASSERT(crl.has_failed());
 		TS_ASSERT_EQUALS(crl.size(), 3u);
-		TS_ASSERT_EQUALS(crl[0].has_failed(), true);
-		TS_ASSERT_EQUALS(crl[1].has_failed(), true);
-		TS_ASSERT_EQUALS(crl[2].has_failed(), true);
+		TS_ASSERT(crl[0].has_failed());
+		TS_ASSERT(crl[1].has_failed());
+		TS_ASSERT(crl[2].has_failed());
 		TS_ASSERT_EQUALS(string(crl[0].get_err_stack()[0].reason.in()), API_ThrowException);
 		TS_ASSERT_EQUALS(string(crl[1].get_err_stack()[0].reason.in()), API_ThrowException);
 		TS_ASSERT_EQUALS(string(crl[2].get_err_stack()[0].reason.in()), API_ThrowException);
@@ -441,7 +441,7 @@ public:
 		device_names.push_back(device3_name);
 
 		GroupAttrReplyList arl = group->read_attribute("Double_attr");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -463,7 +463,7 @@ public:
 	{
 		long request_id = group->read_attribute_asynch("Double_attr");
 		GroupAttrReplyList arl = group->read_attribute_reply(request_id);
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -482,7 +482,7 @@ public:
 		attributes.push_back("Float_attr");
 
 		GroupAttrReplyList arl = group->read_attributes(attributes);
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 6u);
 
 		DevDouble db;
@@ -523,7 +523,7 @@ public:
 		DevDouble db;
 		bool last_mode = GroupReply::enable_exception(true);
 		GroupAttrReplyList arl = group->read_attribute("nonexistent_attr");
-		TS_ASSERT_EQUALS(arl.has_failed(), true);
+		TS_ASSERT(arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		TS_ASSERT_THROWS_ASSERT(arl[0] >> db, Tango::DevFailed &e,
 				TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_AttrNotFound);
@@ -543,11 +543,11 @@ public:
 	{
 		bool last_mode = GroupReply::enable_exception(false);
 		GroupAttrReplyList arl = group->read_attribute("nonexistent_attr");
-		TS_ASSERT_EQUALS(arl.has_failed(), true);
+		TS_ASSERT(arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
-		TS_ASSERT_EQUALS(arl[0].has_failed(), true);
-		TS_ASSERT_EQUALS(arl[1].has_failed(), true);
-		TS_ASSERT_EQUALS(arl[2].has_failed(), true);
+		TS_ASSERT(arl[0].has_failed());
+		TS_ASSERT(arl[1].has_failed());
+		TS_ASSERT(arl[2].has_failed());
 		TS_ASSERT_EQUALS(string(arl[0].get_err_stack()[0].reason.in()), API_AttrNotFound);
 		TS_ASSERT_EQUALS(string(arl[1].get_err_stack()[0].reason.in()), API_AttrNotFound);
 		TS_ASSERT_EQUALS(string(arl[2].get_err_stack()[0].reason.in()), API_AttrNotFound);
@@ -563,11 +563,11 @@ public:
 		// write attribute
 		DeviceAttribute value("Double_attr_w",11.1);
 		GroupReplyList rl = group->write_attribute(value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -581,9 +581,9 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -605,11 +605,11 @@ public:
 		DeviceAttribute value("Double_attr_w",22.2);
 		long request_id = group->write_attribute_asynch(value);
 		GroupReplyList rl = group->write_attribute_reply(request_id);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -623,9 +623,9 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -649,11 +649,11 @@ public:
 		values[1] = 33.4;
 		values[2] = 33.5;
 		GroupReplyList rl = group->write_attribute("Double_attr_w",values,true);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
@@ -668,9 +668,9 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -695,11 +695,11 @@ public:
 		values[2] = 44.6;
 		long request_id = group->write_attribute_asynch("Double_attr_w",values,true);
 		GroupReplyList rl = group->write_attribute_reply(request_id);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
@@ -714,9 +714,9 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -741,11 +741,11 @@ public:
 		values.push_back(da2);
 		values.push_back(da3);
 		GroupReplyList rl = group->write_attribute(values,true);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
@@ -760,9 +760,9 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -788,7 +788,7 @@ public:
 		values.push_back(da3);
 		long request_id = group->write_attribute_asynch(values,true);
 		GroupReplyList rl = group->write_attribute_reply(request_id);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 
 		// wrong number of arguments
 		values.push_back(da4);
@@ -798,7 +798,7 @@ public:
 
 		// read attribute to check if new value was properly set
 		GroupAttrReplyList arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		DevDouble db;
 		arl[0] >> db;
@@ -813,9 +813,9 @@ public:
 		arl.reset();
 		DeviceAttribute old_value("Double_attr_w",0.0);
 		rl = group->write_attribute(old_value);
-		TS_ASSERT_EQUALS(rl.has_failed(), false);
+		TS_ASSERT(!rl.has_failed());
 		arl = group->read_attribute("Double_attr_w");
-		TS_ASSERT_EQUALS(arl.has_failed(), false);
+		TS_ASSERT(!arl.has_failed());
 		TS_ASSERT_EQUALS(arl.size(), 3u);
 		for(size_t i = 0; i < arl.size(); i++)
 		{
@@ -846,10 +846,10 @@ public:
 		GroupCmdReplyList command_results = group.command_inout("State");
 		GroupCmdReply command_result = command_results[0];
 
-		TS_ASSERT(not command_results.has_failed());
+		TS_ASSERT(!command_results.has_failed());
 		TS_ASSERT_EQUALS(1u, command_results.size());
 
-		TS_ASSERT(not command_result.has_failed());
+		TS_ASSERT(!command_result.has_failed());
 
 		DevState state;
 		TS_ASSERT(command_result >> state);

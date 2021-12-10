@@ -369,7 +369,7 @@ public:
  		for (int i = 0;i < 5;i++)
  		{
     		bool fail = (*hist)[i].has_failed();
-			TS_ASSERT_EQUALS(fail, false);
+			TS_ASSERT(!fail);
 
 			DevShort hist_val;
 			(*hist)[i] >> hist_val;
