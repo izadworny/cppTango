@@ -244,7 +244,7 @@ cout << "Again exception when talking to adm device!!!" << endl;
 }
 			cout << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
 //			TS_ASSERT_EQUALS(reas, API_BlackBoxEmpty);
-			if (reas == "API_CorbaException")
+			if (reas == API_CorbaException)
 			{
 cout << "Too early, sleeping 4 more seconds...." << endl;
 				Tango_sleep(4);

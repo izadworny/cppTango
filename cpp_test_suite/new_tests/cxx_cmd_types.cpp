@@ -249,7 +249,7 @@ public:
 		}
 		bool db;
 		da >> db;
-		TS_ASSERT_EQUALS(db, true);
+		TS_ASSERT(db);
 	}
 
 // Test SCALAR unsigned short
@@ -507,7 +507,7 @@ public:
 		(*received)[4] >> fl;
 		TS_ASSERT_EQUALS(fl, 4.5);
 		(*received)[5] >> bo;
-		TS_ASSERT_EQUALS(bo, true);
+		TS_ASSERT(bo);
 		(*received)[6] >> ush;
 		TS_ASSERT_EQUALS(ush, 111);
 		(*received)[7] >> uch;
@@ -552,7 +552,7 @@ public:
 		vector<short> sh;
 		bool ret = (da >> sh);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 #ifndef COMPAT
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::SPECTRUM);
@@ -580,7 +580,7 @@ public:
 		vector<DevLong> lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 #ifndef COMPAT
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::SPECTRUM);
@@ -610,7 +610,7 @@ public:
 		bool ret = (da >> db);
 		int data_type = da.get_type();
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(db[0], 1.11);
 		TS_ASSERT_EQUALS(db[1], 2.22);
 		TS_ASSERT_EQUALS(data_type, Tango::DEV_DOUBLE);
@@ -633,7 +633,7 @@ public:
 		vector<string> str;
 		bool ret = (da >> str);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(str[0], "Hello world");
 		TS_ASSERT_EQUALS(str[1], "Hello universe");
 	}
@@ -655,7 +655,7 @@ public:
 		vector<float> sh;
 		bool ret = (da >> sh);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(sh[0], 4.5);
 		TS_ASSERT_EQUALS(sh[1], 8.5);
 		TS_ASSERT_EQUALS(sh[2], 16.5);
@@ -678,16 +678,16 @@ public:
 		vector<bool> sh;
 		bool ret = (da >> sh);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 #ifndef COMPAT
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::SPECTRUM);
 #endif
-		TS_ASSERT_EQUALS(sh[0], true);
-		TS_ASSERT_EQUALS(sh[1], true);
-		TS_ASSERT_EQUALS(sh[2], false);
-		TS_ASSERT_EQUALS(sh[3], true);
-		TS_ASSERT_EQUALS(sh[4], true);
+		TS_ASSERT(sh[0]);
+		TS_ASSERT(sh[1]);
+		TS_ASSERT(!sh[2]);
+		TS_ASSERT(sh[3]);
+		TS_ASSERT(sh[4]);
 	}
 
 // Test SPECTRUM unsigned short
@@ -707,7 +707,7 @@ public:
 		vector<unsigned short> sh;
 		bool ret = (da >> sh);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(sh[0], 333u);
 		TS_ASSERT_EQUALS(sh[1], 444u);
 	}
@@ -729,7 +729,7 @@ public:
 		vector<unsigned char> sh;
 		bool ret = (da >> sh);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(sh[0], 28);
 		TS_ASSERT_EQUALS(sh[1], 45);
 		TS_ASSERT_EQUALS(sh[2], 156);
@@ -755,7 +755,7 @@ public:
 		vector<DevLong64> lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(lo[0], 1000);
 		TS_ASSERT_EQUALS(lo[1], 10000);
 		TS_ASSERT_EQUALS(lo[2], 100000);
@@ -779,7 +779,7 @@ public:
 		vector<DevULong> lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(lo[0], 2222u);
 		TS_ASSERT_EQUALS(lo[1], 22222u);
 		TS_ASSERT_EQUALS(lo[2], 222222u);
@@ -803,7 +803,7 @@ public:
 		vector<DevULong64> lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(lo[0], 8888u);
 		TS_ASSERT_EQUALS(lo[1], 88888u);
 		TS_ASSERT_EQUALS(lo[2], 888888u);
@@ -827,7 +827,7 @@ public:
 		vector<DevState> lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS(lo[0], Tango::ON);
 		TS_ASSERT_EQUALS(lo[1], Tango::OFF);
 		TS_ASSERT_EQUALS(lo[2], Tango::UNKNOWN);
@@ -971,11 +971,11 @@ public:
 		int data_type = da.get_type();
 		da >> lo;
 
-		TS_ASSERT_EQUALS((*lo)[0], true);
-		TS_ASSERT_EQUALS((*lo)[1], true);
-		TS_ASSERT_EQUALS((*lo)[2], false);
-		TS_ASSERT_EQUALS((*lo)[3], true);
-		TS_ASSERT_EQUALS((*lo)[4], true);
+		TS_ASSERT((*lo)[0]);
+		TS_ASSERT((*lo)[1]);
+		TS_ASSERT(!(*lo)[2]);
+		TS_ASSERT((*lo)[3]);
+		TS_ASSERT((*lo)[4]);
 		TS_ASSERT_EQUALS(data_type, Tango::DEV_BOOLEAN);
 
 		delete lo;
@@ -1046,7 +1046,7 @@ public:
 		DevVarLong64Array *lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS((*lo)[0], 1000);
 		TS_ASSERT_EQUALS((*lo)[1], 10000);
 		TS_ASSERT_EQUALS((*lo)[2], 100000);
@@ -1072,7 +1072,7 @@ public:
 		DevVarULongArray *lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS((*lo)[0], 2222u);
 		TS_ASSERT_EQUALS((*lo)[1], 22222u);
 		TS_ASSERT_EQUALS((*lo)[2], 222222u);
@@ -1098,7 +1098,7 @@ public:
 		DevVarULong64Array *lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 		TS_ASSERT_EQUALS((*lo)[0], 8888u);
 		TS_ASSERT_EQUALS((*lo)[1], 88888u);
 		TS_ASSERT_EQUALS((*lo)[2], 888888u);
@@ -1123,7 +1123,7 @@ public:
 		}
 		DevVarStateArray *lo;
 		bool ret = (da >> lo);
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 #ifndef COMPAT
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::SPECTRUM);
@@ -1152,7 +1152,7 @@ public:
 		DevVarShortArray *lo;
 		bool ret = (da >> lo);
 
-		TS_ASSERT_EQUALS(ret, true);
+		TS_ASSERT(ret);
 #ifndef COMPAT
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::IMAGE);
@@ -1178,7 +1178,7 @@ public:
 		{
 			except = true;
 		}
-		TS_ASSERT_EQUALS(except, true);
+		TS_ASSERT(except);
 
 		db.reset_exceptions(DeviceAttribute::unknown_format_flag);
 

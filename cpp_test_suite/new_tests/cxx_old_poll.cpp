@@ -208,34 +208,34 @@ public:
 
         switch (cr) {
             case EXCEPT:
-                TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), true);
+                TS_ASSERT((*d_hist)[0].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 1u);
                 del = (*d_hist)[0].get_err_stack();
                 TS_ASSERT_EQUALS(std::string(del[0].desc.in()), "www");
 
                 (*d_hist)[1] >> simple_str;
-                TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), false);
+                TS_ASSERT(!(*d_hist)[1].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 0u);
                 TS_ASSERT_EQUALS(simple_str,"Even value from IOPollStr1");
 
                 (*d_hist)[2] >> simple_str;
-                TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), false);
+                TS_ASSERT(!(*d_hist)[2].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 0u);
                 TS_ASSERT_EQUALS(simple_str, "Odd value from IOPollStr1");
                 break;
 
             case FIRST_STR:
                 (*d_hist)[0] >> simple_str;
-                TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), false);
+                TS_ASSERT(!(*d_hist)[0].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 0u);
                 TS_ASSERT_EQUALS(simple_str, "Even value from IOPollStr1");
 
                 (*d_hist)[1] >> simple_str;
-                TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), false);
+                TS_ASSERT(!(*d_hist)[1].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 0u);
                 TS_ASSERT_EQUALS(simple_str, "Odd value from IOPollStr1");
 
-                TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), true);
+                TS_ASSERT((*d_hist)[2].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 1u);
                 del = (*d_hist)[2].get_err_stack();
                 TS_ASSERT_EQUALS(std::string(del[0].desc.in()), "www");
@@ -243,17 +243,17 @@ public:
 
             case SECOND_STR:
                 (*d_hist)[0] >> simple_str;
-                TS_ASSERT_EQUALS((*d_hist)[0].has_failed(), false);
+                TS_ASSERT(!(*d_hist)[0].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[0].get_err_stack().length(), 0u);
                 TS_ASSERT_EQUALS(simple_str, "Odd value from IOPollStr1");
 
-                TS_ASSERT_EQUALS((*d_hist)[1].has_failed(), true);
+                TS_ASSERT((*d_hist)[1].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[1].get_err_stack().length(), 1u);
                 del = (*d_hist)[1].get_err_stack();
                 TS_ASSERT_EQUALS(std::string(del[0].desc.in()), "www");
 
                 (*d_hist)[2] >> simple_str;
-                TS_ASSERT_EQUALS((*d_hist)[2].has_failed(), false);
+                TS_ASSERT(!(*d_hist)[2].has_failed());
                 TS_ASSERT_EQUALS((*d_hist)[2].get_err_stack().length(), 0u);
                 TS_ASSERT_EQUALS(simple_str, "Even value from IOPollStr1");
                 break;
@@ -284,7 +284,7 @@ public:
             if (i == 0)
                 first_val_first_rec = vect[0];
 
-            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             if (i != 0) {
                 if (first_val_first_rec == 100) {
@@ -321,7 +321,7 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), true);
+            TS_ASSERT((*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 1u);
             TS_ASSERT_EQUALS(std::string((*d_hist)[i].get_err_stack()[0].reason), API_ThrowException);
         }
@@ -337,7 +337,7 @@ public:
                 cout << (*d_hist)[i] << endl;
             }
 
-            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             Tango::DevState ds;
             (*d_hist)[i] >> ds;
@@ -354,7 +354,7 @@ public:
                 cout << (*d_hist)[i] << endl;
             }
 
-            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
             string str;
             (*d_hist)[i] >> str;
@@ -384,7 +384,7 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT_EQUALS((*d_hist)[i].has_failed(), false);
+            TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
 
             if (i == 0)
@@ -442,7 +442,7 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT_EQUALS((*a_hist)[i].has_failed(), false);
+            TS_ASSERT(!(*a_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*a_hist)[i].get_err_stack().length(), 0u);
 
             TS_ASSERT_EQUALS((*a_hist)[i].get_dim_x(), 1);
@@ -508,12 +508,12 @@ public:
 
         switch (ar) {
             case FIRST_EXCEPT:
-                TS_ASSERT_EQUALS((*a_hist)[0].has_failed(), true);
+                TS_ASSERT((*a_hist)[0].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[0].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].desc.in()), "bbb");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].reason.in()), "aaaa");
 
-                TS_ASSERT_EQUALS((*a_hist)[1].has_failed(), true);
+                TS_ASSERT((*a_hist)[1].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[1].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].desc.in()), "yyy");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].reason.in()), "xxx");
@@ -529,7 +529,7 @@ public:
                 break;
 
             case SECOND_EXCEPT:
-                TS_ASSERT_EQUALS((*a_hist)[0].has_failed(), true);
+                TS_ASSERT((*a_hist)[0].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[0].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].desc.in()), "yyy");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[0].get_err_stack())[0].reason.in()), "xxx");
@@ -543,7 +543,7 @@ public:
                 TS_ASSERT_EQUALS(str.size(), 1u);
                 TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
 
-                TS_ASSERT_EQUALS((*a_hist)[3].has_failed(), true);
+                TS_ASSERT((*a_hist)[3].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[3].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].desc.in()), "bbb");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].reason.in()), "aaaa");
@@ -559,12 +559,12 @@ public:
                 TS_ASSERT_EQUALS(str.size(), 1u);
                 TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
 
-                TS_ASSERT_EQUALS((*a_hist)[2].has_failed(), true);
+                TS_ASSERT((*a_hist)[2].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[2].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].desc.in()), "bbb");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].reason.in()), "aaaa");
 
-                TS_ASSERT_EQUALS((*a_hist)[3].has_failed(), true);
+                TS_ASSERT((*a_hist)[3].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[3].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].desc.in()), "yyy");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[3].get_err_stack())[0].reason.in()), "xxx");
@@ -575,12 +575,12 @@ public:
                 TS_ASSERT_EQUALS(str.size(), 1u);
                 TS_ASSERT_EQUALS(str[0], "Hello Grenoble");
 
-                TS_ASSERT_EQUALS((*a_hist)[1].has_failed(), true);
+                TS_ASSERT((*a_hist)[1].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[1].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].desc.in()), "bbb");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[1].get_err_stack())[0].reason.in()), "aaaa");
 
-                TS_ASSERT_EQUALS((*a_hist)[2].has_failed(), true);
+                TS_ASSERT((*a_hist)[2].has_failed());
                 TS_ASSERT_EQUALS((*a_hist)[2].get_err_stack().length(), 1u);
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].desc.in()), "yyy");
                 TS_ASSERT_EQUALS(std::string(((*a_hist)[2].get_err_stack())[0].reason.in()), "xxx");
@@ -604,7 +604,7 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT_EQUALS((*enc_hist)[i].has_failed(), false);
+            TS_ASSERT(!(*enc_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*enc_hist)[i].get_err_stack().length(), 0u);
 
             TS_ASSERT_EQUALS((*enc_hist)[i].get_dim_x(), 1);
@@ -636,7 +636,7 @@ public:
                 cout << endl;
             }
 
-            TS_ASSERT_EQUALS((*a_hist)[i].has_failed(), true);
+            TS_ASSERT((*a_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*a_hist)[i].get_err_stack().length(), 1u);
             TS_ASSERT_EQUALS(std::string((*a_hist)[i].get_err_stack()[0].reason), API_AttrOptProp);
 //			AttributeDimension dim;
@@ -695,7 +695,7 @@ public:
         vector <DevULong> v_lo;
         auto ret = (da >> v_lo);
 
-        TS_ASSERT_EQUALS(ret, true);
+        TS_ASSERT(ret);
         TS_ASSERT_EQUALS(v_lo[0], 2222u);
         TS_ASSERT_EQUALS(v_lo[1], 22222u);
         TS_ASSERT_EQUALS(v_lo[2], 222222u);
@@ -710,7 +710,7 @@ public:
         vector <DevState> v_sta;
         auto ret = (da >> v_sta);
 
-        TS_ASSERT_EQUALS(ret, true);
+        TS_ASSERT(ret);
         TS_ASSERT_EQUALS(v_sta[0], Tango::ON);
         TS_ASSERT_EQUALS(v_sta[1], Tango::OFF);
     }
@@ -842,12 +842,12 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
-        TS_ASSERT_EQUALS(poll, false);
+        TS_ASSERT(!poll);
 
         TS_ASSERT_THROWS_NOTHING(device->poll_command(cmd, 3000));
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
-        TS_ASSERT_EQUALS(poll, true);
+        TS_ASSERT(poll);
 
         int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_command_poll_period(cmd));
@@ -944,7 +944,7 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_command_polled(cmd));
 
-        TS_ASSERT_EQUALS(poll, false);
+        TS_ASSERT(!poll);
 
         vector <string> *poll_str;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
@@ -978,12 +978,12 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
-        TS_ASSERT_EQUALS(poll, false);
+        TS_ASSERT(!poll);
 
         TS_ASSERT_THROWS_NOTHING(device->poll_attribute(attr, 3000));
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
-        TS_ASSERT_EQUALS(poll, true);
+        TS_ASSERT(poll);
 
         int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
@@ -1040,7 +1040,7 @@ public:
         bool poll = true;
         TS_ASSERT_THROWS_NOTHING(poll = device->is_attribute_polled(attr));
 
-        TS_ASSERT_EQUALS(poll, false);
+        TS_ASSERT(!poll);
 
         vector <string> *poll_str;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());

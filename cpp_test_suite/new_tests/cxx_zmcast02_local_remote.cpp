@@ -184,7 +184,7 @@ public:
 
 		bool po = device_local->is_attribute_polled(att_name);
 		coutv << "Local device: attribute polled : " << po << endl;
-		TS_ASSERT_EQUALS(po, true);
+		TS_ASSERT(po);
 
 		int poll_period = device_local->get_attribute_poll_period(att_name);
 		coutv << "Local device: att polling period : " << poll_period << endl;
@@ -192,7 +192,7 @@ public:
 
 		po = device_remote->is_attribute_polled(att_name);
 		coutv << "Remote device: attribute polled : " << po << endl;
-		TS_ASSERT_EQUALS(po, true);
+		TS_ASSERT(po);
 
 		poll_period = device_remote->get_attribute_poll_period(att_name);
 		coutv << "Remote device: att polling period : " << poll_period << endl;
