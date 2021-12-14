@@ -243,8 +243,7 @@ install:
   # Tango IDL
   - cmd: cd %IDL_SOURCE%
   - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_INSTALL_PREFIX="%IDL_BASE%" .
-  - cmd: cmake --build ./ --target install --config Debug
-  - cmd: cmake --build ./ --target install --config Release
+  - cmd: cmake --build ./ --target install --config %CONFIGURATION%
   # Tango API
   - cmd: cd "C:\projects\cppTango"
   - cmd: set ZMQ_BASE=C:/projects/zeromq/
