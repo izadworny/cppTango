@@ -18,8 +18,4 @@ function run_in_container {
     cpp_tango "$@"
 }
 
-if [[ "$COVERALLS" == "ON" ]]; then
-  run_in_container make coveralls
-else
-  run_in_container ctest
-fi
+run_in_container ctest

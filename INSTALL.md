@@ -67,7 +67,6 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 | `CMAKE_BUILD_TYPE`           | `Release`                              | Compilation type, can be `Release` or `Debug`
 | `CMAKE_INSTALL_PREFIX`       | `/usr/local` or `C:/Program Files`     | Desired install path
 | `CMAKE_VERBOSE_MAKEFILE`     | `OFF`                                  | Allows to increase the verbosity level with `ON`
-| `COVERALLS`                  | `OFF`                                  | Generate code coverage data
 | `CPPZMQ_BASE`                |                                        | cppzmq installed path
 | `IDL_BASE`                   |                                        | tangoidl installed path
 | `OMNI_BASE`                  |                                        | omniORB4 installed path

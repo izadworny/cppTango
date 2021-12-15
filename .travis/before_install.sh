@@ -8,11 +8,6 @@ then
   docker pull registry.gitlab.com/tango-controls/docker/tango-db:5.16
 fi
 
-if [[ "$COVERALLS" == "ON" ]]
-then
-  git clone --depth 1 https://github.com/JoakimSoderberg/coveralls-cmake.git
-fi
-
 if [[ "$STOCK_CPPZMQ" == "OFF" ]]
 then
   git clone -b v4.7.1 --depth 1 https://github.com/zeromq/cppzmq.git
