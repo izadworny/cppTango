@@ -37,6 +37,12 @@ namespace Tango
 
 PipeProperty::~PipeProperty() = default;
 
+PipeProperty::PipeProperty(const PipeProperty &) = default;
+PipeProperty & PipeProperty::operator=(const PipeProperty &) = default;
+
+PipeProperty::PipeProperty(PipeProperty &&) = default;
+PipeProperty & PipeProperty::operator=(PipeProperty &&) = default;
+
 //+-------------------------------------------------------------------------------------------------------------------
 //
 // method :
