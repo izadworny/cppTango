@@ -32,8 +32,6 @@ workflow:
         --rm
         --name cpp_tango
         --user root
-        -e BINTRAY_API_KEY=${CI_BINTRAY_API_KEY}
-        -e BINTRAY_USER_NAME=tango-ci
         -e TANGO_HOST=${TANGO_HOST}
         -e DOCKER_HOST=tcp://$(getent hosts docker | awk '{ print $1 }'):2375
         -v `pwd`:/home/tango/src
