@@ -95,6 +95,13 @@ class AsynchRequest
     };
     //- dtor
     virtual ~AsynchRequest();
+
+    AsynchRequest(const AsynchRequest &);
+    AsynchRequest & operator=(const AsynchRequest &);
+
+    AsynchRequest(AsynchRequest &&);
+    AsynchRequest & operator=(AsynchRequest &&);
+
     //- group_element_enabled accessor
     inline bool group_element_enabled () const {
       return group_element_enabled_m;

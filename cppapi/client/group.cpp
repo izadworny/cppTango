@@ -102,6 +102,12 @@ DeviceNames GroupElementFactory::resolve_device_names(const std::string& name_or
 
 AsynchRequest::~AsynchRequest() = default;
 
+AsynchRequest::AsynchRequest(const AsynchRequest &) = default;
+AsynchRequest & AsynchRequest::operator=(const AsynchRequest &) = default;
+
+AsynchRequest::AsynchRequest(AsynchRequest &&) = default;
+AsynchRequest & AsynchRequest::operator=(AsynchRequest &&) = default;
+
 DeviceNames GroupElementFactory::resolve_local_device_names(const std::string& name_or_pattern)
 {
     std::string& name_or_patern_non_const = const_cast<std::string&>(name_or_pattern);
