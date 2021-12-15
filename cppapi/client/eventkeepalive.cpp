@@ -204,8 +204,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(EvChanIte &ipos,Even
 
                     dd = subscriber_out;
 
-                    if (ipos->second.adm_device_proxy != NULL)
-                        delete ipos->second.adm_device_proxy;
+                    delete ipos->second.adm_device_proxy;
 
                     ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
                     cout3 << "Reconnected to zmq event channel" << endl;
