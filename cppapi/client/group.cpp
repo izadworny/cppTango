@@ -577,6 +577,12 @@ GroupAttrReplyList::GroupAttrReplyList ()
 
 GroupAttrReplyList::~GroupAttrReplyList() = default;
 
+GroupAttrReplyList::GroupAttrReplyList(const GroupAttrReplyList &) = default;
+GroupAttrReplyList & GroupAttrReplyList::operator=(const GroupAttrReplyList &) = default;
+
+GroupAttrReplyList::GroupAttrReplyList(GroupAttrReplyList &&) = default;
+GroupAttrReplyList & GroupAttrReplyList::operator=(GroupAttrReplyList &&) = default;
+
 //=============================================================================
 // class GroupElement
 //=============================================================================

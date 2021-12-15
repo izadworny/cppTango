@@ -569,6 +569,13 @@ public:
   GroupAttrReplyList();
   //- dtor
   virtual ~GroupAttrReplyList();
+
+  GroupAttrReplyList(const GroupAttrReplyList &);
+  GroupAttrReplyList & operator=(const GroupAttrReplyList &);
+
+  GroupAttrReplyList(GroupAttrReplyList &&);
+  GroupAttrReplyList & operator=(GroupAttrReplyList &&);
+
 ///@publicsection
   //- has_failed accessor method
 /**
