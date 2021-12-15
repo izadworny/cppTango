@@ -300,6 +300,12 @@ GroupReplyList::GroupReplyList ()
 
 GroupReplyList::~GroupReplyList() = default;
 
+GroupReplyList::GroupReplyList(const GroupReplyList &) = default;
+GroupReplyList & GroupReplyList::operator=(const GroupReplyList &) = default;
+
+GroupReplyList::GroupReplyList(GroupReplyList &&) = default;
+GroupReplyList & GroupReplyList::operator=(GroupReplyList &&) = default;
+
 //=============================================================================
 // class GroupCmdReply : reply to command executed on a group
 //=============================================================================
