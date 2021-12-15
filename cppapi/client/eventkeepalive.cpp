@@ -199,9 +199,15 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(const EvChanIte &ipo
 
                     dd = subscriber_out;
 
-                    delete ipos->second.adm_device_proxy;
+                    // only delete the existing admin device if we could create a new one
+                    auto new_adm_proxy{new DeviceProxy(ipos->second.full_adm_name)};
 
-                    ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
+                    auto old_adm_proxy{ipos->second.adm_device_proxy};
+
+                    ipos->second.adm_device_proxy = new_adm_proxy;
+
+                    delete old_adm_proxy;
+
                     TANGO_LOG_DEBUG << "Reconnected to zmq event channel" << std::endl;
 				}
 				catch(...)
