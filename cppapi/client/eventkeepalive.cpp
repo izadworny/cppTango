@@ -204,9 +204,14 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(EvChanIte &ipos,Even
 
                     dd = subscriber_out;
 
+                    // only delete the existing admin device
+                    // if we could create a new one
+                    DeviceProxy* new_adm_proxy = new DeviceProxy(ipos->second.full_adm_name);
+
                     delete ipos->second.adm_device_proxy;
 
-                    ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
+                    ipos->second.adm_device_proxy = new_adm_proxy;
+
                     cout3 << "Reconnected to zmq event channel" << endl;
 				}
 				catch(...)
