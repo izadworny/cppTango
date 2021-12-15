@@ -10,22 +10,6 @@
 
 [![License](https://img.shields.io/badge/license-LGPL--3.0-orange.svg)](https://github.com/tango-controls/cppTango/blob/master/LICENSE)
 
-## SonarCloud.io
-
-[![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-
-[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-[![Reliability](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-[![Security](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=security_rating)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=bugs)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-[![Code smells](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=code_smells)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-[![Tech debt](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=sqale_index)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-
-[![Lines of code](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=ncloc)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-[![Lines of code](https://sonarcloud.io/api/project_badges/measure?project=org.tango-controls%3Acpp-tango%3Amain&metric=coverage)](https://sonarcloud.io/dashboard?id=org.tango-controls%3Acpp-tango%3Amain)
-
 # TANGO distributed control system - shared library
 
 TANGO is an object-oriented distributed control system. In TANGO all objects

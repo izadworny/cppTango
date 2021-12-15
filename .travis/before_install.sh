@@ -8,7 +8,7 @@ then
   docker pull registry.gitlab.com/tango-controls/docker/tango-db:5.16
 fi
 
-if [[ "$SONAR_SCANNER" == "ON" ||  "$COVERALLS" == "ON" ]]
+if [[ "$COVERALLS" == "ON" ]]
 then
   git clone --depth 1 https://github.com/JoakimSoderberg/coveralls-cmake.git
 fi
@@ -21,12 +21,3 @@ else
 fi
 
 git clone --depth 1 https://gitlab.com/tango-controls/tango-idl.git idl
-
-if [[ "$SONAR_SCANNER" == "ON" ]]
-then
-  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.1.0.1829-linux.zip
-  unzip sonar-scanner-cli-4.1.0.1829-linux.zip
-  mv sonar-scanner-4.1.0.1829-linux sonar-scanner
-  wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
-  unzip build-wrapper-linux-x86.zip
-fi
