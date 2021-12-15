@@ -508,17 +508,8 @@ GroupCmdReplyList & GroupCmdReplyList::operator=(GroupCmdReplyList &&) = default
 //=============================================================================
 // class GroupAttrReply : reply to read/write attr on a group
 //=============================================================================
-GroupAttrReply::GroupAttrReply ()
- : GroupReply()
-{
-  //-noop impl
-}
-//-----------------------------------------------------------------------------
-GroupAttrReply::GroupAttrReply (const GroupAttrReply& src)
-  : GroupReply(src), data_m(src.data_m)
-{
+GroupAttrReply::GroupAttrReply() = default;
 
-}
 //-----------------------------------------------------------------------------
 GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
                                 const std::string& _obj_name,
@@ -545,6 +536,12 @@ GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
 }
 
 GroupAttrReply::~GroupAttrReply() = default;
+
+GroupAttrReply::GroupAttrReply(const GroupAttrReply &) = default;
+GroupAttrReply & GroupAttrReply::operator=(const GroupAttrReply &) = default;
+
+GroupAttrReply::GroupAttrReply(GroupAttrReply &&) = default;
+GroupAttrReply & GroupAttrReply::operator=(GroupAttrReply &&) = default;
 
 //-----------------------------------------------------------------------------
 /*const*/ DeviceAttribute& GroupAttrReply::get_data ()

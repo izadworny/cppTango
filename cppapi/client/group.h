@@ -353,8 +353,6 @@ public:
 ///@privatesection
   //- ctor
   GroupAttrReply ();
-  //- copy ctor
-  GroupAttrReply (const GroupAttrReply& src);
   //- ctor
   GroupAttrReply (const std::string& dev_name,
                   const std::string& obj_name,
@@ -369,6 +367,13 @@ public:
                   bool group_element_enabled);
   //- dtor
   virtual ~GroupAttrReply();
+
+  GroupAttrReply(const GroupAttrReply &);
+  GroupAttrReply & operator=(const GroupAttrReply &);
+
+  GroupAttrReply(GroupAttrReply &&);
+  GroupAttrReply & operator=(GroupAttrReply &&);
+
 ///@publicsection
   //- data accessor (may throw Tango::DevFailed)
 /**
