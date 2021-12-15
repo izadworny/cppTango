@@ -263,8 +263,6 @@ public:
 ///@privatesection
   //- default ctor
   GroupCmdReply ();
-  //- copy ctor
-  GroupCmdReply (const GroupCmdReply& src);
   //-
   GroupCmdReply (const std::string& dev_name,
                  const std::string& obj_name,
@@ -279,6 +277,13 @@ public:
                  bool group_element_enabled);
   //- dtor
   virtual ~GroupCmdReply();
+
+  GroupCmdReply(const GroupCmdReply &);
+  GroupCmdReply & operator=(const GroupCmdReply &);
+
+  GroupCmdReply(GroupCmdReply &&);
+  GroupCmdReply & operator=(GroupCmdReply &&);
+
 ///@publicsection
   //- data accessor (may throw Tango::DevFailed)
 /**

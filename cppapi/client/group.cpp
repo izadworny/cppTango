@@ -314,12 +314,7 @@ GroupCmdReply::GroupCmdReply ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupCmdReply::GroupCmdReply (const GroupCmdReply& src)
-  : GroupReply(src), data_m(src.data_m)
-{
 
-}
 //-----------------------------------------------------------------------------
 GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
                               const std::string& _obj_name,
@@ -346,6 +341,12 @@ GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
 }
 
 GroupCmdReply::~GroupCmdReply() = default;
+
+GroupCmdReply::GroupCmdReply(const GroupCmdReply &) = default;
+GroupCmdReply & GroupCmdReply::operator=(const GroupCmdReply &) = default;
+
+GroupCmdReply::GroupCmdReply(GroupCmdReply &&) = default;
+GroupCmdReply & GroupCmdReply::operator=(GroupCmdReply &&) = default;
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
