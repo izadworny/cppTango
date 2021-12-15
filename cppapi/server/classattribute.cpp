@@ -82,6 +82,12 @@ AttrProperty::AttrProperty(const std::string &name,const long &value):attr_name(
 
 AttrProperty::~AttrProperty() = default;
 
+AttrProperty::AttrProperty(const AttrProperty &) = default;
+AttrProperty & AttrProperty::operator=(const AttrProperty &) = default;
+
+AttrProperty::AttrProperty(AttrProperty &&) = default;
+AttrProperty & AttrProperty::operator=(AttrProperty &&) = default;
+
 //+-----------------------------------------------------------------------------------------------------------------
 //
 // method :

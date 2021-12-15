@@ -71,6 +71,12 @@ public:
 	AttrProperty(const std::string &name,const long &value);
 	~AttrProperty();
 
+	AttrProperty(const AttrProperty &);
+	AttrProperty & operator=(const AttrProperty &);
+
+	AttrProperty(AttrProperty &&);
+	AttrProperty & operator=(AttrProperty &&);
+
 	std::string &get_value() {return attr_value;}
 	std::string const &get_value() const {return attr_value;}
 	long get_lg_value()const {return attr_lg;}
