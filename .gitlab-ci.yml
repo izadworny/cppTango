@@ -37,8 +37,6 @@ workflow:
         -e BINTRAY_USER_NAME=tango-ci
         -e COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}
         -e TANGO_HOST=${TANGO_HOST}
-        -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
-        -e TRAVIS_JOB_ID=${TRAVIS_JOB_ID}
         -e DOCKER_HOST=tcp://$(getent hosts docker | awk '{ print $1 }'):2375
         -v `pwd`:/home/tango/src
         -v `pwd`/idl:/home/tango/idl
