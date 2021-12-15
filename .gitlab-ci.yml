@@ -378,7 +378,9 @@ cmake-with-locations-and-min-versions:
       pkg-config
       python3-dev
       python3-minimal
-      libjpeg-dev
+      libtool
+      autoconf
+      nasm
     # Install cmake
     - curl -L https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.sh -o /tmp/cmake-install.sh
     - chmod +x /tmp/cmake-install.sh
@@ -411,6 +413,14 @@ cmake-with-locations-and-min-versions:
     - ./configure --prefix=/usr/local/omniORB
     - make
     - make install
+    # Install libjpeg
+    - git clone -b 1.5.1 --depth 1 https://github.com/libjpeg-turbo/libjpeg-turbo.git /libjpeg
+    - mkdir /libjpeg/build
+    - cd /libjpeg
+    - autoreconf -fiv
+    - cd build/
+    - sh ../configure
+    - make install prefix=/usr/local/libjpeg libdir=/usr/local/libjpeg/lib
     - cd $CI_PROJECT_DIR
     - mkdir build
     - cd build
@@ -419,10 +429,12 @@ cmake-with-locations-and-min-versions:
       cmake ..
       -DCMAKE_BUILD_TYPE=Debug
       -DBUILD_TESTING=ON
+      -DTANGO_USE_JPEG=ON
       -DCPPZMQ_BASE=/usr/local/cppzmq
       -DIDL_BASE=/usr/local/tango-idl
       -DOMNI_BASE=/usr/local/omniORB
       -DZMQ_BASE=/usr/local/zmq
+      -DJPEG_BASE=/usr/local/libjpeg
     - make
 
 alpine:
