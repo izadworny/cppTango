@@ -499,6 +499,12 @@ GroupCmdReplyList::GroupCmdReplyList ()
 
 GroupCmdReplyList::~GroupCmdReplyList() = default;
 
+GroupCmdReplyList::GroupCmdReplyList(const GroupCmdReplyList &) = default;
+GroupCmdReplyList & GroupCmdReplyList::operator=(const GroupCmdReplyList &) = default;
+
+GroupCmdReplyList::GroupCmdReplyList(GroupCmdReplyList &&) = default;
+GroupCmdReplyList & GroupCmdReplyList::operator=(GroupCmdReplyList &&) = default;
+
 //=============================================================================
 // class GroupAttrReply : reply to read/write attr on a group
 //=============================================================================

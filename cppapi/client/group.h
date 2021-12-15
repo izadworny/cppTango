@@ -423,6 +423,13 @@ public:
   GroupReplyList();
   //- dtor
   virtual ~GroupReplyList();
+
+  GroupReplyList(const GroupReplyList &);
+  GroupReplyList & operator=(const GroupReplyList &);
+
+  GroupReplyList(GroupReplyList &&);
+  GroupReplyList & operator=(GroupReplyList &&);
+
 ///@publicsection
   //- has_failed accessor
 /**
@@ -487,6 +494,13 @@ public:
   GroupCmdReplyList();
   //- dtor
   virtual ~GroupCmdReplyList();
+
+  GroupCmdReplyList(const GroupCmdReplyList &);
+  GroupCmdReplyList & operator=(const GroupCmdReplyList &);
+
+  GroupCmdReplyList(GroupCmdReplyList &&);
+  GroupCmdReplyList & operator=(GroupCmdReplyList &&);
+
 ///@publicsection
   //- has_failed accessor method
 /**
