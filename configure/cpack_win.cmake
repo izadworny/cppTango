@@ -67,11 +67,11 @@ set(CPACK_NSIS_MODIFY_PATH ON)
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 set(CPACK_NSIS_MENU_LINKS
     "http://tango-controls.readthedocs.io/en/latest/" "Tango Doc")
-set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/appveyor/tango.ico)
-set(CPACK_NSIS_MUI_UNIICON ${PROJECT_SOURCE_DIR}/appveyor/tango.ico)
+set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/ci/tango.ico)
+set(CPACK_NSIS_MUI_UNIICON ${PROJECT_SOURCE_DIR}/ci/tango.ico)
 
 #WIX
-set(CPACK_WIX_PRODUCT_ICON ${PROJECT_SOURCE_DIR}/appveyor/tango.ico)
+set(CPACK_WIX_PRODUCT_ICON ${PROJECT_SOURCE_DIR}/ci/tango.ico)
 set(CPACK_WIX_PROPERTY_ARPHELPLINK "http://tango-controls.readthedocs.io/en/latest/")
 set(CPACK_WIX_PROPERTY_ARPURLINFOABOUT "http://www.tango-controls.org")
 set(CPACK_WIX_PROPERTY_ARPURLUPDATEINFO "http://www.tango-controls.org")
