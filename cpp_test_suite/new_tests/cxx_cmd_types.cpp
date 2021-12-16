@@ -427,7 +427,7 @@ public:
 		EncodedAttribute att;
 		int width,height;
 		unsigned char *gray8;
-
+#ifdef TANGO_USE_JPEG
 		try
 		{
 			da = device1->read_attribute("Encoded_image");
@@ -444,7 +444,13 @@ public:
 		// Check a pixel (margin of 4 levels for jpeg loss)
 		TS_ASSERT_LESS_THAN_EQUALS (124, gray8[128+128*256]);
 		TS_ASSERT_LESS_THAN_EQUALS(gray8[128+128*256], 132);
-		delete [] gray8;
+
+                delete [] gray8;
+#else
+                da = device1->read_attribute("Encoded_image");
+                TS_ASSERT_THROWS_ASSERT(att.decode_gray8( &da, &width, &height, &gray8 ), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_EmptyDeviceAttribute));
+#endif
 
 	}
 #endif
