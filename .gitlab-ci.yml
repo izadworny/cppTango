@@ -25,8 +25,8 @@ workflow:
     - ulimit -c unlimited
     - echo "core.%e.%p.%t" > /proc/sys/kernel/core_pattern
     - apt-get update && apt-get install -y git wget unzip docker.io
-    - .travis/before_install.sh
-    - docker build -t cpp_tango .travis/${OS_TYPE}
+    - ci/before_install.sh
+    - docker build -t cpp_tango ci/${OS_TYPE}
     - >
         docker run
         --rm
@@ -40,12 +40,12 @@ workflow:
         -v `pwd`/build-wrapper-linux-x86:/home/tango/build-wrapper-linux-x86
         -dit
         cpp_tango
-    - .travis/install_tango_idl.sh
-    - test ${STOCK_CPPZMQ} = "OFF" && .travis/install_cppzmq.sh || true
+    - ci/install_tango_idl.sh
+    - test ${STOCK_CPPZMQ} = "OFF" && ci/install_cppzmq.sh || true
   script:
     - set -e
-    - .travis/run.sh
-    - .travis/test.sh
+    - ci/run.sh
+    - ci/test.sh
     - set +e
   after_script:
     - docker stop cpp_tango || true
@@ -68,8 +68,8 @@ abi-api-compliance-check:
   before_script:
     - apt-get update && apt-get install -y git docker.io
     - git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
-    - .travis/before_install.sh
-    - docker build -t cpp_tango .travis/gcc-latest
+    - ci/before_install.sh
+    - docker build -t cpp_tango ci/gcc-latest
     - >
         docker run
         --rm
@@ -79,8 +79,8 @@ abi-api-compliance-check:
         -v `pwd`/idl:/home/tango/idl
         -dit
         cpp_tango
-    - .travis/install_tango_idl.sh
-    - test ${STOCK_CPPZMQ} = "OFF" && .travis/install_cppzmq.sh || true
+    - ci/install_tango_idl.sh
+    - test ${STOCK_CPPZMQ} = "OFF" && ci/install_cppzmq.sh || true
   script:
     - >
         docker exec
@@ -88,7 +88,7 @@ abi-api-compliance-check:
         -e CI_TARGET_BRANCH=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
         -e CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
         cpp_tango
-        .travis/check-ABI-API-compliance.sh || true
+        ci/check-ABI-API-compliance.sh || true
   after_script:
     - docker stop cpp_tango
   artifacts:
