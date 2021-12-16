@@ -57,7 +57,6 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
     public:
         SUITE_NAME()
         {
-
             //
             // Arguments check -------------------------------------------------
             //
@@ -113,6 +112,7 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
         // Check the encoding functions
         void test_jpeg_encoding()
         {
+#ifdef TANGO_USE_JPEG
             encoder->encode_jpeg_gray8(raw_8bits.data(), 512, 512, 100);
             std::size_t offset = find_jpeg_start(encoder->get_data(), encoder->get_size());
 
@@ -134,7 +134,17 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb24(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
                     TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), "API_EncodeErr"));
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb32(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), "API_EncodeErr"));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_EncodeErr));
+
+#else
+
+            TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_gray8(raw_8bits.data(), 512, 512, 100), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_UnsupportedFeature));
+            TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb24(raw_24bits.data(), 512, 512, 100), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_UnsupportedFeature));
+            TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb32(raw_32bits.data(), 512, 512, 100), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_UnsupportedFeature));
+#endif
         }
 
         // Check the decoding functions
@@ -165,6 +175,7 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
 
             da_error << att_de_error;
 
+#ifdef TANGO_USE_JPEG
             // Decode jpeg images
             encoder->decode_rgb32(&da_rgb, &width, &height, &color_buffer);
 
@@ -185,6 +196,12 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
             TS_ASSERT_THROWS_ASSERT(encoder->decode_rgb32(&da_error, &width, &height, &color_buffer), Tango::DevFailed &e,
                     TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), "API_WrongFormat"));
 
+#else
+            TS_ASSERT_THROWS_ASSERT(encoder->decode_rgb32(&da_rgb, &width, &height, &color_buffer), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_UnsupportedFeature));
+            TS_ASSERT_THROWS_ASSERT(encoder->decode_gray8(&da_gray, &width, &height, &gray_buffer), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_UnsupportedFeature));
+#endif
             delete[] color_buffer;
             delete[] gray_buffer;
 

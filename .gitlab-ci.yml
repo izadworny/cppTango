@@ -7,6 +7,7 @@ variables: &variables
   USE_PCH: "ON"
   CMAKE_BUILD_TYPE: "Debug"
   TANGO_USE_USING_NAMESPACE: "ON"
+  TANGO_USE_JPEG: "ON"
   BUILD_SHARED_LIBS: "ON"
 
 services:
@@ -190,6 +191,14 @@ debian11:
     <<: *variables
     OS_TYPE: debian11
     STOCK_CPPZMQ: "OFF"
+
+debian11-no-jpeg:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: debian11
+    STOCK_CPPZMQ: "OFF"
+    TANGO_USE_JPEG: "OFF"
 
 debian10:
   <<: *job-template
