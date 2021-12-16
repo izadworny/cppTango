@@ -1584,6 +1584,7 @@ void Util::create_zmq_event_supplier()
 		zmq_event_supplier = NULL;
 		if (_FileDb == true)
 			std::cerr << "Can't create zmq event supplier. Zmq event not available" << std::endl;
+            throw;
 	}
 }
 
