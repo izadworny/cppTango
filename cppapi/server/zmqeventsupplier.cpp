@@ -53,6 +53,10 @@ using namespace CORBA;
 
 namespace Tango {
 
+// Environment variables for ZMQ publish ports - Event and Heartbeat
+static const char* TangoEventPortEnvVar = "TANGO_ZMQ_EVENT_PORT";
+static const char* TangoHearbeatPortEnvVar = "TANGO_ZMQ_HEARTBEAT_PORT";
+
 ZmqEventSupplier *ZmqEventSupplier::_instance = NULL;
 
 
@@ -178,10 +182,12 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
         ip_specified = false;
     }
 
-//
-// Bind the publisher socket to one ephemeral port
-//
+// add on the port specification
+		get_zmq_port_from_envvar(TangoHearbeatPortEnvVar, heartbeat_endpoint);
 
+//
+// Bind the heartbeat publisher socket to the port
+//
     tango_bind(heartbeat_pub_sock,heartbeat_endpoint);
 
 //
@@ -309,6 +315,41 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
 	require_wait = true;
 }
 
+//+-----------------------------------------------------------------------------------------------------------------
+//
+// method :
+//		void ZmqEventSupplier::get_zmq_port_from_envvar()
+//
+// description :
+//		Get the ZeroMQ publisher port from an Environment Variable if defined
+// 		appends port to endpoint if env var is set, or '*' where zmq will allocate
+//    an ephemeral port.
+//
+//------------------------------------------------------------------------------------------------------------------
+
+void ZmqEventSupplier::get_zmq_port_from_envvar(const char *zmq_port_env_var, std::string &endpoint)
+{
+	// We expect a valid endpoint without a port specification - so ends in ':'
+  assert(!endpoint.empty());
+  assert(endpoint.back() == ':');
+	// default to ephemeral port request for zmq, so that this is always the drop
+	// through incase of parsing failures
+  std::string zmq_port("*");
+  std::string zmq_port_var;
+	ApiUtil *au = ApiUtil::instance();
+	// get the environment variable
+  if (au->get_env_var(zmq_port_env_var, zmq_port_var) == 0)
+  {
+		// check the port var is an integer
+		std::istringstream ihb_port(zmq_port_var);
+		if (ihb_port)
+		{
+			// only pass a valid integer port specification
+			zmq_port = zmq_port_var;
+		}
+	}
+	endpoint += zmq_port;
+}
 
 ZmqEventSupplier *ZmqEventSupplier::create(Util *tg)
 {
@@ -382,7 +423,6 @@ ZmqEventSupplier::~ZmqEventSupplier()
 void ZmqEventSupplier::tango_bind(zmq::socket_t *sock,string &endpoint)
 {
     string base_endpoint(endpoint);
-    base_endpoint = base_endpoint + "*";
 
     char buf[80];
     size_t buf_len = sizeof(buf);
@@ -393,10 +433,16 @@ void ZmqEventSupplier::tango_bind(zmq::socket_t *sock,string &endpoint)
 
 		sock->getsockopt(ZMQ_LAST_ENDPOINT,buf,&buf_len);
 
-		string str(buf);
-		string::size_type pos = str.rfind(':');
-		string port_str = str.substr(pos + 1);
-		endpoint = endpoint + port_str;
+		// if this was a request for an ephemeral port then we need to look
+		// up which port was allocated
+		if (endpoint.back() == '*')
+		{
+			endpoint.pop_back();
+			string str(buf);
+			string::size_type pos = str.rfind(':');
+			string port_str = str.substr(pos + 1);
+			endpoint = endpoint + port_str;
+		}
 	}
 	catch(...)
 	{
@@ -489,8 +535,11 @@ void ZmqEventSupplier::create_event_socket()
 
         event_pub_sock->setsockopt(ZMQ_SNDHWM,&hwm,sizeof(hwm));
 
+// add on the port specification
+				get_zmq_port_from_envvar(TangoEventPortEnvVar, event_endpoint);
+
 //
-// Bind the publisher socket to one ephemeral port
+// Bind the event publisher socket to the port
 //
 
         tango_bind(event_pub_sock,event_endpoint);
