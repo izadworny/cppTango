@@ -376,7 +376,7 @@ int main(int argc, char **argv)
 	}
 	cout << "   Scalar DevEncoded (JPEG) --> OK" << endl;
 #endif
-					
+
 // Thirteen in one go
 
 	for (i = 0;i < loop;i++)

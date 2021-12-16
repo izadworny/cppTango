@@ -130,20 +130,20 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
 
             // Check if it throws errors
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_gray8(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), "API_EncodeErr"));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_EncodeErr));
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb24(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), "API_EncodeErr"));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_EncodeErr));
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb32(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_EncodeErr));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_EncodeErr));
 
 #else
 
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_gray8(raw_8bits.data(), 512, 512, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_UnsupportedFeature));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_UnsupportedFeature));
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb24(raw_24bits.data(), 512, 512, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_UnsupportedFeature));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_UnsupportedFeature));
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb32(raw_32bits.data(), 512, 512, 100), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), API_UnsupportedFeature));
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_UnsupportedFeature));
 #endif
         }
 
@@ -192,15 +192,15 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
 
             // Check if it throws errors
             TS_ASSERT_THROWS_ASSERT(encoder->decode_gray8(&da_error, &width, &height, &color_buffer), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), "API_DecodeErr"));
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), Tango::API_DecodeErr));
             TS_ASSERT_THROWS_ASSERT(encoder->decode_rgb32(&da_error, &width, &height, &color_buffer), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), "API_WrongFormat"));
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), Tango::API_WrongFormat));
 
 #else
             TS_ASSERT_THROWS_ASSERT(encoder->decode_rgb32(&da_rgb, &width, &height, &color_buffer), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_UnsupportedFeature));
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), Tango::API_UnsupportedFeature));
             TS_ASSERT_THROWS_ASSERT(encoder->decode_gray8(&da_gray, &width, &height, &gray_buffer), Tango::DevFailed &e,
-                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_UnsupportedFeature));
+                    TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), Tango::API_UnsupportedFeature));
 #endif
             delete[] color_buffer;
             delete[] gray_buffer;
