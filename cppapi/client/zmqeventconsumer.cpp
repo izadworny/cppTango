@@ -1978,7 +1978,7 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 				size_t data_size = (size_t)event_data.size();
 
 				bool shift_zmq420 = false;
-                int shift_mem = (unsigned long)data_ptr & 0x3;
+                int shift_mem = reinterpret_cast<std::uintptr_t>(data_ptr) & 0x3;
                 if (shift_mem != 0)
                 {
 					char *src = data_ptr + 4;
@@ -1991,7 +1991,7 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
                     }
 
 					char *dest = src - shift_mem;
-					if (((unsigned long)dest & 0x7) == 4)
+					if ((reinterpret_cast<std::uintptr_t>(dest) & 0x7) == 4)
                         dest = dest - 4;
 					memmove((void *)dest,(void *)src,size_to_move);
 					shift_zmq420 = true;
@@ -2021,7 +2021,7 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 				bool buffer_aligned64 = false;
 				if (data64 == true)
 				{
-					if (((unsigned long)data_ptr & 0x7) == 0)
+					if ((reinterpret_cast<std::uintptr_t>(data_ptr) & 0x7) == 0)
 						buffer_aligned64 = true;
 				}
 
