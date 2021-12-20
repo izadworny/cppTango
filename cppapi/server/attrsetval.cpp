@@ -131,7 +131,7 @@ void Attribute::set_value(Tango::DevShort *p_data,long x,long y,bool release)
 		}
 
 		int max_val = enum_labels.size() - 1;
-		for (unsigned int i = 0;i < data_size;i++)
+		for (std::uint32_t i = 0;i < data_size;i++)
 		{
 			if (p_data[i] < 0 || p_data[i] > max_val)
 			{
@@ -709,7 +709,7 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 		if (release == true)
 		{
 			char **strvec = Tango::DevVarStringArray::allocbuf(data_size);
-			for (int i = 0;i < data_size;i++)
+			for (std::uint32_t i = 0;i < data_size;i++)
 				strvec[i] = p_data[i];
 			value.str_seq = new Tango::DevVarStringArray(data_size,data_size,strvec,release);
 			delete [] p_data;
@@ -731,18 +731,18 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 			{
 				value.str_seq = new Tango::DevVarStringArray(data_size);
 				value.str_seq->length(data_size);
-				for (int k = 0;k < data_size;k++)
+				for (std::uint32_t k = 0;k < data_size;k++)
 					(*value.str_seq)[k] = Tango::string_dup(p_data[k]);
 				if (release == true)
 				{
 					if (is_fwd_att() == true)
 						Tango::DevVarStringArray::freebuf(p_data);
 					else
-                    {
-                        for (int k = 0;k < data_size;k++)
-                            delete [] p_data[k];
-						delete [] p_data;
-                    }
+                                        {
+                                            for (std::uint32_t k = 0;k < data_size;k++)
+                                                delete [] p_data[k];
+                                            delete [] p_data;
+                                        }
 				}
 			}
 		}
@@ -753,12 +753,12 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 				char **strvec = Tango::DevVarStringArray::allocbuf(data_size);
 				if (is_fwd_att() == true)
 				{
-					for (int i = 0;i < data_size;i++)
+					for (std::uint32_t i = 0;i < data_size;i++)
 						strvec[i] = Tango::string_dup(p_data[i]);
 				}
 				else
 				{
-					for (int i = 0;i < data_size;i++)
+					for (std::uint32_t i = 0;i < data_size;i++)
 						strvec[i] = p_data[i];
 				}
 				value.str_seq = new Tango::DevVarStringArray(data_size,data_size,strvec,release);
@@ -970,7 +970,7 @@ void Attribute::set_value(Tango::DevBoolean *p_data,long x, long y,bool release)
 			{
 				value.boo_seq = new Tango::DevVarBooleanArray(data_size);
 				value.boo_seq->length(data_size);
-				for (int k = 0;k < data_size;k++)
+				for (std::uint32_t k = 0;k < data_size;k++)
 					(*value.boo_seq)[k] = p_data[k];
 				if (release == true)
 					delete [] p_data;
@@ -1411,8 +1411,8 @@ void Attribute::set_value(Tango::DevState *p_data,long x,long y,bool release)
 			{
 				value.state_seq = new Tango::DevVarStateArray(data_size);
 				value.state_seq->length(data_size);
-				for (int k = 0;k < data_size;k++)
-					(*value.state_seq)[k] = p_data[k];
+				for (std::size_t k = 0;k < data_size;k++)
+					(*value.state_seq)[static_cast<CORBA::ULong>(k)] = p_data[k];
 				if (release == true)
 					delete [] p_data;
 			}

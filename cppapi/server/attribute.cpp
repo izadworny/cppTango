@@ -1773,7 +1773,7 @@ bool Attribute::check_level_alarm()
 // Check the min alarm if defined
 //
 
-	long i;
+	std::uint32_t i;
 	if (alarm_conf.test(min_level) == true)
 	{
 		switch (data_type)
@@ -2327,7 +2327,7 @@ bool Attribute::check_warn_alarm()
 // Check the min warning if defined
 //
 
-	long i;
+	std::uint32_t i;
 	if (alarm_conf.test(min_warn) == true)
 	{
 		switch (data_type)
