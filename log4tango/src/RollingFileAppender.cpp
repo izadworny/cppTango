@@ -69,6 +69,11 @@ namespace log4tango {
         return _max_file_size; 
     }
 
+#if defined(_MSC_VER)
+    #pragma warning(push)
+    #pragma warning(disable : 4996) //non compliant POSIX names (close for _close, ...)
+#endif
+
     void RollingFileAppender::roll_over() {
         ::close(_fd);
         if (_max_backup_index > 0) {
@@ -99,4 +104,8 @@ namespace log4tango {
         }
         return 0;
     }
+
+#if defined(_MSC_VER)
+    #pragma warning(pop)
+#endif
 }

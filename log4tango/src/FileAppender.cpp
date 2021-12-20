@@ -38,6 +38,11 @@
 
 namespace log4tango {
 
+#if defined(_MSC_VER)
+    #pragma warning(push)
+    #pragma warning(disable : 4996) //non compliant POSIX names (close for _close, ...)
+#endif
+
 FileAppender::FileAppender(const std::string& name, 
                            const std::string& file_name,
                            bool append,
@@ -130,4 +135,7 @@ bool FileAppender::reopen (void)
   return true;
 }
 
+#if defined(_MSC_VER)
+    #pragma warning(pop)
+#endif
 } // namespace log4tango
