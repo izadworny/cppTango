@@ -113,7 +113,8 @@ mode_t FileAppender::get_mode (void) const
 int FileAppender::_append (const LoggingEvent& event) 
 {
   std::string message(get_layout().format(event));
-  if (!::write(_fd, message.data(), message.length())) {
+  // Messages longer than sizeof(uint) will be truncated.
+  if (!::write(_fd, message.data(), static_cast<unsigned int>(message.length()))) {
     return -1;
   }
   return 0;
