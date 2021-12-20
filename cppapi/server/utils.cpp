@@ -31,7 +31,16 @@
 
 #include <tango.h>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4290)
+#endif
+
 #include <omniORB4/internal/orbOptions.h>
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #include <stdlib.h>
 #include <dserversignal.h>
