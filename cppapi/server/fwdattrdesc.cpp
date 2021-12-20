@@ -619,7 +619,7 @@ void FwdAttr::init_conf(AttrConfEventData *ev_data)
 	{
 		local_label = get_label_from_default_properties();
 	}
-	catch (Tango::DevFailed &e) {}
+	catch (Tango::DevFailed &) {}
 
 	UserDefaultAttrProp udap;
 	if (local_label.empty() == false)

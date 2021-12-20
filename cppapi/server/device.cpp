@@ -2291,7 +2291,7 @@ Tango::AttributeConfigList *DeviceImpl::get_attribute_config(const Tango::DevVar
                 attr.get_properties((*back)[i]);
             }
         }
-        catch (Tango::DevFailed &e)
+        catch (Tango::DevFailed &)
         {
             delete back;
             throw;
@@ -3873,7 +3873,7 @@ void DeviceImpl::remove_command(const std::string &rem_cmd_name, bool free_it, b
         Command &cmd = device_class->get_cmd_by_name(rem_cmd_name);
         remove_command(&cmd, free_it, clean_db);
     }
-    catch (Tango::DevFailed &e)
+    catch (Tango::DevFailed &)
     {
         try
         {

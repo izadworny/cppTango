@@ -3120,7 +3120,6 @@ bool ZmqEventConsumer::check_zmq_endpoint(const std::string &endpoint)
 
 	struct sockaddr_in address;
 	int result, len;
-	long arg;
 
 	int sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (sockfd < 0)
@@ -3207,6 +3206,7 @@ bool ZmqEventConsumer::check_zmq_endpoint(const std::string &endpoint)
 
 	closesocket(sockfd);
 #else
+	long arg;
 //
 // Put socket in non-blocking mode
 //

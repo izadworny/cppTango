@@ -504,7 +504,7 @@ void NotifdEventSupplier::connect_to_notifd(NotifService &ns,const CORBA::ORB_va
 				{
 					db->write_event_channel_ior_filedatabase(ior_string);
 				}
-				catch (Tango::DevFailed &e) {}
+				catch (Tango::DevFailed &) {}
 			}
 			Tango::string_free(_ior);
 		}

@@ -192,7 +192,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(const EvChanIte &ipo
 					{
 					    event_consumer->disconnect_event_channel(adm_name,ipos->second.endpoint,epos->second.endpoint);
 					}
-					catch (Tango::DevFailed &e) {}
+					catch (Tango::DevFailed &) {}
 					event_consumer->connect_event_channel(adm_name,
 									      epos->second.get_device_proxy().get_device_db(),
 									      true,subscriber_out);

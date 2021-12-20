@@ -398,7 +398,7 @@ void Pipe::set_properties(const Tango::PipeConfig &conf,DeviceImpl *dev,std::vec
 	{
 		def_class_prop = dev_class->get_class_pipe()->get_prop_list(name);
 	}
-	catch (DevFailed &e) {}
+	catch (DevFailed &) {}
 
 //
 // First the string properties

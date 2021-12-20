@@ -906,7 +906,7 @@ Tango::PipeConfigList *Device_5Impl::get_pipe_config_5(const Tango::DevVarString
 				(*back)[i].writable = pi.get_writable();
 			}
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed &)
 		{
 			delete back;
 			throw;
