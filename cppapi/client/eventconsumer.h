@@ -114,7 +114,7 @@ public:
     void operator<<= (TangoCdrMemoryStream &);
 
     template <typename T,typename TA>
-    void init_seq(char *,_CORBA_ULong &,TangoCdrMemoryStream &);
+    void init_seq(char *,CORBA::ULong &,TangoCdrMemoryStream &);
 
     template <typename T>
     void set_seq(T &) {std::cerr << "In default ZmqAttrValUnion::set_seq!" << std::endl;assert(false);}
@@ -226,7 +226,7 @@ SEQ_METH(state,DevVarStateArray)
 //
 
 template <typename T,typename TA>
-inline void ZmqAttrValUnion::init_seq(char *base_ptr,_CORBA_ULong &length,TangoCdrMemoryStream &_n)
+inline void ZmqAttrValUnion::init_seq(char *base_ptr,CORBA::ULong &length,TangoCdrMemoryStream &_n)
 {
     TA dummy_val;
     set_seq<TA>(dummy_val);
@@ -245,7 +245,7 @@ inline void ZmqAttrValUnion::init_seq(char *base_ptr,_CORBA_ULong &length,TangoC
     {
         if (sizeof(T) == 2)
         {
-            for (_CORBA_ULong i = 0;i < length;i++)
+            for (CORBA::ULong i = 0;i < length;i++)
             {
                 _CORBA_UShort *tmp_ptr = (_CORBA_UShort *)ptr;
                 _CORBA_UShort tt = *(tmp_ptr + i);
@@ -254,21 +254,21 @@ inline void ZmqAttrValUnion::init_seq(char *base_ptr,_CORBA_ULong &length,TangoC
         }
         else if (sizeof(T) == 4)
         {
-            for (_CORBA_ULong i = 0;i < length;i++)
+            for (CORBA::ULong i = 0;i < length;i++)
             {
-               _CORBA_ULong *tmp_ptr = (_CORBA_ULong *)ptr;
-                _CORBA_ULong t = *(tmp_ptr + i);
+               CORBA::ULong *tmp_ptr = (CORBA::ULong *)ptr;
+                CORBA::ULong t = *(tmp_ptr + i);
                 *(tmp_ptr + i) = Swap32(t);
             }
         }
         else if (sizeof(T) == 8)
         {
-            _CORBA_ULong double_length = length * 2;
-            for (_CORBA_ULong i = 0;i < double_length;i += 2)
+            CORBA::ULong double_length = length * 2;
+            for (CORBA::ULong i = 0;i < double_length;i += 2)
             {
-                _CORBA_ULong *tmp_ptr = (_CORBA_ULong *)ptr;
-                _CORBA_ULong tl1 = *(tmp_ptr + i + 1);
-                _CORBA_ULong tl2 = Swap32(tl1);
+                CORBA::ULong *tmp_ptr = (CORBA::ULong *)ptr;
+                CORBA::ULong tl1 = *(tmp_ptr + i + 1);
+                CORBA::ULong tl2 = Swap32(tl1);
                 tl1 = *(tmp_ptr + i);
                 *(tmp_ptr + i) = tl2;
                 *(tmp_ptr + i + 1) = Swap32(tl1);

@@ -3489,7 +3489,7 @@ void ZmqAttrValUnion::operator<<= (TangoCdrMemoryStream& _n)
 // Get data length from cdr
 //
 
-       _CORBA_ULong length = 0ul;
+       CORBA::ULong length = 0ul;
         if (_pd__d != ATT_NO_DATA)
         {
             length <<= _n;
@@ -3605,10 +3605,10 @@ void ZmqAttrValUnion::operator<<= (TangoCdrMemoryStream& _n)
                 DevVarEncodedArray &dvea = encoded_att_value();
                 dvea.length(length);
 
-                for (_CORBA_ULong i = 0;i < length;i++)
+                for (CORBA::ULong i = 0;i < length;i++)
                 {
                     dvea[i].encoded_format = _n.unmarshalString(0);
-                    _CORBA_ULong seq_length;
+                    CORBA::ULong seq_length;
                     seq_length <<= _n;
                     _CORBA_Octet *ptr = (_CORBA_Octet *)(data_ptr + _n.currentInputPtr());
                     dvea[i].encoded_data.replace(seq_length,seq_length,ptr,false);
@@ -3732,7 +3732,7 @@ void Tango::ZmqDevPipeBlob::operator<<= (TangoCdrMemoryStream &_n)
 
 void Tango::ZmqDevVarPipeDataEltArray::operator<<= (TangoCdrMemoryStream &_n)
 {
-	_CORBA_ULong _l;
+	CORBA::ULong _l;
 	_l <<= _n;
 	if (!_n.checkInputOverrun(1,_l))
 	{
@@ -3740,7 +3740,7 @@ void Tango::ZmqDevVarPipeDataEltArray::operator<<= (TangoCdrMemoryStream &_n)
 // never reach here
 	}
 	length(_l);
-	for( _CORBA_ULong _i = 0; _i < _l; _i++ )
+	for( CORBA::ULong _i = 0; _i < _l; _i++ )
 	{
 		DevPipeDataElt &dpde = pd_buf[_i];
 		ZmqDevPipeDataElt &z_dpde = static_cast<ZmqDevPipeDataElt &>(dpde);
