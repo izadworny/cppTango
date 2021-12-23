@@ -57,7 +57,7 @@ namespace Tango {
 static const char* TangoEventPortEnvVar = "TANGO_ZMQ_EVENT_PORT";
 static const char* TangoHeartbeatPortEnvVar = "TANGO_ZMQ_HEARTBEAT_PORT";
 // check and use environment variables for zmq ports
-void get_zmq_port_from_envvar(const char*, std::string&);
+static void get_zmq_port_from_envvar(const char*, std::string&);
 
 ZmqEventSupplier *ZmqEventSupplier::_instance = NULL;
 
@@ -221,7 +221,15 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
 //
 // Bind the heartbeat publisher socket to the port
 //
-    tango_bind(heartbeat_pub_sock,heartbeat_endpoint);
+    try
+    {
+        tango_bind(heartbeat_pub_sock,heartbeat_endpoint);
+    }
+    catch (...)
+    {
+        heartbeat_pub_sock = NULL;
+        throw;
+    }
 
 //
 // If needed, replace * by host IP address in endpoint string
@@ -539,7 +547,15 @@ void ZmqEventSupplier::create_event_socket()
 // Bind the event publisher socket to the port
 //
 
-        tango_bind(event_pub_sock,event_endpoint);
+        try
+        {
+            tango_bind(event_pub_sock,event_endpoint);
+        }
+        catch (...)
+        {
+            event_pub_sock = NULL;
+            throw;
+        }
 
 //
 // If needed, replace * by host IP address in endpoint string
