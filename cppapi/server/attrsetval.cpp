@@ -146,6 +146,8 @@ void Attribute::set_value(Tango::DevShort *p_data,long x,long y,bool release)
 		}
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -254,6 +256,8 @@ void Attribute::set_value(Tango::DevLong *p_data,long x,long y,bool release)
 	{
 		CHECK_PTR(p_data,name);
 	}
+
+	delete_seq();
 
 //
 // If the data is wanted from the DevState command, store it in a sequence.
@@ -366,6 +370,8 @@ void Attribute::set_value(Tango::DevLong64 *p_data,long x,long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -477,6 +483,8 @@ void Attribute::set_value(Tango::DevFloat *p_data,long x, long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -587,6 +595,8 @@ void Attribute::set_value(Tango::DevDouble *p_data,long x, long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -695,6 +705,12 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 	if (data_size != 0)
 	{
 		CHECK_PTR(p_data,name);
+	}
+
+	delete_seq();
+	if (scalar_str_attr_release)
+	{
+		Tango::string_free(tmp_str[0]);
 	}
 
 //
@@ -835,6 +851,8 @@ void Attribute::set_value(Tango::DevUShort *p_data,long x, long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -945,6 +963,8 @@ void Attribute::set_value(Tango::DevBoolean *p_data,long x, long y,bool release)
 	{
 		CHECK_PTR(p_data,name);
 	}
+
+	delete_seq();
 
 //
 // If the data is wanted from the DevState command, store it in a sequence.
@@ -1057,6 +1077,8 @@ void Attribute::set_value(Tango::DevUChar *p_data,long x, long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -1166,6 +1188,8 @@ void Attribute::set_value(Tango::DevULong *p_data,long x,long y,bool release)
 	{
 		CHECK_PTR(p_data,name);
 	}
+
+	delete_seq();
 
 //
 // If the data is wanted from the DevState command, store it in a sequence.
@@ -1277,6 +1301,8 @@ void Attribute::set_value(Tango::DevULong64 *p_data,long x,long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -1387,6 +1413,8 @@ void Attribute::set_value(Tango::DevState *p_data,long x,long y,bool release)
 		CHECK_PTR(p_data,name);
 	}
 
+	delete_seq();
+
 //
 // If the data is wanted from the DevState command, store it in a sequence.
 // If the attribute  has an associated writable attribute, store data in a
@@ -1496,6 +1524,8 @@ void Attribute::set_value(Tango::DevEncoded *p_data,long x, long y,bool release)
 	{
 		CHECK_PTR(p_data,name);
 	}
+
+	delete_seq();
 
 //
 // If the data is wanted from the DevState command, store it in a sequence.
