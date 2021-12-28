@@ -5340,7 +5340,7 @@ void DeviceImpl::data_into_net_object(Attribute &att, AttributeIdlData &aid,
                 }
                 if (del_seq == true)
                 {
-                    delete ptr;
+                    att.delete_seq();
                 }
             }
             break;

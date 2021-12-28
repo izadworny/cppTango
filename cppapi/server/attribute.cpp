@@ -181,6 +181,65 @@ Attribute::Attribute(vector<AttrProperty> &prop_list,Attr &tmp_attr,string &dev_
 
 	if (data_type == DEV_ENUM)
 		init_enum_prop(prop_list);
+
+	// Initialize the sequence to a null pointer. This is needed because we
+	// always want the sequence to be a null pointer or point to some valid
+	// data. This way we can reliably delete it at any time.
+	switch (data_type)
+	{
+	case Tango::DEV_SHORT:
+	case Tango::DEV_ENUM:
+		value.sh_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_LONG:
+		value.lg_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_LONG64:
+		value.lg64_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_DOUBLE:
+		value.db_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_STRING:
+		value.str_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_FLOAT:
+		value.fl_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_USHORT:
+		value.ush_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_UCHAR:
+		value.cha_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_BOOLEAN:
+		value.boo_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_ULONG:
+		value.ulg_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_ULONG64:
+		value.ulg64_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_STATE:
+		value.state_seq = Tango_nullptr;
+		break;
+
+	case Tango::DEV_ENCODED:
+		value.enc_seq = Tango_nullptr;
+		break;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
