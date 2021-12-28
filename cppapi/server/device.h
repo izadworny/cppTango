@@ -3690,7 +3690,7 @@ inline void DeviceImpl::set_state(const Tango::DevState &new_state)
 		} \
 \
 		if (del_seq == true) \
-			delete ptr; \
+			att.delete_seq(); \
 	} \
 	while (false)
 
