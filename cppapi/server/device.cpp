@@ -3370,7 +3370,7 @@ void DeviceImpl::remove_attribute(Tango::Attr *rem_attr, bool free_it, bool clea
     std::vector<std::string> &poll_attr = get_polled_attr();
     std::vector<std::string>::iterator ite_attr;
 
-    std::string attr_name_low(attr_name);
+    std::string &attr_name_low(attr_name);
     std::transform(attr_name_low.begin(), attr_name_low.end(), attr_name_low.begin(), ::tolower);
 
 //
@@ -3977,7 +3977,7 @@ void DeviceImpl::poll_lists_2_v5()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::init_cmd_poll_ext_trig(std::string cmd_name)
+void DeviceImpl::init_cmd_poll_ext_trig(const std::string &cmd_name)
 {
     std::string cmd_lowercase(cmd_name);
     std::transform(cmd_lowercase.begin(), cmd_lowercase.end(), cmd_lowercase.begin(), ::tolower);
@@ -4173,7 +4173,7 @@ void DeviceImpl::init_cmd_poll_period()
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::init_attr_poll_ext_trig(std::string attr_name)
+void DeviceImpl::init_attr_poll_ext_trig(const std::string &attr_name)
 {
     std::string attr_lowercase(attr_name);
     std::transform(attr_lowercase.begin(), attr_lowercase.end(), attr_lowercase.begin(), ::tolower);

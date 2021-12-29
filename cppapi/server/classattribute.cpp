@@ -229,7 +229,7 @@ void MultiClassAttribute::init_class_attribute(const std::string &class_name,lon
 		{
 			std::vector<AttrProperty> prop_list;
 
-			std::string attr_name = db_list[ind].name;
+			const std::string &attr_name = db_list[ind].name;
 			long nb_prop = 0;
 			db_list[ind] >> nb_prop;
 
