@@ -155,7 +155,7 @@ public:
  *
  * @return The blob name
  */
-	const std::string &get_name() {return name;}
+	const std::string &get_name()const {return name;}
 //@}
 
 

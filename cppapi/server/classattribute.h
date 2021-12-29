@@ -74,8 +74,10 @@ public:
 	~AttrProperty() {};
 
 	std::string &get_value() {return attr_value;}
-	long get_lg_value() {return attr_lg;}
+	std::string const &get_value() const {return attr_value;}
+	long get_lg_value()const {return attr_lg;}
 	std::string &get_name() {return attr_name;}
+	std::string const &get_name() const {return attr_name;}
 
 	void convert(const char *);
 

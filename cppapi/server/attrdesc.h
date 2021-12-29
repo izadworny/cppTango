@@ -530,6 +530,7 @@ public:
 /// @privatesection
     Attr(const Attr &);
 	std::string  &get_name() {return name;}
+	std::string  const &get_name() const {return name;}
 	Tango::AttrDataFormat get_format() {return format;}
 	Tango::AttrWriteType get_writable() {return writable;}
 	long get_type() {return type;}

@@ -278,6 +278,7 @@ public:
  * @return A bitset. Each bit is set if the coresponding alarm is on
  */
 	std::bitset<numFlags> &is_alarmed() {return alarm_conf;}
+	std::bitset<numFlags> const &is_alarmed() const {return alarm_conf;}
 /**
  * Check if the attribute is polled .
  *
@@ -305,13 +306,14 @@ public:
  *
  * @return The attribute write type.
  */
-	Tango::AttrWriteType get_writable() {return writable;}
+	Tango::AttrWriteType get_writable()const {return writable;}
 /**
  * Get attribute name
  *
  * @return The attribute name
  */
 	std::string &get_name() {return name;}
+	std::string const &get_name() const {return name;}
 /**
  * Get attribute data type
  *
@@ -336,7 +338,7 @@ public:
  * @return The index in the main attribute vector of the associated writable
  * attribute
  */
-	long get_assoc_ind() {return assoc_ind;}
+	long get_assoc_ind()const {return assoc_ind;}
 /**
  * Set index of the associated writable attribute
  *

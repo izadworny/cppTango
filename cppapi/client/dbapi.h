@@ -628,7 +628,7 @@ std::vector<std::string> value_string;
 	DbDatum(const DbDatum &);
 	DbDatum &operator=(const DbDatum &);
 
-	size_t size() {return value_string.size();}
+	size_t size()const {return value_string.size();}
 
 //
 // insert methods
@@ -663,27 +663,27 @@ std::vector<std::string> value_string;
 // extract methods
 //
 
-	bool operator >> (short&);
-	bool operator >> (unsigned char&);
-	bool operator >> (unsigned short&);
-	bool operator >> (DevLong&);
-	bool operator >> (DevULong&);
-	bool operator >> (DevLong64&);
-	bool operator >> (DevULong64&);
-	bool operator >> (float&);
-	bool operator >> (double&);
-	bool operator >> (const char*&);
-	bool operator >> (std::string&);
+	bool operator >> (short&)const;
+	bool operator >> (unsigned char&)const;
+	bool operator >> (unsigned short&)const;
+	bool operator >> (DevLong&)const;
+	bool operator >> (DevULong&)const;
+	bool operator >> (DevLong64&)const;
+	bool operator >> (DevULong64&)const;
+	bool operator >> (float&)const;
+	bool operator >> (double&)const;
+	bool operator >> (const char*&)const;
+	bool operator >> (std::string&)const;
 
-	bool operator >> (std::vector<std::string>&);
-	bool operator >> (std::vector<short>&);
-	bool operator >> (std::vector<unsigned short>&);
-	bool operator >> (std::vector<DevLong>&);
-	bool operator >> (std::vector<DevULong>&);
-	bool operator >> (std::vector<DevLong64>&);
-	bool operator >> (std::vector<DevULong64>&);
-	bool operator >> (std::vector<float>&);
-	bool operator >> (std::vector<double>&);
+	bool operator >> (std::vector<std::string>&)const;
+	bool operator >> (std::vector<short>&)const;
+	bool operator >> (std::vector<unsigned short>&)const;
+	bool operator >> (std::vector<DevLong>&)const;
+	bool operator >> (std::vector<DevULong>&)const;
+	bool operator >> (std::vector<DevLong64>&)const;
+	bool operator >> (std::vector<DevULong64>&)const;
+	bool operator >> (std::vector<float>&)const;
+	bool operator >> (std::vector<double>&)const;
 
 
 private :

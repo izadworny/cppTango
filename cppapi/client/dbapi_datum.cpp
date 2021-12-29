@@ -216,7 +216,7 @@ void DbDatum::operator << (short datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (short &datum)
+bool DbDatum::operator >> (short &datum)const
 {
 	bool ret;
 
@@ -272,7 +272,7 @@ void DbDatum::operator << (unsigned char datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (unsigned char& datum)
+bool DbDatum::operator >> (unsigned char& datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -326,7 +326,7 @@ void DbDatum::operator << (unsigned short datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (unsigned short& datum)
+bool DbDatum::operator >> (unsigned short& datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -380,7 +380,7 @@ void DbDatum::operator << (DevLong datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (DevLong& datum)
+bool DbDatum::operator >> (DevLong& datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -434,7 +434,7 @@ void DbDatum::operator << (DevULong datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (DevULong& datum)
+bool DbDatum::operator >> (DevULong& datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -488,7 +488,7 @@ void DbDatum::operator << (DevLong64 datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (DevLong64 &datum)
+bool DbDatum::operator >> (DevLong64 &datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -542,7 +542,7 @@ void DbDatum::operator << (DevULong64 datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (DevULong64 &datum)
+bool DbDatum::operator >> (DevULong64 &datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -596,7 +596,7 @@ void DbDatum::operator << (float datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (float& datum)
+bool DbDatum::operator >> (float& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -667,7 +667,7 @@ void DbDatum::operator << (double datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (double& datum)
+bool DbDatum::operator >> (double& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -735,7 +735,7 @@ void DbDatum::operator << (const std::string& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::string& datum)
+bool DbDatum::operator >> (std::string& datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -805,7 +805,7 @@ void DbDatum::operator << (const char* datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (const char*& datum)
+bool DbDatum::operator >> (const char*& datum)const
 {
 	bool ret;
 	if (value_string.size() == 0)
@@ -852,7 +852,7 @@ void DbDatum::operator << (const std::vector<short>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<short>& datum)
+bool DbDatum::operator >> (std::vector<short>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -919,7 +919,7 @@ void DbDatum::operator << (const std::vector<unsigned short>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<unsigned short>& datum)
+bool DbDatum::operator >> (std::vector<unsigned short>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -987,7 +987,7 @@ void DbDatum::operator << (const std::vector<DevLong>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<DevLong>& datum)
+bool DbDatum::operator >> (std::vector<DevLong>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -1055,7 +1055,7 @@ void DbDatum::operator << (const std::vector<DevULong>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<DevULong>& datum)
+bool DbDatum::operator >> (std::vector<DevULong>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -1123,7 +1123,7 @@ void DbDatum::operator << (const std::vector<DevLong64>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<DevLong64>& datum)
+bool DbDatum::operator >> (std::vector<DevLong64>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -1191,7 +1191,7 @@ void DbDatum::operator << (const std::vector<DevULong64>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<DevULong64>& datum)
+bool DbDatum::operator >> (std::vector<DevULong64>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -1259,7 +1259,7 @@ void DbDatum::operator << (const std::vector<float>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<float>& datum)
+bool DbDatum::operator >> (std::vector<float>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -1343,7 +1343,7 @@ void DbDatum::operator << (const std::vector<double>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<double>& datum)
+bool DbDatum::operator >> (std::vector<double>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
@@ -1421,7 +1421,7 @@ void DbDatum::operator << (const std::vector<std::string>& datum)
 //
 //-----------------------------------------------------------------------------
 
-bool DbDatum::operator >> (std::vector<std::string>& datum)
+bool DbDatum::operator >> (std::vector<std::string>& datum)const
 {
 	bool ret = true;
 	if (value_string.size() == 0)
