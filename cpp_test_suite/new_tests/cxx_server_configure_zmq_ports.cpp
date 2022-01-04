@@ -4,7 +4,6 @@
 #ifndef ServerConfigureEventTestSuite_h
 #define ServerConfigureEventTestSuite_h
 
-
 #include <cxxtest/TestSuite.h>
 #include <cxxtest/TangoPrinter.h>
 #include <tango.h>
@@ -55,7 +54,6 @@ public:
 //
 // Arguments check -------------------------------------------------
 //
-
         event_port = "9977";
         heartbeat_port = "9988";
         device1_name = CxxTest::TangoPrinter::get_param("device1");
@@ -64,7 +62,8 @@ public:
         CxxTest::TangoPrinter::validate_args();
     }
 
-    virtual ~SUITE_NAME() {
+    virtual ~SUITE_NAME()
+    {
         // Cleanup servers if necessary
         CxxTest::TangoPrinter::kill_server();
 
@@ -73,19 +72,20 @@ public:
         CxxTest::TangoPrinter::start_server(device1_instance_name);
     }
 
-    static SUITE_NAME *createSuite() {
+    static SUITE_NAME *createSuite()
+    {
         return new SUITE_NAME();
     }
 
-    static void destroySuite(SUITE_NAME *suite) {
+    static void destroySuite(SUITE_NAME *suite)
+    {
         delete suite;
     }
-
 
     // setup: ensure that server is torndown before each test
     void setUp()
     {
-        coutv << endl << "cxx_server_configure_event: setup" << endl;
+        coutv << endl << "cxx_server_configure_zmq_ports: setup" << endl;
         // Stop any previously running server first
         CxxTest::TangoPrinter::kill_server();
     }
@@ -94,52 +94,38 @@ public:
     void start_server_with_ports(std::string event_port, std::string heartbeat_port)
     {
 
+        std::string env = "/usr/bin/env ";
+        if (! event_port.empty())
+        {
+            env = env+" TANGO_ZMQ_EVENT_PORT="+event_port+" ";
+        }
+        if (! event_port.empty())
+        {
+            env = env+" TANGO_ZMQ_HEARTBEAT_PORT="+heartbeat_port+" ";
+        }
+        // Restart the test server with env vars for the fixed ports
+        coutv << endl << "cxx_server_configure_zmq_ports: relaunching DevTest/test with port specification - " << env + Tango::kStartServerCmd + device1_instance_name << endl;
         TS_ASSERT_THROWS_NOTHING(
-            try {
-                std::string env = "/usr/bin/env ";
-                if (! event_port.empty())
-                {
-                    env = env+" TANGO_ZMQ_EVENT_PORT="+event_port+" ";
-                }
-                if (! event_port.empty())
-                {
-                    env = env+" TANGO_ZMQ_HEARTBEAT_PORT="+heartbeat_port+" ";
-                }
-                // Restart the test server with env vars for the fixed ports
-                coutv << endl << "cxx_server_configure_event: relaunching DevTest/test with port specification - " << env + Tango::kStartServerCmd + device1_instance_name << endl;
-                system((env + Tango::kStartServerCmd + device1_instance_name).c_str());
-
-                CxxTest::TangoPrinter::restore_set("test/debian8/10 started.");
-            }
-            catch (CORBA::Exception &e) {
-                Except::print_exception(e);
-            }
+            system((env + Tango::kStartServerCmd + device1_instance_name).c_str());
         );
+        CxxTest::TangoPrinter::restore_set("test/debian8/10 started.");
 
         // wait a bit for the server to properly start
         Tango_sleep(2);
     }
 
 
-
     // create and check device1 proxy
     DeviceProxy* create_and_check_device1_proxy()
     {
-
         // connect and ping device1
         DeviceProxy *device1;
         bool res_ping_device1 = true;
+        device1 = new DeviceProxy(device1_name);
         TS_ASSERT_THROWS_NOTHING(
-            try {
-                device1 = new DeviceProxy(device1_name);
-                res_ping_device1 = device1->ping();
-                coutv << endl << "cxx_server_configure_event: pinged device1 - "+device1_name << endl;
-            }
-            catch (CORBA::Exception &e) {
-                coutv << endl << "cxx_server_configure_event: device1 corba error" << endl;
-                Except::print_exception(e);
-            }
+            res_ping_device1 = device1->ping();
         );
+        coutv << endl << "cxx_server_configure_zmq_ports: pinged device1 - "+device1_name << endl;
         TS_ASSERT(res_ping_device1);
         return device1;
     }
@@ -151,17 +137,11 @@ public:
         // connect and ping admin device
         DeviceProxy *dserver;
         bool res_ping_dserver = true;
+        dserver = new DeviceProxy(dserver_name);
         TS_ASSERT_THROWS_NOTHING(
-            try {
-                dserver = new DeviceProxy(dserver_name);
-                res_ping_dserver = dserver->ping();
-                coutv << endl << "cxx_server_configure_event: pinged admin device - "+dserver_name << endl;
-            }
-            catch (CORBA::Exception &e) {
-                coutv << endl << "cxx_server_configure_event: dserver corba error" << endl;
-                Except::print_exception(e);
-            }
+            res_ping_dserver = dserver->ping();
         );
+        coutv << endl << "cxx_server_configure_zmq_ports: pinged admin device - "+dserver_name << endl;
         TS_ASSERT(res_ping_dserver);
         return dserver;
     }
@@ -177,7 +157,7 @@ public:
             attribute_name,
             Tango::USER_EVENT,
             &callback));
-        coutv << endl << "cxx_server_configure_event: sending IOPushEvent" << endl;
+        coutv << endl << "cxx_server_configure_zmq_ports: sending IOPushEvent" << endl;
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
         Tango_sleep(2);
     }
@@ -186,7 +166,7 @@ public:
     std::vector<std::string> query_admin_device(DeviceProxy* dserver)
     {
         // query the admin device so that we get the zmq port specifications
-        coutv << endl << "cxx_server_configure_event: sending ZmqEventSubscriptionChange" << endl << endl;
+        coutv << endl << "cxx_server_configure_zmq_ports: sending ZmqEventSubscriptionChange" << endl << endl;
         DeviceData din,dout;
         vector<string> din_info;
         din_info.push_back("info");
@@ -200,7 +180,7 @@ public:
 
         for (int i = 0;i < result->svalue.length();i++)
         {
-            coutv << endl << "cxx_server_configure_event: info["+std::to_string(i)+"] => "+string(result->svalue[i]) << endl;
+            coutv << endl << "cxx_server_configure_zmq_ports: info["+std::to_string(i)+"] => "+string(result->svalue[i]) << endl;
             endpoints.push_back(string(result->svalue[i]));
         }
         return endpoints;
@@ -216,7 +196,8 @@ public:
 // ZmqEventSubscriptionChange ["info"] results to see whether it has
 // ephemeral event and heartbeat ports on the DS
 //
-    void test_01_device_server_zmq_event_port_ephemeral(void) {
+    void test_01_device_server_zmq_event_port_ephemeral(void)
+    {
         // Stop any previously running server first
 
         start_server_with_ports(string(""), string(""));
@@ -259,7 +240,8 @@ public:
 // ZmqEventSubscriptionChange ["info"] results to see whether it has
 // the fixed event and heartbeat ports on the DS
 //
-    void test_02_device_server_zmq_event_port_configured(void) {
+    void test_02_device_server_zmq_event_port_configured(void)
+    {
 
         start_server_with_ports(event_port, heartbeat_port);
 
@@ -291,11 +273,16 @@ public:
     }
 
 //
-// Specify an invalid event port specification - expect an error
+// Specify an invalid event port specification XXXX - expect an error when
+// subscribing to an event on this device server.
+// Query the admin device to check that the expected port values were
+// set for event and heartbeat.
 //
-    void test_03_device_server_zmq_event_invalid_event_port_configured(void) {
+    void test_03_device_server_zmq_event_invalid_event_port_configured(void)
+    {
 
-        start_server_with_ports(string("XXXX"), heartbeat_port);
+        std::string bogus_event_port("XXXX");
+        start_server_with_ports(bogus_event_port, heartbeat_port);
 
         DeviceProxy *device1 = create_and_check_device1_proxy();
         DeviceProxy *dserver = create_and_check_admin_device_proxy();
@@ -305,22 +292,29 @@ public:
 
         EventCallback<Tango::EventData> callback{};
         std::string attribute_name = "event_change_tst";
+        Tango::DevFailed erescue;
         TS_ASSERT_THROWS_ASSERT(device1->subscribe_event(
             attribute_name,
             Tango::USER_EVENT,
             &callback),
             Tango::DevFailed &e,
-            coutv << endl << "test_device_server_zmq_event_invalid_port_configured: print_exception:" << endl;
-            Except::print_exception(e);
-            TS_ASSERT(e.errors.length() >= 1);
-            TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), "API_ZmqInitFailed");
-            std::vector<std::string> result = query_admin_device(dserver);
-            TS_ASSERT(result.size() > 1);
-            std::string heartbeat_endpoint = result[0];
-            std::string event_endpoint = result[1];
-            coutv << "Heartbeat endpoint: " << heartbeat_endpoint << endl;
-            coutv << "Event endpoint: " << event_endpoint << endl;
+            erescue = e;
         );
+        // Except::print_exception(erescue);
+        // Check the resulting exception was correct
+        TS_ASSERT(erescue.errors.length() >= 1);
+        TS_ASSERT_EQUALS(std::string(erescue.errors[0].reason.in()), "API_ZmqInitFailed");
+        // query the admin device and check the zmq ports were set as expected
+        std::vector<std::string> result = query_admin_device(dserver);
+        TS_ASSERT(result.size() > 1);
+        std::string heartbeat_endpoint = result[0];
+        std::string event_endpoint = result[1];
+        coutv << "Heartbeat endpoint: " << heartbeat_endpoint << endl;
+        coutv << "Event endpoint: " << event_endpoint << endl;
+        pos = heartbeat_endpoint.rfind(':');
+        heartbeat_port_str = heartbeat_endpoint.substr(pos + 1);
+        TS_ASSERT_EQUALS(heartbeat_port, heartbeat_port_str);
+        TS_ASSERT_EQUALS(event_endpoint, "Event: tcp://*:"+bogus_event_port);
 
         // Cleanup device proxies
         delete device1;
@@ -329,9 +323,11 @@ public:
 
 
 //
-// Specify an invalid heartbeat port specification - expect an error
+// Specify an invalid heartbeat port specification YYYY - basically
+// nothing works because the server will fail to start
 //
-    void test_04_device_server_zmq_event_invalid_heartbeat_port_configured(void) {
+    void test_04_device_server_zmq_event_invalid_heartbeat_port_configured(void)
+    {
 
         DeviceProxy *device1;
 
@@ -339,40 +335,38 @@ public:
 
         // try and ping the device - this should fail because of bad heartbeat config
         device1 = new DeviceProxy(device1_name);
+        Tango::DevFailed erescue;
         TS_ASSERT_THROWS_ASSERT(
             device1->ping(),
             Tango::DevFailed &e,
-            coutv << endl << "test_device_server_zmq_event_invalid_heartbeat_port_configured: print_exception:" << endl;
-            Except::print_exception(e);
-            TS_ASSERT(e.errors.length() >= 1);
-            TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), "API_DeviceNotExported");
+            erescue = e;
         );
+        TS_ASSERT(erescue.errors.length() >= 1);
+        TS_ASSERT_EQUALS(std::string(erescue.errors[0].reason.in()), "API_DeviceNotExported");
 
-        // connect and ping admin device
+        // connect and ping admin device - this should fail because of bad heartbeat config
         DeviceProxy *dserver;
         bool res_ping_dserver = true;
-        TS_ASSERT_THROWS_NOTHING(
-            try {
-                dserver = new DeviceProxy(dserver_name);
-                res_ping_dserver = dserver->ping();
-                coutv << endl << "test_device_server_zmq_event_invalid_heartbeat_port_configured: pinged admin device - "+dserver_name << endl;
-            }
-            catch (CORBA::Exception &e) {
-                coutv << endl << "test_device_server_zmq_event_invalid_heartbeat_port_configured: dserver corba error" << endl;
-                Except::print_exception(e);
-            }
+        dserver = new DeviceProxy(dserver_name);
+        TS_ASSERT_THROWS_ASSERT(
+            dserver->ping(),
+            Tango::DevFailed &e,
+            erescue = e;
         );
-        TS_ASSERT(res_ping_dserver);
-        coutv << endl << "test_device_server_zmq_event_invalid_heartbeat_port_configured: sending ZmqEventSubscriptionChange" << endl << endl;
+        TS_ASSERT(erescue.errors.length() >= 1);
+        TS_ASSERT_EQUALS(std::string(erescue.errors[0].reason.in()), "API_DeviceNotExported");
+
+        // send a subscription event - this should fail because of bad heartbeat config
         DeviceData din,dout;
         vector<string> din_info;
         din_info.push_back("info");
         din << din_info;
         TS_ASSERT_THROWS_ASSERT(dout = dserver->command_inout("ZmqEventSubscriptionChange", din),
             Tango::DevFailed &e,
-            coutv << endl << "test_device_server_zmq_event_invalid_heartbeat_port_configured: print_exception:" << endl;
-            Except::print_exception(e);
+            erescue = e;
         );
+        TS_ASSERT(erescue.errors.length() >= 1);
+        TS_ASSERT_EQUALS(std::string(erescue.errors[0].reason.in()), "API_CantConnectToDevice");
 
         // Cleanup device proxies
         delete device1;

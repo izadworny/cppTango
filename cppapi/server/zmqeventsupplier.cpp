@@ -227,6 +227,7 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
     }
     catch (...)
     {
+        delete heartbeat_pub_sock;
         heartbeat_pub_sock = NULL;
         throw;
     }
@@ -553,6 +554,7 @@ void ZmqEventSupplier::create_event_socket()
         }
         catch (...)
         {
+            delete event_pub_sock;
             event_pub_sock = NULL;
             throw;
         }
