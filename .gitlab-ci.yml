@@ -2,8 +2,6 @@ variables: &variables
   DEBIAN_FRONTEND: noninteractive
   DOCKER_HOST: tcp://docker:2375
   # Build parameters. We later override them at job level if needed.
-  SONAR_SCANNER: "OFF"
-  COVERALLS: "OFF"
   RUN_TESTS: "ON"
   STOCK_CPPZMQ: "ON"
   USE_PCH: "ON"
@@ -27,38 +25,28 @@ workflow:
     - ulimit -c unlimited
     - echo "core.%e.%p.%t" > /proc/sys/kernel/core_pattern
     - apt-get update && apt-get install -y git wget unzip docker.io
-    - .travis/before_install.sh
-    - docker build -t cpp_tango .travis/${OS_TYPE}
+    - ci/before_install.sh
+    - docker build -t cpp_tango ci/${OS_TYPE}
     - >
         docker run
         --rm
         --name cpp_tango
         --user root
-        -e BINTRAY_API_KEY=${CI_BINTRAY_API_KEY}
-        -e BINTRAY_USER_NAME=tango-ci
-        -e COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}
-        -e SONAR_TOKEN=${SONAR_TOKEN}
         -e TANGO_HOST=${TANGO_HOST}
-        -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
-        -e TRAVIS_JOB_ID=${TRAVIS_JOB_ID}
         -e DOCKER_HOST=tcp://$(getent hosts docker | awk '{ print $1 }'):2375
         -v `pwd`:/home/tango/src
-        -v `pwd`/.sonar:/home/tango/.sonar
         -v `pwd`/idl:/home/tango/idl
         -v `pwd`/cppzmq:/home/tango/cppzmq
-        -v `pwd`/coveralls-cmake:/home/tango/coveralls-cmake
         -v `pwd`/build-wrapper-linux-x86:/home/tango/build-wrapper-linux-x86
-        -v `pwd`/sonar-scanner:/home/tango/sonar-scanner
         -dit
         cpp_tango
-    - .travis/install_tango_idl.sh
-    - test ${STOCK_CPPZMQ} = "OFF" && .travis/install_cppzmq.sh || true
+    - ci/install_tango_idl.sh
+    - test ${STOCK_CPPZMQ} = "OFF" && ci/install_cppzmq.sh || true
   script:
     - set -e
-    - .travis/run.sh
-    - .travis/test.sh
+    - ci/run.sh
+    - ci/test.sh
     - set +e
-    - test ${SONAR_SCANNER} = "ON" && .travis/sonar.sh || true
   after_script:
     - docker stop cpp_tango || true
     - mkdir -p build/cpp_test_suite/test_results
@@ -80,8 +68,8 @@ abi-api-compliance-check:
   before_script:
     - apt-get update && apt-get install -y git docker.io
     - git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
-    - .travis/before_install.sh
-    - docker build -t cpp_tango .travis/gcc-latest
+    - ci/before_install.sh
+    - docker build -t cpp_tango ci/gcc-latest
     - >
         docker run
         --rm
@@ -91,8 +79,8 @@ abi-api-compliance-check:
         -v `pwd`/idl:/home/tango/idl
         -dit
         cpp_tango
-    - .travis/install_tango_idl.sh
-    - test ${STOCK_CPPZMQ} = "OFF" && .travis/install_cppzmq.sh || true
+    - ci/install_tango_idl.sh
+    - test ${STOCK_CPPZMQ} = "OFF" && ci/install_cppzmq.sh || true
   script:
     - >
         docker exec
@@ -100,7 +88,7 @@ abi-api-compliance-check:
         -e CI_TARGET_BRANCH=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
         -e CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
         cpp_tango
-        .travis/check-ABI-API-compliance.sh || true
+        ci/check-ABI-API-compliance.sh || true
   after_script:
     - docker stop cpp_tango
   artifacts:
