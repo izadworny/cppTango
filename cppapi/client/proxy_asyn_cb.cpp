@@ -46,8 +46,7 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-
-void Connection::command_inout_asynch(const char *command, const DeviceData &data_in, CallBack &cb)
+void Connection::command_inout_asynch(const std::string &command, const DeviceData &data_in, CallBack &cb)
 {
 
 //
@@ -80,7 +79,7 @@ void Connection::command_inout_asynch(const char *command, const DeviceData &dat
 	else
 		req_seq[0] = device->_request("command_inout");
 
-	req_seq[0]->add_in_arg() <<= command;
+	req_seq[0]->add_in_arg() <<= command.c_str();
 	req_seq[0]->add_in_arg() <<= data_in.any.in();
 
 	if (version >= 4)
@@ -127,22 +126,10 @@ void Connection::command_inout_asynch(const char *command, const DeviceData &dat
 //
 //-----------------------------------------------------------------------------
 
-
-void Connection::command_inout_asynch(const std::string &command, const DeviceData &data_in, CallBack &cb)
-{
-	command_inout_asynch(command.c_str(),data_in,cb);
-}
-
-void Connection::command_inout_asynch(const char *command,CallBack &cb)
-{
-	DeviceData data_in;
-	command_inout_asynch(command,data_in,cb);
-}
-
 void Connection::command_inout_asynch(const std::string &command,CallBack &cb)
 {
 	DeviceData data_in;
-	command_inout_asynch(command.c_str(),data_in,cb);
+	command_inout_asynch(command,data_in,cb);
 }
 
 //-----------------------------------------------------------------------------

@@ -54,8 +54,7 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-
-long Connection::command_inout_asynch(const char *command, const DeviceData &data_in, bool faf)
+long Connection::command_inout_asynch(const std::string &command, const DeviceData &data_in, bool faf)
 {
 //
 // Throw exception if caller not allowed to do write action
@@ -81,9 +80,8 @@ long Connection::command_inout_asynch(const char *command, const DeviceData &dat
 //
 
 		std::string d_name = dev_name();
-		std::string cmd(command);
 
-		if (db->is_command_allowed(d_name,cmd) == false)
+		if (db->is_command_allowed(d_name,command) == false)
 		{
 			DevErrorList &e = db->get_access_except_errors();
 			if (e.length() != 0)
@@ -129,7 +127,7 @@ long Connection::command_inout_asynch(const char *command, const DeviceData &dat
 	else
 		request = device->_request("command_inout");
 
-	request->add_in_arg() <<= command;
+	request->add_in_arg() <<= command.c_str();
 	request->add_in_arg() <<= data_in.any.in();
 
 	if (version >= 4)
@@ -185,22 +183,10 @@ long Connection::command_inout_asynch(const char *command, const DeviceData &dat
 //
 //-----------------------------------------------------------------------------
 
-
-long Connection::command_inout_asynch(const std::string &command, const DeviceData &data_in, bool faf)
-{
-	return command_inout_asynch(command.c_str(),data_in,faf);
-}
-
-long Connection::command_inout_asynch(const char *command,bool faf)
-{
-	DeviceData data_in;
-	return command_inout_asynch(command,data_in,faf);
-}
-
 long Connection::command_inout_asynch(const std::string &command,bool faf)
 {
 	DeviceData data_in;
-	return command_inout_asynch(command.c_str(),data_in,faf);
+	return command_inout_asynch(command,data_in,faf);
 }
 
 //-----------------------------------------------------------------------------

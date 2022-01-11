@@ -67,10 +67,8 @@ namespace Tango
 class AttrProperty
 {
 public:
-	AttrProperty(const char *name,const char *value);
-	AttrProperty(std::string &name,std::string &value);
-	AttrProperty(const char *name,long value);
-	AttrProperty(const char *name,std::string &value);
+	AttrProperty(const std::string &name,const std::string &value);
+	AttrProperty(const std::string &name,const long &value);
 	~AttrProperty() {};
 
 	std::string &get_value() {return attr_value;}

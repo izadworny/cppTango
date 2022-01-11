@@ -48,83 +48,12 @@ namespace Tango {
 //
 //--------------------------------------------------------------------------
 
-    Command::Command(const char *s,
-                     Tango::CmdArgType in,
-                     Tango::CmdArgType out)
-            : name(s), in_type(in), out_type(out), ext(new CommandExt), poll_period(0) {
-        cmd_disp_level = Tango::OPERATOR;
-        lower_name = name;
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-    }
-
-    Command::Command(const std::string &s,
-                     Tango::CmdArgType in,
-                     Tango::CmdArgType out)
-            : name(s), in_type(in), out_type(out), ext(new CommandExt), poll_period(0) {
-        cmd_disp_level = Tango::OPERATOR;
-        lower_name = name;
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-    }
-
-    Command::Command(const char *s,
-                     Tango::CmdArgType in,
-                     Tango::CmdArgType out,
-                     const char *in_desc,
-                     const char *out_desc)
-            : name(s), in_type(in), out_type(out), ext(new CommandExt), poll_period(0) {
-        cmd_disp_level = Tango::OPERATOR;
-        if (in_desc != NULL)
-            in_type_desc = in_desc;
-        if (out_desc != NULL)
-            out_type_desc = out_desc;
-        lower_name = name;
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-    }
-
-    Command::Command(const std::string &s,
-                     Tango::CmdArgType in,
-                     Tango::CmdArgType out,
-                     const std::string &in_desc,
-                     const std::string &out_desc)
-            : name(s), in_type(in), out_type(out),
-              in_type_desc(in_desc), out_type_desc(out_desc), ext(new CommandExt), poll_period(0) {
-        cmd_disp_level = Tango::OPERATOR;
-        lower_name = name;
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-    }
-
-    Command::Command(const char *s,
-                     Tango::CmdArgType in,
-                     Tango::CmdArgType out,
-                     Tango::DispLevel level)
-            : name(s), in_type(in), out_type(out), ext(new CommandExt), poll_period(0) {
-        cmd_disp_level = level;
-        lower_name = name;
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-    }
-
     Command::Command(const std::string &s,
                      Tango::CmdArgType in,
                      Tango::CmdArgType out,
                      Tango::DispLevel level)
             : name(s), in_type(in), out_type(out), ext(new CommandExt), poll_period(0) {
         cmd_disp_level = level;
-        lower_name = name;
-        std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-    }
-
-    Command::Command(const char *s,
-                     Tango::CmdArgType in,
-                     Tango::CmdArgType out,
-                     const char *in_desc,
-                     const char *out_desc,
-                     Tango::DispLevel level)
-            : name(s), in_type(in), out_type(out), ext(new CommandExt), poll_period(0) {
-        cmd_disp_level = level;
-        if (in_desc != NULL)
-            in_type_desc = in_desc;
-        if (out_desc != NULL)
-            out_type_desc = out_desc;
         lower_name = name;
         std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
     }
@@ -663,57 +592,6 @@ namespace Tango {
 //
 //--------------------------------------------------------------------------
 
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)())
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID), exe_ptr(f), ext(nullptr) {
-        allowed_ptr = NULL;
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &))
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID), exe_ptr(f), ext(nullptr), allowed_ptr(a) {
-    }
-
-    TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)())
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID), exe_ptr(f), ext(nullptr) {
-        allowed_ptr = NULL;
-    }
-
-    TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &))
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID), exe_ptr(f), ext(nullptr), allowed_ptr(a) {
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), const char *in_desc, const char *out_desc)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc), exe_ptr(f), ext(nullptr) {
-        allowed_ptr = NULL;
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &),
-                               const char *in_desc, const char *out_desc)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc), exe_ptr(f), ext(nullptr),
-              allowed_ptr(a) {
-    }
-
-    TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &),
-                               const std::string &in_desc, const std::string &out_desc)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc), exe_ptr(f), ext(nullptr),
-              allowed_ptr(a) {
-    }
-
-    TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)(), const std::string &in_desc, const std::string &out_desc)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc), exe_ptr(f), ext(nullptr) {
-        allowed_ptr = NULL;
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), Tango::DispLevel level)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, level), exe_ptr(f), ext(nullptr) {
-        allowed_ptr = NULL;
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &),
-                               Tango::DispLevel level)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, level), exe_ptr(f), ext(nullptr), allowed_ptr(a) {
-    }
-
     TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)(), Tango::DispLevel level)
             : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, level), exe_ptr(f), ext(nullptr) {
         allowed_ptr = NULL;
@@ -722,18 +600,6 @@ namespace Tango {
     TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &),
                                Tango::DispLevel level)
             : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, level), exe_ptr(f), ext(nullptr), allowed_ptr(a) {
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), const char *in_desc, const char *out_desc,
-                               Tango::DispLevel level)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc, level), exe_ptr(f), ext(nullptr) {
-        allowed_ptr = NULL;
-    }
-
-    TemplCommand::TemplCommand(const char *s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &),
-                               const char *in_desc, const char *out_desc, Tango::DispLevel level)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc, level), exe_ptr(f), ext(nullptr),
-              allowed_ptr(a) {
     }
 
     TemplCommand::TemplCommand(const std::string &s, void (DeviceImpl::*f)(), bool (DeviceImpl::*a)(const CORBA::Any &),
@@ -748,33 +614,8 @@ namespace Tango {
         allowed_ptr = NULL;
     }
 
-    TemplCommand::TemplCommand(const char *s)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID) {
-    }
-
-    TemplCommand::TemplCommand(const std::string &s)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID) {
-    }
-
-    TemplCommand::TemplCommand(const char *s, Tango::DispLevel level)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, level) {
-    }
-
     TemplCommand::TemplCommand(const std::string &s, Tango::DispLevel level)
             : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, level) {
-    }
-
-    TemplCommand::TemplCommand(const char *s, const char *in_desc, const char *out_desc)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc) {
-    }
-
-    TemplCommand::TemplCommand(const std::string &s, const std::string &in_desc, const std::string &out_desc)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc) {
-    }
-
-
-    TemplCommand::TemplCommand(const char *s, const char *in_desc, const char *out_desc, Tango::DispLevel level)
-            : Command(s, Tango::DEV_VOID, Tango::DEV_VOID, in_desc, out_desc, level) {
     }
 
     TemplCommand::TemplCommand(const std::string &s, const std::string &in_desc, const std::string &out_desc, DispLevel level)
