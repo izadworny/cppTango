@@ -51,3 +51,23 @@ path forward:
   details to newcomers and not for annoying anyone or slowing down development.
 - Adapting existing pull requests also involves force-pushing new versions as
   we don't want to have intermediate versions in the history.
+
+# Assignments
+
+In general assignees of a merge request or issue are the ones actively working
+on it.
+
+## Issues
+
+Please assign yourself if you are working on an issue. In that way everyone
+knows who is tackling what.
+
+## Merge Requests
+
+- For the initial development phase, the creator should be assigned and the
+  issue marked as draft.
+- Once it is deemed ready and someone should review it, un-draft it and change
+  the assignment to the [CodeOwners](https://gitlab.com/tango-controls/cppTango/-/blob/main/CODEOWNERS).
+- In most cases the reviewers will want something changed, the assignment will
+  then also change back to the merge request creator to reflect that.
+- Once the requested changes are implemented, the assigment changes back again to the reviewers.
