@@ -129,7 +129,19 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 			client_release = 3;
 	}
 
-	event_subscription(dev_name,attr_name,action,event,attr_name_lower,NOTIFD,mcast,rate,ivl,NULL,client_release);
+	DeviceImpl* dev_impl = Tango_nullptr;
+	try
+	{
+		dev_impl = tg->get_device_by_name(dev_name);
+	}
+	catch (Tango::DevFailed &e)
+	{
+		TangoSys_OMemStream o;
+		o << "Device " << dev_name << " not found" << std::ends;
+		TANGO_RETHROW_EXCEPTION(e, API_DeviceNotFound, o.str());
+	}
+
+    event_subscription(dev_name,attr_name,action,event,attr_name_lower,NOTIFD,mcast,rate,ivl,dev_impl,client_release);
 
 //
 // Init one subscription command flag in Eventsupplier
@@ -157,7 +169,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //
 // args :
 // 		in :
-//			- dev_name : The device name
+//			- dev_name : The device name (unused, for binary compatibility)
 //      	- obj_name : The attribute/pipe name
 //      	- action : What the user want to do
 //      	- event : The event type
@@ -180,21 +192,8 @@ void DServer::event_subscription(const std::string &dev_name,const std::string &
 // Get device reference
 //
 
+	assert(dev != Tango_nullptr);
 	DeviceImpl *dev_impl = dev;
-
-	if (dev_impl == NULL)
-	{
-        try
-        {
-            dev_impl = tg->get_device_by_name(dev_name);
-        }
-        catch (Tango::DevFailed &e)
-        {
-            TangoSys_OMemStream o;
-            o << "Device " << dev_name << " not found" << std::ends;
-            TANGO_RETHROW_EXCEPTION(e, API_DeviceNotFound, o.str());
-        }
-	}
 
 	if (event != EventName[INTERFACE_CHANGE_EVENT] && event != EventName[PIPE_EVENT])
 	{
