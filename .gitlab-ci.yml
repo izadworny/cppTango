@@ -423,7 +423,7 @@ cmake-with-locations-and-min-versions:
     - make
 
 alpine:
-  image: alpine:3.13
+  image: alpine:3.15
   services: []
   before_script:
     - apk update
