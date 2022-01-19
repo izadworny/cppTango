@@ -182,9 +182,9 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //      	- event : The event type
 //      	- obj_name_lower : The attribute/pipe name in lower case letters
 //      	- ct : The channel type (notifd or zmq)
-//      	- mcast_data : The multicast transport data
-//      	- rate : PGM rate parameter
-//      	- ivl : PGM ivl paramteter
+//      	- mcast_data : The multicast transport data (unused)
+//      	- rate : PGM rate parameter (unused)
+//      	- ivl : PGM ivl paramteter (unused)
 //      	- dev : The device pointer
 //			- client_lib : Tango release number used by client
 //
@@ -193,8 +193,6 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 void DServer::event_subscription(string &dev_name,string &obj_name,string &action,string &event,string &obj_name_lower,
 								 ChannelType ct,string &mcast_data,int &rate,int &ivl,DeviceImpl *dev,int client_lib)
 {
-    Tango::Util *tg = Tango::Util::instance();
-
 //
 // Get device reference
 //
@@ -413,111 +411,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 				attribute.set_use_zmq_event();
 			else
 				attribute.set_use_notifd_event();
-
-//
-// Check if multicast has to be used for event transport (only for ZMQ event)
-// Don't forget syntax in attribute mcast_event string:
-// 			event_name:ip_address:port:rate:ivl
-// The last two are not optionals
-//
-
-			if (ct == ZMQ)
-			{
-				bool found = false;
-
-				ZmqEventSupplier *ev;
-				ev = tg->get_zmq_event_supplier();
-				int zmq_release = ev->get_zmq_release();
-
-				for(unsigned int i = 0;i != attribute.mcast_event.size();++i)
-				{
-					if (attribute.mcast_event[i].find(event) == 0)
-					{
-						if (zmq_release < 320)
-						{
-							int zmq_major,zmq_minor,zmq_patch;
-							zmq_version(&zmq_major,&zmq_minor,&zmq_patch);
-
-							TangoSys_OMemStream o;
-							o << "Device server process is using zmq release ";
-							o << zmq_major << "." << zmq_minor << "." << zmq_patch;
-							o << "\nMulticast event(s) not available with this ZMQ release" << ends;
-
-							Except::throw_exception(API_UnsupportedFeature,
-													o.str(),"DServer::event_subscription");
-						}
-
-						string::size_type start,end;
-						start = attribute.mcast_event[i].find(':');
-						start++;
-						end = attribute.mcast_event[i].find(':',start);
-
-						if ((end = attribute.mcast_event[i].find(':',end + 1)) == string::npos)
-						{
-							mcast_data = attribute.mcast_event[i].substr(start);
-							rate = 0;
-							ivl = 0;
-							found = true;
-							break;
-						}
-						else
-						{
-							mcast_data = attribute.mcast_event[i].substr(start,end - start);
-
-//
-// Get rate because one is defined
-//
-
-							string::size_type start_rate = end + 1;
-							if ((end = attribute.mcast_event[i].find(':',start_rate)) == string::npos)
-							{
-								istringstream iss(attribute.mcast_event[i].substr(start_rate));
-								iss >> rate;
-								rate = rate * 1024;
-								ivl = 0;
-								found = true;
-								break;
-							}
-							else
-							{
-								istringstream iss(attribute.mcast_event[i].substr(start_rate,end - start_rate));
-								iss >> rate;
-								rate = rate * 1024;
-
-//
-// Get ivl because one is defined
-//
-
-								istringstream iss_ivl(attribute.mcast_event[i].substr(end + 1));
-								iss_ivl >> ivl;
-								ivl = ivl * 1000;
-								found = true;
-								break;
-							}
-						}
-					}
-				}
-
-				if (found == false)
-				{
-					rate = 0;
-					ivl = 0;
-				}
-
-//
-// If one of the 2 parameters are not defined, get the default value
-//
-
-				if (rate == 0)
-					rate = mcast_rate;
-				if (ivl == 0)
-					ivl = mcast_ivl;
-			}
-			else
-			{
-				rate = 0;
-				ivl = 0;
-			}
 		}
 
 //
@@ -542,11 +435,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 
 			omni_mutex_lock oml(EventSupplier::get_event_mutex());
 			pi.set_event_subscription(time(NULL));
-
-// TODO: Pipe: Do we support multicast for pipe event
-
-			rate = 0;
-			ivl = 0;
 		}
 	}
 	else
@@ -557,11 +445,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 
 			omni_mutex_lock oml(EventSupplier::get_event_mutex());
 			dev_impl->set_event_intr_change_subscription(time(NULL));
-
-// TODO: Do we support multicast for interface change event
-
-			rate = 0;
-			ivl = 0;
 
             if (client_lib != 0)
                 dev_impl->set_client_lib(client_lib);
@@ -586,6 +469,117 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 		{
 		}
 	}
+}
+
+MulticastParameters DServer::get_multicast_parameters(
+    DeviceImpl& device, const std::string& object_name, const std::string& event)
+{
+    if (event == EventName[INTERFACE_CHANGE_EVENT] || event == EventName[PIPE_EVENT])
+    {
+        // TODO: Do we support multicast for interface change event
+        // TODO: Pipe: Do we support multicast for pipe event
+        return MulticastParameters();
+    }
+
+    Attribute &attribute = device.get_device_attr()->get_attr_by_name(object_name.c_str());
+
+    int zmq_release = Tango::Util::instance()->get_zmq_event_supplier()->get_zmq_release();
+
+//
+// Check if multicast has to be used for event transport (only for ZMQ event)
+// Don't forget syntax in attribute mcast_event string:
+// 			event_name:ip_address:port:rate:ivl
+// The last two are not optionals
+//
+
+    MulticastParameters result = MulticastParameters();
+    bool found = false;
+
+    for(unsigned int i = 0;i != attribute.mcast_event.size();++i)
+    {
+        if (attribute.mcast_event[i].find(event) == 0)
+        {
+            if (zmq_release < 320)
+            {
+                int zmq_major,zmq_minor,zmq_patch;
+                zmq_version(&zmq_major,&zmq_minor,&zmq_patch);
+
+                TangoSys_OMemStream o;
+                o << "Device server process is using zmq release ";
+                o << zmq_major << "." << zmq_minor << "." << zmq_patch;
+                o << "\nMulticast event(s) not available with this ZMQ release" << ends;
+
+                Except::throw_exception(API_UnsupportedFeature,
+                                        o.str(),"DServer::event_subscription");
+            }
+
+            string::size_type start,end;
+            start = attribute.mcast_event[i].find(':');
+            start++;
+            end = attribute.mcast_event[i].find(':',start);
+
+            if ((end = attribute.mcast_event[i].find(':',end + 1)) == string::npos)
+            {
+                result.endpoint = attribute.mcast_event[i].substr(start);
+                result.rate = 0;
+                result.recovery_ivl = 0;
+                found = true;
+                break;
+            }
+            else
+            {
+                result.endpoint = attribute.mcast_event[i].substr(start,end - start);
+
+//
+// Get rate because one is defined
+//
+
+                string::size_type start_rate = end + 1;
+                if ((end = attribute.mcast_event[i].find(':',start_rate)) == string::npos)
+                {
+                    istringstream iss(attribute.mcast_event[i].substr(start_rate));
+                    iss >> result.rate;
+                    result.rate = result.rate * 1024;
+                    result.recovery_ivl = 0;
+                    found = true;
+                    break;
+                }
+                else
+                {
+                    istringstream iss(attribute.mcast_event[i].substr(start_rate,end - start_rate));
+                    iss >> result.rate;
+                    result.rate = result.rate * 1024;
+
+//
+// Get ivl because one is defined
+//
+
+                    istringstream iss_ivl(attribute.mcast_event[i].substr(end + 1));
+                    iss_ivl >> result.recovery_ivl;
+                    result.recovery_ivl = result.recovery_ivl * 1000;
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (found == false)
+    {
+        result.rate = 0;
+        result.recovery_ivl = 0;
+    }
+
+//
+// If one of the 2 parameters are not defined, get the default value
+//
+
+    if (result.rate == 0)
+        result.rate = mcast_rate;
+    if (result.recovery_ivl == 0)
+        result.recovery_ivl = mcast_ivl;
+
+    return result;
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -857,15 +851,17 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 // Call common method (common between old and new command)
 //
 
-        string mcast;
-        int rate,ivl;
+        string mcast_dummy;
+        int rate_dummy,ivl_dummy;
 
 		string::size_type pos = event.find(EVENT_COMPAT);
 		if (pos != string::npos)
 			event.erase(0,EVENT_COMPAT_IDL5_SIZE);
 
-        event_subscription(dev_name,obj_name,action,event,obj_name_lower,ZMQ,mcast,rate,ivl,dev,client_release);
+        event_subscription(dev_name, obj_name, action, event, obj_name_lower, ZMQ,
+            mcast_dummy, rate_dummy, ivl_dummy, dev, client_release);
 
+        MulticastParameters multicast_params = get_multicast_parameters(*dev, obj_name, event);
 //
 // Check if the client is a new one
 //
@@ -899,7 +895,7 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 //
 
         bool local_call = false;
-        if (mcast.empty() == false)
+        if (!multicast_params.endpoint.empty())
         {
             client_addr *c_addr = get_client_ident();
             if ((c_addr->client_ip[5] == 'u') ||
@@ -914,8 +910,9 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 // Create ZMQ event socket
 //
 
-        if (mcast.empty() == false)
-            ev->create_mcast_event_socket(mcast,ev_name,rate,local_call);
+        if (!multicast_params.endpoint.empty())
+            ev->create_mcast_event_socket(
+                multicast_params.endpoint, ev_name, multicast_params.rate, local_call);
         else
             ev->create_event_socket();
 
@@ -972,13 +969,13 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
         ret_data->lvalue[0] = (Tango::DevLong)tg->get_tango_lib_release();
         ret_data->lvalue[1] = dev->get_dev_idl_version();
         ret_data->lvalue[2] = zmq_sub_event_hwm;
-        ret_data->lvalue[3] = rate;
-        ret_data->lvalue[4] = ivl;
+        ret_data->lvalue[3] = multicast_params.rate;
+        ret_data->lvalue[4] = multicast_params.recovery_ivl;
         ret_data->lvalue[5] = ev->get_zmq_release();
 
         string &heartbeat_endpoint = ev->get_heartbeat_endpoint();
         ret_data->svalue[0] = Tango::string_dup(heartbeat_endpoint.c_str());
-        if (mcast.empty() == true)
+        if (multicast_params.endpoint.empty())
         {
             string &event_endpoint = ev->get_event_endpoint();
             ret_data->svalue[1] = Tango::string_dup(event_endpoint.c_str());
