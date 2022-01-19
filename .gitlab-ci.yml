@@ -423,7 +423,7 @@ cmake-with-locations-and-min-versions:
     - make
 
 alpine:
-  image: alpine:3.13
+  image: alpine:3.15
   services: []
   before_script:
     - apk update
@@ -448,7 +448,7 @@ alpine:
     - cmake -B /cppzmq/build -DCMAKE_INSTALL_PREFIX=/usr/local/cppzmq -DCPPZMQ_BUILD_TESTS=OFF /cppzmq
     - make -C /cppzmq/build install
     # Install omniORB
-    - curl -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.4/omniORB-4.2.4.tar.bz2/download -o /omniORB.tar.bz2
+    - curl -L https://sourceforge.net/projects/omniorb/files/omniORB/omniORB-4.2.5/omniORB-4.2.5.tar.bz2/download -o /omniORB.tar.bz2
     - mkdir /omniORB
     - tar xaf /omniORB.tar.bz2 --strip-components=1 -C /omniORB
     - cd /omniORB
