@@ -411,18 +411,18 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 				attribute.set_use_zmq_event();
 			else
 				attribute.set_use_notifd_event();
-		}
 
 //
 // Memorize client lib release. Protect this setting in case of user thread pushing event when the subscription
 // command is received
 //
 
-		if (client_lib != 0)
-        {
-            omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			attribute.set_client_lib(client_lib,event);
-        }
+            if (client_lib != 0)
+            {
+                omni_mutex_lock oml(EventSupplier::get_event_mutex());
+                attribute.set_client_lib(client_lib,event);
+            }
+		}
 	}
 	else if (event == EventName[PIPE_EVENT])
 	{
