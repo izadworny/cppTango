@@ -398,20 +398,20 @@ void DServer::event_subscription(const std::string &dev_name,const std::string &
 				attribute.set_use_zmq_event();
 			else
 				attribute.set_use_notifd_event();
-		}
 
 //
 // Memorize client lib release. Protect this setting in case of user thread pushing event when the subscription
 // command is received
 //
 
-		if (client_lib != 0)
-		{
-			EventType event_type = CHANGE_EVENT;
-			tg->event_name_2_event_type(event, event_type);
+			if (client_lib != 0)
+			{
+				EventType event_type = CHANGE_EVENT;
+				tg->event_name_2_event_type(event, event_type);
 
-			omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			attribute.set_client_lib(client_lib, event_type);
+				omni_mutex_lock oml(EventSupplier::get_event_mutex());
+				attribute.set_client_lib(client_lib, event_type);
+			}
 		}
 	}
 	else if (event == EventName[PIPE_EVENT])
