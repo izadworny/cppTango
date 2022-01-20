@@ -13,7 +13,9 @@ endif()
 # The name without the variant tag (i.e. -static)
 set(TANGO_LIBRARY_OUTPUT_NAME ${TANGO_LIBRARY_NAME})
 
-if(NOT BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+else()
     set(TANGO_LIBRARY_NAME ${TANGO_LIBRARY_NAME}-static)
 endif()
 
