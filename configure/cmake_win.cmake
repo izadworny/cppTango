@@ -16,6 +16,7 @@ set(TANGO_LIBRARY_OUTPUT_NAME ${TANGO_LIBRARY_NAME})
 if (TANGO_BUILD_SHARED)
     # https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
     set(BUILD_SHARED_LIBS ON)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 else()
     set(TANGO_LIBRARY_NAME ${TANGO_LIBRARY_NAME}-static)
 endif()
