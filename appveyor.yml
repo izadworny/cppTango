@@ -18,6 +18,7 @@ environment:
   # Iteration order:
   # - VS Image (2017)
   # - Architecture (x86 aka win32 or x64)
+  # - BUILD_SHARED_LIBS (ON or OFF)
 
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -30,6 +31,18 @@ environment:
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: ON
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
+      BUILD_SHARED_LIBS: ON
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      platform: x64
+      ARCH: x64-msvc15
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+      CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      PYTHONPATH: c:\Python37-x64\
+      PYVER: "py37"
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: ON
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
+      BUILD_SHARED_LIBS: OFF
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
@@ -39,6 +52,17 @@ environment:
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: OFF
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
+      BUILD_SHARED_LIBS: ON
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      platform: win32
+      ARCH: win32-msvc15
+      CMAKE_GENERATOR: "Visual Studio 15 2017"
+      PYTHONPATH: c:\Python37\
+      PYVER: "py37"
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: OFF
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
+      BUILD_SHARED_LIBS: OFF
 
 init:
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
@@ -86,8 +110,6 @@ install:
   - cmd: cd c:/projects/
   # in case of wrong directory for cloning
   - cmd: rename %APPVEYOR_BUILD_FOLDER% cppTango
-  - cmd: md static_build
-  - cmd: md dynamic_build
   # Setting Visual Compiler
   - cmd: cd "C:\projects\"
   - cmd: if %ARCH%==win32-msvc15 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
@@ -113,42 +135,22 @@ install:
   - cmd: set PTHREAD_WIN=C:/projects/pthreads-win32/
   - cmd: if not defined TANGO_USE_PCH set TANGO_USE_PCH=OFF
   - cmd: set TANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS%
-  # Static builds
-  - cmd: cd c:/projects/static_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=OFF -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DTANGO_JPEG_BASE="%TANGO_JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=%TANGO_USE_PCH% -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
-  # Dynamic builds
-  - cmd: cd c:/projects/dynamic_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=ON -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DTANGO_JPEG_BASE="%TANGO_JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
+  - cmd: md build
+  - cmd: cd build
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DTANGO_JPEG_BASE="%TANGO_JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ..
 
-clone_folder: C:\projects\cppTango
-
-build:
-  project: C:\projects\cppTango\tango.sln
-  verbosity: minimal
+clone_folder: C:/projects/cppTango
 
 build_script:
-  - cmd: cd C:/projects/static_build
-  - cmake --build ./ --config %CONFIGURATION%
-  - cmd: cd C:/projects/dynamic_build
-  - cmake --build ./ --config %CONFIGURATION%
+  - cmd: cd C:/projects/cppTango/build
+  - cmd: cmake --build . --config %CONFIGURATION%
 
 after_build:
   - cmd: set /p TANGO_LIB_VER=<VERSION
   - cmd: echo %TANGO_LIB_VER%
-  # Generate and move artifacts for all variants
-  # static
-  - cmd: cd C:/projects/static_build
+  - cmd: cd C:/projects/cppTango/build
   - cmd: cpack -C %CONFIGURATION% -G WIX
   - cmd: cpack -C %CONFIGURATION% -G ZIP
-  - cmd: move libtango_%TANGO_LIB_VER%*.msi C:/projects/cppTango
-  - cmd: move libtango_%TANGO_LIB_VER%*.zip C:/projects/cppTango
-  # dynamic
-  - cmd: cd c:/projects/dynamic_build
-  - cmd: cpack -C %CONFIGURATION% -G WIX
-  - cmd: cpack -C %CONFIGURATION% -G ZIP
-  - cmd: move libtango_%TANGO_LIB_VER%*.msi C:/projects/cppTango
-  - cmd: move libtango_%TANGO_LIB_VER%*.zip C:/projects/cppTango
-
 
 on_finish:
   #RDP for finish
@@ -159,5 +161,5 @@ on_failure:
   # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
-  - path: ./*.zip
-  - path: ./*.msi
+  - path: build/*.zip
+  - path: build/*.msi
