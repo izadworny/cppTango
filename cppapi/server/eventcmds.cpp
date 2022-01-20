@@ -149,6 +149,10 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
     }
 
     event_subscription(dev_name,attr_name,action,event,attr_name_lower,NOTIFD,mcast,rate,ivl,dev_impl,client_release);
+    if (action == "subscribe")
+    {
+        store_subscribed_client_info(*dev_impl, attr_name, event, client_release);
+    }
 
 //
 // Init one subscription command flag in Eventsupplier
@@ -240,17 +244,11 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 		{
 			if (event == "user_event")
 			{
-				cout4 << "DServer::event_subscription(): update user_event subscription\n";
-
-				omni_mutex_lock oml(EventSupplier::get_event_mutex());
-				attribute.set_user_event_sub(client_lib);
+				// No restrictions.
 			}
 			else if (event.find(CONF_TYPE_EVENT) != string::npos)
 			{
-				cout4 << "DServer::event_subscription(): update attr_conf subscription\n";
-
-				omni_mutex_lock oml(EventSupplier::get_event_mutex());
-				attribute.set_att_conf_event_sub(client_lib);
+				// No restrictions.
 			}
 			else if (event == "data_ready")
 			{
@@ -265,10 +263,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 											o.str(),
 											"DServer::event_subscription");
 				}
-				cout4 << "DServer::event_subscription(): update data_ready subscription\n";
-
-				omni_mutex_lock oml(EventSupplier::get_event_mutex());
-				attribute.set_data_ready_event_sub();
 			}
 			else
 			{
@@ -310,7 +304,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 					}
 				}
 
-
 				if (event == "change")
 				{
 					cout4 << "DServer::event_subscription(): update change subscription\n";
@@ -345,21 +338,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 							}
 						}
 					}
-
-					omni_mutex_lock oml(EventSupplier::get_event_mutex());
-					attribute.set_change_event_sub(client_lib);
-				}
-				else if (event == "quality")
-				{
-					cout4 << "DServer::event_subscription(): update quality_change subscription\n";
-					attribute.set_quality_event_sub();
-				}
-				else if (event == "periodic")
-				{
-					cout4 << "DServer::event_subscription(): update periodic subscription\n";
-
-					omni_mutex_lock oml(EventSupplier::get_event_mutex());
-					attribute.set_periodic_event_sub(client_lib);
 				}
 				else if (event == "archive")
 				{
@@ -395,11 +373,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 							}
 						}
 					}
-
-					cout4 << "DServer::event_subscription(): update archive subscription\n";
-
-					omni_mutex_lock oml(EventSupplier::get_event_mutex());
-					attribute.set_archive_event_sub(client_lib);
 				}
 			}
 
@@ -411,62 +384,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 				attribute.set_use_zmq_event();
 			else
 				attribute.set_use_notifd_event();
-
-//
-// Memorize client lib release. Protect this setting in case of user thread pushing event when the subscription
-// command is received
-//
-
-            if (client_lib != 0)
-            {
-                omni_mutex_lock oml(EventSupplier::get_event_mutex());
-                attribute.set_client_lib(client_lib,event);
-            }
-		}
-	}
-	else if (event == EventName[PIPE_EVENT])
-	{
-		if (action == "subscribe")
-		{
-			DeviceClass *cl = dev_impl->get_device_class();
-			Pipe &pi = cl->get_pipe_by_name(obj_name,dev_impl->get_name_lower());
-
-			cout4 << "DServer::event_subscription(): update pipe subscription\n";
-
-			omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			pi.set_event_subscription(time(NULL));
-		}
-	}
-	else
-	{
-		if (action == "subscribe")
-		{
-			cout4 << "DServer::event_subscription(): update device interface_change subscription\n";
-
-			omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			dev_impl->set_event_intr_change_subscription(time(NULL));
-
-            if (client_lib != 0)
-                dev_impl->set_client_lib(client_lib);
-        }
-	}
-
-//
-// Ask polling thread in charge of heartbeat to send them (if not already done)
-//
-
-	if (action == "subscribe")
-	{
-		try
-		{
-			if (get_heartbeat_started() == false)
-			{
-				add_event_heartbeat();
-				set_heartbeat_started(true);
-			}
-		}
-		catch (...)
-		{
 		}
 	}
 }
@@ -580,6 +497,107 @@ MulticastParameters DServer::get_multicast_parameters(
         result.recovery_ivl = mcast_ivl;
 
     return result;
+}
+
+void DServer::store_subscribed_client_info(
+    DeviceImpl& device, const std::string& object_name, const std::string &event_name, int client_lib_version)
+{
+    if (event_name == EventName[PIPE_EVENT])
+    {
+        Pipe& pipe = device.get_device_class()->get_pipe_by_name(
+            object_name, device.get_name_lower());
+
+        cout4 << "DServer::store_subscribed_client_info(): update pipe subscription\n";
+        omni_mutex_lock oml(EventSupplier::get_event_mutex());
+        pipe.set_event_subscription(time(NULL));
+    }
+    else if (event_name == EventName[INTERFACE_CHANGE_EVENT])
+    {
+        cout4 << "DServer::store_subscribed_client_info(): update device interface_change subscription\n";
+        omni_mutex_lock oml(EventSupplier::get_event_mutex());
+        device.set_event_intr_change_subscription(time(NULL));
+
+        if (client_lib_version != 0)
+        {
+            device.set_client_lib(client_lib_version);
+        }
+    }
+    else
+    {
+        // This case is for all attribute-related events.
+        Attribute &attribute = device.get_device_attr()->get_attr_by_name(object_name.c_str());
+
+        if (event_name == "user_event")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update user_event subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_user_event_sub(client_lib_version);
+        }
+        else if (event_name.find(CONF_TYPE_EVENT) != string::npos)
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update attr_conf subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_att_conf_event_sub(client_lib_version);
+        }
+        else if (event_name == "data_ready")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update data_ready subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_data_ready_event_sub();
+        }
+        else if (event_name == "change")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update change subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_change_event_sub(client_lib_version);
+        }
+        else if (event_name == "quality")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update quality_change subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_quality_event_sub();
+        }
+        else if (event_name == "periodic")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update periodic subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_periodic_event_sub(client_lib_version);
+        }
+        else if (event_name == "archive")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update archive subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_archive_event_sub(client_lib_version);
+        }
+
+//
+// Memorize client lib release. Protect this setting in case of user thread pushing event when the subscription
+// command is received
+//
+
+        if (client_lib_version != 0)
+        {
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            std::string event_name_copy = event_name;
+            attribute.set_client_lib(client_lib_version, event_name_copy);
+        }
+    }
+
+//
+// Ask polling thread in charge of heartbeat to send them (if not already done)
+//
+
+    try
+    {
+        if (get_heartbeat_started() == false)
+        {
+            add_event_heartbeat();
+            set_heartbeat_started(true);
+        }
+    }
+    catch (...)
+    {
+    }
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -916,6 +934,15 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
         else
             ev->create_event_socket();
 
+    // Store information about this new subscription. This must be done only
+    // after all potentially throwing operations, like preconditions checks
+    // or socket creation, to prevent client information from being set if
+    // the command fails.
+    if (action == "subscribe")
+    {
+        store_subscribed_client_info(*dev, obj_name, event, client_release);
+    }
+
 //
 // Init event counter in Event Supplier
 //
@@ -1136,6 +1163,7 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 		}
 
 		event_subscription(dev_name,obj_name,action,event,obj_name_lower,ZMQ,mcast,rate,ivl,dev,client_lib);
+		store_subscribed_client_info(*dev, obj_name, event, client_lib);
 	}
 
 }
