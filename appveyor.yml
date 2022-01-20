@@ -16,32 +16,70 @@ environment:
   # Iteration order:
   # - VS Image (2017 or 2015)
   # - Architecture (x86 aka win32 or x64)
+  # - TANGO_BUILD_SHARED (ON or OFF)
 
   matrix:
+      # BEGIN VS 2017
+      # BEGIN msvc15
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: x64
       ARCH: x64-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       PYTHONPATH: c:\Python37-x64\
       PYVER: "py37"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      platform: x64
+      ARCH: x64-msvc15
+      CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      PYTHONPATH: c:\Python37-x64\
+      PYVER: "py37"
+      TANGO_BUILD_SHARED: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017"
       PYTHONPATH: c:\Python37\
       PYVER: "py37"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      platform: win32
+      ARCH: win32-msvc15
+      CMAKE_GENERATOR: "Visual Studio 15 2017"
+      PYTHONPATH: c:\Python37\
+      PYVER: "py37"
+      TANGO_BUILD_SHARED: "OFF"
+      # BEGIN VS 2015
+      # BEGIN msvc14
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc14
       CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
       PYTHONPATH: c:\Python36-x64\
       PYVER: "py36"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: x64
+      ARCH: x64-msvc14
+      CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
+      PYTHONPATH: c:\Python36-x64\
+      PYVER: "py36"
+      TANGO_BUILD_SHARED: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc14
       CMAKE_GENERATOR: "Visual Studio 14 2015"
       PYTHONPATH: c:\Python36\
       PYVER: "py36"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: win32
+      ARCH: win32-msvc14
+      CMAKE_GENERATOR: "Visual Studio 14 2015"
+      PYTHONPATH: c:\Python36\
+      PYVER: "py36"
+      TANGO_BUILD_SHARED: "OFF"
+      # BEGIN msvc12
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc12
@@ -49,6 +87,15 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 12 2013 Win64"
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: x64
+      ARCH: x64-msvc12
+      configuration: Release
+      CMAKE_GENERATOR: "Visual Studio 12 2013 Win64"
+      PYTHONPATH: c:\Python33-x64\
+      PYVER: "py33"
+      TANGO_BUILD_SHARED: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc12
@@ -56,6 +103,16 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 12 2013"
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: win32
+      ARCH: win32-msvc12
+      configuration: Release
+      CMAKE_GENERATOR: "Visual Studio 12 2013"
+      PYTHONPATH: c:\Python33\
+      PYVER: "py33"
+      TANGO_BUILD_SHARED: "OFF"
+      # BEGIN msvc10
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc10
@@ -63,6 +120,15 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 10 2010 Win64"
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: x64
+      ARCH: x64-msvc10
+      configuration: Release
+      CMAKE_GENERATOR: "Visual Studio 10 2010 Win64"
+      PYTHONPATH: c:\Python33-x64\
+      PYVER: "py33"
+      TANGO_BUILD_SHARED: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc10
@@ -70,6 +136,16 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 10 2010"
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: win32
+      ARCH: win32-msvc10
+      configuration: Release
+      CMAKE_GENERATOR: "Visual Studio 10 2010"
+      PYTHONPATH: c:\Python33\
+      PYVER: "py33"
+      TANGO_BUILD_SHARED: "OFF"
+      # BEGIN msvc9
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc9
@@ -77,6 +153,15 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 9 2008 Win64"
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: x64
+      ARCH: x64-msvc9
+      configuration: Release
+      CMAKE_GENERATOR: "Visual Studio 9 2008 Win64"
+      PYTHONPATH: c:\Python27-x64\
+      PYVER: "py27"
+      TANGO_BUILD_SHARED: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc9
@@ -84,6 +169,15 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 9 2008"
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
+      TANGO_BUILD_SHARED: "ON"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      platform: win32
+      ARCH: win32-msvc9
+      configuration: Release
+      CMAKE_GENERATOR: "Visual Studio 9 2008"
+      PYTHONPATH: c:\Python27\
+      PYVER: "py27"
+      TANGO_BUILD_SHARED: "OFF"
       
 init:
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
@@ -128,8 +222,6 @@ install:
   - cmd: cd c:/projects/
   # in case of wrong directory for cloning
   - cmd: rename %APPVEYOR_BUILD_FOLDER% cppTango
-  - cmd: md static_build
-  - cmd: md dynamic_build
   # Setting Visual Compiler
   - cmd: cd "C:\projects\"
   - cmd: if %ARCH%==win32-msvc9 call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"
@@ -159,42 +251,22 @@ install:
   - cmd: set CPPZMQ_BASE=C:/projects/zeromq/
   - cmd: set OMNI_BASE=C:/projects/omniorb/
   - cmd: set PTHREAD_WIN=C:/projects/pthreads-win32/
-  # Static builds
-  - cmd: cd c:/projects/static_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DTANGO_BUILD_SHARED=OFF -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ../cppTango
-  # Dynamic builds
-  - cmd: cd c:/projects/dynamic_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DTANGO_BUILD_SHARED=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ../cppTango
+  - cmd: md build
+  - cmd: cd build
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DTANGO_BUILD_SHARED="%TANGO_BUILD_SHARED%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ..
 
-clone_folder: C:\projects\cppTango
-
-build:
-  project: C:\projects\cppTango\tango.sln
-  verbosity: minimal
+clone_folder: C:/projects/cppTango
 
 build_script:
-  - cmd: cd C:/projects/static_build
-  - cmake --build ./ --config %CONFIGURATION%
-  - cmd: cd C:/projects/dynamic_build
-  - cmake --build ./ --config %CONFIGURATION%
+  - cmd: cd C:/projects/cppTango/build
+  - cmd: cmake --build . --config %CONFIGURATION%
 
 after_build:
   - cmd: set /p TANGO_LIB_VER=<VERSION
   - cmd: echo %TANGO_LIB_VER%
-  # Generate and move artifacts for all variants
-  # static
-  - cmd: cd C:/projects/static_build
+  - cmd: cd C:/projects/cppTango/build
   - cmd: cpack -C %CONFIGURATION% -G WIX
   - cmd: cpack -C %CONFIGURATION% -G ZIP
-  - cmd: move libtango_%TANGO_LIB_VER%*.msi C:/projects/cppTango
-  - cmd: move libtango_%TANGO_LIB_VER%*.zip C:/projects/cppTango
-  # dynamic
-  - cmd: cd c:/projects/dynamic_build
-  - cmd: cpack -C %CONFIGURATION% -G WIX
-  - cmd: cpack -C %CONFIGURATION% -G ZIP
-  - cmd: move libtango_%TANGO_LIB_VER%*.msi C:/projects/cppTango
-  - cmd: move libtango_%TANGO_LIB_VER%*.zip C:/projects/cppTango
-
 
 on_finish:
   #RDP for finish
@@ -205,5 +277,5 @@ on_failure:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
-  - path: ./*.zip
-  - path: ./*.msi
+  - path: build/*.zip
+  - path: build/*.msi
