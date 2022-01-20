@@ -12,6 +12,7 @@ environment:
   # Common variables
   IDL_BASE: C:\projects\tangoidl
   IDL_SOURCE: C:\projects\tangoidl-source
+  ZMQ_VERSION: 4.0.5-2
 
   # Iteration order:
   # - VS Image (2017 or 2015)
@@ -154,6 +155,7 @@ environment:
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
       TANGO_BUILD_SHARED: "ON"
+      ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc9
@@ -162,6 +164,7 @@ environment:
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
       TANGO_BUILD_SHARED: "OFF"
+      ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc9
@@ -170,6 +173,7 @@ environment:
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
       TANGO_BUILD_SHARED: "ON"
+      ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc9
@@ -178,6 +182,7 @@ environment:
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
       TANGO_BUILD_SHARED: "OFF"
+      ZMQ_VERSION: 4.0.5
       
 init:
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
@@ -193,8 +198,8 @@ init:
   - cmd: cd "C:\projects\"
   - cmd: md zeromq
   - cmd: cd "C:\projects\"
-  - appveyor DownloadFile https://github.com/tango-controls/zmq-windows-ci/releases/download/4.0.5/zmq-4.0.5_%ARCH%.zip
-  - cmd: 7z -y x zmq-4.0.5_%ARCH%.zip -oC:\projects\zeromq\
+  - appveyor DownloadFile https://github.com/tango-controls/zmq-windows-ci/releases/download/%ZMQ_VERSION%/zmq-%ZMQ_VERSION%_%ARCH%.zip
+  - cmd: 7z -y x zmq-%ZMQ_VERSION%_%ARCH%.zip -oC:\projects\zeromq\
   #- cmd: move C:\projects\zeromq\lib\Release\libzmq*mt-4*.lib C:\projects\zeromq\lib\Release\libzmq.lib
   # OmniOrb
   - cmd: cd "C:\projects\"
