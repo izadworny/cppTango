@@ -17,7 +17,7 @@ environment:
   # Iteration order:
   # - VS Image (2017 or 2015)
   # - Architecture (x86 aka win32 or x64)
-  # - TANGO_BUILD_SHARED (ON or OFF)
+  # - BUILD_SHARED_LIBS (ON or OFF)
 
   matrix:
       # BEGIN VS 2017
@@ -28,28 +28,28 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       PYTHONPATH: c:\Python37-x64\
       PYVER: "py37"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: x64
       ARCH: x64-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       PYTHONPATH: c:\Python37-x64\
       PYVER: "py37"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017"
       PYTHONPATH: c:\Python37\
       PYVER: "py37"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017"
       PYTHONPATH: c:\Python37\
       PYVER: "py37"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
       # BEGIN VS 2015
       # BEGIN msvc14
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
@@ -58,28 +58,28 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
       PYTHONPATH: c:\Python36-x64\
       PYVER: "py36"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc14
       CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
       PYTHONPATH: c:\Python36-x64\
       PYVER: "py36"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc14
       CMAKE_GENERATOR: "Visual Studio 14 2015"
       PYTHONPATH: c:\Python36\
       PYVER: "py36"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc14
       CMAKE_GENERATOR: "Visual Studio 14 2015"
       PYTHONPATH: c:\Python36\
       PYVER: "py36"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
       # BEGIN msvc12
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -88,7 +88,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 12 2013 Win64"
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc12
@@ -96,7 +96,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 12 2013 Win64"
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc12
@@ -104,7 +104,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 12 2013"
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc12
@@ -112,7 +112,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 12 2013"
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
       # BEGIN msvc10
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -121,7 +121,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 10 2010 Win64"
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc10
@@ -129,7 +129,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 10 2010 Win64"
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc10
@@ -137,7 +137,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 10 2010"
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc10
@@ -145,7 +145,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 10 2010"
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
       # BEGIN msvc9
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -154,7 +154,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 9 2008 Win64"
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
       ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -163,7 +163,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 9 2008 Win64"
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
       ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
@@ -172,7 +172,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 9 2008"
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
-      TANGO_BUILD_SHARED: "ON"
+      BUILD_SHARED_LIBS: "ON"
       ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
@@ -181,7 +181,7 @@ environment:
       CMAKE_GENERATOR: "Visual Studio 9 2008"
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
-      TANGO_BUILD_SHARED: "OFF"
+      BUILD_SHARED_LIBS: "OFF"
       ZMQ_VERSION: 4.0.5
       
 init:
@@ -257,7 +257,7 @@ install:
   - cmd: set PTHREAD_WIN=C:/projects/pthreads-win32/
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DTANGO_BUILD_SHARED="%TANGO_BUILD_SHARED%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ..
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS="%BUILD_SHARED_LIBS%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ..
 
 clone_folder: C:/projects/cppTango
 
