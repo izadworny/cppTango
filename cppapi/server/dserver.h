@@ -43,6 +43,13 @@
 namespace Tango
 {
 
+struct MulticastParameters
+{
+    std::string endpoint;
+    int rate;
+    int recovery_ivl;
+};
+
 //=============================================================================
 //
 //			The DServer class
@@ -169,7 +176,10 @@ private:
 	void add_class(DeviceClass *);
 	void create_cpp_class(const char *,const char *);
 	void get_dev_prop(Tango::Util *);
-    void event_subscription(string &,string &,string &,string &,string &,ChannelType,string &,int &,int &,DeviceImpl *,int l=0);
+	void event_subscription(string &,string &,string &,string &,string &,ChannelType,string &,int &,int &,DeviceImpl *,int l=0);
+	MulticastParameters get_multicast_parameters(DeviceImpl& device, const std::string& object_name, const std::string& event);
+	void store_subscribed_client_info(
+		DeviceImpl& device, const std::string& object_name, const std::string &event_name, int client_lib_version);
 	void get_event_misc_prop(Tango::Util *);
 	bool is_event_name(string &);
 	bool is_ip_address(string &);

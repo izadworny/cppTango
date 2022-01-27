@@ -135,7 +135,24 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 			client_release = 3;
 	}
 
-    event_subscription(dev_name,attr_name,action,event,attr_name_lower,NOTIFD,mcast,rate,ivl,NULL,client_release);
+    DeviceImpl* dev_impl = Tango_nullptr;
+    try
+    {
+        dev_impl = tg->get_device_by_name(dev_name);
+    }
+    catch (Tango::DevFailed &e)
+    {
+        TangoSys_OMemStream o;
+        o << "Device " << dev_name << " not found" << ends;
+        Except::re_throw_exception(e,(const char *)API_DeviceNotFound,o.str(),
+                                     (const char *)"DServer::event_subscription_change");
+    }
+
+    event_subscription(dev_name,attr_name,action,event,attr_name_lower,NOTIFD,mcast,rate,ivl,dev_impl,client_release);
+    if (action == "subscribe")
+    {
+        store_subscribed_client_info(*dev_impl, attr_name, event, client_release);
+    }
 
 //
 // Init one subscription command flag in Eventsupplier
@@ -163,15 +180,15 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //
 // args :
 // 		in :
-//			- dev_name : The device name
+//			- dev_name : The device name (unused, for binary compatibility)
 //      	- obj_name : The attribute/pipe name
 //      	- action : What the user want to do
 //      	- event : The event type
 //      	- obj_name_lower : The attribute/pipe name in lower case letters
 //      	- ct : The channel type (notifd or zmq)
-//      	- mcast_data : The multicast transport data
-//      	- rate : PGM rate parameter
-//      	- ivl : PGM ivl paramteter
+//      	- mcast_data : The multicast transport data (unused)
+//      	- rate : PGM rate parameter (unused)
+//      	- ivl : PGM ivl paramteter (unused)
 //      	- dev : The device pointer
 //			- client_lib : Tango release number used by client
 //
@@ -180,28 +197,12 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 void DServer::event_subscription(string &dev_name,string &obj_name,string &action,string &event,string &obj_name_lower,
 								 ChannelType ct,string &mcast_data,int &rate,int &ivl,DeviceImpl *dev,int client_lib)
 {
-    Tango::Util *tg = Tango::Util::instance();
-
 //
 // Get device reference
 //
 
+	assert(dev != Tango_nullptr);
 	DeviceImpl *dev_impl = dev;
-
-	if (dev_impl == NULL)
-	{
-        try
-        {
-            dev_impl = tg->get_device_by_name(dev_name);
-        }
-        catch (Tango::DevFailed &e)
-        {
-            TangoSys_OMemStream o;
-            o << "Device " << dev_name << " not found" << ends;
-            Except::re_throw_exception(e,(const char *)API_DeviceNotFound,o.str(),
-                                       (const char *)"DServer::event_subscription");
-        }
-	}
 
 	if (event != EventName[INTERFACE_CHANGE_EVENT] && event != EventName[PIPE_EVENT])
 	{
@@ -243,33 +244,11 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 		{
 			if (event == "user_event")
 			{
-				cout4 << "DServer::event_subscription(): update user_event subscription\n";
-
-				omni_mutex_lock oml(EventSupplier::get_event_mutex());
-				switch (client_lib)
-				{
-					case 5:
-					attribute.event_user5_subscription = time(NULL);
-					break;
-
-					case 4:
-					attribute.event_user4_subscription = time(NULL);
-					break;
-
-					default:
-					attribute.event_user3_subscription = time(NULL);
-					break;
-				}
+				// No restrictions.
 			}
 			else if (event.find(CONF_TYPE_EVENT) != string::npos)
 			{
-				cout4 << "DServer::event_subscription(): update attr_conf subscription\n";
-
-				omni_mutex_lock oml(EventSupplier::get_event_mutex());
-				if (client_lib == 5)
-					attribute.event_attr_conf5_subscription = time(NULL);
-				else
-					attribute.event_attr_conf_subscription = time(NULL);
+				// No restrictions.
 			}
 			else if (event == "data_ready")
 			{
@@ -284,10 +263,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 											o.str(),
 											"DServer::event_subscription");
 				}
-				cout4 << "DServer::event_subscription(): update data_ready subscription\n";
-
-				omni_mutex_lock oml(EventSupplier::get_event_mutex());
-				attribute.event_data_ready_subscription = time(NULL);
 			}
 			else
 			{
@@ -329,7 +304,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 					}
 				}
 
-
 				if (event == "change")
 				{
 					cout4 << "DServer::event_subscription(): update change subscription\n";
@@ -363,48 +337,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 								}
 							}
 						}
-					}
-
-					omni_mutex_lock oml(EventSupplier::get_event_mutex());
-
-					switch (client_lib)
-					{
-						case 5:
-						attribute.event_change5_subscription = time(NULL);
-						break;
-
-						case 4:
-						attribute.event_change4_subscription = time(NULL);
-						break;
-
-						default:
-						attribute.event_change3_subscription = time(NULL);
-						break;
-					}
-				}
-				else if (event == "quality")
-				{
-					cout4 << "DServer::event_subscription(): update quality_change subscription\n";
-					attribute.event_quality_subscription = time(NULL);
-				}
-				else if (event == "periodic")
-				{
-					cout4 << "DServer::event_subscription(): update periodic subscription\n";
-
-					omni_mutex_lock oml(EventSupplier::get_event_mutex());
-					switch (client_lib)
-					{
-						case 5:
-						attribute.event_periodic5_subscription = time(NULL);
-						break;
-
-						case 4:
-						attribute.event_periodic4_subscription = time(NULL);
-						break;
-
-						default:
-						attribute.event_periodic3_subscription = time(NULL);
-						break;
 					}
 				}
 				else if (event == "archive")
@@ -441,24 +373,6 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 							}
 						}
 					}
-
-					cout4 << "DServer::event_subscription(): update archive subscription\n";
-
-					omni_mutex_lock oml(EventSupplier::get_event_mutex());
-					switch (client_lib)
-					{
-						case 5:
-						attribute.event_archive5_subscription = time(NULL);
-						break;
-
-						case 4:
-						attribute.event_archive4_subscription = time(NULL);
-						break;
-
-						default:
-						attribute.event_archive3_subscription = time(NULL);
-						break;
-					}
 				}
 			}
 
@@ -470,6 +384,23 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 				attribute.set_use_zmq_event();
 			else
 				attribute.set_use_notifd_event();
+		}
+	}
+}
+
+MulticastParameters DServer::get_multicast_parameters(
+    DeviceImpl& device, const std::string& object_name, const std::string& event)
+{
+    if (event == EventName[INTERFACE_CHANGE_EVENT] || event == EventName[PIPE_EVENT])
+    {
+        // TODO: Do we support multicast for interface change event
+        // TODO: Pipe: Do we support multicast for pipe event
+        return MulticastParameters();
+    }
+
+    Attribute &attribute = device.get_device_attr()->get_attr_by_name(object_name.c_str());
+
+    int zmq_release = Tango::Util::instance()->get_zmq_event_supplier()->get_zmq_release();
 
 //
 // Check if multicast has to be used for event transport (only for ZMQ event)
@@ -478,171 +409,195 @@ void DServer::event_subscription(string &dev_name,string &obj_name,string &actio
 // The last two are not optionals
 //
 
-			if (ct == ZMQ)
-			{
-				bool found = false;
+    MulticastParameters result = MulticastParameters();
+    bool found = false;
 
-				ZmqEventSupplier *ev;
-				ev = tg->get_zmq_event_supplier();
-				int zmq_release = ev->get_zmq_release();
+    for(unsigned int i = 0;i != attribute.mcast_event.size();++i)
+    {
+        if (attribute.mcast_event[i].find(event) == 0)
+        {
+            if (zmq_release < 320)
+            {
+                int zmq_major,zmq_minor,zmq_patch;
+                zmq_version(&zmq_major,&zmq_minor,&zmq_patch);
 
-				for(unsigned int i = 0;i != attribute.mcast_event.size();++i)
-				{
-					if (attribute.mcast_event[i].find(event) == 0)
-					{
-						if (zmq_release < 320)
-						{
-							int zmq_major,zmq_minor,zmq_patch;
-							zmq_version(&zmq_major,&zmq_minor,&zmq_patch);
+                TangoSys_OMemStream o;
+                o << "Device server process is using zmq release ";
+                o << zmq_major << "." << zmq_minor << "." << zmq_patch;
+                o << "\nMulticast event(s) not available with this ZMQ release" << ends;
 
-							TangoSys_OMemStream o;
-							o << "Device server process is using zmq release ";
-							o << zmq_major << "." << zmq_minor << "." << zmq_patch;
-							o << "\nMulticast event(s) not available with this ZMQ release" << ends;
+                Except::throw_exception(API_UnsupportedFeature,
+                                        o.str(),"DServer::event_subscription");
+            }
 
-							Except::throw_exception(API_UnsupportedFeature,
-													o.str(),"DServer::event_subscription");
-						}
+            string::size_type start,end;
+            start = attribute.mcast_event[i].find(':');
+            start++;
+            end = attribute.mcast_event[i].find(':',start);
 
-						string::size_type start,end;
-						start = attribute.mcast_event[i].find(':');
-						start++;
-						end = attribute.mcast_event[i].find(':',start);
-
-						if ((end = attribute.mcast_event[i].find(':',end + 1)) == string::npos)
-						{
-							mcast_data = attribute.mcast_event[i].substr(start);
-							rate = 0;
-							ivl = 0;
-							found = true;
-							break;
-						}
-						else
-						{
-							mcast_data = attribute.mcast_event[i].substr(start,end - start);
+            if ((end = attribute.mcast_event[i].find(':',end + 1)) == string::npos)
+            {
+                result.endpoint = attribute.mcast_event[i].substr(start);
+                result.rate = 0;
+                result.recovery_ivl = 0;
+                found = true;
+                break;
+            }
+            else
+            {
+                result.endpoint = attribute.mcast_event[i].substr(start,end - start);
 
 //
 // Get rate because one is defined
 //
 
-							string::size_type start_rate = end + 1;
-							if ((end = attribute.mcast_event[i].find(':',start_rate)) == string::npos)
-							{
-								istringstream iss(attribute.mcast_event[i].substr(start_rate));
-								iss >> rate;
-								rate = rate * 1024;
-								ivl = 0;
-								found = true;
-								break;
-							}
-							else
-							{
-								istringstream iss(attribute.mcast_event[i].substr(start_rate,end - start_rate));
-								iss >> rate;
-								rate = rate * 1024;
+                string::size_type start_rate = end + 1;
+                if ((end = attribute.mcast_event[i].find(':',start_rate)) == string::npos)
+                {
+                    istringstream iss(attribute.mcast_event[i].substr(start_rate));
+                    iss >> result.rate;
+                    result.rate = result.rate * 1024;
+                    result.recovery_ivl = 0;
+                    found = true;
+                    break;
+                }
+                else
+                {
+                    istringstream iss(attribute.mcast_event[i].substr(start_rate,end - start_rate));
+                    iss >> result.rate;
+                    result.rate = result.rate * 1024;
 
 //
 // Get ivl because one is defined
 //
 
-								istringstream iss_ivl(attribute.mcast_event[i].substr(end + 1));
-								iss_ivl >> ivl;
-								ivl = ivl * 1000;
-								found = true;
-								break;
-							}
-						}
-					}
-				}
+                    istringstream iss_ivl(attribute.mcast_event[i].substr(end + 1));
+                    iss_ivl >> result.recovery_ivl;
+                    result.recovery_ivl = result.recovery_ivl * 1000;
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
 
-				if (found == false)
-				{
-					rate = 0;
-					ivl = 0;
-				}
+    if (found == false)
+    {
+        result.rate = 0;
+        result.recovery_ivl = 0;
+    }
 
 //
 // If one of the 2 parameters are not defined, get the default value
 //
 
-				if (rate == 0)
-					rate = mcast_rate;
-				if (ivl == 0)
-					ivl = mcast_ivl;
-			}
-			else
-			{
-				rate = 0;
-				ivl = 0;
-			}
-		}
+    if (result.rate == 0)
+        result.rate = mcast_rate;
+    if (result.recovery_ivl == 0)
+        result.recovery_ivl = mcast_ivl;
+
+    return result;
+}
+
+void DServer::store_subscribed_client_info(
+    DeviceImpl& device, const std::string& object_name, const std::string &event_name, int client_lib_version)
+{
+    if (event_name == EventName[PIPE_EVENT])
+    {
+        Pipe& pipe = device.get_device_class()->get_pipe_by_name(
+            object_name, device.get_name_lower());
+
+        cout4 << "DServer::store_subscribed_client_info(): update pipe subscription\n";
+        omni_mutex_lock oml(EventSupplier::get_event_mutex());
+        pipe.set_event_subscription(time(NULL));
+    }
+    else if (event_name == EventName[INTERFACE_CHANGE_EVENT])
+    {
+        cout4 << "DServer::store_subscribed_client_info(): update device interface_change subscription\n";
+        omni_mutex_lock oml(EventSupplier::get_event_mutex());
+        device.set_event_intr_change_subscription(time(NULL));
+
+        if (client_lib_version != 0)
+        {
+            device.set_client_lib(client_lib_version);
+        }
+    }
+    else
+    {
+        // This case is for all attribute-related events.
+        Attribute &attribute = device.get_device_attr()->get_attr_by_name(object_name.c_str());
+
+        if (event_name == "user_event")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update user_event subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_user_event_sub(client_lib_version);
+        }
+        else if (event_name.find(CONF_TYPE_EVENT) != string::npos)
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update attr_conf subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_att_conf_event_sub(client_lib_version);
+        }
+        else if (event_name == "data_ready")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update data_ready subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_data_ready_event_sub();
+        }
+        else if (event_name == "change")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update change subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_change_event_sub(client_lib_version);
+        }
+        else if (event_name == "quality")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update quality_change subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_quality_event_sub();
+        }
+        else if (event_name == "periodic")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update periodic subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_periodic_event_sub(client_lib_version);
+        }
+        else if (event_name == "archive")
+        {
+            cout4 << "DServer::store_subscribed_client_info(): update archive subscription\n";
+            omni_mutex_lock oml(EventSupplier::get_event_mutex());
+            attribute.set_archive_event_sub(client_lib_version);
+        }
 
 //
 // Memorize client lib release. Protect this setting in case of user thread pushing event when the subscription
 // command is received
 //
 
-		if (client_lib != 0)
+        if (client_lib_version != 0)
         {
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			attribute.set_client_lib(client_lib,event);
+            std::string event_name_copy = event_name;
+            attribute.set_client_lib(client_lib_version, event_name_copy);
         }
-	}
-	else if (event == EventName[PIPE_EVENT])
-	{
-		if (action == "subscribe")
-		{
-			DeviceClass *cl = dev_impl->get_device_class();
-			Pipe &pi = cl->get_pipe_by_name(obj_name,dev_impl->get_name_lower());
-
-			cout4 << "DServer::event_subscription(): update pipe subscription\n";
-
-			omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			pi.set_event_subscription(time(NULL));
-
-// TODO: Pipe: Do we support multicast for pipe event
-
-			rate = 0;
-			ivl = 0;
-		}
-	}
-	else
-	{
-		if (action == "subscribe")
-		{
-			cout4 << "DServer::event_subscription(): update device interface_change subscription\n";
-
-			omni_mutex_lock oml(EventSupplier::get_event_mutex());
-			dev_impl->set_event_intr_change_subscription(time(NULL));
-
-// TODO: Do we support multicast for interface change event
-
-			rate = 0;
-			ivl = 0;
-
-            if (client_lib != 0)
-                dev_impl->set_client_lib(client_lib);
-        }
-	}
+    }
 
 //
 // Ask polling thread in charge of heartbeat to send them (if not already done)
 //
 
-	if (action == "subscribe")
-	{
-		try
-		{
-			if (get_heartbeat_started() == false)
-			{
-				add_event_heartbeat();
-				set_heartbeat_started(true);
-			}
-		}
-		catch (...)
-		{
-		}
-	}
+    try
+    {
+        if (get_heartbeat_started() == false)
+        {
+            add_event_heartbeat();
+            set_heartbeat_started(true);
+        }
+    }
+    catch (...)
+    {
+    }
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -914,15 +869,17 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 // Call common method (common between old and new command)
 //
 
-        string mcast;
-        int rate,ivl;
+        string mcast_dummy;
+        int rate_dummy,ivl_dummy;
 
 		string::size_type pos = event.find(EVENT_COMPAT);
 		if (pos != string::npos)
 			event.erase(0,EVENT_COMPAT_IDL5_SIZE);
 
-        event_subscription(dev_name,obj_name,action,event,obj_name_lower,ZMQ,mcast,rate,ivl,dev,client_release);
+        event_subscription(dev_name, obj_name, action, event, obj_name_lower, ZMQ,
+            mcast_dummy, rate_dummy, ivl_dummy, dev, client_release);
 
+        MulticastParameters multicast_params = get_multicast_parameters(*dev, obj_name, event);
 //
 // Check if the client is a new one
 //
@@ -956,7 +913,7 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 //
 
         bool local_call = false;
-        if (mcast.empty() == false)
+        if (!multicast_params.endpoint.empty())
         {
             client_addr *c_addr = get_client_ident();
             if ((c_addr->client_ip[5] == 'u') ||
@@ -971,10 +928,20 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 // Create ZMQ event socket
 //
 
-        if (mcast.empty() == false)
-            ev->create_mcast_event_socket(mcast,ev_name,rate,local_call);
+        if (!multicast_params.endpoint.empty())
+            ev->create_mcast_event_socket(
+                multicast_params.endpoint, ev_name, multicast_params.rate, local_call);
         else
             ev->create_event_socket();
+
+    // Store information about this new subscription. This must be done only
+    // after all potentially throwing operations, like preconditions checks
+    // or socket creation, to prevent client information from being set if
+    // the command fails.
+    if (action == "subscribe")
+    {
+        store_subscribed_client_info(*dev, obj_name, event, client_release);
+    }
 
 //
 // Init event counter in Event Supplier
@@ -1029,13 +996,13 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
         ret_data->lvalue[0] = (Tango::DevLong)tg->get_tango_lib_release();
         ret_data->lvalue[1] = dev->get_dev_idl_version();
         ret_data->lvalue[2] = zmq_sub_event_hwm;
-        ret_data->lvalue[3] = rate;
-        ret_data->lvalue[4] = ivl;
+        ret_data->lvalue[3] = multicast_params.rate;
+        ret_data->lvalue[4] = multicast_params.recovery_ivl;
         ret_data->lvalue[5] = ev->get_zmq_release();
 
         string &heartbeat_endpoint = ev->get_heartbeat_endpoint();
         ret_data->svalue[0] = Tango::string_dup(heartbeat_endpoint.c_str());
-        if (mcast.empty() == true)
+        if (multicast_params.endpoint.empty())
         {
             string &event_endpoint = ev->get_event_endpoint();
             ret_data->svalue[1] = Tango::string_dup(event_endpoint.c_str());
@@ -1196,6 +1163,7 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 		}
 
 		event_subscription(dev_name,obj_name,action,event,obj_name_lower,ZMQ,mcast,rate,ivl,dev,client_lib);
+		store_subscribed_client_info(*dev, obj_name, event, client_lib);
 	}
 
 }
