@@ -58,8 +58,6 @@ int main(int argc,char *argv[])
 //
 // Destroy the ORB (and properly releases its resources)
 //
-
-	tg->server_cleanup();
+	Tango::Util::instance()->server_cleanup();
 	return(0);
 }
-
