@@ -7,8 +7,6 @@
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/avaox4tnjm7vff13/branch/9.3-backports?svg=true)](https://ci.appveyor.com/project/bourtemb/cpptango-tt3w8/branch/9.3-backports)
 [![Pipeline status](https://gitlab.com/tango-controls/cpptango/badges/9.3-backports/pipeline.svg)](https://gitlab.com/tango-controls/cpptango/-/commits/9.3-backports)
 
-[![release](https://img.shields.io/github/release/tango-controls/cppTango.svg?style=flat)](https://github.com/tango-controls/cppTango/releases/latest)
-
 [![License](https://img.shields.io/badge/license-LGPL--3.0-orange.svg)](https://gitlab.com/tango-controls/cppTango/-/blob/main/LICENSE)
 
 # TANGO distributed control system - shared library
