@@ -138,7 +138,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 		TANGO_RETHROW_EXCEPTION(e, API_DeviceNotFound, o.str());
 	}
 
-    event_subscription(attr_name,action,event,attr_name_lower,NOTIFD,dev_impl,client_release);
+    event_subscription(*dev_impl, attr_name, attr_name_lower, action, event, NOTIFD, client_release);
     if (action == "subscribe")
     {
         store_subscribed_client_info(*dev_impl, attr_name, event, client_release);
@@ -180,16 +180,19 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DServer::event_subscription(const std::string &obj_name,const std::string &action,std::string &event,const std::string &obj_name_lower,
-								 ChannelType ct,DeviceImpl *dev,int client_lib)
-
-	assert(dev != Tango_nullptr);
-	DeviceImpl *dev_impl = dev;
-
+void DServer::event_subscription(
+	DeviceImpl &device,
+	const std::string &obj_name,
+	const std::string &obj_name_lower,
+	const std::string &action,
+	const std::string &event,
+	ChannelType channel_type,
+	int client_lib_version)
+{
 	if (event != EventName[INTERFACE_CHANGE_EVENT] && event != EventName[PIPE_EVENT])
 	{
 
-		MultiAttribute *m_attr = dev_impl->get_device_attr();
+		MultiAttribute *m_attr = device.get_device_attr();
 		int attr_ind = m_attr->get_attr_ind_by_name(obj_name.c_str());
 		Attribute &attribute = m_attr->get_attr_by_ind(attr_ind);
 
@@ -197,7 +200,7 @@ void DServer::event_subscription(const std::string &obj_name,const std::string &
 // Refuse subscription on forwarded attribute and notifd
 //
 
-		if (ct == NOTIFD)
+		if (channel_type == NOTIFD)
 		{
 			if (attribute.is_fwd_att() == true)
 			{
@@ -210,7 +213,7 @@ void DServer::event_subscription(const std::string &obj_name,const std::string &
 		}
 		else
 		{
-			if (attribute.is_fwd_att() == true && client_lib < 5)
+			if (attribute.is_fwd_att() == true && client_lib_version < 5)
 			{
 				std::stringstream ss;
 				ss << "The attribute " << obj_name << " is a forwarded attribute.";
@@ -354,7 +357,7 @@ void DServer::event_subscription(const std::string &obj_name,const std::string &
 // Set channel type in attribute object
 //
 
-			if (ct == ZMQ)
+			if (channel_type == ZMQ)
 				attribute.set_use_zmq_event();
 			else
 				attribute.set_use_notifd_event();
@@ -841,8 +844,8 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 		if (pos != std::string::npos)
 			event.erase(0,EVENT_COMPAT_IDL5_SIZE);
 
-        event_subscription(obj_name, action, event, obj_name_lower, ZMQ,
-            dev, client_release);
+        event_subscription(*dev, obj_name, obj_name_lower, action, event, ZMQ,
+            client_release);
 
         MulticastParameters multicast_params = get_multicast_parameters(*dev, obj_name, event);
 //
@@ -1124,7 +1127,7 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 				client_lib = 4;		// Command implemented only with Tango 8 -> IDL 4 for event data
 		}
 
-		event_subscription(obj_name,action,event,obj_name_lower,ZMQ,dev,client_lib);
+		event_subscription(*dev, obj_name, obj_name_lower, action, event, ZMQ, client_lib);
 		store_subscribed_client_info(*dev, obj_name, event, client_lib);
 	}
 
