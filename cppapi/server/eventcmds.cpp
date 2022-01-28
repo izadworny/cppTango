@@ -106,9 +106,6 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 		ev->file_db_svr();
 	}
 
-    std::string mcast;
-    int rate,ivl;
-
 //
 // Check if the request comes from a Tango 6 client (without client identification)
 // If true, the event has to be sent using AttributeValue_3 data structure
@@ -141,7 +138,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 		TANGO_RETHROW_EXCEPTION(e, API_DeviceNotFound, o.str());
 	}
 
-    event_subscription(dev_name,attr_name,action,event,attr_name_lower,NOTIFD,mcast,rate,ivl,dev_impl,client_release);
+    event_subscription(attr_name,action,event,attr_name_lower,NOTIFD,dev_impl,client_release);
     if (action == "subscribe")
     {
         store_subscribed_client_info(*dev_impl, attr_name, event, client_release);
@@ -173,26 +170,18 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //
 // args :
 // 		in :
-//			- dev_name : The device name (unused, for binary compatibility)
 //      	- obj_name : The attribute/pipe name
 //      	- action : What the user want to do
 //      	- event : The event type
 //      	- obj_name_lower : The attribute/pipe name in lower case letters
 //      	- ct : The channel type (notifd or zmq)
-//      	- mcast_data : The multicast transport data (unused)
-//      	- rate : PGM rate parameter (unused)
-//      	- ivl : PGM ivl paramteter (unused)
 //      	- dev : The device pointer
 //			- client_lib : Tango release number used by client
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DServer::event_subscription(const std::string &dev_name,const std::string &obj_name,const std::string &action,std::string &event,const std::string &obj_name_lower,
-								 ChannelType ct,std::string &mcast_data,int &rate,int &ivl,DeviceImpl *dev,int client_lib)
-{
-//
-// Get device reference
-//
+void DServer::event_subscription(const std::string &obj_name,const std::string &action,std::string &event,const std::string &obj_name_lower,
+								 ChannelType ct,DeviceImpl *dev,int client_lib)
 
 	assert(dev != Tango_nullptr);
 	DeviceImpl *dev_impl = dev;
@@ -848,15 +837,12 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 // Call common method (common between old and new command)
 //
 
-        std::string mcast_dummy;
-        int rate_dummy,ivl_dummy;
-
 		std::string::size_type pos = event.find(EVENT_COMPAT);
 		if (pos != std::string::npos)
 			event.erase(0,EVENT_COMPAT_IDL5_SIZE);
 
-        event_subscription(dev_name, obj_name, action, event, obj_name_lower, ZMQ,
-            mcast_dummy, rate_dummy, ivl_dummy, dev, client_release);
+        event_subscription(obj_name, action, event, obj_name_lower, ZMQ,
+            dev, client_release);
 
         MulticastParameters multicast_params = get_multicast_parameters(*dev, obj_name, event);
 //
@@ -1117,10 +1103,8 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 // Call common method (common between old and new command)
 //
 
-		std::string mcast;
-		int rate,ivl,client_lib;
-
 		std::string action("subscribe");
+		int client_lib = 0;
 		std::string client_lib_str;
 
 		std::string::size_type pos = event.find(EVENT_COMPAT);
@@ -1140,7 +1124,7 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 				client_lib = 4;		// Command implemented only with Tango 8 -> IDL 4 for event data
 		}
 
-		event_subscription(dev_name,obj_name,action,event,obj_name_lower,ZMQ,mcast,rate,ivl,dev,client_lib);
+		event_subscription(obj_name,action,event,obj_name_lower,ZMQ,dev,client_lib);
 		store_subscribed_client_info(*dev, obj_name, event, client_lib);
 	}
 
