@@ -178,7 +178,6 @@ private:
 	void event_subscription(
 		DeviceImpl &device,
 		const std::string &obj_name,
-		const std::string &obj_name_lower,
 		const std::string &action,
 		const std::string &event,
 		ChannelType channel_type,

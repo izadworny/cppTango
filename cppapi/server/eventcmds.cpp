@@ -61,14 +61,11 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 		TANGO_THROW_EXCEPTION(API_WrongNumberOfArgs, o.str());
 	}
 
-	std::string dev_name, attr_name, action, event, attr_name_lower;
+	std::string dev_name, attr_name, action, event;
 	dev_name = (*argin)[0];
 	attr_name = (*argin)[1];
 	action = (*argin)[2];
 	event = (*argin)[3];
-
-	attr_name_lower = attr_name;
-	std::transform(attr_name_lower.begin(),attr_name_lower.end(),attr_name_lower.begin(),::tolower);
 
 	cout4 << "EventSubscriptionChangeCmd: subscription for device " << dev_name << " attribute " << attr_name << " action " << action << " event " << event << std::endl;
 
@@ -138,7 +135,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 		TANGO_RETHROW_EXCEPTION(e, API_DeviceNotFound, o.str());
 	}
 
-    event_subscription(*dev_impl, attr_name, attr_name_lower, action, event, NOTIFD, client_release);
+    event_subscription(*dev_impl, attr_name, action, event, NOTIFD, client_release);
     if (action == "subscribe")
     {
         store_subscribed_client_info(*dev_impl, attr_name, event, client_release);
@@ -173,7 +170,6 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //      	- obj_name : The attribute/pipe name
 //      	- action : What the user want to do
 //      	- event : The event type
-//      	- obj_name_lower : The attribute/pipe name in lower case letters
 //      	- ct : The channel type (notifd or zmq)
 //      	- dev : The device pointer
 //			- client_lib : Tango release number used by client
@@ -183,7 +179,6 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 void DServer::event_subscription(
 	DeviceImpl &device,
 	const std::string &obj_name,
-	const std::string &obj_name_lower,
 	const std::string &action,
 	const std::string &event,
 	ChannelType channel_type,
@@ -191,10 +186,7 @@ void DServer::event_subscription(
 {
 	if (event != EventName[INTERFACE_CHANGE_EVENT] && event != EventName[PIPE_EVENT])
 	{
-
-		MultiAttribute *m_attr = device.get_device_attr();
-		int attr_ind = m_attr->get_attr_ind_by_name(obj_name.c_str());
-		Attribute &attribute = m_attr->get_attr_by_ind(attr_ind);
+		Attribute &attribute = device.get_device_attr()->get_attr_by_name(obj_name.c_str());
 
 //
 // Refuse subscription on forwarded attribute and notifd
@@ -291,7 +283,7 @@ void DServer::event_subscription(
 // Check if the attribute has some of the change properties defined
 //
 
-					if (obj_name_lower != "state")
+					if (attribute.get_name_lower() != "state")
 					{
 						if ((attribute.get_data_type() != Tango::DEV_STRING) &&
 							(attribute.get_data_type() != Tango::DEV_BOOLEAN) &&
@@ -324,7 +316,7 @@ void DServer::event_subscription(
 // Check if the attribute has some of the archive properties defined
 //
 
-					if (obj_name_lower != "state")
+					if (attribute.get_name_lower() != "state")
 					{
 						if ((attribute.get_data_type() != Tango::DEV_STRING) &&
 							(attribute.get_data_type() != Tango::DEV_BOOLEAN) &&
@@ -844,8 +836,7 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 		if (pos != std::string::npos)
 			event.erase(0,EVENT_COMPAT_IDL5_SIZE);
 
-        event_subscription(*dev, obj_name, obj_name_lower, action, event, ZMQ,
-            client_release);
+        event_subscription(*dev, obj_name, action, event, ZMQ, client_release);
 
         MulticastParameters multicast_params = get_multicast_parameters(*dev, obj_name, event);
 //
@@ -1071,14 +1062,11 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 
 	for (unsigned int loop = 0;loop < nb_event;loop++)
 	{
-		std::string dev_name, obj_name, event, obj_name_lower;
+		std::string dev_name, obj_name, event;
 		int base = loop * 3;
 		dev_name = (*argin)[base];
 		obj_name = (*argin)[base + 1];
 		event = (*argin)[base + 2];
-
-		obj_name_lower = obj_name;
-		std::transform(obj_name_lower.begin(),obj_name_lower.end(),obj_name_lower.begin(),::tolower);
 
 		cout4 << "EventConfirmSubscriptionCmd: confirm subscription for device " << dev_name << " attribute/pipe " << obj_name << " event " << event << std::endl;
 
@@ -1127,7 +1115,7 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 				client_lib = 4;		// Command implemented only with Tango 8 -> IDL 4 for event data
 		}
 
-		event_subscription(*dev, obj_name, obj_name_lower, action, event, ZMQ, client_lib);
+		event_subscription(*dev, obj_name, action, event, ZMQ, client_lib);
 		store_subscribed_client_info(*dev, obj_name, event, client_lib);
 	}
 
