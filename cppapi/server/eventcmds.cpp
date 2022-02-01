@@ -184,177 +184,184 @@ void DServer::event_subscription(
 	ChannelType channel_type,
 	int client_lib_version)
 {
-	if (event != EventName[INTERFACE_CHANGE_EVENT] && event != EventName[PIPE_EVENT])
+	if (event == EventName[INTERFACE_CHANGE_EVENT] || event == EventName[PIPE_EVENT])
 	{
-		Attribute &attribute = device.get_device_attr()->get_attr_by_name(obj_name.c_str());
+		// These events are always accepted.
+		return;
+	}
+
+	// Otherwise assume the event is for an attribute.
+	Attribute &attribute = device.get_device_attr()->get_attr_by_name(obj_name.c_str());
 
 //
 // Refuse subscription on forwarded attribute and notifd
 //
 
-		if (channel_type == NOTIFD)
+	if (channel_type == NOTIFD)
+	{
+		if (attribute.is_fwd_att() == true)
 		{
-			if (attribute.is_fwd_att() == true)
-			{
-				std::stringstream ss;
-				ss << "The attribute " << obj_name << " is a forwarded attribute.";
-				ss << "\nIt is not supported to subscribe events from forwarded attribute using Tango < 9. Please update!!";
+			std::stringstream ss;
+			ss << "The attribute " << obj_name << " is a forwarded attribute.";
+			ss << "\nIt is not supported to subscribe events from forwarded attribute using Tango < 9. Please update!!";
 
-				TANGO_THROW_EXCEPTION(API_NotSupportedFeature, ss.str());
-			}
+			TANGO_THROW_EXCEPTION(API_NotSupportedFeature, ss.str());
 		}
-		else
+	}
+	else
+	{
+		if (attribute.is_fwd_att() == true && client_lib_version < 5)
 		{
-			if (attribute.is_fwd_att() == true && client_lib_version < 5)
-			{
-				std::stringstream ss;
-				ss << "The attribute " << obj_name << " is a forwarded attribute.";
-				ss << "\nIt is not supported to subscribe events from forwarded attribute using Tango < 9. Please update!!";
+			std::stringstream ss;
+			ss << "The attribute " << obj_name << " is a forwarded attribute.";
+			ss << "\nIt is not supported to subscribe events from forwarded attribute using Tango < 9. Please update!!";
 
-				TANGO_THROW_EXCEPTION(API_NotSupportedFeature, ss.str());
-			}
+			TANGO_THROW_EXCEPTION(API_NotSupportedFeature, ss.str());
 		}
+	}
 
-		if (action == "subscribe")
+	// Return early if action is not subscribe. This is the only action that
+	// we currently expect but it is checked here for backwards compatibility.
+	if (action != "subscribe")
+	{
+		return;
+	}
+
+	if (event == "user_event")
+	{
+		// No restrictions.
+	}
+	else if (event.find(CONF_TYPE_EVENT) != std::string::npos)
+	{
+		// No restrictions.
+	}
+	else if (event == "data_ready")
+	{
+		if (attribute.is_fwd_att() == false && attribute.is_data_ready_event() == false)
 		{
-			if (event == "user_event")
-			{
-				// No restrictions.
-			}
-			else if (event.find(CONF_TYPE_EVENT) != std::string::npos)
-			{
-				// No restrictions.
-			}
-			else if (event == "data_ready")
-			{
-				if (attribute.is_fwd_att() == false && attribute.is_data_ready_event() == false)
-				{
-					TangoSys_OMemStream o;
-					o << "The attribute ";
-					o << obj_name;
-					o << " is not data ready event enabled" << std::ends;
+			TangoSys_OMemStream o;
+			o << "The attribute ";
+			o << obj_name;
+			o << " is not data ready event enabled" << std::ends;
 
-					TANGO_THROW_EXCEPTION(API_AttributeNotDataReadyEnabled, o.str());
-				}
-			}
-			else
-			{
+			TANGO_THROW_EXCEPTION(API_AttributeNotDataReadyEnabled, o.str());
+		}
+	}
+	else
+	{
 
 //
 // If the polling is necessary to send events, check whether the polling is started for the requested attribute.
 //
 
-				if (attribute.is_polled() == false )
-				{
-					TangoSys_OMemStream o;
-					o << "The polling (necessary to send events) for the attribute ";
-					o << obj_name;
-					o << " is not started" << std::ends;
+		if (attribute.is_polled() == false )
+		{
+			TangoSys_OMemStream o;
+			o << "The polling (necessary to send events) for the attribute ";
+			o << obj_name;
+			o << " is not started" << std::ends;
 
-					if ( event == "change")
-					{
-						if (attribute.is_fwd_att() == false && attribute.is_change_event() == false)
-						{
-							TANGO_THROW_EXCEPTION(API_AttributePollingNotStarted, o.str());
-						}
-					}
-					else
-					{
-						if ( event == "archive")
-						{
-							if (attribute.is_fwd_att() == false && attribute.is_archive_event() == false)
-							{
-								TANGO_THROW_EXCEPTION(API_AttributePollingNotStarted, o.str());
-							}
-						}
-						else
-						{
-							if (attribute.is_fwd_att() == false)
-								TANGO_THROW_EXCEPTION(API_AttributePollingNotStarted, o.str());
-						}
-					}
+			if ( event == "change")
+			{
+				if (attribute.is_fwd_att() == false && attribute.is_change_event() == false)
+				{
+					TANGO_THROW_EXCEPTION(API_AttributePollingNotStarted, o.str());
 				}
-
-				if (event == "change")
+			}
+			else if ( event == "archive")
+			{
+				if (attribute.is_fwd_att() == false && attribute.is_archive_event() == false)
 				{
-					cout4 << "DServer::event_subscription(): update change subscription\n";
+					TANGO_THROW_EXCEPTION(API_AttributePollingNotStarted, o.str());
+				}
+			}
+			else
+			{
+				if (attribute.is_fwd_att() == false)
+				{
+					TANGO_THROW_EXCEPTION(API_AttributePollingNotStarted, o.str());
+				}
+			}
+		}
+
+		if (event == "change")
+		{
+			cout4 << "DServer::event_subscription(): update change subscription\n";
 
 //
 // Check if the attribute has some of the change properties defined
 //
 
-					if (attribute.get_name_lower() != "state")
+			if (attribute.get_name_lower() != "state")
+			{
+				if ((attribute.get_data_type() != Tango::DEV_STRING) &&
+					(attribute.get_data_type() != Tango::DEV_BOOLEAN) &&
+					(attribute.get_data_type() != Tango::DEV_ENCODED) &&
+					(attribute.get_data_type() != Tango::DEV_STATE) &&
+					(attribute.get_data_type() != Tango::DEV_ENUM))
+				{
+					if ( attribute.is_check_change_criteria() == true )
 					{
-						if ((attribute.get_data_type() != Tango::DEV_STRING) &&
-							(attribute.get_data_type() != Tango::DEV_BOOLEAN) &&
-							(attribute.get_data_type() != Tango::DEV_ENCODED) &&
-							(attribute.get_data_type() != Tango::DEV_STATE) &&
-							(attribute.get_data_type() != Tango::DEV_ENUM))
+						if ((attribute.rel_change[0] == INT_MAX) &&
+							(attribute.rel_change[1] == INT_MAX) &&
+							(attribute.abs_change[0] == INT_MAX) &&
+							(attribute.abs_change[1] == INT_MAX))
 						{
-							if ( attribute.is_check_change_criteria() == true )
-							{
-								if ((attribute.rel_change[0] == INT_MAX) &&
-									(attribute.rel_change[1] == INT_MAX) &&
-									(attribute.abs_change[0] == INT_MAX) &&
-									(attribute.abs_change[1] == INT_MAX))
-								{
-									TangoSys_OMemStream o;
-									o << "Event properties (abs_change or rel_change) for attribute ";
-									o << obj_name;
-									o << " are not set" << std::ends;
+							TangoSys_OMemStream o;
+							o << "Event properties (abs_change or rel_change) for attribute ";
+							o << obj_name;
+							o << " are not set" << std::ends;
 
-									TANGO_THROW_EXCEPTION(API_EventPropertiesNotSet, o.str());
-								}
-							}
+							TANGO_THROW_EXCEPTION(API_EventPropertiesNotSet, o.str());
 						}
 					}
 				}
-				else if (event == "archive")
-				{
+			}
+		}
+		else if (event == "archive")
+		{
 
 //
 // Check if the attribute has some of the archive properties defined
 //
 
-					if (attribute.get_name_lower() != "state")
+			if (attribute.get_name_lower() != "state")
+			{
+				if ((attribute.get_data_type() != Tango::DEV_STRING) &&
+					(attribute.get_data_type() != Tango::DEV_BOOLEAN) &&
+					(attribute.get_data_type() != Tango::DEV_ENCODED) &&
+					(attribute.get_data_type() != Tango::DEV_STATE) &&
+					(attribute.get_data_type() != Tango::DEV_ENUM))
+				{
+					if ( attribute.is_check_archive_criteria() == true )
 					{
-						if ((attribute.get_data_type() != Tango::DEV_STRING) &&
-							(attribute.get_data_type() != Tango::DEV_BOOLEAN) &&
-							(attribute.get_data_type() != Tango::DEV_ENCODED) &&
-							(attribute.get_data_type() != Tango::DEV_STATE) &&
-							(attribute.get_data_type() != Tango::DEV_ENUM))
+						if ((attribute.archive_abs_change[0] == INT_MAX) &&
+							(attribute.archive_abs_change[1] == INT_MAX) &&
+							(attribute.archive_rel_change[0] == INT_MAX) &&
+							(attribute.archive_rel_change[1] == INT_MAX) &&
+							(attribute.archive_period        == INT_MAX))
 						{
-							if ( attribute.is_check_archive_criteria() == true )
-							{
-								if ((attribute.archive_abs_change[0] == INT_MAX) &&
-									(attribute.archive_abs_change[1] == INT_MAX) &&
-									(attribute.archive_rel_change[0] == INT_MAX) &&
-									(attribute.archive_rel_change[1] == INT_MAX) &&
-									(attribute.archive_period        == INT_MAX))
-								{
-									TangoSys_OMemStream o;
-									o << "Archive event properties (archive_abs_change or archive_rel_change or archive_period) for attribute ";
-									o << obj_name;
-									o << " are not set" << std::ends;
+							TangoSys_OMemStream o;
+							o << "Archive event properties (archive_abs_change or archive_rel_change or archive_period) for attribute ";
+							o << obj_name;
+							o << " are not set" << std::ends;
 
-									TANGO_THROW_EXCEPTION(API_EventPropertiesNotSet, o.str());
-								}
-							}
+							TANGO_THROW_EXCEPTION(API_EventPropertiesNotSet, o.str());
 						}
 					}
 				}
 			}
+		}
+	}
 
 //
 // Set channel type in attribute object
 //
 
-			if (channel_type == ZMQ)
-				attribute.set_use_zmq_event();
-			else
-				attribute.set_use_notifd_event();
-		}
-	}
+	if (channel_type == ZMQ)
+		attribute.set_use_zmq_event();
+	else
+		attribute.set_use_notifd_event();
 }
 
 MulticastParameters DServer::get_multicast_parameters(
