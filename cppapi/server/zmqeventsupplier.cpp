@@ -85,7 +85,7 @@ void get_zmq_port_from_envvar(const char *zmq_port_env_var, std::string &endpoin
 {
     // We expect a valid endpoint without a port specification - so ends in ':'
     assert(!endpoint.empty());
-    assert(endpoint.back() == ':');
+    assert(endpoint[endpoint.size() - 1] == ':');
     // default to ephemeral port request for zmq, so that this is always the drop
     // through incase of parsing failures
     std::string zmq_port("*");
@@ -441,9 +441,9 @@ void ZmqEventSupplier::tango_bind(zmq::socket_t *sock,string &endpoint)
 
         // if this was a request for an ephemeral port then we need to look
         // up which port was allocated
-        if (endpoint.back() == '*')
+        if (endpoint[endpoint.size() - 1] == '*')
         {
-            endpoint.pop_back();
+            endpoint.erase(endpoint.end() - 1);
             string str(buf);
             string::size_type pos = str.rfind(':');
             string port_str = str.substr(pos + 1);
