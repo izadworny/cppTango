@@ -34,10 +34,13 @@
 
 #include <tango.h>
 
-extern omni_thread::key_t key_py_data;
-
 namespace Tango
 {
+
+namespace
+{
+    thread_local std::string thread_local_device_name = "No associated device name!";
+}
 
 //+----------------------------------------------------------------------------
 //
@@ -74,15 +77,10 @@ SubDevDiag::~SubDevDiag()
 void SubDevDiag::set_associated_device(std::string dev_name)
 {
 	cout4 << "SubDevDiag::set_associated_device() entering ... ";
-
-	// get thread
-	omni_thread *th = omni_thread::self();
-	if ( th != NULL )
+	// Setting a subdevice name is only allowed from the library threads.
+	if (is_tango_library_thread)
 	{
-		// write the device name to the per thread data structure
-		omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-		if ( tmp_py_data != NULL )
-			(static_cast<PyData *>(tmp_py_data))->device_name = dev_name;
+		thread_local_device_name = std::move(dev_name);
 	}
 }
 
@@ -100,19 +98,11 @@ void SubDevDiag::set_associated_device(std::string dev_name)
 std::string SubDevDiag::get_associated_device()
 {
 	cout4 << "SubDevDiag::get_associated_device() entering ... " << std::endl;
-
-	std::string dev_name = "";
-
-	// get thread
-	omni_thread *th = omni_thread::self();
-	if ( th != NULL )
+	std::string dev_name{};
+	if (is_tango_library_thread)
 	{
-		// read the device name from the per thread data structure
-		omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-		if ( tmp_py_data != NULL )
-			dev_name = (static_cast<PyData *>(tmp_py_data))->device_name;
+		dev_name = thread_local_device_name;
 	}
-
 	cout4 << "SubDevDiag::get_associated_device() found : " << dev_name << std::endl;
 	return dev_name;
 }
