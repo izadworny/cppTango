@@ -753,15 +753,6 @@ public:
 	void create_notifd_event_supplier();
 	void create_zmq_event_supplier();
 
-	void *get_py_interp() {return py_interp;}
-	void set_py_interp(void *ptr) {py_interp = ptr;}
-
-	bool is_py_ds() {return py_ds;}
-	void set_py_ds() {py_ds=true;}
-
-	bool is_py_dbg() {return py_dbg;}
-	void set_py_dbg() {py_dbg=true;}
-
 	DbServerCache *get_db_cache() {return db_cache;}
 	void unvalidate_db_cache() {if (db_cache!=NULL){delete db_cache;db_cache = NULL;}}
 
@@ -920,10 +911,6 @@ private:
 	SerialModel					ser_model;				// The serialization model
 	TangoMonitor				only_one;				// Serialization monitor
 	NotifdEventSupplier			*nd_event_supplier;	    // The notifd event supplier object
-
-	void						*py_interp;				// The Python interpreter
-	bool						py_ds;					// The Python DS flag
-	bool						py_dbg;					// Badly written Python dbg flag
 
 	DbServerCache				*db_cache;				// The db cache
 	Interceptors				*inter;					// The user interceptors

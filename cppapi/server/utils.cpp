@@ -163,7 +163,7 @@ Util *Util::instance(bool exit)
 #ifdef _TG_WINDOWS
 Util::Util(int argc,char *argv[]):cl_list_ptr(NULL),mon("Windows startup"),ext(new UtilExt),
 heartbeat_th(NULL),heartbeat_th_id(0),poll_mon("utils_poll"),poll_on(false),ser_model(BY_DEVICE),
-only_one("process"),nd_event_supplier(NULL),py_interp(NULL),py_ds(false),py_dbg(false),
+only_one("process"),nd_event_supplier(NULL),
 db_cache(NULL),inter(NULL),svr_starting(true),svr_stopping(false),poll_pool_size(ULONG_MAX),
 conf_needs_db_upd(false),ev_loop_func(NULL),shutdown_server(false),_dummy_thread(false),
 zmq_event_supplier(NULL),endpoint_specified(false),user_pub_hwm(-1),wattr_nan_allowed(false),
@@ -171,7 +171,7 @@ polling_bef_9_def(false)
 #else
 Util::Util(int argc,char *argv[]):cl_list_ptr(NULL),ext(new UtilExt),
 heartbeat_th(NULL),heartbeat_th_id(0),poll_mon("utils_poll"),poll_on(false),ser_model(BY_DEVICE),
-only_one("process"),nd_event_supplier(NULL),py_interp(NULL),py_ds(false),py_dbg(false),
+only_one("process"),nd_event_supplier(NULL),
 db_cache(NULL),inter(NULL),svr_starting(true),svr_stopping(false),poll_pool_size(ULONG_MAX),
 conf_needs_db_upd(false),ev_loop_func(NULL),shutdown_server(false),_dummy_thread(false),
 zmq_event_supplier(NULL),endpoint_specified(false),user_pub_hwm(-1),wattr_nan_allowed(false),
@@ -558,7 +558,7 @@ void Util::create_CORBA_objects()
 
 Util::Util(HINSTANCE hInst,int nCmdShow):cl_list_ptr(NULL),mon("Windows startup"),ext(new UtilExt),
 heartbeat_th(NULL),heartbeat_th_id(0),poll_mon("utils_poll"),poll_on(false),ser_model(BY_DEVICE),
-only_one("process"),nd_event_supplier(NULL),py_interp(NULL),py_ds(false),py_dbg(false),
+only_one("process"),nd_event_supplier(NULL),
 db_cache(NULL),inter(NULL),svr_starting(true),svr_stopping(false),poll_pool_size(ULONG_MAX),
 conf_needs_db_upd(false),ev_loop_func(NULL),shutdown_server(false),_dummy_thread(false),
 zmq_event_supplier(NULL),endpoint_specified(false),user_pub_hwm(-1),wattr_nan_allowed(false),

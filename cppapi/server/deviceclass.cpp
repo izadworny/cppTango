@@ -813,23 +813,10 @@ void DeviceClass::delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_
 // Deactivate the CORBA object
 //
 
-	bool py_dev = device_list[idx]->is_py_device();
 	bool exported_device = device_list[idx]->get_exported_flag();
 
 	if (exported_device == true)
 		r_poa->deactivate_object(device_list[idx]->get_obj_id().in());
-
-//
-// Remove the servant.
-// For C++ device, this will be automatically done by the POA when the last executing call will be over even if the
-// device is not exported
-//
-
-	if (py_dev == true)
-	{
-		Device_3Impl *dev_3 = static_cast<Device_3Impl *>(device_list[idx]);
-		dev_3->delete_dev();
-	}
 
 //
 // Wait for CORBA to call the device dtor
