@@ -3,11 +3,11 @@ October 21, 2019
 
 cppTango can now be built even with the zmq.hpp file provided by your favourite Linux distribution.
 
-Please refer to [CHANGELOG.md](https://github.com/tango-controls/cppTango/blob/9.3-backports/CHANGELOG.md) 
-for a detailed list of changes and references to corresponding Github issues and pull requests.
+Please refer to [CHANGELOG.md](https://gitlab.com/tango-controls/cppTango/-/blob/9.3-backports/CHANGELOG.md) 
+for a detailed list of changes and references to corresponding GitLab issues and merge requests.
 
 You can see the source code comparison with Tango 9.3.3, as well as the commits and contributors on this page:
-https://github.com/tango-controls/cppTango/compare/9.3.3...9.3.4
+https://gitlab.com/tango-controls/cppTango/-/compare/from=9.3.3&to=9.3.4
 
 # Tango C++ library 9.3.3 Release Notes
 March 29, 2019
@@ -35,7 +35,7 @@ The [SourceForge tickets](https://sourceforge.net/p/tango-cs/_list/tickets) have
 been solved... as well as all the old problems which are still there and that we should fix at some point.
 * cppTango now uses [CMake](https://cmake.org) (version 2.8.12 or more recent) as build system because we think it's 
 cool and much easier to use than the autotools... And we can even use it on Windows! 
-Please refer to [INSTALL.md](https://github.com/tango-controls/cppTango/blob/tango-9-lts/INSTALL.md) file to get more 
+Please refer to [INSTALL.md](https://gitlab.com/tango-controls/cppTango/-/blob/9.3-backports/INSTALL.md) file to get more 
 details if you want to build and install from the source code.
 * Integration tests are now public and built automatically using [Travis CI](https://travis-ci.org) for Linux.
 * cppTango is now using [appveyor](https://www.appveyor.com) to automatically build the Tango C++ library on Windows, 
@@ -55,7 +55,7 @@ It is not case sensitive, so _nan_, _-NAN_ , _nAn_, _iNF_, _-Inf_ and _+INF_ are
 A negative NaN is extracted as NaN.
 * DevVarBooleanArray DeviceData insertion and extraction operators have been added.
 * It is now possible to create dynamic forwarded attributes. This works well when the device server exports only one 
-device per class. Please refer to [#342][pr-342] for more details about the limitations.
+device per class. Please refer to [!342][pr-342] for more details about the limitations.
 * Development Debian packages for the Tango C++ library are now deployed automatically on 
 [Bintray](https://bintray.com/tango-controls/debian/cppTango) when a git tag is created so you can play with it easily 
 after the creation of a new git tag. But be careful here. 
@@ -63,8 +63,8 @@ This Debian package provides only libtango library and is currently not compatib
 provided by Debian.
 * [Codacy](https://www.codacy.com) and [Sonar](https://sonarcloud.io) tools have been integrated. 
 So it is now possible to monitor the tests coverage and to benefit from static analysis and automatic code reviews from 
-these tools to detect potential issues. You can click on the GitHub badges in 
-[cppTango README.md](https://github.com/tango-controls/cppTango/blob/tango-9-lts/README.md) file to get more details. 
+these tools to detect potential issues. You can click on the badges in 
+[cppTango README.md](https://gitlab.com/tango-controls/cppTango/-/blob/9.3-backports/README.md) file to get more details. 
 Of course, we will use these results as a good basis to improve the tests coverage and fix the issues reported by these 
 tools, in the next releases.
 * cppTango can now be compiled with [Clang](https://clang.llvm.org) and recent g++ versions
@@ -94,7 +94,7 @@ log4tango library at execution time until they are recompiled with the newer cpp
 is updated to no longer link with log4tango library.
 * zmq.hpp file has been removed. This adds a dependency to [cppzmq](https://github.com/zeromq/cppzmq).
 * tango.h file is now generated during the build process from the tango.idl file. This adds a dependency to 
-[tango-idl](https://github.com/tango-controls/tango-idl) repository. 
+[tango-idl](https://gitlab.com/tango-controls/tango-idl) repository. 
 [omniidl](http://omniorb.sourceforge.net/omni42/omniidl.html) is also required to be able to generate tango.h file.
 * The include files are now installed under _<install_prefix>_/include/tango instead of _<install_prefix>_/include. 
 You may have to update your Makefiles in order to match this new include install location.
@@ -113,7 +113,7 @@ You may have to update your Makefiles in order to match this new include install
 * 2 consecutive change events having possibly the same attribute value (but different timestamps) might be sent now 
 during the Device Server startup phase. 
 This was necessary to fix a bug where a client would possibly miss some important change events after a device server 
-restart. Please refer to [#359](i-359) and [#503](pr-503) to get more details.
+restart. Please refer to [#359](i-359) and [!503](pr-503) to get more details.
 * We reduced the sleep time during the event subscription phase. 
 This should speed up the startup of some GUI applications which are subscribing to events for a huge number of 
 attributes. Sadly, in some hopefully rare situations (slow network, busy computers), this could lead to a situation 
@@ -206,28 +206,28 @@ Now it is!
 * We fixed many compilation warnings and build errors with recent compilers and with Doxygen
 
 ## Changelog
-Please refer to [CHANGELOG.md](https://github.com/tango-controls/cppTango/blob/tango-9-lts/CHANGELOG.md) for a detailed 
-list of changes and references to corresponding Github issues and pull requests.
+Please refer to [CHANGELOG.md](https://gitlab.com/tango-controls/cppTango/-/blob/9.3-backports/CHANGELOG.md) for a detailed 
+list of changes and references to corresponding Gitlab issues and merge requests.
 
 ## Source code comparison with version 9.2.5
 You can see the source code comparison with Tango 9.2.5, as well as the commits and contributors on this page:
-https://github.com/tango-controls/cppTango/compare/cppapi_Release_9_2_5...9.3.3
+https://gitlab.com/tango-controls/cppTango/-/compare?from=cppapi_Release_9_2_5&to=9.3.3
 
 ## Feedback
-You can report issues on https://github.com/tango-controls/cppTango/issues or 
-https://github.com/tango-controls/TangoTickets/issues for problems which may affect several repositories or when you 
+You can report issues on https://gitlab.com/tango-controls/cppTango/-/issues or 
+https://gitlab.com/tango-controls/TangoTickets/-/issues for problems which may affect several repositories or when you 
 don't know where to create the issue (well, now, you know!).
 
 ## Contributions
 Contributions are welcome. Please do not hesitate to 
-[create new Pull requests](https://help.github.com/en/articles/creating-a-pull-request) in 
-[cppTango GitHub repository](https://github.com/tango-controls/cppTango).
+[create new Merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/getting_started.html) in 
+[cppTango Gitlab repository](https://gitlab.com/tango-controls/cppTango).
 
 ## Acknowledgement
 Many thanks to all the persons who contributed to this release, to the Tango kernel team and to the Tango community for 
 its feedback, bug reports and tests.
 
-[pr-342]: https://github.com/tango-controls/cppTango/pull/342
-[i-359]: https://github.com/tango-controls/cppTango/issues/359
-[pr-503]: https://github.com/tango-controls/cppTango/pull/503
-[i-510]: https://github.com/tango-controls/cppTango/issues/510
+[pr-342]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/342
+[i-359]: https://gitlab.com/tango-controls/cppTango/-/issues/359
+[pr-503]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/503
+[i-510]: https://gitlab.com/tango-controls/cppTango/-/issues/510
