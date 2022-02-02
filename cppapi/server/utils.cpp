@@ -61,8 +61,6 @@
 
 #include <omniORB4/omniInterceptors.h>
 
-omni_thread::key_t key_py_data;
-
 namespace Tango
 {
 
@@ -182,7 +180,6 @@ polling_bef_9_def(false)
 {
 	shared_data.cmd_pending=false;
 	shared_data.trigger=false;
-    cr_py_lock = new CreatePyLock();
 
 //
 // Do the job
@@ -466,15 +463,46 @@ void Util::create_CORBA_objects()
 
 	omni::omniInterceptors *intercep = omniORB::getInterceptors();
 	intercep->serverReceiveRequest.add(get_client_addr);
-	intercep->createThread.add(create_PyPerThData);
 	intercep->createThread.add([](omni::omniInterceptors::createThread_T::info_T &info)
 	{
+		// Mark this thread as a library thread. This will allow setting
+		// associated device name in SubDevDiag.
 		is_tango_library_thread = true;
-		return info.run();
+
+		// Try accessing the Tango-level thread creation/deletion interceptors.
+		// They may be optionally set by the application, otherwise the pointer
+		// will be null.
+		Interceptors* interceptors = nullptr;
+		try
+		{
+			Util* tg = Util::instance(false);
+			interceptors = tg->get_interceptors();
+		}
+		catch (const Tango::DevFailed&)
+		{
+			// Silently ignore all errors here. Util::instance will throw an
+			// exception if the global instance pointer was not yet set (and
+			// the constructor is still running). This could happen with the
+			// omniORB's socket-watching threads that start early during ORB
+			// initialization. Not calling the interceptors for such threads
+			// is fine since those threads never call user code directly.
+		}
+
+		if (interceptors != nullptr)
+		{
+			interceptors->create_thread();
+		}
+
+		// Run the thread and wait until it exists. This is mandatory.
+		info.run();
+
+		if (interceptors != nullptr)
+		{
+			interceptors->delete_thread();
+		}
 	});
 
 	key = omni_thread::allocate_key();
-	key_py_data = omni_thread::allocate_key();
 
 //
 // Get some CORBA object references
@@ -549,7 +577,6 @@ polling_bef_9_def(false)
 
 	shared_data.cmd_pending = false;
 	shared_data.trigger = false;
-    cr_py_lock = new CreatePyLock();
 
 //
 // Build UNIX like command argument(s)
@@ -1596,9 +1623,6 @@ Util::~Util()
 	  	Logging::cleanup();
 	}
 #endif
-
-
-	delete cr_py_lock;
 }
 
 
@@ -1760,11 +1784,6 @@ void Util::server_init(TANGO_UNUSED(bool with_window))
 {
 	is_tango_library_thread = true;
 
-//
-// Even if we are not in a Python DS, we have to create the per-thread PyData object.
-// For Python DS, this is done in the Python_init method defined in the binding
-//
-
 #ifdef _TG_WINDOWS_
 	if (Util::_service == true)
 	{
@@ -1786,11 +1805,6 @@ void Util::server_init(TANGO_UNUSED(bool with_window))
 		_dummy_thread = true;
 	}
 #endif
-
-	if (is_py_ds() == false)
-	{
-		th->set_value(key_py_data,new Tango::PyData());
-	}
 
 #ifdef _TG_WINDOWS_
 	if (with_window == true)
@@ -1831,28 +1845,12 @@ void Util::server_init(TANGO_UNUSED(bool with_window))
 		DServerClass::init();
 		DServer *dserver = get_dserver_device();
 		dserver->server_init_hook();
-		//
-		// Configure polling from the polling properties. In case of python DS, we need to release the Python GIL
-		// because the polling_configure method will send cmd to the polling thread which will try to get the Python GIL
-		//
 
-		int th_id = th->id();
-		PyLock *lock_ptr;
-		bool py_ds_main_th = false;
-		if ((th_id == 0) && (is_py_ds() == true))
-		{
-			py_ds_main_th = true;
-			omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-			lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-			lock_ptr->Release();
-		}
+//
+// Configure polling from the polling properties.
+//
 
 		polling_configure();
-
-		if (py_ds_main_th == true)
-		{
-			lock_ptr->Get();
-		}
 
 //
 // Delete the db cache if it has been used
@@ -1964,13 +1962,6 @@ void Util::server_run()
 #endif
 
 //
-// Get thread ID
-//
-
-	omni_thread *th = omni_thread::self();
-	int th_id = th->id();
-
-//
 // For Windows in a non-MSDOS window, start the ORB in its own thread. The main
 // thread is used for windows management.
 //
@@ -2013,25 +2004,11 @@ void Util::server_run()
 		{
 			cout << "Ready to accept request" << std::endl;
 
-			if (th_id == 0)
-			{
-				omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-				PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-				lock_ptr->Release();
-			}
-
 			//JM : 9.8.2005 : destroy() should be called at the exit of run()!
 			try
 			{
 				server_perform_work();
 				server_cleanup();
-
-				if (th_id == 0)
-				{
-					omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-					PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-					lock_ptr->Get();
-				}
 			}
 			catch (CORBA::Exception &)
 			{
@@ -2043,25 +2020,11 @@ void Util::server_run()
 #else
 	cout << "Ready to accept request" << std::endl;
 
-	if (th_id == 0)
-	{
-		omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-		PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-		lock_ptr->Release();
-	}
-
 	//JM : 9.8.2005 : destroy() should be called at the exit of run()!
 	try
 	{
 		server_perform_work();
 		server_cleanup();
-
-		if (th_id == 0)
-		{
-			omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-			PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-			lock_ptr->Get();
-		}
 	}
 	catch (CORBA::Exception &e)
 	{
@@ -3078,12 +3041,6 @@ void *Util::ORBWin32Loop::run_undetached(void *ptr)
 	is_tango_library_thread = true;
 
 //
-// Create the per thread data for the main thread
-//
-
-	omni_thread::self()->set_value(key_py_data,new Tango::PyData());
-
-//
 // Create the DServer object
 //
 
@@ -3193,57 +3150,6 @@ void clear_att_dim(Tango::AttributeValue_5 &att_val)
 
 	att_val.data_format = Tango::FMT_UNKNOWN;
 	att_val.data_type = 0;
-}
-
-//
-// The function called by the interceptor on thread creation
-//
-
-void create_PyPerThData(omni::omniInterceptors::createThread_T::info_T &info)
-{
-	PyData *py_dat_ptr = new PyData();
-#ifdef _TG_WINDOWS_
-	omni_thread::ensure_self es;
-#endif
-
-	omni_thread::self()->set_value(key_py_data,py_dat_ptr);
-
-	Util *tg = NULL;
-	Interceptors *Inter = NULL;
-
-	try
-	{
-		tg = Util::instance(false);
-		Inter = tg->get_interceptors();
-	}
-	catch(Tango::DevFailed &) {}
-
-	if (Inter != NULL)
-		Inter->create_thread();
-
-	info.run();
-
-	omni_thread::self()->remove_value(key_py_data);
-	delete py_dat_ptr;
-
-	if (Inter != NULL)
-		Inter->delete_thread();
-
-	return;
-}
-
-AutoPyLock::AutoPyLock()
-{
-	omni_thread::value_t *tmp_py_data = omni_thread::self()->get_value(key_py_data);
-	PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-	lock_ptr->Get();
-}
-
-AutoPyLock::~AutoPyLock()
-{
-	omni_thread::value_t *tmp_py_data = omni_thread::self()->get_value(key_py_data);
-	PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-	lock_ptr->Release();
 }
 
 //

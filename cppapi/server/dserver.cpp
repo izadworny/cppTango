@@ -48,7 +48,6 @@
 
 #include <stdlib.h>
 
-extern omni_thread::key_t key_py_data;
 namespace Tango
 {
 
@@ -256,28 +255,9 @@ void DServer::init_device()
 
 //
 // Set value for each device with memorized writable attr. This is necessary only if db is used
-// For Python device server, writing the attribute will tak the Python lock. If we already have it --> dead lock.
-// Release the python lock if we already have it before calling the set_memorized_values method
 //
 
-					PyLock *lock_ptr = NULL;
-					omni_thread *th;
-
-					if (tg->is_py_ds() == true)
-					{
-						th = omni_thread::self();
-
-						omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-						lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-						lock_ptr->Release();
-					}
-
 					class_list[i]->set_memorized_values(true);
-
-					if (tg->is_py_ds() == true)
-					{
-						lock_ptr->Get();
-					}
 
 //
 // Check attribute configuration
@@ -916,14 +896,6 @@ void DServer::restart(const std::string &d_name)
     {
         tg->add_restarting_device(lower_d_name);
         PortableServer::POA_ptr r_poa = tg->get_poa();
-        bool py_device = dev_to_del->is_py_device();
-        if (py_device == true)
-        {
-            AutoPyLock PyLo;
-
-            Device_3Impl *dev_to_del_3 = static_cast<Device_3Impl *>(dev_to_del);
-            dev_to_del_3->delete_dev();
-        }
         if (dev_to_del->get_exported_flag() == true)
             r_poa->deactivate_object(dev_to_del->get_obj_id().in());
         CORBA::release(r_poa);
@@ -941,7 +913,6 @@ void DServer::restart(const std::string &d_name)
         dev_cl->set_device_factory_done(false);
         {
             AutoTangoMonitor sync(dev_cl);
-            AutoPyLock PyLo;
 
             dev_cl->device_factory(&name);
         }
@@ -1138,9 +1109,6 @@ void ServRestartThread::run(void *ptr)
 {
 	is_tango_library_thread = true;
 
-	PyData *py_data_ptr = new PyData();
-	omni_thread::self()->set_value(key_py_data,py_data_ptr);
-
 //
 // The arg. passed to this method is a pointer to the DServer device
 //
@@ -1217,10 +1185,7 @@ void ServRestartThread::run(void *ptr)
 	std::vector<DeviceClass *> empty_class;
 	tg->set_class_list(&empty_class);
 
-	{
-		AutoPyLock PyLo;
-		dev->init_device();
-	}
+	dev->init_device();
 
 //
 // Set the class list pointer in the Util class and add the DServer object class
@@ -1248,8 +1213,6 @@ void ServRestartThread::run(void *ptr)
 // Exit thread
 //
 
-	omni_thread::self()->remove_value(key_py_data);
-	delete py_data_ptr;
 	omni_thread::exit();
 }
 
@@ -1422,8 +1385,6 @@ void *KillThread::run_undetached(TANGO_UNUSED(void *ptr))
 	cout4 << "In the killer thread !!!" << std::endl;
 
 	is_tango_library_thread = true;
-
-	omni_thread::self()->set_value(key_py_data,new PyData());
 
 //
 // Shutdown the server
