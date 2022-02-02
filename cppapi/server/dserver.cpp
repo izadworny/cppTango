@@ -345,11 +345,7 @@ void DServer::init_device()
 				for (unsigned long j = 0;j < class_list.size();j++)
 				{
 					class_list[j]->release_devices_mon();
-
-					if (class_list[j]->is_py_class() == false)
-						delete class_list[j];
-					else
-						class_list[j]->delete_class();
+					delete class_list[j];
 				}
 				class_list.clear();
 			}
@@ -360,11 +356,7 @@ void DServer::init_device()
 			for (unsigned long j = i;j < class_list.size();j++)
 			{
 				class_list[j]->release_devices_mon();
-
-				if (class_list[j]->is_py_class() == false)
-					delete class_list[j];
-				else
-					class_list[j]->delete_class();
+				delete class_list[j];
 			}
 			class_list.erase(class_list.begin() + i,class_list.end());
 		}
@@ -387,11 +379,7 @@ void DServer::init_device()
 				for (unsigned long j = 0;j < class_list.size();j++)
 				{
 					class_list[j]->release_devices_mon();
-
-					if (class_list[j]->is_py_class() == false)
-						delete class_list[j];
-					else
-						class_list[j]->delete_class();
+					delete class_list[j];
 				}
 				class_list.clear();
 			}
@@ -401,11 +389,7 @@ void DServer::init_device()
 			for (unsigned long j = i;j < class_list.size();j++)
 			{
 				class_list[j]->release_devices_mon();
-
-				if (class_list[j]->is_py_class() == false)
-					delete class_list[j];
-				else
-					class_list[j]->delete_class();
+				delete class_list[j];
 			}
 			class_list.erase(class_list.begin() + i,class_list.end());
 		}
@@ -426,13 +410,7 @@ void DServer::init_device()
 			{
 				for (unsigned long j = 0;j < class_list.size();j++)
 				{
-					if (class_list[j]->is_py_class() == false)
-						delete class_list[j];
-					else
-					{
-						class_list[j]->delete_class();
-						break;
-					}
+					delete class_list[j];
 				}
 				class_list.clear();
 			}
@@ -441,8 +419,7 @@ void DServer::init_device()
 		{
 			for (unsigned long j = i;j < class_list.size();j++)
 			{
-				if (class_list[j]->is_py_class() == false)
-					delete class_list[j];
+				delete class_list[j];
 			}
 			class_list.erase(class_list.begin() + i,class_list.end());
 		}
@@ -499,13 +476,7 @@ DServer::~DServer()
 	{
 		for (long i = class_list.size() - 1;i >= 0;i--)
 		{
-			if (class_list[i]->is_py_class() == false)
-				delete class_list[i];
-			else
-			{
-				class_list[i]->delete_class();
-				break;
-			}
+			delete class_list[i];
 		}
 		class_list.clear();
 	}
@@ -528,63 +499,55 @@ void DServer::delete_devices()
 	{
 		for (long i = class_list.size() - 1;i >= 0;i--)
 		{
-			if (class_list[i]->is_py_class() == false)
-			{
-				Tango::Util *tg = Tango::Util::instance();
-				PortableServer::POA_ptr r_poa = tg->get_poa();
-				unsigned long loop;
+			Tango::Util *tg = Tango::Util::instance();
+			PortableServer::POA_ptr r_poa = tg->get_poa();
+			unsigned long loop;
 
-				std::vector<DeviceImpl *> &devs = class_list[i]->get_device_list();
-				unsigned long nb_dev = devs.size();
-				for (loop = 0;loop < nb_dev;loop++)
-				{
+			std::vector<DeviceImpl *> &devs = class_list[i]->get_device_list();
+			unsigned long nb_dev = devs.size();
+			for (loop = 0;loop < nb_dev;loop++)
+			{
 
 //
 // Clear vectors used to memorize info used to clean db in case of devices with dyn attr removed during device
 // destruction
 //
 
-					tg->get_polled_dyn_attr_names().clear();
-					tg->get_full_polled_att_list().clear();
-					tg->get_all_dyn_attr_names().clear();
-					tg->get_dyn_att_dev_name().clear();
+				tg->get_polled_dyn_attr_names().clear();
+				tg->get_full_polled_att_list().clear();
+				tg->get_all_dyn_attr_names().clear();
+				tg->get_dyn_att_dev_name().clear();
 
 //
 // Delete device
 //
 
-					class_list[i]->delete_dev(0,tg,r_poa);
+				class_list[i]->delete_dev(0,tg,r_poa);
 
 //
 // Clean-up db (dyn attribute and dyn command)
 //
 
-					if (tg->get_polled_dyn_attr_names().size() != 0)
-						tg->clean_attr_polled_prop();
-					if (tg->get_all_dyn_attr_names().size() != 0)
-						tg->clean_dyn_attr_prop();
-					if (tg->get_polled_dyn_cmd_names().size() != 0)
-						tg->clean_cmd_polled_prop();
+				if (tg->get_polled_dyn_attr_names().size() != 0)
+					tg->clean_attr_polled_prop();
+				if (tg->get_all_dyn_attr_names().size() != 0)
+					tg->clean_dyn_attr_prop();
+				if (tg->get_polled_dyn_cmd_names().size() != 0)
+					tg->clean_cmd_polled_prop();
 
 //
 // Wait for POA to destroy the object before going to the next one. Limit this waiting time to 200 mS
 //
 
-					std::vector<DeviceImpl *>::iterator it = devs.begin();
-					devs.erase(it);
-				}
-				devs.clear();
-				CORBA::release(r_poa);
-
-				delete class_list[i];
-
-				class_list.pop_back();
+				std::vector<DeviceImpl *>::iterator it = devs.begin();
+				devs.erase(it);
 			}
-			else
-			{
-				class_list[i]->delete_class();
-				break;
-			}
+			devs.clear();
+			CORBA::release(r_poa);
+
+			delete class_list[i];
+
+			class_list.pop_back();
 		}
 		class_list.clear();
 	}
@@ -1991,21 +1954,18 @@ void DServer::mem_devices_interface(std::map<std::string,DevIntr> &_map)
 	{
 		for (long i = class_list.size() - 1;i >= 0;i--)
 		{
-			if (class_list[i]->is_py_class() == false)
+			std::vector<DeviceImpl *> &devs = class_list[i]->get_device_list();
+			size_t nb_dev = devs.size();
+			for (size_t loop = 0;loop < nb_dev;loop++)
 			{
-				std::vector<DeviceImpl *> &devs = class_list[i]->get_device_list();
-				size_t nb_dev = devs.size();
-				for (size_t loop = 0;loop < nb_dev;loop++)
+				if (event_supplier_zmq->any_dev_intr_client(devs[loop]) == true &&
+					devs[loop]->get_dev_idl_version() >= MIN_IDL_DEV_INTR)
 				{
-					if (event_supplier_zmq->any_dev_intr_client(devs[loop]) == true &&
-						devs[loop]->get_dev_idl_version() >= MIN_IDL_DEV_INTR)
-					{
-						cout4 << "Memorize dev interface for device " << devs[loop]->get_name() << std::endl;
+					cout4 << "Memorize dev interface for device " << devs[loop]->get_name() << std::endl;
 
-						DevIntr di;
-						di.get_interface(devs[loop]);
-						_map.insert(make_pair(devs[loop]->get_name(),di));
-					}
+					DevIntr di;
+					di.get_interface(devs[loop]);
+					_map.insert(make_pair(devs[loop]->get_name(),di));
 				}
 			}
 		}

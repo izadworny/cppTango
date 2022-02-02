@@ -72,7 +72,7 @@ bool less_than_pipe (Pipe *a,Pipe *b)
 //-------------------------------------------------------------------------------------------------------------------
 
 DeviceClass::DeviceClass(const std::string &s):name(s),ext(new DeviceClassExt),
-		only_one("class"),default_cmd(NULL),py_class(false),device_factory_done(false)
+		only_one("class"),default_cmd(NULL),device_factory_done(false)
 {
 
 //
@@ -973,8 +973,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 
 		d = dev->_this();
 		dev->set_d_var(Tango::Device::_duplicate(d));
-		if (is_py_class() == false)
-			dev->_remove_ref();
+		dev->_remove_ref();
 
 //
 // Store the ObjectId (The ObjectId_var type is a typedef of a string_var type)
