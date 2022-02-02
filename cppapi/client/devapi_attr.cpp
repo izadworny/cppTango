@@ -2192,7 +2192,6 @@ bool DeviceAttribute::operator >> (DevState &datum)
 	if (d_state_filled == true)
 	{
 		datum = d_state;
-		d_state_filled = false;
 
 		return ret;
 	}
@@ -3186,7 +3185,6 @@ bool DeviceAttribute::operator >> (vector<DevState>& datum)
 	{
 		datum.resize(1);
 		datum[0] = d_state;
-		d_state_filled = false;
 		return true;
 	}
 
@@ -3587,7 +3585,6 @@ bool DeviceAttribute::operator >> (DevVarStateArray* &datum)
 		Tango::DevState *tmp_ptr = new Tango::DevState[1];
 		*tmp_ptr = d_state;
 		datum = new DevVarStateArray(1,1,tmp_ptr,true);
-		d_state_filled = false;
 		return true;
 	}
 

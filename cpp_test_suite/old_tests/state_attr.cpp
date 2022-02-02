@@ -165,14 +165,56 @@ int main(int argc, char **argv)
 		Except::print_exception(e);
 		exit(-1);
 	}
-	
+
+	assert( !d.is_empty() );
+
 	d >> sta;
-	coutv << "Device state = " << DevStateName[sta] << endl;
-	
+
 	assert( sta == Tango::ON );
-	
+	assert( d.get_type() == Tango::DEV_STATE );
+	assert( !d.is_empty() );
+
+	coutv << "Device state = " << DevStateName[sta] << endl;
+
+	// And we can also read it twice
+	try
+	{
+		d = device->read_attribute(state_name);
+	}
+	catch (CORBA::Exception &e)
+	{
+		Except::print_exception(e);
+		exit(-1);
+	}
+
+	d >> sta;
+
+	assert( sta == Tango::ON );
+	assert( d.get_type() == Tango::DEV_STATE );
+
+	coutv << "Device state (again) = " << DevStateName[sta] << endl;
+
+	// Read state and extract as vector
+	try
+	{
+		d = device->read_attribute(state_name);
+	}
+	catch (CORBA::Exception &e)
+	{
+		Except::print_exception(e);
+		exit(-1);
+	}
+
+	std::vector<Tango::DevState> states;
+
+	d >> states;
+	coutv << "Number of extracted states = " << states.size() << endl;
+
+	assert( states.size() == 1 );
+	assert( states[0] == Tango::ON );
+
 // Read several attribute in on go including state
-	
+
 	vector<string> names;
 	names.push_back("state");
 	names.push_back("power");
