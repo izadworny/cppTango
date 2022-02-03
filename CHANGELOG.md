@@ -5,10 +5,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Unreleased
 
+## [9.3.5] - 2022-XX-XX
+
 ### Fixed
 
+- Fix an artificial limit of six device classes per device server when using the FileDatabase ([#816][i-816], [!818][mr-818])
 - Include all relevant classes in the C++ doxygen documentation ([!780][mr-780])
 - No archive periodic events after polling restart ([#675][i-675], [!778][mr-778])
+- Avoid requiring sed for compiling ([#823][i-823], [!824][mr-824])
+- Allow compiling JPEG support with MMX extensions with old compilers again ([!828][mr-828])
+- Fix wrong usage of omniORB object leading to crash ([#842][i-842], [!842][mr-842])
+- Make compiling against alpine linux with musl libc work ([#767][i-767], [!841][mr-841])
+- Fix deadlock when updating attribute configuration ([#409][i-409], [!863][mr-863])
+- Increase timestamp precision in logging to microseconds ([#858][i-858], [!866][mr-866])
+- Catch more exceptions in the PollThread to avoid crashes ([#691][i-691], [!873][mr-873])
+- Make the ZeroMQ ports used for the event system configurable ([#880][i-880], [!893][mr-893])
+- Windows: Split static/dynamic library building and fix cmake logic ([!688][mr-688])
+- Automatically deploy the API documentation on git tag ([#545][i-545], [!909][mr-909])
+- Linux: Add CMAKE_BUILD_TYPE options RelWithDebInfo/MinSizeRel ([#839][i-839], [!905][mr-905])
+- Fix segfault on unsubscribing ([#843][i-843], [!852][mr-852])
+- Fix crash when reading a forwarded State attribute ([#550][i-550], [!896][mr-896])
+
+### Misc
+
+- Switch from github to gitlab, dropping travis, add coverage support ([!825][mr-825])
+- Fix exception safety issues when ZeroMQ ports are wrongly configured ([!900][mr-900])
 
 ## [9.3.4] - 2020-09-15
 
@@ -210,6 +231,7 @@ where a client application might show out of date/incorrect values.
 - CPU load when device has large number of attributes ([!404][mr-404])
 - push event performance issue ([#244][i-244])
 
+[9.3.5]: https://gitlab.com/tango-controls/cppTango/-/compare?from=9.3.4&to=9.3.5
 [9.3.4]: https://gitlab.com/tango-controls/cppTango/-/compare?from=9.3.3&to=9.3.4
 [9.3.3]: https://gitlab.com/tango-controls/cppTango/-/compare?from=9.3.2&to=9.3.3
 [9.3.2]: https://gitlab.com/tango-controls/cppTango/-/compare?from=9.3.1&to=9.3.2
@@ -363,3 +385,35 @@ where a client application might show out of date/incorrect values.
 [mr-780]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/780
 [i-675]: https://gitlab.com/tango-controls/cppTango/-/issues/675
 [mr-778]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/778
+[i-816]: https://gitlab.com/tango-controls/cppTango/-/issues/816
+[i-675]: https://gitlab.com/tango-controls/cppTango/-/issues/675
+[i-823]: https://gitlab.com/tango-controls/cppTango/-/issues/823
+[i-842]: https://gitlab.com/tango-controls/cppTango/-/issues/842
+[i-767]: https://gitlab.com/tango-controls/cppTango/-/issues/767
+[i-409]: https://gitlab.com/tango-controls/cppTango/-/issues/409
+[i-858]: https://gitlab.com/tango-controls/cppTango/-/issues/858
+[i-691]: https://gitlab.com/tango-controls/cppTango/-/issues/691
+[i-880]: https://gitlab.com/tango-controls/cppTango/-/issues/880
+[mr-818]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/818
+[mr-780]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/780
+[mr-778]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/778
+[mr-824]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/824
+[mr-828]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/828
+[mr-824]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/824
+[mr-842]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/842
+[mr-841]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/841
+[mr-863]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/863
+[mr-873]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/873
+[mr-866]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/866
+[mr-893]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/893
+[mr-825]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/825
+[mr-900]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/900
+[mr-909]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/909
+[mr-688]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/688
+[mr-905]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/905
+[mr-852]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/852
+[mr-896]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/896
+[i-550]: https://gitlab.com/tango-controls/cppTango/-/issues/550
+[i-545]: https://gitlab.com/tango-controls/cppTango/-/issues/545
+[i-839]: https://gitlab.com/tango-controls/cppTango/-/issues/839
+[i-843]: https://gitlab.com/tango-controls/cppTango/-/issues/843
