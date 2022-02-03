@@ -39,10 +39,16 @@
 
 #include <tango.h>
 
-extern omni_thread::key_t key_py_data;
-
 namespace Tango
 {
+
+struct ThreadLocalDeviceName : public omni_thread::value_t
+{
+    static omni_thread::key_t key;
+    std::string value;
+};
+
+omni_thread::key_t ThreadLocalDeviceName::key = omni_thread::allocate_key();
 
 //+----------------------------------------------------------------------------
 //
@@ -82,12 +88,22 @@ void SubDevDiag::set_associated_device(string dev_name)
 
 	// get thread
 	omni_thread *th = omni_thread::self();
-	if ( th != NULL )
+	if (th != NULL)
 	{
 		// write the device name to the per thread data structure
-		omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-		if ( tmp_py_data != NULL )
-			(static_cast<PyData *>(tmp_py_data))->device_name = dev_name;
+		omni_thread::value_t *thread_data = th->get_value(ThreadLocalDeviceName::key);
+		if (thread_data != NULL)
+		{
+			static_cast<ThreadLocalDeviceName *>(thread_data)->value = dev_name;
+		}
+		else
+		{
+			// We do not need to delete this pointer, it is
+			// automatically deleted when the thread exits.
+			ThreadLocalDeviceName *new_thread_data = new ThreadLocalDeviceName();
+			new_thread_data->value = dev_name;
+			th->set_value(ThreadLocalDeviceName::key, new_thread_data);
+		}
 	}
 }
 
@@ -110,12 +126,18 @@ string SubDevDiag::get_associated_device()
 
 	// get thread
 	omni_thread *th = omni_thread::self();
-	if ( th != NULL )
+	if (th != NULL)
 	{
 		// read the device name from the per thread data structure
-		omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-		if ( tmp_py_data != NULL )
-			dev_name = (static_cast<PyData *>(tmp_py_data))->device_name;
+		omni_thread::value_t *thread_data = th->get_value(ThreadLocalDeviceName::key);
+		if (thread_data != NULL)
+		{
+			dev_name = static_cast<ThreadLocalDeviceName *>(thread_data)->value;
+		}
+		else
+		{
+			dev_name = "No associated device name!";
+		}
 	}
 
 	cout4 << "SubDevDiag::get_associated_device() found : " << dev_name << endl;
