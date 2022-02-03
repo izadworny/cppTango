@@ -47,7 +47,6 @@
 
 #include <iomanip>
 
-extern omni_thread::key_t key_py_data;
 namespace Tango
 {
 
@@ -120,7 +119,6 @@ PollThread::PollThread(PollThCmd &cmd,TangoMonitor &m,bool heartbeat): shared_cm
 void *PollThread::run_undetached(TANGO_UNUSED(void *ptr))
 {
 	PollCmdType received;
-	bool per_thread_data_created = false;
 
 //
 // If the thread is the event heartbeat thread, use it also for the storage of sub device properties.
@@ -163,16 +161,6 @@ void *PollThread::run_undetached(TANGO_UNUSED(void *ptr))
 				received = get_command(sleep);
 			else
 				received = POLL_TIME_OUT;
-
-//
-// Create the per thread data if it is not already done (For Python DS)
-//
-
-			if (per_thread_data_created == false)
-			{
-				omni_thread::self()->set_value(key_py_data,new PyData());
-				per_thread_data_created = true;
-			}
 
 #ifdef _TG_WINDOWS_
 			_ftime(&now_win);

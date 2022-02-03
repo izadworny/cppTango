@@ -52,7 +52,6 @@
 #include <logging.h>
 #endif
 
-extern omni_thread::key_t key_py_data;
 namespace Tango
 {
 

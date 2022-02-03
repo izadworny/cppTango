@@ -41,8 +41,6 @@
 #include <eventconsumer.h>
 #include <eventsupplier.h>
 
-extern omni_thread::key_t key_py_data;
-
 namespace Tango
 {
 //+----------------------------------------------------------------------------
@@ -96,16 +94,9 @@ void Util::shutdown_ds()
 
 //
 // Delete the devices (except the admin one)
-// Protect python data
 //
 
-	omni_thread::value_t *tmp_py_data = omni_thread::self()->get_value(key_py_data);
-	PyLock *lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-	lock_ptr->Get();
-
 	get_dserver_device()->delete_devices();
-
-	lock_ptr->Release();
 
 //
 // 	Stop the KeepAliveThread and the EventConsumer thread when

@@ -43,8 +43,6 @@
 #include <tango.h>
 #include <dserversignal.h>
 
-extern omni_thread::key_t key_py_data;
-
 namespace Tango
 {
 
@@ -105,16 +103,6 @@ void *DServerSignal::ThSig::run_undetached(TANGO_UNUSED(void *ptr))
 
 	   cout4 << "Signal thread awaken for signal " << signo << endl;
 #endif
-
-//
-// Create the per thread data if not already done
-//
-
-		if (th_data_created == false)
-		{
-			omni_thread::self()->set_value(key_py_data,new PyData());
-			th_data_created = true;
-		}
 
 #ifndef _TG_WINDOWS_
 
