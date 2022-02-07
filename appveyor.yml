@@ -29,6 +29,8 @@ environment:
       PYTHONPATH: c:\Python37-x64\
       PYVER: "py37"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: x64
       ARCH: x64-msvc15
@@ -36,6 +38,8 @@ environment:
       PYTHONPATH: c:\Python37-x64\
       PYVER: "py37"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
@@ -43,6 +47,8 @@ environment:
       PYTHONPATH: c:\Python37\
       PYVER: "py37"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
@@ -50,6 +56,8 @@ environment:
       PYTHONPATH: c:\Python37\
       PYVER: "py37"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
       # BEGIN VS 2015
       # BEGIN msvc14
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
@@ -59,6 +67,8 @@ environment:
       PYTHONPATH: c:\Python36-x64\
       PYVER: "py36"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc14
@@ -66,6 +76,8 @@ environment:
       PYTHONPATH: c:\Python36-x64\
       PYVER: "py36"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc14
@@ -73,6 +85,8 @@ environment:
       PYTHONPATH: c:\Python36\
       PYVER: "py36"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc14
@@ -80,6 +94,8 @@ environment:
       PYTHONPATH: c:\Python36\
       PYVER: "py36"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
       # BEGIN msvc12
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -89,6 +105,8 @@ environment:
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc12
@@ -97,6 +115,8 @@ environment:
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc12
@@ -105,6 +125,8 @@ environment:
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc12
@@ -113,6 +135,8 @@ environment:
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
       # BEGIN msvc10
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -122,6 +146,8 @@ environment:
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc10
@@ -130,6 +156,8 @@ environment:
       PYTHONPATH: c:\Python33-x64\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc10
@@ -138,6 +166,8 @@ environment:
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc10
@@ -146,6 +176,8 @@ environment:
       PYTHONPATH: c:\Python33\
       PYVER: "py33"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
       # BEGIN msvc9
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -155,6 +187,8 @@ environment:
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
       ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -164,6 +198,8 @@ environment:
       PYTHONPATH: c:\Python27-x64\
       PYVER: "py27"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
       ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
@@ -173,6 +209,8 @@ environment:
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
       BUILD_SHARED_LIBS: "ON"
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
       ZMQ_VERSION: 4.0.5
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
@@ -182,6 +220,8 @@ environment:
       PYTHONPATH: c:\Python27\
       PYVER: "py27"
       BUILD_SHARED_LIBS: "OFF"
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
       ZMQ_VERSION: 4.0.5
       
 init:
@@ -257,7 +297,7 @@ install:
   - cmd: set PTHREAD_WIN=C:/projects/pthreads-win32/
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS="%BUILD_SHARED_LIBS%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ..
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS="%BUILD_SHARED_LIBS%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="%CMAKE_CXX_FLAGS_RELEASE%" -DCMAKE_CXX_DEBUG="%CMAKE_CXX_FLAGS_DEBUG%" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DBUILD_TESTING=OFF ..
 
 clone_folder: C:/projects/cppTango
 
