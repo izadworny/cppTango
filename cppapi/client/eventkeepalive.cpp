@@ -198,15 +198,21 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(EvChanIte &ipos,Even
                     }
                     catch (Tango::DevFailed &e) {}
 #endif
-					event_consumer->connect_event_channel(adm_name,
-									      epos->second.device->get_device_db(),
-									      true,subscriber_out);
+                    event_consumer->connect_event_channel(adm_name,
+                                  epos->second.device->get_device_db(),
+                                  true,subscriber_out);
 
                     dd = subscriber_out;
-					if (ipos->second.adm_device_proxy != NULL)
-						delete ipos->second.adm_device_proxy;
-					ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
-					cout3 << "Reconnected to zmq event channel" << endl;
+
+                    // only delete the existing admin device
+                    // if we could create a new one
+                    DeviceProxy* new_adm_proxy = new DeviceProxy(ipos->second.full_adm_name);
+
+                    delete ipos->second.adm_device_proxy;
+
+                    ipos->second.adm_device_proxy = new_adm_proxy;
+
+                    cout3 << "Reconnected to zmq event channel" << endl;
 				}
 				catch(...)
 				{

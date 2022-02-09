@@ -2024,10 +2024,10 @@ void EventConsumer::unsubscribe_event(int event_id)
 								    {
                                         disconnect_event_channel(deleted_channel_name,evt_ch.endpoint,deleted_event_endpoint);
 								    }
-
-									delete evt_ch.adm_device_proxy;
-                                    delete evt_ch.channel_monitor;
 								}
+
+								delete evt_ch.adm_device_proxy;
+								delete evt_ch.channel_monitor;
 
 								channel_map.erase(chan_pos);
 								break;
