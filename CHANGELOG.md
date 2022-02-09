@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Increase timestamp precision in logging to microseconds ([#858][i-858], [!866][mr-866])
 - Catch more exceptions in the PollThread to avoid crashes ([#691][i-691], [!873][mr-873])
 - Make the ZeroMQ ports used for the event system configurable ([#880][i-880], [!893][mr-893])
-- Windows: Split static/dynamic library building and fix cmake logic ([!688][mr-688])
+- Windows: Split static/dynamic library building and fix cmake logic ([!827][mr-827])
 - Automatically deploy the API documentation on git tag ([#545][i-545], [!909][mr-909])
 - Linux: Add CMAKE_BUILD_TYPE options RelWithDebInfo/MinSizeRel ([#839][i-839], [!905][mr-905])
 - Fix segfault on unsubscribing ([#843][i-843], [!852][mr-852])
@@ -400,6 +400,7 @@ where a client application might show out of date/incorrect values.
 [mr-824]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/824
 [mr-828]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/828
 [mr-824]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/824
+[mr-827]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/827
 [mr-842]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/842
 [mr-841]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/841
 [mr-863]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/863
@@ -409,7 +410,6 @@ where a client application might show out of date/incorrect values.
 [mr-825]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/825
 [mr-900]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/900
 [mr-909]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/909
-[mr-688]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/688
 [mr-905]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/905
 [mr-852]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/852
 [mr-896]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/896
