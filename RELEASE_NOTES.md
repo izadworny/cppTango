@@ -1,3 +1,59 @@
+# Tango C++ library 9.3.5 Release Notes
+February 2022
+
+ZMQ ports used for the Tango events can now be configured using TANGO_ZMQ_EVENT_PORT and TANGO_ZMQ_HEARTBEAT_PORT 
+environment variables (([#880][i-880], [!893][mr-893]).   
+cppTango can now also be compiled in Release mode with debugging information using CMAKE_BUILD_TYPE=RelWithDebInfo and can 
+also be compiled in Release mode with the smallest possible binary size using CMAKE_BUILD_TYPE=MinSizeRel ([#839][i-839], [!905][mr-905]).   
+The way to build on Windows has been modified to be able to build independently the static and dynamic versions of the library ([#550][i-550], [!896][mr-896]).  
+The logging timestamp precision has been increased to microseconds ([#858][i-858], [!866][mr-866]).  
+An artificial limit of 6 device classes per device server when using the File Database has been removed ([#816][i-816], [!818][mr-818]).  
+It is now possible to compile the Tango C++ library on Alpine Linux using musl libc ([#767][i-767], [!841][mr-841]).
+Some additional classes are now also documented in the [Doxygen documentation](https://tango-controls.gitlab.io/cppTango/) 
+which is now available on Gitlab.com: https://tango-controls.gitlab.io/cppTango/ ([!780][mr-780]).  
+
+Many bugs have been fixed, the most important ones are:
+- Events should now work better in nodb mode [!852][mr-852])
+- Fix the problem where archive periodic events were no longer received after a polling restart ([#675][i-675], [!778][mr-778])
+- Allow compiling JPEG support with MMX extensions with old compilers again ([!828][mr-828])
+- Fix wrong usage of omniORB object leading to crash ([#842][i-842], [!842][mr-842])
+- Fix deadlock when updating attribute configuration ([#409][i-409], [!863][mr-863])
+- Catch more exceptions in the PollThread to avoid crashes ([#691][i-691], [!873][mr-873])
+- Fix segfault on unsubscribing ([#843][i-843], [!852][mr-852])
+- Fix crash when reading a forwarded State attribute ([#550][i-550], [!896][mr-896])
+
+Please refer to [CHANGELOG.md](https://gitlab.com/tango-controls/cppTango/-/blob/9.3-backports/CHANGELOG.md)
+for a detailed list of changes and references to corresponding GitLab issues and merge requests.
+
+You can see the source code comparison with Tango 9.3.4, as well as the commits and contributors on this page:
+https://gitlab.com/tango-controls/cppTango/-/compare/from=9.3.4&to=9.3.5
+
+[mr-778]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/778
+[mr-780]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/780
+[mr-818]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/818
+[mr-828]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/828
+[mr-841]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/841
+[mr-842]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/842
+[mr-852]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/852
+[mr-863]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/863
+[mr-866]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/866
+[mr-873]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/873
+[mr-893]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/893
+[mr-896]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/896
+[mr-905]: https://gitlab.com/tango-controls/cppTango/-/merge_requests/905
+[i-409]: https://gitlab.com/tango-controls/cppTango/-/issues/409
+[i-550]: https://gitlab.com/tango-controls/cppTango/-/issues/550
+[i-675]: https://gitlab.com/tango-controls/cppTango/-/issues/675
+[i-691]: https://gitlab.com/tango-controls/cppTango/-/issues/691
+[i-767]: https://gitlab.com/tango-controls/cppTango/-/issues/767
+[i-816]: https://gitlab.com/tango-controls/cppTango/-/issues/816
+[i-839]: https://gitlab.com/tango-controls/cppTango/-/issues/839
+[i-842]: https://gitlab.com/tango-controls/cppTango/-/issues/842
+[i-843]: https://gitlab.com/tango-controls/cppTango/-/issues/843
+[i-858]: https://gitlab.com/tango-controls/cppTango/-/issues/858
+[i-880]: https://gitlab.com/tango-controls/cppTango/-/issues/880
+[i-896]: https://gitlab.com/tango-controls/cppTango/-/issues/896
+
 # Tango C++ library 9.3.4 Release Notes
 October 21, 2019
 
