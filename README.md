@@ -32,7 +32,7 @@ For more information please visit [www.tango-controls.org](http://www.tango-cont
 
 On readthedocs: [tango-controls.readthedocs.io](http://tango-controls.readthedocs.io)
 
-API reference: [tango-controls.github.io/cppTango-docs](https://tango-controls.github.io/cppTango-docs/index.html)
+API reference: [tango-controls.gitlab.io/cppTango](https://tango-controls.gitlab.io/cppTango/)
 
 Old Manuals: [tango-controls.org/documentation/kernel](http://www.tango-controls.org/documentation/kernel/)
 
