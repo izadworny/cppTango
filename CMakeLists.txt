@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
 
+# don't let cmake guess file extensions
+if(POLICY CMP0115)
+    cmake_policy(SET CMP0115 NEW)
+endif()
+
 project(cppTango)
 
 # omniORB>=4.2.4 is required for compilation in C++17 (or better) mode.

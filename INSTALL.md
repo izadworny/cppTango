@@ -64,7 +64,7 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 |------------------------------|----------------------------------------|--------------------------------------------------------------------------------------------------
 | `BUILD_SHARED_LIBS`          | `ON`                                   | Build tango as shared library, `OFF` creates a static library
 | `BUILD_TESTING`              | `ON`                                   | Build the test suite
-| `CMAKE_BUILD_TYPE`           | `Release`                              | Compilation type, can be `Release` or `Debug`
+| `CMAKE_BUILD_TYPE`           | `Release`                              | Compilation type, can be `Release`, `Debug` or `RelWithDebInfo/MinSizeRel` (Linux only)
 | `CMAKE_INSTALL_PREFIX`       | `/usr/local` or `C:/Program Files`     | Desired install path
 | `CMAKE_VERBOSE_MAKEFILE`     | `OFF`                                  | Allows to increase the verbosity level with `ON`
 | `CPPZMQ_BASE`                |                                        | cppzmq installed path
