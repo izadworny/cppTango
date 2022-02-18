@@ -78,6 +78,10 @@ bool Util::_win = false;
 bool Util::_service = false;
 #endif
 
+// By default all threads are considered external. Library threads will set
+// this global flag to true after construction.
+thread_local bool is_tango_library_thread = false;
+
 //
 // A global key used for per thread specific storage. This is used to retrieve
 // client host and stores it in the device blackbox. This global is referenced
@@ -463,6 +467,11 @@ void Util::create_CORBA_objects()
 	omni::omniInterceptors *intercep = omniORB::getInterceptors();
 	intercep->serverReceiveRequest.add(get_client_addr);
 	intercep->createThread.add(create_PyPerThData);
+	intercep->createThread.add([](omni::omniInterceptors::createThread_T::info_T &info)
+	{
+		is_tango_library_thread = true;
+		return info.run();
+	});
 
 	key = omni_thread::allocate_key();
 	key_py_data = omni_thread::allocate_key();
@@ -1749,6 +1758,8 @@ void Util::server_already_running()
 
 void Util::server_init(TANGO_UNUSED(bool with_window))
 {
+	is_tango_library_thread = true;
+
 //
 // Even if we are not in a Python DS, we have to create the per-thread PyData object.
 // For Python DS, this is done in the Python_init method defined in the binding
@@ -3064,6 +3075,8 @@ void Util::install_cons_handler()
 
 void *Util::ORBWin32Loop::run_undetached(void *ptr)
 {
+	is_tango_library_thread = true;
+
 //
 // Create the per thread data for the main thread
 //

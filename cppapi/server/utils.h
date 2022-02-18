@@ -71,6 +71,12 @@ class CoutBuf;
 class W32Win;
 #endif
 
+// A global variable that indicates whether a thread is considered a library
+// thread, that is: either an omniORB worker thread handling the RPC request
+// or one of: main thread, ServRestartThread, KillThread, PollThread, ThSig.
+// TODO: This is not intended to be accessed from outside the library and
+// should be moved into a private header once we have that.
+extern thread_local bool is_tango_library_thread;
 
 class PyLock
 {

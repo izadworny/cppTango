@@ -113,6 +113,8 @@ PollThread::PollThread(PollThCmd &cmd,TangoMonitor &m,bool heartbeat): shared_cm
 
 void *PollThread::run_undetached(TANGO_UNUSED(void *ptr))
 {
+	is_tango_library_thread = true;
+
 	PollCmdType received;
 	bool per_thread_data_created = false;
 

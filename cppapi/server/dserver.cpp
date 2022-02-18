@@ -1136,6 +1136,8 @@ void DServer::restart_server()
 
 void ServRestartThread::run(void *ptr)
 {
+	is_tango_library_thread = true;
+
 	PyData *py_data_ptr = new PyData();
 	omni_thread::self()->set_value(key_py_data,py_data_ptr);
 
@@ -1418,6 +1420,8 @@ void DServer::kill()
 void *KillThread::run_undetached(TANGO_UNUSED(void *ptr))
 {
 	cout4 << "In the killer thread !!!" << std::endl;
+
+	is_tango_library_thread = true;
 
 	omni_thread::self()->set_value(key_py_data,new PyData());
 
@@ -2090,4 +2094,3 @@ void DServer::changed_devices_interface(std::map<std::string,DevIntr> &_map)
 }
 
 }// End of Tango namespace
-

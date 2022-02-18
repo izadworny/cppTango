@@ -45,6 +45,7 @@ namespace Tango
 
 void *DServerSignal::ThSig::run_undetached(TANGO_UNUSED(void *ptr))
 {
+	is_tango_library_thread = true;
 
 #ifndef _TG_WINDOWS_
 	sigset_t sigs_to_catch;
