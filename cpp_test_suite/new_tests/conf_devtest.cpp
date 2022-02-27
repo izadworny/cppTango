@@ -486,6 +486,14 @@ int main(int argc, char **argv) {
     db_data.push_back(fwd_att5);
     db_data.push_back(root_att5);
 
+    Tango::DbDatum fwd_att6("fwd_string_rw");
+    Tango::DbDatum root_att6("__root_att");
+    fwd_att6 << static_cast<short>(1);
+    r_name = device1_name + "/string_attr_rw";
+    root_att6 << r_name;
+    db_data.push_back(fwd_att6);
+    db_data.push_back(root_att6);
+
     try {
         db->put_device_attribute_property(fwd_dev_name, db_data);
         print_changes("Device specific attribute properties", fwd_dev_name.c_str(), db_data);
