@@ -51,6 +51,41 @@
 
 namespace Tango
 {
+//+-------------------------------------------------------------------------
+//
+// method :      Attribute::delete_DevString_data_if_needed
+//
+// description : Method which frees the memory of the
+//               Tango::DevString* attribute if the release = true,
+//               it is necessary due to the different allocation
+//
+// in :          data : The attribute name
+//               release : A flag set to true if memory must be
+//                        de-allocated
+//
+//--------------------------------------------------------------------------
+
+void Attribute::delete_DevString_data_if_needed(Tango::DevString* data, bool release)
+{
+	if (!release || !data)
+	{
+		return;
+	}
+
+	if (is_fwd_att())
+	{
+		// p_data is the underlying buffer of DevVarStringArray
+		// and it must be released using freebuf, not delete[].
+		// Note that freebuf also releases memory for all array
+		// elements. We assign null pointer to prevent that.
+		*data = NULL;
+		Tango::DevVarStringArray::freebuf(data);
+	}
+	else
+	{
+		delete data;
+	}
+}
 
 //+-------------------------------------------------------------------------
 //
@@ -671,7 +706,7 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 
 	if (data_type != Tango::DEV_STRING)
 	{
-		SAFE_DELETE(p_data);
+		delete_DevString_data_if_needed(p_data,release);
 
 		TangoSys_OMemStream o;
 
@@ -686,7 +721,7 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 
 	if ((x > max_x) || (y > max_y))
 	{
-		SAFE_DELETE(p_data);
+		delete_DevString_data_if_needed(p_data,release);
 
 		TangoSys_OMemStream o;
 
@@ -741,7 +776,7 @@ void Attribute::set_value(Tango::DevString *p_data,long x, long y,bool release)
 			if (data_format == Tango::SCALAR)
 			{
 				tmp_str[0] = *p_data;
-				SAFE_DELETE(p_data);
+				delete_DevString_data_if_needed(p_data,release);
 				scalar_str_attr_release = release;
 			}
 			else
