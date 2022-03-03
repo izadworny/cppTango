@@ -2288,9 +2288,9 @@ EventSupplier::push_att_data_ready_event(DeviceImpl *device_impl, const std::str
 //------------------------------------------------------------------------------------------------------------------
 
 void EventSupplier::push_att_conf_events(DeviceImpl *device_impl,
-                                         SuppliedEventData &attr_conf,
+                                         const SuppliedEventData &attr_conf,
                                          DevFailed *except,
-                                         std::string &attr_name)
+                                         const std::string &attr_name)
 {
     std::string event, domain_name;
     time_t now, att_conf_subscription, attr_sub;
@@ -2483,7 +2483,7 @@ bool EventSupplier::any_dev_intr_client(const DeviceImpl *device_impl) const
     return ret;
 }
 
-void EventSupplier::convert_att_event_to_5(struct EventSupplier::SuppliedEventData &attr_value,
+void EventSupplier::convert_att_event_to_5(const struct EventSupplier::SuppliedEventData &attr_value,
                                            struct EventSupplier::SuppliedEventData &sent_value,
                                            bool &need_free, Attribute &attr)
 {
@@ -2507,7 +2507,7 @@ void EventSupplier::convert_att_event_to_5(struct EventSupplier::SuppliedEventDa
     }
 }
 
-void EventSupplier::convert_att_event_to_4(struct EventSupplier::SuppliedEventData &attr_value,
+void EventSupplier::convert_att_event_to_4(const struct EventSupplier::SuppliedEventData &attr_value,
                                            struct EventSupplier::SuppliedEventData &sent_value,
                                            bool &need_free, Attribute &attr)
 {
@@ -2531,7 +2531,7 @@ void EventSupplier::convert_att_event_to_4(struct EventSupplier::SuppliedEventDa
     }
 }
 
-void EventSupplier::convert_att_event_to_3(struct EventSupplier::SuppliedEventData &attr_value,
+void EventSupplier::convert_att_event_to_3(const struct EventSupplier::SuppliedEventData &attr_value,
                                            struct EventSupplier::SuppliedEventData &sent_value,
                                            bool &need_free, Attribute &attr)
 {

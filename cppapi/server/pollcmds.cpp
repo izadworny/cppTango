@@ -145,7 +145,7 @@ CORBA::Any *DevPollStatusCmd::execute(DeviceImpl *device, const CORBA::Any &in_a
 AddObjPollingCmd::AddObjPollingCmd(const char *name,
 			           Tango::CmdArgType in,
 			           Tango::CmdArgType out,
-			           std::string &in_desc):Command(name,in,out)
+			           const std::string &in_desc):Command(name,in,out)
 {
 	set_in_type_desc(in_desc);
 }
@@ -201,7 +201,7 @@ CORBA::Any *AddObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_a
 UpdObjPollingPeriodCmd::UpdObjPollingPeriodCmd(const char *name,
 			           	       Tango::CmdArgType in,
 			           	       Tango::CmdArgType out,
-			           	       std::string &in_desc):Command(name,in,out)
+				       const std::string &in_desc):Command(name,in,out)
 {
 	set_in_type_desc(in_desc);
 }
@@ -257,7 +257,7 @@ CORBA::Any *UpdObjPollingPeriodCmd::execute(DeviceImpl *device, const CORBA::Any
 RemObjPollingCmd::RemObjPollingCmd(const char *name,
 			           Tango::CmdArgType in,
 			           Tango::CmdArgType out,
-			           std::string &in_desc):Command(name,in,out)
+			           const std::string &in_desc):Command(name,in,out)
 {
 	set_in_type_desc(in_desc);
 }

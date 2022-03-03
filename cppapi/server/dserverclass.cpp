@@ -1340,7 +1340,7 @@ bool less_than_dserver (Command *a,Command *b)
 		return false;
 }
 
-DServerClass::DServerClass(std::string &s):DeviceClass(s)
+DServerClass::DServerClass(const std::string &s):DeviceClass(s)
 {
 
 	try

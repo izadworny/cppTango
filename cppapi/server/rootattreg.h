@@ -58,28 +58,28 @@ class RootAttRegistry
 public:
 	RootAttRegistry():cbp(this),cbu(this) {}
 
-	void add_root_att(std::string &,std::string &,std::string &,std::string &,FwdAttr *,DeviceImpl *);
-	void remove_root_att(std::string &,std::string &);
-	DeviceProxy *get_root_att_dp(std::string &);
-	DeviceImpl *get_local_dev(std::string &_s) {return cbp.get_local_dev(_s);}
+	void add_root_att(const std::string &,const std::string &,const std::string &,const std::string &,FwdAttr *,DeviceImpl *);
+	void remove_root_att(const std::string &,const std::string &);
+	DeviceProxy *get_root_att_dp(const std::string &);
+	DeviceImpl *get_local_dev(const std::string &_s) {return cbp.get_local_dev(_s);}
 	std::string get_local_att_name(const std::string &_s) {return cbp.get_local_att_name(_s);}
-	void update_label(std::string &_d,std::string &_a,std::string &_l) {std::string s(_d+'/'+_a);cbp.update_label(s,_l);}
-	void update_device_impl(std::string &_n,DeviceImpl *_d) {cbp.update_device_impl(_n,_d);}
+	void update_label(const std::string &_d,const std::string &_a,const std::string &_l) {std::string s(_d+'/'+_a);cbp.update_label(s,_l);}
+	void update_device_impl(const std::string &_n,DeviceImpl *_d) {cbp.update_device_impl(_n,_d);}
 
-	void clear_attrdesc(std::string &,std::string &);
-	bool check_root_dev_release(std::string &);
+	void clear_attrdesc(const std::string &,const std::string &);
+	bool check_root_dev_release(const std::string &);
 
-	bool is_event_subscribed(std::string &,EventType);
-	void subscribe_user_event(std::string &,std::string &,EventType);
-	void unsubscribe_user_event(std::string &,std::string &,EventType);
+	bool is_event_subscribed(const std::string &,EventType);
+	void subscribe_user_event(const std::string &,const std::string &,EventType);
+	void unsubscribe_user_event(const std::string &,const std::string &,EventType);
 	void auto_unsub();
 
-	bool is_root_attribute(std::string &_s) {return cbp.is_root_att_in_map(_s);}
+	bool is_root_attribute(const std::string &_s) {return cbp.is_root_att_in_map(_s);}
 	bool empty() {return dps.empty();}
 	bool is_root_dev_not_started_err() {return cbp.is_root_dev_not_started_err();}
 
 protected:
-	bool check_loop(std::string &,std::string &,std::string &,std::string &);
+	bool check_loop(const std::string &,const std::string &,const std::string &,const std::string &);
 
 private:
 	class RootAttConfCallBack: public Tango::CallBack
@@ -89,17 +89,17 @@ private:
 
 		virtual void push_event(Tango::AttrConfEventData *);
 
-		void add_att(std::string &,std::string &,std::string &,FwdAttr *,DeviceImpl *);
-		void remove_att(std::string &);
-		void clear_attrdesc(std::string &);
-        bool is_root_att_in_map(std::string &);
-        int count_root_dev(std::string &);
+		void add_att(const std::string &,const std::string &,const std::string &,FwdAttr *,DeviceImpl *);
+		void remove_att(const std::string &);
+		void clear_attrdesc(const std::string &);
+        bool is_root_att_in_map(const std::string &);
+        int count_root_dev(const std::string &);
 		std::string get_local_att_name(const std::string &);
-		DeviceImpl *get_local_dev(std::string &);
-		void update_label(std::string &,std::string &);
-		void update_device_impl(std::string &,DeviceImpl *);
-        void update_err_kind(std::string &,FwdAttError);
-		void device_restarting(std::string &);
+		DeviceImpl *get_local_dev(const std::string &);
+		void update_label(const std::string &,const std::string &);
+		void update_device_impl(const std::string &,DeviceImpl *);
+        void update_err_kind(const std::string &,FwdAttError);
+		void device_restarting(const std::string &);
         bool is_root_dev_not_started_err();
 
 	private:

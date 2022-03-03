@@ -422,7 +422,7 @@ void DeviceAttribute::init_common_class_members(const char * new_name, int x_dim
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, short datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, short datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -448,7 +448,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, short datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, DevLong datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, DevLong datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -472,7 +472,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, DevLong datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, DevLong64 datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, DevLong64 datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -496,7 +496,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, DevLong64 datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, double datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, double datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -520,7 +520,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, double datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::string &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::string &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -529,7 +529,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::string &datum)
     StringSeq[0] = string_dup(datum.c_str());
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::string &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::string &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name);
@@ -538,7 +538,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::string &datum)
     StringSeq[0] = string_dup(datum.c_str());
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, const char *datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const char *datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -562,7 +562,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, const char *datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, float datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, float datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -586,7 +586,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, float datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, bool datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, bool datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -610,7 +610,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, bool datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, unsigned short datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, unsigned short datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -634,7 +634,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, unsigned short datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, unsigned char datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, unsigned char datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -658,7 +658,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, unsigned char datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, DevULong datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, DevULong datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -682,7 +682,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, DevULong datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, DevULong64 datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, DevULong64 datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -706,7 +706,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, DevULong64 datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, DevState datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, DevState datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -730,7 +730,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, DevState datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, DevEncoded &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const DevEncoded &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str());
@@ -739,7 +739,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, DevEncoded &datum)
     EncodedSeq[0] = datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, DevEncoded &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const DevEncoded &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name);
@@ -754,7 +754,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, DevEncoded &datum)
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<short> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<short> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -763,7 +763,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<short> &datu
     data_type = DEV_SHORT;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<short> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<short> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -772,7 +772,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<short> &datum
     data_type = DEV_SHORT;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<short> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<short> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -781,7 +781,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<short> &datu
     data_type = DEV_SHORT;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<short> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<short> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -796,7 +796,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<short> &datum
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevLong> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -804,7 +804,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong> &da
     LongSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevLong> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -812,7 +812,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong> &dat
     LongSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevLong> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -820,7 +820,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong> &da
     LongSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevLong> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -834,7 +834,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong> &dat
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong64> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevLong64> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -842,7 +842,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong64> &
     Long64Seq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong64> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevLong64> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -850,7 +850,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong64> &d
     Long64Seq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong64> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevLong64> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -858,7 +858,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevLong64> &
     Long64Seq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong64> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevLong64> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -872,7 +872,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevLong64> &d
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<double> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<double> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -880,7 +880,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<double> &dat
     DoubleSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<double> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<double> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -888,7 +888,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<double> &datu
     DoubleSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<double> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<double> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -896,7 +896,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<double> &dat
     DoubleSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<double> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<double> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -910,7 +910,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<double> &datu
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<std::string> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<std::string> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -918,7 +918,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<std::string>
     StringSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<std::string> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<std::string> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -926,7 +926,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<std::string> 
     StringSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<std::string> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<std::string> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -934,7 +934,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<std::string>
     StringSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<std::string> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<std::string> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -948,7 +948,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<std::string> 
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<float> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<float> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -956,7 +956,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<float> &datu
     FloatSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<float> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<float> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -964,7 +964,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<float> &datum
     FloatSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<float> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<float> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -972,7 +972,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<float> &datu
     FloatSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<float> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<float> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -986,7 +986,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<float> &datum
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<bool> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<bool> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -994,7 +994,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<bool> &datum
     BooleanSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<bool> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<bool> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -1002,7 +1002,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<bool> &datum)
     BooleanSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<bool> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<bool> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -1010,7 +1010,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<bool> &datum
     BooleanSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<bool> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<bool> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -1024,7 +1024,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<bool> &datum,
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned short> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<unsigned short> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -1032,7 +1032,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned sho
     UShortSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned short> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<unsigned short> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -1040,7 +1040,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned shor
     UShortSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned short> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<unsigned short> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -1048,7 +1048,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned sho
     UShortSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned short> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<unsigned short> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -1062,7 +1062,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned shor
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned char> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<unsigned char> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -1070,7 +1070,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned cha
     UCharSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned char> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<unsigned char> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -1078,7 +1078,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned char
     UCharSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned char> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<unsigned char> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -1086,7 +1086,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<unsigned cha
     UCharSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned char> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<unsigned char> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -1100,7 +1100,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<unsigned char
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevULong> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -1108,7 +1108,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong> &d
     ULongSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevULong> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -1116,7 +1116,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong> &da
     ULongSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevULong> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -1124,7 +1124,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong> &d
     ULongSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevULong> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -1138,7 +1138,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong> &da
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong64> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevULong64> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -1146,7 +1146,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong64> 
     ULong64Seq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong64> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevULong64> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -1154,7 +1154,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong64> &
     ULong64Seq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong64> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevULong64> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -1162,7 +1162,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevULong64> 
     ULong64Seq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong64> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevULong64> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -1176,7 +1176,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevULong64> &
 //
 //-----------------------------------------------------------------------------
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevState> &datum)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevState> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), datum.size());
@@ -1184,7 +1184,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevState> &d
     StateSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevState> &datum)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevState> &datum)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, datum.size());
@@ -1192,7 +1192,7 @@ DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevState> &da
     StateSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevState> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const std::string &new_name, const std::vector<DevState> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name.c_str(), x, y);
@@ -1200,7 +1200,7 @@ DeviceAttribute::DeviceAttribute(std::string &new_name, std::vector<DevState> &d
     StateSeq.inout() << datum;
 }
 
-DeviceAttribute::DeviceAttribute(const char *new_name, std::vector<DevState> &datum, int x, int y)
+DeviceAttribute::DeviceAttribute(const char *new_name, const std::vector<DevState> &datum, int x, int y)
     : ext(new DeviceAttributeExt)
 {
     init_common_class_members(new_name, x, y);
@@ -1647,11 +1647,11 @@ bool DeviceAttribute::operator >> (std::string& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::string &) - insert a string into DeviceAttribute
+// DeviceAttribute::operator <<(const std::string &) - insert a string into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::string& datum)
+void DeviceAttribute::operator << (const std::string& datum)
 {
 	dim_x = 1;
 	dim_y = 0;
@@ -2112,11 +2112,11 @@ bool DeviceAttribute::operator >> (DevEncoded &datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevEncoded) - insert a DevEncoded into DeviceAttribute
+// DeviceAttribute::operator <<(const DevEncoded&) - insert a DevEncoded into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (DevEncoded &datum)
+void DeviceAttribute::operator << (const DevEncoded &datum)
 {
 	dim_x = 1;
 	dim_y = 0;
@@ -2213,12 +2213,12 @@ void DeviceAttribute::insert(const char *str,DevVarCharArray *array)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<std::string>) -
+// DeviceAttribute::operator <<(const std::vector<std::string>) -
 // insert a vector of string into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<std::string> &datum)
+void DeviceAttribute::operator << (const std::vector<std::string> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2237,7 +2237,7 @@ void DeviceAttribute::operator << (std::vector<std::string> &datum)
 	del_mem(Tango::DEV_STRING);
 }
 
-void DeviceAttribute::insert(std::vector<std::string> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<std::string> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2283,12 +2283,12 @@ bool DeviceAttribute::operator >> (std::vector<std::string>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<short>) -
+// DeviceAttribute::operator <<(const std::vector<short>) -
 // insert a vector of short into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<short> &datum)
+void DeviceAttribute::operator << (const std::vector<short> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2355,12 +2355,12 @@ bool DeviceAttribute::operator >> (std::vector<short>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<DevLong>) -
+// DeviceAttribute::operator <<(const std::vector<DevLong>) -
 // insert a vector of DevLong into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<DevLong> &datum)
+void DeviceAttribute::operator << (const std::vector<DevLong> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2379,7 +2379,7 @@ void DeviceAttribute::operator << (std::vector<DevLong> &datum)
 	del_mem(Tango::DEV_LONG);
 }
 
-void DeviceAttribute::insert(std::vector<DevLong> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<DevLong> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2425,12 +2425,12 @@ bool DeviceAttribute::operator >> (std::vector<DevLong>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<DevLong64>) -
+// DeviceAttribute::operator <<(const std::vector<DevLong64>) -
 // insert a vector of DevLong64 into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<DevLong64> &datum)
+void DeviceAttribute::operator << (const std::vector<DevLong64> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2449,7 +2449,7 @@ void DeviceAttribute::operator << (std::vector<DevLong64> &datum)
 	del_mem(Tango::DEV_LONG64);
 }
 
-void DeviceAttribute::insert(std::vector<DevLong64> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<DevLong64> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2494,12 +2494,12 @@ bool DeviceAttribute::operator >> (std::vector<DevLong64>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<double>) -
+// DeviceAttribute::operator <<(const std::vector<double>) -
 // insert a vector of double into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<double> &datum)
+void DeviceAttribute::operator << (const std::vector<double> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2518,7 +2518,7 @@ void DeviceAttribute::operator << (std::vector<double> &datum)
 	del_mem(Tango::DEV_DOUBLE);
 }
 
-void DeviceAttribute::insert(std::vector<double> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<double> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2564,12 +2564,12 @@ bool DeviceAttribute::operator >> (std::vector<double>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<float>) -
+// DeviceAttribute::operator <<(const std::vector<float>) -
 // insert a vector of float into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<float> &datum)
+void DeviceAttribute::operator << (const std::vector<float> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2588,7 +2588,7 @@ void DeviceAttribute::operator << (std::vector<float> &datum)
 	del_mem(Tango::DEV_FLOAT);
 }
 
-void DeviceAttribute::insert(std::vector<float> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<float> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2634,12 +2634,12 @@ bool DeviceAttribute::operator >> (std::vector<float>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<bool>) -
+// DeviceAttribute::operator <<(const std::vector<bool>) -
 // insert a vector of boolean into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<bool> &datum)
+void DeviceAttribute::operator << (const std::vector<bool> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2658,7 +2658,7 @@ void DeviceAttribute::operator << (std::vector<bool> &datum)
 	del_mem(Tango::DEV_BOOLEAN);
 }
 
-void DeviceAttribute::insert(std::vector<bool> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<bool> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2704,12 +2704,12 @@ bool DeviceAttribute::operator >> (std::vector<bool>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<unsigned short>) -
+// DeviceAttribute::operator <<(const std::vector<unsigned short>) -
 // insert a vector of unsigned short into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<unsigned short> &datum)
+void DeviceAttribute::operator << (const std::vector<unsigned short> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2728,7 +2728,7 @@ void DeviceAttribute::operator << (std::vector<unsigned short> &datum)
 	del_mem(Tango::DEV_USHORT);
 }
 
-void DeviceAttribute::insert(std::vector<unsigned short> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<unsigned short> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2773,12 +2773,12 @@ bool DeviceAttribute::operator >> (std::vector<unsigned short>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<unsigned char>) -
+// DeviceAttribute::operator <<(const std::vector<unsigned char>) -
 // insert a vector of unsigned char into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<unsigned char> &datum)
+void DeviceAttribute::operator << (const std::vector<unsigned char> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2797,7 +2797,7 @@ void DeviceAttribute::operator << (std::vector<unsigned char> &datum)
 	del_mem(Tango::DEV_UCHAR);
 }
 
-void DeviceAttribute::insert(std::vector<unsigned char> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<unsigned char> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2842,12 +2842,12 @@ bool DeviceAttribute::operator >> (std::vector<unsigned char>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<DevULong>) -
+// DeviceAttribute::operator <<(const std::vector<DevULong>) -
 // insert a vector of DevULong into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<DevULong> &datum)
+void DeviceAttribute::operator << (const std::vector<DevULong> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2866,7 +2866,7 @@ void DeviceAttribute::operator << (std::vector<DevULong> &datum)
 	del_mem(Tango::DEV_ULONG);
 }
 
-void DeviceAttribute::insert(std::vector<DevULong> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<DevULong> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2911,12 +2911,12 @@ bool DeviceAttribute::operator >> (std::vector<DevULong>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<DevULong64>) -
+// DeviceAttribute::operator <<(const std::vector<DevULong64>) -
 // insert a vector of DevULong64 into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<DevULong64> &datum)
+void DeviceAttribute::operator << (const std::vector<DevULong64> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -2935,7 +2935,7 @@ void DeviceAttribute::operator << (std::vector<DevULong64> &datum)
 	del_mem(Tango::DEV_ULONG64);
 }
 
-void DeviceAttribute::insert(std::vector<DevULong64> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<DevULong64> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -2980,12 +2980,12 @@ bool DeviceAttribute::operator >> (std::vector<DevULong64>& datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(std::vector<DevState>) -
+// DeviceAttribute::operator <<(const std::vector<DevState>) -
 // insert a vector of DevState into DeviceAttribute
 //
 //-----------------------------------------------------------------------------
 
-void DeviceAttribute::operator << (std::vector<DevState> &datum)
+void DeviceAttribute::operator << (const std::vector<DevState> &datum)
 {
 	dim_x = datum.size();
 	dim_y = 0;
@@ -3004,7 +3004,7 @@ void DeviceAttribute::operator << (std::vector<DevState> &datum)
 	del_mem(Tango::DEV_STATE);
 }
 
-void DeviceAttribute::insert(std::vector<DevState> &datum,int x,int y)
+void DeviceAttribute::insert(const std::vector<DevState> &datum,int x,int y)
 {
 	*this << datum;
 	dim_x = x;
@@ -3499,7 +3499,7 @@ bool DeviceAttribute::operator >> (DevVarEncodedArray* &datum)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarShortArray &) -
+// DeviceAttribute::operator <<(const DevVarShortArray &) -
 // insert a DevVarShortArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3559,7 +3559,7 @@ void DeviceAttribute::insert(DevVarShortArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarLongArray &) -
+// DeviceAttribute::operator <<(const DevVarLongArray &) -
 // insert a DevVarLongArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3619,7 +3619,7 @@ void DeviceAttribute::insert(DevVarLongArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarDoubleArray &) -
+// DeviceAttribute::operator <<(const DevVarDoubleArray &) -
 // insert a DevVarDoubleArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3679,7 +3679,7 @@ void DeviceAttribute::insert(DevVarDoubleArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarStringArray &) -
+// DeviceAttribute::operator <<(const DevVarStringArray &) -
 // insert a DevVarStringArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3740,7 +3740,7 @@ void DeviceAttribute::insert(DevVarStringArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarFloatArray &) -
+// DeviceAttribute::operator <<(const DevVarFloatArray &) -
 // insert a DevVarFloatArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3800,7 +3800,7 @@ void DeviceAttribute::insert(DevVarFloatArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarBooleanArray &) -
+// DeviceAttribute::operator <<(const DevVarBooleanArray &) -
 // insert a DevVarBooleanArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3861,7 +3861,7 @@ void DeviceAttribute::insert(DevVarBooleanArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarUShortArray &) -
+// DeviceAttribute::operator <<(const DevVarUShortArray &) -
 // insert a DevVarUShortArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3922,7 +3922,7 @@ void DeviceAttribute::insert(DevVarUShortArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarCharArray &) -
+// DeviceAttribute::operator <<(const DevVarCharArray &) -
 // insert a DevVarCharArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -3982,7 +3982,7 @@ void DeviceAttribute::insert(DevVarCharArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarLong64Array &) -
+// DeviceAttribute::operator <<(const DevVarLong64Array &) -
 // insert a DevVarLong64Array by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -4042,7 +4042,7 @@ void DeviceAttribute::insert(DevVarLong64Array *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarULongArray &) -
+// DeviceAttribute::operator <<(const DevVarULongArray &) -
 // insert a DevVarULongArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -4102,7 +4102,7 @@ void DeviceAttribute::insert(DevVarULongArray *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarULong64Array &) -
+// DeviceAttribute::operator <<(const DevVarULong64Array &) -
 // insert a DevVarULong64Array by reference into the DeviceAttribute.
 // This inserter copy the data
 //
@@ -4162,7 +4162,7 @@ void DeviceAttribute::insert(DevVarULong64Array *datum,int x,int y)
 
 //-----------------------------------------------------------------------------
 //
-// DeviceAttribute::operator <<(DevVarStateArray &) -
+// DeviceAttribute::operator <<(const DevVarStateArray &) -
 // insert a DevVarStateArray by reference into the DeviceAttribute.
 // This inserter copy the data
 //

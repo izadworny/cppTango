@@ -50,7 +50,7 @@ namespace Tango
 //-------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-DeviceAttribute::DeviceAttribute(std::string &_name,T _val):ext(new DeviceAttributeExt)
+DeviceAttribute::DeviceAttribute(const std::string &_name,T _val):ext(new DeviceAttributeExt)
 {
 	name = _name;
 	base_val(_val);
@@ -86,7 +86,7 @@ void DeviceAttribute::base_val(T _val)
 //-----------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-DeviceAttribute::DeviceAttribute(std::string &_name,std::vector<T> &_val):ext(new DeviceAttributeExt)
+DeviceAttribute::DeviceAttribute(const std::string &_name,const std::vector<T> &_val):ext(new DeviceAttributeExt)
 {
 	name = _name;
 	dim_x = _val.size();
@@ -94,7 +94,7 @@ DeviceAttribute::DeviceAttribute(std::string &_name,std::vector<T> &_val):ext(ne
 }
 
 template <typename T>
-DeviceAttribute::DeviceAttribute(const char *_name,std::vector<T> &_val):ext(new DeviceAttributeExt)
+DeviceAttribute::DeviceAttribute(const char *_name,const std::vector<T> &_val):ext(new DeviceAttributeExt)
 {
 	name = _name;
 	dim_x = _val.size();
@@ -102,7 +102,7 @@ DeviceAttribute::DeviceAttribute(const char *_name,std::vector<T> &_val):ext(new
 }
 
 template <typename T>
-void DeviceAttribute::base_vect(std::vector<T> &_val)
+void DeviceAttribute::base_vect(const std::vector<T> &_val)
 {
 	dim_y = 0;
 	w_dim_x = 0;
@@ -124,7 +124,7 @@ void DeviceAttribute::base_vect(std::vector<T> &_val)
 //-----------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-DeviceAttribute::DeviceAttribute(std::string &_name,std::vector<T> &_val,int _x,int _y):ext(new DeviceAttributeExt)
+DeviceAttribute::DeviceAttribute(const std::string &_name,const std::vector<T> &_val,int _x,int _y):ext(new DeviceAttributeExt)
 {
 	name = _name;
 	dim_x = _x;
@@ -133,7 +133,7 @@ DeviceAttribute::DeviceAttribute(std::string &_name,std::vector<T> &_val,int _x,
 }
 
 template <typename T>
-DeviceAttribute::DeviceAttribute(const char *_name,std::vector<T> &_val,int _x,int _y):ext(new DeviceAttributeExt)
+DeviceAttribute::DeviceAttribute(const char *_name,const std::vector<T> &_val,int _x,int _y):ext(new DeviceAttributeExt)
 {
 	name = _name;
 	dim_x = _x;
@@ -142,7 +142,7 @@ DeviceAttribute::DeviceAttribute(const char *_name,std::vector<T> &_val,int _x,i
 }
 
 template <typename T>
-void DeviceAttribute::base_vect_size(std::vector<T> &_val)
+void DeviceAttribute::base_vect_size(const std::vector<T> &_val)
 {
 	w_dim_x = 0;
 	w_dim_y = 0;
@@ -372,7 +372,7 @@ void DeviceAttribute::operator << (T datum)
 }
 
 template <typename T>
-void DeviceAttribute::operator << (std::vector<T> &_datum)
+void DeviceAttribute::operator << (const std::vector<T> &_datum)
 {
 	T dummy;
 	template_type_check(dummy);

@@ -59,7 +59,7 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-DbHistory::DbHistory(std::string _propname,std::string _date,std::vector<std::string> &svalues) {
+DbHistory::DbHistory(std::string _propname,std::string _date,const std::vector<std::string> &svalues) {
 
   propname = _propname;
   date = format_mysql_date(_date);
@@ -74,7 +74,7 @@ DbHistory::DbHistory(std::string _propname,std::string _date,std::vector<std::st
 //
 //-----------------------------------------------------------------------------
 
-DbHistory::DbHistory(std::string _propname,std::string _attname,std::string _date,std::vector<std::string> &svalues) {
+DbHistory::DbHistory(std::string _propname,std::string _attname,std::string _date,const std::vector<std::string> &svalues) {
 
   propname = _propname;
   attname = _attname;
@@ -170,7 +170,7 @@ std::string DbHistory::format_mysql_date(std::string _date) {
 //
 //-----------------------------------------------------------------------------
 
-void DbHistory::make_db_datum(std::vector<std::string> &values) {
+void DbHistory::make_db_datum(const std::vector<std::string> &values) {
 
   value.name = propname;
   value.value_string.resize(values.size());

@@ -1018,7 +1018,7 @@ bool ZmqEventConsumer::process_ctrl(zmq::message_t &received_ctrl,zmq::pollitem_
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventConsumer::multi_tango_host(zmq::socket_t *sock,SocketCmd cmd,std::string &event_name)
+void ZmqEventConsumer::multi_tango_host(zmq::socket_t *sock,SocketCmd cmd,const std::string &event_name)
 {
     size_t pos = event_name.find('/',8);
     std::string base_tango_host = event_name.substr(0,pos + 1);
@@ -1134,7 +1134,7 @@ void ZmqEventConsumer::cleanup_EventChannel_map()
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventConsumer::connect_event_channel(std::string &channel_name,TANGO_UNUSED(Database *db),bool reconnect,DeviceData &dd)
+void ZmqEventConsumer::connect_event_channel(const std::string &channel_name,TANGO_UNUSED(Database *db),bool reconnect,DeviceData &dd)
 {
 
 //
@@ -1358,7 +1358,7 @@ void ZmqEventConsumer::connect_event_channel(std::string &channel_name,TANGO_UNU
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventConsumer::disconnect_event_channel(std::string &channel_name,std::string &endpoint,std::string &endpoint_event)
+void ZmqEventConsumer::disconnect_event_channel(const std::string &channel_name,const std::string &endpoint,const std::string &endpoint_event)
 {
     std::string unsub(channel_name);
     unsub = unsub + '.' + HEARTBEAT_EVENT_NAME;
@@ -1452,7 +1452,7 @@ void ZmqEventConsumer::disconnect_event_channel(std::string &channel_name,std::s
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventConsumer::disconnect_event(std::string &event_name,std::string &endpoint)
+void ZmqEventConsumer::disconnect_event(const std::string &event_name,const std::string &endpoint)
 {
 
 //
@@ -1545,9 +1545,9 @@ void ZmqEventConsumer::disconnect_event(std::string &event_name,std::string &end
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventConsumer::connect_event_system(TANGO_UNUSED(std::string &device_name),TANGO_UNUSED(std::string &obj_name),
-                                            TANGO_UNUSED(std::string &event_name),TANGO_UNUSED(const std::vector<std::string> &filters),
-                                            TANGO_UNUSED(EvChanIte &eve_it),EventCallBackStruct &new_event_callback,
+void ZmqEventConsumer::connect_event_system(TANGO_UNUSED(const std::string &device_name),TANGO_UNUSED(const std::string &obj_name),
+                                            TANGO_UNUSED(const std::string &event_name),TANGO_UNUSED(const std::vector<std::string> &filters),
+                                            TANGO_UNUSED(const EvChanIte &eve_it),EventCallBackStruct &new_event_callback,
                                             DeviceData &dd,size_t valid_end)
 {
 //

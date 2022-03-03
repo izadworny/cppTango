@@ -135,7 +135,7 @@ void AttributeProxy::real_constructor (std::string &name)
 }
 
 
-void AttributeProxy::ctor_from_dp(const DeviceProxy *dev_ptr,std::string &att_name)
+void AttributeProxy::ctor_from_dp(const DeviceProxy *dev_ptr,const std::string &att_name)
 {
 
 //
@@ -790,7 +790,7 @@ bool AttributeProxy::get_transparency_reconnection()
 //
 //-----------------------------------------------------------------------------
 
-void AttributeProxy::get_property(std::string &property_name, DbData &user_data)
+void AttributeProxy::get_property(const std::string &property_name, DbData &user_data)
 {
 	if (dbase_used == false)
 	{
@@ -841,7 +841,7 @@ void AttributeProxy::get_property(std::string &property_name, DbData &user_data)
 //
 //-----------------------------------------------------------------------------
 
-void AttributeProxy::get_property(std::vector<std::string> &property_names, DbData &user_data)
+void AttributeProxy::get_property(const std::vector<std::string> &property_names,DbData &user_data)
 {
 	if (dbase_used == false)
 	{
@@ -943,7 +943,7 @@ void AttributeProxy::get_property(DbData &user_data)
 //
 //-----------------------------------------------------------------------------
 
-void AttributeProxy::put_property(DbData &user_data)
+void AttributeProxy::put_property(const DbData &user_data)
 {
 	if (dbase_used == false)
 	{
@@ -976,7 +976,7 @@ void AttributeProxy::put_property(DbData &user_data)
 //
 //-----------------------------------------------------------------------------
 
-void AttributeProxy::delete_property(std::string &property_name)
+void AttributeProxy::delete_property(const std::string &property_name)
 {
 	if (dbase_used == false)
 	{
@@ -1007,7 +1007,7 @@ void AttributeProxy::delete_property(std::string &property_name)
 //
 //-----------------------------------------------------------------------------
 
-void AttributeProxy::delete_property(std::vector<std::string> &property_names)
+void AttributeProxy::delete_property(const std::vector<std::string> &property_names)
 {
 	if (dbase_used == false)
 	{
@@ -1041,7 +1041,7 @@ void AttributeProxy::delete_property(std::vector<std::string> &property_names)
 //
 //-----------------------------------------------------------------------------
 
-void AttributeProxy::delete_property(DbData &user_data)
+void AttributeProxy::delete_property(const DbData &user_data)
 {
 	if (dbase_used == false)
 	{

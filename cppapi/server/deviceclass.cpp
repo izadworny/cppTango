@@ -72,7 +72,7 @@ bool less_than_pipe (Pipe *a,Pipe *b)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-DeviceClass::DeviceClass(std::string &s):name(s),ext(new DeviceClassExt),
+DeviceClass::DeviceClass(const std::string &s):name(s),ext(new DeviceClassExt),
 		only_one("class"),default_cmd(NULL),py_class(false),device_factory_done(false)
 {
 
@@ -652,7 +652,7 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DeviceClass::throw_mem_value(DeviceImpl *dev,Attribute &att)
+void DeviceClass::throw_mem_value(DeviceImpl *dev,const Attribute &att)
 {
 	TangoSys_OMemStream o;
 
@@ -1106,7 +1106,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,std::string &command,const CORBA::Any &in_any)
+CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,const std::string &command,const CORBA::Any &in_any)
 {
 	CORBA::Any *ret = NULL;
 	std::vector<Command *>::iterator i_cmd;
@@ -1247,7 +1247,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,std::string &command
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DeviceClass::add_wiz_dev_prop(std::string &p_name,std::string &desc,std::string &def)
+void DeviceClass::add_wiz_dev_prop(const std::string &p_name,const std::string &desc,const std::string &def)
 {
 
 //
@@ -1289,7 +1289,7 @@ void DeviceClass::add_wiz_dev_prop(std::string &p_name,std::string &desc,std::st
 }
 
 
-void DeviceClass::add_wiz_dev_prop(std::string &p_name,std::string &desc)
+void DeviceClass::add_wiz_dev_prop(const std::string &p_name,const std::string &desc)
 {
 	std::string def(AlrmValueNotSpec);
 	add_wiz_dev_prop(p_name,desc,def);
@@ -1312,7 +1312,7 @@ void DeviceClass::add_wiz_dev_prop(std::string &p_name,std::string &desc)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DeviceClass::add_wiz_class_prop(std::string &p_name,std::string &desc,std::string &def)
+void DeviceClass::add_wiz_class_prop(const std::string &p_name,const std::string &desc,const std::string &def)
 {
 //
 // Name in lowercase letters
@@ -1352,7 +1352,7 @@ void DeviceClass::add_wiz_class_prop(std::string &p_name,std::string &desc,std::
 }
 
 
-void DeviceClass::add_wiz_class_prop(std::string &p_name,std::string &desc)
+void DeviceClass::add_wiz_class_prop(const std::string &p_name,const std::string &desc)
 {
 	std::string def(AlrmValueNotSpec);
 	add_wiz_class_prop(p_name,desc,def);

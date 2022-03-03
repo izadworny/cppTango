@@ -67,15 +67,15 @@ namespace Tango
 class AttrProperty
 {
 public:
-	AttrProperty(const char *name,const char *value);
-	AttrProperty(std::string &name,std::string &value);
-	AttrProperty(const char *name,long value);
-	AttrProperty(const char *name,std::string &value);
+	AttrProperty(const std::string &name,const std::string &value);
+	AttrProperty(const std::string &name,const long &value);
 	~AttrProperty() {};
 
 	std::string &get_value() {return attr_value;}
-	long get_lg_value() {return attr_lg;}
+	std::string const &get_value() const {return attr_value;}
+	long get_lg_value()const {return attr_lg;}
 	std::string &get_name() {return attr_name;}
+	std::string const &get_name() const {return attr_name;}
 
 	void convert(const char *);
 
@@ -106,10 +106,10 @@ public:
 	MultiClassAttribute();
 	~MultiClassAttribute();
 
-	void init_class_attribute(std::string &class_name,long base = 0);
+	void init_class_attribute(const std::string &class_name,long base = 0);
 
 	std::vector<Tango::Attr *> &get_attr_list() {return attr_list;}
-	Attr &get_attr(std::string &attr_name);
+	Attr &get_attr(const std::string &attr_name);
 	void remove_attr(const std::string &,const std::string &);
 
 protected:

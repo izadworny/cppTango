@@ -857,7 +857,7 @@ void Util::check_args(int argc,char *argv[])
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Util::validate_sort(std::vector<std::string> &dev_list)
+void Util::validate_sort(const std::vector<std::string> &dev_list)
 {
 
 	unsigned long i,j;
@@ -2242,7 +2242,7 @@ DeviceImpl *Util::get_device_by_name(const std::string &dev_name)
 }
 
 
-DeviceImpl *Util::find_device_name_core(std::string &dev_name)
+DeviceImpl *Util::find_device_name_core(const std::string &dev_name)
 {
 //
 // Retrieve class list. Don't use the get_dserver_device() method followed by the get_class_list(). In case of several
@@ -2626,7 +2626,7 @@ void Util::clean_dyn_attr_prop()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Util::delete_restarting_device(std::string &d_name)
+void Util::delete_restarting_device(const std::string &d_name)
 {
     std::vector<std::string>::iterator pos;
     pos = remove(restarting_devices.begin(),restarting_devices.end(),d_name);
@@ -2717,7 +2717,7 @@ void Util::validate_cmd_line_classes()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Util::tango_host_from_fqan(std::string &fqan,std::string &tg_host)
+void Util::tango_host_from_fqan(const std::string &fqan,std::string &tg_host)
 {
 	std::string lower_fqan(fqan);
 	std::transform(lower_fqan.begin(),lower_fqan.end(),lower_fqan.begin(),::tolower);
@@ -2752,7 +2752,7 @@ void Util::tango_host_from_fqan(std::string &fqan,std::string &tg_host)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Util::tango_host_from_fqan(std::string &fqan,std::string &host,int &port)
+void Util::tango_host_from_fqan(const std::string &fqan,std::string &host,int &port)
 {
 	std::string tmp_tg_host;
 	tango_host_from_fqan(fqan,tmp_tg_host);

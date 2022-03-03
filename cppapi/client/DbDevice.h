@@ -76,7 +76,7 @@ public :
  * @param [in] dev_name	The device name
  *
  */
-	DbDevice(std::string &dev_name);
+	DbDevice(const std::string &dev_name);
 /**
  * Create a DbDevice object using a specified database
  *
@@ -87,7 +87,7 @@ public :
  * @param [in] db The database object
  *
  */
-	DbDevice(std::string &dev_name, Database *db);
+	DbDevice(const std::string &dev_name, Database *db);
 //@}
 
 
@@ -112,7 +112,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void export_device(DbDevExportInfo &dev_info);
+	void export_device(const DbDevExportInfo &dev_info);
 //@}
 
 /**@name Property oriented methods */
@@ -138,7 +138,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void put_property(DbData &db);
+	void put_property(const DbData &db);
 /**
  * Remove device property from database
  *
@@ -149,7 +149,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void delete_property(DbData &db);
+	void delete_property(const DbData &db);
 /**
  * Get device attribute property from database
  *
@@ -171,7 +171,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void put_attribute_property(DbData &db);
+	void put_attribute_property(const DbData &db);
 /**
  * Remove device attribute property from database
  *
@@ -182,7 +182,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void delete_attribute_property(DbData &db);
+	void delete_attribute_property(const DbData &db);
 /**
  * Get device pipe property from database
  *
@@ -204,7 +204,7 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void put_pipe_property(DbData &db);
+	void put_pipe_property(const DbData &db);
 /**
  * Remove device pipe property from database
  *
@@ -215,14 +215,14 @@ public :
  *
  * @exception ConnectionFailed, CommunnicationFailed, DevFailed from device
  */
-	void delete_pipe_property(DbData &db);
+	void delete_pipe_property(const DbData &db);
 //@}
 
 /// @privatesection
 
-	DbDevice(std::string &,std::string &,std::string &);
+	DbDevice(const std::string &,const std::string &,const std::string &);
 	~DbDevice();
-	void set_name(std::string &new_name) {name = new_name;}
+	void set_name(const std::string &new_name) {name = new_name;}
 	Database *get_dbase();
 	void set_dbase(Database *db) {dbase = db;}
 

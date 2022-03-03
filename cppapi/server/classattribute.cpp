@@ -58,7 +58,7 @@ namespace Tango
 //
 //------------------------------------------------------------------------------------------------------------------
 
-AttrProperty::AttrProperty(std::string &name,std::string &value):attr_name(name),attr_value(value)
+AttrProperty::AttrProperty(const std::string &name,const std::string &value):attr_name(name),attr_value(value)
 {
 	attr_lg = 0;
 
@@ -76,29 +76,7 @@ AttrProperty::AttrProperty(std::string &name,std::string &value):attr_name(name)
 		std::transform(attr_value.begin(),attr_value.end(),attr_value.begin(),::tolower);
 }
 
-AttrProperty::AttrProperty(const char *name,const char *value):attr_name(name),attr_value(value)
-{
-	attr_lg = 0;
-
-//
-// Property name in lower case letters
-//
-
-	std::transform(attr_name.begin(),attr_name.end(),attr_name.begin(),::tolower);
-
-//
-// For data_type or data_format properties, also change property value to lowercase letters
-//
-
-	if ((attr_name == "data_type") || (attr_name == "data_format"))
-		std::transform(attr_value.begin(),attr_value.end(),attr_value.begin(),::tolower);
-}
-
-AttrProperty::AttrProperty(const char *name,long value):attr_name(name),attr_lg(value)
-{
-}
-
-AttrProperty::AttrProperty(const char *name,std::string &value):attr_name(name),attr_value(value),attr_lg(0)
+AttrProperty::AttrProperty(const std::string &name,const long &value):attr_name(name),attr_lg(value)
 {
 }
 
@@ -181,7 +159,7 @@ MultiClassAttribute::MultiClassAttribute()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void MultiClassAttribute::init_class_attribute(std::string &class_name,long base)
+void MultiClassAttribute::init_class_attribute(const std::string &class_name,long base)
 {
 	cout4 << "Entering MultiClassAttribute::init_class_attribute" << std::endl;
 	long i;
@@ -229,7 +207,7 @@ void MultiClassAttribute::init_class_attribute(std::string &class_name,long base
 		{
 			std::vector<AttrProperty> prop_list;
 
-			std::string attr_name = db_list[ind].name;
+			const std::string &attr_name = db_list[ind].name;
 			long nb_prop = 0;
 			db_list[ind] >> nb_prop;
 
@@ -308,7 +286,7 @@ void MultiClassAttribute::init_class_attribute(std::string &class_name,long base
 //--------------------------------------------------------------------------------------------------------------------
 
 
-Attr &MultiClassAttribute::get_attr(std::string &attr_name)
+Attr &MultiClassAttribute::get_attr(const std::string &attr_name)
 {
 //
 // Search for the wanted attribute in the attr_list vector from its name

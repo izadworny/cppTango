@@ -52,23 +52,23 @@ namespace Tango
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-Device_3Impl::Device_3Impl(DeviceClass *device_class,std::string &dev_name):
+Device_3Impl::Device_3Impl(DeviceClass *device_class,const std::string &dev_name):
 Device_2Impl(device_class,dev_name),ext_3(new Device_3ImplExt)
 {
     real_ctor();
 }
 
 Device_3Impl::Device_3Impl(DeviceClass *device_class,
-			   std::string &dev_name,
-			   std::string &desc):
+			   const std::string &dev_name,
+			   const std::string &desc):
 Device_2Impl(device_class,dev_name,desc),ext_3(new Device_3ImplExt)
 {
     real_ctor();
 }
 
 Device_3Impl::Device_3Impl(DeviceClass *device_class,
-	           	   std::string &dev_name,std::string &desc,
-	           	   Tango::DevState dev_state,std::string &dev_status):
+		   const std::string &dev_name,const std::string &desc,
+		   Tango::DevState dev_state,const std::string &dev_status):
 Device_2Impl(device_class,dev_name,desc,dev_state,dev_status),ext_3(new Device_3ImplExt)
 {
     real_ctor();
@@ -2240,7 +2240,7 @@ void Device_3Impl::set_attribute_config_3(const Tango::AttributeConfigList_3& ne
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void Device_3Impl::write_attributes_in_db(std::vector<long> &att_in_db,std::vector<AttIdx> &updated_attr)
+void Device_3Impl::write_attributes_in_db(const std::vector<long> &att_in_db,const std::vector<AttIdx> &updated_attr)
 {
 //
 // Store memorized attribute in db
@@ -2333,7 +2333,7 @@ void Device_3Impl::write_attributes_in_db(std::vector<long> &att_in_db,std::vect
 
 }
 
-void Device_3Impl::write_attributes_in_db(std::vector<long> &att_in_db,std::vector<long> &updated_attr)
+void Device_3Impl::write_attributes_in_db(const std::vector<long> &att_in_db,const std::vector<long> &updated_attr)
 {
 	std::vector<AttIdx> v;
 	for (unsigned int i = 0;i < updated_attr.size();i++)
@@ -2525,7 +2525,7 @@ void Device_3Impl::add_alarmed(std::vector<long> &att_list)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-long Device_3Impl::reading_state_necessary(std::vector<AttIdx> &wanted_attr)
+long Device_3Impl::reading_state_necessary(const std::vector<AttIdx> &wanted_attr)
 {
 	std::vector<long> &alarmed_list = dev_attr->get_alarm_list();
 	long nb_alarmed_attr = alarmed_list.size();
@@ -2568,7 +2568,7 @@ long Device_3Impl::reading_state_necessary(std::vector<AttIdx> &wanted_attr)
 //
 //---------------------------------------------------------------------------------------------------------------------
 
-void Device_3Impl::alarmed_not_read(std::vector<AttIdx> &wanted_attr)
+void Device_3Impl::alarmed_not_read(const std::vector<AttIdx> &wanted_attr)
 {
 	std::vector<long> &alarmed_list = dev_attr->get_alarm_list();
 	long nb_alarmed_attr = alarmed_list.size();

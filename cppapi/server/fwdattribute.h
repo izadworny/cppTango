@@ -47,7 +47,7 @@ namespace Tango
 class FwdAttribute: public WAttribute
 {
 public:
-	FwdAttribute(std::vector<AttrProperty> &,Attr &,std::string &,long);
+	FwdAttribute(std::vector<AttrProperty> &,Attr &,const std::string &,long);
 	~FwdAttribute();
 
 	virtual bool is_fwd_att() {return true;}
@@ -80,7 +80,7 @@ public:
 	AttributeValueList_5 *write_read_root_att(AttributeValueList_4&);
 
 protected:
-	void convert_event_prop(std::string &,double *);
+	void convert_event_prop(const std::string &,double *);
 
 	std::string				fwd_dev_name;					// Root dev name for fwd attribute
 	std::string				fwd_att_name;					// Root att name for fwd attribute

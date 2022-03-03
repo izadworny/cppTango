@@ -236,7 +236,7 @@ public :
  * @param [in] vs The string vector to be inserted
  * @exception WrongData if requested
  */
-	void insert(std::vector<DevLong> &vl, std::vector<std::string>&vs);
+	void insert(const std::vector<DevLong> &vl, const std::vector<std::string>&vs);
 /**
  * Insert data into a DeviceData for the DevVarDoubleStringArray data type
  *
@@ -246,7 +246,7 @@ public :
  * @param [in] vs The string vector to be inserted
  * @exception WrongData if requested
  */
-	void insert(std::vector<double> &vd, std::vector<std::string> &vs);
+	void insert(const std::vector<double> &vd, const std::vector<std::string> &vs);
 /**
  * Insert data into a DeviceData for the DevEncoded data type
  *
@@ -378,20 +378,20 @@ public :
 	void operator << (double datum) {any <<= datum;}
 	void operator << (char *datum) {any <<= datum;}
 	void operator << (const char *datum) {any <<= datum;}
-	void operator << (std::string &datum) {any <<= datum.c_str();}
-	void operator << (std::vector<bool>&);
-	void operator << (std::vector<unsigned char>&);
-	void operator << (std::vector<std::string>&);
-	void operator << (std::vector<short>&);
-	void operator << (std::vector<unsigned short>&);
-	void operator << (std::vector<DevLong> &);
-	void operator << (std::vector<DevULong> &);
-	void operator << (std::vector<DevLong64> &);
-	void operator << (std::vector<DevULong64> &);
-	void operator << (std::vector<float>&);
-	void operator << (std::vector<double>&);
+	void operator << (const std::string &datum) {any <<= datum.c_str();}
+	void operator << (const std::vector<bool>&);
+	void operator << (const std::vector<unsigned char>&);
+	void operator << (const std::vector<std::string>&);
+	void operator << (const std::vector<short>&);
+	void operator << (const std::vector<unsigned short>&);
+	void operator << (const std::vector<DevLong> &);
+	void operator << (const std::vector<DevULong> &);
+	void operator << (const std::vector<DevLong64> &);
+	void operator << (const std::vector<DevULong64> &);
+	void operator << (const std::vector<float>&);
+	void operator << (const std::vector<double>&);
 	void operator << (DevState datum) {(any.inout()) <<= datum;}
-	void operator << (DevEncoded &datum) {(any.inout()) <<= datum;}
+	void operator << (const DevEncoded &datum) {(any.inout()) <<= datum;}
 
 //	void insert(vector<DevLong>&, vector<string>&);
 //	void insert(vector<double>&, vector<string>&);
@@ -418,19 +418,19 @@ public :
 	inline void operator << (DevVarLongStringArray* datum) { any.inout() <<= datum;}
 	inline void operator << (DevVarDoubleStringArray* datum) { any.inout() <<= datum;}
 
-	inline void operator << (DevVarBooleanArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarCharArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarShortArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarUShortArray datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarLongArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarLong64Array &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarULongArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarULong64Array &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarFloatArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarDoubleArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarStringArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarLongStringArray &datum) { any.inout() <<= datum;}
-	inline void operator << (DevVarDoubleStringArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarBooleanArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarCharArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarShortArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarUShortArray datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarLongArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarLong64Array &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarULongArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarULong64Array &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarFloatArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarDoubleArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarStringArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarLongStringArray &datum) { any.inout() <<= datum;}
+	inline void operator << (const DevVarDoubleStringArray &datum) { any.inout() <<= datum;}
 
 //
 // extract methods for native C++ types

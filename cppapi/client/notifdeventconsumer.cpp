@@ -231,8 +231,8 @@ void NotifdEventConsumer::cleanup_EventChannel_map()
 //
 //-----------------------------------------------------------------------------
 
-void NotifdEventConsumer::connect_event_system(std::string &device_name,std::string &att_name,std::string &event_name,
-                                              const std::vector<std::string> &filters,EvChanIte &evt_it,
+void NotifdEventConsumer::connect_event_system(const std::string &device_name,const std::string &att_name,const std::string &event_name,
+                                              const std::vector<std::string> &filters,const EvChanIte &evt_it,
                                               EventCallBackStruct &new_event_callback,TANGO_UNUSED(DeviceData &dd),
                                               TANGO_UNUSED(size_t valid_end))
 {
@@ -363,7 +363,7 @@ void NotifdEventConsumer::connect_event_system(std::string &device_name,std::str
 //
 //-----------------------------------------------------------------------------
 
-void NotifdEventConsumer::connect_event_channel(std::string &channel_name,Database *db,bool reconnect,TANGO_UNUSED(DeviceData &dd))
+void NotifdEventConsumer::connect_event_channel(const std::string &channel_name,Database *db,bool reconnect,TANGO_UNUSED(DeviceData &dd))
 {
 	CORBA::Any_var received;
 	const DevVarLongStringArray *dev_import_list;

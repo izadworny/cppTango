@@ -791,7 +791,7 @@ DevicePipeBlob &DevicePipeBlob::operator[](const std::string &_na)
 //-------------------------------------------------------------------------------------------------------------------
 
 
-void DevicePipeBlob::set_data_elt_names(std::vector<std::string> &elt_names)
+void DevicePipeBlob::set_data_elt_names(const std::vector<std::string> &elt_names)
 {
 
 //
@@ -955,77 +955,77 @@ size_t DevicePipeBlob::get_data_elt_nb()
 
 //******************************************************************************************************************
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevBoolean &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevBoolean &datum)
 {
 	INSERT_BASIC_TYPE(DevVarBooleanArray,bool_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(short &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const short &datum)
 {
 	INSERT_BASIC_TYPE(DevVarShortArray,short_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevLong &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevLong &datum)
 {
 	INSERT_BASIC_TYPE(DevVarLongArray,long_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevLong64 &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevLong64 &datum)
 {
 	INSERT_BASIC_TYPE(DevVarLong64Array,long64_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(float &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const float &datum)
 {
 	INSERT_BASIC_TYPE(DevVarFloatArray,float_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(double &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const double &datum)
 {
 	INSERT_BASIC_TYPE(DevVarDoubleArray,double_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevUChar &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevUChar &datum)
 {
 	INSERT_BASIC_TYPE(DevVarUCharArray,uchar_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevUShort &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevUShort &datum)
 {
 	INSERT_BASIC_TYPE(DevVarUShortArray,ushort_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevULong &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevULong &datum)
 {
 	INSERT_BASIC_TYPE(DevVarULongArray,ulong_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevULong64 &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevULong64 &datum)
 {
 	INSERT_BASIC_TYPE(DevVarULong64Array,ulong64_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevString &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevString &datum)
 {
 	failed = false;
 	ext_state.reset();
@@ -1076,14 +1076,14 @@ DevicePipeBlob & DevicePipeBlob::operator<<(DevString &datum)
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevState &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevState &datum)
 {
 	INSERT_BASIC_TYPE(DevVarStateArray,state_att_value)
 
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevEncoded &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevEncoded &datum)
 {
 	INSERT_BASIC_TYPE(DevVarEncodedArray,encoded_att_value)
 
@@ -1140,7 +1140,7 @@ DevicePipeBlob & DevicePipeBlob::operator<<(const std::string &datum)
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(DevicePipeBlob &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const DevicePipeBlob &datum)
 {
 	failed = false;
 	ext_state.reset();
@@ -1198,7 +1198,7 @@ DevicePipeBlob & DevicePipeBlob::operator<<(DevicePipeBlob &datum)
 
 //---------------------------------------------------------------------------------------------------------------
 
-DevicePipeBlob & DevicePipeBlob::operator<<(std::vector<DevBoolean> &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const std::vector<DevBoolean> &datum)
 {
 	failed = false;
 	ext_state.reset();
@@ -1331,7 +1331,7 @@ DevicePipeBlob & DevicePipeBlob::operator<<(std::vector<DevEncoded> &datum)
 	return *this;
 }
 
-DevicePipeBlob & DevicePipeBlob::operator<<(std::vector<std::string> &datum)
+DevicePipeBlob & DevicePipeBlob::operator<<(const std::vector<std::string> &datum)
 {
 	failed = false;
 	ext_state.reset();

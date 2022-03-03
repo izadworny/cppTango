@@ -431,7 +431,7 @@ void Attribute::add_config_5_specific(AttributeConfig_5 &conf)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void Attribute::set_properties(const Tango::AttributeConfig &conf,std::string &dev_name,TANGO_UNUSED(bool from_ds),std::vector<AttPropDb> &v_db)
+void Attribute::set_properties(const Tango::AttributeConfig &conf,const std::string &dev_name,TANGO_UNUSED(bool from_ds),std::vector<AttPropDb> &v_db)
 {
 	if (name_lower == "state" || name_lower == "status")
 		return;
@@ -508,7 +508,7 @@ void Attribute::set_properties(const Tango::AttributeConfig &conf,std::string &d
 }
 
 
-void Attribute::set_properties(const Tango::AttributeConfig_3 &conf,std::string &dev_name,bool from_ds,std::vector<AttPropDb> &v_db)
+void Attribute::set_properties(const Tango::AttributeConfig_3 &conf,const std::string &dev_name,bool from_ds,std::vector<AttPropDb> &v_db)
 {
 
 //
@@ -643,7 +643,7 @@ void Attribute::set_properties(const Tango::AttributeConfig_3 &conf,std::string 
 }
 
 
-void Attribute::set_properties(const Tango::AttributeConfig_5 &conf,std::string &dev_name,bool from_ds,std::vector<AttPropDb> &v_db)
+void Attribute::set_properties(const Tango::AttributeConfig_5 &conf,const std::string &dev_name,bool from_ds,std::vector<AttPropDb> &v_db)
 {
 //
 // Check that the request is not to change some unmutable properties added in IDL 5
@@ -710,8 +710,8 @@ void Attribute::set_properties(const Tango::AttributeConfig_5 &conf,std::string 
 //--------------------------------------------------------------------------------------------------------------------
 
 void Attribute::set_one_str_prop(const char *prop_name,const CORBA::String_member &conf_val,
-								 std::string &att_conf,std::vector<AttPropDb> &v_db,std::vector<AttrProperty> &def_user_prop,
-								std::vector<AttrProperty> &def_class_prop,const char *lib_def)
+								 std::string &att_conf,std::vector<AttPropDb> &v_db,const std::vector<AttrProperty> &def_user_prop,
+								const std::vector<AttrProperty> &def_class_prop,const char *lib_def)
 {
 	AttPropDb apd;
 	apd.name = prop_name;
@@ -983,8 +983,8 @@ void Attribute::set_one_str_prop(const char *prop_name,const CORBA::String_membe
 
 void Attribute::set_one_alarm_prop(const char *prop_name,const CORBA::String_member &conf_val,
 								std::string &att_conf_str,Tango::Attr_CheckVal &att_conf, std::vector<AttPropDb> &v_db,
-								std::vector<AttrProperty> &def_user_prop,
-								std::vector<AttrProperty> &def_class_prop,bool &check_it)
+								const std::vector<AttrProperty> &def_user_prop,
+								const std::vector<AttrProperty> &def_class_prop,bool &check_it)
 {
 
 	if (((data_type == Tango::DEV_STRING) ||
@@ -1453,10 +1453,10 @@ void Attribute::set_one_alarm_prop(const char *prop_name,const CORBA::String_mem
 //---------------------------------------------------------------------------------------------------------------------
 
 
-void Attribute::set_rds_prop(const AttributeAlarm &att_alarm, std::string &dev_name,
+void Attribute::set_rds_prop(const AttributeAlarm &att_alarm, const std::string &dev_name,
 							 std::vector<AttPropDb> &v_db,
-							 std::vector<AttrProperty> &def_user_prop,
-							 std::vector<AttrProperty> &def_class_prop)
+							 const std::vector<AttrProperty> &def_user_prop,
+							 const std::vector<AttrProperty> &def_class_prop)
 {
 	Tango::Attr_CheckVal old_delta_val = delta_val;
 	long old_delta_t = delta_t;
@@ -1539,9 +1539,9 @@ void Attribute::set_rds_prop(const AttributeAlarm &att_alarm, std::string &dev_n
 //---------------------------------------------------------------------------------------------------------------------
 
 
-void Attribute::set_rds_prop_val(const AttributeAlarm &att_alarm, std::string &dev_name,
-							 std::vector<AttrProperty> &def_user_prop,
-							 std::vector<AttrProperty> &def_class_prop)
+void Attribute::set_rds_prop_val(const AttributeAlarm &att_alarm, const std::string &dev_name,
+							 const std::vector<AttrProperty> &def_user_prop,
+							 const std::vector<AttrProperty> &def_class_prop)
 {
 	std::stringstream str;
 	str.precision(TANGO_FLOAT_PRECISION);
@@ -1832,8 +1832,8 @@ void Attribute::set_rds_prop_val(const AttributeAlarm &att_alarm, std::string &d
 
 void Attribute::set_rds_prop_db(const AttributeAlarm &att_alarm,
 							 std::vector<AttPropDb> &v_db,
-							 std::vector<AttrProperty> &def_user_prop,
-							 std::vector<AttrProperty> &def_class_prop)
+							 const std::vector<AttrProperty> &def_user_prop,
+							 const std::vector<AttrProperty> &def_class_prop)
 {
 	std::stringstream str;
 	str.precision(TANGO_FLOAT_PRECISION);
@@ -2152,8 +2152,8 @@ void Attribute::set_rds_prop_db(const AttributeAlarm &att_alarm,
 //---------------------------------------------------------------------------------------------------------------------
 
 void Attribute::set_one_event_prop(const char *prop_name,const CORBA::String_member &conf_val,double *prop_val,
-								std::vector<AttPropDb> &v_db,std::vector<AttrProperty> &def_user_prop,
-								std::vector<AttrProperty> &def_class_prop)
+								std::vector<AttPropDb> &v_db,const std::vector<AttrProperty> &def_user_prop,
+								const std::vector<AttrProperty> &def_class_prop)
 {
 	AttPropDb apd;
 	apd.name = prop_name;
@@ -2336,7 +2336,7 @@ void Attribute::set_one_event_prop(const char *prop_name,const CORBA::String_mem
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Attribute::set_prop_5_specific(const AttributeConfig_5 &conf,std::string &dev_name,bool from_ds,std::vector<AttPropDb> &v_db)
+void Attribute::set_prop_5_specific(const AttributeConfig_5 &conf,const std::string &dev_name,bool from_ds,std::vector<AttPropDb> &v_db)
 {
 	if (data_type == Tango::DEV_ENUM)
 	{
@@ -2573,7 +2573,7 @@ void Attribute::set_max_warning(const char *new_max_warning_str)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Attribute::check_range_coherency(std::string &dev_name)
+void Attribute::check_range_coherency(const std::string &dev_name)
 {
 
 //
@@ -2798,7 +2798,7 @@ void Attribute::check_range_coherency(std::string &dev_name)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void Attribute::db_access(Attribute::CheckOneStrProp &cosp,std::string &dev_name)
+void Attribute::db_access(const Attribute::CheckOneStrProp &cosp,const std::string &dev_name)
 {
 
 //
@@ -3044,7 +3044,7 @@ void Attribute::validate_change_properties(const std::string &dev_name, const ch
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Attribute::event_prop_db_xxx(std::vector<double> &rel_change_tmp,std::vector<double> &rel_change_usr,std::vector<AttPropDb> &v_db,AttPropDb &apd)
+void Attribute::event_prop_db_xxx(const std::vector<double> &rel_change_tmp,const std::vector<double> &rel_change_usr,std::vector<AttPropDb> &v_db,AttPropDb &apd)
 {
 
     std::vector<std::string> rel_change_str_tmp(2);
@@ -3116,8 +3116,8 @@ void Attribute::event_prop_db_xxx(std::vector<double> &rel_change_tmp,std::vecto
 //---------------------------------------------------------------------------------------------------------------------
 
 void Attribute::set_one_event_period(const char *prop_name,const CORBA::String_member &conf_val,int &prop_val,const int &prop_def,
-								std::vector<AttPropDb> &v_db,std::vector<AttrProperty> &def_user_prop,
-								std::vector<AttrProperty> &def_class_prop)
+								std::vector<AttPropDb> &v_db,const std::vector<AttrProperty> &def_user_prop,
+								const std::vector<AttrProperty> &def_class_prop)
 {
 	AttPropDb apd;
 	apd.name = prop_name;

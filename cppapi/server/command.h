@@ -68,77 +68,6 @@ public:
  * The default constructor
  */
 	Command():ext(new CommandExt) {}
-/**
- * Constructs a newly allocated Command object for a command from its
- * name and its input and output parameter types.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	s	The command name
- * @param	in	The command input parameter type
- * @param	out 	The command output parameter type
- *
- */
-	Command(const char *s,Tango::CmdArgType in,Tango::CmdArgType out);
-
-/**
- * Constructs a newly allocated Command object for a command from its
- * name and its input and output parameter types.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	s	The command name
- * @param	in	The command input parameter type
- * @param	out 	The command output parameter type
- *
- */
-	Command(std::string &s,Tango::CmdArgType in,Tango::CmdArgType out);
-
-/**
- * Constructs a newly allocated Command object for a command from its
- * name, its input and output parameter types plus parameters description
- * The command display level is set to OPERATOR.
- *
- * @param 	s	The command name
- * @param	in	The command input parameter type
- * @param	out 	The command output parameter type
- * @param	in_desc	The input parameter description
- * @param	out_desc The output parameter description
- *
- */
-	Command(const char *s,Tango::CmdArgType in,Tango::CmdArgType out,
-		const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated Command object for a command from its
- * name, its input and output parameter types plus parameters description
- * The command display level is set to OPERATOR.
- *
- * @param 	s	The command name
- * @param	in	The command input parameter type
- * @param	out 	The command output parameter type
- * @param	in_desc	The input parameter description
- * @param	out_desc The output parameter description
- *
- */
-	Command(std::string &s,Tango::CmdArgType in,Tango::CmdArgType out,
-		std::string &in_desc,std::string &out_desc);
-/**
- * Constructs a newly allocated Command object for a command from its
- * name and its input and output parameter types.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	s	The command name
- * @param	in	The command input parameter type
- * @param	out 	The command output parameter type
- * @param	level	The command display level
- *
- */
-	Command(const char *s,Tango::CmdArgType in,Tango::CmdArgType out,
-	    	Tango::DispLevel level);
 
 /**
  * Constructs a newly allocated Command object for a command from its
@@ -152,8 +81,8 @@ public:
  * @param	level	The command display level
  *
  */
-	Command(std::string &s,Tango::CmdArgType in,Tango::CmdArgType out,
-		Tango::DispLevel level);
+	Command(const std::string &s,Tango::CmdArgType in,Tango::CmdArgType out,
+		Tango::DispLevel level = Tango::OPERATOR);
 
 /**
  * Constructs a newly allocated Command object for a command from its
@@ -167,25 +96,9 @@ public:
  * @param	level	The command display level
  *
  */
-	Command(const char *s,Tango::CmdArgType in,Tango::CmdArgType out,
-		const char *in_desc,const char *out_desc,
-		Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated Command object for a command from its
- * name, its input and output parameter types plus parameters description
- *
- * @param 	s	The command name
- * @param	in	The command input parameter type
- * @param	out 	The command output parameter type
- * @param	in_desc	The input parameter description
- * @param	out_desc The output parameter description
- * @param	level	The command display level
- *
- */
-	Command(std::string &s,Tango::CmdArgType in,Tango::CmdArgType out,
-		std::string &in_desc,std::string &out_desc,
-		Tango::DispLevel level);
+	Command(const std::string &s,Tango::CmdArgType in,Tango::CmdArgType out,
+		const std::string &in_desc,const std::string &out_desc,
+		Tango::DispLevel level = Tango::OPERATOR);
 //@}
 
 /**@name Destructor
@@ -261,7 +174,7 @@ public:
  *
  * @param new_name The new command name
  */
-	void set_name(std::string &new_name) {name=new_name;}
+	void set_name(const std::string &new_name) {name=new_name;}
 
 /**
  * Return the command name in lower case letters.
@@ -310,28 +223,14 @@ public:
  *
  * @param desc The input parameter description
  */
-	void set_in_type_desc(const char *desc) {in_type_desc = desc;}
-
-/**
- * Set the input parameter description field.
- *
- * @param desc The input parameter description
- */
-	void set_in_type_desc(std::string &desc) {in_type_desc = desc;}
+	void set_in_type_desc(std::string desc) {in_type_desc = desc;}
 
 /**
  * Set the output parameter description field.
  *
  * @param desc The output parameter description
  */
-	void set_out_type_desc(const char *desc) {out_type_desc = desc;}
-
-/**
- * Set the output parameter description field.
- *
- * @param desc The output parameter description
- */
-	void set_out_type_desc(std::string &desc) {out_type_desc = desc;}
+	void set_out_type_desc(std::string desc) {out_type_desc = desc;}
 
 /**
  * Set the command display level.
@@ -1273,154 +1172,13 @@ public:
  * This constructor set the command input and output type to Tango::DEV_VOID.
  * The input and output parameter description are set to the default String
  * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the  command execution method
- *
- */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)());
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name and an execution method.
- * This constructor set the command input and output type to Tango::DEV_VOID.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)());
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method and a command allowed method.
- * This constructor set the command input and output type to Tango::DEV_VOID
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method and a command allowed method.
- * This constructor set the command input and output type to Tango::DEV_VOID
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
-		     std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * This constructor set the command input and output type to Tango::DEV_VOID.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * This constructor set the command input and output type to Tango::DEV_VOID.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name and an execution method.
- * This constructor set the command input and output type to Tango::DEV_VOID.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the  command execution method
- * @param	level	 	The command display level
- *
- */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name and an execution method.
- * This constructor set the command input and output type to Tango::DEV_VOID.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
  *
  * @param 	cmd_name	The command name
  * @param	exe_method	Pointer to the command execution method
  * @param	level		The command display level
  *
  */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
+	TemplCommand(const std::string &cmd_name,void (DeviceImpl::*exe_method)(),
 		     Tango::DispLevel level);
 
 /**
@@ -1436,24 +1194,7 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method and a command allowed method.
- * This constructor set the command input and output type to Tango::DEV_VOID
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	level		The command display level
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
+	TemplCommand(const std::string &cmd_name,void (DeviceImpl::*exe_method)(),
 		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
 		     Tango::DispLevel level);
 
@@ -1469,25 +1210,9 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     const char *in_desc,const char *out_desc,
-		     Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
-		     std::string &in_desc,std::string &out_desc,
-		     Tango::DispLevel level);
+	TemplCommand(const std::string &cmd_name,void (DeviceImpl::*exe_method)(),
+		     const std::string &in_desc,const std::string &out_desc,
+		     Tango::DispLevel level = Tango::OPERATOR);
 
 /**
  * Constructs a newly allocated TemplCommand object for a command with a
@@ -1503,42 +1228,14 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommand(const char *cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     const char *in_desc,const char *out_desc,
-		     Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommand object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * This constructor set the command input and output type to Tango::DEV_VOID.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommand(std::string &cmd_name,void (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     std::string &in_desc,std::string &out_desc,
-		     Tango::DispLevel level);
+	TemplCommand(const std::string &cmd_name,void (DeviceImpl::*exe_method)(),
+		     bool (DeviceImpl::*state_method)(const CORBA::Any &) = NULL,
+		     const std::string &in_desc = "",const std::string &out_desc = "",
+		     Tango::DispLevel level = Tango::OPERATOR);
 //@}
 
-	TemplCommand(const char *);
-	TemplCommand(std::string &);
-
-	TemplCommand(const char *,Tango::DispLevel);
-	TemplCommand(std::string &,Tango::DispLevel);
-
-	TemplCommand(const char *,const char *,const char *);
-	TemplCommand(std::string &,std::string &,std::string &);
-
-	TemplCommand(const char *,const char *,const char *,DispLevel);
-	TemplCommand(std::string &,std::string &,std::string &,DispLevel);
+	TemplCommand(const std::string &,Tango::DispLevel);
+	TemplCommand(const std::string &,const std::string & = "", const std::string & = "", DispLevel = Tango::OPERATOR);
 
 /**@name Miscellaneous methods */
 //@{
@@ -1657,184 +1354,14 @@ public:
  * The input and output command data type are automatically determined.
  * The input and output parameter description are set to the default String
  * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
-	TemplCommandInOut(const char *cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG));
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG));
-
-/**
- * Constructs a newly allocated TemplCommandInout object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommandInOut(const char *cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		    	  bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		     	  bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandInOut(const char *cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-			  const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-			  std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandInOut(const char *cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		     	  bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     	  const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		    	  bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     	  std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
  *
  * @param 	cmd_name	The command name
  * @param	exe_method	Pointer to the command execution method
  * @param	level		The command display level
  *
  */
-	TemplCommandInOut(const char *cmd_name,
+	TemplCommandInOut(const std::string &cmd_name,
 			  OUTARG (DeviceImpl::*exe_method)(INARG),
-			  Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	level		The command display level
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-			  Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandInout object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	level		The command display level
- *
- */
-	TemplCommandInOut(const char *cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		    	  bool (DeviceImpl::*state_method)(const CORBA::Any &),
 			  Tango::DispLevel level);
 
 /**
@@ -1850,7 +1377,7 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandInOut(std::string &cmd_name,
+	TemplCommandInOut(const std::string &cmd_name,
 			  OUTARG (DeviceImpl::*exe_method)(INARG),
 		     	  bool (DeviceImpl::*state_method)(const CORBA::Any &),
 			  Tango::DispLevel level);
@@ -1868,28 +1395,10 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandInOut(const char *cmd_name,
+	TemplCommandInOut(const std::string &cmd_name,
 			  OUTARG (DeviceImpl::*exe_method)(INARG),
-			  const char *in_desc,const char *out_desc,
-			  Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-			  std::string &in_desc,std::string &out_desc,
-			  Tango::DispLevel level);
+			  const std::string &in_desc,const std::string &out_desc,
+			  Tango::DispLevel level = Tango::OPERATOR);
 
 /**
  * Constructs a newly allocated TemplCommandInOut object for a command with a
@@ -1905,31 +1414,11 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandInOut(const char *cmd_name,
+	TemplCommandInOut(const std::string &cmd_name,
 			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		     	  bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     	  const char *in_desc,const char *out_desc,
-			  Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandInOut object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommandInOut(std::string &cmd_name,
-			  OUTARG (DeviceImpl::*exe_method)(INARG),
-		    	  bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     	  std::string &in_desc,std::string &out_desc,
-			  Tango::DispLevel level);
+			  bool (DeviceImpl::*state_method)(const CORBA::Any &) = NULL,
+			  const std::string &in_desc = "",const std::string &out_desc = "",
+			  Tango::DispLevel level = Tango::OPERATOR);
 //@}
 
 	~TemplCommandInOut() {}
@@ -1980,73 +1469,8 @@ private:
 // description : 	instance constructor
 //
 //--------------------------------------------------------------------------
-
 template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG))
-:TemplCommand(s),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &))
-:TemplCommand(s),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG))
-:TemplCommand(s),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &))
-:TemplCommand(s),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),const char *in_desc,const char *out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),const char *in_desc,const char *out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),std::string &in_desc,std::string &out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),std::string &in_desc,std::string &out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),Tango::DispLevel level)
+TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const std::string &s,OUTARG (DeviceImpl::*f)(INARG),Tango::DispLevel level)
 :TemplCommand(s,level),exe_ptr_inout(f),ext(nullptr)
 {
 	allowed_ptr = NULL;
@@ -2054,7 +1478,7 @@ TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceI
 }
 
 template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
+TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const std::string &s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
 :TemplCommand(s,level),exe_ptr_inout(f),ext(nullptr)
 {
 	allowed_ptr = a;
@@ -2062,23 +1486,7 @@ TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceI
 }
 
 template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),Tango::DispLevel level)
-:TemplCommand(s,level),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
-:TemplCommand(s,level),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),const char *in_desc,const char *out_desc,Tango::DispLevel level)
+TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const std::string &s,OUTARG (DeviceImpl::*f)(INARG),const std::string &in_desc,const std::string &out_desc,Tango::DispLevel level)
 :TemplCommand(s,in_desc,out_desc,level),exe_ptr_inout(f),ext(nullptr)
 {
 	allowed_ptr = NULL;
@@ -2086,23 +1494,7 @@ TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceI
 }
 
 template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const char *s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),const char *in_desc,const char *out_desc,Tango::DispLevel level)
-:TemplCommand(s,in_desc,out_desc,level),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),std::string &in_desc,std::string &out_desc,Tango::DispLevel level)
-:TemplCommand(s,in_desc,out_desc,level),exe_ptr_inout(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG,typename OUTARG>
-TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(std::string &s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),std::string &in_desc,std::string &out_desc,Tango::DispLevel level)
+TemplCommandInOut<INARG,OUTARG>::TemplCommandInOut(const std::string &s,OUTARG (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),const std::string &in_desc,const std::string &out_desc,Tango::DispLevel level)
 :TemplCommand(s,in_desc,out_desc,level),exe_ptr_inout(f),ext(nullptr)
 {
 	allowed_ptr = a;
@@ -2208,165 +1600,13 @@ public:
  * The input and output command data type are automatically determined.
  * The input and output parameter description are set to the default String
  * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
-	TemplCommandIn(const char *cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG));
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
-	TemplCommandIn(std::string &cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG));
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommandIn(const char *cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommandIn(std::string &cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandIn(const char *cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandIn(std::string &cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandIn(const char *cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		       const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandIn(std::string &cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		       std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
  *
  * @param 	cmd_name	The command name
  * @param	exe_method	Pointer to the command execution method
  * @param	level		The command display level
  *
  */
-	TemplCommandIn(const char *cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	level		The command display level
- *
- */
-	TemplCommandIn(std::string &cmd_name,
+	TemplCommandIn(const std::string &cmd_name,
 		       void (DeviceImpl::*exe_method)(INARG),
 		       Tango::DispLevel level);
 
@@ -2383,25 +1623,7 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandIn(const char *cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		       Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	level		The command display level
- *
- */
-	TemplCommandIn(std::string &cmd_name,
+	TemplCommandIn(const std::string &cmd_name,
 		       void (DeviceImpl::*exe_method)(INARG),
 		       bool (DeviceImpl::*state_method)(const CORBA::Any &),
 		       Tango::DispLevel level);
@@ -2419,28 +1641,10 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandIn(const char *cmd_name,
+	TemplCommandIn(const std::string &cmd_name,
 		       void (DeviceImpl::*exe_method)(INARG),
-		       const char *in_desc,const char *out_desc,
-		       Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommandIn(std::string &cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       std::string &in_desc,std::string &out_desc,
-		       Tango::DispLevel level);
+		       const std::string &in_desc,const std::string &out_desc,
+		       Tango::DispLevel level = Tango::OPERATOR);
 
 /**
  * Constructs a newly allocated TemplCommandIn object for a command with a
@@ -2456,31 +1660,11 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandIn(const char *cmd_name,
+	TemplCommandIn(const std::string &cmd_name,
 		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		       const char *in_desc,const char *out_desc,
-		       Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommandIn(std::string &cmd_name,
-		       void (DeviceImpl::*exe_method)(INARG),
-		       bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		       std::string &in_desc,std::string &out_desc,
-		       Tango::DispLevel level);
+		       bool (DeviceImpl::*state_method)(const CORBA::Any &) = NULL,
+		       const std::string &in_desc = "",const std::string &out_desc = "",
+		       Tango::DispLevel level = Tango::OPERATOR);
 //@}
 
 	~TemplCommandIn() {}
@@ -2533,71 +1717,7 @@ private:
 //--------------------------------------------------------------------------
 
 template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG))
-:TemplCommand(s),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &))
-:TemplCommand(s),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG))
-:TemplCommand(s),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &))
-:TemplCommand(s),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),const char *in_desc,const char *out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),const char *in_desc,const char *out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),std::string &in_desc,std::string &out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),std::string &in_desc,std::string &out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),Tango::DispLevel level)
+TemplCommandIn<INARG>::TemplCommandIn(const std::string &s,void (DeviceImpl::*f)(INARG),Tango::DispLevel level)
 :TemplCommand(s,level),exe_ptr_in(f),ext(nullptr)
 {
 	allowed_ptr = NULL;
@@ -2605,7 +1725,7 @@ TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG)
 }
 
 template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
+TemplCommandIn<INARG>::TemplCommandIn(const std::string &s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
 :TemplCommand(s,level),exe_ptr_in(f),ext(nullptr)
 {
 	allowed_ptr = a;
@@ -2613,23 +1733,7 @@ TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG)
 }
 
 template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),Tango::DispLevel level)
-:TemplCommand(s,level),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
-:TemplCommand(s,level),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),const char *in_desc,const char *out_desc,Tango::DispLevel level)
+TemplCommandIn<INARG>::TemplCommandIn(const std::string &s,void (DeviceImpl::*f)(INARG),const std::string &in_desc,const std::string &out_desc,Tango::DispLevel level)
 :TemplCommand(s,in_desc,out_desc,level),exe_ptr_in(f),ext(nullptr)
 {
 	allowed_ptr = NULL;
@@ -2637,28 +1741,13 @@ TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG)
 }
 
 template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(const char *s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),const char *in_desc,const char *out_desc,Tango::DispLevel level)
+TemplCommandIn<INARG>::TemplCommandIn(const std::string &s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),const std::string &in_desc,const std::string &out_desc,Tango::DispLevel level)
 :TemplCommand(s,in_desc,out_desc,level),exe_ptr_in(f),ext(nullptr)
 {
 	allowed_ptr = a;
 	init_types();
 }
 
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),std::string &in_desc,std::string &out_desc,Tango::DispLevel level)
-:TemplCommand(s,in_desc,out_desc,level),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename INARG>
-TemplCommandIn<INARG>::TemplCommandIn(std::string &s,void (DeviceImpl::*f)(INARG),bool (DeviceImpl::*a)(const CORBA::Any &),std::string &in_desc,std::string &out_desc,Tango::DispLevel level)
-:TemplCommand(s,in_desc,out_desc,level),exe_ptr_in(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
 //+-------------------------------------------------------------------------
 //
 // method : 		init_types
@@ -2753,156 +1842,13 @@ public:
  * The input and output command data type are automatically determined.
  * The input and output parameter description are set to the default String
  * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)());
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- *
- */
- 	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)());
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- *
- */
-	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &));
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-			const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-			std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		        bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		        const char *in_desc,const char *out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandIn object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- * The command display level is set to OPERATOR.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- *
- */
-	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		        bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		        std::string &in_desc,std::string &out_desc);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
  *
  * @param 	cmd_name	The command name
  * @param	exe_method	Pointer to the command execution method
  * @param	level		The command display level
  *
  */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		 	Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name and an execution method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	level		The command display level
- *
- */
- 	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
+	TemplCommandOut(const std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
  			Tango::DispLevel level);
 
 /**
@@ -2918,24 +1864,7 @@ public:
  * @param	level		The command display level
  *
  */
- 	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		     Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method and a command allowed method.
- * The input and output command data type are automatically determined.
- * The input and output parameter description are set to the default String
- * "Uninitialised".
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	level		The command display level
- *
- */
-	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
+	TemplCommandOut(const std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
 		     bool (DeviceImpl::*state_method)(const CORBA::Any &),
 		     Tango::DispLevel level);
 
@@ -2952,45 +1881,9 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-			const char *in_desc,const char *out_desc,
-			Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	in_desc		The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-			std::string &in_desc,std::string &out_desc,
-			Tango::DispLevel level);
-
-/**
- * Constructs a newly allocated TemplCommandOut object for a command with a
- * name, an execution method, a command allowed method and a description for the
- * input and output command parameters.
- * The input and output command data type are automatically determined.
- *
- * @param 	cmd_name	The command name
- * @param	exe_method	Pointer to the command execution method
- * @param	state_method 	Pointer to the command allowed method
- * @param	in_desc	The command input parameter description
- * @param	out_desc	The command output parameter description
- * @param	level		The command display level
- *
- */
-	TemplCommandOut(const char *cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		        bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		        const char *in_desc,const char *out_desc,
-			Tango::DispLevel level);
+	TemplCommandOut(const std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
+			const std::string &in_desc,const std::string &out_desc,
+			Tango::DispLevel level = Tango::OPERATOR);
 
 /**
  * Constructs a newly allocated TemplCommandIn object for a command with a
@@ -3006,10 +1899,10 @@ public:
  * @param	level		The command display level
  *
  */
-	TemplCommandOut(std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
-		        bool (DeviceImpl::*state_method)(const CORBA::Any &),
-		        std::string &in_desc,std::string &out_desc,
-			Tango::DispLevel level);
+	TemplCommandOut(const std::string &cmd_name,OUTARG (DeviceImpl::*exe_method)(),
+		        bool (DeviceImpl::*state_method)(const CORBA::Any &) = NULL,
+		        const std::string &in_desc = "",const std::string &out_desc = "",
+			Tango::DispLevel level = Tango::OPERATOR);
 //@}
 
 	~TemplCommandOut() {}
@@ -3063,71 +1956,7 @@ private:
 //--------------------------------------------------------------------------
 
 template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)())
-:TemplCommand(s),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &))
-:TemplCommand(s),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)())
-:TemplCommand(s),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &))
-:TemplCommand(s),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),const char *in_desc,const char *out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),const char *in_desc,const char *out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),std::string &in_desc,std::string &out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),std::string &in_desc,std::string &out_desc)
-:TemplCommand(s,in_desc,out_desc),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),Tango::DispLevel level)
+TemplCommandOut<OUTARG>::TemplCommandOut(const std::string &s,OUTARG (DeviceImpl::*f)(),Tango::DispLevel level)
 :TemplCommand(s,level),exe_ptr_out(f),ext(nullptr)
 {
 	allowed_ptr = NULL;
@@ -3135,7 +1964,7 @@ TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)()
 }
 
 template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
+TemplCommandOut<OUTARG>::TemplCommandOut(const std::string &s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
 :TemplCommand(s,level),exe_ptr_out(f),ext(nullptr)
 {
 	allowed_ptr = a;
@@ -3143,23 +1972,7 @@ TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)()
 }
 
 template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),Tango::DispLevel level)
-:TemplCommand(s,level),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),Tango::DispLevel level)
-:TemplCommand(s,level),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),const char *in_desc,const char *out_desc,Tango::DispLevel level)
+TemplCommandOut<OUTARG>::TemplCommandOut(const std::string &s,OUTARG (DeviceImpl::*f)(),const std::string &in_desc,const std::string &out_desc,Tango::DispLevel level)
 :TemplCommand(s,in_desc,out_desc,level),exe_ptr_out(f),ext(nullptr)
 {
 	allowed_ptr = NULL;
@@ -3167,23 +1980,7 @@ TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)()
 }
 
 template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(const char *s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),const char *in_desc,const char *out_desc,Tango::DispLevel level)
-:TemplCommand(s,in_desc,out_desc,level),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = a;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),std::string &in_desc,std::string &out_desc,Tango::DispLevel level)
-:TemplCommand(s,in_desc,out_desc,level),exe_ptr_out(f),ext(nullptr)
-{
-	allowed_ptr = NULL;
-	init_types();
-}
-
-template <typename OUTARG>
-TemplCommandOut<OUTARG>::TemplCommandOut(std::string &s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),std::string &in_desc,std::string &out_desc,Tango::DispLevel level)
+TemplCommandOut<OUTARG>::TemplCommandOut(const std::string &s,OUTARG (DeviceImpl::*f)(),bool (DeviceImpl::*a)(const CORBA::Any &),const std::string &in_desc,const std::string &out_desc,Tango::DispLevel level)
 :TemplCommand(s,in_desc,out_desc,level),exe_ptr_out(f),ext(nullptr)
 {
 	allowed_ptr = a;

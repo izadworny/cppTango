@@ -127,7 +127,7 @@ void DbClass::get_property(DbData &db_data)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DbClass::put_property(DbData &db_data)
+void DbClass::put_property(const DbData &db_data)
 {
 
 //
@@ -179,7 +179,7 @@ void DbClass::put_property(DbData &db_data)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DbClass::delete_property(DbData &db_data)
+void DbClass::delete_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->delete_class_property(name, db_data);
@@ -221,7 +221,7 @@ void DbClass::get_attribute_property(DbData &db_data)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DbClass::put_attribute_property(DbData &db_data)
+void DbClass::put_attribute_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->put_class_attribute_property(name, db_data);
@@ -242,7 +242,7 @@ void DbClass::put_attribute_property(DbData &db_data)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DbClass::delete_attribute_property(DbData &db_data)
+void DbClass::delete_attribute_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->delete_class_attribute_property(name, db_data);
@@ -284,7 +284,7 @@ void DbClass::get_pipe_property(DbData &db_data)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DbClass::put_pipe_property(DbData &db_data)
+void DbClass::put_pipe_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->put_class_pipe_property(name, db_data);
@@ -305,7 +305,7 @@ void DbClass::put_pipe_property(DbData &db_data)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void DbClass::delete_pipe_property(DbData &db_data)
+void DbClass::delete_pipe_property(const DbData &db_data)
 {
 	if (ext_dbase == true)
 		dbase->delete_class_pipe_property(name, db_data);

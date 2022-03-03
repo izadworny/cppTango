@@ -67,13 +67,13 @@ public :
 	Tango::DevVarStringArray *query_device();
 	Tango::DevVarStringArray *query_sub_device();
 	void kill();
-	void restart(std::string &);
+	void restart(const std::string &);
 	void restart_server();
 	Tango::DevVarStringArray *query_class_prop(std::string &);
 	Tango::DevVarStringArray *query_dev_prop(std::string &);
 
 	Tango::DevVarStringArray *polled_device();
-	Tango::DevVarStringArray *dev_poll_status(std::string &);
+	Tango::DevVarStringArray *dev_poll_status(const std::string &);
 	void add_obj_polling(const Tango::DevVarLongStringArray *,bool with_db_upd = true,int delta_ms = 0);
 	void upd_obj_polling_period(const Tango::DevVarLongStringArray *,bool with_db_upd = true);
 	void rem_obj_polling(const Tango::DevVarStringArray *,bool with_db_upd = true);
@@ -121,13 +121,13 @@ public :
 	std::vector<std::string> get_poll_th_conf() {return polling_th_pool_conf;}
 
 	void check_lock_owner(DeviceImpl *,const char *,const char *);
-	void check_upd_authorized(DeviceImpl *,int,PollObjType,std::string &);
+	void check_upd_authorized(DeviceImpl *,int,PollObjType,const std::string &);
 
 	TANGO_IMP_EXP static void register_class_factory(ClassFactoryFuncPtr f_ptr) {class_factory_func_ptr = f_ptr;}
 	void _add_class(DeviceClass *dc) {this->add_class(dc);}
 	void _create_cpp_class(const char *c1,const char *c2) {this->create_cpp_class(c1,c2);}
 
-	void mcast_event_for_att(std::string &,std::string &,std::vector<std::string> &);
+	void mcast_event_for_att(const std::string &,const std::string &,std::vector<std::string> &);
 
 	ServerEventSubscriptionState get_event_subscription_state();
 	void set_event_subscription_state(const ServerEventSubscriptionState&);
@@ -168,10 +168,10 @@ private:
 	void add_class(DeviceClass *);
 	void create_cpp_class(const char *,const char *);
 	void get_dev_prop(Tango::Util *);
-    void event_subscription(std::string &,std::string &,std::string &,std::string &,std::string &,ChannelType,std::string &,int &,int &,DeviceImpl *,int l=0);
+    void event_subscription(const std::string &,const std::string &,const std::string &,std::string &,const std::string &,ChannelType,std::string &,int &,int &,DeviceImpl *,int l=0);
 	void get_event_misc_prop(Tango::Util *);
-	bool is_event_name(std::string &);
-	bool is_ip_address(std::string &);
+	bool is_event_name(const std::string &);
+	bool is_ip_address(const std::string &);
 
 	std::vector<std::string>	mcast_event_prop;
 
@@ -215,7 +215,7 @@ struct Pol
  *
  ******************************************************************************/
 
-inline bool DServer::is_event_name(std::string &str)
+inline bool DServer::is_event_name(const std::string &str)
 {
 	if (count(str.begin(),str.end(),'/') != 3)
 		return false;
@@ -224,7 +224,7 @@ inline bool DServer::is_event_name(std::string &str)
 	return true;
 }
 
-inline bool DServer::is_ip_address(std::string &str)
+inline bool DServer::is_ip_address(const std::string &str)
 {
 	if (count(str.begin(),str.end(),'.') != 3)
 		return false;

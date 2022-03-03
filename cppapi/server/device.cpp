@@ -84,8 +84,8 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const char *d_name,
     real_ctor();
 }
 
-DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, std::string &d_name, std::string &de,
-                       Tango::DevState st, std::string &sta)
+DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const std::string &d_name, const std::string &de,
+                       Tango::DevState st, const std::string &sta)
     : device_name(d_name), desc(de), device_status(sta),
       device_state(st), device_class(cl_ptr), ext(new DeviceImplExt),
       logger(NULL), saved_log_level(log4tango::Level::WARN), rft(Tango::kDefaultRollingThreshold), poll_old_factor(0),
@@ -100,7 +100,7 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, std::string &d_name, std::string &de
     real_ctor();
 }
 
-DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, std::string &d_name)
+DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const std::string &d_name)
     : device_name(d_name), device_class(cl_ptr), ext(new DeviceImplExt),
       logger(NULL), saved_log_level(log4tango::Level::WARN), rft(Tango::kDefaultRollingThreshold), poll_old_factor(0),
       idl_version(1),
@@ -118,7 +118,7 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, std::string &d_name)
     real_ctor();
 }
 
-DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, std::string &d_name, std::string &description)
+DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const std::string &d_name, const std::string &description)
     : device_name(d_name), device_class(cl_ptr), ext(new DeviceImplExt),
       logger(NULL), saved_log_level(log4tango::Level::WARN), rft(Tango::kDefaultRollingThreshold), poll_old_factor(0),
       idl_version(1),
@@ -895,7 +895,7 @@ std::vector<PollObj *>::iterator DeviceImpl::get_polled_obj_by_type_name(
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-long DeviceImpl::get_cmd_poll_ring_depth(std::string &cmd_name)
+long DeviceImpl::get_cmd_poll_ring_depth(const std::string &cmd_name)
 {
     long ret;
 
@@ -975,7 +975,7 @@ long DeviceImpl::get_cmd_poll_ring_depth(std::string &cmd_name)
 //
 //--------------------------------------------------------------------------
 
-long DeviceImpl::get_attr_poll_ring_depth(std::string &attr_name)
+long DeviceImpl::get_attr_poll_ring_depth(const std::string &attr_name)
 {
     long ret;
 
@@ -3370,7 +3370,7 @@ void DeviceImpl::remove_attribute(Tango::Attr *rem_attr, bool free_it, bool clea
     std::vector<std::string> &poll_attr = get_polled_attr();
     std::vector<std::string>::iterator ite_attr;
 
-    std::string attr_name_low(attr_name);
+    std::string &attr_name_low(attr_name);
     std::transform(attr_name_low.begin(), attr_name_low.end(), attr_name_low.begin(), ::tolower);
 
 //
@@ -3526,7 +3526,7 @@ void DeviceImpl::remove_attribute(Tango::Attr *rem_attr, bool free_it, bool clea
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::remove_attribute(std::string &rem_attr_name, bool free_it, bool clean_db)
+void DeviceImpl::remove_attribute(const std::string &rem_attr_name, bool free_it, bool clean_db)
 {
 
     try
@@ -3977,7 +3977,7 @@ void DeviceImpl::poll_lists_2_v5()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::init_cmd_poll_ext_trig(std::string cmd_name)
+void DeviceImpl::init_cmd_poll_ext_trig(const std::string &cmd_name)
 {
     std::string cmd_lowercase(cmd_name);
     std::transform(cmd_lowercase.begin(), cmd_lowercase.end(), cmd_lowercase.begin(), ::tolower);
@@ -4173,7 +4173,7 @@ void DeviceImpl::init_cmd_poll_period()
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DeviceImpl::init_attr_poll_ext_trig(std::string attr_name)
+void DeviceImpl::init_attr_poll_ext_trig(const std::string &attr_name)
 {
     std::string attr_lowercase(attr_name);
     std::transform(attr_lowercase.begin(), attr_lowercase.end(), attr_lowercase.begin(), ::tolower);
@@ -5814,7 +5814,7 @@ void DeviceImpl::lock_root_devices(int validity, bool lock_action)
         if (att_list[j]->is_fwd_att() == true)
         {
             FwdAttribute *fwd_att = static_cast<FwdAttribute *>(att_list[j]);
-            std::string &dev_name = fwd_att->get_fwd_dev_name();
+            const std::string &dev_name = fwd_att->get_fwd_dev_name();
             ite = find(root_devs.begin(), root_devs.end(), dev_name);
             if (ite == root_devs.end())
             {

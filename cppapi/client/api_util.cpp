@@ -394,7 +394,7 @@ int ApiUtil::get_db_ind()
 
 }
 
-int ApiUtil::get_db_ind(std::string &host, int port)
+int ApiUtil::get_db_ind(const std::string &host, int port)
 {
     omni_mutex_lock lo(the_mutex);
 
@@ -1331,7 +1331,7 @@ void ApiUtil::device_to_attr(const DeviceAttribute &dev_attr, AttributeValue_4 &
     }
 }
 
-void ApiUtil::device_to_attr(const DeviceAttribute &dev_attr, AttributeValue &att, std::string &d_name)
+void ApiUtil::device_to_attr(const DeviceAttribute &dev_attr, AttributeValue &att,const std::string &d_name)
 {
 
     att.name = dev_attr.name.c_str();

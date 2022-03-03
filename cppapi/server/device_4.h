@@ -91,7 +91,7 @@ public:
  * @param	dev_name	The device name
  *
  */
-	Device_4Impl(DeviceClass *device_class,std::string &dev_name);
+	Device_4Impl(DeviceClass *device_class,const std::string &dev_name);
 
 /**
  * Constructs a newly allocated Device_4Impl object from its name and its description.
@@ -105,7 +105,7 @@ public:
  * @param	desc	The device description
  *
  */
-	Device_4Impl(DeviceClass *device_class,std::string &dev_name,std::string &desc);
+	Device_4Impl(DeviceClass *device_class,const std::string &dev_name,const std::string &desc);
 
 /**
  * Constructs a newly allocated Device_4Impl object from all its creation
@@ -122,8 +122,8 @@ public:
  *
  */
 	Device_4Impl(DeviceClass *device_class,
-	           std::string &dev_name,std::string &desc,
-	           Tango::DevState dev_state,std::string &dev_status);
+	           const std::string &dev_name,const std::string &desc,
+	           Tango::DevState dev_state,const std::string &dev_status);
 
 /**
  * Constructs a newly allocated Device_4Impl object from all its creation

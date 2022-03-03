@@ -122,7 +122,7 @@ Tango::DevVarStringArray *DServer::polled_device()
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-Tango::DevVarStringArray *DServer::dev_poll_status(std::string &dev_name)
+Tango::DevVarStringArray *DServer::dev_poll_status(const std::string &dev_name)
 {
 	NoSyncModelTangoMonitor mon(this);
 
@@ -2008,7 +2008,7 @@ void DServer::rem_event_heartbeat()
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void DServer::check_upd_authorized(DeviceImpl *dev,int upd,PollObjType obj_type,std::string &obj_name)
+void DServer::check_upd_authorized(DeviceImpl *dev,int upd,PollObjType obj_type,const std::string &obj_name)
 {
 	int min_upd = 0;
 

@@ -43,7 +43,7 @@ namespace Tango
 class AttrManip
 {
 	friend std::ostream &operator<<(std::ostream &,const AttrManip&);
-	friend void execute_manip(std::ostream &, std::string &str);
+	friend void execute_manip(std::ostream &, const std::string &str);
 
 public:
 	AttrManip(const char *f):format(f) {

@@ -54,7 +54,7 @@ namespace Tango
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-LockThread::LockThread(LockThCmd &cmd,TangoMonitor &m,DeviceProxy *adm,std::string &dev, LockClock::duration per):
+LockThread::LockThread(LockThCmd &cmd,TangoMonitor &m,DeviceProxy *adm,const std::string &dev, LockClock::duration per):
 shared_cmd(cmd),p_mon(m),admin_proxy(adm)
 {
 	LockedDevice ld;

@@ -53,7 +53,7 @@ namespace Tango
 //
 //------------------------------------------------------------------------------------------------------------------
 
-DbServerCache::DbServerCache(Database *db,std::string &ds_name,std::string &host)
+DbServerCache::DbServerCache(Database *db,const std::string &ds_name,const std::string &host)
 {
 
 //
@@ -1352,7 +1352,7 @@ void DbServerCache::get_obj_prop_list(DevVarStringArray *in_param,PropEltIdx &ob
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-const DevVarLongStringArray *DbServerCache::import_tac_dev(std::string &tac_dev)
+const DevVarLongStringArray *DbServerCache::import_tac_dev(const std::string &tac_dev)
 {
 
 //

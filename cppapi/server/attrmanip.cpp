@@ -35,7 +35,7 @@
 namespace Tango
 {
 
-void execute_manip(std::ostream &o_str, std::string &manip)
+void execute_manip(std::ostream &o_str, const std::string &manip)
 {
 
 //

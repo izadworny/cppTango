@@ -533,7 +533,7 @@ void ZmqEventSupplier::create_event_socket()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventSupplier::create_mcast_event_socket(std::string &mcast_data,std::string &ev_name,int rate,bool local_call)
+void ZmqEventSupplier::create_mcast_event_socket(const std::string &mcast_data,const std::string &ev_name,int rate,bool local_call)
 {
 
     std::map<std::string,McastSocketPub>::iterator ite;
@@ -617,7 +617,7 @@ void ZmqEventSupplier::create_mcast_event_socket(std::string &mcast_data,std::st
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,McastSocketPub &ms)
+void ZmqEventSupplier::create_mcast_socket(const std::string &mcast_data,int rate,McastSocketPub &ms)
 {
 
 //
@@ -709,7 +709,7 @@ void ZmqEventSupplier::create_mcast_socket(std::string &mcast_data,int rate,Mcas
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-bool ZmqEventSupplier::is_event_mcast(std::string &ev_name)
+bool ZmqEventSupplier::is_event_mcast(const std::string &ev_name)
 {
     bool ret = false;
 
@@ -736,7 +736,7 @@ bool ZmqEventSupplier::is_event_mcast(std::string &ev_name)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-std::string &ZmqEventSupplier::get_mcast_event_endpoint(std::string &ev_name)
+std::string &ZmqEventSupplier::get_mcast_event_endpoint(const std::string &ev_name)
 {
     return event_mcast.find(ev_name)->second.endpoint;
 }
@@ -755,7 +755,7 @@ std::string &ZmqEventSupplier::get_mcast_event_endpoint(std::string &ev_name)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void ZmqEventSupplier::init_event_cptr(std::string &event_name)
+void ZmqEventSupplier::init_event_cptr(const std::string &event_name)
 {
     std::map<std::string,unsigned int>::iterator pos;
 
@@ -976,9 +976,9 @@ void tg_unlock(TANGO_UNUSED(void *data),void *hint)
 }
 
 void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type,
-            TANGO_UNUSED(std::vector<std::string> &filterable_names),TANGO_UNUSED(std::vector<double> &filterable_data),
-            TANGO_UNUSED(std::vector<std::string> &filterable_names_lg),TANGO_UNUSED(std::vector<long> &filterable_data_lg),
-            struct SuppliedEventData &ev_value,std::string &obj_name,DevFailed *except,bool inc_cptr)
+            TANGO_UNUSED(const std::vector<std::string> &filterable_names),TANGO_UNUSED(const std::vector<double> &filterable_data),
+            TANGO_UNUSED(const std::vector<std::string> &filterable_names_lg),TANGO_UNUSED(const std::vector<long> &filterable_data_lg),
+            const struct SuppliedEventData &ev_value,const std::string &obj_name,DevFailed *except,bool inc_cptr)
 {
 	if (device_impl == NULL)
 		return;
@@ -1655,9 +1655,9 @@ bool ZmqEventSupplier::update_connected_client(client_addr *cl)
 //-------------------------------------------------------------------------------------------------------------------
 
 void ZmqEventSupplier::push_event_loop(DeviceImpl *device_impl,EventType event_type,
-            TANGO_UNUSED(std::vector<std::string> &filterable_names),TANGO_UNUSED(std::vector<double> &filterable_data),
-            TANGO_UNUSED(std::vector<std::string> &filterable_names_lg),TANGO_UNUSED(std::vector<long> &filterable_data_lg),
-            struct SuppliedEventData &attr_value,Attribute &att,DevFailed *except)
+            TANGO_UNUSED(const std::vector<std::string> &filterable_names),TANGO_UNUSED(const std::vector<double> &filterable_data),
+            TANGO_UNUSED(const std::vector<std::string> &filterable_names_lg),TANGO_UNUSED(const std::vector<long> &filterable_data_lg),
+            const struct SuppliedEventData &attr_value,Attribute &att,DevFailed *except)
 {
 	cout3 << "ZmqEventSupplier::push_event_loop(): called for attribute " << att.get_name() << std::endl;
 

@@ -271,7 +271,7 @@ bool FwdAttr::validate_fwd_att(std::vector<AttrProperty> &prop_list,const std::s
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void FwdAttr::get_root_conf(std::string &dev_name,DeviceImpl *dev)
+void FwdAttr::get_root_conf(const std::string &dev_name,DeviceImpl *dev)
 {
 	try
 	{
@@ -717,7 +717,7 @@ std::string &FwdAttr::get_label_from_default_properties()
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void FwdAttr::remove_useless_prop(std::vector<AttrProperty> &prop_list,std::string &dev_name,MultiAttribute *m_attr)
+void FwdAttr::remove_useless_prop(std::vector<AttrProperty> &prop_list,const std::string &dev_name,MultiAttribute *m_attr)
 {
     std::vector<AttrProperty>::iterator ite;
 

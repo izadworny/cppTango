@@ -1234,7 +1234,7 @@ void Attribute::set_properties(Tango::MultiAttrProp<T> &props)
 //-------------------------------------------------------------------------------------------------------------------
 
 template<typename T>
-void Attribute::set_upd_properties(const T &conf, std::string &dev_name, bool from_ds)
+void Attribute::set_upd_properties(const T &conf, const std::string &dev_name, bool from_ds)
 {
 
 //

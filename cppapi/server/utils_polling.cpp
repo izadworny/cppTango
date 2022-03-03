@@ -1498,7 +1498,7 @@ int Util::check_dev_poll(std::vector<std::string> &poll_cmd_list,std::vector<std
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Util::split_string(std::string &the_str,char delim,std::vector<std::string> &splitted_str)
+void Util::split_string(const std::string &the_str,char delim,std::vector<std::string> &splitted_str)
 {
 	std::string::size_type pos,start;
 	splitted_str.clear();
@@ -1532,7 +1532,7 @@ void Util::split_string(std::string &the_str,char delim,std::vector<std::string>
 //
 //------------------------------------------------------------------------------------------------------------------
 
-void Util::upd_polling_prop(std::vector<DevDbUpd> &upd_devs,DServer *admin_dev)
+void Util::upd_polling_prop(const std::vector<DevDbUpd> &upd_devs,DServer *admin_dev)
 {
 	std::vector<DeviceClass *> &tmp_cl_list = admin_dev->get_class_list();
 	unsigned long i;
@@ -1728,7 +1728,7 @@ void Util::upd_polling_prop(std::vector<DevDbUpd> &upd_devs,DServer *admin_dev)
 //
 //------------------------------------------------------------------------------------------------------------------
 
-int Util::get_th_polled_devs(std::string &dev,std::vector<std::string> &th_polled_devs)
+int Util::get_th_polled_devs(const std::string &dev,std::vector<std::string> &th_polled_devs)
 {
 	th_polled_devs.clear();
 
@@ -1820,7 +1820,7 @@ void Util::build_first_pool_conf(std::vector<std::string> &pool_conf)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-bool Util::is_dev_already_in_pool_conf(std::string &dev_name,std::vector<std::string>& pool,int stop)
+bool Util::is_dev_already_in_pool_conf(const std::string &dev_name,std::vector<std::string>& pool,int stop)
 {
 	std::vector<std::string>::iterator iter;
 
@@ -1857,7 +1857,7 @@ bool Util::is_dev_already_in_pool_conf(std::string &dev_name,std::vector<std::st
 //
 //---------------------------------------------------------------------------------------------------------------------
 
-int Util::get_dev_entry_in_pool_conf(std::string &dev_name)
+int Util::get_dev_entry_in_pool_conf(const std::string &dev_name)
 {
 	std::vector<std::string>::iterator iter;
 	unsigned int dev_nb_char = dev_name.size();
@@ -1902,7 +1902,7 @@ int Util::get_dev_entry_in_pool_conf(std::string &dev_name)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-void Util::remove_dev_from_polling_map(std::string &dev_name)
+void Util::remove_dev_from_polling_map(const std::string &dev_name)
 {
 	std::map<std::string,int>::iterator iter;
 	iter = dev_poll_th_map.find(dev_name);

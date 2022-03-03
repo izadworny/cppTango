@@ -54,8 +54,7 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-
-long Connection::command_inout_asynch(const char *command, DeviceData &data_in, bool faf)
+long Connection::command_inout_asynch(const std::string &command, const DeviceData &data_in, bool faf)
 {
 //
 // Throw exception if caller not allowed to do write action
@@ -81,9 +80,8 @@ long Connection::command_inout_asynch(const char *command, DeviceData &data_in, 
 //
 
 		std::string d_name = dev_name();
-		std::string cmd(command);
 
-		if (db->is_command_allowed(d_name,cmd) == false)
+		if (db->is_command_allowed(d_name,command) == false)
 		{
 			DevErrorList &e = db->get_access_except_errors();
 			if (e.length() != 0)
@@ -129,7 +127,7 @@ long Connection::command_inout_asynch(const char *command, DeviceData &data_in, 
 	else
 		request = device->_request("command_inout");
 
-	request->add_in_arg() <<= command;
+	request->add_in_arg() <<= command.c_str();
 	request->add_in_arg() <<= data_in.any.in();
 
 	if (version >= 4)
@@ -185,22 +183,10 @@ long Connection::command_inout_asynch(const char *command, DeviceData &data_in, 
 //
 //-----------------------------------------------------------------------------
 
-
-long Connection::command_inout_asynch(std::string &command, DeviceData &data_in, bool faf)
-{
-	return command_inout_asynch(command.c_str(),data_in,faf);
-}
-
-long Connection::command_inout_asynch(const char *command,bool faf)
+long Connection::command_inout_asynch(const std::string &command,bool faf)
 {
 	DeviceData data_in;
 	return command_inout_asynch(command,data_in,faf);
-}
-
-long Connection::command_inout_asynch(std::string &command,bool faf)
-{
-	DeviceData data_in;
-	return command_inout_asynch(command.c_str(),data_in,faf);
 }
 
 //-----------------------------------------------------------------------------
@@ -791,7 +777,7 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
 //-----------------------------------------------------------------------------
 
 
-long DeviceProxy::read_attributes_asynch(std::vector<std::string> &attr_names)
+long DeviceProxy::read_attributes_asynch(const std::vector<std::string> &attr_names)
 {
 //
 // Reconnect to device in case it is needed
@@ -882,7 +868,7 @@ long DeviceProxy::read_attributes_asynch(std::vector<std::string> &attr_names)
 	return id;
 }
 
-long DeviceProxy::read_attribute_asynch(std::string &name)
+long DeviceProxy::read_attribute_asynch(const std::string &name)
 {
 	std::vector<std::string> tmp_names(1,name);
 	return read_attributes_asynch(tmp_names);
@@ -1952,7 +1938,7 @@ void DeviceProxy::read_attr_except(CORBA::Request_ptr req,long id,read_attr_type
 //-----------------------------------------------------------------------------
 
 
-long DeviceProxy::write_attributes_asynch(std::vector<DeviceAttribute> &attr_list)
+long DeviceProxy::write_attributes_asynch(const std::vector<DeviceAttribute> &attr_list)
 {
 //
 // Throw exception if caller not allowed to write_attribute
@@ -2039,7 +2025,7 @@ long DeviceProxy::write_attributes_asynch(std::vector<DeviceAttribute> &attr_lis
 	return id;
 }
 
-long DeviceProxy::write_attribute_asynch(DeviceAttribute &attr)
+long DeviceProxy::write_attribute_asynch(const DeviceAttribute &attr)
 {
 //
 // Throw exception if caller not allowed to write_attribute
@@ -2654,7 +2640,7 @@ void DeviceProxy::write_attr_except(CORBA::Request_ptr req,long id,TgRequest::Re
 //
 //-----------------------------------------------------------------------------
 
-void DeviceProxy::retrieve_read_args(TgRequest &req,std::vector<std::string> &att_list)
+void DeviceProxy::retrieve_read_args(const TgRequest &req,std::vector<std::string> &att_list)
 {
 
 	att_list.clear();
@@ -2819,7 +2805,7 @@ void DeviceProxy::redo_synch_write_call(TgRequest &req)
 //
 //-----------------------------------------------------------------------------
 
-DeviceData Connection::redo_synch_cmd(TgRequest &req)
+DeviceData Connection::redo_synch_cmd(const TgRequest &req)
 {
 	const char *cmd_name = NULL;
 	const CORBA::Any *a_ptr;

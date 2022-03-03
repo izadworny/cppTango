@@ -74,7 +74,7 @@ private :
 	int     			db_port_num;    // DB port (as number)
 
 	void real_constructor(std::string &);
-	void ctor_from_dp(const DeviceProxy *,std::string &);
+	void ctor_from_dp(const DeviceProxy *,const std::string &);
 
     class AttributeProxyExt
     {
@@ -351,7 +351,7 @@ public :
  * @return The asynchrnous call identifier
  * @exception ConnectionFailed
  */
-	virtual long write_asynch(DeviceAttribute &da) {return dev_proxy->write_attribute_asynch(da);}
+	virtual long write_asynch(const DeviceAttribute &da) {return dev_proxy->write_attribute_asynch(da);}
 /**
  * Get asynchronous write attribute call reply
  *
@@ -535,7 +535,7 @@ public :
  * @param [out] event_list The event list
  * @exception EventSystemFailed
  */
-	virtual void get_events (int event_id, EventDataList &event_list)
+	virtual void get_events (int event_id,EventDataList &event_list)
 	               {dev_proxy->get_events (event_id, event_list);}
 /**
  * Get events from event queue (pull model)
@@ -550,7 +550,7 @@ public :
  * @param [out] event_list The event list
  * @exception EventSystemFailed
  */
-	virtual void get_events (int event_id, AttrConfEventDataList &event_list)
+	virtual void get_events (int event_id,AttrConfEventDataList &event_list)
 	               {dev_proxy->get_events (event_id, event_list);}
 /**
  * Get events number in queue
@@ -607,7 +607,7 @@ public :
  * @param [out] db Property value
  * @exception NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database
  */
-	virtual void get_property(std::string &prop_name, DbData &db);
+	virtual void get_property(const std::string &prop_name,DbData &db);
 /**
  * Get multiple attribute property
  *
@@ -618,7 +618,7 @@ public :
  * @param [out] db Properties value
  * @exception NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database
  */
-	virtual void get_property(std::vector<std::string> &prop_names, DbData &db);
+	virtual void get_property(const std::vector<std::string> &prop_names,DbData &db);
 /**
  * Get attribute property(ies)
  *
@@ -638,7 +638,7 @@ public :
  * @param [in,out] db Properties value
  * @exception NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database
  */
-	virtual void put_property(DbData &db);
+	virtual void put_property(const DbData &db);
 /**
  * Delete a single attribute property
  *
@@ -648,7 +648,7 @@ public :
  * @param [in] prop_name The property name
  * @exception NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database
  */
-	virtual void delete_property(std::string &prop_name);
+	virtual void delete_property(const std::string &prop_name);
 /**
  * Delete a list of attribute property
  *
@@ -658,7 +658,7 @@ public :
  * @param [in] prop_names The properties name
  * @exception NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database
  */
-	virtual void delete_property(std::vector<std::string> &prop_names);
+	virtual void delete_property(const std::vector<std::string> &prop_names);
 /**
  * Delete attribute property(ies)
  *
@@ -668,7 +668,7 @@ public :
  * @param [in] db The properties name
  * @exception NonDbDevice, ConnectionFailed, CommunicationFailed, DevFailed from database
  */
-	virtual void delete_property(DbData &db);
+	virtual void delete_property(const DbData &db);
 
 //@}
 

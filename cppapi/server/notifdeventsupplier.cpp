@@ -156,8 +156,8 @@ void NotifdEventSupplier::subscription_change(TANGO_UNUSED(const CosNotification
 //
 //-----------------------------------------------------------------------------
 
-void NotifdEventSupplier::connect_to_notifd(NotifService &ns,CORBA::ORB_var &_orb,
-				      std::string &server_name,
+void NotifdEventSupplier::connect_to_notifd(NotifService &ns,const CORBA::ORB_var &_orb,
+				      const std::string &server_name,
 				      Util *tg)
 {
 	CosNotifyChannelAdmin::EventChannelFactory_var _eventChannelFactory;
@@ -819,9 +819,9 @@ void NotifdEventSupplier::disconnect_from_notifd()
 //-----------------------------------------------------------------------------
 
 void NotifdEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type,
-            std::vector<std::string> &filterable_names,std::vector<double> &filterable_data,std::vector<std::string> &filterable_names_lg,
-            std::vector<long> &filterable_data_lg,
-            struct SuppliedEventData &attr_value,std::string &attr_name,DevFailed *except,TANGO_UNUSED(bool inc_cptr))
+            const std::vector<std::string> &filterable_names,const std::vector<double> &filterable_data,const std::vector<std::string> &filterable_names_lg,
+            const std::vector<long> &filterable_data_lg,
+            const struct SuppliedEventData &attr_value,const std::string &attr_name,DevFailed *except,TANGO_UNUSED(bool inc_cptr))
 {
 	CosNotification::StructuredEvent struct_event;
 	std::string domain_name;

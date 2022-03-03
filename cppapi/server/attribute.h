@@ -208,7 +208,7 @@ public:
  * @param idx The index of the related Attr object in the MultiClassAttribute
  *            vector of Attr object
  */
-	Attribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,std::string &dev_name,long idx);
+	Attribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,const std::string &dev_name,long idx);
 //@}
 
 /**@name Destructor
@@ -278,6 +278,7 @@ public:
  * @return A bitset. Each bit is set if the coresponding alarm is on
  */
 	std::bitset<numFlags> &is_alarmed() {return alarm_conf;}
+	std::bitset<numFlags> const &is_alarmed() const {return alarm_conf;}
 /**
  * Check if the attribute is polled .
  *
@@ -305,13 +306,14 @@ public:
  *
  * @return The attribute write type.
  */
-	Tango::AttrWriteType get_writable() {return writable;}
+	Tango::AttrWriteType get_writable()const {return writable;}
 /**
  * Get attribute name
  *
  * @return The attribute name
  */
 	std::string &get_name() {return name;}
+	std::string const &get_name() const {return name;}
 /**
  * Get attribute data type
  *
@@ -336,7 +338,7 @@ public:
  * @return The index in the main attribute vector of the associated writable
  * attribute
  */
-	long get_assoc_ind() {return assoc_ind;}
+	long get_assoc_ind()const {return assoc_ind;}
 /**
  * Set index of the associated writable attribute
  *
@@ -1750,7 +1752,7 @@ public:
  * @param filt_vals The filterable fields value (as double)
  * @param except A pointer to a DevFailed exception to be thrown as archive event.
  */
-	void fire_event(std::vector<std::string> &filt_names,std::vector<double> &filt_vals,DevFailed *except = NULL);
+	void fire_event(const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,DevFailed *except = NULL);
 
 /**
  * Remove the attribute configuration from the database.
@@ -2161,9 +2163,9 @@ public:
 	void get_properties(Tango::AttributeConfig_3 &);
 	void get_properties(Tango::AttributeConfig_5 &);
 
-	void set_properties(const Tango::AttributeConfig &,std::string &,bool,std::vector<AttPropDb> &);
-	void set_properties(const Tango::AttributeConfig_3 &,std::string &,bool,std::vector<AttPropDb> &);
-	void set_properties(const Tango::AttributeConfig_5 &,std::string &,bool,std::vector<AttPropDb> &);
+	void set_properties(const Tango::AttributeConfig &,const std::string &,bool,std::vector<AttPropDb> &);
+	void set_properties(const Tango::AttributeConfig_3 &,const std::string &,bool,std::vector<AttPropDb> &);
+	void set_properties(const Tango::AttributeConfig_5 &,const std::string &,bool,std::vector<AttPropDb> &);
 
 	void upd_database(std::vector<AttPropDb> &);
 
@@ -2175,7 +2177,7 @@ public:
 	template <typename T>
 	void set_upd_properties(const T &_c) {set_upd_properties(_c,d_name);}
 	template <typename T>
-	void set_upd_properties(const T &,std::string &,bool f_s=false);
+	void set_upd_properties(const T &,const std::string &,bool f_s=false);
 
 	virtual void set_rvalue() {};
 	void delete_seq();
@@ -2296,7 +2298,7 @@ public:
 	void AttributeConfig_5_2_AttributeConfig_3(const Tango::AttributeConfig_3 &,Tango::AttributeConfig_3 &) {} // Templ
 	void AttributeConfig_3_2_AttributeConfig_5(const Tango::AttributeConfig_5 &,Tango::AttributeConfig_5 &) {} // Templ
 
-	void set_mcast_event(std::vector<std::string> &vs) {mcast_event.clear();copy(vs.begin(),vs.end(),back_inserter(mcast_event));}
+	void set_mcast_event(const std::vector<std::string> &vs) {mcast_event.clear();copy(vs.begin(),vs.end(),back_inserter(mcast_event));}
 
 	bool is_polled(DeviceImpl *);
 	void set_polling_period(long per) {poll_period = per;}
@@ -2324,7 +2326,7 @@ public:
 
 private:
 	void set_data_size();
-	void throw_min_max_value(std::string &,std::string &,MinMaxValueCheck);
+	void throw_min_max_value(const std::string &,const std::string &,MinMaxValueCheck);
 	void log_quality();
 	void log_alarm_quality() const;
 
@@ -2358,7 +2360,7 @@ private:
             return false;
     }
 
-    bool init_check_val_prop(std::vector<AttrProperty> &,std::string &,const char *,std::string &,Tango::Attr_CheckVal &,Tango::Attr_CheckVal &);
+    bool init_check_val_prop(std::vector<AttrProperty> &,const std::string &,const char *,std::string &,Tango::Attr_CheckVal &,const Tango::Attr_CheckVal &);
 
 	unsigned long 		name_size;
 	std::string 				name_lower;
@@ -2382,7 +2384,7 @@ protected:
 
 	AttributeExt		*ext;
 
-	virtual void init_opt_prop(std::vector<AttrProperty> &,std::string &);
+	virtual void init_opt_prop(std::vector<AttrProperty> &,const std::string &);
 	virtual void init_event_prop(std::vector<AttrProperty> &,const std::string &,Attr &);
 	void init_enum_prop(std::vector<AttrProperty> &);
 	std::string &get_attr_value(std::vector<AttrProperty> &,const char *);
@@ -2390,8 +2392,8 @@ protected:
 	virtual bool check_rds_alarm() {return false;}
 	bool check_level_alarm();
 	bool check_warn_alarm();
-	void upd_att_prop_db(Tango::Attr_CheckVal &,const char *);
-	DeviceClass *get_att_device_class(std::string &);
+	void upd_att_prop_db(const Tango::Attr_CheckVal &,const char *);
+	DeviceClass *get_att_device_class(const std::string &);
 
 	template <typename T>
     void check_hard_coded_properties(const T &);
@@ -2409,29 +2411,29 @@ protected:
 	void throw_err_data_type(const char *,const std::string &,const char *);
     void validate_change_properties(const std::string &,const char *,std::string &,std::vector<double> &,std::vector<bool> &,std::vector<bool> &);
     void validate_change_properties(const std::string &,const char *,std::string &,std::vector<double> &);
-    bool prop_in_list(const char *,std::string &,size_t,std::vector<AttrProperty> &);
+    bool prop_in_list(const char *,std::string &,size_t,const std::vector<AttrProperty> &);
     void set_format_notspec();
     bool is_format_notspec(const char *);
 	void def_format_in_dbdatum(DbDatum &);
 
-    void avns_in_db(const char *,std::string &);
+    void avns_in_db(const char *,const std::string &);
     void avns_in_att(prop_type);
 
 	void convert_prop_value(const char *,std::string &,Attr_CheckVal &,const std::string &);
 
-	void check_range_coherency(std::string &);
-	void db_access(struct CheckOneStrProp &,std::string &);
-	void set_prop_5_specific(const AttributeConfig_5 &,std::string &,bool,std::vector<AttPropDb> &);
-	void build_check_enum_labels(std::string &);
+	void check_range_coherency(const std::string &);
+	void db_access(const struct CheckOneStrProp &,const std::string &);
+	void set_prop_5_specific(const AttributeConfig_5 &,const std::string &,bool,std::vector<AttPropDb> &);
+	void build_check_enum_labels(const std::string &);
 
-	void set_one_str_prop(const char *,const CORBA::String_member &,std::string &,std::vector<AttPropDb> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &,const char *);
-	void set_one_alarm_prop(const char *,const CORBA::String_member &,std::string &,Tango::Attr_CheckVal &, std::vector<AttPropDb> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &,bool &);
-	void set_rds_prop(const AttributeAlarm &,std::string &,std::vector<AttPropDb> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &);
-	void set_rds_prop_val(const AttributeAlarm &,std::string &,std::vector<AttrProperty> &,std::vector<AttrProperty> &);
-	void set_rds_prop_db(const AttributeAlarm &,std::vector<AttPropDb> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &);
-	void set_one_event_prop(const char *,const CORBA::String_member &,double *,std::vector<AttPropDb> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &);
-	void event_prop_db_xxx(std::vector<double> &,std::vector<double> &,std::vector<AttPropDb> &,AttPropDb &);
-	void set_one_event_period(const char *,const CORBA::String_member &,int &,const int &,std::vector<AttPropDb> &,std::vector<AttrProperty> &,std::vector<AttrProperty> &);
+	void set_one_str_prop(const char *,const CORBA::String_member &,std::string &,std::vector<AttPropDb> &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &,const char *);
+	void set_one_alarm_prop(const char *,const CORBA::String_member &,std::string &,Tango::Attr_CheckVal &, std::vector<AttPropDb> &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &,bool &);
+	void set_rds_prop(const AttributeAlarm &,const std::string &,std::vector<AttPropDb> &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &);
+	void set_rds_prop_val(const AttributeAlarm &,const std::string &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &);
+	void set_rds_prop_db(const AttributeAlarm &,std::vector<AttPropDb> &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &);
+	void set_one_event_prop(const char *,const CORBA::String_member &,double *,std::vector<AttPropDb> &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &);
+	void event_prop_db_xxx(const std::vector<double> &,const std::vector<double> &,std::vector<AttPropDb> &,AttPropDb &);
+	void set_one_event_period(const char *,const CORBA::String_member &,int &,const int &,std::vector<AttPropDb> &,const std::vector<AttrProperty> &,const std::vector<AttrProperty> &);
 
 
 	std::bitset<numFlags>	alarm_conf;
@@ -2637,7 +2639,7 @@ inline void Attribute::throw_startup_exception(const char* origin)
 //------------------------------------------------------------------------------------------------------------------
 
 
-inline bool Attribute::prop_in_list(const char *prop_name,std::string &prop_str,size_t list_size,std::vector<AttrProperty> &list)
+inline bool Attribute::prop_in_list(const char *prop_name,std::string &prop_str,size_t list_size,const std::vector<AttrProperty> &list)
 {
     bool ret = false;
 
