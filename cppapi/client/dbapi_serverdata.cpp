@@ -70,7 +70,7 @@ DbServerData::DbServerData(const std::string &exec_name,const std::string &inst_
 		int ind = au->get_db_ind(adm.get_db_host(),adm.get_db_port_num());
 		db_ptr = au->get_db_vect()[ind];
 	}
-	catch (Tango::DevFailed &e)
+	catch (Tango::DevFailed &)
 	{
 		std::stringstream ss;
 		ss << "Device server process " << full_server_name << " is not defined in database";

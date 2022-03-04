@@ -1605,7 +1605,7 @@ int EventConsumer::connect_event(DeviceProxy *device,
 		{
 			connect(device, device_name, dd, received_from_admin.channel_name, new_entry_in_channel_map);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed &)
 		{
 		    if (allocated == true)
                 delete adm_dev;

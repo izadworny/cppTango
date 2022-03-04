@@ -186,7 +186,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 	}
 
 	short max_val = (short)enum_labels.size() - 1;
-	for (int i = 0;i < data_size;i++)
+	for (std::uint32_t i = 0;i < data_size;i++)
 	{
 		loc_enum_ptr[i] = (short)enum_ptr[i];
 		if (loc_enum_ptr[i] < 0 || loc_enum_ptr[i] > max_val)

@@ -184,7 +184,7 @@ void Logging::init (const std::string& ds_name, // dserver name
 #ifdef TANGO_LONG64
           _VERBOSE(("\tRolling file threshold is %lu Kb\n", Logging::_rft));
 #else
-		  _VERBOSE(("\tRolling file threshold is %d Kb\n", Logging::_rft));
+		  _VERBOSE(("\tRolling file threshold is %zu Kb\n", Logging::_rft));
 #endif
         }
         // set logging level (if not set from cmd line)

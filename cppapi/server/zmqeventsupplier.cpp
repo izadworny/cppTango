@@ -103,10 +103,10 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
     alternate_h_endpoint.clear();
 
     std::string &specified_addr = tg->get_specified_ip();
-    unsigned char buf[sizeof(struct in_addr)];
     bool specified_name = false;
 
 #ifndef _TG_WINDOWS_
+    unsigned char buf[sizeof(struct in_addr)];
     if (specified_addr.empty() == false && inet_pton(AF_INET,specified_addr.c_str(),buf) == 0)
 #else
 	struct sockaddr_storage ss;

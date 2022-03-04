@@ -223,7 +223,7 @@ namespace log4tango {
     if (_maxWidth > 0) {
         msg.erase(_maxWidth);
     }
-    int fillCount = _minWidth - msg.length();
+    auto fillCount = _minWidth - msg.length();
     if (fillCount > 0) {
         if (_alignLeft) {
             out << msg << std::string(fillCount, ' ');

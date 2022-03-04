@@ -841,7 +841,7 @@ void FwdAttribute::upd_att_label(const char *new_label)
 		{
 			Util::instance()->get_database()->put_device_attribute_property(d_name,db_dat);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed &)
 		{
 			label = old_label;
 			rar.update_label(fwd_dev_name,fwd_att_name,label);
@@ -863,7 +863,7 @@ void FwdAttribute::upd_att_label(const char *new_label)
 		{
 			Util::instance()->get_database()->delete_device_attribute_property(d_name, db_data);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed &)
 		{
 			label = old_label;
 			rar.update_label(fwd_dev_name,fwd_att_name,label);

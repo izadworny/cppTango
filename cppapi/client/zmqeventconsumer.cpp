@@ -1978,7 +1978,7 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 				size_t data_size = (size_t)event_data.size();
 
 				bool shift_zmq420 = false;
-                int shift_mem = (unsigned long)data_ptr & 0x3;
+                int shift_mem = reinterpret_cast<std::uintptr_t>(data_ptr) & 0x3;
                 if (shift_mem != 0)
                 {
 					char *src = data_ptr + 4;
@@ -1991,7 +1991,7 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
                     }
 
 					char *dest = src - shift_mem;
-					if (((unsigned long)dest & 0x7) == 4)
+					if ((reinterpret_cast<std::uintptr_t>(dest) & 0x7) == 4)
                         dest = dest - 4;
 					memmove((void *)dest,(void *)src,size_to_move);
 					shift_zmq420 = true;
@@ -2021,7 +2021,7 @@ void ZmqEventConsumer::push_zmq_event(std::string &ev_name,unsigned char endian,
 				bool buffer_aligned64 = false;
 				if (data64 == true)
 				{
-					if (((unsigned long)data_ptr & 0x7) == 0)
+					if ((reinterpret_cast<std::uintptr_t>(data_ptr) & 0x7) == 0)
 						buffer_aligned64 = true;
 				}
 
@@ -3120,7 +3120,6 @@ bool ZmqEventConsumer::check_zmq_endpoint(const std::string &endpoint)
 
 	struct sockaddr_in address;
 	int result, len;
-	long arg;
 
 	int sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (sockfd < 0)
@@ -3207,6 +3206,7 @@ bool ZmqEventConsumer::check_zmq_endpoint(const std::string &endpoint)
 
 	closesocket(sockfd);
 #else
+	long arg;
 //
 // Put socket in non-blocking mode
 //
@@ -3489,7 +3489,7 @@ void ZmqAttrValUnion::operator<<= (TangoCdrMemoryStream& _n)
 // Get data length from cdr
 //
 
-       _CORBA_ULong length = 0ul;
+       CORBA::ULong length = 0ul;
         if (_pd__d != ATT_NO_DATA)
         {
             length <<= _n;
@@ -3605,10 +3605,10 @@ void ZmqAttrValUnion::operator<<= (TangoCdrMemoryStream& _n)
                 DevVarEncodedArray &dvea = encoded_att_value();
                 dvea.length(length);
 
-                for (_CORBA_ULong i = 0;i < length;i++)
+                for (CORBA::ULong i = 0;i < length;i++)
                 {
                     dvea[i].encoded_format = _n.unmarshalString(0);
-                    _CORBA_ULong seq_length;
+                    CORBA::ULong seq_length;
                     seq_length <<= _n;
                     _CORBA_Octet *ptr = (_CORBA_Octet *)(data_ptr + _n.currentInputPtr());
                     dvea[i].encoded_data.replace(seq_length,seq_length,ptr,false);
@@ -3732,7 +3732,7 @@ void Tango::ZmqDevPipeBlob::operator<<= (TangoCdrMemoryStream &_n)
 
 void Tango::ZmqDevVarPipeDataEltArray::operator<<= (TangoCdrMemoryStream &_n)
 {
-	_CORBA_ULong _l;
+	CORBA::ULong _l;
 	_l <<= _n;
 	if (!_n.checkInputOverrun(1,_l))
 	{
@@ -3740,7 +3740,7 @@ void Tango::ZmqDevVarPipeDataEltArray::operator<<= (TangoCdrMemoryStream &_n)
 // never reach here
 	}
 	length(_l);
-	for( _CORBA_ULong _i = 0; _i < _l; _i++ )
+	for( CORBA::ULong _i = 0; _i < _l; _i++ )
 	{
 		DevPipeDataElt &dpde = pd_buf[_i];
 		ZmqDevPipeDataElt &z_dpde = static_cast<ZmqDevPipeDataElt &>(dpde);

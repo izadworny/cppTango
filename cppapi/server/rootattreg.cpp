@@ -407,7 +407,7 @@ void RootAttRegistry::RootAttConfCallBack::add_att(const std::string &root_att_n
 				local_dis.insert({local_dev_name,the_local_dev});
 		}
 	}
-	catch (DevFailed &e) {}
+	catch (DevFailed &) {}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -682,7 +682,7 @@ void RootAttRegistry::add_root_att(const std::string &device_name,const std::str
 		{
 			the_dev = new DeviceProxy(device_name);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed &)
 		{
 			attdesc->set_err_kind(FWD_WRONG_DEV);
 

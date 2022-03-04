@@ -34,6 +34,11 @@
 #include <mutex>
 #include <log4tango/Appender.hh>
 
+#if defined(_MSC_VER)
+    #pragma warning(push)
+    #pragma warning(disable : 4251) //dll export
+#endif
+
 namespace log4tango {
 
 /**
@@ -131,5 +136,9 @@ class LOG4TANGO_EXPORT AppenderAttachable
 };
 
 } // namespace log4tango
+
+#if defined(_MSC_VER)
+    #pragma warning(pop)
+#endif
 
 #endif // _LOG4TANGO_APPENDER_ATTACHABLE_H

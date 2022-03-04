@@ -403,7 +403,10 @@ public:
  *
  * @return The attribute data size
  */
-	long get_data_size() {return data_size;}
+	long get_data_size() {
+            assert(data_size <= std::uint32_t((std::numeric_limits<long>::max)()));
+            return static_cast<long>(data_size);
+        }
 /**
  * Get attribute data size in x dimension
  *
@@ -2111,7 +2114,7 @@ protected:
 /**
  * The attribute data size
  */
-	long					data_size;
+	std::uint32_t					data_size;
 /**
  * Flag set to true if a minimum value is defined
  */
@@ -2454,7 +2457,7 @@ protected:
 
 	std::vector<AttrProperty>::iterator pos_end;
 
-	int 				enum_nb;						// For enum attribute
+	std::uint32_t 		enum_nb;						// For enum attribute
 	short				*loc_enum_ptr;					// For enum attribute
 
 //

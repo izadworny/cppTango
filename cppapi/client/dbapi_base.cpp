@@ -476,7 +476,7 @@ void Database::set_server_release()
                 serv_version = 230;
                 delete cmd_ptr;
 		    }
-		    catch (Tango::DevFailed &e)
+		    catch (Tango::DevFailed &)
 		    {
 		        serv_version = 210;
 		    }

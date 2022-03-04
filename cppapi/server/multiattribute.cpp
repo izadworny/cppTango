@@ -220,7 +220,7 @@ MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_clas
 						add_user_default(prop_list,def_user_prop);
 						add_default(prop_list,dev_name,attr.get_name(),attr.get_type());
 					}
-					catch (Tango::DevFailed &e)
+					catch (Tango::DevFailed &)
 					{
 						fwd_ok = false;
 
@@ -1149,7 +1149,7 @@ Attribute &MultiAttribute::get_attr_by_name(const char *attr_name)
     {
         attr = ext->attr_map.at(st).att_ptr;
     }
-    catch(std::out_of_range &e)
+    catch(std::out_of_range &)
     {
         cout3 << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
@@ -1186,7 +1186,7 @@ WAttribute &MultiAttribute::get_w_attr_by_name(const char *attr_name)
     {
         attr = ext->attr_map.at(st).att_ptr;
     }
-    catch(std::out_of_range &e)
+    catch(std::out_of_range &)
     {
         cout3 << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
@@ -1234,7 +1234,7 @@ long MultiAttribute::get_attr_ind_by_name(const char *attr_name)
     {
         i = ext->attr_map.at(st).att_index_in_vector;
     }
-    catch(std::out_of_range &e)
+    catch(std::out_of_range &)
     {
         cout3 << "MultiAttribute::get_attr_ind_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;

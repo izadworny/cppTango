@@ -1416,7 +1416,7 @@ CORBA::Any*   FileDatabase :: DbGetDeviceAttributeProperty(CORBA::Any& send)
 #ifdef TANGO_LONG64
 						std::snprintf(num_val_str, sizeof(num_val_str), "%lu", (*dev_it)->attribute_properties[j]->properties[l]->value.size());
 #else
-						std::snprintf(num_val_str, sizeof(num_val_str), "%d", (*dev_it)->attribute_properties[j]->properties[l]->value.size());
+						std::snprintf(num_val_str, sizeof(num_val_str), "%zu", (*dev_it)->attribute_properties[j]->properties[l]->value.size());
 #endif
 						(*data_out)[index] = Tango::string_dup(num_val_str); index++;
 
@@ -1638,7 +1638,7 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 #ifdef TANGO_LONG64
 						std::snprintf(num_vals_str, sizeof(num_vals_str),"%lu",m_server.classes[i]->properties[m]->value.size());
 #else
-						std::snprintf(num_vals_str, sizeof(num_vals_str),"%d",m_server.classes[i]->properties[m]->value.size());
+						std::snprintf(num_vals_str, sizeof(num_vals_str),"%zu",m_server.classes[i]->properties[m]->value.size());
 #endif
 						(*data_out)[index] = Tango::string_dup(num_vals_str); index++;
 						for (unsigned int n = 0; n < num_val; n++)
@@ -1849,7 +1849,7 @@ CORBA::Any*   FileDatabase :: DbGetClassAttributeProperty(CORBA::Any& send)
 #ifdef TANGO_LONG64
 					std::snprintf(num_val_str, sizeof(num_val_str), "%lu", classe_trovata.attribute_properties[j]->properties[l]->value.size());
 #else
-					std::snprintf(num_val_str, sizeof(num_val_str), "%d", classe_trovata.attribute_properties[j]->properties[l]->value.size());
+					std::snprintf(num_val_str, sizeof(num_val_str), "%zu", classe_trovata.attribute_properties[j]->properties[l]->value.size());
 #endif
 					(*data_out)[index] = Tango::string_dup(num_val_str); index++;
 				 //(*data_out)[index] = Tango::string_dup(classe_trovata.attribute_properties[j]->properties[l]->name.c_str());index++;
@@ -2055,13 +2055,13 @@ CORBA::Any*  FileDatabase :: DbInfo(CORBA::Any&){
 #ifdef TANGO_LONG64
 	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %lu", m_server.devices.size());
 #else
-	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %d", m_server.devices.size());
+	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %zu", m_server.devices.size());
 #endif
 	(*data_out)[4] = Tango::string_dup(temp_str);
 #ifdef TANGO_LONG64
 	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %lu", m_server.devices.size());
 #else
-	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %d", m_server.devices.size());
+	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %zu", m_server.devices.size());
 #endif
 	(*data_out)[5] = Tango::string_dup(temp_str);
 	(*data_out)[6] = Tango::string_dup("Device servers defined = 1");
