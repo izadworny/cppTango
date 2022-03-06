@@ -1672,14 +1672,7 @@ void DevTest::read_Event_change_tst(Tango::Attribute &att)
 	{
 		if (event_throw_out_of_sync == true)
 		{
-#ifdef WIN32
-			Sleep(400);
-#else
-			struct timespec sleep_time;
-			sleep_time.tv_sec = 0;
-			sleep_time.tv_nsec = 400000000;
-			nanosleep(&sleep_time,NULL);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(400));
 		}
       	att.set_value(attr_event,attr_event_size);
 	}
@@ -2019,16 +2012,8 @@ void DevTest::read_Encoded_attr_image(Tango::Attribute &att)
 
 void DevTest::read_Slow_attr(Tango::Attribute &att)
 {
-#ifdef WIN32
-	Sleep(500);
-#else
-    struct timespec sl;
-    sl.tv_sec = 0;
-    sl.tv_nsec = 500000000;
-    nanosleep(&sl,NULL);
-#endif
-
-    att.set_value(&attr_slow);
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	att.set_value(&attr_slow);
 }
 
 void DevTest::read_Def_attr(Tango::Attribute &att)

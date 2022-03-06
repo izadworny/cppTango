@@ -201,24 +201,12 @@ public:
 
 	void test_Callback_executed_after_a_change_for_both_events(void)
 	{
-#ifndef WIN32
-		int rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device_local->command_inout("IOIncValue");
 		device_remote->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb->cb_executed << endl;
 

@@ -820,22 +820,14 @@ public:
 
         TS_ASSERT_EQUALS(per, 3000);
 
-#ifdef WIN32
-        Sleep(3000);
-#else
-        this_thread::sleep_for(chrono::seconds{3});
-#endif
+        std::this_thread::sleep_for(std::chrono::seconds(3));
 
         TS_ASSERT_THROWS_NOTHING(device->poll_command(cmd, 5000));
         TS_ASSERT_THROWS_NOTHING(per = device->get_command_poll_period(cmd));
 
         TS_ASSERT_EQUALS(per, 5000);
 
-#ifdef WIN32
-        Sleep(3000);
-#else
-        this_thread::sleep_for(chrono::seconds{3});
-#endif
+        std::this_thread::sleep_for(std::chrono::seconds(3));
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
@@ -884,11 +876,7 @@ public:
 
         TS_ASSERT_THROWS_NOTHING(device->poll_command("IOExcept", 500));
 
-#ifdef WIN32
-        Sleep(3000);
-#else
-        this_thread::sleep_for(chrono::seconds{3});
-#endif
+        std::this_thread::sleep_for(std::chrono::seconds(3));
 
         TS_ASSERT_THROWS_NOTHING(device->poll_command("IOExcept", 2000));
 
@@ -952,22 +940,14 @@ public:
 
         TS_ASSERT_EQUALS(per, 3000);
 
-#ifdef WIN32
-        Sleep(3000);
-#else
-        this_thread::sleep_for(chrono::seconds{3});
-#endif
+        std::this_thread::sleep_for(std::chrono::seconds(3));
 
         TS_ASSERT_THROWS_NOTHING(device->poll_attribute(attr, 5000));
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
 
         TS_ASSERT_EQUALS(per, 5000);
 
-#ifdef WIN32
-        Sleep(3000);
-#else
-        this_thread::sleep_for(chrono::seconds{3});
-#endif
+        std::this_thread::sleep_for(std::chrono::seconds(3));
 
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());

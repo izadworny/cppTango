@@ -824,21 +824,10 @@ void DeviceClass::delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_
 
 	if (device_list[idx] != NULL && exported_device == true)
 	{
-#ifdef _TG_WINDOWS_
 		while (device_list[idx] != NULL)
 		{
-			Sleep(10);
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
-#else
-		struct timespec ts;
-		ts.tv_sec = 0;
-		ts.tv_nsec = 10000000;
-
-		while (device_list[idx] != NULL)
-		{
-			nanosleep(&ts,NULL);
-		}
-#endif
 	}
 
 	TANGO_LOG_DEBUG << "Leaving DeviceClass delete_dev" << std::endl;

@@ -288,12 +288,12 @@ int main(int argc, char **argv)
 	device->set_source(Tango::CACHE);
 
 #ifdef VALGRIND
-	usleep(3000000);
+	std::this_thread::sleep_for(std::chrono::microseconds(3000000));
 #else
 #ifdef WIN32
 	Tango_sleep(2);
 #else
-	usleep(1200000);
+	std::this_thread::sleep_for(std::chrono::microseconds(1200000));
 #endif
 #endif
 
@@ -388,7 +388,7 @@ int main(int argc, char **argv)
 #ifdef WIN32
 	Tango_sleep(2);
 #else
-	usleep(1200000);
+	std::this_thread::sleep_for(std::chrono::microseconds(1200000));
 #endif
 
 	DeviceData dd;

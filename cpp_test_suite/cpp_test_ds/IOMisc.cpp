@@ -228,11 +228,7 @@ CORBA::Any *IOSleep::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORB
 
 		extract(in_any, sleeping_Time);
 		TANGO_LOG << "[IOSleep::execute] sleeping time " << sleeping_Time << std::endl;
-#ifdef WIN32
-		Sleep(sleeping_Time);
-#else
-		sleep(sleeping_Time);
-#endif
+		Tango_sleep(sleeping_Time);
 		return insert();
 	}
 	catch (CORBA::Exception &e)
@@ -1733,14 +1729,8 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
 
     std::stringstream ss;
 
-#ifdef WIN32
-    Sleep(300);
-#else
-    struct timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = 300000000;
-    nanosleep(&ts,NULL);
-#endif // WIN32
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
     DevTest *local_dev = static_cast<DevTest *>(dev);
 
     ss << "Attribute " << att1_name << " polling period = " << local_dev->get_att_poll_period(att1_name);
@@ -1760,13 +1750,7 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
 
 // Sleep 600 mS and do the same
 
-#ifdef WIN32
-    Sleep(600);
-#else
-    ts.tv_sec = 0;
-    ts.tv_nsec = 600000000;
-    nanosleep(&ts,NULL);
-#endif
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
 
     ss << "Attribute " << att1_name << " polling period = " << local_dev->get_att_poll_period(att1_name);
     local_dev->poll_messages.push_back(ss.str());
@@ -1785,13 +1769,7 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
 
 // Sleep 1500 mS and do the same
 
-#ifdef WIN32
-    Sleep(1500);
-#else
-    ts.tv_sec = 1;
-    ts.tv_nsec = 500000000;
-    nanosleep(&ts,NULL);
-#endif // WIN32
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     ss << "Attribute " << att1_name << " polling period = " << local_dev->get_att_poll_period(att1_name);
     local_dev->poll_messages.push_back(ss.str());

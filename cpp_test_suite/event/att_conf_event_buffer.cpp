@@ -141,14 +141,7 @@ int main(int argc, char **argv)
 
 			device->command_inout("IOSetWAttrLimit",d_in);
 
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)200);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 200000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
 //
 // Check that only the last event was kept
@@ -189,14 +182,7 @@ int main(int argc, char **argv)
 
 			device->command_inout("IOSetWAttrLimit",d_in);
 
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)200);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 200000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
 //
 // Check that only the last event was kept
@@ -236,14 +222,7 @@ int main(int argc, char **argv)
 
 			device->command_inout("IOSetWAttrLimit",d_in);
 
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)200);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 200000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
 //
 // Check that only the last event was kept
@@ -275,14 +254,7 @@ int main(int argc, char **argv)
 
 			device->command_inout("IOSetWAttrLimit",d_in);
 
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)200);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 200000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
 //
 // Check that all events were kept and can be read as a vector
@@ -352,14 +324,7 @@ int main(int argc, char **argv)
 
 			device->command_inout("IOSetWAttrLimit",d_in);
 
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)200);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 200000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		}
 
 //

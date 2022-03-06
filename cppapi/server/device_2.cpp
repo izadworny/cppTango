@@ -292,17 +292,8 @@ CORBA::Any *Device_2Impl::command_inout_2(const char *in_cmd,
 // Wait for first polling. Release monitor during this sleep in order
 // to give it to the polling thread
 //
-
-#ifdef _TG_WINDOWS_
-						Sleep((DWORD)600);
+						std::this_thread::sleep_for(std::chrono::milliseconds(600));
 						get_poll_monitor().get_monitor();
-#else
-						struct timespec to_wait,inter;
-						to_wait.tv_sec = 0;
-						to_wait.tv_nsec = 600000000;
-						nanosleep(&to_wait,&inter);
-						get_poll_monitor().get_monitor();
-#endif
 
 //
 // Update the polled-cmd pointer to the new polled object
@@ -637,19 +628,9 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 //
 // Wait for first polling
 //
-
-#ifdef _TG_WINDOWS_
 					get_poll_monitor().rel_monitor();
-					Sleep((DWORD)600);
+					std::this_thread::sleep_for(std::chrono::milliseconds(600));
 					get_poll_monitor().get_monitor();
-#else
-					struct timespec to_wait,inter;
-					to_wait.tv_sec = 0;
-					to_wait.tv_nsec = 600000000;
-					get_poll_monitor().rel_monitor();
-					nanosleep(&to_wait,&inter);
-					get_poll_monitor().get_monitor();
-#endif
 
 				}
 

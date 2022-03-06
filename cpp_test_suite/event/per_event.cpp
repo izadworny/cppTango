@@ -232,13 +232,7 @@ int main(int argc, char **argv)
 // signal which interrupts the sleep.....
 //
 
-#ifndef WIN32
-		int rest = sleep(5);
-		if (rest != 0)
-			sleep(5);
-#else
-		Sleep(5000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed > 2);

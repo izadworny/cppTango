@@ -32,6 +32,9 @@
 #ifndef _TANGO_CONFIG_H
 #define _TANGO_CONFIG_H
 
+#include <chrono>
+#include <thread>
+
 //
 // Add some define for Win32 and omniORB
 // !!!!!!!!!! In some cases, VC++ wizard generates Stdafx.h file which include
@@ -142,12 +145,10 @@
 // Define a common sleep call
 //
 
-#ifndef _TG_WINDOWS_
-    #define Tango_sleep(A) sleep(A)
-#else
-    #define Tango_sleep(A) Sleep(A * 1000)
-#endif
-
+inline void Tango_sleep(int t) 
+{
+	std::this_thread::sleep_for(std::chrono::seconds(t));
+}
 //
 // Define a time_t to long casting
 //

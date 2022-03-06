@@ -509,11 +509,6 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
 	else
 	{
 		long nb = call_timeout / 20;
-#ifndef _TG_WINDOWS_
-		struct timespec to_wait,inter;
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 20000000;
-#endif
 		int i;
 
 		for (i = 0;i < nb;i++)
@@ -523,11 +518,7 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
 				break;
 			}
 
-#ifdef _TG_WINDOWS_
-			Sleep(20);
-#else
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		}
 
 		if (i == nb)
@@ -1321,11 +1312,6 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes_reply(long id,long ca
 	else
 	{
 		long nb = call_timeout / 20;
-#ifndef _TG_WINDOWS_
-		struct timespec to_wait,inter;
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 20000000;
-#endif
 		int i;
 
 		for (i = 0;i < nb;i++)
@@ -1335,11 +1321,7 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes_reply(long id,long ca
 				break;
 			}
 
-#ifdef _TG_WINDOWS_
-			Sleep(20);
-#else
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		}
 
 		if (i == nb)
@@ -1563,11 +1545,6 @@ DeviceAttribute *DeviceProxy::read_attribute_reply(long id,long call_timeout)
 	else
 	{
 		long nb = call_timeout / 20;
-#ifndef _TG_WINDOWS_
-		struct timespec to_wait,inter;
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 20000000;
-#endif
 		int i;
 
 		for (i = 0;i < nb;i++)
@@ -1577,11 +1554,7 @@ DeviceAttribute *DeviceProxy::read_attribute_reply(long id,long call_timeout)
 				break;
 			}
 
-#ifdef _TG_WINDOWS_
-			Sleep(20);
-#else
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		}
 
 		if (i == nb)
@@ -2165,11 +2138,6 @@ void DeviceProxy::write_attributes_reply(long id,long call_timeout)
 	else
 	{
 		long nb = call_timeout / 20;
-#ifndef _TG_WINDOWS_
-		struct timespec to_wait,inter;
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 20000000;
-#endif
 		int i;
 
 		for (i = 0;i < nb;i++)
@@ -2179,11 +2147,7 @@ void DeviceProxy::write_attributes_reply(long id,long call_timeout)
 				break;
 			}
 
-#ifdef _TG_WINDOWS_
-			Sleep(20);
-#else
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		}
 
 		if (i == nb)

@@ -574,19 +574,10 @@ void ApiUtil::get_asynch_replies(long call_timeout)
 //
 
             long nb = call_timeout / 20;
-#ifndef _TG_WINDOWS_
-            struct timespec to_wait, inter;
-            to_wait.tv_sec = 0;
-            to_wait.tv_nsec = 20000000;
-#endif
 
             while ((nb > 0) && (asyn_p_table->get_cb_request_nb() != 0))
             {
-#ifdef _TG_WINDOWS_
-                Sleep(20);
-#else
-                nanosleep(&to_wait, &inter);
-#endif
+                std::this_thread::sleep_for(std::chrono::milliseconds(20));
                 nb--;
 
                 try

@@ -1902,9 +1902,6 @@ void Util::server_perform_work()
 		// If the user has installed its own event management function, call it in a loop
 		//
 
-		struct timespec sleep_time;
-		sleep_time.tv_sec = 0;
-		sleep_time.tv_nsec = 20000000;
 		bool user_shutdown_server;
 
 		while (shutdown_server == false)
@@ -1923,11 +1920,7 @@ void Util::server_perform_work()
 			}
 			else
 			{
-#ifdef _TG_WINDOWS_
-				Sleep(sleep_time.tv_nsec / 1000000);
-#else
-				nanosleep(&sleep_time, NULL);
-#endif
+				std::this_thread::sleep_for(std::chrono::milliseconds(20));
 			}
 		}
 	}

@@ -67,11 +67,7 @@ int main(int argc, char **argv)
 
 		assert ( except == false );
 		TEST_LOG << "  Server restart to clean sub device lists --> OK" << endl;
-#ifdef WIN32
-		Sleep(3000);
-#else
-		sleep(3);
-#endif
+		Tango_sleep(3);
 
 // read attribute to have a sub device in the list
 
@@ -98,22 +94,18 @@ int main(int argc, char **argv)
 		}
 
 // execute command to add sub devices in the list
-		
+
 		{
 			DeviceData dd = device->command_inout("SubDeviceTst");
 			TEST_LOG << dd << endl;
 			bool cmd_value;
 			dd >> cmd_value;
 			assert (cmd_value == true);
-			
+
 			// let the external thread some time to do its work!
-#ifdef WIN32
-			Sleep(1000);
-#else
-			sleep(1);
-#endif
+			Tango_sleep(1);
 		}
-		
+
 // check the list of sub devices on the administration device
 
 		{

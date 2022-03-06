@@ -150,7 +150,6 @@ int main(int argc, char **argv)
 
 		bool po;
 		int poll_period;
-		int rest;
 
 		// start the polling first!
 		device->poll_attribute(att_name,1000);
@@ -191,23 +190,11 @@ int main(int argc, char **argv)
 //
 
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 3);
@@ -222,13 +209,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 4);
@@ -395,23 +376,11 @@ exit(0);
 // Generates a positive change
 //
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 1);
@@ -435,13 +404,7 @@ exit(0);
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(3);
-		if (rest != 0)
-			sleep(3);
-#else
-		Sleep(3000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 
@@ -585,23 +548,11 @@ exit(0);
 // Generates a positive change
 //
 
-#ifndef WIN32
-	 	rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 1);
@@ -625,13 +576,7 @@ exit(0);
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 2);
@@ -785,34 +730,18 @@ exit(0);
 
 		device->command_inout("IOIncValue");
 
-#ifdef WIN32
-		Sleep(100);
-#else
-		struct timespec req;
-		req.tv_sec = 0;
-		req.tv_nsec = 100000000;
-		nanosleep(&req,NULL);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 //
 // Generates a positive change
 //
 
 		device->command_inout("IOIncValue");
-#ifdef WIN32
-		Sleep(100);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		device->command_inout("IOIncValue");
-		Sleep(100);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		device->command_inout("IOIncValue");
-		Sleep(700);
-#else
-		nanosleep(&req,NULL);
-		device->command_inout("IOIncValue");
-		nanosleep(&req,NULL);
-		device->command_inout("IOIncValue");
-		req.tv_nsec = 700000000;
-		nanosleep(&req,NULL);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(700));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert ( cb.cb_executed == 1);
@@ -826,13 +755,7 @@ exit(0);
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 2);

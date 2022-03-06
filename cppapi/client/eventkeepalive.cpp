@@ -497,14 +497,7 @@ void *EventConsumerKeepAliveThread::run_undetached(TANGO_UNUSED(void *arg))
 // first sleep 2 seconds to give the event system time to startup
 //
 
-#ifndef _TG_WINDOWS_
-	unsigned int time_left;
-	time_left = ::sleep(2);
-	if (time_left != 0)
-		::sleep(time_left);
-#else
-	Sleep(2000L);
-#endif /* _TG_WINDOWS_ */
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	bool exit_th = false;
 
