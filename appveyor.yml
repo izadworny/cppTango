@@ -11,11 +11,15 @@ environment:
   # Common variables
   IDL_BASE: C:\projects\tangoidl
   IDL_SOURCE: C:\projects\tangoidl-source
+  JPEG_VERSION: 2.0.3
+  JPEG_BASE: C:\libjpeg-turbo
+  NASM_VERSION: 2.15.05
   
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: x64
       ARCH: x64-msvc15
+      VCPKG_DEFAULT_TRIPLET: x64-windows
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       MSVCVERSION: v141
       MSVCYEAR: "vs2017"
@@ -26,6 +30,7 @@ environment:
       PYVER: "py37"
       USE_PCH: ON
       WARNINGS_AS_ERRORS: ON
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
@@ -39,9 +44,11 @@ environment:
       PYVER: "py37"
       USE_PCH: ON
       WARNINGS_AS_ERRORS: OFF
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
       ARCH: x64-msvc14
+      VCPKG_DEFAULT_TRIPLET: x64-windows
       CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
       MSVCVERSION: v140
       MSVCYEAR: "vs2015"
@@ -52,6 +59,7 @@ environment:
       PYVER: "py36"
       USE_PCH: ON
       WARNINGS_AS_ERRORS: OFF
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
       ARCH: win32-msvc14
@@ -65,6 +73,7 @@ environment:
       PYVER: "py36"
       USE_PCH: ON
       WARNINGS_AS_ERRORS: OFF
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
 
 init:
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
@@ -95,6 +104,16 @@ init:
   - cmd: cd "C:\projects\"
   - appveyor DownloadFile https://github.com/tango-controls/Pthread_WIN32/releases/download/2.9.1/pthreads-win32-2.9.1_%ARCH%.zip
   - cmd: 7z -y x pthreads-win32-2.9.1_%ARCH%.zip -oC:\projects\pthreads-win32\
+  - cmd: cd "C:\projects\"
+  # Build jpeg-turbo
+  # Install nasm
+  - appveyor DownloadFile %NASM_DOWNLOAD_LINK% -FileName nasm.exe
+  - cmd: nasm.exe /S /v/qn
+  # Get libjpeg-turbo
+  - appveyor DownloadFile https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/%JPEG_VERSION%.zip -FileName libjpeg-turbo.zip
+  - cmd: 7z -y x libjpeg-turbo.zip -oC:\projects\
+  - cmd: cd "C:\projects\libjpeg-turbo-%JPEG_VERSION%"
+  - cmd: md build
   - cmd: cd "C:\projects\cppTango"
 
 install:
@@ -114,6 +133,10 @@ install:
   - cmd: echo "Platform='%Platform%'"
   - cmd: set PYTHONPATH=%PYTHONPATH%
   - cmd: set PATH=%PYTHONPATH%;%PATH%
+  # Libjpeg-turbo
+  - cmd: cd "C:\projects\libjpeg-turbo-%JPEG_VERSION%\build"
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DWITH_TURBOJPEG=ON -DCMAKE_INSTALL_PREFIX="%JPEG_BASE%" ..
+  - cmd: cmake --build ./ --target install --config Release
   # Tango IDL
   - cmd: cd %IDL_SOURCE%
   - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_INSTALL_PREFIX="%IDL_BASE%" .
@@ -131,10 +154,10 @@ install:
   #- cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -
   # Static builds
   - cmd: cd c:/projects/static_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=OFF -DWARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DUSE_PCH=%USE_PCH% -DBUILD_TESTING=OFF ../cppTango
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=OFF -DWARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DJPEG_BASE="%JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DUSE_PCH=%USE_PCH% -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
   # Dynamic builds
   - cmd: cd c:/projects/dynamic_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=ON -DWARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE  -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DPTHREAD_WIN=%PTHREAD_WIN% -DUSE_PCH=OFF -DBUILD_TESTING=OFF ../cppTango
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=ON -DWARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE  -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DJPEG_BASE="%JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DUSE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
 
 clone_folder: C:\projects\cppTango
 

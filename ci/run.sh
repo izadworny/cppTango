@@ -29,6 +29,7 @@ docker exec cpp_tango cmake                                \
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}                   \
   -DUSE_PCH=${USE_PCH}                                     \
   -DTANGO_USE_USING_NAMESPACE=${TANGO_USE_USING_NAMESPACE} \
+  -DTANGO_USE_JPEG=${TANGO_USE_JPEG} \
   -DWARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS}               \
   -DTANGO_ENABLE_COVERAGE=${TANGO_ENABLE_COVERAGE:-OFF}
 

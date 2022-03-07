@@ -61,6 +61,7 @@ constexpr const char* API_DatabaseAccess                = "API_DatabaseAccess";
 constexpr const char* API_DatabaseCacheAccess           = "API_DatabaseCacheAccess";
 constexpr const char* API_DatabaseFileError             = "API_DatabaseFileError";
 constexpr const char* API_DecodeErr                     = "API_DecodeErr";
+constexpr const char* API_EncodeErr                     = "API_EncodeErr";
 constexpr const char* API_DeprecatedCommand             = "API_DeprecatedCommand";
 constexpr const char* API_DeviceLocked                  = "API_DeviceLocked";
 constexpr const char* API_DeviceNotDefined              = "API_DeviceNotDefined";

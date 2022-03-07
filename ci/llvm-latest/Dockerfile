@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
   libzmq3-dev                            \
   lsb-release                            \
   omniidl                                \
+  libjpeg-dev                            \
   python3
 
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - &&                                                  \

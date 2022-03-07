@@ -355,6 +355,7 @@ int main(int argc, char **argv)
 		int width,height;
 		unsigned char *gray8;
 		
+#ifdef TANGO_USE_JPEG
 		try
 		{	
 			da = device->read_attribute("Encoded_image");
@@ -371,12 +372,24 @@ int main(int argc, char **argv)
 		// Check a pixel (margin of 4 levels for jpeg loss)
 		assert ( gray8[128+128*256] >= 124 );
 		assert ( gray8[128+128*256] <= 132 );
-		delete [] gray8;
 		
+                delete [] gray8;
+#else
+		try
+		{
+			da = device->read_attribute("Encoded_image");
+			att.decode_gray8( &da, &width, &height, &gray8 );
+                        assert(false);
+		}
+		catch (Tango::DevFailed &e)
+		{
+                    assert (string(e.errors[0].reason.in()) == API_EmptyDeviceAttribute);
+                }
+#endif
 	}
 	cout << "   Scalar DevEncoded (JPEG) --> OK" << endl;
 #endif
-					
+
 // Thirteen in one go
 
 	for (i = 0;i < loop;i++)

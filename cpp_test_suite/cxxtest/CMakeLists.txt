@@ -6,19 +6,34 @@ if(NOT PYTHON_INTERPRETER)
 endif()
 
 function(CXX_GENERATE_TEST name)
+
+    if(${ARGC} EQUAL 2)
+        if(ARGV1)
+            set(SKIP_FIXTURES "--skip-fixtures")
+        endif()
+    endif()
+
+    #In case of substitution to be done by cmake, the test file will be in the build tree
+    IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/${name}.cpp")
+        set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/${name}.cpp")
+    ELSE()
+        set(INPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/../new_tests/${name}.cpp")
+    ENDIF()
     add_custom_command(OUTPUT ${name}.cpp
                        COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
                                --template=${CMAKE_CURRENT_SOURCE_DIR}/template/tango_template.tpl
                                -o ${name}.cpp
-                               ${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/${name}.cpp
+                               ${INPUT_FILE}
                        DEPENDS tango
-                               ${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/${name}.cpp
+                               ${INPUT_FILE}
                                ${CMAKE_CURRENT_SOURCE_DIR}/template/tango_template.tpl
                        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                        COMMENT "Generate ${name}.cpp")
 
     add_executable(${name} $<TARGET_OBJECTS:compare_test_object> ${name}.cpp)
     target_include_directories(${name} PRIVATE include ${CMAKE_CURRENT_BINARY_DIR}/include)
+    target_include_directories(${name} PRIVATE
+	    ${CMAKE_CURRENT_SOURCE_DIR}/../new_tests)
     target_link_libraries(${name} PRIVATE tango ${CMAKE_THREAD_LIBS_INIT})
     target_compile_definitions(${name} PRIVATE ${COMMON_TEST_CXX_DEFS})
     if(USE_PCH)
@@ -26,6 +41,7 @@ function(CXX_GENERATE_TEST name)
     endif()
 
     tango_add_test(NAME "CXX::${name}" COMMAND $<TARGET_FILE:${name}>
+            ${SKIP_FIXTURES}
             --device1=${DEV1}
             --device2=${DEV2}
             --device3=${DEV3}
@@ -88,5 +104,9 @@ CXX_GENERATE_TEST(cxx_reconnection_zmq)
 CXX_GENERATE_TEST(cxx_stateless_subscription)
 CXX_GENERATE_TEST(cxx_nan_inf_in_prop)
 CXX_GENERATE_TEST(cxx_asyn_reconnection)
+
+configure_file(../new_tests/cxx_jpeg_encoding.cpp.in
+	../new_tests/cxx_jpeg_encoding.cpp)
+CXX_GENERATE_TEST(cxx_jpeg_encoding TRUE)
 
 configure_file(include/config.h.cmake include/config.h @ONLY)

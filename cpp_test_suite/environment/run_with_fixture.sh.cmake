@@ -22,6 +22,13 @@ tc_program="$1"
 tc_run_name="$(basename "${tc_program}")_$(date '+%Y%m%d.%H%M%S.%N')"
 shift 1
 
+if [ $# -gt 0 ]; then
+    case $1 in
+        --skip-fixtures) TANGO_TEST_CASE_SKIP_FIXTURE=1; shift 1;;
+        *) ;;
+    esac
+fi
+
 tc_mysql_container="mysql_db_${tc_run_name}"
 tc_tango_container="tango_cs_${tc_run_name}"
 
