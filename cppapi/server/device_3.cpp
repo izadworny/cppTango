@@ -540,7 +540,7 @@ void Device_3Impl::update_readable_attribute_value(
 // Take the attribute mutex before calling the user read method
 //
 
-        if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (aid.data_4 != nullptr || aid.data_5 != nullptr))
+        if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (aid.data_4 != Tango_nullptr || aid.data_5 != Tango_nullptr))
         {
             cout4 << "Locking attribute mutex for attribute " << att.get_name() << std::endl;
             omni_mutex *attr_mut = att.get_attr_mutex();
@@ -583,7 +583,7 @@ void Device_3Impl::update_readable_attribute_value(
     {
         store_error(aid, index_in_data, e, att.get_name().c_str());
 
-        if (aid.data_5 != nullptr)
+        if (aid.data_5 != Tango_nullptr)
         {
             if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
             {
@@ -592,7 +592,7 @@ void Device_3Impl::update_readable_attribute_value(
                 attr_mut->unlock();
             }
         }
-        else if (aid.data_4 != nullptr)
+        else if (aid.data_4 != Tango_nullptr)
         {
             if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
             {
@@ -614,7 +614,7 @@ void Device_3Impl::update_readable_attribute_value(
 
         store_error(aid, index_in_data, del, att.get_name().c_str());
 
-        if (aid.data_5 != nullptr)
+        if (aid.data_5 != Tango_nullptr)
         {
             if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
             {
@@ -623,7 +623,7 @@ void Device_3Impl::update_readable_attribute_value(
                 attr_mut->unlock();
             }
         }
-        else if (aid.data_4 != nullptr)
+        else if (aid.data_4 != Tango_nullptr)
         {
             if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
             {
@@ -670,7 +670,7 @@ void Device_3Impl::update_writable_attribute_value(
 
         AttrSerialModel atsm = att.get_attr_serial_model();
 
-        if (aid.data_5 != nullptr)
+        if (aid.data_5 != Tango_nullptr)
         {
             if ((atsm != ATTR_NO_SYNC) && (w_type == Tango::READ_WITH_WRITE))
             {
@@ -679,7 +679,7 @@ void Device_3Impl::update_writable_attribute_value(
                 attr_mut->unlock();
             }
         }
-        else if (aid.data_4 != nullptr)
+        else if (aid.data_4 != Tango_nullptr)
         {
             if ((atsm != ATTR_NO_SYNC) && (w_type == Tango::READ_WITH_WRITE))
             {
@@ -725,11 +725,11 @@ void Device_3Impl::read_and_store_state_for_network_transfer(
         return;
     }
 
-    if (aid.data_5 != nullptr)
+    if (aid.data_5 != Tango_nullptr)
     {
         state2attr(d_state, (*aid.data_5)[index_in_data]);
     }
-    else if (aid.data_4 != nullptr)
+    else if (aid.data_4 != Tango_nullptr)
     {
         state2attr(d_state, (*aid.data_4)[index_in_data]);
     }
@@ -743,7 +743,7 @@ void Device_3Impl::read_and_store_status_for_network_transfer(
     Tango::AttributeIdlData& aid,
     long index_in_data)
 {
-    Tango::ConstDevString d_status = nullptr;
+    Tango::ConstDevString d_status = Tango_nullptr;
 
     try
     {
@@ -762,11 +762,11 @@ void Device_3Impl::read_and_store_status_for_network_transfer(
         return;
     }
 
-    if (aid.data_5 != nullptr)
+    if (aid.data_5 != Tango_nullptr)
     {
         status2attr(d_status, (*aid.data_5)[index_in_data]);
     }
-    else if (aid.data_4 != nullptr)
+    else if (aid.data_4 != Tango_nullptr)
     {
         status2attr(d_status, (*aid.data_4)[index_in_data]);
     }
@@ -882,7 +882,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     att.set_time();
 
                 AttrSerialModel atsm = att.get_attr_serial_model();
-                if (aid.data_5 != nullptr)
+                if (aid.data_5 != Tango_nullptr)
                 {
                     if ((atsm != ATTR_NO_SYNC) && ((att.is_fwd_att() == true) || (w_type != Tango::WRITE)))
                     {
@@ -896,7 +896,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                     (*aid.data_5)[index_in_data].data_format = att.get_data_format();
                     (*aid.data_5)[index_in_data].data_type = att.get_data_type();
                 }
-                else if (aid.data_4 != nullptr)
+                else if (aid.data_4 != Tango_nullptr)
                 {
                     if ((atsm != ATTR_NO_SYNC) && ((att.is_fwd_att() == true) || (w_type != Tango::WRITE)))
                     {
@@ -918,7 +918,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
             {
                 store_error(aid, index_in_data, e, att.get_name().c_str());
 
-                if (aid.data_5 != nullptr)
+                if (aid.data_5 != Tango_nullptr)
                 {
                     cout4 << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
                     if (att.get_writable() != Tango::WRITE)
@@ -926,7 +926,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
                         REL_ATT_MUTEX_5(aid.data_5,index_in_data,att);
                     }
                 }
-                else if (aid.data_4 != nullptr)
+                else if (aid.data_4 != Tango_nullptr)
                 {
                     cout4 << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
                     if (att.get_writable() != Tango::WRITE)
@@ -946,7 +946,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
 
         AttrSerialModel atsm = att.get_attr_serial_model();
 
-        if (aid.data_5 != nullptr)
+        if (aid.data_5 != Tango_nullptr)
         {
             if ((atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
             {
@@ -959,7 +959,7 @@ void Device_3Impl::store_attribute_for_network_transfer(
             (*aid.data_5)[index_in_data].data_format = att.get_data_format();
             (*aid.data_5)[index_in_data].data_type = att.get_data_type();
         }
-        else if (aid.data_4 != nullptr)
+        else if (aid.data_4 != Tango_nullptr)
         {
             if ((atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
             {
