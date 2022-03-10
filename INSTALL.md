@@ -79,6 +79,7 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 | `TANGO_ENABLE_SANITIZER`     | *empty*                                | Compile with sanitizers, one of: `ASAN`, `TSAN`, `UBSAN` or `MSAN` (Requires CMake 3.13+ and Clang/GCC)
 | `TANGO_INSTALL_DEPENDENCIES` | `OFF`                                  | Install dependencies of tango as well (Windows only)
 | `TANGO_USE_JPEG`             | `ON`                                   | Build with jpeg support, in this case a jpeg library implementation is needed.
+| `TANGO_USE_LIBCPP`           | `OFF`                                  | Compile against libc++ instead of stdlibc++ (Requires CMake 3.13+ and clang)
 | `TANGO_USE_USING_NAMESPACE`  | `ON`                                   | `ON` will include the `std` namespace in tango headers. Choose `OFF` for modern builds.
 | `USE_PCH`                    | `ON`                                   | Use precompiled headers (makes compilation much faster)
 | `WARNINGS_AS_ERRORS`         | `OFF`                                  | Treat compiler warnings as errors

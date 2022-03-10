@@ -69,7 +69,13 @@ class AttrProperty
 public:
 	AttrProperty(const std::string &name,const std::string &value);
 	AttrProperty(const std::string &name,const long &value);
-	~AttrProperty() {};
+	~AttrProperty();
+
+	AttrProperty(const AttrProperty &);
+	AttrProperty & operator=(const AttrProperty &);
+
+	AttrProperty(AttrProperty &&);
+	AttrProperty & operator=(AttrProperty &&);
 
 	std::string &get_value() {return attr_value;}
 	std::string const &get_value() const {return attr_value;}
@@ -114,31 +120,6 @@ public:
 
 protected:
 	std::vector<Tango::Attr *>			attr_list;
-};
-
-
-//=============================================================================
-//
-//			A binary function object
-//
-//
-// description :	This binary function object is used by the find_if
-//			std C++ find_if algorithm. It checks if the
-//			ClassAttribute object passed as argument (A1) stored
-//			all the properties for the atribute name passed as
-//			second argument (A2).
-//			This function object is a predicate and therefore
-//			returns a boolean (R)
-//
-//=============================================================================
-
-template <class A1, class A2, class R>
-struct WantedClassAttr : public  std::binary_function<A1,A2,R>
-{
-	R operator() (A1 att,A2 name_str) const
-	{
-		return att->get_name() == name_str;
-	}
 };
 
 } // End of Tango namespace

@@ -41,6 +41,15 @@
 #include <sys/types.h>
 #endif
 
+namespace {
+
+	auto find_device(const std::vector<Tango::LockedDevice>& cont, const std::string& name)
+	{
+			return std::find_if(std::begin(cont),std::end(cont),
+                          [&name] (const Tango::LockedDevice& dev){ return dev.dev_name == name; });
+	};
+}
+
 namespace Tango
 {
 
@@ -185,11 +194,6 @@ LockCmdType LockThread::get_command()
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-static bool LockThread_pred(LockedDevice lock_dev,std::string d_name)
-{
-	return (lock_dev.dev_name == d_name);
-}
-
 void LockThread::execute_cmd()
 {
 	bool need_exit = false;
@@ -207,18 +211,12 @@ void LockThread::execute_cmd()
 		ld.dev_name = local_cmd.dev_name;
 		ld.validity = local_cmd.lock_validity;
 
-		if (locked_devices.empty() == false)
-		{
-			std::vector<LockedDevice>::iterator pos;
+		auto pos = find_device(locked_devices, local_cmd.dev_name);
 
-			pos = find_if(locked_devices.begin(),locked_devices.end(),bind2nd(ptr_fun(LockThread_pred),local_cmd.dev_name));
-			if (pos == locked_devices.end())
-			{
-				locked_devices.push_back(ld);
-			}
-		}
-		else
+		if(pos == locked_devices.end())
+		{
 			locked_devices.push_back(ld);
+		}
 		update_th_period();
 		break;
 	}
@@ -228,19 +226,20 @@ void LockThread::execute_cmd()
 //
 
 	case Tango::LOCK_REM_DEV :
-		if (locked_devices.empty() == false)
-		{
-			std::vector<LockedDevice>::iterator pos;
+	{
+		auto pos = find_device(locked_devices, local_cmd.dev_name);
 
-			pos = find_if(locked_devices.begin(),locked_devices.end(),bind2nd(ptr_fun(LockThread_pred),local_cmd.dev_name));
-			if (pos != locked_devices.end())
-			{
-				locked_devices.erase(pos);
-			}
-			if (locked_devices.empty() == false)
-				update_th_period();
+		if(pos != locked_devices.end())
+		{
+			locked_devices.erase(pos);
+		}
+
+		if(!locked_devices.empty())
+		{
+			update_th_period();
 		}
 		break;
+	}
 
 //
 // Ask locking thread to unlock all its devices and to exit

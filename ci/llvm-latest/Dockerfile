@@ -32,7 +32,9 @@ RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - &&          
     apt-get install --no-install-recommends -y                                                                          \
         clang-${LLVM_VERSION}                                                                                           \
         lld-${LLVM_VERSION}                                                                                             \
-        llvm-${LLVM_VERSION}
+        llvm-${LLVM_VERSION}                                                                                            \
+        libc++-${LLVM_VERSION}-dev                                                                                      \
+        libc++abi-${LLVM_VERSION}-dev
 
 RUN groupadd -g "$APP_GID" tango
 

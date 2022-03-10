@@ -50,24 +50,6 @@
 namespace Tango
 {
 
-//
-// Binary function objects to be used by the find_if algorithm.
-// The find_if algo. want to have a predicate, this means that the return value
-// must be a boolean (R is its name).
-// The test is done between a AttrProperty object (name A1) and a string (name A2)
-// The find_if algo. needs a unary predicate. This function object is a binary
-// function object. It must be used with the bind2nd function adapter
-//
-
-template <typename A1, typename A2, typename R>
-struct WantedProp : public  std::binary_function<A1,A2,R>
-{
-	R operator() (A1 att,A2 name_str) const
-	{
-		return att.get_name() == name_str;
-	}
-};
-
 class AttrProperty;
 class DeviceClass;
 
@@ -211,6 +193,12 @@ public:
 	Attribute(std::vector<AttrProperty> &prop_list,Attr &tmp_attr,const std::string &dev_name,long idx);
 //@}
 
+// remove once https://gitlab.com/tango-controls/cppTango/-/issues/786 is fixed
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#endif
+
 /**@name Destructor
  * Only one desctructor is defined for this class
  */
@@ -220,6 +208,10 @@ public:
  */
 	virtual ~Attribute();
 //@}
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 /**@name Check attribute methods
  * Miscellaneous method returning boolean flag according to attribute state

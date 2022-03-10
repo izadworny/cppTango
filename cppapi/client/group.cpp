@@ -100,6 +100,14 @@ DeviceNames GroupElementFactory::resolve_device_names(const std::string& name_or
     }
 }
 
+AsynchRequest::~AsynchRequest() = default;
+
+AsynchRequest::AsynchRequest(const AsynchRequest &) = default;
+AsynchRequest & AsynchRequest::operator=(const AsynchRequest &) = default;
+
+AsynchRequest::AsynchRequest(AsynchRequest &&) = default;
+AsynchRequest & AsynchRequest::operator=(AsynchRequest &&) = default;
+
 DeviceNames GroupElementFactory::resolve_local_device_names(const std::string& name_or_pattern)
 {
     std::string& name_or_patern_non_const = const_cast<std::string&>(name_or_pattern);
@@ -229,7 +237,7 @@ void GroupElementFactory::parse_name (const std::string& p, std::string &db_host
 }
 
 //=============================================================================
-// class GroupCmdReply
+// class GroupReply
 //=============================================================================
 GroupReply::GroupReply ()
   : dev_name_m("unknown"),
@@ -265,10 +273,14 @@ GroupReply::GroupReply (const std::string& _dev_name,
 
 }
 //-----------------------------------------------------------------------------
-GroupReply::~GroupReply ()
-{
-  //-noop impl
-}
+GroupReply::~GroupReply() = default;
+
+GroupReply::GroupReply(const GroupReply &) = default;
+GroupReply & GroupReply::operator=(const GroupReply &) = default;
+
+GroupReply::GroupReply(GroupReply &&) = default;
+GroupReply & GroupReply::operator=(GroupReply &&) = default;
+
 //-----------------------------------------------------------------------------
 bool GroupReply::enable_exception (bool exception_mode)
 {
@@ -285,11 +297,14 @@ GroupReplyList::GroupReplyList ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupReplyList::~GroupReplyList ()
-{
-  //-noop impl
-}
+
+GroupReplyList::~GroupReplyList() = default;
+
+GroupReplyList::GroupReplyList(const GroupReplyList &) = default;
+GroupReplyList & GroupReplyList::operator=(const GroupReplyList &) = default;
+
+GroupReplyList::GroupReplyList(GroupReplyList &&) = default;
+GroupReplyList & GroupReplyList::operator=(GroupReplyList &&) = default;
 
 //=============================================================================
 // class GroupCmdReply : reply to command executed on a group
@@ -299,12 +314,7 @@ GroupCmdReply::GroupCmdReply ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupCmdReply::GroupCmdReply (const GroupCmdReply& src)
-  : GroupReply(src), data_m(src.data_m)
-{
 
-}
 //-----------------------------------------------------------------------------
 GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
                               const std::string& _obj_name,
@@ -329,11 +339,16 @@ GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
 {
   //-noop impl
 }
+
+GroupCmdReply::~GroupCmdReply() = default;
+
+GroupCmdReply::GroupCmdReply(const GroupCmdReply &) = default;
+GroupCmdReply & GroupCmdReply::operator=(const GroupCmdReply &) = default;
+
+GroupCmdReply::GroupCmdReply(GroupCmdReply &&) = default;
+GroupCmdReply & GroupCmdReply::operator=(GroupCmdReply &&) = default;
+
 //-----------------------------------------------------------------------------
-GroupCmdReply::~GroupCmdReply ()
-{
-  //-noop impl
-}
 //-----------------------------------------------------------------------------
 /*const*/ DeviceData& GroupCmdReply::get_data ()
 {
@@ -481,26 +496,20 @@ GroupCmdReplyList::GroupCmdReplyList ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupCmdReplyList::~GroupCmdReplyList ()
-{
-  //-noop impl
-}
+
+GroupCmdReplyList::~GroupCmdReplyList() = default;
+
+GroupCmdReplyList::GroupCmdReplyList(const GroupCmdReplyList &) = default;
+GroupCmdReplyList & GroupCmdReplyList::operator=(const GroupCmdReplyList &) = default;
+
+GroupCmdReplyList::GroupCmdReplyList(GroupCmdReplyList &&) = default;
+GroupCmdReplyList & GroupCmdReplyList::operator=(GroupCmdReplyList &&) = default;
 
 //=============================================================================
 // class GroupAttrReply : reply to read/write attr on a group
 //=============================================================================
-GroupAttrReply::GroupAttrReply ()
- : GroupReply()
-{
-  //-noop impl
-}
-//-----------------------------------------------------------------------------
-GroupAttrReply::GroupAttrReply (const GroupAttrReply& src)
-  : GroupReply(src), data_m(src.data_m)
-{
+GroupAttrReply::GroupAttrReply() = default;
 
-}
 //-----------------------------------------------------------------------------
 GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
                                 const std::string& _obj_name,
@@ -525,11 +534,15 @@ GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupAttrReply::~GroupAttrReply ()
-{
-  //-noop impl
-}
+
+GroupAttrReply::~GroupAttrReply() = default;
+
+GroupAttrReply::GroupAttrReply(const GroupAttrReply &) = default;
+GroupAttrReply & GroupAttrReply::operator=(const GroupAttrReply &) = default;
+
+GroupAttrReply::GroupAttrReply(GroupAttrReply &&) = default;
+GroupAttrReply & GroupAttrReply::operator=(GroupAttrReply &&) = default;
+
 //-----------------------------------------------------------------------------
 /*const*/ DeviceAttribute& GroupAttrReply::get_data ()
 {
@@ -561,11 +574,14 @@ GroupAttrReplyList::GroupAttrReplyList ()
 {
   //-noop impl
 }
-//-----------------------------------------------------------------------------
-GroupAttrReplyList::~GroupAttrReplyList ()
-{
-  //-noop impl
-}
+
+GroupAttrReplyList::~GroupAttrReplyList() = default;
+
+GroupAttrReplyList::GroupAttrReplyList(const GroupAttrReplyList &) = default;
+GroupAttrReplyList & GroupAttrReplyList::operator=(const GroupAttrReplyList &) = default;
+
+GroupAttrReplyList::GroupAttrReplyList(GroupAttrReplyList &&) = default;
+GroupAttrReplyList & GroupAttrReplyList::operator=(GroupAttrReplyList &&) = default;
 
 //=============================================================================
 // class GroupElement

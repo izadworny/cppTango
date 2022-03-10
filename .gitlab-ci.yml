@@ -9,6 +9,7 @@ variables: &variables
   TANGO_USE_USING_NAMESPACE: "ON"
   TANGO_USE_JPEG: "ON"
   BUILD_SHARED_LIBS: "ON"
+  TANGO_USE_LIBCPP: "OFF"
 
 services:
   - docker:20.10.1-dind
@@ -642,3 +643,15 @@ publish-conda-dev-package:
     - build-conda-dev-package
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+libcpp:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: llvm-latest
+    RUN_TESTS: "OFF"
+    STOCK_CPPZMQ: "OFF"
+    WARNINGS_AS_ERRORS: "ON"
+    TANGO_USE_USING_NAMESPACE: "OFF"
+    USE_PCH: "OFF"
+    TANGO_USE_LIBCPP: "ON"

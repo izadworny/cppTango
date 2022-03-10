@@ -80,6 +80,14 @@ AttrProperty::AttrProperty(const std::string &name,const long &value):attr_name(
 {
 }
 
+AttrProperty::~AttrProperty() = default;
+
+AttrProperty::AttrProperty(const AttrProperty &) = default;
+AttrProperty & AttrProperty::operator=(const AttrProperty &) = default;
+
+AttrProperty::AttrProperty(AttrProperty &&) = default;
+AttrProperty & AttrProperty::operator=(AttrProperty &&) = default;
+
 //+-----------------------------------------------------------------------------------------------------------------
 //
 // method :
@@ -292,10 +300,8 @@ Attr &MultiClassAttribute::get_attr(const std::string &attr_name)
 // Search for the wanted attribute in the attr_list vector from its name
 //
 
-	std::vector<Attr *>::iterator pos;
-
-	pos = find_if(attr_list.begin(),attr_list.end(),
-		      std::bind2nd(WantedClassAttr<Attr *,std::string,bool>(),attr_name));
+	auto pos = std::find_if(std::begin(attr_list), std::end(attr_list),
+	                        [&attr_name](Attr* attr){ return attr->get_name() == attr_name; });
 
 	if (pos == attr_list.end())
 	{

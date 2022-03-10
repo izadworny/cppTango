@@ -94,9 +94,14 @@ class AsynchRequest
       obj_names = _obj_names;
     };
     //- dtor
-    virtual ~AsynchRequest () {
-      //-noop impl
-    };
+    virtual ~AsynchRequest();
+
+    AsynchRequest(const AsynchRequest &);
+    AsynchRequest & operator=(const AsynchRequest &);
+
+    AsynchRequest(AsynchRequest &&);
+    AsynchRequest & operator=(AsynchRequest &&);
+
     //- group_element_enabled accessor
     inline bool group_element_enabled () const {
       return group_element_enabled_m;
@@ -149,8 +154,16 @@ public:
               const std::string& obj_name,
               const DevFailed& exception,
               bool group_element_enabled = true);
+
   //- dtor
-  virtual ~GroupReply ();
+  virtual ~GroupReply();
+
+  GroupReply(const GroupReply &);
+  GroupReply & operator=(const GroupReply &);
+
+  GroupReply(GroupReply &&);
+  GroupReply & operator=(GroupReply &&);
+
 ///@publicsection
 /**
  * Check if the group element corresponding to this reply is enabled.
@@ -250,8 +263,6 @@ public:
 ///@privatesection
   //- default ctor
   GroupCmdReply ();
-  //- copy ctor
-  GroupCmdReply (const GroupCmdReply& src);
   //-
   GroupCmdReply (const std::string& dev_name,
                  const std::string& obj_name,
@@ -265,7 +276,14 @@ public:
                  const std::string& obj_name,
                  bool group_element_enabled);
   //- dtor
-  virtual ~GroupCmdReply ();
+  virtual ~GroupCmdReply();
+
+  GroupCmdReply(const GroupCmdReply &);
+  GroupCmdReply & operator=(const GroupCmdReply &);
+
+  GroupCmdReply(GroupCmdReply &&);
+  GroupCmdReply & operator=(GroupCmdReply &&);
+
 ///@publicsection
   //- data accessor (may throw Tango::DevFailed)
 /**
@@ -335,8 +353,6 @@ public:
 ///@privatesection
   //- ctor
   GroupAttrReply ();
-  //- copy ctor
-  GroupAttrReply (const GroupAttrReply& src);
   //- ctor
   GroupAttrReply (const std::string& dev_name,
                   const std::string& obj_name,
@@ -350,7 +366,14 @@ public:
                   const std::string& obj_name,
                   bool group_element_enabled);
   //- dtor
-  virtual ~GroupAttrReply ();
+  virtual ~GroupAttrReply();
+
+  GroupAttrReply(const GroupAttrReply &);
+  GroupAttrReply & operator=(const GroupAttrReply &);
+
+  GroupAttrReply(GroupAttrReply &&);
+  GroupAttrReply & operator=(GroupAttrReply &&);
+
 ///@publicsection
   //- data accessor (may throw Tango::DevFailed)
 /**
@@ -405,6 +428,13 @@ public:
   GroupReplyList();
   //- dtor
   virtual ~GroupReplyList();
+
+  GroupReplyList(const GroupReplyList &);
+  GroupReplyList & operator=(const GroupReplyList &);
+
+  GroupReplyList(GroupReplyList &&);
+  GroupReplyList & operator=(GroupReplyList &&);
+
 ///@publicsection
   //- has_failed accessor
 /**
@@ -469,6 +499,13 @@ public:
   GroupCmdReplyList();
   //- dtor
   virtual ~GroupCmdReplyList();
+
+  GroupCmdReplyList(const GroupCmdReplyList &);
+  GroupCmdReplyList & operator=(const GroupCmdReplyList &);
+
+  GroupCmdReplyList(GroupCmdReplyList &&);
+  GroupCmdReplyList & operator=(GroupCmdReplyList &&);
+
 ///@publicsection
   //- has_failed accessor method
 /**
@@ -532,6 +569,13 @@ public:
   GroupAttrReplyList();
   //- dtor
   virtual ~GroupAttrReplyList();
+
+  GroupAttrReplyList(const GroupAttrReplyList &);
+  GroupAttrReplyList & operator=(const GroupAttrReplyList &);
+
+  GroupAttrReplyList(GroupAttrReplyList &&);
+  GroupAttrReplyList & operator=(GroupAttrReplyList &&);
+
 ///@publicsection
   //- has_failed accessor method
 /**

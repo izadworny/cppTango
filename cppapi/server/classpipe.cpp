@@ -35,23 +35,13 @@
 namespace Tango
 {
 
-//+------------------------------------------------------------------------------------------------------------------
-//
-// method :
-//		MultiClassPipe::MultiClassPipe
-//
-// description :
-//		destructor for the MultiClassPipe class
-//
-//-------------------------------------------------------------------------------------------------------------------
+PipeProperty::~PipeProperty() = default;
 
-MultiClassPipe::~MultiClassPipe()
-{
-/*	long nb_attr = attr_list.size();
-	for (int i = 0;i < nb_attr;i++)
-		delete attr_list[i];*/
-}
+PipeProperty::PipeProperty(const PipeProperty &) = default;
+PipeProperty & PipeProperty::operator=(const PipeProperty &) = default;
 
+PipeProperty::PipeProperty(PipeProperty &&) = default;
+PipeProperty & PipeProperty::operator=(PipeProperty &&) = default;
 
 //+-------------------------------------------------------------------------------------------------------------------
 //
@@ -67,6 +57,8 @@ MultiClassPipe::MultiClassPipe()
 {
 	cout4 << "Entering MultiClassPipe constructor" << std::endl;
 }
+
+MultiClassPipe::~MultiClassPipe() = default;
 
 //+-------------------------------------------------------------------------------------------------------------------
 //
