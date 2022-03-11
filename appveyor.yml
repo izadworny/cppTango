@@ -12,7 +12,7 @@ environment:
   IDL_BASE: C:\projects\tangoidl
   IDL_SOURCE: C:\projects\tangoidl-source
   JPEG_VERSION: 2.0.3
-  JPEG_BASE: C:\libjpeg-turbo
+  JPEG_BASE: C:/libjpeg-turbo
   NASM_VERSION: 2.15.05
   
   matrix:
