@@ -4,6 +4,7 @@
 namespace Tango
 {
 
+// NOLINTBEGIN(readability-identifier-naming)
 constexpr const char* API_AliasNotDefined               = "API_AliasNotDefined";
 constexpr const char* API_AlreadyPolled                 = "API_AlreadyPolled";
 constexpr const char* API_AsynReplyNotArrived           = "API_AsynReplyNotArrived";
@@ -169,6 +170,7 @@ constexpr const char* DB_DeviceNotDefined               = "DB_DeviceNotDefined";
 constexpr const char* DB_DeviceNotFoundInCache          = "DB_DeviceNotFoundInCache";
 constexpr const char* DB_SQLError                       = "DB_SQLError";
 constexpr const char* DB_TooOldStoredProc               = "DB_TooOldStoredProc";
+// NOLINTEND(readability-identifier-naming)
 
 } // namespace Tango
 

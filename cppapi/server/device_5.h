@@ -69,6 +69,7 @@ class WPipe;
  * @ingroup Server
  */
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class Device_5Impl : public virtual POA_Tango::Device_5,
 		     public Device_4Impl
 {
