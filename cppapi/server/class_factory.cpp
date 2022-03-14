@@ -95,21 +95,10 @@ void DServer::class_factory()
 	convertor conv;
 	PTR tmp;
 
-	if (tg->is_py_ds() == false)
+	if ((mod = GetModuleHandle(exe_name.c_str())) == NULL)
 	{
-		if ((mod = GetModuleHandle(exe_name.c_str())) == NULL)
-		{
-			std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-			exit(-1);
-		}
-	}
-	else
-	{
-		if ((mod = GetModuleHandle(TANGO_PY_MOD_NAME)) == NULL)
-		{
-			std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-			exit(-1);
-		}
+		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+		exit(-1);
 	}
 
 //
@@ -147,23 +136,10 @@ void DServer::class_factory()
 	convertor conv;
 	PTR tmp;
 
-	if (tg->is_py_ds() == false)
+	if ((mod = dlopen (exe_name.c_str(), RTLD_LAZY )) == NULL)
 	{
-		if ((mod = dlopen (exe_name.c_str(), RTLD_LAZY )) == NULL)
-		{
-			std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-			exit(-1);
-		}
-	}
-	else
-	{
-		/*
-		if ((mod = GetModuleHandle(TANGO_PY_MOD_NAME)) == NULL)
-		{
-			std::cerr << "Oups, no class defined in this server. Exiting ..." << std::endl;
-			exit(-1);
-		}
-		*/
+		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+		exit(-1);
 	}
 
 //

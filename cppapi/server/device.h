@@ -3369,9 +3369,6 @@ public:
 	std::vector<long> &get_alarmed_not_read() {return alrmd_not_read;}
 	void poll_lists_2_v5();
 
-	bool is_py_device() {return py_device;}
-	void set_py_device(bool py) {py_device=py;}
-
 	Tango::client_addr *get_client_ident();
 	void lock(client_addr *,int);
 	void relock(client_addr *);

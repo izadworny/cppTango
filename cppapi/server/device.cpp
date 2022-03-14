@@ -76,7 +76,7 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const char *d_name,
       idl_version(1),
       exported(false), polled(false), poll_ring_depth(0), only_one(d_name),
       store_in_bb(true), poll_mon("cache"), att_conf_mon("att_config"),
-      state_from_read(false), py_device(false), device_locked(false),
+      state_from_read(false), device_locked(false),
       locker_client(NULL), old_locker_client(NULL), lock_ctr(0),
       min_poll_period(0), run_att_conf_loop(true), force_alarm_state(false), with_fwd_att(false),
       event_intr_change_subscription(0), intr_change_ev(false), devintr_thread(nullptr)
@@ -92,7 +92,7 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const std::string &d_name, const std
       idl_version(1),
       exported(false), polled(false), poll_ring_depth(0), only_one(d_name.c_str()),
       store_in_bb(true), poll_mon("cache"), att_conf_mon("att_config"),
-      state_from_read(false), py_device(false), device_locked(false),
+      state_from_read(false), device_locked(false),
       locker_client(NULL), old_locker_client(NULL), lock_ctr(0),
       min_poll_period(0), run_att_conf_loop(true), force_alarm_state(false), with_fwd_att(false),
       event_intr_change_subscription(0), intr_change_ev(false), devintr_thread(nullptr)
@@ -106,7 +106,7 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const std::string &d_name)
       idl_version(1),
       exported(false), polled(false), poll_ring_depth(0), only_one(d_name.c_str()),
       store_in_bb(true), poll_mon("cache"), att_conf_mon("att_config"),
-      state_from_read(false), py_device(false), device_locked(false),
+      state_from_read(false), device_locked(false),
       locker_client(NULL), old_locker_client(NULL), lock_ctr(0),
       min_poll_period(0), run_att_conf_loop(true), force_alarm_state(false), with_fwd_att(false),
       event_intr_change_subscription(0), intr_change_ev(false), devintr_thread(nullptr)
@@ -124,7 +124,7 @@ DeviceImpl::DeviceImpl(DeviceClass *cl_ptr, const std::string &d_name, const std
       idl_version(1),
       exported(false), polled(false), poll_ring_depth(0), only_one(d_name.c_str()),
       store_in_bb(true), poll_mon("cache"), att_conf_mon("att_config"),
-      state_from_read(false), py_device(false), device_locked(false),
+      state_from_read(false), device_locked(false),
       locker_client(NULL), old_locker_client(NULL), lock_ctr(0),
       min_poll_period(0), run_att_conf_loop(true), force_alarm_state(false), with_fwd_att(false),
       event_intr_change_subscription(0), intr_change_ev(false), devintr_thread(nullptr)

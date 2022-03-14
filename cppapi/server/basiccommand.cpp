@@ -36,8 +36,6 @@
 #include <devintr.h>
 #include <eventsupplier.h>
 
-extern omni_thread::key_t key_py_data;
-
 namespace Tango
 {
 
@@ -225,23 +223,12 @@ CORBA::Any *DevInitCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::An
 // Init device
 //
 
-	omni_thread *th;
-	PyLock *lock_ptr = NULL;
 	Tango::Util *tg;
 
 	try
 	{
 		NoSyncModelTangoMonitor mon(device);
 		tg = Tango::Util::instance();
-
-		if (tg->is_py_ds())
-		{
-			th = omni_thread::self();
-
-			omni_thread::value_t *tmp_py_data = th->get_value(key_py_data);
-			lock_ptr = (static_cast<PyData *>(tmp_py_data))->PerTh_py_lock;
-			lock_ptr->Get();
-		}
 
 		// clean the sub-device list for this device
 		tg->get_sub_dev_diag().remove_sub_devices (device->get_name());
@@ -264,9 +251,6 @@ CORBA::Any *DevInitCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::An
 
 		if (admin_dev == device)
 			tg->polling_configure();
-
-		if (tg->is_py_ds())
-			lock_ptr->Release();
 
 //
 // Apply memorized values for memorized attributes (if any). For Py DS, if some attributes are memorized,
@@ -291,10 +275,6 @@ CORBA::Any *DevInitCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::An
 	}
 	catch (Tango::DevFailed &e)
 	{
-		if ((tg->is_py_ds() == true) && (lock_ptr != NULL))
-		{
-			lock_ptr->Release();
-		}
 		device->enable_intr_change_ev();
 
 		TangoSys_OMemStream o;

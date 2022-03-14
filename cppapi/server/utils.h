@@ -58,8 +58,6 @@ class AutoTangoMonitor;
 class Util;
 class NotifdEventSupplier;
 class ZmqEventSupplier;
-class PyLock;
-class CreatePyLock;
 class DbServerCache;
 class SubDevDiag;
 
@@ -71,25 +69,12 @@ class CoutBuf;
 class W32Win;
 #endif
 
-
-class PyLock
-{
-public:
-	PyLock() {}
-	virtual ~PyLock() {}
-
-	virtual void Get() {}
-	virtual void Release() {}
-};
-
-class CreatePyLock
-{
-public:
-	CreatePyLock() {}
-	virtual ~CreatePyLock() {}
-
-	virtual PyLock *create() {return new PyLock();}
-};
+// A global variable that indicates whether a thread is considered a library
+// thread, that is: either an omniORB worker thread handling the RPC request
+// or one of: main thread, ServRestartThread, KillThread, PollThread, ThSig.
+// TODO: This is not intended to be accessed from outside the library and
+// should be moved into a private header once we have that.
+extern thread_local bool is_tango_library_thread;
 
 class Interceptors
 {
@@ -768,18 +753,6 @@ public:
 	void create_notifd_event_supplier();
 	void create_zmq_event_supplier();
 
-	void *get_py_interp() {return py_interp;}
-	void set_py_interp(void *ptr) {py_interp = ptr;}
-
-	bool is_py_ds() {return py_ds;}
-	void set_py_ds() {py_ds=true;}
-
-	bool is_py_dbg() {return py_dbg;}
-	void set_py_dbg() {py_dbg=true;}
-
-	void set_py_lock_creator(CreatePyLock *py) {cr_py_lock = py;}
-	CreatePyLock *get_py_lock_creator() {return cr_py_lock;}
-
 	DbServerCache *get_db_cache() {return db_cache;}
 	void unvalidate_db_cache() {if (db_cache!=NULL){delete db_cache;db_cache = NULL;}}
 
@@ -938,11 +911,6 @@ private:
 	SerialModel					ser_model;				// The serialization model
 	TangoMonitor				only_one;				// Serialization monitor
 	NotifdEventSupplier			*nd_event_supplier;	    // The notifd event supplier object
-
-	void						*py_interp;				// The Python interpreter
-	bool						py_ds;					// The Python DS flag
-	CreatePyLock				*cr_py_lock;			// The python lock creator pointer
-	bool						py_dbg;					// Badly written Python dbg flag
 
 	DbServerCache				*db_cache;				// The db cache
 	Interceptors				*inter;					// The user interceptors
@@ -1183,74 +1151,6 @@ struct DevDbUpd
 //			Python device server classes
 //
 //-----------------------------------------------------------------------
-
-
-//
-// For thread creation interceptor (Python device servers)
-//
-
-void create_PyPerThData(omni::omniInterceptors::createThread_T::info_T &);
-
-
-class PyData: public omni_thread::value_t
-{
-public:
-	PyData():rec_state(false),rec_status(false)
-	{
-		device_name = "No associated device name!";
-
-		try
-		{
-			Util *tg = Util::instance(false);
-			CreatePyLock *Creator = tg->get_py_lock_creator();
-			PerTh_py_lock = Creator->create();
-		}
-		catch(Tango::DevFailed &) {PerTh_py_lock=NULL;}
-	}
-
-	~PyData()
-	{
-		if (PerTh_py_lock != NULL)
-			delete PerTh_py_lock;
-	}
-
-	DevVarCharArray				PerTh_dvca;
-	DevVarShortArray			PerTh_dvsha;
-	DevVarLongArray				PerTh_dvla;
-	DevVarFloatArray			PerTh_dvfa;
-	DevVarDoubleArray			PerTh_dvda;
-	DevVarUShortArray			PerTh_dvusa;
-	DevVarULongArray			PerTh_dvula;
-	DevVarStringArray 			PerTh_dvsa;
-	DevVarLongStringArray		PerTh_dvlsa;
-	DevVarDoubleStringArray		PerTh_dvdsa;
-	DevVarLong64Array			PerTh_dvl64a;
-	DevVarULong64Array			PerTh_dvul64a;
-	DevVarEncodedArray			PerTh_dvea;
-
-	std::string						PerTh_string;
-	DevFailed					PerTh_df;
-	std::vector<std::string>  PerTh_vec_str;
-	std::vector<double>				PerTh_vec_db;
-	DevErrorList				PerTh_del;
-
-	bool						rec_state;
-	bool						rec_status;
-
-	// name of the associated device to a thread
-	// used to sub device referencing
-	std::string 						device_name;
-
-	PyLock						*PerTh_py_lock;
-};
-
-
-class AutoPyLock
-{
-public:
-	AutoPyLock();
-	~AutoPyLock();
-};
 
 long _convert_tango_lib_release();
 

@@ -463,8 +463,6 @@ public:
 	void add_device(DeviceImpl *dev) {device_list.push_back(dev);}
 	void delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_poa);
 
-	bool is_py_class() {return py_class;}
-	void set_py_class(bool py) {py_class=py;}
 	virtual void delete_class() {}
 	void get_mcast_event(DServer *);
 
@@ -513,7 +511,6 @@ private:
     std::string				cvs_tag;
     std::string				cvs_location;
     Command * 			default_cmd;
-    bool				py_class;
     std::string              svn_tag;
     std::string              svn_location;
     bool                device_factory_done;

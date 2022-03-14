@@ -45,7 +45,6 @@
 
 #include <logging.h>
 
-extern omni_thread::key_t key_py_data;
 namespace Tango
 {
 
@@ -73,7 +72,7 @@ bool less_than_pipe (Pipe *a,Pipe *b)
 //-------------------------------------------------------------------------------------------------------------------
 
 DeviceClass::DeviceClass(const std::string &s):name(s),ext(new DeviceClassExt),
-		only_one("class"),default_cmd(NULL),py_class(false),device_factory_done(false)
+		only_one("class"),default_cmd(NULL),device_factory_done(false)
 {
 
 //
@@ -814,23 +813,10 @@ void DeviceClass::delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_
 // Deactivate the CORBA object
 //
 
-	bool py_dev = device_list[idx]->is_py_device();
 	bool exported_device = device_list[idx]->get_exported_flag();
 
 	if (exported_device == true)
 		r_poa->deactivate_object(device_list[idx]->get_obj_id().in());
-
-//
-// Remove the servant.
-// For C++ device, this will be automatically done by the POA when the last executing call will be over even if the
-// device is not exported
-//
-
-	if (py_dev == true)
-	{
-		Device_3Impl *dev_3 = static_cast<Device_3Impl *>(device_list[idx]);
-		dev_3->delete_dev();
-	}
 
 //
 // Wait for CORBA to call the device dtor
@@ -987,8 +973,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 
 		d = dev->_this();
 		dev->set_d_var(Tango::Device::_duplicate(d));
-		if (is_py_class() == false)
-			dev->_remove_ref();
+		dev->_remove_ref();
 
 //
 // Store the ObjectId (The ObjectId_var type is a typedef of a string_var type)
