@@ -25,6 +25,7 @@ requirements:
     - libtool
     - pkg-config
   host:
+    - jpeg
     - omniorb
     - cppzmq
     - zeromq
