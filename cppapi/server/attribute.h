@@ -2174,7 +2174,7 @@ public:
 	template <typename T>
 	void set_upd_properties(const T &,const std::string &,bool f_s=false);
 
-	virtual void set_rvalue() {};
+	virtual void set_rvalue() {}
 	void delete_seq();
 	bool check_scalar_wattribute();
 

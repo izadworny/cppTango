@@ -69,7 +69,7 @@ class DServerSignal:public TangoMonitor
 {
 public :
 	TANGO_IMP_EXP static DServerSignal *instance();
-	~DServerSignal() {};
+	~DServerSignal() {}
 
 #ifndef _TG_WINDOWS_
 	void register_class_signal(long, bool, DeviceClass *);

@@ -104,7 +104,7 @@ public:
 /// @privatesection
 
 	NamedDevFailedList(const Tango::MultiDevFailed &,std::string,const char *,const char *);
-	NamedDevFailedList() {};
+	NamedDevFailedList() {}
 };
 
 

@@ -44,12 +44,12 @@ public:
   /**
    * Constructor for Layout.
    **/
-  Layout() {};
+  Layout() {}
 
   /**
    * Destructor for Layout.
    **/
-  virtual ~Layout() {};
+  virtual ~Layout() {}
 
   /**
    * Formats the LoggingEvent data to a string that appenders can log.

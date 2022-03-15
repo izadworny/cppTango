@@ -74,25 +74,25 @@ class AsynchRequest
       : rq_id(_rid), group_element_enabled_m(ge_enabled)
     {
       obj_names.push_back(_obj_name);
-    };
+    }
     //- ctor
     AsynchRequest (long _rid, const std::vector<std::string>& _obj_names, bool ge_enabled = true)
       : rq_id(_rid), group_element_enabled_m(ge_enabled)
     {
       obj_names = _obj_names;
-    };
+    }
     //- ctor
     AsynchRequest (long _rid, const std::string& _obj_name, const DevFailed& _df)
       : rq_id(_rid), rq_ex(_df), group_element_enabled_m(true)
     {
       obj_names.push_back(_obj_name);
-    };
+    }
     //- ctor
     AsynchRequest (long _rid, const std::vector<std::string>& _obj_names, const DevFailed& _df)
       : rq_id(_rid), rq_ex(_df), group_element_enabled_m(true)
     {
       obj_names = _obj_names;
-    };
+    }
     //- dtor
     virtual ~AsynchRequest();
 
@@ -457,7 +457,7 @@ public:
   inline void reset () {
     clear();
     has_failed_m = false;
-  };
+  }
 ///@privatesection
   //- push_back overload
   void push_back (const GroupReply& r) {
@@ -528,7 +528,7 @@ public:
   inline void reset () {
     clear();
     has_failed_m = false;
-  };
+  }
 ///@privatesection
   //- push_back overload
   void push_back (const GroupCmdReply& cr) {
@@ -598,7 +598,7 @@ public:
   inline void reset () {
     clear();
     has_failed_m = false;
-  };
+  }
 ///@privatesection
   //- push_back overload
   void push_back (const GroupAttrReply& ar) {
@@ -675,26 +675,26 @@ public:
   //-
   inline const std::string& get_name () const {
     return name;
-  };
+  }
   //-
   inline const std::string get_fully_qualified_name () const {
     if (parent) {
       return parent->get_fully_qualified_name() + "." + name;
     }
     return name;
-  };
+  }
   //-
   inline void enable () {
     enabled = true;
-  };
+  }
   //-
   inline void disable () {
     enabled = false;
-  };
+  }
   //-
   inline bool is_enabled () const {
     return enabled;
-  };
+  }
   bool name_equals (const std::string& n);
   //-
   bool name_matches (const std::string& n);
@@ -1114,7 +1114,7 @@ public:
   bool is_enabled (const std::string& device_name, bool fwd = true) {
     GroupElement * ge = this->find_i(device_name, fwd);
     return ge ? ge->is_enabled() : false;
-  };
+  }
   //-
   bool is_root_group () const;
 

@@ -154,7 +154,7 @@ public:
  * sub-classes.
  *
  */
-	virtual void init_types() {};
+	virtual void init_types() {}
 //@}
 
 /**@name Get/Set object members.

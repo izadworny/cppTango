@@ -24,9 +24,9 @@ class EventCallback: public Tango::CallBack
 {
 public:
     EventCallback(): cb_executed(0),cb_err(0)
-    {};
+    {}
     ~EventCallback()
-    {};
+    {}
     void push_event(Tango::EventData *ed);
 
     int cb_executed;

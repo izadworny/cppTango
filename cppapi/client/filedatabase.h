@@ -89,7 +89,7 @@ template <class T> class hasName
 {
     std::string 		name;
 public:
-    hasName (std::string _name) : name(_name) {};
+    hasName (std::string _name) : name(_name) {}
     bool operator () (T* obj);
 };
 
@@ -97,7 +97,7 @@ template <class T> class hasAttributeName
 {
     std::string 		attribute_name;
 public:
-    hasAttributeName (std::string _name) : attribute_name(_name) {};
+    hasAttributeName (std::string _name) : attribute_name(_name) {}
     bool operator () (T* obj);
 };
 

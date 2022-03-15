@@ -291,7 +291,7 @@ inline void ZmqAttrValUnion::init_seq(char *base_ptr,CORBA::ULong &length,TangoC
 class KeepAliveThCmd:public omni_mutex
 {
 public :
-	KeepAliveThCmd():cmd_pending(false),cond(this) {};
+	KeepAliveThCmd():cmd_pending(false),cond(this) {}
 
 	bool				cmd_pending;	// The new command flag
 	KeepAliveCmdCode	cmd_code;		// The command code
@@ -449,7 +449,7 @@ public :
 	bool is_event_queue_empty(int event_id);
     int get_thread_id() {return thread_id;}
     void add_not_connected_event(DevFailed &,EventNotConnected &);
-	static ReadersWritersLock &get_map_modification_lock() {return map_modification_lock;};
+	static ReadersWritersLock &get_map_modification_lock() {return map_modification_lock;}
 
 	static KeepAliveThCmd                                   cmd;
 	static EventConsumerKeepAliveThread 	                *keep_alive_thread;
@@ -690,7 +690,7 @@ class EventConsumerKeepAliveThread : public omni_thread
 public :
 
     EventConsumerKeepAliveThread(const EventConsumer&);
-	EventConsumerKeepAliveThread(KeepAliveThCmd &cmd):shared_cmd(cmd){};
+	EventConsumerKeepAliveThread(KeepAliveThCmd &cmd):shared_cmd(cmd){}
 	void start() {start_undetached();}
     void stateless_subscription_failed(const std::vector<EventNotConnected>::iterator &,const DevFailed &,const time_t &);
     void fwd_not_conected_event(ZmqEventConsumer *);

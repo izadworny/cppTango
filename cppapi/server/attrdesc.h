@@ -550,8 +550,8 @@ public:
 
 	virtual bool is_fwd() {return false;}
 
-	virtual void read(DeviceImpl *,Attribute &) {};
-	virtual void write(DeviceImpl *,WAttribute &) {};
+	virtual void read(DeviceImpl *,Attribute &) {}
+	virtual void write(DeviceImpl *,WAttribute &) {}
 	virtual bool is_allowed(DeviceImpl *,AttReqType) {return true;}
 
 	virtual bool same_type(const std::type_info &) {return false;}

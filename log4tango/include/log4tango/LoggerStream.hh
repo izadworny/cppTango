@@ -87,7 +87,7 @@ public:
    **/
   inline LOG4TANGO_EXPORT Logger& get_logger (void) const { 
     return _logger; 
-  };
+  }
 
   /**
    * Returns the level for this stream.
@@ -95,7 +95,7 @@ public:
    **/
   inline LOG4TANGO_EXPORT Level::Value get_level (void) const { 
       return _level; 
-  };
+  }
 
   /**
    * Streams in a Initiator. Just a trick to return a ref to self.

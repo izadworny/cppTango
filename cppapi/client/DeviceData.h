@@ -633,7 +633,7 @@ private:
     class DeviceDataExt
     {
     public:
-        DeviceDataExt() {};
+        DeviceDataExt() {}
 
         std::bitset<numFlags>    ext_state;
     };

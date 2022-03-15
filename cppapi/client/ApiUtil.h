@@ -232,7 +232,7 @@ private:
     class ApiUtilExt
     {
     public:
-        ApiUtilExt() {};
+        ApiUtilExt() {}
     };
 
 	TANGO_IMP static ApiUtil 	*_instance;

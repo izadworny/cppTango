@@ -80,7 +80,7 @@ private :
     {
     public:
         std::string user_defined_name;
-        AttributeProxyExt(const std::string& name):user_defined_name(name) {};
+        AttributeProxyExt(const std::string& name):user_defined_name(name) {}
     };
 
     std::unique_ptr<AttributeProxyExt>   ext;

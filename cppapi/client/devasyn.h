@@ -97,7 +97,7 @@ private:
     class CmdDoneEventExt
     {
     public:
-        CmdDoneEventExt() {};
+        CmdDoneEventExt() {}
     };
 
     std::unique_ptr<CmdDoneEventExt> ext;
@@ -144,7 +144,7 @@ private:
     class AttrReadEventExt
     {
     public:
-        AttrReadEventExt() {};
+        AttrReadEventExt() {}
     };
 
     std::unique_ptr<AttrReadEventExt>    ext;
@@ -188,7 +188,7 @@ private:
     class AttrWrittenEventExt
     {
     public:
-        AttrWrittenEventExt() {};
+        AttrWrittenEventExt() {}
     };
 
     std::unique_ptr<AttrWrittenEventExt> ext;
@@ -230,7 +230,7 @@ public:
  *
  * @param cde The command data
  */
-	virtual void cmd_ended(CmdDoneEvent *cde) {};
+	virtual void cmd_ended(CmdDoneEvent *cde) {}
 /**
  * Asynchronous read attribute execution callback method
  *
@@ -240,7 +240,7 @@ public:
  *
  * @param are The read attribute data
  */
-	virtual void attr_read(AttrReadEvent *are) {};
+	virtual void attr_read(AttrReadEvent *are) {}
 /**
  * Asynchronous write attribute execution callback method
  *
@@ -250,7 +250,7 @@ public:
  *
  * @param awe The write attribute data
  */
-	virtual void attr_written(AttrWrittenEvent *awe) {};
+	virtual void attr_written(AttrWrittenEvent *awe) {}
 /**
  * Event callback method
  *
@@ -259,7 +259,7 @@ public:
  *
  * @param ed The event data
  */
-	virtual void push_event(EventData *ed) {};
+	virtual void push_event(EventData *ed) {}
 /**
  * attribute configuration change event callback method
  *
@@ -269,7 +269,7 @@ public:
  *
  * @param ace The attribute configuration change event data
  */
-	virtual void push_event(AttrConfEventData *ace) {};
+	virtual void push_event(AttrConfEventData *ace) {}
 /**
  * Data ready event callback method
  *
@@ -278,7 +278,7 @@ public:
  *
  * @param dre The data ready event data
  */
-	virtual void push_event(DataReadyEventData *dre) {};
+	virtual void push_event(DataReadyEventData *dre) {}
 /**
  * Device interface change event callback method
  *
@@ -287,7 +287,7 @@ public:
  *
  * @param dic The device interface change event data
  */
-	virtual void push_event(DevIntrChangeEventData *dic) {};
+	virtual void push_event(DevIntrChangeEventData *dic) {}
 /**
  * Pipe event callback method
  *
@@ -296,26 +296,26 @@ public:
  *
  * @param ped The pipe event data
  */
-	virtual void push_event(PipeEventData *ped) {};
+	virtual void push_event(PipeEventData *ped) {}
 #else
-	virtual void cmd_ended(CmdDoneEvent *) {};
-	virtual void attr_read(AttrReadEvent *) {};
-	virtual void attr_written(AttrWrittenEvent *) {};
-	virtual void push_event(EventData *) {};
-	virtual void push_event(AttrConfEventData *) {};
-	virtual void push_event(DataReadyEventData *) {};
-	virtual void push_event(DevIntrChangeEventData *) {};
-	virtual void push_event(PipeEventData *) {};
+	virtual void cmd_ended(CmdDoneEvent *) {}
+	virtual void attr_read(AttrReadEvent *) {}
+	virtual void attr_written(AttrWrittenEvent *) {}
+	virtual void push_event(EventData *) {}
+	virtual void push_event(AttrConfEventData *) {}
+	virtual void push_event(DataReadyEventData *) {}
+	virtual void push_event(DevIntrChangeEventData *) {}
+	virtual void push_event(PipeEventData *) {}
 #endif
 
 /// @privatesection
-	virtual ~CallBack() {};
+	virtual ~CallBack() {}
 
 private:
     class CallBackExt
     {
     public:
-        CallBackExt() {};
+        CallBackExt() {}
     };
 
     std::unique_ptr<CallBackExt> ext;
@@ -345,15 +345,15 @@ public:
 
 	TgRequest(CORBA::Request_ptr re,ReqType ty):request(re),req_type(ty),cb_ptr(NULL),
 						    					arrived(false),dev(NULL)
-	{};
+	{}
 
 	TgRequest(CORBA::Request_ptr re,ReqType ty,CallBack *cb):request(re),req_type(ty),cb_ptr(cb),
 							 								 arrived(false),dev(NULL)
-	{};
+	{}
 
 	TgRequest(Tango::Connection *con,ReqType ty,CallBack *cb):request(NULL),req_type(ty),cb_ptr(cb),
 							 								  arrived(false),dev(con)
-	{};
+	{}
 
 	CORBA::Request_ptr	request;
 	ReqType				req_type;
@@ -365,7 +365,7 @@ public:
 class AsynReq: public omni_mutex
 {
 public:
-	AsynReq(UniqIdent *ptr):ui_ptr(ptr),cond(this) {};
+	AsynReq(UniqIdent *ptr):ui_ptr(ptr),cond(this) {}
 	~AsynReq() {delete ui_ptr;}
 
 	TgRequest &get_request(long);

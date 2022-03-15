@@ -47,7 +47,7 @@ namespace {
 	{
 			return std::find_if(std::begin(cont),std::end(cont),
                           [&name] (const Tango::LockedDevice& dev){ return dev.dev_name == name; });
-	};
+	}
 }
 
 namespace Tango

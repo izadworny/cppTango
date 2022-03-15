@@ -90,7 +90,7 @@ public:
 	/**
 	 * The device object destructor.
 	 */
-	~FwdTest() {delete_device();};
+	~FwdTest() {delete_device();}
 
 
 //	Miscellaneous methods

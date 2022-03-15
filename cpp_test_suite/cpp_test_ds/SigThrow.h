@@ -7,7 +7,7 @@
 class IOThrow : public Tango::Command {
 public:
 	IOThrow(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOThrow() {};
+	~IOThrow() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -16,7 +16,7 @@ public:
 class IOExcept : public Tango::Command {
 public:
 	IOExcept(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOExcept() {};
+	~IOExcept() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -26,7 +26,7 @@ public:
 class IOReThrow : public Tango::Command {
 public:
 	IOReThrow(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOReThrow() {};
+	~IOReThrow() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -38,7 +38,7 @@ public:
 class IORegClassSig : public Tango::Command {
 public:
 	IORegClassSig(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IORegClassSig() {};
+	~IORegClassSig() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -48,7 +48,7 @@ public:
 class IORegSig : public Tango::Command {
 public:
 	IORegSig(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IORegSig() {};
+	~IORegSig() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -58,7 +58,7 @@ public:
 class IORegSigOwn : public Tango::Command {
 public:
 	IORegSigOwn(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IORegSigOwn() {};
+	~IORegSigOwn() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -68,7 +68,7 @@ public:
 class IOUnregClassSig : public Tango::Command {
 public:
 	IOUnregClassSig(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOUnregClassSig() {};
+	~IOUnregClassSig() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -77,7 +77,7 @@ public:
 class IOUnregSig : public Tango::Command {
 public:
 	IOUnregSig(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOUnregSig() {};
+	~IOUnregSig() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);

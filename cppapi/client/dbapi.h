@@ -169,7 +169,7 @@ private :
     class DbServerExt
     {
     public:
-        DbServerExt() {};
+        DbServerExt() {}
     };
 
     std::unique_ptr<DbServerExt> ext;
@@ -275,7 +275,7 @@ private :
     class DbClassExt
     {
     public:
-        DbClassExt() {};
+        DbClassExt() {}
     };
 
     std::unique_ptr<DbClassExt>  ext;
@@ -695,7 +695,7 @@ private :
     class DbDatumExt
     {
     public:
-        DbDatumExt() {};
+        DbDatumExt() {}
     };
 
     std::unique_ptr<DbDatumExt>  ext;

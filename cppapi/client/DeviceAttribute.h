@@ -1316,7 +1316,7 @@ protected :
     class DeviceAttributeExt
     {
     public:
-        DeviceAttributeExt() {};
+        DeviceAttributeExt() {}
         DeviceAttributeExt & operator=(const DeviceAttributeExt &);
 
         std::bitset<numFlags> ext_state;

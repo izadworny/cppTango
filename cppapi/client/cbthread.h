@@ -44,7 +44,7 @@ namespace Tango
 class CbThreadCmd: public omni_mutex
 {
 public:
-	CbThreadCmd():stop(false) {};
+	CbThreadCmd():stop(false) {}
 	void stop_thread() {omni_mutex_lock sync(*this);stop=true;}
 	void start_thread() {omni_mutex_lock sync(*this);stop=false;}
 	bool is_stopped() {omni_mutex_lock sync(*this);return stop;}
@@ -66,7 +66,7 @@ class CallBackThread: public omni_thread
 {
 public:
 	CallBackThread(CbThreadCmd &cmd,AsynReq *as):shared_cmd(cmd),
-						     asyn_ptr(as) {};
+						     asyn_ptr(as) {}
 
 	void *run_undetached(void *);
 	void start() {start_undetached();}

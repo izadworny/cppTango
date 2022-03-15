@@ -51,10 +51,10 @@ class TangoMonitor: public omni_mutex
 {
 public :
 	TangoMonitor(const char *na):_timeout(DEFAULT_TIMEOUT),cond(this),
-			locking_thread(NULL),locked_ctr(0),name(na) {};
+			locking_thread(NULL),locked_ctr(0),name(na) {}
 	TangoMonitor():_timeout(DEFAULT_TIMEOUT),cond(this),locking_thread(NULL),
-			locked_ctr(0),name("unknown") {};
-	~TangoMonitor() {};
+			locked_ctr(0),name("unknown") {}
+	~TangoMonitor() {}
 
 	void get_monitor();
 	void rel_monitor();

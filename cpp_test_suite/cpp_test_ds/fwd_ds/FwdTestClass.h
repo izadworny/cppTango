@@ -52,36 +52,36 @@ namespace FwdTest_ns
 class FwdAttrScaSh: public Tango::FwdAttr
 {
 public:
-    FwdAttrScaSh(const std::string &_n):FwdAttr(_n) {};
-	~FwdAttrScaSh() {};
+    FwdAttrScaSh(const std::string &_n):FwdAttr(_n) {}
+	~FwdAttrScaSh() {}
 };
 
 class FwdAttrScaStr: public Tango::FwdAttr
 {
 public:
-	FwdAttrScaStr(const std::string &_n):FwdAttr(_n) {};
-	~FwdAttrScaStr() {};
+	FwdAttrScaStr(const std::string &_n):FwdAttr(_n) {}
+	~FwdAttrScaStr() {}
 };
 
 class FwdAttrSpecDb: public Tango::FwdAttr
 {
 public:
-    FwdAttrSpecDb(const std::string &_n):FwdAttr(_n) {};
-	~FwdAttrSpecDb() {};
+    FwdAttrSpecDb(const std::string &_n):FwdAttr(_n) {}
+	~FwdAttrSpecDb() {}
 };
 
 class FwdAttrImaStr: public Tango::FwdAttr
 {
 public:
-    FwdAttrImaStr(const std::string &_n):FwdAttr(_n) {};
-	~FwdAttrImaStr() {};
+    FwdAttrImaStr(const std::string &_n):FwdAttr(_n) {}
+	~FwdAttrImaStr() {}
 };
 
 class FwdAttrScaSta: public Tango::FwdAttr
 {
 public:
-	FwdAttrScaSta(const std::string &_n):FwdAttr(_n) {};
-	~FwdAttrScaSta() {};
+	FwdAttrScaSta(const std::string &_n):FwdAttr(_n) {}
+	~FwdAttrScaSta() {}
 };
 
 /*----- PROTECTED REGION END -----*/	//	FwdTestClass::classes for dynamic creation

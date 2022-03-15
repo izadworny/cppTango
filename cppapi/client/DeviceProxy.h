@@ -124,7 +124,7 @@ private:
     class DeviceProxyExt
     {
     public:
-        DeviceProxyExt() {};
+        DeviceProxyExt() {}
 
         bool            nethost_alias;
         std::string          orig_tango_host;

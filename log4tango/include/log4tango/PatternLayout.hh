@@ -103,7 +103,7 @@ public:
 
   class LOG4TANGO_EXPORT PatternComponent {
     public:
-      inline virtual ~PatternComponent() {};
+      inline virtual ~PatternComponent() {}
       virtual void append(std::ostringstream& out, const LoggingEvent& event) = 0;
   };
 
