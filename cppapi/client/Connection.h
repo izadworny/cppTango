@@ -357,7 +357,7 @@ public :
  * class MyCallBack: Tango::CallBack
  * {
  * public:
- *    MyCallback(double d):data(d) {};
+ *    MyCallback(double d):data(d) {}
  *    virtual void cmd_ended(Tango::CmdDoneEvent *);
  * private:
  *    double data;

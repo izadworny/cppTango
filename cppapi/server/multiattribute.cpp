@@ -45,7 +45,7 @@ namespace {
    {
        return std::find_if(std::begin(cont), std::end(cont),
                            [&name](Tango::AttrProperty& attr){ return attr.get_name() == name; });
-   };
+   }
 }
 
 namespace Tango

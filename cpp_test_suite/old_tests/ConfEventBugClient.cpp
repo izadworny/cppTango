@@ -31,7 +31,7 @@ std::string  rel_change_according_last_event = "-not yet set-";
 class ConfigChangedEventCallback : public Tango::CallBack
 {
 public:
-        ConfigChangedEventCallback() { };
+        ConfigChangedEventCallback() { }
         ~ConfigChangedEventCallback() { }
         void push_event( Tango::AttrConfEventData* ed );
 };

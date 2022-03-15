@@ -8,7 +8,7 @@ class IOSetAttr : public Tango::Command
 {
 public:
 	IOSetAttr(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOSetAttr() {};
+	~IOSetAttr() {}
 	
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);

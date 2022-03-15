@@ -64,7 +64,7 @@ private:
 
 public:
 	// Constructor
-	SubDevDiag() {};
+	SubDevDiag() {}
 
 	// destructor to free map data
 	~SubDevDiag();

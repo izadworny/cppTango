@@ -16,8 +16,8 @@
 class EventCallback : public Tango::CallBack
 {
 public:
-    EventCallback()  { };
-    ~EventCallback() { };
+    EventCallback()  { }
+    ~EventCallback() { }
     void push_event( Tango::EventData *ed ){
         cout << "In callback with error flag = " << std::boolalpha << ed->err << endl;
         if(ed->err) {

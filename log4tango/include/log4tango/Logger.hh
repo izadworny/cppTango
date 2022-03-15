@@ -174,7 +174,7 @@ public:
    **/ 
   inline bool is_debug_enabled (void) const { 
     return is_level_enabled (Level::DEBUG);
-  };
+  }
      
   /**
    * Return a LoggerStream with level DEBUG.
@@ -211,7 +211,7 @@ public:
    **/ 
   inline bool is_info_enabled (void) const { 
     return is_level_enabled(Level::INFO);
-  };
+  }
 
   /**
    * Return a LoggerStream with level INFO.
@@ -248,7 +248,7 @@ public:
    **/ 
   inline bool is_warn_enabled (void) const { 
     return is_level_enabled(Level::WARN);
-  };
+  }
 
   /**
    * Return a LoggerStream with level WARN.
@@ -256,7 +256,7 @@ public:
    **/
   inline LoggerStream warn_stream (void) {
     return LoggerStream(*this, Level::WARN, true);
-  };
+  }
 
   /** 
    * Log a message with error level.
@@ -285,7 +285,7 @@ public:
    **/ 
   inline bool is_error_enabled (void) const { 
     return is_level_enabled(Level::ERROR);
-  };
+  }
 
   /**
    * Return a LoggerStream with level ERROR.
@@ -293,7 +293,7 @@ public:
    **/
   inline LoggerStream error_stream (void) {
       return LoggerStream(*this, Level::ERROR, true);
-  };
+  }
 
   /** 
    * Log a message with fatal level. 
@@ -322,7 +322,7 @@ public:
    **/ 
   inline bool is_fatal_enabled (void) const { 
     return is_level_enabled(Level::FATAL);
-  };
+  }
   
   /**
    * Return a LoggerStream with level FATAL.
@@ -330,7 +330,7 @@ public:
    **/
   inline LoggerStream fatal_stream (void) {
     return LoggerStream(*this, Level::FATAL, true);
-  };
+  }
 
   /**
    * Return a LoggerStream with given Level.

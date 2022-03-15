@@ -554,7 +554,7 @@ public:
 #endif
 
 		CmdArgType type = ranges_type2const<T>::enu; // restricts template initialisation to supported types
-		if(type){}; // prevents compiler warning about unused variable type
+		if(type){} // prevents compiler warning about unused variable type
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

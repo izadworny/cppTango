@@ -59,7 +59,7 @@ private :
     class DatabaseExt
     {
     public:
-        DatabaseExt() {};
+        DatabaseExt() {}
 
 		std::string	orig_tango_host;
     };

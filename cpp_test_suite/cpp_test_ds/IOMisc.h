@@ -8,7 +8,7 @@ class IODServDevice : public Tango::Command
 {
 public:
 	IODServDevice(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IODServDevice() {};
+	~IODServDevice() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -19,7 +19,7 @@ class IODevByName : public Tango::Command
 {
 public:
 	IODevByName(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IODevByName() {};
+	~IODevByName() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -30,7 +30,7 @@ class IODevListByClass : public Tango::Command
 {
 public:
 	IODevListByClass(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IODevListByClass() {};
+	~IODevListByClass() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -40,7 +40,7 @@ public:
 class IOSleep : public Tango::Command {
 public:
 	IOSleep(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOSleep() {};
+	~IOSleep() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -50,7 +50,7 @@ public:
 class IOState : public Tango::Command {
 public:
 	IOState(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOState() {};
+	~IOState() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -59,7 +59,7 @@ public:
 class IOStartPoll : public Tango::Command {
 public:
 	IOStartPoll(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOStartPoll() {};
+	~IOStartPoll() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -68,7 +68,7 @@ public:
 class IOShortSleep : public Tango::Command {
 public:
 	IOShortSleep(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOShortSleep() {};
+	~IOShortSleep() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -77,7 +77,7 @@ public:
 class IOSleepExcept : public Tango::Command {
 public:
 	IOSleepExcept(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOSleepExcept() {};
+	~IOSleepExcept() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -86,7 +86,7 @@ public:
 class IOExit : public Tango::Command {
 public:
 	IOExit(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOExit() {};
+	~IOExit() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -95,7 +95,7 @@ public:
 class IOTrigPoll : public Tango::Command {
 public:
 	IOTrigPoll(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOTrigPoll() {};
+	~IOTrigPoll() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -104,7 +104,7 @@ public:
 class IOAttrTrigPoll : public Tango::Command {
 public:
 	IOAttrTrigPoll(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOAttrTrigPoll() {};
+	~IOAttrTrigPoll() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -113,7 +113,7 @@ public:
 class IOInitWAttr : public Tango::Command {
 public:
 	IOInitWAttr(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOInitWAttr() {};
+	~IOInitWAttr() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -122,7 +122,7 @@ public:
 class IOAttrThrowEx : public Tango::Command {
 public:
 	IOAttrThrowEx(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOAttrThrowEx() {};
+	~IOAttrThrowEx() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -131,7 +131,7 @@ public:
 class IOAddOneElt : public Tango::Command {
 public:
 	IOAddOneElt(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOAddOneElt() {};
+	~IOAddOneElt() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -140,7 +140,7 @@ public:
 class IORemoveOneElt : public Tango::Command {
 public:
 	IORemoveOneElt(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IORemoveOneElt() {};
+	~IORemoveOneElt() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -149,7 +149,7 @@ public:
 class IOIncValue : public Tango::Command {
 public:
 	IOIncValue(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOIncValue() {};
+	~IOIncValue() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -158,7 +158,7 @@ public:
 class IODecValue : public Tango::Command {
 public:
 	IODecValue(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IODecValue() {};
+	~IODecValue() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -167,7 +167,7 @@ public:
 class IOChangeQuality : public Tango::Command {
 public:
 	IOChangeQuality(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOChangeQuality() {};
+	~IOChangeQuality() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -176,7 +176,7 @@ public:
 class IOPushEvent : public Tango::Command {
 public:
 	IOPushEvent(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOPushEvent() {};
+	~IOPushEvent() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -185,7 +185,7 @@ public:
 class IOPushDevEncodedEvent : public Tango::Command {
 public:
 	IOPushDevEncodedEvent(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOPushDevEncodedEvent() {};
+	~IOPushDevEncodedEvent() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -194,7 +194,7 @@ public:
 class IOSubscribeEvent : public Tango::Command {
 public:
 	IOSubscribeEvent(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOSubscribeEvent() {};
+	~IOSubscribeEvent() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -203,7 +203,7 @@ public:
 class IOUnSubscribeEvent : public Tango::Command {
 public:
 	IOUnSubscribeEvent(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOUnSubscribeEvent() {};
+	~IOUnSubscribeEvent() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -212,7 +212,7 @@ public:
 class IOGetCbExecuted : public Tango::Command {
 public:
 	IOGetCbExecuted(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOGetCbExecuted() {};
+	~IOGetCbExecuted() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -222,7 +222,7 @@ public:
 class IOFillPollBuffAttr : public Tango::Command {
 public:
 	IOFillPollBuffAttr(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOFillPollBuffAttr() {};
+	~IOFillPollBuffAttr() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -231,7 +231,7 @@ public:
 class IOFillPollBuffEncodedAttr : public Tango::Command {
 public:
 	IOFillPollBuffEncodedAttr(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOFillPollBuffEncodedAttr() {};
+	~IOFillPollBuffEncodedAttr() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -240,7 +240,7 @@ public:
 class IOFillPollBuffCmd : public Tango::Command {
 public:
 	IOFillPollBuffCmd(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOFillPollBuffCmd() {};
+	~IOFillPollBuffCmd() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -249,7 +249,7 @@ public:
 class FileDbCmd : public Tango::Command {
 public:
 	FileDbCmd(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~FileDbCmd() {};
+	~FileDbCmd() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -258,7 +258,7 @@ public:
 class GetLongSize : public Tango::Command {
 public:
 	GetLongSize(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~GetLongSize() {};
+	~GetLongSize() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -267,7 +267,7 @@ public:
 class IOSetWAttrLimit : public Tango::Command {
 public:
 	IOSetWAttrLimit(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~IOSetWAttrLimit() {};
+	~IOSetWAttrLimit() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -276,7 +276,7 @@ public:
 class ChangeEncodedFormat : public Tango::Command {
 public:
 	ChangeEncodedFormat(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~ChangeEncodedFormat() {};
+	~ChangeEncodedFormat() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -285,7 +285,7 @@ public:
 class ChangeEncodedData : public Tango::Command {
 public:
 	ChangeEncodedData(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~ChangeEncodedData() {};
+	~ChangeEncodedData() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -294,7 +294,7 @@ public:
 class PushDataReady : public Tango::Command {
 public:
 	PushDataReady(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~PushDataReady() {};
+	~PushDataReady() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -303,7 +303,7 @@ public:
 class SubDeviceTst : public Tango::Command {
 public:
 	SubDeviceTst(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SubDeviceTst() {};
+	~SubDeviceTst() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -312,7 +312,7 @@ public:
 class PollingPoolTst : public Tango::Command {
 public:
 	PollingPoolTst(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~PollingPoolTst() {};
+	~PollingPoolTst() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -322,7 +322,7 @@ class SetGetAlarms : public Tango::Command
 {
 public:
 	SetGetAlarms(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SetGetAlarms() {};
+	~SetGetAlarms() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -332,7 +332,7 @@ class SetGetRanges : public Tango::Command
 {
 public:
 	SetGetRanges(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SetGetRanges() {};
+	~SetGetRanges() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -342,7 +342,7 @@ class SetGetProperties : public Tango::Command
 {
 public:
 	SetGetProperties(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SetGetProperties() {};
+	~SetGetProperties() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -353,7 +353,7 @@ public:
 class PollingInDeviceTst : public Tango::Command {
 public:
 	PollingInDeviceTst(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~PollingInDeviceTst() {};
+	~PollingInDeviceTst() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -362,7 +362,7 @@ public:
 class SophisPollInDeviceTst : public Tango::Command {
 public:
 	SophisPollInDeviceTst(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SophisPollInDeviceTst() {};
+	~SophisPollInDeviceTst() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -371,7 +371,7 @@ public:
 class GetPollMess : public Tango::Command {
 public:
 	GetPollMess(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~GetPollMess() {};
+	~GetPollMess() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -380,7 +380,7 @@ public:
 class WriteAttrHardwareThrow : public Tango::Command {
 public:
 	WriteAttrHardwareThrow(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~WriteAttrHardwareThrow() {};
+	~WriteAttrHardwareThrow() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -389,7 +389,7 @@ public:
 class SetEnumLabels : public Tango::Command {
 public:
 	SetEnumLabels(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SetEnumLabels() {};
+	~SetEnumLabels() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -398,7 +398,7 @@ public:
 class AddEnumLabel : public Tango::Command {
 public:
 	AddEnumLabel(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~AddEnumLabel() {};
+	~AddEnumLabel() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -407,7 +407,7 @@ public:
 class ForbiddenEnumValue : public Tango::Command {
 public:
 	ForbiddenEnumValue(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~ForbiddenEnumValue() {};
+	~ForbiddenEnumValue() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -416,7 +416,7 @@ public:
 class SetPipeOutput : public Tango::Command {
 public:
 	SetPipeOutput(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~SetPipeOutput() {};
+	~SetPipeOutput() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -425,7 +425,7 @@ public:
 class PushPipeEvent : public Tango::Command {
 public:
 	PushPipeEvent(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~PushPipeEvent() {};
+	~PushPipeEvent() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);
@@ -434,7 +434,7 @@ public:
 class PushStateStatusChangeEvent : public Tango::Command {
 public:
 	PushStateStatusChangeEvent(const char *,Tango::CmdArgType, Tango::CmdArgType,const char *,const char *);
-	~PushStateStatusChangeEvent() {};
+	~PushStateStatusChangeEvent() {}
 
 	virtual bool is_allowed (Tango::DeviceImpl *, const CORBA::Any &);
 	virtual CORBA::Any *execute (Tango::DeviceImpl *, const CORBA::Any &);

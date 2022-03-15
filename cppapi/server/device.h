@@ -443,7 +443,7 @@ public:
  * <b>DevFailed</b> exception specification
  */
 
-	virtual void delete_device() {};
+	virtual void delete_device() {}
 /**
  * Hook method.
  *
@@ -456,7 +456,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	virtual void always_executed_hook(void) {};
+	virtual void always_executed_hook(void) {}
 
 /**
  * Hook method.
@@ -468,7 +468,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	virtual void server_init_hook() {};
+	virtual void server_init_hook() {}
 
 /**
  * Read the hardware to return attribute value(s).
@@ -486,7 +486,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	virtual void read_attr_hardware(std::vector<long> &attr_list) {(void)attr_list;};
+	virtual void read_attr_hardware(std::vector<long> &attr_list) {(void)attr_list;}
 /**
  * Set the attribute read value.
  *
@@ -499,7 +499,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	virtual void read_attr(Attribute &attr) {(void)attr;};
+	virtual void read_attr(Attribute &attr) {(void)attr;}
 /**
  * Write the hardware for attributes.
  *
@@ -516,7 +516,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	virtual void write_attr_hardware(std::vector<long> &attr_list) {(void)attr_list;};
+	virtual void write_attr_hardware(std::vector<long> &attr_list) {(void)attr_list;}
 /**
  * Get device state.
  *
@@ -3452,7 +3452,7 @@ private:
     class DeviceImplExt
     {
     public:
-        DeviceImplExt():alarm_state_user(0),alarm_state_kernel(0) {};
+        DeviceImplExt():alarm_state_user(0),alarm_state_kernel(0) {}
 
         time_t      alarm_state_user;
         time_t      alarm_state_kernel;

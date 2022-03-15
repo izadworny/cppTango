@@ -57,7 +57,7 @@ public:
 				Tango::CmdArgType out,
 				const std::string &in_desc);
 
-	~AddLoggingTarget() {};
+	~AddLoggingTarget() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
@@ -79,7 +79,7 @@ public:
 				   Tango::CmdArgType out,
 				   const std::string &in_desc);
 
-	~RemoveLoggingTarget() {};
+	~RemoveLoggingTarget() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
@@ -101,7 +101,7 @@ public:
 		    const std::string &in_desc,
 		    const std::string &out_desc);
 
-	~GetLoggingTarget() {};
+	~GetLoggingTarget() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
@@ -122,7 +122,7 @@ public:
 		   Tango::CmdArgType out,
 		   const std::string &in_desc);
 
-	~SetLoggingLevel() {};
+	~SetLoggingLevel() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
@@ -144,7 +144,7 @@ public:
 		    const std::string &in_desc,
 		    const std::string &out_desc);
 
-	~GetLoggingLevel() {};
+	~GetLoggingLevel() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
@@ -164,7 +164,7 @@ public:
 						 Tango::CmdArgType in,
 	       Tango::CmdArgType out);
 
-	~StopLogging() {};
+	~StopLogging() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
@@ -184,7 +184,7 @@ public:
 						 Tango::CmdArgType in,
 	       Tango::CmdArgType out);
 
-	~StartLogging() {};
+	~StartLogging() {}
 
 	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };

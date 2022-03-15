@@ -499,7 +499,7 @@ namespace
         // not dereference j_common_ptr as it would result in UB.
         jpeg_destroy(reinterpret_cast<JpegCompressDecompressStruct*>(cinfo_ptr));
         jpeg_throw_exception<JpegCompressDecompressStruct>(err_msg);
-    };
+    }
 
 
         // ----------------------------------------------------------------

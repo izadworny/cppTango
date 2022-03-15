@@ -130,7 +130,7 @@ public:
  * create and store the supported attributes in a vector.
  *
  */
-	virtual void attribute_factory(std::vector<Attr *> &) {};
+	virtual void attribute_factory(std::vector<Attr *> &) {}
 /**
  * Create all the pipes supported by this class of device.
  *
@@ -139,7 +139,7 @@ public:
  * create and store the supported pipes in a vector.
  *
  */
-	virtual void pipe_factory() {};
+	virtual void pipe_factory() {}
 
 /**
  * Create device(s).
@@ -166,7 +166,7 @@ public:
  * @param list Reference to the device name list
  */
 
-	virtual void device_name_factory(std::vector<std::string> &list) {(void)list;};
+	virtual void device_name_factory(std::vector<std::string> &list) {(void)list;}
 
 /**
  * Delete device.
@@ -487,7 +487,7 @@ private:
     class DeviceClassExt
     {
     public:
-        DeviceClassExt() {};
+        DeviceClassExt() {}
 
         std::map<std::string,std::vector<Pipe *> > dev_pipe_list;
     };

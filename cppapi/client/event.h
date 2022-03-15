@@ -119,7 +119,7 @@ private:
 class EventDataList:public std::vector<EventData *>
 {
 public:
-	EventDataList(): std::vector<EventData *>(0) {};
+	EventDataList(): std::vector<EventData *>(0) {}
 	~EventDataList()
 		{
 		if (size() > 0)
@@ -215,7 +215,7 @@ private:
 class AttrConfEventDataList:public std::vector<AttrConfEventData *>
 {
 public:
-	AttrConfEventDataList(): std::vector<AttrConfEventData *>(0) {};
+	AttrConfEventDataList(): std::vector<AttrConfEventData *>(0) {}
 	~AttrConfEventDataList()
 		{
 		if (size() > 0)
@@ -264,7 +264,7 @@ public :
 ///@privatesection
 	DataReadyEventData() {}
 	DataReadyEventData(DeviceProxy *,AttDataReady *,const std::string &evt,const DevErrorList &);
-	~DataReadyEventData() {};
+	~DataReadyEventData() {}
 	DataReadyEventData(const DataReadyEventData &);
 	DataReadyEventData & operator=(const DataReadyEventData &);
 	/**
@@ -296,7 +296,7 @@ private:
 class DataReadyEventDataList:public std::vector<DataReadyEventData *>
 {
 public:
-	DataReadyEventDataList(): std::vector<DataReadyEventData *>(0) {};
+	DataReadyEventDataList(): std::vector<DataReadyEventData *>(0) {}
 	~DataReadyEventDataList()
 	{
 		if (size() > 0)
@@ -348,7 +348,7 @@ public :
 	DevIntrChangeEventData() {}
 	DevIntrChangeEventData(DeviceProxy *,const std::string &,const std::string &,DevCmdInfoList_2 *,AttributeConfigList_5 *,bool,const DevErrorList &);
 	DevIntrChangeEventData(DeviceProxy *,const std::string &,const std::string &,CommandInfoList *,AttributeInfoListEx *,bool,const DevErrorList &);
-	~DevIntrChangeEventData() {};
+	~DevIntrChangeEventData() {}
 	DevIntrChangeEventData(const DevIntrChangeEventData &);
 	DevIntrChangeEventData & operator=(const DevIntrChangeEventData &);
 	/**
@@ -382,7 +382,7 @@ private:
 class DevIntrChangeEventDataList:public std::vector<DevIntrChangeEventData *>
 {
 public:
-	DevIntrChangeEventDataList(): std::vector<DevIntrChangeEventData *>(0) {};
+	DevIntrChangeEventDataList(): std::vector<DevIntrChangeEventData *>(0) {}
 	~DevIntrChangeEventDataList()
 	{
 		if (size() > 0)
@@ -462,7 +462,7 @@ private:
 class PipeEventDataList:public std::vector<PipeEventData *>
 {
 public:
-	PipeEventDataList(): std::vector<PipeEventData *>(0) {};
+	PipeEventDataList(): std::vector<PipeEventData *>(0) {}
 	~PipeEventDataList()
 	{
 		if (size() > 0)

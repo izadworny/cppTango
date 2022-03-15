@@ -597,7 +597,7 @@ private:
     class DeviceDataHistoryExt
     {
     public:
-        DeviceDataHistoryExt() {};
+        DeviceDataHistoryExt() {}
     };
 
     std::unique_ptr<DeviceDataHistoryExt>    ext_hist;
@@ -689,7 +689,7 @@ private:
     class DeviceAttributeHistoryExt
     {
     public:
-        DeviceAttributeHistoryExt() {};
+        DeviceAttributeHistoryExt() {}
     };
 
     std::unique_ptr<DeviceAttributeHistoryExt>   ext_hist;
@@ -733,12 +733,12 @@ private:
 class DummyDeviceProxy: public Tango::Connection
 {
 public:
-	DummyDeviceProxy():Tango::Connection(true) {};
+	DummyDeviceProxy():Tango::Connection(true) {}
 
 	virtual std::string get_corba_name(bool) {std::string str;return str;}
 	virtual std::string build_corba_name() {std::string str;return str;}
 	virtual int get_lock_ctr() {return 0;}
-	virtual void set_lock_ctr(int) {};
+	virtual void set_lock_ctr(int) {}
 
 	virtual std::string dev_name() {std::string str;return str;}
 

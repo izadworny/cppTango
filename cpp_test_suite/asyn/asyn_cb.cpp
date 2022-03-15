@@ -14,7 +14,7 @@ bool verbose = false;
 class MyCallBack: public CallBack
 {
 public:
-	MyCallBack():cb_executed(0) {};
+	MyCallBack():cb_executed(0) {}
 
 	virtual void cmd_ended(CmdDoneEvent *);
 

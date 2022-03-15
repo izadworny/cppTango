@@ -59,7 +59,7 @@ private :
     class DbDeviceExt
     {
     public:
-        DbDeviceExt() {};
+        DbDeviceExt() {}
     };
 
     std::unique_ptr<DbDeviceExt>     ext;

@@ -757,7 +757,7 @@ public:
 	std::vector<TimedAttrData<T> > &get_data();
 
 /// @privatesection
-	AttrHistoryStack() {};
+	AttrHistoryStack() {}
 
 	std::vector<Tango::TimedAttrData<T> >	hist;
 };
@@ -941,7 +941,7 @@ public:
 
 /// @privatesection
 
-	CmdHistoryStack() {};
+	CmdHistoryStack() {}
 
 	std::vector<Tango::TimedCmdData<T> >	hist;
 };

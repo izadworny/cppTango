@@ -769,7 +769,7 @@ private:
     class DevicePipeBlobExt
     {
     public:
-        DevicePipeBlobExt() {};
+        DevicePipeBlobExt() {}
     };
 
     std::unique_ptr<DevicePipeBlobExt>   	ext;
@@ -1094,7 +1094,7 @@ private:
     class DevicePipeExt
     {
     public:
-        DevicePipeExt() {};
+        DevicePipeExt() {}
     };
 
     std::unique_ptr<DevicePipeExt>   ext;

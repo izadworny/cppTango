@@ -14,7 +14,7 @@ bool verbose = false;
 class MyCallBack: public CallBack
 {
 public:
-	MyCallBack():cb_executed(0),to(false),cmd_failed(false),attr_failed(false) {};
+	MyCallBack():cb_executed(0),to(false),cmd_failed(false),attr_failed(false) {}
 
 	virtual void cmd_ended(CmdDoneEvent *);
 	virtual void attr_read(AttrReadEvent *);
