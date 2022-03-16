@@ -1193,8 +1193,8 @@ public:
 class ReadWithPushAttr1 : public Tango::Attr
 {
 public:
-    ReadWithPushAttr1() : Attr("ReadWithPushAttr1", Tango::DEV_SHORT, Tango::READ) {};
-    ~ReadWithPushAttr1() {};
+    ReadWithPushAttr1() : Attr("ReadWithPushAttr1", Tango::DEV_SHORT, Tango::READ) {}
+    ~ReadWithPushAttr1() {}
 
     virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
     {(static_cast<DevTest *>(dev))->read_ReadWithPushAttr1(att);}
@@ -1203,8 +1203,8 @@ public:
 class ReadWithPushAttr2 : public Tango::Attr
 {
 public:
-    ReadWithPushAttr2() : Attr("ReadWithPushAttr2", Tango::DEV_SHORT, Tango::READ) {};
-    ~ReadWithPushAttr2() {};
+    ReadWithPushAttr2() : Attr("ReadWithPushAttr2", Tango::DEV_SHORT, Tango::READ) {}
+    ~ReadWithPushAttr2() {}
 
     virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
     {(static_cast<DevTest *>(dev))->read_ReadWithPushAttr2(att);}
@@ -1213,8 +1213,8 @@ public:
 class PushItselfAfterSetAttr : public Tango::Attr
 {
 public:
-    PushItselfAfterSetAttr() : Attr("PushItselfAfterSetAttr", Tango::DEV_SHORT, Tango::READ) {};
-    ~PushItselfAfterSetAttr() {};
+    PushItselfAfterSetAttr() : Attr("PushItselfAfterSetAttr", Tango::DEV_SHORT, Tango::READ) {}
+    ~PushItselfAfterSetAttr() {}
 
     virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
     {(static_cast<DevTest *>(dev))->read_PushItselfAfterSetAttr(att);}
