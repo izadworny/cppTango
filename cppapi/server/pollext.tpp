@@ -36,10 +36,10 @@
 #include <tango.h>
 
 #ifdef _TG_WINDOWS_
-#include <sys/types.h>
-#include <sys/timeb.h>
+  #include <sys/types.h>
+  #include <sys/timeb.h>
 #else
-#include <sys/time.h>
+  #include <sys/time.h>
 #endif /* _TG_WINDOWS_ */
 
 namespace Tango
@@ -64,152 +64,256 @@ namespace Tango
 //
 //=============================================================================
 
-
 template <typename T>
-inline AttrData<T>::AttrData(const T *p): ptr(p),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p)
+    : ptr(p),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	qual = Tango::ATTR_VALID;
-	x = 1;
-	y = 0;
-	release = false;
+  qual    = Tango::ATTR_VALID;
+  x       = 1;
+  y       = 0;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,Tango::AttrQuality q): ptr(p),qual(q),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, Tango::AttrQuality q)
+    : ptr(p),
+      qual(q),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	x = 1;
-	y = 0;
-	release = false;
+  x       = 1;
+  y       = 0;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,Tango::AttrQuality q,bool rel): ptr(p),qual(q),release(rel),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, Tango::AttrQuality q, bool rel)
+    : ptr(p),
+      qual(q),
+      release(rel),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	x = 1;
-	y = 0;
+  x = 1;
+  y = 0;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,const T *wr_p): ptr(p),wr_y(0),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, const T *wr_p)
+    : ptr(p),
+      wr_y(0),
+      wr_ptr(wr_p)
 {
-	qual = Tango::ATTR_VALID;
-	x = 1;
-	y = 0;
-	wr_x =1 ;
-	release = false;
+  qual    = Tango::ATTR_VALID;
+  x       = 1;
+  y       = 0;
+  wr_x    = 1;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,const T *wr_p,Tango::AttrQuality q): ptr(p),qual(q),wr_y(0),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, const T *wr_p, Tango::AttrQuality q)
+    : ptr(p),
+      qual(q),
+      wr_y(0),
+      wr_ptr(wr_p)
 {
-	x = 1;
-	y = 0;
-	wr_x = 1;
-	release = false;
+  x       = 1;
+  y       = 0;
+  wr_x    = 1;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,const T *wr_p,Tango::AttrQuality q,bool rel): ptr(p),qual(q),release(rel),wr_y(0),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, const T *wr_p, Tango::AttrQuality q, bool rel)
+    : ptr(p),
+      qual(q),
+      release(rel),
+      wr_y(0),
+      wr_ptr(wr_p)
 {
-	x = 1;
-	y = 0;
-	wr_x = 1;
+  x    = 1;
+  y    = 0;
+  wr_x = 1;
 }
 
 // For spectrum
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb): ptr(p),x(nb),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, long nb)
+    : ptr(p),
+      x(nb),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	__CHECK_DIM_X();
-	qual = Tango::ATTR_VALID;
-	y = 0;
-	release = false;
+  __CHECK_DIM_X();
+  qual    = Tango::ATTR_VALID;
+  y       = 0;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,Tango::AttrQuality q): ptr(p),qual(q),x(nb),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, long nb, Tango::AttrQuality q)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	__CHECK_DIM_X();
-	y = 0;
-	release = false;
+  __CHECK_DIM_X();
+  y       = 0;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,Tango::AttrQuality q,bool rel): ptr(p),qual(q),x(nb),release(rel),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, long nb, Tango::AttrQuality q, bool rel)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      release(rel),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	__CHECK_DIM_X();
-	y = 0;
+  __CHECK_DIM_X();
+  y = 0;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,const T *wr_p,long wr_nb): ptr(p),x(nb),wr_x(wr_nb),wr_y(0),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, long nb, const T *wr_p, long wr_nb)
+    : ptr(p),
+      x(nb),
+      wr_x(wr_nb),
+      wr_y(0),
+      wr_ptr(wr_p)
 {
-	__CHECK_DIM_X();
-	qual = Tango::ATTR_VALID;
-	y = 0;
-	release = false;
+  __CHECK_DIM_X();
+  qual    = Tango::ATTR_VALID;
+  y       = 0;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,const T *wr_p,long wr_nb,Tango::AttrQuality q): ptr(p),qual(q),x(nb),wr_x(wr_nb),wr_y(0),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, long nb, const T *wr_p, long wr_nb, Tango::AttrQuality q)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      wr_x(wr_nb),
+      wr_y(0),
+      wr_ptr(wr_p)
 {
-	__CHECK_DIM_X();
-	y = 0;
-	release = false;
+  __CHECK_DIM_X();
+  y       = 0;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,const T *wr_p,long wr_nb,Tango::AttrQuality q,bool rel): ptr(p),qual(q),x(nb),release(rel),wr_x(wr_nb),wr_y(0),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, long nb, const T *wr_p, long wr_nb, Tango::AttrQuality q, bool rel)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      release(rel),
+      wr_x(wr_nb),
+      wr_y(0),
+      wr_ptr(wr_p)
 {
-	__CHECK_DIM_X();
-	y = 0;
+  __CHECK_DIM_X();
+  y = 0;
 }
 
 // For image
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,long nb2): ptr(p),x(nb),y(nb2),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, long nb, long nb2)
+    : ptr(p),
+      x(nb),
+      y(nb2),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	__CHECK_DIM();
-	qual = Tango::ATTR_VALID;
-	release = false;
+  __CHECK_DIM();
+  qual    = Tango::ATTR_VALID;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,long nb2,Tango::AttrQuality q): ptr(p),qual(q),x(nb),y(nb2),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, long nb, long nb2, Tango::AttrQuality q)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      y(nb2),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	__CHECK_DIM();
-	release = false;
+  __CHECK_DIM();
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,long nb2,Tango::AttrQuality q,bool rel): ptr(p),qual(q),
-									     x(nb),y(nb2),release(rel),wr_x(0),wr_y(0),wr_ptr(NULL)
+inline AttrData<T>::AttrData(const T *p, long nb, long nb2, Tango::AttrQuality q, bool rel)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      y(nb2),
+      release(rel),
+      wr_x(0),
+      wr_y(0),
+      wr_ptr(NULL)
 {
-	__CHECK_DIM();
+  __CHECK_DIM();
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,long nb2,const T *wr_p,long wr_nb,long wr_nb2): ptr(p),x(nb),y(nb2),wr_x(wr_nb),wr_y(wr_nb2),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, long nb, long nb2, const T *wr_p, long wr_nb, long wr_nb2)
+    : ptr(p),
+      x(nb),
+      y(nb2),
+      wr_x(wr_nb),
+      wr_y(wr_nb2),
+      wr_ptr(wr_p)
 {
-	__CHECK_DIM();
-	qual = Tango::ATTR_VALID;
-	release = false;
+  __CHECK_DIM();
+  qual    = Tango::ATTR_VALID;
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,long nb2,const T *wr_p,long wr_nb,long wr_nb2,Tango::AttrQuality q): ptr(p),qual(q),x(nb),y(nb2),wr_x(wr_nb),wr_y(wr_nb2),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, long nb, long nb2, const T *wr_p, long wr_nb, long wr_nb2,
+                             Tango::AttrQuality q)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      y(nb2),
+      wr_x(wr_nb),
+      wr_y(wr_nb2),
+      wr_ptr(wr_p)
 {
-	__CHECK_DIM();
-	release = false;
+  __CHECK_DIM();
+  release = false;
 }
 
 template <typename T>
-inline AttrData<T>::AttrData(const T *p,long nb,long nb2,const T *wr_p,long wr_nb,long wr_nb2,Tango::AttrQuality q,bool rel): ptr(p),qual(q),
-									     x(nb),y(nb2),release(rel),wr_x(wr_nb),wr_y(wr_nb2),wr_ptr(wr_p)
+inline AttrData<T>::AttrData(const T *p, long nb, long nb2, const T *wr_p, long wr_nb, long wr_nb2,
+                             Tango::AttrQuality q, bool rel)
+    : ptr(p),
+      qual(q),
+      x(nb),
+      y(nb2),
+      release(rel),
+      wr_x(wr_nb),
+      wr_y(wr_nb2),
+      wr_ptr(wr_p)
 {
-	__CHECK_DIM();
+  __CHECK_DIM();
 }
 
 //=============================================================================
@@ -224,345 +328,458 @@ inline AttrData<T>::AttrData(const T *p,long nb,long nb2,const T *wr_p,long wr_n
 //=============================================================================
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,time_t when): AttrData<T>(p_data)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, time_t when)
+    : AttrData<T>(p_data)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,const T *p_wr_data,time_t when): AttrData<T>(p_data,p_wr_data)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, const T *p_wr_data, time_t when)
+    : AttrData<T>(p_data, p_wr_data)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,Tango::AttrQuality qual,time_t when): AttrData<T>(p_data,qual)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, Tango::AttrQuality qual, time_t when)
+    : AttrData<T>(p_data, qual)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,const T *p_wr_data,Tango::AttrQuality qual,time_t when): AttrData<T>(p_data,p_wr_data,qual)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, const T *p_wr_data, Tango::AttrQuality qual, time_t when)
+    : AttrData<T>(p_data, p_wr_data, qual)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,Tango::AttrQuality qual,bool rel,time_t when): AttrData<T>(p_data,qual,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, Tango::AttrQuality qual, bool rel, time_t when)
+    : AttrData<T>(p_data, qual, rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,const T *p_wr_data,Tango::AttrQuality qual,bool rel,time_t when): AttrData<T>(p_data,p_wr_data,qual,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, const T *p_wr_data, Tango::AttrQuality qual, bool rel,
+                                       time_t when)
+    : AttrData<T>(p_data, p_wr_data, qual, rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,struct timeval when): AttrData<T>(p_data),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, struct timeval when)
+    : AttrData<T>(p_data),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,const T *p_wr_data,struct timeval when): AttrData<T>(p_data,p_wr_data),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, const T *p_wr_data, struct timeval when)
+    : AttrData<T>(p_data, p_wr_data),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,Tango::AttrQuality qual,struct timeval when): AttrData<T>(p_data,qual),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, Tango::AttrQuality qual, struct timeval when)
+    : AttrData<T>(p_data, qual),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,TANGO_UNUSED(const T *p_wr_data),Tango::AttrQuality qual,struct timeval when): AttrData<T>(p_data,qual),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, TANGO_UNUSED(const T *p_wr_data), Tango::AttrQuality qual,
+                                       struct timeval when)
+    : AttrData<T>(p_data, qual),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,Tango::AttrQuality qual,bool rel,struct timeval when): AttrData<T>(p_data,qual,rel),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, Tango::AttrQuality qual, bool rel, struct timeval when)
+    : AttrData<T>(p_data, qual, rel),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,const T *p_wr_data,Tango::AttrQuality qual,bool rel,struct timeval when): AttrData<T>(p_data,p_wr_data,qual,rel),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, const T *p_wr_data, Tango::AttrQuality qual, bool rel,
+                                       struct timeval when)
+    : AttrData<T>(p_data, p_wr_data, qual, rel),
+      t_val(when)
+{
+}
 
 // For spectrum
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,time_t when): AttrData<T>(p_data,x)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, time_t when)
+    : AttrData<T>(p_data, x)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,const T *p_wr_data,long x_wr,time_t when): AttrData<T>(p_data,x,p_wr_data,x_wr)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, const T *p_wr_data, long x_wr, time_t when)
+    : AttrData<T>(p_data, x, p_wr_data, x_wr)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,Tango::AttrQuality qual,time_t when): AttrData<T>(p_data,x,qual)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, Tango::AttrQuality qual, time_t when)
+    : AttrData<T>(p_data, x, qual)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,const T *p_wr_data,long x_wr,Tango::AttrQuality qual,time_t when): AttrData<T>(p_data,x,p_wr_data,x_wr,qual)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, const T *p_wr_data, long x_wr, Tango::AttrQuality qual,
+                                       time_t when)
+    : AttrData<T>(p_data, x, p_wr_data, x_wr, qual)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,Tango::AttrQuality qual,bool rel,time_t when): AttrData<T>(p_data,x,qual,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, Tango::AttrQuality qual, bool rel, time_t when)
+    : AttrData<T>(p_data, x, qual, rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,const T *p_wr_data,long x_wr,Tango::AttrQuality qual,bool rel,time_t when): AttrData<T>(p_data,x,p_wr_data,x_wr,qual,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, const T *p_wr_data, long x_wr, Tango::AttrQuality qual,
+                                       bool rel, time_t when)
+    : AttrData<T>(p_data, x, p_wr_data, x_wr, qual, rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,struct timeval when): AttrData<T>(p_data,x),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, struct timeval when)
+    : AttrData<T>(p_data, x),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,const T *p_wr_data,long x_wr,struct timeval when): AttrData<T>(p_data,x,p_wr_data,x_wr),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, const T *p_wr_data, long x_wr, struct timeval when)
+    : AttrData<T>(p_data, x, p_wr_data, x_wr),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,Tango::AttrQuality qual,struct timeval when): AttrData<T>(p_data,x,qual),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, Tango::AttrQuality qual, struct timeval when)
+    : AttrData<T>(p_data, x, qual),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,const T *p_wr_data,long x_wr,Tango::AttrQuality qual,struct timeval when): AttrData<T>(p_data,x,p_wr_data,x_wr,qual),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, const T *p_wr_data, long x_wr, Tango::AttrQuality qual,
+                                       struct timeval when)
+    : AttrData<T>(p_data, x, p_wr_data, x_wr, qual),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,Tango::AttrQuality qual,bool rel,struct timeval when): AttrData<T>(p_data,x,qual,rel),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, Tango::AttrQuality qual, bool rel, struct timeval when)
+    : AttrData<T>(p_data, x, qual, rel),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,const T *p_wr_data,long x_wr,Tango::AttrQuality qual,bool rel,struct timeval when): AttrData<T>(p_data,x,p_wr_data,x_wr,qual,rel),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, const T *p_wr_data, long x_wr, Tango::AttrQuality qual,
+                                       bool rel, struct timeval when)
+    : AttrData<T>(p_data, x, p_wr_data, x_wr, qual, rel),
+      t_val(when)
+{
+}
 
 // For image
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,time_t when): AttrData<T>(p_data,x,y)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, time_t when)
+    : AttrData<T>(p_data, x, y)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,const T *p_wr_data,long x_wr,long y_wr,time_t when): AttrData<T>(p_data,x,y,p_wr_data,x_wr,y_wr)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, const T *p_wr_data, long x_wr, long y_wr,
+                                       time_t when)
+    : AttrData<T>(p_data, x, y, p_wr_data, x_wr, y_wr)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,Tango::AttrQuality qual,time_t when): AttrData<T>(p_data,x,y,qual)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, Tango::AttrQuality qual, time_t when)
+    : AttrData<T>(p_data, x, y, qual)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,const T *p_wr_data,long x_wr,long y_wr,Tango::AttrQuality qual,time_t when): AttrData<T>(p_data,x,y,p_wr_data,x_wr,y_wr,qual)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, const T *p_wr_data, long x_wr, long y_wr,
+                                       Tango::AttrQuality qual, time_t when)
+    : AttrData<T>(p_data, x, y, p_wr_data, x_wr, y_wr, qual)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,Tango::AttrQuality qual,bool rel,time_t when): AttrData<T>(p_data,x,y,qual,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, Tango::AttrQuality qual, bool rel, time_t when)
+    : AttrData<T>(p_data, x, y, qual, rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,const T *p_wr_data,long x_wr,long y_wr,Tango::AttrQuality qual,bool rel,time_t when): AttrData<T>(p_data,x,y,p_wr_data,x_wr,y_wr,qual,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, const T *p_wr_data, long x_wr, long y_wr,
+                                       Tango::AttrQuality qual, bool rel, time_t when)
+    : AttrData<T>(p_data, x, y, p_wr_data, x_wr, y_wr, qual, rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,struct timeval when): AttrData<T>(p_data,x,y),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, struct timeval when)
+    : AttrData<T>(p_data, x, y),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,const T *p_wr_data,long x_wr,long y_wr,struct timeval when): AttrData<T>(p_data,x,y,p_wr_data,x_wr,y_wr),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, const T *p_wr_data, long x_wr, long y_wr,
+                                       struct timeval when)
+    : AttrData<T>(p_data, x, y, p_wr_data, x_wr, y_wr),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,Tango::AttrQuality qual,struct timeval when): AttrData<T>(p_data,x,y,qual),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, Tango::AttrQuality qual, struct timeval when)
+    : AttrData<T>(p_data, x, y, qual),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,const T *p_wr_data,long x_wr,long y_wr,Tango::AttrQuality qual,struct timeval when): AttrData<T>(p_data,x,y,p_wr_data,x_wr,y_wr,qual),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, const T *p_wr_data, long x_wr, long y_wr,
+                                       Tango::AttrQuality qual, struct timeval when)
+    : AttrData<T>(p_data, x, y, p_wr_data, x_wr, y_wr, qual),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,Tango::AttrQuality qual,bool rel,struct timeval when): AttrData<T>(p_data,x,y,qual,rel),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, Tango::AttrQuality qual, bool rel,
+                                       struct timeval when)
+    : AttrData<T>(p_data, x, y, qual, rel),
+      t_val(when)
+{
+}
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p_data,long x,long y,const T *p_wr_data,long x_wr,long y_wr,Tango::AttrQuality qual,bool rel,struct timeval when): AttrData<T>(p_data,x,y,p_wr_data,x_wr,y_wr,qual,rel),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(const T *p_data, long x, long y, const T *p_wr_data, long x_wr, long y_wr,
+                                       Tango::AttrQuality qual, bool rel, struct timeval when)
+    : AttrData<T>(p_data, x, y, p_wr_data, x_wr, y_wr, qual, rel),
+      t_val(when)
+{
+}
 
 // For error
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(DevErrorList &errs,time_t when): AttrData<T>(errs)
+inline TimedAttrData<T>::TimedAttrData(DevErrorList &errs, time_t when)
+    : AttrData<T>(errs)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(DevErrorList &errs,timeval when): AttrData<T>(errs),t_val(when)
-{}
+inline TimedAttrData<T>::TimedAttrData(DevErrorList &errs, timeval when)
+    : AttrData<T>(errs),
+      t_val(when)
+{
+}
 
 #ifdef _TG_WINDOWS_
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,struct _timeb t): AttrData<T>(p)
+inline TimedAttrData<T>::TimedAttrData(const T *p, struct _timeb t)
+    : AttrData<T>(p)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,Tango::AttrQuality q,struct _timeb t): AttrData<T>(p,q)
+inline TimedAttrData<T>::TimedAttrData(const T *p, Tango::AttrQuality q, struct _timeb t)
+    : AttrData<T>(p, q)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,Tango::AttrQuality q,bool rel,struct _timeb t): AttrData<T>(p,q,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p, Tango::AttrQuality q, bool rel, struct _timeb t)
+    : AttrData<T>(p, q, rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,const T *p_wr_data,struct _timeb t): AttrData<T>(p,p_wr_data)
+inline TimedAttrData<T>::TimedAttrData(const T *p, const T *p_wr_data, struct _timeb t)
+    : AttrData<T>(p, p_wr_data)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,const T *p_wr_data,Tango::AttrQuality q,struct _timeb t): AttrData<T>(p,p_wr_data,q)
+inline TimedAttrData<T>::TimedAttrData(const T *p, const T *p_wr_data, Tango::AttrQuality q, struct _timeb t)
+    : AttrData<T>(p, p_wr_data, q)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,const T *p_wr_data,Tango::AttrQuality q,bool rel,struct _timeb t): AttrData<T>(p,p_wr_data,q,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p, const T *p_wr_data, Tango::AttrQuality q, bool rel, struct _timeb t)
+    : AttrData<T>(p, p_wr_data, q, rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,struct _timeb t): AttrData<T>(p,nb)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, struct _timeb t)
+    : AttrData<T>(p, nb)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,Tango::AttrQuality q,struct _timeb t): AttrData<T>(p,nb,q)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, Tango::AttrQuality q, struct _timeb t)
+    : AttrData<T>(p, nb, q)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,Tango::AttrQuality q,bool rel,struct _timeb t): AttrData<T>(p,nb,q,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, Tango::AttrQuality q, bool rel, struct _timeb t)
+    : AttrData<T>(p, nb, q, rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,const T *p_wr_data,long nb_wr,struct _timeb t): AttrData<T>(p,nb,p_wr_data,nb_wr)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, const T *p_wr_data, long nb_wr, struct _timeb t)
+    : AttrData<T>(p, nb, p_wr_data, nb_wr)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,const T *p_wr_data,long nb_wr,Tango::AttrQuality q,struct _timeb t): AttrData<T>(p,nb,p_wr_data,nb_wr,q)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, const T *p_wr_data, long nb_wr, Tango::AttrQuality q,
+                                       struct _timeb t)
+    : AttrData<T>(p, nb, p_wr_data, nb_wr, q)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,const T *p_wr_data,long nb_wr,Tango::AttrQuality q,bool rel,struct _timeb t): AttrData<T>(p,nb,p_wr_data,nb_wr,q,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, const T *p_wr_data, long nb_wr, Tango::AttrQuality q,
+                                       bool rel, struct _timeb t)
+    : AttrData<T>(p, nb, p_wr_data, nb_wr, q, rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,struct _timeb t): AttrData<T>(p,nb,nb2)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, long nb2, struct _timeb t)
+    : AttrData<T>(p, nb, nb2)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,Tango::AttrQuality q,struct _timeb t): AttrData<T>(p,nb,nb2,q)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, long nb2, Tango::AttrQuality q, struct _timeb t)
+    : AttrData<T>(p, nb, nb2, q)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,Tango::AttrQuality q,bool rel,struct _timeb t): AttrData<T>(p,nb,nb2,q,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, long nb2, Tango::AttrQuality q, bool rel, struct _timeb t)
+    : AttrData<T>(p, nb, nb2, q, rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,const T *p_wr_data,long nb_wr,long nb2_wr,struct _timeb t): AttrData<T>(p,nb,nb2,p_wr_data,nb_wr,nb2_wr)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, long nb2, const T *p_wr_data, long nb_wr, long nb2_wr,
+                                       struct _timeb t)
+    : AttrData<T>(p, nb, nb2, p_wr_data, nb_wr, nb2_wr)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,const T *p_wr_data,long nb_wr,long nb2_wr,Tango::AttrQuality q,struct _timeb t): AttrData<T>(p,nb,nb2,p_wr_data,nb_wr,nb2_wr,q)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, long nb2, const T *p_wr_data, long nb_wr, long nb2_wr,
+                                       Tango::AttrQuality q, struct _timeb t)
+    : AttrData<T>(p, nb, nb2, p_wr_data, nb_wr, nb2_wr, q)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,const T *p_wr_data,long nb_wr,long nb2_wr,Tango::AttrQuality q,bool rel,struct _timeb t): AttrData<T>(p,nb,nb2,p_wr_data,nb_wr,nb2_wr,q,rel)
+inline TimedAttrData<T>::TimedAttrData(const T *p, long nb, long nb2, const T *p_wr_data, long nb_wr, long nb2_wr,
+                                       Tango::AttrQuality q, bool rel, struct _timeb t)
+    : AttrData<T>(p, nb, nb2, p_wr_data, nb_wr, nb2_wr, q, rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm*1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 #endif
@@ -579,20 +796,17 @@ inline TimedAttrData<T>::TimedAttrData(const T *p,long nb,long nb2,const T *p_wr
 //
 //=============================================================================
 
-
-
 template <typename T>
 inline void AttrHistoryStack<T>::push(TimedAttrData<T> const &elt)
 {
-	hist.push_back(elt);
+  hist.push_back(elt);
 }
 
 template <typename T>
-inline std::vector<TimedAttrData<T> > &AttrHistoryStack<T>::get_data()
+inline std::vector<TimedAttrData<T>> &AttrHistoryStack<T>::get_data()
 {
-	return hist;
+  return hist;
 }
-
 
 //=============================================================================
 //
@@ -602,7 +816,6 @@ inline std::vector<TimedAttrData<T> > &AttrHistoryStack<T>::get_data()
 //		       command polling buffer
 //
 //=============================================================================
-
 
 //=============================================================================
 //
@@ -615,44 +828,58 @@ inline std::vector<TimedAttrData<T> > &AttrHistoryStack<T>::get_data()
 //=============================================================================
 
 template <typename T>
-inline TimedCmdData<T>::TimedCmdData(T *p_data,time_t when): ptr(p_data),release(false)
+inline TimedCmdData<T>::TimedCmdData(T *p_data, time_t when)
+    : ptr(p_data),
+      release(false)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedCmdData<T>::TimedCmdData(T *p_data,bool rel,time_t when): ptr(p_data),release(rel)
+inline TimedCmdData<T>::TimedCmdData(T *p_data, bool rel, time_t when)
+    : ptr(p_data),
+      release(rel)
 {
-	t_val.tv_sec = time_t_2_long(when);
-	t_val.tv_usec = 0;
+  t_val.tv_sec  = time_t_2_long(when);
+  t_val.tv_usec = 0;
 }
 
 template <typename T>
-inline TimedCmdData<T>::TimedCmdData(T *p_data,struct timeval when): ptr(p_data),t_val(when),release(false)
-{}
+inline TimedCmdData<T>::TimedCmdData(T *p_data, struct timeval when)
+    : ptr(p_data),
+      t_val(when),
+      release(false)
+{
+}
 
 template <typename T>
-inline TimedCmdData<T>::TimedCmdData(T *p_data,bool rel,struct timeval when): ptr(p_data),t_val(when),release(rel)
-{}
-
+inline TimedCmdData<T>::TimedCmdData(T *p_data, bool rel, struct timeval when)
+    : ptr(p_data),
+      t_val(when),
+      release(rel)
+{
+}
 
 #ifdef _TG_WINDOWS_
 template <typename T>
-inline TimedCmdData<T>::TimedCmdData(T *p,struct _timeb t): ptr(p),release(false)
+inline TimedCmdData<T>::TimedCmdData(T *p, struct _timeb t)
+    : ptr(p),
+      release(false)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm * 1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 
 template <typename T>
-inline TimedCmdData<T>::TimedCmdData(T *p,bool rel,struct _timeb t): ptr(p),release(rel)
+inline TimedCmdData<T>::TimedCmdData(T *p, bool rel, struct _timeb t)
+    : ptr(p),
+      release(rel)
 {
-	t_val.tv_sec = t.time;
-	t_val.tv_usec = t.millitm * 1000;
+  t_val.tv_sec  = t.time;
+  t_val.tv_usec = t.millitm * 1000;
 }
 #endif
-
 
 //=============================================================================
 //
@@ -666,20 +893,18 @@ inline TimedCmdData<T>::TimedCmdData(T *p,bool rel,struct _timeb t): ptr(p),rele
 //
 //=============================================================================
 
-
 template <typename T>
 inline void CmdHistoryStack<T>::push(Tango::TimedCmdData<T> const &elt)
 {
-	hist.push_back(elt);
+  hist.push_back(elt);
 }
 
 template <typename T>
-inline std::vector<TimedCmdData<T> > & CmdHistoryStack<T>::get_data()
+inline std::vector<TimedCmdData<T>> &CmdHistoryStack<T>::get_data()
 {
-	return hist;
+  return hist;
 }
 
-
-} // End of Tango namespace
+} // namespace Tango
 
 #endif /* _POLLOBJ_ */

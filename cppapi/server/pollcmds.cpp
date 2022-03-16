@@ -12,7 +12,7 @@
 //
 // author(s) :          E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -51,14 +51,11 @@ namespace Tango
 //
 //--------------------------------------------------------------------------
 
-PolledDeviceCmd::PolledDeviceCmd(const char *name,
-			         Tango::CmdArgType in,
-			         Tango::CmdArgType out,
-			         const char *out_desc):Command(name,in,out)
+PolledDeviceCmd::PolledDeviceCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -71,14 +68,13 @@ PolledDeviceCmd::PolledDeviceCmd(const char *name,
 
 CORBA::Any *PolledDeviceCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "PolledDevice::execute(): arrived " << std::endl;
 
-	cout4 << "PolledDevice::execute(): arrived " << std::endl;
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
-
-	return insert((static_cast<DServer *>(device))->polled_device());
+  return insert((static_cast<DServer *>(device))->polled_device());
 }
 
 //+-------------------------------------------------------------------------
@@ -89,16 +85,13 @@ CORBA::Any *PolledDeviceCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORB
 //
 //--------------------------------------------------------------------------
 
-DevPollStatusCmd::DevPollStatusCmd(const char *name,
-			           Tango::CmdArgType in,
-			           Tango::CmdArgType out,
-			           const char *in_desc,
-				   const char *out_desc):Command(name,in,out)
+DevPollStatusCmd::DevPollStatusCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                                   const char *out_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
-	set_out_type_desc(out_desc);
+  set_in_type_desc(in_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -111,28 +104,27 @@ DevPollStatusCmd::DevPollStatusCmd(const char *name,
 
 CORBA::Any *DevPollStatusCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "DevPollStatus::execute(): arrived " << std::endl;
 
-	cout4 << "DevPollStatus::execute(): arrived " << std::endl;
+  //
+  // Extract the input string
+  //
 
-//
-// Extract the input string
-//
+  const char *tmp_name;
+  if((in_any >>= tmp_name) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType,
+                          "Imcompatible command argument type, expected type is : string");
+  }
+  std::string d_name(tmp_name);
+  cout4 << "Received string = " << d_name << std::endl;
 
-	const char *tmp_name;
-	if ((in_any >>= tmp_name) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : string");
-	}
-	std::string d_name(tmp_name);
-	cout4 << "Received string = " << d_name << std::endl;
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
-
-	return insert((static_cast<DServer *>(device))->dev_poll_status(d_name));
+  return insert((static_cast<DServer *>(device))->dev_poll_status(d_name));
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -142,14 +134,12 @@ CORBA::Any *DevPollStatusCmd::execute(DeviceImpl *device, const CORBA::Any &in_a
 //
 //--------------------------------------------------------------------------
 
-AddObjPollingCmd::AddObjPollingCmd(const char *name,
-			           Tango::CmdArgType in,
-			           Tango::CmdArgType out,
-			           const std::string &in_desc):Command(name,in,out)
+AddObjPollingCmd::AddObjPollingCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                   const std::string &in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -162,33 +152,32 @@ AddObjPollingCmd::AddObjPollingCmd(const char *name,
 
 CORBA::Any *AddObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "AddObjPolling::execute(): arrived " << std::endl;
 
-	cout4 << "AddObjPolling::execute(): arrived " << std::endl;
+  //
+  // Extract the input structure
+  //
 
-//
-// Extract the input structure
-//
+  const DevVarLongStringArray *tmp_data;
+  if((in_any >>= tmp_data) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type "
+                                                           "is : DevVarLongStringArray");
+  }
 
-	const DevVarLongStringArray *tmp_data;
-	if ((in_any >>= tmp_data) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : DevVarLongStringArray");
-	}
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
+  (static_cast<DServer *>(device))->add_obj_polling(tmp_data);
 
-	(static_cast<DServer *>(device))->add_obj_polling(tmp_data);
+  //
+  // Return to caller
+  //
 
-//
-// Return to caller
-//
-
-	CORBA::Any *ret = return_empty_any("AddObjPolling");
-	return ret;
+  CORBA::Any *ret = return_empty_any("AddObjPolling");
+  return ret;
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -198,14 +187,12 @@ CORBA::Any *AddObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_a
 //
 //--------------------------------------------------------------------------
 
-UpdObjPollingPeriodCmd::UpdObjPollingPeriodCmd(const char *name,
-			           	       Tango::CmdArgType in,
-			           	       Tango::CmdArgType out,
-				       const std::string &in_desc):Command(name,in,out)
+UpdObjPollingPeriodCmd::UpdObjPollingPeriodCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                               const std::string &in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -218,33 +205,32 @@ UpdObjPollingPeriodCmd::UpdObjPollingPeriodCmd(const char *name,
 
 CORBA::Any *UpdObjPollingPeriodCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "UpdObjPollingPeriod::execute(): arrived " << std::endl;
 
-	cout4 << "UpdObjPollingPeriod::execute(): arrived " << std::endl;
+  //
+  // Extract the input structure
+  //
 
-//
-// Extract the input structure
-//
+  const DevVarLongStringArray *tmp_data;
+  if((in_any >>= tmp_data) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type "
+                                                           "is : DevVarLongStringArray");
+  }
 
-	const DevVarLongStringArray *tmp_data;
-	if ((in_any >>= tmp_data) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : DevVarLongStringArray");
-	}
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
+  (static_cast<DServer *>(device))->upd_obj_polling_period(tmp_data);
 
-	(static_cast<DServer *>(device))->upd_obj_polling_period(tmp_data);
+  //
+  // Return to caller
+  //
 
-//
-// Return to caller
-//
-
-	CORBA::Any *ret = return_empty_any("UpdObjPollingPeriod");
-	return ret;
+  CORBA::Any *ret = return_empty_any("UpdObjPollingPeriod");
+  return ret;
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -254,14 +240,12 @@ CORBA::Any *UpdObjPollingPeriodCmd::execute(DeviceImpl *device, const CORBA::Any
 //
 //--------------------------------------------------------------------------
 
-RemObjPollingCmd::RemObjPollingCmd(const char *name,
-			           Tango::CmdArgType in,
-			           Tango::CmdArgType out,
-			           const std::string &in_desc):Command(name,in,out)
+RemObjPollingCmd::RemObjPollingCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                   const std::string &in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -274,31 +258,31 @@ RemObjPollingCmd::RemObjPollingCmd(const char *name,
 
 CORBA::Any *RemObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "RemObjPolling::execute(): arrived " << std::endl;
 
-	cout4 << "RemObjPolling::execute(): arrived " << std::endl;
+  //
+  // Extract the input structure
+  //
 
-//
-// Extract the input structure
-//
+  const DevVarStringArray *tmp_data;
+  if((in_any >>= tmp_data) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type "
+                                                           "is : DevVarStringArray");
+  }
 
-	const DevVarStringArray *tmp_data;
-	if ((in_any >>= tmp_data) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : DevVarStringArray");
-	}
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
+  (static_cast<DServer *>(device))->rem_obj_polling(tmp_data);
 
-	(static_cast<DServer *>(device))->rem_obj_polling(tmp_data);
+  //
+  // Return to caller
+  //
 
-//
-// Return to caller
-//
-
-	CORBA::Any *ret = return_empty_any("RemObjPolling");
-	return ret;
+  CORBA::Any *ret = return_empty_any("RemObjPolling");
+  return ret;
 }
 
 //+-------------------------------------------------------------------------
@@ -309,12 +293,10 @@ CORBA::Any *RemObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_a
 //
 //--------------------------------------------------------------------------
 
-StopPollingCmd::StopPollingCmd(const char *name,
-			       Tango::CmdArgType in,
-			       Tango::CmdArgType out):Command(name,in,out)
+StopPollingCmd::StopPollingCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out)
+    : Command(name, in, out)
 {
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -327,21 +309,20 @@ StopPollingCmd::StopPollingCmd(const char *name,
 
 CORBA::Any *StopPollingCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "StopPolling::execute(): arrived " << std::endl;
 
-	cout4 << "StopPolling::execute(): arrived " << std::endl;
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
+  (static_cast<DServer *>(device))->stop_polling();
 
-	(static_cast<DServer *>(device))->stop_polling();
+  //
+  // Return to caller
+  //
 
-//
-// Return to caller
-//
-
-	CORBA::Any *ret = return_empty_any("StopPolling");
-	return ret;
+  CORBA::Any *ret = return_empty_any("StopPolling");
+  return ret;
 }
 
 //+-------------------------------------------------------------------------
@@ -352,12 +333,10 @@ CORBA::Any *StopPollingCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA
 //
 //--------------------------------------------------------------------------
 
-StartPollingCmd::StartPollingCmd(const char *name,
-			         Tango::CmdArgType in,
-			         Tango::CmdArgType out):Command(name,in,out)
+StartPollingCmd::StartPollingCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out)
+    : Command(name, in, out)
 {
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -370,21 +349,20 @@ StartPollingCmd::StartPollingCmd(const char *name,
 
 CORBA::Any *StartPollingCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "StartPolling::execute(): arrived " << std::endl;
 
-	cout4 << "StartPolling::execute(): arrived " << std::endl;
+  //
+  // Call the device method and return to caller
+  //
 
-//
-// Call the device method and return to caller
-//
+  (static_cast<DServer *>(device))->start_polling();
 
-	(static_cast<DServer *>(device))->start_polling();
+  //
+  // Return to caller
+  //
 
-//
-// Return to caller
-//
-
-	CORBA::Any *ret = return_empty_any("StartPolling");
-	return ret;
+  CORBA::Any *ret = return_empty_any("StartPolling");
+  return ret;
 }
 
-} // End of Tango namespace
+} // namespace Tango

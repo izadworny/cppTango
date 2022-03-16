@@ -5,7 +5,8 @@
 //
 // original 	- November 2000
 //
-// Copyright (C) :      2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) :
+// 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -41,11 +42,12 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-DbServer::DbServer(std::string server_name, Database *server_dbase):ext(nullptr)
+DbServer::DbServer(std::string server_name, Database *server_dbase)
+    : ext(nullptr)
 {
-	name = std::string(server_name);
-	dbase = server_dbase;
-	ext_dbase = true;
+  name      = std::string(server_name);
+  dbase     = server_dbase;
+  ext_dbase = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -56,11 +58,12 @@ DbServer::DbServer(std::string server_name, Database *server_dbase):ext(nullptr)
 //
 //-----------------------------------------------------------------------------
 
-DbServer::DbServer(std::string server_name):ext(nullptr)
+DbServer::DbServer(std::string server_name)
+    : ext(nullptr)
 {
-	name = std::string(server_name);
-	db_ind = ApiUtil::instance()->get_db_ind();
-	ext_dbase = false;
+  name      = std::string(server_name);
+  db_ind    = ApiUtil::instance()->get_db_ind();
+  ext_dbase = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -71,9 +74,7 @@ DbServer::DbServer(std::string server_name):ext(nullptr)
 //
 //-----------------------------------------------------------------------------
 
-DbServer::~DbServer()
-{
-}
+DbServer::~DbServer() {}
 
 //-----------------------------------------------------------------------------
 //
@@ -84,13 +85,13 @@ DbServer::~DbServer()
 
 void DbServer::add_server(DbDevInfos &dev_infos)
 {
-	if (ext_dbase == true)
-		dbase->add_server(name, dev_infos);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->add_server(name, dev_infos);
-	}
+  if(ext_dbase == true)
+    dbase->add_server(name, dev_infos);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->add_server(name, dev_infos);
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -102,13 +103,13 @@ void DbServer::add_server(DbDevInfos &dev_infos)
 
 void DbServer::export_server(DbDevExportInfos &dev_export)
 {
-	if (ext_dbase == true)
-		dbase->export_server(dev_export);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->export_server(dev_export);
-	}
+  if(ext_dbase == true)
+    dbase->export_server(dev_export);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->export_server(dev_export);
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -120,13 +121,13 @@ void DbServer::export_server(DbDevExportInfos &dev_export)
 
 void DbServer::unexport_server()
 {
-	if (ext_dbase == true)
-		dbase->unexport_server(name);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->unexport_server(name);
-	}
+  if(ext_dbase == true)
+    dbase->unexport_server(name);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->unexport_server(name);
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -138,13 +139,13 @@ void DbServer::unexport_server()
 
 void DbServer::delete_server()
 {
-	if (ext_dbase == true)
-		dbase->delete_server(name);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->delete_server(name);
-	}
+  if(ext_dbase == true)
+    dbase->delete_server(name);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->delete_server(name);
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -155,13 +156,13 @@ void DbServer::delete_server()
 
 DbServerInfo DbServer::get_server_info()
 {
-	if (ext_dbase == true)
-		return dbase->get_server_info(name);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		return (au->get_db_vect())[db_ind]->get_server_info(name);
-	}
+  if(ext_dbase == true)
+    return dbase->get_server_info(name);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    return (au->get_db_vect())[db_ind]->get_server_info(name);
+  }
 }
 
-} // End of Tango namespace
+} // namespace Tango

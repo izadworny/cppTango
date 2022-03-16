@@ -23,41 +23,38 @@
 #include <dserverclass.h>
 #include <dserversignal.h>
 
-
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
-	Tango::Util *tg = nullptr;
-	try
-	{
+  Tango::Util *tg = nullptr;
+  try
+  {
+    tg = Tango::Util::init(argc, argv);
 
-		tg = Tango::Util::init(argc,argv);
+    tg->server_init();
 
-		tg->server_init();
+    tg->server_run();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout << "Can't allocate memory to store device object !!!" << std::endl;
+    cout << "Exiting" << std::endl;
+  }
+  catch(Tango::DevFailed &e)
+  {
+    Tango::Except::print_exception(e);
+  }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
 
-		tg->server_run();
-	}
-	catch (std::bad_alloc&)
-	{
-		cout << "Can't allocate memory to store device object !!!" << std::endl;
-		cout << "Exiting" << std::endl;
-	}
-	catch (Tango::DevFailed &e)
-	{
-		Tango::Except::print_exception(e);
-	}
-	catch (CORBA::Exception &e)
-	{
-		Tango::Except::print_exception(e);
+    cout << "Received a CORBA_Exception" << std::endl;
+    cout << "Exiting" << std::endl;
+  }
 
-		cout << "Received a CORBA_Exception" << std::endl;
-		cout << "Exiting" << std::endl;
-	}
+  //
+  // Destroy the ORB (and properly releases its resources)
+  //
 
-//
-// Destroy the ORB (and properly releases its resources)
-//
-
-	tg->server_cleanup();
-	return(0);
+  tg->server_cleanup();
+  return (0);
 }
-

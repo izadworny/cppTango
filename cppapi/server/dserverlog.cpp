@@ -8,7 +8,7 @@
 //
 // author(s) :    N.Leclercq - SOLEIL
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -52,7 +52,8 @@
 // Many changes for release 3.0.1. The most important ones are :
 // - Timeout are backs
 // - Multiple db servers (change in TANGO_HOST syntax)
-// - Added methods to print DeviceData, DeviceDataHistory, DeviceAttribute and DeviceAttributeHistory instances
+// - Added methods to print DeviceData, DeviceDataHistory, DeviceAttribute and
+// DeviceAttributeHistory instances
 // - Attributes name stored in blackbox
 // - Remove check if a class is created without any device
 // - It's now possible to create a DeviceProxy from its alias name
@@ -86,7 +87,6 @@
 
 #include <tango.h>
 
-
 namespace Tango
 {
 //+----------------------------------------------------------------------------
@@ -94,12 +94,12 @@ namespace Tango
 // method : DServer::add_logging_target
 //
 //-----------------------------------------------------------------------------
-void DServer::add_logging_target (const Tango::DevVarStringArray *argin)
+void DServer::add_logging_target(const Tango::DevVarStringArray *argin)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::add_logging_target" << std::endl;
-  	Logging::add_logging_target(argin);
-  	cout4 << "Leaving DServer::add_logging_target" << std::endl;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::add_logging_target" << std::endl;
+  Logging::add_logging_target(argin);
+  cout4 << "Leaving DServer::add_logging_target" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -107,12 +107,12 @@ void DServer::add_logging_target (const Tango::DevVarStringArray *argin)
 // method : DServer::remove_logging_target
 //
 //-----------------------------------------------------------------------------
-void DServer::remove_logging_target (const Tango::DevVarStringArray *argin)
+void DServer::remove_logging_target(const Tango::DevVarStringArray *argin)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::remove_logging_target" << std::endl;
-  	Logging::remove_logging_target(argin);
-  	cout4 << "Leaving DServer::remove_logging_target" << std::endl;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::remove_logging_target" << std::endl;
+  Logging::remove_logging_target(argin);
+  cout4 << "Leaving DServer::remove_logging_target" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -120,13 +120,13 @@ void DServer::remove_logging_target (const Tango::DevVarStringArray *argin)
 // method : DServer::get_logging_target
 //
 //-----------------------------------------------------------------------------
-Tango::DevVarStringArray* DServer::get_logging_target (const std::string& dev_name)
+Tango::DevVarStringArray *DServer::get_logging_target(const std::string &dev_name)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::get_logging_target" << std::endl;
-  	DevVarStringArray* res = Logging::get_logging_target(dev_name);
-  	cout4 << "Leaving DServer::get_logging_target" << std::endl;
-  	return res;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::get_logging_target" << std::endl;
+  DevVarStringArray *res = Logging::get_logging_target(dev_name);
+  cout4 << "Leaving DServer::get_logging_target" << std::endl;
+  return res;
 }
 
 //+----------------------------------------------------------------------------
@@ -134,12 +134,12 @@ Tango::DevVarStringArray* DServer::get_logging_target (const std::string& dev_na
 // method : DServer::set_logging_level
 //
 //-----------------------------------------------------------------------------
-void DServer::set_logging_level (const Tango::DevVarLongStringArray *argin)
+void DServer::set_logging_level(const Tango::DevVarLongStringArray *argin)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::set_logging_level" << std::endl;
-  	Logging::set_logging_level(argin);
-  	cout4 << "Leaving DServer::set_logging_level" << std::endl;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::set_logging_level" << std::endl;
+  Logging::set_logging_level(argin);
+  cout4 << "Leaving DServer::set_logging_level" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -147,13 +147,13 @@ void DServer::set_logging_level (const Tango::DevVarLongStringArray *argin)
 // method : DServer::get_logging_level
 //
 //-----------------------------------------------------------------------------
-DevVarLongStringArray* DServer::get_logging_level (const DevVarStringArray *argin)
+DevVarLongStringArray *DServer::get_logging_level(const DevVarStringArray *argin)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::get_logging_level" << std::endl;
-  	DevVarLongStringArray* res = Logging::get_logging_level(argin);
-  	cout4 << "Leaving DServer::get_logging_level" << std::endl;
-  	return res;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::get_logging_level" << std::endl;
+  DevVarLongStringArray *res = Logging::get_logging_level(argin);
+  cout4 << "Leaving DServer::get_logging_level" << std::endl;
+  return res;
 }
 
 //+----------------------------------------------------------------------------
@@ -161,12 +161,12 @@ DevVarLongStringArray* DServer::get_logging_level (const DevVarStringArray *argi
 // method : DServer::stop_logging
 //
 //-----------------------------------------------------------------------------
-void  DServer::stop_logging (void)
+void DServer::stop_logging(void)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::stop_logging" << std::endl;
-  	Logging::stop_logging();
-  	cout4 << "Leaving DServer::stop_logging" << std::endl;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::stop_logging" << std::endl;
+  Logging::stop_logging();
+  cout4 << "Leaving DServer::stop_logging" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -174,13 +174,12 @@ void  DServer::stop_logging (void)
 // method : DServer::start_logging
 //
 //-----------------------------------------------------------------------------
-void  DServer::start_logging (void)
+void DServer::start_logging(void)
 {
-  	NoSyncModelTangoMonitor mon(this);
-  	cout4 << "Entering DServer::start_logging" << std::endl;
-  	Logging::start_logging();
-  	cout4 << "Leaving DServer::start_logging" << std::endl;
+  NoSyncModelTangoMonitor mon(this);
+  cout4 << "Entering DServer::start_logging" << std::endl;
+  Logging::start_logging();
+  cout4 << "Leaving DServer::start_logging" << std::endl;
 }
 
-
-} // End of Tango namespace
+} // namespace Tango

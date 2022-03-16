@@ -15,47 +15,39 @@
 //
 //-----------------------------------------------------------------------------
 
-IOThrow::IOThrow(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IOThrow::IOThrow(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                 const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
-
 
 bool IOThrow::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allowed only if the device is on
+  //
 
-//
-// command allowed only if the device is on
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOThrow::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOThrow::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
   const Tango::DevVarLongStringArray *theException;
   extract(in_any, theException);
-  Tango::ErrSeverity severity= (Tango::ErrSeverity) (theException->lvalue)[0];
+  Tango::ErrSeverity severity = (Tango::ErrSeverity)(theException->lvalue)[0];
   cout << "[IOThrow::execute] throwing severity exception " << severity << std::endl;
 
-  Tango::Except::throw_exception((const char *)(theException->svalue)[0],
-  			         (const char *)"This is a test ",
-			         (const char *)"IOThrow::execute()",
-			         (Tango::ErrSeverity)severity );
+  Tango::Except::throw_exception((const char *) (theException->svalue)[0], (const char *) "This is a test ",
+                                 (const char *) "IOThrow::execute()", (Tango::ErrSeverity) severity);
 
-#if ((defined WIN32) || (defined __SUNPRO_CC))
-   CORBA::Any *out = NULL;
-   return(out);
+#if((defined WIN32) || (defined __SUNPRO_CC))
+  CORBA::Any *out = NULL;
+  return (out);
 #endif
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -72,41 +64,35 @@ CORBA::Any *IOThrow::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA
 //
 //-----------------------------------------------------------------------------
 
-IOExcept::IOExcept(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IOExcept::IOExcept(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                   const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOExcept::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allowed only if the device is on
+  //
 
-//
-// command allowed only if the device is on
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOExcept::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *IOExcept::execute(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
 {
-    using Tango::API_ThrowException;
-  Tango::Except::throw_exception((const char *)API_ThrowException,
-  			         (const char *)"This is a test ",
-			         (const char *)"IOExcept::execute()");
+  using Tango::API_ThrowException;
+  Tango::Except::throw_exception((const char *) API_ThrowException, (const char *) "This is a test ",
+                                 (const char *) "IOExcept::execute()");
 
-#if ((defined WIN32) || (defined __SUNPRO_CC))
+#if((defined WIN32) || (defined __SUNPRO_CC))
   CORBA::Any *out = NULL;
   return out;
 #endif
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -123,77 +109,66 @@ CORBA::Any *IOExcept::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UNUS
 //
 //-----------------------------------------------------------------------------
 
-IOReThrow::IOReThrow(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IOReThrow::IOReThrow(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                     const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOReThrow::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allowed only if the device is on
+  //
 
-//
-// command allowed only if the device is on
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOReThrow::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOReThrow::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
   const Tango::DevVarLongStringArray *theException;
   extract(in_any, theException);
-  Tango::ErrSeverity severity= (Tango::ErrSeverity) (theException->lvalue)[0];
-  long nb_except = theException->lvalue.length();
+  Tango::ErrSeverity severity = (Tango::ErrSeverity)(theException->lvalue)[0];
+  long nb_except              = theException->lvalue.length();
   cout << "[IOReThrow::execute] throwing " << nb_except << " exception(s) " << std::endl;
   try
   {
-  	Tango::Except::throw_exception((const char *)(theException->svalue)[0],
-  			               (const char *)"This is a test ",
-			               (const char *)"IOThrow::execute()",
-			               (Tango::ErrSeverity)severity );
+    Tango::Except::throw_exception((const char *) (theException->svalue)[0], (const char *) "This is a test ",
+                                   (const char *) "IOThrow::execute()", (Tango::ErrSeverity) severity);
   }
-  catch (Tango::DevFailed &e)
+  catch(Tango::DevFailed &e)
   {
-  	if (nb_except > 2)
-	{
-		int ind = 1;
-  		for (int i = 0;i < nb_except - 2;i++)
-		{
-			try
-			{
-  				Tango::Except::re_throw_exception(e,
-					  (const char *)(theException->svalue)[ind],
-					  (const char *)"This is a test ",
-			       		  (const char *)"IOReThrow::execute()",
-			       		  (Tango::ErrSeverity)((theException->lvalue)[ind]) );
-			}
-			catch (Tango::DevFailed &ex)
-			{
-				e = ex;
-				ind++;
-			}
-		}
-	}
-  	Tango::Except::re_throw_exception(e,
-					  (const char *)(theException->svalue)[nb_except - 1],
-					  (const char *)"This is a test ",
-			       		  (const char *)"IOReThrow::execute()",
-			       		  (Tango::ErrSeverity)((theException->lvalue)[nb_except - 1]));
+    if(nb_except > 2)
+    {
+      int ind = 1;
+      for(int i = 0; i < nb_except - 2; i++)
+      {
+        try
+        {
+          Tango::Except::re_throw_exception(e, (const char *) (theException->svalue)[ind],
+                                            (const char *) "This is a test ", (const char *) "IOReThrow::execute()",
+                                            (Tango::ErrSeverity)((theException->lvalue)[ind]));
+        }
+        catch(Tango::DevFailed &ex)
+        {
+          e = ex;
+          ind++;
+        }
+      }
+    }
+    Tango::Except::re_throw_exception(e, (const char *) (theException->svalue)[nb_except - 1],
+                                      (const char *) "This is a test ", (const char *) "IOReThrow::execute()",
+                                      (Tango::ErrSeverity)((theException->lvalue)[nb_except - 1]));
   }
 
-#if ((defined WIN32) || (defined __SUNPRO_CC))
-   CORBA::Any *out = NULL;
-   return out;
+#if((defined WIN32) || (defined __SUNPRO_CC))
+  CORBA::Any *out = NULL;
+  return out;
 #endif
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -210,44 +185,40 @@ CORBA::Any *IOReThrow::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const COR
 //
 //-----------------------------------------------------------------------------
 
-IORegClassSig::IORegClassSig(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IORegClassSig::IORegClassSig(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                             const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IORegClassSig::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allways allowed
+  //
 
-//
-// command allways allowed
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IORegClassSig::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *IORegClassSig::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-  try {
+  try
+  {
     Tango::DevLong theSignal;
-    extract(in_any,theSignal);
+    extract(in_any, theSignal);
     cout << "[IORegClassSig::execute] received signal number " << theSignal << std::endl;
     device->get_device_class()->register_signal(theSignal);
     return insert();
   }
-  catch (CORBA::Exception &e)
-    {
-      Tango::Except::print_exception(e);
-      throw ;
-    }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
+    throw;
+  }
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -264,44 +235,40 @@ CORBA::Any *IORegClassSig::execute(Tango::DeviceImpl *device,const CORBA::Any &i
 //
 //-----------------------------------------------------------------------------
 
-IORegSig::IORegSig(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IORegSig::IORegSig(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                   const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IORegSig::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allways allowed
+  //
 
-//
-// command allways allowed
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IORegSig::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *IORegSig::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-  try {
+  try
+  {
     Tango::DevLong theSignal;
-    extract(in_any,theSignal);
+    extract(in_any, theSignal);
     cout << "[IORegSig::execute] received signal number " << theSignal << std::endl;
     device->register_signal(theSignal);
     return insert();
   }
-  catch (CORBA::Exception &e)
-    {
-      Tango::Except::print_exception(e);
-      throw ;
-    }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
+    throw;
+  }
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -318,49 +285,45 @@ CORBA::Any *IORegSig::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any
 //
 //-----------------------------------------------------------------------------
 
-IORegSigOwn::IORegSigOwn(const char *name,Tango::CmdArgType in,
-		         Tango::CmdArgType out,const char *in_desc,
-		         const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IORegSigOwn::IORegSigOwn(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                         const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IORegSigOwn::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allways allowed
+  //
 
-//
-// command allways allowed
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IORegSigOwn::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *IORegSigOwn::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 #ifdef __linux
-  try {
+  try
+  {
     Tango::DevLong theSignal;
-    extract(in_any,theSignal);
+    extract(in_any, theSignal);
     cout << "[IORegSigOwn::execute] received signal number " << theSignal << std::endl;
-    device->register_signal(theSignal,true);
+    device->register_signal(theSignal, true);
     return insert();
   }
-  catch (CORBA::Exception &e)
-    {
-      Tango::Except::print_exception(e);
-      throw ;
-    }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
+    throw;
+  }
 #else
   CORBA::Any *out = NULL;
   return out;
 #endif
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -377,44 +340,40 @@ CORBA::Any *IORegSigOwn::execute(Tango::DeviceImpl *device,const CORBA::Any &in_
 //
 //-----------------------------------------------------------------------------
 
-IOUnregClassSig::IOUnregClassSig(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IOUnregClassSig::IOUnregClassSig(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                                 const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOUnregClassSig::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allways allowed
+  //
 
-//
-// command allways allowed
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOUnregClassSig::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *IOUnregClassSig::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-  try {
+  try
+  {
     Tango::DevLong theSignal;
-    extract(in_any,theSignal);
+    extract(in_any, theSignal);
     cout << "[IOUnregClassSig::execute] received signal number " << theSignal << std::endl;
     device->get_device_class()->unregister_signal(theSignal);
     return insert();
   }
-  catch (CORBA::Exception &e)
-    {
-      Tango::Except::print_exception(e);
-      throw ;
-    }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
+    throw;
+  }
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -431,42 +390,37 @@ CORBA::Any *IOUnregClassSig::execute(Tango::DeviceImpl *device,const CORBA::Any 
 //
 //-----------------------------------------------------------------------------
 
-IOUnregSig::IOUnregSig(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Tango::Command(name,in,out,in_desc,out_desc)
+IOUnregSig::IOUnregSig(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                       const char *out_desc)
+    : Tango::Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOUnregSig::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command always allowed
+  //
 
-//
-// command always allowed
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOUnregSig::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *IOUnregSig::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-  try {
+  try
+  {
     Tango::DevLong theSignal;
-    extract(in_any,theSignal);
+    extract(in_any, theSignal);
     cout << "[IOUnregSig::execute] received signal number " << theSignal << std::endl;
     device->unregister_signal(theSignal);
     return insert();
   }
-  catch (CORBA::Exception &e)
-    {
-      Tango::Except::print_exception(e);
-      throw ;
-    }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
+    throw;
+  }
 }
-
-

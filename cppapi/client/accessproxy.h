@@ -1,7 +1,7 @@
 //
 // AccessProxy.h -	include file for TANGO AccessProxy class
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -28,36 +28,38 @@
 #include <tango.h>
 
 #ifdef TANGO_USE_USING_NAMESPACE
-  using namespace std;
+using namespace std;
 #endif
 
-namespace Tango {
+namespace Tango
+{
 
-#define		__AC_BUFFER_SIZE		1024
+#define __AC_BUFFER_SIZE 1024
 
-class AccessProxy: public Tango::DeviceProxy
+class AccessProxy : public Tango::DeviceProxy
 {
 public:
-	AccessProxy(const std::string &);
-	AccessProxy(const char *);
-	~AccessProxy() {}
+  AccessProxy(const std::string &);
+  AccessProxy(const char *);
 
-	AccessControlType check_access_control(const std::string &);
-	bool is_command_allowed(std::string &,const std::string &);
+  ~AccessProxy() {}
+
+  AccessControlType check_access_control(const std::string &);
+  bool is_command_allowed(std::string &, const std::string &);
 
 protected:
-	std::string	user;
-	std::vector<std::string> host_ips;
-	bool forced;
-	std::map<std::string,std::vector<std::string> > 	allowed_cmd_table;
-	omni_mutex only_one;
+  std::string user;
+  std::vector<std::string> host_ips;
+  bool forced;
+  std::map<std::string, std::vector<std::string>> allowed_cmd_table;
+  omni_mutex only_one;
 
-	void get_allowed_commands(const std::string &,std::vector<std::string> &);
+  void get_allowed_commands(const std::string &, std::vector<std::string> &);
 
 private:
-	void real_ctor();
+  void real_ctor();
 };
 
-} // End of Tango namespace
+} // namespace Tango
 
 #endif /* _ACCESSPROXY_H */

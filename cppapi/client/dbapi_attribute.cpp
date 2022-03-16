@@ -5,7 +5,8 @@
 //
 // original 	- July 2003
 //
-// Copyright (C) :      2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) :
+// 2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -32,7 +33,6 @@
 
 #include <tango.h>
 
-
 using namespace CORBA;
 
 namespace Tango
@@ -46,12 +46,12 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-DbAttribute::DbAttribute(const std::string &att_name,const std::string &dev_name, Database *att_dbase)
+DbAttribute::DbAttribute(const std::string &att_name, const std::string &dev_name, Database *att_dbase)
 {
-	name = att_name;
-	device_name = dev_name;
-	dbase = att_dbase;
-	ext_dbase = true;
+  name        = att_name;
+  device_name = dev_name;
+  dbase       = att_dbase;
+  ext_dbase   = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -62,12 +62,12 @@ DbAttribute::DbAttribute(const std::string &att_name,const std::string &dev_name
 //
 //-----------------------------------------------------------------------------
 
-DbAttribute::DbAttribute(const std::string &att_name,const std::string &dev_name)
+DbAttribute::DbAttribute(const std::string &att_name, const std::string &dev_name)
 {
-	name = att_name;
-	device_name = dev_name;
-	db_ind = ApiUtil::instance()->get_db_ind();
-	ext_dbase = false;
+  name        = att_name;
+  device_name = dev_name;
+  db_ind      = ApiUtil::instance()->get_db_ind();
+  ext_dbase   = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -78,18 +78,19 @@ DbAttribute::DbAttribute(const std::string &att_name,const std::string &dev_name
 //
 //-----------------------------------------------------------------------------
 
-DbAttribute::DbAttribute(const std::string &att_name,const std::string &dev_name,const std::string &host,const std::string &port_str)
+DbAttribute::DbAttribute(const std::string &att_name, const std::string &dev_name, const std::string &host,
+                         const std::string &port_str)
 {
-	name = att_name;
-	device_name = dev_name;
+  name        = att_name;
+  device_name = dev_name;
 
-	TangoSys_MemStream s;
-	int port_num;
-	s << port_str << std::ends;
-	s >> port_num;
+  TangoSys_MemStream s;
+  int port_num;
+  s << port_str << std::ends;
+  s >> port_num;
 
-	db_ind = ApiUtil::instance()->get_db_ind(host,port_num);
-	ext_dbase = false;
+  db_ind    = ApiUtil::instance()->get_db_ind(host, port_num);
+  ext_dbase = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -100,62 +101,63 @@ DbAttribute::DbAttribute(const std::string &att_name,const std::string &dev_name
 //
 //-----------------------------------------------------------------------------
 
-DbAttribute::~DbAttribute()
-{
-}
+DbAttribute::~DbAttribute() {}
 
 //-----------------------------------------------------------------------------
 //
-// DbAttribute::get_property() - public method to get attribute properties from the database
+// DbAttribute::get_property() - public method to get attribute properties from
+// the database
 //
 //-----------------------------------------------------------------------------
 
 void DbAttribute::get_property(DbData &db_data)
 {
-	if (ext_dbase == true)
-		dbase->get_device_attribute_property(device_name, db_data);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->get_device_attribute_property(device_name,db_data);
-	}
-	return;
+  if(ext_dbase == true)
+    dbase->get_device_attribute_property(device_name, db_data);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->get_device_attribute_property(device_name, db_data);
+  }
+  return;
 }
 
 //-----------------------------------------------------------------------------
 //
-// DbAttribute::put_property() - public method to put attribute properties from the database
+// DbAttribute::put_property() - public method to put attribute properties from
+// the database
 //
 //-----------------------------------------------------------------------------
 
 void DbAttribute::put_property(const DbData &db_data)
 {
-	if (ext_dbase == true)
-		dbase->put_device_attribute_property(device_name, db_data);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->put_device_attribute_property(device_name,db_data);
-	}
-	return;
+  if(ext_dbase == true)
+    dbase->put_device_attribute_property(device_name, db_data);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->put_device_attribute_property(device_name, db_data);
+  }
+  return;
 }
 
 //-----------------------------------------------------------------------------
 //
-// DbAttribute::delete_property() - public method to delete attribute properties from the database
+// DbAttribute::delete_property() - public method to delete attribute properties
+// from the database
 //
 //-----------------------------------------------------------------------------
 
 void DbAttribute::delete_property(const DbData &db_data)
 {
-	if (ext_dbase == true)
-		dbase->delete_device_attribute_property(device_name, db_data);
-	else
-	{
-		ApiUtil *au = ApiUtil::instance();
-		(au->get_db_vect())[db_ind]->delete_device_attribute_property(device_name,db_data);
-	}
-	return;
+  if(ext_dbase == true)
+    dbase->delete_device_attribute_property(device_name, db_data);
+  else
+  {
+    ApiUtil *au = ApiUtil::instance();
+    (au->get_db_vect())[db_ind]->delete_device_attribute_property(device_name, db_data);
+  }
+  return;
 }
 
-} // End of Tango namespace
+} // namespace Tango

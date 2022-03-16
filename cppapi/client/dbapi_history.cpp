@@ -59,13 +59,12 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------
 
-DbHistory::DbHistory(std::string _propname,std::string _date,const std::vector<std::string> &svalues) {
-
+DbHistory::DbHistory(std::string _propname, std::string _date, const std::vector<std::string> &svalues)
+{
   propname = _propname;
-  date = format_mysql_date(_date);
-  deleted = (svalues.size()==0);
+  date     = format_mysql_date(_date);
+  deleted  = (svalues.size() == 0);
   make_db_datum(svalues);
-
 }
 
 //-----------------------------------------------------------------------------
@@ -74,14 +73,14 @@ DbHistory::DbHistory(std::string _propname,std::string _date,const std::vector<s
 //
 //-----------------------------------------------------------------------------
 
-DbHistory::DbHistory(std::string _propname,std::string _attname,std::string _date,const std::vector<std::string> &svalues) {
-
+DbHistory::DbHistory(std::string _propname, std::string _attname, std::string _date,
+                     const std::vector<std::string> &svalues)
+{
   propname = _propname;
-  attname = _attname;
-  date = format_mysql_date(_date);
-  deleted = (svalues.size()==0);
+  attname  = _attname;
+  date     = format_mysql_date(_date);
+  deleted  = (svalues.size() == 0);
   make_db_datum(svalues);
-
 }
 
 //-----------------------------------------------------------------------------
@@ -90,11 +89,7 @@ DbHistory::DbHistory(std::string _propname,std::string _attname,std::string _dat
 //
 //-----------------------------------------------------------------------------
 
-std::string DbHistory::get_name() {
-
-  return propname;
-
-}
+std::string DbHistory::get_name() { return propname; }
 
 //-----------------------------------------------------------------------------
 //
@@ -103,11 +98,7 @@ std::string DbHistory::get_name() {
 //
 //-----------------------------------------------------------------------------
 
-std::string DbHistory::get_attribute_name() {
-
-  return attname;
-
-}
+std::string DbHistory::get_attribute_name() { return attname; }
 
 //-----------------------------------------------------------------------------
 //
@@ -115,11 +106,7 @@ std::string DbHistory::get_attribute_name() {
 //
 //-----------------------------------------------------------------------------
 
-std::string DbHistory::get_date() {
-
-  return date;
-
-}
+std::string DbHistory::get_date() { return date; }
 
 //-----------------------------------------------------------------------------
 //
@@ -127,11 +114,7 @@ std::string DbHistory::get_date() {
 //
 //-----------------------------------------------------------------------------
 
-DbDatum DbHistory::get_value() {
-
-  return value;
-
-}
+DbDatum DbHistory::get_value() { return value; }
 
 //-----------------------------------------------------------------------------
 //
@@ -139,11 +122,7 @@ DbDatum DbHistory::get_value() {
 //
 //-----------------------------------------------------------------------------
 
-bool DbHistory::is_deleted() {
-
-  return deleted;
-
-}
+bool DbHistory::is_deleted() { return deleted; }
 
 //-----------------------------------------------------------------------------
 //
@@ -152,16 +131,15 @@ bool DbHistory::is_deleted() {
 //
 //-----------------------------------------------------------------------------
 
-std::string DbHistory::format_mysql_date(std::string _date) {
-
-    // Handle MySQL date formating
-    if( _date.find("-") != std::string::npos )
-      return _date.substr(8,2) + "/" + _date.substr(5,2) + "/" + _date.substr(0,4) + " " +
-             _date.substr(11,2) + ":" + _date.substr(14,2) + ":" + _date.substr(17,2);
-    else
-      return _date.substr(6,2) + "/" + _date.substr(4,2) + "/" + _date.substr(0,4) + " " +
-             _date.substr(8,2) + ":" + _date.substr(10,2) + ":" + _date.substr(12,2);
-
+std::string DbHistory::format_mysql_date(std::string _date)
+{
+  // Handle MySQL date formating
+  if(_date.find("-") != std::string::npos)
+    return _date.substr(8, 2) + "/" + _date.substr(5, 2) + "/" + _date.substr(0, 4) + " " + _date.substr(11, 2) + ":" +
+           _date.substr(14, 2) + ":" + _date.substr(17, 2);
+  else
+    return _date.substr(6, 2) + "/" + _date.substr(4, 2) + "/" + _date.substr(0, 4) + " " + _date.substr(8, 2) + ":" +
+           _date.substr(10, 2) + ":" + _date.substr(12, 2);
 }
 
 //-----------------------------------------------------------------------------
@@ -170,13 +148,12 @@ std::string DbHistory::format_mysql_date(std::string _date) {
 //
 //-----------------------------------------------------------------------------
 
-void DbHistory::make_db_datum(const std::vector<std::string> &values) {
-
+void DbHistory::make_db_datum(const std::vector<std::string> &values)
+{
   value.name = propname;
   value.value_string.resize(values.size());
-  for (unsigned int i=0; i<values.size(); i++)
+  for(unsigned int i = 0; i < values.size(); i++)
     value.value_string[i] = values[i];
-
 }
 
-}
+} // namespace Tango

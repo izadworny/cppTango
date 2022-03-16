@@ -2,32 +2,36 @@
 //
 // file :               BlackBox.cpp
 //
-// description :        C++ source code for the BlackBoxElt and BlackBox classes. These classes are used to implement
-//						the tango device server black box. There is one black box for each Tango device. This black box
-//						keeps info. on all the activities on a device. A client is able to retrieve these data via
-//						a Device CORBA attribute
+// description :        C++ source code for the BlackBoxElt and BlackBox
+// classes. These classes are used to implement
+//						the tango device server black box. There is one black box for each
+// Tango device.
+// This black box 						keeps info. on all the activities on a device. A
+// client is able to retrieve these data via 						a Device CORBA attribute
 //
 // project :            TANGO
 //
 // author(s) :          A.Gotz + E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
 //
 // This file is part of Tango.
 //
-// Tango is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// Tango is free software: you can redistribute it and/or modify it under the
+// terms of the GNU Lesser General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option) any
+// later version.
 //
-// Tango is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// Tango is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+// details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with Tango.
-// If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU Lesser General Public License
+// along with Tango. If not, see <http://www.gnu.org/licenses/>.
 //
 //
 //-===================================================================================================================
@@ -39,14 +43,14 @@
 #include <stdio.h>
 
 #ifdef _TG_WINDOWS_
-#include <sys/types.h>
-#include <ws2tcpip.h>
+  #include <sys/types.h>
+  #include <ws2tcpip.h>
 #else
-#include <sys/time.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+  #include <sys/time.h>
+  #include <sys/socket.h>
+  #include <netdb.h>
+  #include <netinet/in.h>
+  #include <arpa/inet.h>
 #endif /* _TG_WINDOWS_ */
 
 #include <omniORB4/omniInterceptors.h>
@@ -54,13 +58,12 @@
 #include <omniORB4/internal/giopStream.h>
 #include <omniORB4/internal/GIOP_S.h>
 
-
 namespace Tango
 {
 
 //
-// The per thread data storage key (The client IP is stored in thread specific storage)
-// defined in utils.cpp
+// The per thread data storage key (The client IP is stored in thread specific
+// storage) defined in utils.cpp
 //
 
 extern omni_thread::key_t key;
@@ -71,9 +74,9 @@ extern omni_thread::key_t key;
 
 CORBA::Boolean get_client_addr(omni::omniInterceptors::serverReceiveRequest_T::info_T &info)
 {
-    omni_thread::self()
-        ->set_value(key, new client_addr(((omni::giopStrand &) info.giop_s.strand()).connection->peeraddress()));
-    return true;
+  omni_thread::self()->set_value(
+      key, new client_addr(((omni::giopStrand &) info.giop_s.strand()).connection->peeraddress()));
+  return true;
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -82,24 +85,23 @@ CORBA::Boolean get_client_addr(omni::omniInterceptors::serverReceiveRequest_T::i
 //		BlackBoxElt::BlackBoxElt
 //
 // description :
-//		Constructor for the BlackBoxElt class. This constructor simply set the internal value to their default
+//		Constructor for the BlackBoxElt class. This constructor simply set the
+// internal value to their default
 //
 //-------------------------------------------------------------------------------------------------------------------
 
 BlackBoxElt::BlackBoxElt()
 {
-    req_type = Req_Unknown;
-    attr_type = Attr_Unknown;
-    op_type = Op_Unknown;
-    when = {};
-    host_ip_str[0] = '\0';
-    client_ident = false;
-    attr_names.reserve(DEFAULT_ATTR_NB);
+  req_type       = Req_Unknown;
+  attr_type      = Attr_Unknown;
+  op_type        = Op_Unknown;
+  when           = {};
+  host_ip_str[0] = '\0';
+  client_ident   = false;
+  attr_names.reserve(DEFAULT_ATTR_NB);
 }
 
-BlackBoxElt::~BlackBoxElt()
-{
-}
+BlackBoxElt::~BlackBoxElt() {}
 
 //+------------------------------------------------------------------------------------------------------------------
 //
@@ -107,8 +109,10 @@ BlackBoxElt::~BlackBoxElt()
 //		BlackBox::BlackBox
 //
 // description :
-//		Two constructors for the BlackBox class. The first one does not take any argument and construct a black box
-//		with the default depth. The second one create a black box with a depth defined by the argument.
+//		Two constructors for the BlackBox class. The first one does not take any
+// argument and construct a black
+// box 		with the default depth. The second one create a black box with a depth
+// defined by the argument.
 //
 // argument :
 //		in :
@@ -119,17 +123,17 @@ BlackBoxElt::~BlackBoxElt()
 BlackBox::BlackBox()
     : box(DefaultBlackBoxDepth)
 {
-    insert_elt = 0;
-    nb_elt = 0;
-    max_elt = DefaultBlackBoxDepth;
+  insert_elt = 0;
+  nb_elt     = 0;
+  max_elt    = DefaultBlackBoxDepth;
 }
 
 BlackBox::BlackBox(long max_size)
     : box(max_size)
 {
-    insert_elt = 0;
-    nb_elt = 0;
-    max_elt = max_size;
+  insert_elt = 0;
+  nb_elt     = 0;
+  max_elt    = max_size;
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -138,7 +142,8 @@ BlackBox::BlackBox(long max_size)
 //		BlackBox::insert_corba_attr
 //
 // description :
-//		This method insert a new element in the black box when this element is a attribute
+//		This method insert a new element in the black box when this element is a
+// attribute
 //
 // argument :
 //		in :
@@ -146,43 +151,41 @@ BlackBox::BlackBox(long max_size)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-
 void BlackBox::insert_corba_attr(BlackBoxElt_AttrType attr)
 {
+  //
+  // Take mutex
+  //
 
-//
-// Take mutex
-//
+  sync.lock();
 
-    sync.lock();
+  //
+  // Insert elt in the box
+  //
 
-//
-// Insert elt in the box
-//
+  box[insert_elt].req_type     = Req_Attribute;
+  box[insert_elt].attr_type    = attr;
+  box[insert_elt].op_type      = Op_Unknown;
+  box[insert_elt].client_ident = false;
+  box[insert_elt].when         = std::chrono::system_clock::now();
 
-    box[insert_elt].req_type = Req_Attribute;
-    box[insert_elt].attr_type = attr;
-    box[insert_elt].op_type = Op_Unknown;
-    box[insert_elt].client_ident = false;
-    box[insert_elt].when = std::chrono::system_clock::now();
+  //
+  // get client address
+  //
 
-//
-// get client address
-//
+  get_client_host();
 
-    get_client_host();
+  //
+  // manage insert and read indexes
+  //
 
-//
-// manage insert and read indexes
-//
+  inc_indexes();
 
-    inc_indexes();
+  //
+  // Release mutex
+  //
 
-//
-// Release mutex
-//
-
-    sync.unlock();
+  sync.unlock();
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -191,7 +194,9 @@ void BlackBox::insert_corba_attr(BlackBoxElt_AttrType attr)
 //		BlackBox::insert_cmd
 //
 // description :
-//		This method insert a new element in the black box when this element is a call to the operation command_inout
+//		This method insert a new element in the black box when this element is a
+// call to the operation
+// command_inout
 //
 // argument :
 //		in :
@@ -201,53 +206,51 @@ void BlackBox::insert_corba_attr(BlackBoxElt_AttrType attr)
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-
 void BlackBox::insert_cmd(const char *cmd, long vers, DevSource sour)
 {
-    sync.lock();
+  sync.lock();
 
-    insert_cmd_nl(cmd, vers, sour);
+  insert_cmd_nl(cmd, vers, sour);
 
-    sync.unlock();
+  sync.unlock();
 }
 
 void BlackBox::insert_cmd_nl(const char *cmd, long vers, DevSource sour)
 {
+  //
+  // Insert elt in the box
+  //
 
-//
-// Insert elt in the box
-//
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
+  if(vers == 1)
+  {
+    box[insert_elt].op_type = Op_Command_inout;
+  }
+  else if(vers <= 3)
+  {
+    box[insert_elt].op_type = Op_Command_inout_2;
+  }
+  else
+  {
+    box[insert_elt].op_type = Op_Command_inout_4;
+  }
+  box[insert_elt].cmd_name     = cmd;
+  box[insert_elt].source       = sour;
+  box[insert_elt].client_ident = false;
+  box[insert_elt].when         = std::chrono::system_clock::now();
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
-    if (vers == 1)
-    {
-        box[insert_elt].op_type = Op_Command_inout;
-    }
-    else if (vers <= 3)
-    {
-        box[insert_elt].op_type = Op_Command_inout_2;
-    }
-    else
-    {
-        box[insert_elt].op_type = Op_Command_inout_4;
-    }
-    box[insert_elt].cmd_name = cmd;
-    box[insert_elt].source = sour;
-    box[insert_elt].client_ident = false;
-    box[insert_elt].when = std::chrono::system_clock::now();
+  //
+  // get client address
+  //
 
-//
-// get client address
-//
+  get_client_host();
 
-    get_client_host();
+  //
+  // manage insert and read indexes
+  //
 
-//
-// manage insert and read indexes
-//
-
-    inc_indexes();
+  inc_indexes();
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -256,7 +259,9 @@ void BlackBox::insert_cmd_nl(const char *cmd, long vers, DevSource sour)
 //		BlackBox::insert_cmd_cl_ident
 //
 // description :
-//		This method insert a new element in the black box when this element is a call to the operation command_inout
+//		This method insert a new element in the black box when this element is a
+// call to the operation
+// command_inout
 //
 // argument :
 //		in :
@@ -266,39 +271,37 @@ void BlackBox::insert_cmd_nl(const char *cmd, long vers, DevSource sour)
 //
 //------------------------------------------------------------------------------------------------------------------
 
-
 void BlackBox::insert_cmd_cl_ident(const char *cmd, const ClntIdent &cl_id, long vers, DevSource sour)
 {
-    sync.lock();
+  sync.lock();
 
-//
-// Add basic info in the box
-//
+  //
+  // Add basic info in the box
+  //
 
-    long old_insert = insert_elt;
-    insert_cmd_nl(cmd, vers, sour);
+  long old_insert = insert_elt;
+  insert_cmd_nl(cmd, vers, sour);
 
-//
-// Check if the command is executed due to polling. If true, simply return
-//
+  //
+  // Check if the command is executed due to polling. If true, simply return
+  //
 
-    if (box[old_insert].host_ip_str[0] == 'p' ||
-        box[old_insert].host_ip_str[0] == 'u' ||
-        box[old_insert].host_ip_str[0] == 'i')
-    {
-        sync.unlock();
-        return;
-    }
-
-//
-// Add client ident info into the client_addr instance and into the box
-//
-
-    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-    update_client_host(static_cast<client_addr *>(ip));
-
+  if(box[old_insert].host_ip_str[0] == 'p' || box[old_insert].host_ip_str[0] == 'u' ||
+     box[old_insert].host_ip_str[0] == 'i')
+  {
     sync.unlock();
+    return;
+  }
+
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
+
+  omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+  add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+  update_client_host(static_cast<client_addr *>(ip));
+
+  sync.unlock();
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -318,29 +321,29 @@ void BlackBox::insert_cmd_cl_ident(const char *cmd, const ClntIdent &cl_id, long
 
 void BlackBox::add_cl_ident(const ClntIdent &cl_ident, client_addr *cl_addr)
 {
-    cl_addr->client_ident = true;
-    Tango::LockerLanguage cl_lang = cl_ident._d();
-    cl_addr->client_lang = cl_lang;
-    if (cl_lang == Tango::CPP)
+  cl_addr->client_ident         = true;
+  Tango::LockerLanguage cl_lang = cl_ident._d();
+  cl_addr->client_lang          = cl_lang;
+  if(cl_lang == Tango::CPP)
+  {
+    cl_addr->client_pid = cl_ident.cpp_clnt();
+    std::string str(cl_addr->client_ip);
+    if(str.find(":unix:") != std::string::npos)
     {
-        cl_addr->client_pid = cl_ident.cpp_clnt();
-        std::string str(cl_addr->client_ip);
-        if (str.find(":unix:") != std::string::npos)
-        {
-            std::string::size_type pos = str.find(' ');
-            if (pos != std::string::npos)
-            {
-                cl_addr->client_ip[pos] = '\0';
-            }
-        }
+      std::string::size_type pos = str.find(' ');
+      if(pos != std::string::npos)
+      {
+        cl_addr->client_ip[pos] = '\0';
+      }
     }
-    else
-    {
-        Tango::JavaClntIdent jci = cl_ident.java_clnt();
-        cl_addr->java_main_class = jci.MainClass;
-        cl_addr->java_ident[0] = jci.uuid[0];
-        cl_addr->java_ident[1] = jci.uuid[1];
-    }
+  }
+  else
+  {
+    Tango::JavaClntIdent jci = cl_ident.java_clnt();
+    cl_addr->java_main_class = jci.MainClass;
+    cl_addr->java_ident[0]   = jci.uuid[0];
+    cl_addr->java_ident[1]   = jci.uuid[1];
+  }
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -359,22 +362,21 @@ void BlackBox::add_cl_ident(const ClntIdent &cl_ident, client_addr *cl_addr)
 
 void BlackBox::update_client_host(client_addr *ip)
 {
-    long local_insert_elt = insert_elt;
-    if (local_insert_elt == 0)
-    {
-        local_insert_elt = max_elt - 1;
-    }
-    else
-    {
-        local_insert_elt--;
-    }
+  long local_insert_elt = insert_elt;
+  if(local_insert_elt == 0)
+  {
+    local_insert_elt = max_elt - 1;
+  }
+  else
+  {
+    local_insert_elt--;
+  }
 
-    box[local_insert_elt].client_ident = true;
-    box[local_insert_elt].client_lang = ip->client_lang;
-    box[local_insert_elt].client_pid = ip->client_pid;
-    box[local_insert_elt].java_main_class = ip->java_main_class;
+  box[local_insert_elt].client_ident    = true;
+  box[local_insert_elt].client_lang     = ip->client_lang;
+  box[local_insert_elt].client_pid      = ip->client_pid;
+  box[local_insert_elt].java_main_class = ip->java_main_class;
 }
-
 
 //+-------------------------------------------------------------------------------------------------------------------
 //
@@ -382,8 +384,9 @@ void BlackBox::update_client_host(client_addr *ip)
 //		BlackBox::insert_op
 //
 // description :
-//		This method insert a new element in the black box when this element is a call to an operation which is not
-//		the command_inout operation
+//		This method insert a new element in the black box when this element is a
+// call to an operation which is
+// not 		the command_inout operation
 //
 // argument :
 //		in :
@@ -393,66 +396,65 @@ void BlackBox::update_client_host(client_addr *ip)
 
 void BlackBox::insert_op(BlackBoxElt_OpType op)
 {
-    sync.lock();
+  sync.lock();
 
-    insert_op_nl(op);
+  insert_op_nl(op);
 
-    sync.unlock();
+  sync.unlock();
 }
 
 void BlackBox::insert_op(BlackBoxElt_OpType op, const ClntIdent &cl_id)
 {
-    sync.lock();
+  sync.lock();
 
-    long old_insert = insert_elt;
-    insert_op_nl(op);
+  long old_insert = insert_elt;
+  insert_op_nl(op);
 
-//
-// Check if the command is executed due to polling. If true, simply return
-//
+  //
+  // Check if the command is executed due to polling. If true, simply return
+  //
 
-    if (box[old_insert].host_ip_str[0] == 'p' ||
-        box[old_insert].host_ip_str[0] == 'u' ||
-        box[old_insert].host_ip_str[0] == 'i')
-    {
-        sync.unlock();
-        return;
-    }
-
-//
-// Add client ident info into the client_addr instance and into the box
-//
-
-    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-    update_client_host(static_cast<client_addr *>(ip));
-
+  if(box[old_insert].host_ip_str[0] == 'p' || box[old_insert].host_ip_str[0] == 'u' ||
+     box[old_insert].host_ip_str[0] == 'i')
+  {
     sync.unlock();
+    return;
+  }
+
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
+
+  omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+  add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+  update_client_host(static_cast<client_addr *>(ip));
+
+  sync.unlock();
 }
 
 void BlackBox::insert_op_nl(BlackBoxElt_OpType op)
 {
-//
-// Insert elt in the box
-//
+  //
+  // Insert elt in the box
+  //
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
-    box[insert_elt].op_type = op;
-    box[insert_elt].client_ident = false;
-    box[insert_elt].when = std::chrono::system_clock::now();
+  box[insert_elt].req_type     = Req_Operation;
+  box[insert_elt].attr_type    = Attr_Unknown;
+  box[insert_elt].op_type      = op;
+  box[insert_elt].client_ident = false;
+  box[insert_elt].when         = std::chrono::system_clock::now();
 
-//
-// get client address
-//
+  //
+  // get client address
+  //
 
-    get_client_host();
+  get_client_host();
 
-//
-// manage insert and read indexes
-//
+  //
+  // manage insert and read indexes
+  //
 
-    inc_indexes();
+  inc_indexes();
 }
 
 //+--------------------------------------------------------------------------------------------------------------------
@@ -461,8 +463,8 @@ void BlackBox::insert_op_nl(BlackBoxElt_OpType op)
 //		BlackBox::insert_attr
 //
 // description :
-//		This method insert a new element in the black box when this element is a call to the CORBA operation
-//		read_attributes
+//		This method insert a new element in the black box when this element is a
+// call to the CORBA operation 		read_attributes
 //
 // argument :
 //		in :
@@ -472,404 +474,391 @@ void BlackBox::insert_op_nl(BlackBoxElt_OpType op)
 //
 //---------------------------------------------------------------------------------------------------------------------
 
-
 void BlackBox::insert_attr(const Tango::DevVarStringArray &names, long vers, DevSource sour)
 {
+  //
+  // Take mutex
+  //
 
-//
-// Take mutex
-//
+  sync.lock();
 
-    sync.lock();
+  //
+  // Insert elt in the box
+  //
 
-//
-// Insert elt in the box
-//
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
+  switch(vers)
+  {
+  case 1:
+    box[insert_elt].op_type = Op_Read_Attr;
+    break;
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
-    switch (vers)
-    {
-        case 1 :
-            box[insert_elt].op_type = Op_Read_Attr;
-            break;
+  case 2:
+    box[insert_elt].op_type = Op_Read_Attr_2;
+    break;
 
-        case 2 :
-            box[insert_elt].op_type = Op_Read_Attr_2;
-            break;
+  case 3:
+    box[insert_elt].op_type = Op_Read_Attr_3;
+    break;
 
-        case 3 :
-            box[insert_elt].op_type = Op_Read_Attr_3;
-            break;
+  case 4:
+    box[insert_elt].op_type = Op_Read_Attr_4;
+    break;
+  }
+  box[insert_elt].source       = sour;
+  box[insert_elt].client_ident = false;
 
-        case 4 :
-            box[insert_elt].op_type = Op_Read_Attr_4;
-            break;
-    }
-    box[insert_elt].source = sour;
-    box[insert_elt].client_ident = false;
+  box[insert_elt].attr_names.clear();
+  for(unsigned long i = 0; i < names.length(); i++)
+  {
+    std::string tmp_str(names[i]);
+    box[insert_elt].attr_names.push_back(tmp_str);
+  }
 
+  box[insert_elt].when = std::chrono::system_clock::now();
 
-    box[insert_elt].attr_names.clear();
-    for (unsigned long i = 0; i < names.length(); i++)
-    {
-        std::string tmp_str(names[i]);
-        box[insert_elt].attr_names.push_back(tmp_str);
-    }
+  //
+  // get client address
+  //
 
-    box[insert_elt].when = std::chrono::system_clock::now();
+  get_client_host();
 
-//
-// get client address
-//
+  //
+  // manage insert and read indexes
+  //
 
-    get_client_host();
+  inc_indexes();
 
-//
-// manage insert and read indexes
-//
+  //
+  // Release mutex
+  //
 
-    inc_indexes();
-
-//
-// Release mutex
-//
-
-    sync.unlock();
+  sync.unlock();
 }
 
 void BlackBox::insert_attr(const Tango::DevVarStringArray &names, const ClntIdent &cl_id, long vers, DevSource sour)
 {
+  //
+  // Take mutex
+  //
 
-//
-// Take mutex
-//
+  sync.lock();
 
-    sync.lock();
+  //
+  // Insert elt in the box
+  //
 
-//
-// Insert elt in the box
-//
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
+  if(vers == 5)
+  {
+    box[insert_elt].op_type = Op_Read_Attr_5;
+  }
+  else
+  {
+    box[insert_elt].op_type = Op_Read_Attr_4;
+  }
 
-    if (vers == 5)
-    {
-        box[insert_elt].op_type = Op_Read_Attr_5;
-    }
-    else
-    {
-        box[insert_elt].op_type = Op_Read_Attr_4;
-    }
+  box[insert_elt].source       = sour;
+  box[insert_elt].client_ident = false;
 
-    box[insert_elt].source = sour;
-    box[insert_elt].client_ident = false;
+  box[insert_elt].attr_names.clear();
+  for(unsigned long i = 0; i < names.length(); i++)
+  {
+    std::string tmp_str(names[i]);
+    box[insert_elt].attr_names.push_back(tmp_str);
+  }
 
+  box[insert_elt].when = std::chrono::system_clock::now();
 
-    box[insert_elt].attr_names.clear();
-    for (unsigned long i = 0; i < names.length(); i++)
-    {
-        std::string tmp_str(names[i]);
-        box[insert_elt].attr_names.push_back(tmp_str);
-    }
+  //
+  // get client address
+  //
 
-    box[insert_elt].when = std::chrono::system_clock::now();
+  get_client_host();
 
-//
-// get client address
-//
+  //
+  // manage insert and read indexes but before changing indexex, memorize if the
+  // request is done by polling or user threads
+  //
 
-    get_client_host();
+  bool poll_user = false;
+  if(box[insert_elt].host_ip_str[0] == 'p' || box[insert_elt].host_ip_str[0] == 'u' ||
+     box[insert_elt].host_ip_str[0] == 'i')
+  {
+    poll_user = true;
+  }
 
-//
-// manage insert and read indexes but before changing indexex, memorize if the request is done by polling or user
-// threads
-//
+  inc_indexes();
 
-    bool poll_user = false;
-    if (box[insert_elt].host_ip_str[0] == 'p' ||
-        box[insert_elt].host_ip_str[0] == 'u' ||
-        box[insert_elt].host_ip_str[0] == 'i')
-    {
-        poll_user = true;
-    }
+  //
+  // If request is executed due to polling or from a user thread, simply return
+  //
 
-    inc_indexes();
-
-//
-// If request is executed due to polling or from a user thread, simply return
-//
-
-    if (poll_user == true)
-    {
-        sync.unlock();
-        return;
-    }
-
-    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-
-//
-// Add client ident info into the client_addr instance and into the box
-//
-
-    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-    update_client_host(static_cast<client_addr *>(ip));
-
-//
-// Release mutex
-//
-
+  if(poll_user == true)
+  {
     sync.unlock();
+    return;
+  }
+
+  omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
+
+  add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+  update_client_host(static_cast<client_addr *>(ip));
+
+  //
+  // Release mutex
+  //
+
+  sync.unlock();
 }
 
 void BlackBox::insert_attr(const char *name, const ClntIdent &cl_id, TANGO_UNUSED(long vers))
 {
+  //
+  // Take mutex
+  //
 
-//
-// Take mutex
-//
+  sync.lock();
 
-    sync.lock();
+  //
+  // Insert elt in the box
+  //
 
-//
-// Insert elt in the box
-//
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
+  box[insert_elt].op_type      = Op_Read_Pipe_5;
+  box[insert_elt].client_ident = false;
 
-    box[insert_elt].op_type = Op_Read_Pipe_5;
-    box[insert_elt].client_ident = false;
+  box[insert_elt].attr_names.clear();
+  std::string tmp_str(name);
+  box[insert_elt].attr_names.push_back(tmp_str);
 
+  box[insert_elt].when = std::chrono::system_clock::now();
 
-    box[insert_elt].attr_names.clear();
-    std::string tmp_str(name);
-    box[insert_elt].attr_names.push_back(tmp_str);
+  //
+  // get client address
+  //
 
-    box[insert_elt].when = std::chrono::system_clock::now();
+  get_client_host();
 
-//
-// get client address
-//
+  //
+  // manage insert and read indexes
+  //
 
-    get_client_host();
+  bool poll_user = false;
+  if(box[insert_elt].host_ip_str[0] == 'p' || box[insert_elt].host_ip_str[0] == 'u' ||
+     box[insert_elt].host_ip_str[0] == 'i')
+  {
+    poll_user = true;
+  }
 
-//
-// manage insert and read indexes
-//
+  inc_indexes();
 
-    bool poll_user = false;
-    if (box[insert_elt].host_ip_str[0] == 'p' ||
-        box[insert_elt].host_ip_str[0] == 'u' ||
-        box[insert_elt].host_ip_str[0] == 'i')
-    {
-        poll_user = true;
-    }
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
 
-    inc_indexes();
+  if(poll_user == false)
+  {
+    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+    update_client_host(static_cast<client_addr *>(ip));
+  }
 
-//
-// Add client ident info into the client_addr instance and into the box
-//
+  //
+  // Release mutex
+  //
 
-    if (poll_user == false)
-    {
-        omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-        add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-        update_client_host(static_cast<client_addr *>(ip));
-    }
-
-//
-// Release mutex
-//
-
-    sync.unlock();
+  sync.unlock();
 }
 
 void BlackBox::insert_attr(const Tango::DevPipeData &pipe_val, const ClntIdent &cl_id, long vers)
 {
+  //
+  // Take mutex
+  //
 
-//
-// Take mutex
-//
+  sync.lock();
 
-    sync.lock();
+  //
+  // Insert elt in the box
+  //
 
-//
-// Insert elt in the box
-//
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
+  if(vers == 0)
+  {
+    box[insert_elt].op_type = Op_Write_Pipe_5;
+  }
+  else
+  {
+    box[insert_elt].op_type = Op_Write_Read_Pipe_5;
+  }
+  box[insert_elt].client_ident = false;
 
-    if (vers == 0)
-    {
-        box[insert_elt].op_type = Op_Write_Pipe_5;
-    }
-    else
-    {
-        box[insert_elt].op_type = Op_Write_Read_Pipe_5;
-    }
-    box[insert_elt].client_ident = false;
+  box[insert_elt].attr_names.clear();
+  std::string tmp_str(pipe_val.name);
+  box[insert_elt].attr_names.push_back(tmp_str);
 
+  box[insert_elt].when = std::chrono::system_clock::now();
 
-    box[insert_elt].attr_names.clear();
-    std::string tmp_str(pipe_val.name);
-    box[insert_elt].attr_names.push_back(tmp_str);
+  //
+  // get client address
+  //
 
-    box[insert_elt].when = std::chrono::system_clock::now();
+  get_client_host();
 
-//
-// get client address
-//
+  //
+  // manage insert and read indexes
+  //
 
-    get_client_host();
+  bool poll_user = false;
+  if(box[insert_elt].host_ip_str[0] == 'p' || box[insert_elt].host_ip_str[0] == 'u' ||
+     box[insert_elt].host_ip_str[0] == 'i')
+  {
+    poll_user = true;
+  }
 
-//
-// manage insert and read indexes
-//
+  inc_indexes();
 
-    bool poll_user = false;
-    if (box[insert_elt].host_ip_str[0] == 'p' ||
-        box[insert_elt].host_ip_str[0] == 'u' ||
-        box[insert_elt].host_ip_str[0] == 'i')
-    {
-        poll_user = true;
-    }
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
 
-    inc_indexes();
+  if(poll_user == false)
+  {
+    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+    update_client_host(static_cast<client_addr *>(ip));
+  }
 
-//
-// Add client ident info into the client_addr instance and into the box
-//
+  //
+  // Release mutex
+  //
 
-    if (poll_user == false)
-    {
-        omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-        add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-        update_client_host(static_cast<client_addr *>(ip));
-    }
-
-//
-// Release mutex
-//
-
-    sync.unlock();
+  sync.unlock();
 }
 
 void BlackBox::insert_attr(const Tango::AttributeValueList &att_list, long vers)
 {
-    sync.lock();
+  sync.lock();
 
-    insert_attr_nl(att_list, vers);
+  insert_attr_nl(att_list, vers);
 
-    sync.unlock();
+  sync.unlock();
 }
 
 void BlackBox::insert_attr(const Tango::AttributeValueList_4 &att_list, const ClntIdent &cl_id, TANGO_UNUSED(long vers))
 {
-    sync.lock();
+  sync.lock();
 
-    long old_insert = insert_elt;
-    insert_attr_nl_4(att_list);
+  long old_insert = insert_elt;
+  insert_attr_nl_4(att_list);
 
-//
-// Check if the command is executed due to polling. If true, simply return
-//
+  //
+  // Check if the command is executed due to polling. If true, simply return
+  //
 
-    if (box[old_insert].host_ip_str[0] == 'p' ||
-        box[old_insert].host_ip_str[0] == 'u' ||
-        box[old_insert].host_ip_str[0] == 'i')
-    {
-        sync.unlock();
-        return;
-    }
-
-//
-// Add client ident info into the client_addr instance and into the box
-//
-
-    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-    update_client_host(static_cast<client_addr *>(ip));
-
+  if(box[old_insert].host_ip_str[0] == 'p' || box[old_insert].host_ip_str[0] == 'u' ||
+     box[old_insert].host_ip_str[0] == 'i')
+  {
     sync.unlock();
+    return;
+  }
+
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
+
+  omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+  add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+  update_client_host(static_cast<client_addr *>(ip));
+
+  sync.unlock();
 }
 
 void BlackBox::insert_attr_nl(const Tango::AttributeValueList &att_list, long vers)
 {
-//
-// Insert elt in the box
-//
+  //
+  // Insert elt in the box
+  //
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
-    if (vers == 1)
-    {
-        box[insert_elt].op_type = Op_Write_Attr;
-    }
-    else if (vers < 4)
-    {
-        box[insert_elt].op_type = Op_Write_Attr_3;
-    }
-    else
-    {
-        box[insert_elt].op_type = Op_Write_Attr_4;
-    }
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
+  if(vers == 1)
+  {
+    box[insert_elt].op_type = Op_Write_Attr;
+  }
+  else if(vers < 4)
+  {
+    box[insert_elt].op_type = Op_Write_Attr_3;
+  }
+  else
+  {
+    box[insert_elt].op_type = Op_Write_Attr_4;
+  }
 
-    box[insert_elt].attr_names.clear();
-    for (unsigned long i = 0; i < att_list.length(); i++)
-    {
-        std::string tmp_str(att_list[i].name);
-        box[insert_elt].attr_names.push_back(tmp_str);
-    }
-    box[insert_elt].client_ident = false;
-    box[insert_elt].when = std::chrono::system_clock::now();
+  box[insert_elt].attr_names.clear();
+  for(unsigned long i = 0; i < att_list.length(); i++)
+  {
+    std::string tmp_str(att_list[i].name);
+    box[insert_elt].attr_names.push_back(tmp_str);
+  }
+  box[insert_elt].client_ident = false;
+  box[insert_elt].when         = std::chrono::system_clock::now();
 
-//
-// get client address
-//
+  //
+  // get client address
+  //
 
-    get_client_host();
+  get_client_host();
 
-//
-// manage insert and read indexes
-//
+  //
+  // manage insert and read indexes
+  //
 
-    inc_indexes();
+  inc_indexes();
 }
 
 void BlackBox::insert_attr_nl_4(const Tango::AttributeValueList_4 &att_list)
 {
-//
-// Insert elt in the box
-//
+  //
+  // Insert elt in the box
+  //
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
-    box[insert_elt].op_type = Op_Write_Attr_4;
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
+  box[insert_elt].op_type   = Op_Write_Attr_4;
 
-    box[insert_elt].attr_names.clear();
-    for (unsigned long i = 0; i < att_list.length(); i++)
-    {
-        std::string tmp_str(att_list[i].name);
-        box[insert_elt].attr_names.push_back(tmp_str);
-    }
+  box[insert_elt].attr_names.clear();
+  for(unsigned long i = 0; i < att_list.length(); i++)
+  {
+    std::string tmp_str(att_list[i].name);
+    box[insert_elt].attr_names.push_back(tmp_str);
+  }
 
-    box[insert_elt].when = std::chrono::system_clock::now();
+  box[insert_elt].when = std::chrono::system_clock::now();
 
-//
-// get client address
-//
+  //
+  // get client address
+  //
 
-    get_client_host();
+  get_client_host();
 
-//
-// manage insert and read indexes
-//
+  //
+  // manage insert and read indexes
+  //
 
-    inc_indexes();
+  inc_indexes();
 }
 
 //+--------------------------------------------------------------------------------------------------------------------
@@ -878,8 +867,8 @@ void BlackBox::insert_attr_nl_4(const Tango::AttributeValueList_4 &att_list)
 //		BlackBox::insert_wr_attr
 //
 // description :
-//		This method insert a new element in the black box when this element is a call to the CORBA operation
-//		write_read_attributes
+//		This method insert a new element in the black box when this element is a
+// call to the CORBA operation 		write_read_attributes
 //
 // argument :
 //		in :
@@ -890,86 +879,82 @@ void BlackBox::insert_attr_nl_4(const Tango::AttributeValueList_4 &att_list)
 //
 //---------------------------------------------------------------------------------------------------------------------
 
-void BlackBox::insert_wr_attr(const Tango::AttributeValueList_4 &att_list,
-                              const Tango::DevVarStringArray &r_names,
-                              const ClntIdent &cl_id,
-                              long vers)
+void BlackBox::insert_wr_attr(const Tango::AttributeValueList_4 &att_list, const Tango::DevVarStringArray &r_names,
+                              const ClntIdent &cl_id, long vers)
 {
-    sync.lock();
+  sync.lock();
 
-    long old_insert = insert_elt;
-    insert_attr_wr_nl(att_list, r_names, vers);
+  long old_insert = insert_elt;
+  insert_attr_wr_nl(att_list, r_names, vers);
 
-//
-// If request coming from polling thread or user thread, leave method
-//
+  //
+  // If request coming from polling thread or user thread, leave method
+  //
 
-    if (box[old_insert].host_ip_str[0] == 'p' ||
-        box[old_insert].host_ip_str[0] == 'u' ||
-        box[old_insert].host_ip_str[0] == 'i')
-    {
-        sync.unlock();
-        return;
-    }
-
-//
-// Add client ident info into the client_addr instance and into the box
-//
-
-    omni_thread::value_t *ip = omni_thread::self()->get_value(key);
-    add_cl_ident(cl_id, static_cast<client_addr *>(ip));
-    update_client_host(static_cast<client_addr *>(ip));
-
+  if(box[old_insert].host_ip_str[0] == 'p' || box[old_insert].host_ip_str[0] == 'u' ||
+     box[old_insert].host_ip_str[0] == 'i')
+  {
     sync.unlock();
+    return;
+  }
+
+  //
+  // Add client ident info into the client_addr instance and into the box
+  //
+
+  omni_thread::value_t *ip = omni_thread::self()->get_value(key);
+  add_cl_ident(cl_id, static_cast<client_addr *>(ip));
+  update_client_host(static_cast<client_addr *>(ip));
+
+  sync.unlock();
 }
 
-void BlackBox::insert_attr_wr_nl(const Tango::AttributeValueList_4 &att_list,
-                                 const Tango::DevVarStringArray &r_names,
+void BlackBox::insert_attr_wr_nl(const Tango::AttributeValueList_4 &att_list, const Tango::DevVarStringArray &r_names,
                                  long vers)
 {
-//
-// Insert elt in the box
-//
+  //
+  // Insert elt in the box
+  //
 
-    box[insert_elt].req_type = Req_Operation;
-    box[insert_elt].attr_type = Attr_Unknown;
-    if (vers == 5)
-    {
-        box[insert_elt].op_type = Op_Write_Read_Attributes_5;
-    }
-    else
-    {
-        box[insert_elt].op_type = Op_Write_Read_Attributes_4;
-    }
+  box[insert_elt].req_type  = Req_Operation;
+  box[insert_elt].attr_type = Attr_Unknown;
+  if(vers == 5)
+  {
+    box[insert_elt].op_type = Op_Write_Read_Attributes_5;
+  }
+  else
+  {
+    box[insert_elt].op_type = Op_Write_Read_Attributes_4;
+  }
 
-    box[insert_elt].attr_names.clear();
-    for (unsigned long i = 0; i < att_list.length(); i++)
-    {
-        std::string tmp_str(att_list[i].name);
-        box[insert_elt].attr_names.push_back(tmp_str);
-    }
+  box[insert_elt].attr_names.clear();
+  for(unsigned long i = 0; i < att_list.length(); i++)
+  {
+    std::string tmp_str(att_list[i].name);
+    box[insert_elt].attr_names.push_back(tmp_str);
+  }
 
-    box[insert_elt].attr_names.push_back(std::string("/"));
+  box[insert_elt].attr_names.push_back(std::string("/"));
 
-    for (unsigned long i = 0; i < r_names.length(); i++)
-    {
-        std::string tmp_str(r_names[i]);
-        box[insert_elt].attr_names.push_back(tmp_str);
-    }
+  for(unsigned long i = 0; i < r_names.length(); i++)
+  {
+    std::string tmp_str(r_names[i]);
+    box[insert_elt].attr_names.push_back(tmp_str);
+  }
 
-    box[insert_elt].when = std::chrono::system_clock::now();
+  box[insert_elt].when = std::chrono::system_clock::now();
 
-//
-// get client address
-//
+  //
+  // get client address
+  //
 
-    get_client_host();
+  get_client_host();
 
-//
-// manage insert and read indexes
-//
+  //
+  // manage insert and read indexes
+  //
 
-    inc_indexes();
+  inc_indexes();
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -978,24 +963,23 @@ void BlackBox::insert_attr_wr_nl(const Tango::AttributeValueList_4 &att_list,
 //		BlackBox::inc_indexes
 //
 // description :
-//		This private method increment the indexes used to acces the box itself. This is necessary because the box must
-//		be managed as a circular buffer
+//		This private method increment the indexes used to acces the box itself.
+// This is necessary because the box must 		be managed as a circular buffer
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-
 void BlackBox::inc_indexes()
 {
-    insert_elt++;
-    if (insert_elt == max_elt)
-    {
-        insert_elt = 0;
-    }
+  insert_elt++;
+  if(insert_elt == max_elt)
+  {
+    insert_elt = 0;
+  }
 
-    if (nb_elt != max_elt)
-    {
-        nb_elt++;
-    }
+  if(nb_elt != max_elt)
+  {
+    nb_elt++;
+  }
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -1004,67 +988,69 @@ void BlackBox::inc_indexes()
 //		BlackBox::get_client_host
 //
 // description :
-//		This private method retrieves the client host IP address (the number). IT USES OMNIORB SPECIFIC INTERCEPTOR
+//		This private method retrieves the client host IP address (the number). IT
+// USES OMNIORB SPECIFIC
+// INTERCEPTOR
 //
 //--------------------------------------------------------------------------------------------------------------------
 
 void BlackBox::get_client_host()
 {
-    omni_thread *th_id = omni_thread::self();
-    if (th_id == NULL)
+  omni_thread *th_id = omni_thread::self();
+  if(th_id == NULL)
+  {
+    th_id = omni_thread::create_dummy();
+  }
+
+  omni_thread::value_t *ip = th_id->get_value(key);
+  if(ip == NULL)
+  {
+    Tango::Util *tg                            = Tango::Util::instance();
+    std::vector<PollingThreadInfo *> &poll_ths = tg->get_polling_threads_info();
+
+    bool found_thread = false;
+    if(poll_ths.empty() == false)
     {
-        th_id = omni_thread::create_dummy();
+      int this_thread_id = th_id->id();
+      size_t nb_poll_th  = poll_ths.size();
+      size_t loop;
+      for(loop = 0; loop < nb_poll_th; loop++)
+      {
+        if(this_thread_id == poll_ths[loop]->thread_id)
+        {
+          found_thread = true;
+          break;
+        }
+      }
     }
 
-    omni_thread::value_t *ip = th_id->get_value(key);
-    if (ip == NULL)
+    if(tg->is_svr_starting() == true)
     {
-        Tango::Util *tg = Tango::Util::instance();
-        std::vector<PollingThreadInfo *> &poll_ths = tg->get_polling_threads_info();
-
-        bool found_thread = false;
-        if (poll_ths.empty() == false)
-        {
-            int this_thread_id = th_id->id();
-            size_t nb_poll_th = poll_ths.size();
-            size_t loop;
-            for (loop = 0; loop < nb_poll_th; loop++)
-            {
-                if (this_thread_id == poll_ths[loop]->thread_id)
-                {
-                    found_thread = true;
-                    break;
-                }
-            }
-        }
-
-        if (tg->is_svr_starting() == true)
-        {
-            if (found_thread == true)
-            {
-                strcpy(box[insert_elt].host_ip_str, "polling");
-            }
-            else
-            {
-                strcpy(box[insert_elt].host_ip_str, "init");
-            }
-        }
-        else
-        {
-            if (found_thread == true)
-            {
-                strcpy(box[insert_elt].host_ip_str, "polling");
-            }
-            else
-            {
-                strcpy(box[insert_elt].host_ip_str, "user thread");
-            }
-        }
+      if(found_thread == true)
+      {
+        strcpy(box[insert_elt].host_ip_str, "polling");
+      }
+      else
+      {
+        strcpy(box[insert_elt].host_ip_str, "init");
+      }
     }
     else
     {
-        strcpy(box[insert_elt].host_ip_str, (static_cast<client_addr *>(ip))->client_ip);
+      if(found_thread == true)
+      {
+        strcpy(box[insert_elt].host_ip_str, "polling");
+      }
+      else
+      {
+        strcpy(box[insert_elt].host_ip_str, "user thread");
+      }
     }
+  }
+  else
+  {
+    strcpy(box[insert_elt].host_ip_str, (static_cast<client_addr *>(ip))->client_ip);
+  }
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -1073,7 +1059,8 @@ void BlackBox::get_client_host()
 //		BlackBox::build_info_as_str
 //
 // description :
-//		Translate all the info stored in a black box element into a readable string.
+//		Translate all the info stored in a black box element into a readable
+// string.
 //
 // argument :
 //		in :
@@ -1083,553 +1070,550 @@ void BlackBox::get_client_host()
 
 void BlackBox::build_info_as_str(long index)
 {
-    char date_str[25];
-//
-// Convert time to a string
-//
+  char date_str[25];
+  //
+  // Convert time to a string
+  //
 
-    auto when_timeval = make_timeval(box[index].when);
-    date_ux_to_str(when_timeval, date_str, sizeof(date_str));
-    elt_str = date_str;
+  auto when_timeval = make_timeval(box[index].when);
+  date_ux_to_str(when_timeval, date_str, sizeof(date_str));
+  elt_str = date_str;
 
-//
-// Add request type and command name in case of
-//
+  //
+  // Add request type and command name in case of
+  //
 
-    elt_str = elt_str + " : ";
+  elt_str = elt_str + " : ";
 
-    if (box[index].req_type == Req_Operation)
+  if(box[index].req_type == Req_Operation)
+  {
+    elt_str = elt_str + "Operation ";
+    unsigned long i;
+    unsigned long nb_in_vect;
+
+    switch(box[index].op_type)
     {
-        elt_str = elt_str + "Operation ";
-        unsigned long i;
-        unsigned long nb_in_vect;
+    case Op_Command_inout:
+      elt_str = elt_str + "command_inout (cmd = " + box[index].cmd_name + ") from ";
+      add_source(index);
+      break;
 
-        switch (box[index].op_type)
+    case Op_Ping:
+      elt_str = elt_str + "ping ";
+      break;
+
+    case Op_Info:
+      elt_str = elt_str + "info ";
+      break;
+
+    case Op_BlackBox:
+      elt_str = elt_str + "blackbox ";
+      break;
+
+    case Op_Command_list:
+      elt_str = elt_str + "command_list_query ";
+      break;
+
+    case Op_Command:
+      elt_str = elt_str + "command_query ";
+      break;
+
+    case Op_Get_Attr_Config:
+      elt_str = elt_str + "get_attribute_config ";
+      break;
+
+    case Op_Set_Attr_Config:
+      elt_str = elt_str + "set_attribute_config ";
+      break;
+
+    case Op_Read_Attr:
+      elt_str    = elt_str + "read_attributes (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
         {
-            case Op_Command_inout :
-                elt_str = elt_str + "command_inout (cmd = " + box[index].cmd_name + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Ping :
-                elt_str = elt_str + "ping ";
-                break;
-
-            case Op_Info :
-                elt_str = elt_str + "info ";
-                break;
-
-            case Op_BlackBox :
-                elt_str = elt_str + "blackbox ";
-                break;
-
-            case Op_Command_list :
-                elt_str = elt_str + "command_list_query ";
-                break;
-
-            case Op_Command :
-                elt_str = elt_str + "command_query ";
-                break;
-
-            case Op_Get_Attr_Config :
-                elt_str = elt_str + "get_attribute_config ";
-                break;
-
-            case Op_Set_Attr_Config :
-                elt_str = elt_str + "set_attribute_config ";
-                break;
-
-            case Op_Read_Attr :
-                elt_str = elt_str + "read_attributes (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Write_Attr :
-                elt_str = elt_str + "write_attributes (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Write_Attr_3 :
-                elt_str = elt_str + "write_attributes_3 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Command_inout_2 :
-                elt_str = elt_str + "command_inout_2 (cmd = " + box[index].cmd_name + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Command_list_2 :
-                elt_str = elt_str + "command_list_query_2 ";
-                break;
-
-            case Op_Command_2 :
-                elt_str = elt_str + "command_query_2 ";
-                break;
-
-            case Op_Get_Attr_Config_2 :
-                elt_str = elt_str + "get_attribute_config_2 ";
-                break;
-
-            case Op_Read_Attr_2 :
-                elt_str = elt_str + "read_attributes_2 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Read_Attr_3 :
-                elt_str = elt_str + "read_attributes_3 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Command_inout_history_2 :
-                elt_str = elt_str + "command_inout_history_2 ";
-                break;
-
-            case Op_Read_Attr_history_2 :
-                elt_str = elt_str + "read_attribute_history_2 ";
-                break;
-
-            case Op_Read_Attr_history_3 :
-                elt_str = elt_str + "read_attribute_history_3 ";
-                break;
-
-            case Op_Info_3 :
-                elt_str = elt_str + "info_3 ";
-                break;
-
-            case Op_Get_Attr_Config_3 :
-                elt_str = elt_str + "get_attribute_config_3 ";
-                break;
-
-            case Op_Set_Attr_Config_3 :
-                elt_str = elt_str + "set_attribute_config_3 ";
-                break;
-
-            case Op_Read_Attr_history_4 :
-                elt_str = elt_str + "read_attribute_history_4 ";
-                break;
-
-            case Op_Command_inout_history_4 :
-                elt_str = elt_str + "command_inout_history_4 ";
-                break;
-
-            case Op_Command_inout_4 :
-                elt_str = elt_str + "command_inout_4 (cmd = " + box[index].cmd_name + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Read_Attr_4 :
-                elt_str = elt_str + "read_attributes_4 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Write_Attr_4 :
-                elt_str = elt_str + "write_attributes_4 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Set_Attr_Config_4 :
-                elt_str = elt_str + "set_attribute_config_4 ";
-                break;
-
-            case Op_Write_Read_Attributes_4 :
-                elt_str = elt_str + "write_read_attributes_4 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Get_Attr_Config_5 :
-                elt_str = elt_str + "get_attribute_config_5 ";
-                break;
-
-            case Op_Set_Attr_Config_5 :
-                elt_str = elt_str + "set_attribute_config_5 ";
-                break;
-
-            case Op_Read_Attr_5 :
-                elt_str = elt_str + "read_attributes_5 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") from ";
-                add_source(index);
-                break;
-
-            case Op_Write_Read_Attributes_5 :
-                elt_str = elt_str + "write_read_attributes_5 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1 && box[index].attr_names[i] != "/")
-                    {
-                        if (box[index].attr_names[i + 1] != "/")
-                        {
-                            elt_str = elt_str + ", ";
-                        }
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Read_Attr_history_5 :
-                elt_str = elt_str + "read_attribute_history_5 ";
-                break;
-
-            case Op_Get_Pipe_Config_5 :
-                elt_str = elt_str + "get_pipe_config_5 ";
-                break;
-
-            case Op_Set_Pipe_Config_5 :
-                elt_str = elt_str + "set_pipe_config_5 ";
-                break;
-
-            case Op_Read_Pipe_5 :
-                elt_str = elt_str + "read_pipe_5 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Write_Pipe_5 :
-                elt_str = elt_str + "write_pipe_5 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Write_Read_Pipe_5 :
-                elt_str = elt_str + "write_read_pipe_5 (";
-                nb_in_vect = box[index].attr_names.size();
-                for (i = 0; i < nb_in_vect; i++)
-                {
-                    elt_str = elt_str + box[index].attr_names[i];
-                    if (i != nb_in_vect - 1)
-                    {
-                        elt_str = elt_str + ", ";
-                    }
-                }
-                elt_str = elt_str + ") ";
-                break;
-
-            case Op_Unknown :
-                elt_str = elt_str + "unknown operation !!!!!";
-                return;
+          elt_str = elt_str + ", ";
         }
+      }
+      elt_str = elt_str + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Write_Attr:
+      elt_str    = elt_str + "write_attributes (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Write_Attr_3:
+      elt_str    = elt_str + "write_attributes_3 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Command_inout_2:
+      elt_str = elt_str + "command_inout_2 (cmd = " + box[index].cmd_name + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Command_list_2:
+      elt_str = elt_str + "command_list_query_2 ";
+      break;
+
+    case Op_Command_2:
+      elt_str = elt_str + "command_query_2 ";
+      break;
+
+    case Op_Get_Attr_Config_2:
+      elt_str = elt_str + "get_attribute_config_2 ";
+      break;
+
+    case Op_Read_Attr_2:
+      elt_str    = elt_str + "read_attributes_2 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Read_Attr_3:
+      elt_str    = elt_str + "read_attributes_3 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Command_inout_history_2:
+      elt_str = elt_str + "command_inout_history_2 ";
+      break;
+
+    case Op_Read_Attr_history_2:
+      elt_str = elt_str + "read_attribute_history_2 ";
+      break;
+
+    case Op_Read_Attr_history_3:
+      elt_str = elt_str + "read_attribute_history_3 ";
+      break;
+
+    case Op_Info_3:
+      elt_str = elt_str + "info_3 ";
+      break;
+
+    case Op_Get_Attr_Config_3:
+      elt_str = elt_str + "get_attribute_config_3 ";
+      break;
+
+    case Op_Set_Attr_Config_3:
+      elt_str = elt_str + "set_attribute_config_3 ";
+      break;
+
+    case Op_Read_Attr_history_4:
+      elt_str = elt_str + "read_attribute_history_4 ";
+      break;
+
+    case Op_Command_inout_history_4:
+      elt_str = elt_str + "command_inout_history_4 ";
+      break;
+
+    case Op_Command_inout_4:
+      elt_str = elt_str + "command_inout_4 (cmd = " + box[index].cmd_name + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Read_Attr_4:
+      elt_str    = elt_str + "read_attributes_4 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Write_Attr_4:
+      elt_str    = elt_str + "write_attributes_4 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Set_Attr_Config_4:
+      elt_str = elt_str + "set_attribute_config_4 ";
+      break;
+
+    case Op_Write_Read_Attributes_4:
+      elt_str    = elt_str + "write_read_attributes_4 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Get_Attr_Config_5:
+      elt_str = elt_str + "get_attribute_config_5 ";
+      break;
+
+    case Op_Set_Attr_Config_5:
+      elt_str = elt_str + "set_attribute_config_5 ";
+      break;
+
+    case Op_Read_Attr_5:
+      elt_str    = elt_str + "read_attributes_5 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") from ";
+      add_source(index);
+      break;
+
+    case Op_Write_Read_Attributes_5:
+      elt_str    = elt_str + "write_read_attributes_5 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1 && box[index].attr_names[i] != "/")
+        {
+          if(box[index].attr_names[i + 1] != "/")
+          {
+            elt_str = elt_str + ", ";
+          }
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Read_Attr_history_5:
+      elt_str = elt_str + "read_attribute_history_5 ";
+      break;
+
+    case Op_Get_Pipe_Config_5:
+      elt_str = elt_str + "get_pipe_config_5 ";
+      break;
+
+    case Op_Set_Pipe_Config_5:
+      elt_str = elt_str + "set_pipe_config_5 ";
+      break;
+
+    case Op_Read_Pipe_5:
+      elt_str    = elt_str + "read_pipe_5 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Write_Pipe_5:
+      elt_str    = elt_str + "write_pipe_5 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Write_Read_Pipe_5:
+      elt_str    = elt_str + "write_read_pipe_5 (";
+      nb_in_vect = box[index].attr_names.size();
+      for(i = 0; i < nb_in_vect; i++)
+      {
+        elt_str = elt_str + box[index].attr_names[i];
+        if(i != nb_in_vect - 1)
+        {
+          elt_str = elt_str + ", ";
+        }
+      }
+      elt_str = elt_str + ") ";
+      break;
+
+    case Op_Unknown:
+      elt_str = elt_str + "unknown operation !!!!!";
+      return;
     }
-    else if (box[index].req_type == Req_Attribute)
+  }
+  else if(box[index].req_type == Req_Attribute)
+  {
+    elt_str = elt_str + "Attribute ";
+    switch(box[index].attr_type)
     {
-        elt_str = elt_str + "Attribute ";
-        switch (box[index].attr_type)
-        {
-            case Attr_Name :
-                elt_str = elt_str + "name ";
-                break;
+    case Attr_Name:
+      elt_str = elt_str + "name ";
+      break;
 
-            case Attr_Description :
-                elt_str = elt_str + "description ";
-                break;
+    case Attr_Description:
+      elt_str = elt_str + "description ";
+      break;
 
-            case Attr_Status :
-                elt_str = elt_str + "status ";
-                break;
+    case Attr_Status:
+      elt_str = elt_str + "status ";
+      break;
 
-            case Attr_State :
-                elt_str = elt_str + "state ";
-                break;
+    case Attr_State:
+      elt_str = elt_str + "state ";
+      break;
 
-            case Attr_AdmName :
-                elt_str = elt_str + "adm_name ";
-                break;
+    case Attr_AdmName:
+      elt_str = elt_str + "adm_name ";
+      break;
 
-            case Attr_Unknown :
-                elt_str = elt_str + "unknown attribute !!!!!";
-                return;
-        }
+    case Attr_Unknown:
+      elt_str = elt_str + "unknown attribute !!!!!";
+      return;
+    }
+  }
+  else
+  {
+    elt_str = elt_str + "Unknown CORBA request type !!!!!";
+    return;
+  }
+
+  //
+  // Add client host name.
+  // Extract only IP numbers from the omni address format
+  // (giop:tcp:xx.yy.zz.kk:port) Return in case of badly formed address
+  //
+
+  if((box[index].host_ip_str[0] != '\0') && (box[index].host_ip_str[0] != 'p') && (box[index].host_ip_str[5] != 'u') &&
+     (box[index].host_ip_str[0] != 'i') && (box[index].host_ip_str[0] != 'u'))
+  {
+    bool ipv6             = false;
+    std::string omni_addr = box[index].host_ip_str;
+    std::string::size_type pos;
+    if((pos = omni_addr.find(':')) == std::string::npos)
+    {
+      return;
+    }
+    pos++;
+    if((pos = omni_addr.find(':', pos)) == std::string::npos)
+    {
+      return;
+    }
+    pos++;
+    std::string ip_str = omni_addr.substr(pos);
+    if(ip_str[0] == '[')
+    {
+      ipv6 = true;
+    }
+
+    std::string full_ip_str;
+    if(ipv6 == false)
+    {
+      if((pos = ip_str.find(':')) == std::string::npos)
+      {
+        return;
+      }
+      full_ip_str = ip_str.substr(0, pos);
     }
     else
     {
-        elt_str = elt_str + "Unknown CORBA request type !!!!!";
+      if((pos = ip_str.find(':')) == std::string::npos)
+      {
         return;
+      }
+      pos++;
+      if((pos = ip_str.find(':', pos)) == std::string::npos)
+      {
+        return;
+      }
+      pos++;
+      if((pos = ip_str.find(':', pos)) == std::string::npos)
+      {
+        return;
+      }
+      pos++;
+      std::string tmp_ip = ip_str.substr(pos);
+      if((pos = tmp_ip.find(']')) == std::string::npos)
+      {
+        return;
+      }
+      full_ip_str = tmp_ip.substr(0, pos);
     }
 
-//
-// Add client host name.
-// Extract only IP numbers from the omni address format (giop:tcp:xx.yy.zz.kk:port)
-// Return in case of badly formed address
-//
-
-    if ((box[index].host_ip_str[0] != '\0') &&
-        (box[index].host_ip_str[0] != 'p') &&
-        (box[index].host_ip_str[5] != 'u') &&
-        (box[index].host_ip_str[0] != 'i') &&
-        (box[index].host_ip_str[0] != 'u'))
+    if((pos = full_ip_str.find('.')) == std::string::npos)
     {
-        bool ipv6 = false;
-        std::string omni_addr = box[index].host_ip_str;
-        std::string::size_type pos;
-        if ((pos = omni_addr.find(':')) == std::string::npos)
-        {
-            return;
-        }
-        pos++;
-        if ((pos = omni_addr.find(':', pos)) == std::string::npos)
-        {
-            return;
-        }
-        pos++;
-        std::string ip_str = omni_addr.substr(pos);
-        if (ip_str[0] == '[')
-        {
-            ipv6 = true;
-        }
+      return;
+    }
+    std::string ip1_str = full_ip_str.substr(0, pos);
+    std::string::size_type old_pos;
+    pos++;
+    old_pos = pos;
+    if((pos = full_ip_str.find('.', pos)) == std::string::npos)
+    {
+      return;
+    }
+    std::string ip2_str = full_ip_str.substr(old_pos, pos - old_pos);
+    pos++;
+    old_pos = pos;
+    if((pos = full_ip_str.find('.', pos)) == std::string::npos)
+    {
+      return;
+    }
+    std::string ip3_str = full_ip_str.substr(old_pos, pos - old_pos);
+    pos++;
+    std::string ip4_str = full_ip_str.substr(pos);
 
-        std::string full_ip_str;
-        if (ipv6 == false)
-        {
-            if ((pos = ip_str.find(':')) == std::string::npos)
-            {
-                return;
-            }
-            full_ip_str = ip_str.substr(0, pos);
-        }
-        else
-        {
-            if ((pos = ip_str.find(':')) == std::string::npos)
-            {
-                return;
-            }
-            pos++;
-            if ((pos = ip_str.find(':', pos)) == std::string::npos)
-            {
-                return;
-            }
-            pos++;
-            if ((pos = ip_str.find(':', pos)) == std::string::npos)
-            {
-                return;
-            }
-            pos++;
-            std::string tmp_ip = ip_str.substr(pos);
-            if ((pos = tmp_ip.find(']')) == std::string::npos)
-            {
-                return;
-            }
-            full_ip_str = tmp_ip.substr(0, pos);
-        }
+    //
+    // Finally, get host name
+    //
 
-        if ((pos = full_ip_str.find('.')) == std::string::npos)
-        {
-            return;
-        }
-        std::string ip1_str = full_ip_str.substr(0, pos);
-        std::string::size_type old_pos;
-        pos++;
-        old_pos = pos;
-        if ((pos = full_ip_str.find('.', pos)) == std::string::npos)
-        {
-            return;
-        }
-        std::string ip2_str = full_ip_str.substr(old_pos, pos - old_pos);
-        pos++;
-        old_pos = pos;
-        if ((pos = full_ip_str.find('.', pos)) == std::string::npos)
-        {
-            return;
-        }
-        std::string ip3_str = full_ip_str.substr(old_pos, pos - old_pos);
-        pos++;
-        std::string ip4_str = full_ip_str.substr(pos);
-
-//
-// Finally, get host name
-//
-
-        struct sockaddr_in si;
-        si.sin_family = AF_INET;
-        si.sin_port = 0;
+    struct sockaddr_in si;
+    si.sin_family = AF_INET;
+    si.sin_port   = 0;
 #ifdef _TG_WINDOWS_
-        int slen = sizeof(si);
-        WSAStringToAddress((char *)full_ip_str.c_str(),AF_INET,NULL,(SOCKADDR *)&si,&slen);
+    int slen = sizeof(si);
+    WSAStringToAddress((char *) full_ip_str.c_str(), AF_INET, NULL, (SOCKADDR *) &si, &slen);
 #else
-        inet_pton(AF_INET, full_ip_str.c_str(), &si.sin_addr);
+    inet_pton(AF_INET, full_ip_str.c_str(), &si.sin_addr);
 #endif
 
-        char host[512];
+    char host[512];
 
-        int res = getnameinfo((const sockaddr *) &si, sizeof(si), host, 512, 0, 0, 0);
+    int res = getnameinfo((const sockaddr *) &si, sizeof(si), host, 512, 0, 0, 0);
 #ifdef _TG_WINDOWS_
-        for (int i = 0; i < ::strlen(host); i++)
-        {
-            host[i] = ::tolower(host[i]);
-        }
+    for(int i = 0; i < ::strlen(host); i++)
+    {
+      host[i] = ::tolower(host[i]);
+    }
 #endif
 
-        if (res == 0)
-        {
-            elt_str = elt_str + "requested from ";
-            elt_str = elt_str + host;
-        }
-        else
-        {
-            elt_str = elt_str + "requested from ";
-            elt_str = elt_str + full_ip_str;
-        }
-
-//
-// Add client identification if available
-//
-
-        if (box[index].client_ident == true)
-        {
-            if (box[index].client_lang == Tango::CPP)
-            {
-                elt_str = elt_str + " (CPP/Python client with PID ";
-                TangoSys_MemStream o;
-                o << box[index].client_pid;
-                elt_str = elt_str + o.str() + ")";
-            }
-            else
-            {
-                elt_str = elt_str + " (Java client with main class ";
-                elt_str = elt_str + box[index].java_main_class + ")";
-            }
-        }
-    }
-    else if (box[index].host_ip_str[5] == 'u')
+    if(res == 0)
     {
-        Tango::Util *tg = Tango::Util::instance();
-        elt_str = elt_str + "requested from " + tg->get_host_name();
-
-//
-// Add client identification if available
-//
-
-        if (box[index].client_ident == true)
-        {
-            if (box[index].client_lang == Tango::CPP)
-            {
-                elt_str = elt_str + " (CPP/Python client with PID ";
-                TangoSys_MemStream o;
-                o << box[index].client_pid;
-                elt_str = elt_str + o.str() + ")";
-            }
-            else
-            {
-                elt_str = elt_str + " (Java client with main class ";
-                elt_str = elt_str + box[index].java_main_class + ")";
-            }
-        }
+      elt_str = elt_str + "requested from ";
+      elt_str = elt_str + host;
     }
-    else if (box[index].host_ip_str[0] == 'p')
+    else
     {
-        elt_str = elt_str + "requested from polling";
-    }
-    else if (box[index].host_ip_str[0] == 'i')
-    {
-        elt_str = elt_str + "requested during device server process init sequence";
-    }
-    else if (box[index].host_ip_str[0] == 'u')
-    {
-        elt_str = elt_str + "requested from user thread";
+      elt_str = elt_str + "requested from ";
+      elt_str = elt_str + full_ip_str;
     }
 
-    return;
+    //
+    // Add client identification if available
+    //
+
+    if(box[index].client_ident == true)
+    {
+      if(box[index].client_lang == Tango::CPP)
+      {
+        elt_str = elt_str + " (CPP/Python client with PID ";
+        TangoSys_MemStream o;
+        o << box[index].client_pid;
+        elt_str = elt_str + o.str() + ")";
+      }
+      else
+      {
+        elt_str = elt_str + " (Java client with main class ";
+        elt_str = elt_str + box[index].java_main_class + ")";
+      }
+    }
+  }
+  else if(box[index].host_ip_str[5] == 'u')
+  {
+    Tango::Util *tg = Tango::Util::instance();
+    elt_str         = elt_str + "requested from " + tg->get_host_name();
+
+    //
+    // Add client identification if available
+    //
+
+    if(box[index].client_ident == true)
+    {
+      if(box[index].client_lang == Tango::CPP)
+      {
+        elt_str = elt_str + " (CPP/Python client with PID ";
+        TangoSys_MemStream o;
+        o << box[index].client_pid;
+        elt_str = elt_str + o.str() + ")";
+      }
+      else
+      {
+        elt_str = elt_str + " (Java client with main class ";
+        elt_str = elt_str + box[index].java_main_class + ")";
+      }
+    }
+  }
+  else if(box[index].host_ip_str[0] == 'p')
+  {
+    elt_str = elt_str + "requested from polling";
+  }
+  else if(box[index].host_ip_str[0] == 'i')
+  {
+    elt_str = elt_str + "requested during device server process init sequence";
+  }
+  else if(box[index].host_ip_str[0] == 'u')
+  {
+    elt_str = elt_str + "requested from user thread";
+  }
+
+  return;
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -1638,7 +1622,8 @@ void BlackBox::build_info_as_str(long index)
 //		BlackBox::add_source
 //
 // description :
-//		Read black box element as strings. The newest element is return in the first position
+//		Read black box element as strings. The newest element is return in the
+// first position
 //
 // argument :
 //		in :
@@ -1648,24 +1633,24 @@ void BlackBox::build_info_as_str(long index)
 
 void BlackBox::add_source(long index)
 {
-    switch (box[index].source)
-    {
-        case DEV :
-            elt_str = elt_str + "device ";
-            break;
+  switch(box[index].source)
+  {
+  case DEV:
+    elt_str = elt_str + "device ";
+    break;
 
-        case CACHE :
-            elt_str = elt_str + "cache ";
-            break;
+  case CACHE:
+    elt_str = elt_str + "cache ";
+    break;
 
-        case CACHE_DEV :
-            elt_str = elt_str + "cache_device ";
-            break;
+  case CACHE_DEV:
+    elt_str = elt_str + "cache_device ";
+    break;
 
-        default :
-            elt_str = elt_str + "unknown source (!) ";
-            break;
-    }
+  default:
+    elt_str = elt_str + "unknown source (!) ";
+    break;
+  }
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -1674,7 +1659,8 @@ void BlackBox::add_source(long index)
 //		BlackBox::read
 //
 // description :
-//		Read black box element as strings. The newest element is returned in the first position
+//		Read black box element as strings. The newest element is returned in the
+// first position
 //
 // argument :
 //		in :
@@ -1684,91 +1670,89 @@ void BlackBox::add_source(long index)
 
 Tango::DevVarStringArray *BlackBox::read(long wanted_elt)
 {
+  //
+  // Take mutex
+  //
 
+  sync.lock();
 
-//
-// Take mutex
-//
+  //
+  // Throw exeception if the wanted element is stupid and if there is no element
+  // stored in the black box
+  //
 
-    sync.lock();
-
-//
-// Throw exeception if the wanted element is stupid and if there is no element stored in the black box
-//
-
-    if (wanted_elt <= 0)
-    {
-        sync.unlock();
-
-        TANGO_THROW_EXCEPTION(API_BlackBoxArgument, "Argument to read black box out of range");
-    }
-    if (nb_elt == 0)
-    {
-        sync.unlock();
-
-        TANGO_THROW_EXCEPTION(API_BlackBoxEmpty, "Nothing stored yet in black-box");
-    }
-
-//
-// Limit wanted element to a reasonable value
-//
-
-    if (wanted_elt > max_elt)
-    {
-        wanted_elt = max_elt;
-    }
-
-    if (wanted_elt > nb_elt)
-    {
-        wanted_elt = nb_elt;
-    }
-
-//
-// Read black box elements
-//
-
-    Tango::DevVarStringArray *ret = NULL;
-    try
-    {
-
-        ret = new Tango::DevVarStringArray(wanted_elt);
-        ret->length(wanted_elt);
-
-        long read_index;
-        if (insert_elt == 0)
-        {
-            read_index = max_elt - 1;
-        }
-        else
-        {
-            read_index = insert_elt - 1;
-        }
-        for (long i = 0; i < wanted_elt; i++)
-        {
-            build_info_as_str(read_index);
-            (*ret)[i] = elt_str.c_str();
-
-            read_index--;
-            if (read_index < 0)
-            {
-                read_index = max_elt - 1;
-            }
-        }
-    }
-    catch (std::bad_alloc &)
-    {
-        sync.unlock();
-
-        TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-    }
-
-//
-// Release mutex
-//
-
+  if(wanted_elt <= 0)
+  {
     sync.unlock();
 
-    return (ret);
+    TANGO_THROW_EXCEPTION(API_BlackBoxArgument, "Argument to read black box out of range");
+  }
+  if(nb_elt == 0)
+  {
+    sync.unlock();
+
+    TANGO_THROW_EXCEPTION(API_BlackBoxEmpty, "Nothing stored yet in black-box");
+  }
+
+  //
+  // Limit wanted element to a reasonable value
+  //
+
+  if(wanted_elt > max_elt)
+  {
+    wanted_elt = max_elt;
+  }
+
+  if(wanted_elt > nb_elt)
+  {
+    wanted_elt = nb_elt;
+  }
+
+  //
+  // Read black box elements
+  //
+
+  Tango::DevVarStringArray *ret = NULL;
+  try
+  {
+    ret = new Tango::DevVarStringArray(wanted_elt);
+    ret->length(wanted_elt);
+
+    long read_index;
+    if(insert_elt == 0)
+    {
+      read_index = max_elt - 1;
+    }
+    else
+    {
+      read_index = insert_elt - 1;
+    }
+    for(long i = 0; i < wanted_elt; i++)
+    {
+      build_info_as_str(read_index);
+      (*ret)[i] = elt_str.c_str();
+
+      read_index--;
+      if(read_index < 0)
+      {
+        read_index = max_elt - 1;
+      }
+    }
+  }
+  catch(std::bad_alloc &)
+  {
+    sync.unlock();
+
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+
+  //
+  // Release mutex
+  //
+
+  sync.unlock();
+
+  return (ret);
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -1777,141 +1761,141 @@ Tango::DevVarStringArray *BlackBox::read(long wanted_elt)
 //		BlackBox::date_ux_to_str
 //
 // description :
-//		Convert a UNIX date (number of seconds since EPOCH) to a string of the following format :
-//			dd/mm/yyyy hh24:mi:ss:xx
+//		Convert a UNIX date (number of seconds since EPOCH) to a string of the
+// following format : 			dd/mm/yyyy hh24:mi:ss:xx
 //
 // argument :
 //		in :
 //			- ux_date : The UNIX date in a timeval structure
 //		out :
-//			- str_date : Pointer to char array where the date will be stored (must be allocated)
+//			- str_date : Pointer to char array where the date will be stored (must
+// be allocated)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
 void BlackBox::date_ux_to_str(timeval &ux_date, char *str_date, size_t str_date_len)
 {
-    long i;
-    char month[5];
-    char unix_date[40];
+  long i;
+  char month[5];
+  char unix_date[40];
 
-/* Convert UNIX date to a string in UNIX format */
+  /* Convert UNIX date to a string in UNIX format */
 
-    time_t tmp_val = ux_date.tv_sec;
+  time_t tmp_val = ux_date.tv_sec;
 #ifdef _TG_WINDOWS_
-    ctime_s(unix_date,40,&tmp_val);
+  ctime_s(unix_date, 40, &tmp_val);
 #else
-    ctime_r(&tmp_val, unix_date);
+  ctime_r(&tmp_val, unix_date);
 #endif
-    unix_date[strlen(unix_date) - 1] = '\0';
+  unix_date[strlen(unix_date) - 1] = '\0';
 
-/* Copy day */
+  /* Copy day */
 
-    for (i = 0; i < 2; i++)
+  for(i = 0; i < 2; i++)
+  {
+    str_date[i] = unix_date[i + 8];
+  }
+  str_date[2] = '/';
+  str_date[3] = '\0';
+  if(str_date[0] == ' ')
+  {
+    str_date[0] = '0';
+  }
+
+  /* Copy month */
+
+  for(i = 0; i < 3; i++)
+  {
+    month[i] = unix_date[i + 4];
+  }
+  month[3] = '\0';
+
+  switch(month[0])
+  {
+  case 'J':
+    if(month[1] == 'u')
     {
-        str_date[i] = unix_date[i + 8];
+      if(month[2] == 'n')
+      {
+        strcat(str_date, "06/");
+      }
+      else
+      {
+        strcat(str_date, "07/");
+      }
     }
-    str_date[2] = '/';
-    str_date[3] = '\0';
-    if (str_date[0] == ' ')
+    else
     {
-        str_date[0] = '0';
+      strcat(str_date, "01/");
     }
+    break;
 
-/* Copy month */
+  case 'F':
+    strcat(str_date, "02/");
+    break;
 
-    for (i = 0; i < 3; i++)
+  case 'M':
+    if(month[2] == 'r')
     {
-        month[i] = unix_date[i + 4];
+      strcat(str_date, "03/");
     }
-    month[3] = '\0';
-
-    switch (month[0])
+    else
     {
-        case 'J' :
-            if (month[1] == 'u')
-            {
-                if (month[2] == 'n')
-                {
-                    strcat(str_date, "06/");
-                }
-                else
-                {
-                    strcat(str_date, "07/");
-                }
-            }
-            else
-            {
-                strcat(str_date, "01/");
-            }
-            break;
-
-        case 'F' :
-            strcat(str_date, "02/");
-            break;
-
-        case 'M' :
-            if (month[2] == 'r')
-            {
-                strcat(str_date, "03/");
-            }
-            else
-            {
-                strcat(str_date, "05/");
-            }
-            break;
-
-        case 'A' :
-            if (month[1] == 'p')
-            {
-                strcat(str_date, "04/");
-            }
-            else
-            {
-                strcat(str_date, "08/");
-            }
-            break;
-
-        case 'S' :
-            strcat(str_date, "09/");
-            break;
-
-        case 'O' :
-            strcat(str_date, "10/");
-            break;
-
-        case 'N' :
-            strcat(str_date, "11/");
-            break;
-
-        case 'D' :
-            strcat(str_date, "12/");
-            break;
+      strcat(str_date, "05/");
     }
+    break;
 
-    str_date[6] = '\0';
-
-/* Copy year */
-
-    strcat(str_date, &(unix_date[20]));
-    str_date[10] = '\0';
-
-/* Copy date remaining */
-
-    strcat(str_date, " ");
-    for (i = 0; i < 8; i++)
+  case 'A':
+    if(month[1] == 'p')
     {
-        str_date[i + 11] = unix_date[i + 11];
+      strcat(str_date, "04/");
     }
-    str_date[19] = '\0';
+    else
+    {
+      strcat(str_date, "08/");
+    }
+    break;
 
-/* Add milliseconds */
+  case 'S':
+    strcat(str_date, "09/");
+    break;
+
+  case 'O':
+    strcat(str_date, "10/");
+    break;
+
+  case 'N':
+    strcat(str_date, "11/");
+    break;
+
+  case 'D':
+    strcat(str_date, "12/");
+    break;
+  }
+
+  str_date[6] = '\0';
+
+  /* Copy year */
+
+  strcat(str_date, &(unix_date[20]));
+  str_date[10] = '\0';
+
+  /* Copy date remaining */
+
+  strcat(str_date, " ");
+  for(i = 0; i < 8; i++)
+  {
+    str_date[i + 11] = unix_date[i + 11];
+  }
+  str_date[19] = '\0';
+
+  /* Add milliseconds */
 
 #ifdef _TG_WINDOWS_
-    std::snprintf(&(str_date[19]), (str_date_len - 19), ":%.2d",(int)(ux_date.tv_usec/10));
+  std::snprintf(&(str_date[19]), (str_date_len - 19), ":%.2d", (int) (ux_date.tv_usec / 10));
 #else
-    std::snprintf(&(str_date[19]), (str_date_len - 19), ":%.2d", (int) (ux_date.tv_usec / 10000));
+  std::snprintf(&(str_date[19]), (str_date_len - 19), ":%.2d", (int) (ux_date.tv_usec / 10000));
 #endif
-
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -1926,13 +1910,13 @@ void BlackBox::date_ux_to_str(timeval &ux_date, char *str_date, size_t str_date_
 
 client_addr::client_addr(const client_addr &rhs)
 {
-    client_ident = rhs.client_ident;
-    client_lang = rhs.client_lang;
-    client_pid = rhs.client_pid;
-    java_main_class = rhs.java_main_class;
-    java_ident[0] = rhs.java_ident[0];
-    java_ident[1] = rhs.java_ident[1];
-    memcpy(client_ip, rhs.client_ip, IP_ADDR_BUFFER_SIZE);
+  client_ident    = rhs.client_ident;
+  client_lang     = rhs.client_lang;
+  client_pid      = rhs.client_pid;
+  java_main_class = rhs.java_main_class;
+  java_ident[0]   = rhs.java_ident[0];
+  java_ident[1]   = rhs.java_ident[1];
+  memcpy(client_ip, rhs.client_ip, IP_ADDR_BUFFER_SIZE);
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -1947,19 +1931,19 @@ client_addr::client_addr(const client_addr &rhs)
 
 client_addr &client_addr::operator=(const client_addr &rhs)
 {
-    if (this == &rhs)
-    {
-        return *this;
-    }
-
-    client_ident = rhs.client_ident;
-    client_lang = rhs.client_lang;
-    client_pid = rhs.client_pid;
-    java_main_class = rhs.java_main_class;
-    java_ident[0] = rhs.java_ident[0];
-    java_ident[1] = rhs.java_ident[1];
-    memcpy(client_ip, rhs.client_ip, IP_ADDR_BUFFER_SIZE);
+  if(this == &rhs)
+  {
     return *this;
+  }
+
+  client_ident    = rhs.client_ident;
+  client_lang     = rhs.client_lang;
+  client_pid      = rhs.client_pid;
+  java_main_class = rhs.java_main_class;
+  java_ident[0]   = rhs.java_ident[0];
+  java_ident[1]   = rhs.java_ident[1];
+  memcpy(client_ip, rhs.client_ip, IP_ADDR_BUFFER_SIZE);
+  return *this;
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -1974,51 +1958,51 @@ client_addr &client_addr::operator=(const client_addr &rhs)
 
 bool client_addr::operator==(const client_addr &rhs)
 {
-    if (client_ident != rhs.client_ident)
-    {
-        return false;
-    }
+  if(client_ident != rhs.client_ident)
+  {
+    return false;
+  }
 
-    if (client_lang != rhs.client_lang)
+  if(client_lang != rhs.client_lang)
+  {
+    return false;
+  }
+  else
+  {
+    if(client_lang == Tango::CPP)
     {
+      if(client_pid != rhs.client_pid)
+      {
         return false;
+      }
+
+      char *tmp           = client_ip;
+      const char *rhs_tmp = rhs.client_ip;
+
+      if(strlen(tmp) != strlen(rhs_tmp))
+      {
+        return false;
+      }
+
+      if(strcmp(tmp, rhs_tmp) != 0)
+      {
+        return false;
+      }
     }
     else
     {
-        if (client_lang == Tango::CPP)
-        {
-            if (client_pid != rhs.client_pid)
-            {
-                return false;
-            }
-
-            char *tmp = client_ip;
-            const char *rhs_tmp = rhs.client_ip;
-
-            if (strlen(tmp) != strlen(rhs_tmp))
-            {
-                return false;
-            }
-
-            if (strcmp(tmp, rhs_tmp) != 0)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if (java_ident[0] != rhs.java_ident[0])
-            {
-                return false;
-            }
-            if (java_ident[1] != rhs.java_ident[1])
-            {
-                return false;
-            }
-        }
+      if(java_ident[0] != rhs.java_ident[0])
+      {
+        return false;
+      }
+      if(java_ident[1] != rhs.java_ident[1])
+      {
+        return false;
+      }
     }
+  }
 
-    return true;
+  return true;
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -2033,51 +2017,51 @@ bool client_addr::operator==(const client_addr &rhs)
 
 bool client_addr::operator!=(const client_addr &rhs)
 {
-    if (client_ident != rhs.client_ident)
-    {
-        return true;
-    }
+  if(client_ident != rhs.client_ident)
+  {
+    return true;
+  }
 
-    if (client_lang != rhs.client_lang)
+  if(client_lang != rhs.client_lang)
+  {
+    return true;
+  }
+  else
+  {
+    if(client_lang == Tango::CPP)
     {
+      if(client_pid != rhs.client_pid)
+      {
         return true;
+      }
+
+      char *tmp           = client_ip;
+      const char *rhs_tmp = rhs.client_ip;
+
+      if(strlen(tmp) != strlen(rhs_tmp))
+      {
+        return true;
+      }
+
+      if(strcmp(tmp, rhs_tmp) != 0)
+      {
+        return true;
+      }
     }
     else
     {
-        if (client_lang == Tango::CPP)
-        {
-            if (client_pid != rhs.client_pid)
-            {
-                return true;
-            }
-
-            char *tmp = client_ip;
-            const char *rhs_tmp = rhs.client_ip;
-
-            if (strlen(tmp) != strlen(rhs_tmp))
-            {
-                return true;
-            }
-
-            if (strcmp(tmp, rhs_tmp) != 0)
-            {
-                return true;
-            }
-        }
-        else
-        {
-            if (java_ident[0] != rhs.java_ident[0])
-            {
-                return true;
-            }
-            if (java_ident[1] != rhs.java_ident[1])
-            {
-                return true;
-            }
-        }
+      if(java_ident[0] != rhs.java_ident[0])
+      {
+        return true;
+      }
+      if(java_ident[1] != rhs.java_ident[1])
+      {
+        return true;
+      }
     }
+  }
 
-    return false;
+  return false;
 }
 
 //+--------------------------------------------------------------------------------------------------------------------
@@ -2092,96 +2076,95 @@ bool client_addr::operator!=(const client_addr &rhs)
 
 int client_addr::client_ip_2_client_name(std::string &cl_host_name) const
 {
-    int ret = 0;
-    std::string client_ip_str(client_ip);
+  int ret = 0;
+  std::string client_ip_str(client_ip);
 
-    std::string::size_type pos;
-    if ((pos = client_ip_str.find(':')) == std::string::npos)
+  std::string::size_type pos;
+  if((pos = client_ip_str.find(':')) == std::string::npos)
+  {
+    ret = -1;
+  }
+  else
+  {
+    pos++;
+    if((pos = client_ip_str.find(':', pos)) == std::string::npos)
     {
-        ret = -1;
+      ret = -1;
     }
     else
     {
-        pos++;
-        if ((pos = client_ip_str.find(':', pos)) == std::string::npos)
+      pos++;
+      std::string ip_str = client_ip_str.substr(pos);
+      if((pos = ip_str.find(':')) == std::string::npos)
+      {
+        ret = -1;
+      }
+      else
+      {
+        std::string full_ip_str = ip_str.substr(0, pos);
+
+        if((pos = full_ip_str.find('.')) == std::string::npos)
         {
-            ret = -1;
+          ret = -1;
         }
         else
         {
+          std::string ip1_str = full_ip_str.substr(0, pos);
+
+          std::string::size_type old_pos;
+          pos++;
+          old_pos = pos;
+          if((pos = full_ip_str.find('.', pos)) == std::string::npos)
+          {
+            ret = -1;
+          }
+          else
+          {
+            std::string ip2_str = full_ip_str.substr(old_pos, pos - old_pos);
             pos++;
-            std::string ip_str = client_ip_str.substr(pos);
-            if ((pos = ip_str.find(':')) == std::string::npos)
+            old_pos = pos;
+            if((pos = full_ip_str.find('.', pos)) == std::string::npos)
             {
-                ret = -1;
+              ret = -1;
             }
             else
             {
-                std::string full_ip_str = ip_str.substr(0, pos);
+              std::string ip3_str = full_ip_str.substr(old_pos, pos - old_pos);
+              pos++;
+              std::string ip4_str = full_ip_str.substr(pos);
 
-                if ((pos = full_ip_str.find('.')) == std::string::npos)
-                {
-                    ret = -1;
-                }
-                else
-                {
-                    std::string ip1_str = full_ip_str.substr(0, pos);
-
-                    std::string::size_type old_pos;
-                    pos++;
-                    old_pos = pos;
-                    if ((pos = full_ip_str.find('.', pos)) == std::string::npos)
-                    {
-                        ret = -1;
-                    }
-                    else
-                    {
-                        std::string ip2_str = full_ip_str.substr(old_pos, pos - old_pos);
-                        pos++;
-                        old_pos = pos;
-                        if ((pos = full_ip_str.find('.', pos)) == std::string::npos)
-                        {
-                            ret = -1;
-                        }
-                        else
-                        {
-                            std::string ip3_str = full_ip_str.substr(old_pos, pos - old_pos);
-                            pos++;
-                            std::string ip4_str = full_ip_str.substr(pos);
-
-                            struct sockaddr_in si;
-                            si.sin_family = AF_INET;
-                            si.sin_port = 0;
+              struct sockaddr_in si;
+              si.sin_family = AF_INET;
+              si.sin_port   = 0;
 #ifdef _TG_WINDOWS_
-                            int slen = sizeof(si);
-                            WSAStringToAddress((char *)full_ip_str.c_str(),AF_INET,NULL,(SOCKADDR *)&si,&slen);
+              int slen = sizeof(si);
+              WSAStringToAddress((char *) full_ip_str.c_str(), AF_INET, NULL, (SOCKADDR *) &si, &slen);
 #else
-                            inet_pton(AF_INET, full_ip_str.c_str(), &si.sin_addr);
+              inet_pton(AF_INET, full_ip_str.c_str(), &si.sin_addr);
 #endif
 
-                            char host[512];
+              char host[512];
 
-                            int res = getnameinfo((const sockaddr *) &si, sizeof(si), host, 512, 0, 0, 0);
+              int res = getnameinfo((const sockaddr *) &si, sizeof(si), host, 512, 0, 0, 0);
 
-                            if (res == 0)
-                            {
-                                cl_host_name = host;
-                                ret = 0;
-                            }
-                            else
-                            {
-                                ret = -1;
-                            }
-                        }
-                    }
-                }
+              if(res == 0)
+              {
+                cl_host_name = host;
+                ret          = 0;
+              }
+              else
+              {
+                ret = -1;
+              }
             }
+          }
         }
+      }
     }
+  }
 
-    return ret;
+  return ret;
 }
-
 
 //+-------------------------------------------------------------------------------------------------------------------
 //
@@ -2194,41 +2177,41 @@ int client_addr::client_ip_2_client_name(std::string &cl_host_name) const
 
 std::ostream &operator<<(std::ostream &o_str, const client_addr &ca)
 {
-    if (ca.client_ident == false)
+  if(ca.client_ident == false)
+  {
+    o_str << "Client identification not available";
+  }
+  else
+  {
+    if(ca.client_lang == Tango::CPP)
     {
-        o_str << "Client identification not available";
+      std::string cl_name;
+      o_str << "CPP or Python client with PID " << ca.client_pid << " from host ";
+      if(ca.client_ip_2_client_name(cl_name) == 0)
+      {
+        o_str << cl_name;
+      }
+      else
+      {
+        o_str << ca.client_ip;
+      }
     }
     else
     {
-        if (ca.client_lang == Tango::CPP)
-        {
-            std::string cl_name;
-            o_str << "CPP or Python client with PID " << ca.client_pid << " from host ";
-            if (ca.client_ip_2_client_name(cl_name) == 0)
-            {
-                o_str << cl_name;
-            }
-            else
-            {
-                o_str << ca.client_ip;
-            }
-        }
-        else
-        {
-            o_str << "JAVA client class " << ca.java_main_class << " from host ";
-            std::string cl_name;
-            if (ca.client_ip_2_client_name(cl_name) == 0)
-            {
-                o_str << cl_name;
-            }
-            else
-            {
-                o_str << ca.client_ip;
-            }
-        }
+      o_str << "JAVA client class " << ca.java_main_class << " from host ";
+      std::string cl_name;
+      if(ca.client_ip_2_client_name(cl_name) == 0)
+      {
+        o_str << cl_name;
+      }
+      else
+      {
+        o_str << ca.client_ip;
+      }
     }
+  }
 
-    return o_str;
+  return o_str;
 }
 
-} // End of Tango namespace
+} // namespace Tango

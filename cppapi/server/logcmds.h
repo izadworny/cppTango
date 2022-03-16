@@ -8,7 +8,7 @@
 //
 // author(s) :	  N.Leclercq
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -31,7 +31,6 @@
 //
 //=============================================================================
 
-
 #ifndef _LOG_CMDS_H
 #define _LOG_CMDS_H
 
@@ -52,14 +51,11 @@ namespace Tango
 class AddLoggingTarget : public Command
 {
 public:
-	AddLoggingTarget (const char *cmd_name,
-				Tango::CmdArgType in,
-				Tango::CmdArgType out,
-				const std::string &in_desc);
+  AddLoggingTarget(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc);
 
-	~AddLoggingTarget() {}
+  ~AddLoggingTarget() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -74,14 +70,11 @@ public:
 class RemoveLoggingTarget : public Command
 {
 public:
-	RemoveLoggingTarget (const char *cmd_name,
-				   Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const std::string &in_desc);
+  RemoveLoggingTarget(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc);
 
-	~RemoveLoggingTarget() {}
+  ~RemoveLoggingTarget() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -95,15 +88,12 @@ public:
 class GetLoggingTarget : public Command
 {
 public:
-	GetLoggingTarget (const char *cmd_name,
-										Tango::CmdArgType in,
-		    Tango::CmdArgType out,
-		    const std::string &in_desc,
-		    const std::string &out_desc);
+  GetLoggingTarget(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc,
+                   const std::string &out_desc);
 
-	~GetLoggingTarget() {}
+  ~GetLoggingTarget() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -117,14 +107,11 @@ public:
 class SetLoggingLevel : public Command
 {
 public:
-	SetLoggingLevel (const char *cmd_name,
-		   Tango::CmdArgType in,
-		   Tango::CmdArgType out,
-		   const std::string &in_desc);
+  SetLoggingLevel(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc);
 
-	~SetLoggingLevel() {}
+  ~SetLoggingLevel() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -138,15 +125,12 @@ public:
 class GetLoggingLevel : public Command
 {
 public:
-	GetLoggingLevel (const char *cmd_name,
-									  Tango::CmdArgType in,
-		    Tango::CmdArgType out,
-		    const std::string &in_desc,
-		    const std::string &out_desc);
+  GetLoggingLevel(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc,
+                  const std::string &out_desc);
 
-	~GetLoggingLevel() {}
+  ~GetLoggingLevel() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -160,13 +144,11 @@ public:
 class StopLogging : public Command
 {
 public:
-	StopLogging (const char *cmd_name,
-						 Tango::CmdArgType in,
-	       Tango::CmdArgType out);
+  StopLogging(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out);
 
-	~StopLogging() {}
+  ~StopLogging() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -180,16 +162,13 @@ public:
 class StartLogging : public Command
 {
 public:
-	StartLogging (const char *cmd_name,
-						 Tango::CmdArgType in,
-	       Tango::CmdArgType out);
+  StartLogging(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out);
 
-	~StartLogging() {}
+  ~StartLogging() {}
 
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
-
-} // End of Tango namespace
+} // namespace Tango
 
 #endif // _LOG_CMDS_H

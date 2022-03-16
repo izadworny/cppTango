@@ -3,7 +3,7 @@
  *
  * by NL - SOLEIL - 09/2002.
  *
- * Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+ * Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
  *						European Synchrotron Radiation Facility
  *                      BP 220, Grenoble 38043
  *                      FRANCE
@@ -38,45 +38,43 @@ public:
   /**
    *
    **/
-  TangoAppender (const std::string& src_name,
-                 const std::string& name,
-                 const std::string& dev_name,
-                 bool open_connection = true);
+  TangoAppender(const std::string &src_name, const std::string &name, const std::string &dev_name,
+                bool open_connection = true);
   /**
    *
    **/
-  virtual ~TangoAppender ();
+  virtual ~TangoAppender();
 
   /**
    *
    **/
-  virtual bool requires_layout (void) const;
+  virtual bool requires_layout(void) const;
 
   /**
    *
    **/
-  virtual void set_layout(log4tango::Layout* layout);
+  virtual void set_layout(log4tango::Layout *layout);
 
   /**
    *
    **/
-  virtual void close (void);
+  virtual void close(void);
 
   /**
    *
    **/
-  virtual bool reopen (void);
+  virtual bool reopen(void);
 
   /**
    *
    **/
-  virtual bool is_valid (void) const;
+  virtual bool is_valid(void) const;
 
 protected:
   /**
    *
    **/
-  virtual int _append (const log4tango::LoggingEvent& event);
+  virtual int _append(const log4tango::LoggingEvent &event);
 
 private:
   /**
@@ -92,10 +90,10 @@ private:
   /**
    *
    **/
-  DeviceProxy   *_dev_proxy;
-  DevULong      _req_ctr;
+  DeviceProxy *_dev_proxy;
+  DevULong _req_ctr;
 };
 
-} // namespace tango
+} // namespace Tango
 
 #endif // _TANGO_APPENDER_H_

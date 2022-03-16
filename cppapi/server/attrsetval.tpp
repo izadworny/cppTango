@@ -37,9 +37,9 @@
 #include <type_traits>
 
 #ifdef _TG_WINDOWS_
-#include <sys/timeb.h>
+  #include <sys/timeb.h>
 #else
-#include <sys/time.h>
+  #include <sys/time.h>
 #endif /* _TG_WINDOWS_ */
 
 namespace Tango
@@ -67,231 +67,234 @@ namespace Tango
 //-------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
+void Attribute::set_value(T *enum_ptr, long x, long y, bool release)
 {
-//
-// Throw exception if attribute data type is not correct
-//
+  //
+  // Throw exception if attribute data type is not correct
+  //
 
-	if (data_type != Tango::DEV_ENUM)
-	{
-		SAFE_DELETE(enum_ptr);
+  if(data_type != Tango::DEV_ENUM)
+  {
+    SAFE_DELETE(enum_ptr);
 
-		std::stringstream o;
-		o << "Invalid data type for attribute " << name << std::ends;
+    std::stringstream o;
+    o << "Invalid data type for attribute " << name << std::ends;
 
-		TANGO_THROW_EXCEPTION(API_AttrOptProp, o.str());
-	}
+    TANGO_THROW_EXCEPTION(API_AttrOptProp, o.str());
+  }
 
-	bool short_enum = std::is_same<short,typename std::underlying_type<T>::type>::value;
-	bool uns_int_enum = std::is_same<unsigned int,typename std::underlying_type<T>::type>::value;
+  bool short_enum   = std::is_same<short, typename std::underlying_type<T>::type>::value;
+  bool uns_int_enum = std::is_same<unsigned int, typename std::underlying_type<T>::type>::value;
 
-	if (short_enum == false && uns_int_enum == false)
-	{
-		SAFE_DELETE(enum_ptr);
+  if(short_enum == false && uns_int_enum == false)
+  {
+    SAFE_DELETE(enum_ptr);
 
-		std::stringstream ss;
-		ss << "Invalid enumeration type. Supported types are C++11 scoped enum with short as underlying data type\n";
-		ss << "or old enum";
+    std::stringstream ss;
+    ss << "Invalid enumeration type. Supported types are C++11 scoped enum with short as underlying data type\n";
+    ss << "or old enum";
 
-		TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, ss.str());
-	}
+    TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, ss.str());
+  }
 
-//
-// Check if the input type is an enum and if it is from the valid type
-//
+  //
+  // Check if the input type is an enum and if it is from the valid type
+  //
 
-	if (std::is_enum<T>::value == false)
-	{
-		SAFE_DELETE(enum_ptr);
-		TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, "The input argument data type is not an enumeration");
-	}
+  if(std::is_enum<T>::value == false)
+  {
+    SAFE_DELETE(enum_ptr);
+    TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, "The input argument data type is not an enumeration");
+  }
 
-//
-// Check if enum labels are defined
-//
+  //
+  // Check if enum labels are defined
+  //
 
-	if (enum_labels.size() == 0)
-	{
-		SAFE_DELETE(enum_ptr);
+  if(enum_labels.size() == 0)
+  {
+    SAFE_DELETE(enum_ptr);
 
-		std::stringstream ss;
-		ss << "Attribute " << name << " data type is enum but no enum labels are defined!";
+    std::stringstream ss;
+    ss << "Attribute " << name << " data type is enum but no enum labels are defined!";
 
-		TANGO_THROW_EXCEPTION(API_AttrOptProp, ss.str());
-	}
+    TANGO_THROW_EXCEPTION(API_AttrOptProp, ss.str());
+  }
 
-//
-// Check enum type
-//
+  //
+  // Check enum type
+  //
 
-	DeviceImpl *dev = get_att_device();
-	Tango::DeviceClass *dev_class = dev->get_device_class();
-	Tango::MultiClassAttribute *mca = dev_class->get_class_attr();
-	Tango::Attr &att = mca->get_attr(name);
+  DeviceImpl *dev                 = get_att_device();
+  Tango::DeviceClass *dev_class   = dev->get_device_class();
+  Tango::MultiClassAttribute *mca = dev_class->get_class_attr();
+  Tango::Attr &att                = mca->get_attr(name);
 
-	if (att.same_type(typeid(T)) == false)
-	{
-		SAFE_DELETE(enum_ptr);
+  if(att.same_type(typeid(T)) == false)
+  {
+    SAFE_DELETE(enum_ptr);
 
-		std::stringstream ss;
-		ss << "Invalid enumeration type. Requested enum type is " << att.get_enum_type();
-		TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, ss.str());
-	}
+    std::stringstream ss;
+    ss << "Invalid enumeration type. Requested enum type is " << att.get_enum_type();
+    TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, ss.str());
+  }
 
-//
-// Check that data size is less than the given max
-//
+  //
+  // Check that data size is less than the given max
+  //
 
-	if ((x > max_x) || (y > max_y))
-	{
-		SAFE_DELETE(enum_ptr);
+  if((x > max_x) || (y > max_y))
+  {
+    SAFE_DELETE(enum_ptr);
 
-		std::stringstream o;
-		o << "Data size for attribute " << name << " exceeds given limit" << std::ends;
+    std::stringstream o;
+    o << "Data size for attribute " << name << " exceeds given limit" << std::ends;
 
-		TANGO_THROW_EXCEPTION(API_AttrOptProp, o.str());
-	}
+    TANGO_THROW_EXCEPTION(API_AttrOptProp, o.str());
+  }
 
-//
-// Compute data size and set default quality to valid.
-//
+  //
+  // Compute data size and set default quality to valid.
+  //
 
-	dim_x = x;
-	dim_y = y;
-	set_data_size();
-	quality = Tango::ATTR_VALID;
+  dim_x = x;
+  dim_y = y;
+  set_data_size();
+  quality = Tango::ATTR_VALID;
 
-//
-// Throw exception if pointer is null and data_size != 0
-//
+  //
+  // Throw exception if pointer is null and data_size != 0
+  //
 
-	if (data_size != 0)
-	{
-		CHECK_PTR(enum_ptr,name);
-	}
+  if(data_size != 0)
+  {
+    CHECK_PTR(enum_ptr, name);
+  }
 
-//
-// If the data is wanted from the DevState command, store it in a sequence. If the attribute  has an associated
-// writable attribute, store data in a temporary buffer (the write value must be added before the data is sent
-// back to the caller)
-//
+  //
+  // If the data is wanted from the DevState command, store it in a sequence. If the attribute  has an associated
+  // writable attribute, store data in a temporary buffer (the write value must be added before the data is sent
+  // back to the caller)
+  //
 
-	if (data_size > enum_nb)
-	{
-		if (enum_nb != 0)
-			delete [] loc_enum_ptr;
-		loc_enum_ptr = new short [data_size];
-		enum_nb = data_size;
-	}
+  if(data_size > enum_nb)
+  {
+    if(enum_nb != 0)
+      delete[] loc_enum_ptr;
+    loc_enum_ptr = new short[data_size];
+    enum_nb      = data_size;
+  }
 
-	short max_val = (short)enum_labels.size() - 1;
-	for (std::uint32_t i = 0;i < data_size;i++)
-	{
-		loc_enum_ptr[i] = (short)enum_ptr[i];
-		if (loc_enum_ptr[i] < 0 || loc_enum_ptr[i] > max_val)
-		{
-			SAFE_DELETE(enum_ptr);
-			enum_nb = 0;
+  short max_val = (short) enum_labels.size() - 1;
+  for(std::uint32_t i = 0; i < data_size; i++)
+  {
+    loc_enum_ptr[i] = (short) enum_ptr[i];
+    if(loc_enum_ptr[i] < 0 || loc_enum_ptr[i] > max_val)
+    {
+      SAFE_DELETE(enum_ptr);
+      enum_nb = 0;
 
-			std::stringstream ss;
-			ss << "Wrong value for attribute " << name;
-			ss << ". Element " << i << " (value = " << loc_enum_ptr[i] << ") is negative or above the limit defined by the enum (" << max_val << ").";
-			delete [] loc_enum_ptr;
+      std::stringstream ss;
+      ss << "Wrong value for attribute " << name;
+      ss << ". Element " << i << " (value = " << loc_enum_ptr[i]
+         << ") is negative or above the limit defined by the enum (" << max_val << ").";
+      delete[] loc_enum_ptr;
 
-			TANGO_THROW_EXCEPTION(API_AttrOptProp, ss.str());
-		}
-	}
+      TANGO_THROW_EXCEPTION(API_AttrOptProp, ss.str());
+    }
+  }
 
-	SAFE_DELETE(enum_ptr);
+  SAFE_DELETE(enum_ptr);
 
-	if (date == false)
-	{
-		value.sh_seq = new Tango::DevVarShortArray(data_size,data_size,loc_enum_ptr,false);
-	}
-	else
-	{
-		if ((is_writ_associated() == true))
-		{
-			if (data_format == Tango::SCALAR)
-			{
-				tmp_sh[0] = *loc_enum_ptr;
-			}
-			else
-			{
-				value.sh_seq = new Tango::DevVarShortArray(data_size);
-				value.sh_seq->length(data_size);
-				::memcpy(value.sh_seq->get_buffer(false),loc_enum_ptr,data_size * sizeof(Tango::DevShort));
-			}
-		}
-		else
-		{
-			if ((data_format == Tango::SCALAR) && (release == true))
-			{
-				value.sh_seq = new Tango::DevVarShortArray(data_size,data_size,loc_enum_ptr,false);
-			}
-			else
-				value.sh_seq = new Tango::DevVarShortArray(data_size,data_size,loc_enum_ptr,release);
-		}
-	}
-	value_flag = true;
+  if(date == false)
+  {
+    value.sh_seq = new Tango::DevVarShortArray(data_size, data_size, loc_enum_ptr, false);
+  }
+  else
+  {
+    if((is_writ_associated() == true))
+    {
+      if(data_format == Tango::SCALAR)
+      {
+        tmp_sh[0] = *loc_enum_ptr;
+      }
+      else
+      {
+        value.sh_seq = new Tango::DevVarShortArray(data_size);
+        value.sh_seq->length(data_size);
+        ::memcpy(value.sh_seq->get_buffer(false), loc_enum_ptr, data_size * sizeof(Tango::DevShort));
+      }
+    }
+    else
+    {
+      if((data_format == Tango::SCALAR) && (release == true))
+      {
+        value.sh_seq = new Tango::DevVarShortArray(data_size, data_size, loc_enum_ptr, false);
+      }
+      else
+        value.sh_seq = new Tango::DevVarShortArray(data_size, data_size, loc_enum_ptr, release);
+    }
+  }
+  value_flag = true;
 
-//
-// Reset alarm flags
-//
+  //
+  // Reset alarm flags
+  //
 
-	alarm.reset();
+  alarm.reset();
 
-//
-// Get time
-//
+  //
+  // Get time
+  //
 
-	set_time();
+  set_time();
 }
 
 template <typename T>
-void Attribute::set_value_date_quality(T *p_data,time_t t,Tango::AttrQuality qual,long x,long y,bool release)
+void Attribute::set_value_date_quality(T *p_data, time_t t, Tango::AttrQuality qual, long x, long y, bool release)
 {
-	set_value(p_data,x,y,release);
-	set_quality(qual,false);
-	set_date(t);
+  set_value(p_data, x, y, release);
+  set_quality(qual, false);
+  set_date(t);
 
-	if (qual == Tango::ATTR_INVALID)
-	{
-		if (!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
-			delete_seq();
-	}
+  if(qual == Tango::ATTR_INVALID)
+  {
+    if(!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
+      delete_seq();
+  }
 }
 
 #ifdef _TG_WINDOWS_
 template <typename T>
-void Attribute::set_value_date_quality(T *p_data,struct _timeb &t,Tango::AttrQuality qual,long x,long y,bool release)
+void Attribute::set_value_date_quality(T *p_data, struct _timeb &t, Tango::AttrQuality qual, long x, long y,
+                                       bool release)
 {
-	set_value(p_data,x,y,release);
-	set_quality(qual,false);
-	set_date(t);
+  set_value(p_data, x, y, release);
+  set_quality(qual, false);
+  set_date(t);
 
-	if (qual == Tango::ATTR_INVALID)
-	{
-		if (!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
-			delete_seq();
-	}
+  if(qual == Tango::ATTR_INVALID)
+  {
+    if(!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
+      delete_seq();
+  }
 }
 #else
 template <typename T>
-void Attribute::set_value_date_quality(T *p_data,struct timeval &t,Tango::AttrQuality qual,long x,long y,bool release)
+void Attribute::set_value_date_quality(T *p_data, struct timeval &t, Tango::AttrQuality qual, long x, long y,
+                                       bool release)
 {
-	set_value(p_data,x,y,release);
-	set_quality(qual,false);
-	set_date(t);
+  set_value(p_data, x, y, release);
+  set_quality(qual, false);
+  set_date(t);
 
-	if (qual == Tango::ATTR_INVALID)
-	{
-		if (!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
-			delete_seq();
-	}
+  if(qual == Tango::ATTR_INVALID)
+  {
+    if(!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
+      delete_seq();
+  }
 }
 #endif
 
-} // End of Tango namespace
+} // namespace Tango
 #endif // _ATTRSETVAL_TPP

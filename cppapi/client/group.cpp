@@ -8,7 +8,7 @@
 //
 // author(s) :          N.Leclercq
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -49,242 +49,226 @@ bool GroupReply::exception_enabled = false;
 //=============================================================================
 // class GroupElementFactory
 //=============================================================================
-GroupElements GroupElementFactory::instanciate(
-    const std::string& name_or_pattern,
-    int timeout_millis)
+GroupElements GroupElementFactory::instanciate(const std::string &name_or_pattern, int timeout_millis)
 {
-    return create_group_elements(resolve_device_names(name_or_pattern), timeout_millis);
+  return create_group_elements(resolve_device_names(name_or_pattern), timeout_millis);
 }
 
-GroupElements GroupElementFactory::create_group_elements(const DeviceNames& names, int timeout_millis)
+GroupElements GroupElementFactory::create_group_elements(const DeviceNames &names, int timeout_millis)
 {
-    GroupElements group_elements;
-    group_elements.reserve(names.size());
+  GroupElements group_elements;
+  group_elements.reserve(names.size());
 
-    for (DeviceNames::const_iterator name = names.begin(); name != names.end(); ++name)
-    {
-        group_elements.push_back(new GroupDeviceElement(*name, timeout_millis));
-    }
+  for(DeviceNames::const_iterator name = names.begin(); name != names.end(); ++name)
+  {
+    group_elements.push_back(new GroupDeviceElement(*name, timeout_millis));
+  }
 
-    return group_elements;
+  return group_elements;
 }
 
-DeviceNames GroupElementFactory::resolve_device_names(const std::string& name_or_pattern)
+DeviceNames GroupElementFactory::resolve_device_names(const std::string &name_or_pattern)
 {
-    const bool is_name = name_or_pattern.find('*') == std::string::npos;
+  const bool is_name = name_or_pattern.find('*') == std::string::npos;
 
-    if (is_name)
+  if(is_name)
+  {
+    return DeviceNames(1, name_or_pattern);
+  }
+  else
+  {
+    int db_port                              = 0;
+    std::string db_host                      = "";
+    std::string name_or_pattern_without_host = "";
+    parse_name(name_or_pattern, db_host, db_port, name_or_pattern_without_host);
+
+    const bool is_local_device = db_host.empty();
+
+    if(is_local_device)
     {
-        return DeviceNames(1, name_or_pattern);
+      return resolve_local_device_names(name_or_pattern);
     }
     else
     {
-        int db_port = 0;
-        std::string db_host = "";
-        std::string name_or_pattern_without_host = "";
-        parse_name(name_or_pattern, db_host, db_port, name_or_pattern_without_host);
-
-        const bool is_local_device = db_host.empty();
-
-        if (is_local_device)
-        {
-            return resolve_local_device_names(name_or_pattern);
-        }
-        else
-        {
-            return resolve_remote_device_names(
-                db_port,
-                db_host,
-                name_or_pattern_without_host);
-        }
+      return resolve_remote_device_names(db_port, db_host, name_or_pattern_without_host);
     }
+  }
 }
 
 AsynchRequest::~AsynchRequest() = default;
 
-AsynchRequest::AsynchRequest(const AsynchRequest &) = default;
-AsynchRequest & AsynchRequest::operator=(const AsynchRequest &) = default;
+AsynchRequest::AsynchRequest(const AsynchRequest &)            = default;
+AsynchRequest &AsynchRequest::operator=(const AsynchRequest &) = default;
 
-AsynchRequest::AsynchRequest(AsynchRequest &&) = default;
-AsynchRequest & AsynchRequest::operator=(AsynchRequest &&) = default;
+AsynchRequest::AsynchRequest(AsynchRequest &&)            = default;
+AsynchRequest &AsynchRequest::operator=(AsynchRequest &&) = default;
 
-DeviceNames GroupElementFactory::resolve_local_device_names(const std::string& name_or_pattern)
+DeviceNames GroupElementFactory::resolve_local_device_names(const std::string &name_or_pattern)
 {
-    std::string& name_or_patern_non_const = const_cast<std::string&>(name_or_pattern);
-    Database db;
-    DbDatum db_data = db.get_device_exported(name_or_patern_non_const);
+  std::string &name_or_patern_non_const = const_cast<std::string &>(name_or_pattern);
+  Database db;
+  DbDatum db_data = db.get_device_exported(name_or_patern_non_const);
 
-    DeviceNames device_names;
-    device_names.reserve(db_data.size());
-    db_data >> device_names;
-    return device_names;
+  DeviceNames device_names;
+  device_names.reserve(db_data.size());
+  db_data >> device_names;
+  return device_names;
 }
 
-DeviceNames GroupElementFactory::resolve_remote_device_names(
-    int db_port,
-    std::string& db_host,
-    std::string& name_or_pattern_without_host)
+DeviceNames GroupElementFactory::resolve_remote_device_names(int db_port, std::string &db_host,
+                                                             std::string &name_or_pattern_without_host)
 {
-    ApiUtil& api_util = *ApiUtil::instance();
-    const int db_index = api_util.get_db_ind(db_host, db_port);
-    Database& db = *(api_util.get_db_vect()[db_index]);
-    DbDatum db_data = db.get_device_exported(name_or_pattern_without_host);
+  ApiUtil &api_util  = *ApiUtil::instance();
+  const int db_index = api_util.get_db_ind(db_host, db_port);
+  Database &db       = *(api_util.get_db_vect()[db_index]);
+  DbDatum db_data    = db.get_device_exported(name_or_pattern_without_host);
 
-    DeviceNames device_names;
-    device_names.reserve(db_data.size());
-    db_data >> device_names;
-    return add_host_and_port_to_device_names(device_names, db_host, db_port);
+  DeviceNames device_names;
+  device_names.reserve(db_data.size());
+  db_data >> device_names;
+  return add_host_and_port_to_device_names(device_names, db_host, db_port);
 }
 
-DeviceNames GroupElementFactory::add_host_and_port_to_device_names(
-    const DeviceNames& names,
-    const std::string& host,
-    int port)
+DeviceNames GroupElementFactory::add_host_and_port_to_device_names(const DeviceNames &names, const std::string &host,
+                                                                   int port)
 {
-    DeviceNames full_names;
-    full_names.reserve(names.size());
+  DeviceNames full_names;
+  full_names.reserve(names.size());
 
-    for (DeviceNames::const_iterator name = names.begin(); name != names.end(); ++name)
+  for(DeviceNames::const_iterator name = names.begin(); name != names.end(); ++name)
+  {
+    full_names.push_back(build_full_device_name(host, port, *name));
+  }
+
+  return full_names;
+}
+
+std::string GroupElementFactory::build_full_device_name(const std::string &host, int port,
+                                                        const std::string &device_name)
+{
+  std::ostringstream buffer;
+  buffer << "tango://" << host << ":" << port << "/" << device_name;
+  return buffer.str();
+}
+
+void GroupElementFactory::parse_name(const std::string &p, std::string &db_host, int &db_port, std::string &dev_pattern)
+{
+  std::string pattern_name_low(p);
+  std::transform(pattern_name_low.begin(), pattern_name_low.end(), pattern_name_low.begin(), ::tolower);
+
+  // Try to find protocol specification in device pattern and analyse it
+
+  std::string name_wo_prot;
+  std::string::size_type pos = pattern_name_low.find(PROT_SEP);
+  if(pos == std::string::npos)
+  {
+    if(pattern_name_low.size() > 2)
     {
-        full_names.push_back(build_full_device_name(host, port, *name));
+      if((pattern_name_low[0] == '/') && (pattern_name_low[1] == '/'))
+        name_wo_prot = pattern_name_low.substr(2);
+      else
+        name_wo_prot = pattern_name_low;
     }
+    else
+      name_wo_prot = pattern_name_low;
+  }
+  else
+  {
+    std::string protocol = pattern_name_low.substr(0, pos);
 
-    return full_names;
-}
+    if(protocol == TANGO_PROTOCOL)
+    {
+      name_wo_prot = pattern_name_low.substr(pos + 3);
+    }
+    else
+    {
+      TangoSys_OMemStream desc;
+      desc << protocol;
+      desc << " protocol is an unsupported protocol" << std::ends;
+      TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_UnsupportedProtocol, desc.str());
+    }
+  }
 
-std::string GroupElementFactory::build_full_device_name(
-    const std::string& host,
-    int port,
-    const std::string& device_name)
-{
-    std::ostringstream buffer;
-    buffer << "tango://" << host << ":" << port << "/" << device_name;
-    return buffer.str();
-}
+  // Search if host and port are specified
 
-void GroupElementFactory::parse_name (const std::string& p, std::string &db_host,int &db_port,std::string &dev_pattern)
-{
-	std::string pattern_name_low(p);
-	std::transform(pattern_name_low.begin(),pattern_name_low.end(),pattern_name_low.begin(),::tolower);
+  pos = name_wo_prot.find(PORT_SEP);
+  if(pos == std::string::npos)
+  {
+    TangoSys_OMemStream desc;
+    desc << "Wrong device name syntax in " << p << std::ends;
 
-// Try to find protocol specification in device pattern and analyse it
+    TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_WrongDeviceNameSyntax, desc.str());
+  }
 
-	std::string name_wo_prot;
-	std::string::size_type pos = pattern_name_low.find(PROT_SEP);
-	if (pos == std::string::npos)
-	{
-		if (pattern_name_low.size() > 2)
-		{
-			if ((pattern_name_low[0] == '/') && (pattern_name_low[1] == '/'))
-				name_wo_prot = pattern_name_low.substr(2);
-			else
-				name_wo_prot = pattern_name_low;
-		}
-		else
-			name_wo_prot = pattern_name_low;
-	}
-	else
-	{
-		std::string protocol = pattern_name_low.substr(0,pos);
+  std::string bef_sep        = name_wo_prot.substr(0, pos);
+  std::string::size_type tmp = bef_sep.find(HOST_SEP);
+  if(tmp != std::string::npos)
+  {
+    std::string tmp_host(bef_sep.substr(0, tmp));
+    if(tmp_host.find('.') == std::string::npos)
+      DeviceProxy::get_fqdn(tmp_host);
+    db_host                 = tmp_host;
+    std::string db_port_str = bef_sep.substr(tmp + 1);
+    if(db_port_str.size() == 0)
+    {
+      TangoSys_OMemStream desc;
+      desc << "Wrong device name syntax in " << p << std::ends;
 
-		if (protocol == TANGO_PROTOCOL)
-		{
-			name_wo_prot = pattern_name_low.substr(pos + 3);
-		}
-		else
-		{
-			TangoSys_OMemStream desc;
-			desc << protocol;
-			desc << " protocol is an unsupported protocol" << std::ends;
-			TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_UnsupportedProtocol, desc.str());
-		}
-	}
-
-// Search if host and port are specified
-
-	pos = name_wo_prot.find(PORT_SEP);
-	if (pos == std::string::npos)
-	{
-		TangoSys_OMemStream desc;
-		desc << "Wrong device name syntax in " << p << std::ends;
-
-		TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_WrongDeviceNameSyntax, desc.str());
-	}
-
-	std::string bef_sep = name_wo_prot.substr(0,pos);
-	std::string::size_type tmp = bef_sep.find(HOST_SEP);
-	if (tmp != std::string::npos)
-	{
-		std::string tmp_host(bef_sep.substr(0,tmp));
-		if (tmp_host.find('.') == std::string::npos)
-			DeviceProxy::get_fqdn(tmp_host);
-		db_host = tmp_host;
-		std::string db_port_str = bef_sep.substr(tmp + 1);
-		if (db_port_str.size() == 0)
-		{
-			TangoSys_OMemStream desc;
-			desc << "Wrong device name syntax in " << p << std::ends;
-
-			TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_WrongDeviceNameSyntax, desc.str());
-		}
-		TangoSys_MemStream s;
-		s << db_port_str << std::ends;
-		s >> db_port;
-		dev_pattern = name_wo_prot.substr(pos + 1);
-	}
-	else
-		dev_pattern = name_wo_prot;
+      TANGO_THROW_API_EXCEPTION(ApiWrongNameExcept, API_WrongDeviceNameSyntax, desc.str());
+    }
+    TangoSys_MemStream s;
+    s << db_port_str << std::ends;
+    s >> db_port;
+    dev_pattern = name_wo_prot.substr(pos + 1);
+  }
+  else
+    dev_pattern = name_wo_prot;
 }
 
 //=============================================================================
 // class GroupReply
 //=============================================================================
-GroupReply::GroupReply ()
-  : dev_name_m("unknown"),
-    obj_name_m("unknown"),
-    has_failed_m(false),
-    group_element_enabled_m(true)
+GroupReply::GroupReply()
+    : dev_name_m("unknown"),
+      obj_name_m("unknown"),
+      has_failed_m(false),
+      group_element_enabled_m(true)
 {
-
 }
 
 //-----------------------------------------------------------------------------
-GroupReply::GroupReply (const std::string& _dev_name,
-                        const std::string& _obj_name,
-                        bool group_element_enabled)
- : dev_name_m(_dev_name),
-   obj_name_m(_obj_name),
-   has_failed_m(false),
-   group_element_enabled_m(group_element_enabled)
+GroupReply::GroupReply(const std::string &_dev_name, const std::string &_obj_name, bool group_element_enabled)
+    : dev_name_m(_dev_name),
+      obj_name_m(_obj_name),
+      has_failed_m(false),
+      group_element_enabled_m(group_element_enabled)
 {
-
 }
+
 //-----------------------------------------------------------------------------
-GroupReply::GroupReply (const std::string& _dev_name,
-                        const std::string& _obj_name,
-                        const Tango::DevFailed& exception,
-                        bool group_element_enabled)
- : dev_name_m(_dev_name),
-   obj_name_m(_obj_name),
-   has_failed_m(true),
-   group_element_enabled_m(group_element_enabled),
-   exception_m(exception)
+GroupReply::GroupReply(const std::string &_dev_name, const std::string &_obj_name, const Tango::DevFailed &exception,
+                       bool group_element_enabled)
+    : dev_name_m(_dev_name),
+      obj_name_m(_obj_name),
+      has_failed_m(true),
+      group_element_enabled_m(group_element_enabled),
+      exception_m(exception)
 {
-
 }
+
 //-----------------------------------------------------------------------------
 GroupReply::~GroupReply() = default;
 
-GroupReply::GroupReply(const GroupReply &) = default;
-GroupReply & GroupReply::operator=(const GroupReply &) = default;
+GroupReply::GroupReply(const GroupReply &)            = default;
+GroupReply &GroupReply::operator=(const GroupReply &) = default;
 
-GroupReply::GroupReply(GroupReply &&) = default;
-GroupReply & GroupReply::operator=(GroupReply &&) = default;
+GroupReply::GroupReply(GroupReply &&)            = default;
+GroupReply &GroupReply::operator=(GroupReply &&) = default;
 
 //-----------------------------------------------------------------------------
-bool GroupReply::enable_exception (bool exception_mode)
+bool GroupReply::enable_exception(bool exception_mode)
 {
-  bool tmp = GroupReply::exception_enabled;
+  bool tmp                      = GroupReply::exception_enabled;
   GroupReply::exception_enabled = exception_mode;
   return tmp;
 }
@@ -292,78 +276,78 @@ bool GroupReply::enable_exception (bool exception_mode)
 //=============================================================================
 // class GroupReplyList
 //=============================================================================
-GroupReplyList::GroupReplyList ()
-  : std::vector<GroupReply>(0), has_failed_m(false)
+GroupReplyList::GroupReplyList()
+    : std::vector<GroupReply>(0),
+      has_failed_m(false)
 {
   //-noop impl
 }
 
 GroupReplyList::~GroupReplyList() = default;
 
-GroupReplyList::GroupReplyList(const GroupReplyList &) = default;
-GroupReplyList & GroupReplyList::operator=(const GroupReplyList &) = default;
+GroupReplyList::GroupReplyList(const GroupReplyList &)            = default;
+GroupReplyList &GroupReplyList::operator=(const GroupReplyList &) = default;
 
-GroupReplyList::GroupReplyList(GroupReplyList &&) = default;
-GroupReplyList & GroupReplyList::operator=(GroupReplyList &&) = default;
+GroupReplyList::GroupReplyList(GroupReplyList &&)            = default;
+GroupReplyList &GroupReplyList::operator=(GroupReplyList &&) = default;
 
 //=============================================================================
 // class GroupCmdReply : reply to command executed on a group
 //=============================================================================
-GroupCmdReply::GroupCmdReply ()
- : GroupReply()
+GroupCmdReply::GroupCmdReply()
+    : GroupReply()
 {
   //-noop impl
 }
 
 //-----------------------------------------------------------------------------
-GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
-                              const std::string& _obj_name,
-                              const Tango::DeviceData& _dev_data)
- : GroupReply(_dev_name, _obj_name, true), data_m(_dev_data)
+GroupCmdReply::GroupCmdReply(const std::string &_dev_name, const std::string &_obj_name,
+                             const Tango::DeviceData &_dev_data)
+    : GroupReply(_dev_name, _obj_name, true),
+      data_m(_dev_data)
 {
   //-noop impl
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
-                              const std::string& _obj_name,
-                              const Tango::DevFailed& _exception)
- : GroupReply(_dev_name, _obj_name, _exception, true)
+GroupCmdReply::GroupCmdReply(const std::string &_dev_name, const std::string &_obj_name,
+                             const Tango::DevFailed &_exception)
+    : GroupReply(_dev_name, _obj_name, _exception, true)
 {
   //-noop impl
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReply::GroupCmdReply (const std::string& _dev_name,
-                              const std::string& _obj_name,
-                              bool group_element_enabled)
- : GroupReply(_dev_name, _obj_name, group_element_enabled)
+GroupCmdReply::GroupCmdReply(const std::string &_dev_name, const std::string &_obj_name, bool group_element_enabled)
+    : GroupReply(_dev_name, _obj_name, group_element_enabled)
 {
   //-noop impl
 }
 
 GroupCmdReply::~GroupCmdReply() = default;
 
-GroupCmdReply::GroupCmdReply(const GroupCmdReply &) = default;
-GroupCmdReply & GroupCmdReply::operator=(const GroupCmdReply &) = default;
+GroupCmdReply::GroupCmdReply(const GroupCmdReply &)            = default;
+GroupCmdReply &GroupCmdReply::operator=(const GroupCmdReply &) = default;
 
-GroupCmdReply::GroupCmdReply(GroupCmdReply &&) = default;
-GroupCmdReply & GroupCmdReply::operator=(GroupCmdReply &&) = default;
+GroupCmdReply::GroupCmdReply(GroupCmdReply &&)            = default;
+GroupCmdReply &GroupCmdReply::operator=(GroupCmdReply &&) = default;
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-/*const*/ DeviceData& GroupCmdReply::get_data ()
+/*const*/ DeviceData &GroupCmdReply::get_data()
 {
-  if (group_element_enabled_m == false && exception_enabled)
+  if(group_element_enabled_m == false && exception_enabled)
   {
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].desc = Tango::string_dup("no available data");
-		errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].desc     = Tango::string_dup("no available data");
+    errors[0].reason   = Tango::string_dup("no data - group member is disabled");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     throw df;
   }
-  else if (has_failed_m && exception_enabled)
+  else if(has_failed_m && exception_enabled)
   {
     throw exception_m;
   }
@@ -371,55 +355,57 @@ GroupCmdReply & GroupCmdReply::operator=(GroupCmdReply &&) = default;
   data_m.exceptions(exception_enabled ? bs.set() : bs.reset());
   return data_m;
 }
+
 //-----------------------------------------------------------------------------
-bool GroupCmdReply::extract (std::vector<DevLong>& vl, std::vector<std::string>& vs)
+bool GroupCmdReply::extract(std::vector<DevLong> &vl, std::vector<std::string> &vs)
 {
   bool result = true;
-  if (group_element_enabled_m == false)
+  if(group_element_enabled_m == false)
   {
-    if (exception_enabled)
+    if(exception_enabled)
     {
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("no available data");
-		  errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("no available data");
+      errors[0].reason   = Tango::string_dup("no data - group member is disabled");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       throw df;
     }
     result = false;
   }
-  else if (has_failed_m == true)
+  else if(has_failed_m == true)
   {
-    if (exception_enabled)
+    if(exception_enabled)
       throw exception_m;
     result = false;
   }
-  else {
+  else
+  {
     std::bitset<DeviceData::numFlags> bs;
     data_m.exceptions(exception_enabled ? bs.set() : bs.reset());
     try
     {
       result = data_m.extract(vl, vs);
     }
-    catch (const Tango::DevFailed& df)
+    catch(const Tango::DevFailed &df)
     {
       exception_m = df;
-      if (exception_enabled)
+      if(exception_enabled)
         throw exception_m;
       result = false;
     }
-    catch (...)
+    catch(...)
     {
-      if (exception_enabled)
+      if(exception_enabled)
       {
         Tango::DevErrorList errors(1);
-		    errors.length(1);
-		    errors[0].severity = Tango::ERR;
-		    errors[0].desc = Tango::string_dup("unknown exception caught");
-		    errors[0].reason = Tango::string_dup("an error occurred while trying to extract data");
-		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+        errors.length(1);
+        errors[0].severity = Tango::ERR;
+        errors[0].desc     = Tango::string_dup("unknown exception caught");
+        errors[0].reason   = Tango::string_dup("an error occurred while trying to extract data");
+        errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         exception_m = df;
         throw exception_m;
@@ -429,28 +415,29 @@ bool GroupCmdReply::extract (std::vector<DevLong>& vl, std::vector<std::string>&
   }
   return result;
 }
+
 //-----------------------------------------------------------------------------
-bool GroupCmdReply::extract (std::vector<double>& vd, std::vector<std::string>& vs)
+bool GroupCmdReply::extract(std::vector<double> &vd, std::vector<std::string> &vs)
 {
   bool result = true;
-  if (group_element_enabled_m == false)
+  if(group_element_enabled_m == false)
   {
-    if (exception_enabled)
+    if(exception_enabled)
     {
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("no available data");
-		  errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("no available data");
+      errors[0].reason   = Tango::string_dup("no data - group member is disabled");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       throw df;
     }
     result = false;
   }
-  else if (has_failed_m == true)
+  else if(has_failed_m == true)
   {
-    if (exception_enabled)
+    if(exception_enabled)
       throw exception_m;
     result = false;
   }
@@ -458,26 +445,29 @@ bool GroupCmdReply::extract (std::vector<double>& vd, std::vector<std::string>& 
   {
     std::bitset<DeviceData::numFlags> bs;
     data_m.exceptions(exception_enabled ? bs.set() : bs.reset());
-    try {
+    try
+    {
       result = data_m.extract(vd, vs);
     }
-    catch (const Tango::DevFailed& df) {
+    catch(const Tango::DevFailed &df)
+    {
       exception_m = df;
-      if (exception_enabled) {
+      if(exception_enabled)
+      {
         throw exception_m;
       }
       result = false;
     }
-    catch (...)
+    catch(...)
     {
-      if (exception_enabled)
+      if(exception_enabled)
       {
         Tango::DevErrorList errors(1);
-		    errors.length(1);
-		    errors[0].severity = Tango::ERR;
-		    errors[0].desc = Tango::string_dup("unknown exception caught");
-		    errors[0].reason = Tango::string_dup("an error occurred while trying to extract data");
-		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+        errors.length(1);
+        errors[0].severity = Tango::ERR;
+        errors[0].desc     = Tango::string_dup("unknown exception caught");
+        errors[0].reason   = Tango::string_dup("an error occurred while trying to extract data");
+        errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         exception_m = df;
         throw exception_m;
@@ -491,19 +481,20 @@ bool GroupCmdReply::extract (std::vector<double>& vd, std::vector<std::string>& 
 //=============================================================================
 // class GroupCmdReplyList
 //=============================================================================
-GroupCmdReplyList::GroupCmdReplyList ()
-  : std::vector<GroupCmdReply>(0), has_failed_m(false)
+GroupCmdReplyList::GroupCmdReplyList()
+    : std::vector<GroupCmdReply>(0),
+      has_failed_m(false)
 {
   //-noop impl
 }
 
 GroupCmdReplyList::~GroupCmdReplyList() = default;
 
-GroupCmdReplyList::GroupCmdReplyList(const GroupCmdReplyList &) = default;
-GroupCmdReplyList & GroupCmdReplyList::operator=(const GroupCmdReplyList &) = default;
+GroupCmdReplyList::GroupCmdReplyList(const GroupCmdReplyList &)            = default;
+GroupCmdReplyList &GroupCmdReplyList::operator=(const GroupCmdReplyList &) = default;
 
-GroupCmdReplyList::GroupCmdReplyList(GroupCmdReplyList &&) = default;
-GroupCmdReplyList & GroupCmdReplyList::operator=(GroupCmdReplyList &&) = default;
+GroupCmdReplyList::GroupCmdReplyList(GroupCmdReplyList &&)            = default;
+GroupCmdReplyList &GroupCmdReplyList::operator=(GroupCmdReplyList &&) = default;
 
 //=============================================================================
 // class GroupAttrReply : reply to read/write attr on a group
@@ -511,53 +502,52 @@ GroupCmdReplyList & GroupCmdReplyList::operator=(GroupCmdReplyList &&) = default
 GroupAttrReply::GroupAttrReply() = default;
 
 //-----------------------------------------------------------------------------
-GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
-                                const std::string& _obj_name,
-                                const Tango::DeviceAttribute& _dev_attr)
- : GroupReply(_dev_name, _obj_name, true), data_m(_dev_attr)
+GroupAttrReply::GroupAttrReply(const std::string &_dev_name, const std::string &_obj_name,
+                               const Tango::DeviceAttribute &_dev_attr)
+    : GroupReply(_dev_name, _obj_name, true),
+      data_m(_dev_attr)
 {
   //-noop impl
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
-                                const std::string& _obj_name,
-                                const Tango::DevFailed& _exception)
- : GroupReply(_dev_name, _obj_name, _exception, true)
+GroupAttrReply::GroupAttrReply(const std::string &_dev_name, const std::string &_obj_name,
+                               const Tango::DevFailed &_exception)
+    : GroupReply(_dev_name, _obj_name, _exception, true)
 {
   //-noop impl
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReply::GroupAttrReply (const std::string& _dev_name,
-                                const std::string& _obj_name,
-                                bool _group_element_enabled)
- : GroupReply(_dev_name, _obj_name, _group_element_enabled)
+GroupAttrReply::GroupAttrReply(const std::string &_dev_name, const std::string &_obj_name, bool _group_element_enabled)
+    : GroupReply(_dev_name, _obj_name, _group_element_enabled)
 {
   //-noop impl
 }
 
 GroupAttrReply::~GroupAttrReply() = default;
 
-GroupAttrReply::GroupAttrReply(const GroupAttrReply &) = default;
-GroupAttrReply & GroupAttrReply::operator=(const GroupAttrReply &) = default;
+GroupAttrReply::GroupAttrReply(const GroupAttrReply &)            = default;
+GroupAttrReply &GroupAttrReply::operator=(const GroupAttrReply &) = default;
 
-GroupAttrReply::GroupAttrReply(GroupAttrReply &&) = default;
-GroupAttrReply & GroupAttrReply::operator=(GroupAttrReply &&) = default;
+GroupAttrReply::GroupAttrReply(GroupAttrReply &&)            = default;
+GroupAttrReply &GroupAttrReply::operator=(GroupAttrReply &&) = default;
 
 //-----------------------------------------------------------------------------
-/*const*/ DeviceAttribute& GroupAttrReply::get_data ()
+/*const*/ DeviceAttribute &GroupAttrReply::get_data()
 {
-  if (group_element_enabled_m == false && exception_enabled)
+  if(group_element_enabled_m == false && exception_enabled)
   {
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].desc = Tango::string_dup("no available data");
-		errors[0].reason = Tango::string_dup("no data - group member is disabled");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].desc     = Tango::string_dup("no available data");
+    errors[0].reason   = Tango::string_dup("no data - group member is disabled");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     throw df;
   }
-  else if (has_failed_m && exception_enabled)
+  else if(has_failed_m && exception_enabled)
   {
     throw exception_m;
   }
@@ -569,72 +559,80 @@ GroupAttrReply & GroupAttrReply::operator=(GroupAttrReply &&) = default;
 //=============================================================================
 // class GroupAttrReplyList
 //=============================================================================
-GroupAttrReplyList::GroupAttrReplyList ()
-  : std::vector<GroupAttrReply>(0), has_failed_m(false)
+GroupAttrReplyList::GroupAttrReplyList()
+    : std::vector<GroupAttrReply>(0),
+      has_failed_m(false)
 {
   //-noop impl
 }
 
 GroupAttrReplyList::~GroupAttrReplyList() = default;
 
-GroupAttrReplyList::GroupAttrReplyList(const GroupAttrReplyList &) = default;
-GroupAttrReplyList & GroupAttrReplyList::operator=(const GroupAttrReplyList &) = default;
+GroupAttrReplyList::GroupAttrReplyList(const GroupAttrReplyList &)            = default;
+GroupAttrReplyList &GroupAttrReplyList::operator=(const GroupAttrReplyList &) = default;
 
-GroupAttrReplyList::GroupAttrReplyList(GroupAttrReplyList &&) = default;
-GroupAttrReplyList & GroupAttrReplyList::operator=(GroupAttrReplyList &&) = default;
+GroupAttrReplyList::GroupAttrReplyList(GroupAttrReplyList &&)            = default;
+GroupAttrReplyList &GroupAttrReplyList::operator=(GroupAttrReplyList &&) = default;
 
 //=============================================================================
 // class GroupElement
 //=============================================================================
-GroupElement::GroupElement (const std::string& _name, GroupElement* _parent)
-  : name(_name), parent(_parent), enabled(true)
+GroupElement::GroupElement(const std::string &_name, GroupElement *_parent)
+    : name(_name),
+      parent(_parent),
+      enabled(true)
 {
   //- noop ctor
 }
+
 //-----------------------------------------------------------------------------
 GroupElement::~GroupElement()
 {
   //- noop dtor
 }
+
 //-----------------------------------------------------------------------------
-bool GroupElement::contains (const std::string& n, TANGO_UNUSED(bool fwd))
+bool GroupElement::contains(const std::string &n, TANGO_UNUSED(bool fwd))
 {
   std::string::size_type pos = n.find('*', 0);
   return (pos == std::string::npos) ? name_equals(n) : name_matches(n);
 }
+
 //-----------------------------------------------------------------------------
-GroupElement* GroupElement::find_i (const std::string& n, TANGO_UNUSED(bool fwd))
-{
-  return name_equals(n) ? this : 0;
-}
+GroupElement *GroupElement::find_i(const std::string &n, TANGO_UNUSED(bool fwd)) { return name_equals(n) ? this : 0; }
+
 //-----------------------------------------------------------------------------
-TokenList GroupElement::tokenize_i (const std::string& p)
+TokenList GroupElement::tokenize_i(const std::string &p)
 {
 #if defined(_LOCAL_DEBUGGING)
   cout << "\t|- Group::tokenize::pattern [" << p << "]" << std::endl;
 #endif
-	int done = 0;
+  int done = 0;
   std::string token;
   std::string::size_type pos;
   std::string::size_type last_pos = 0;
   std::vector<std::string> tokens(0);
-	do {
-		pos = p.find('*', last_pos);
-		if (pos != 0) {
-			if (pos == std::string::npos) {
-				if (last_pos >= p.size())
-					break;
-				pos = p.size();
-				done = 1;
-			}
-			token.assign(p.begin() + last_pos, p.begin() + pos);
-			tokens.push_back(token);
-		}
-		last_pos = pos + 1;
-  } while (!done);
+  do
+  {
+    pos = p.find('*', last_pos);
+    if(pos != 0)
+    {
+      if(pos == std::string::npos)
+      {
+        if(last_pos >= p.size())
+          break;
+        pos  = p.size();
+        done = 1;
+      }
+      token.assign(p.begin() + last_pos, p.begin() + pos);
+      tokens.push_back(token);
+    }
+    last_pos = pos + 1;
+  } while(!done);
 #if defined(_LOCAL_DEBUGGING)
   cout << "\t\t|- tokens: [";
-  for (int t = 0; t < tokens.size(); t++) {
+  for(int t = 0; t < tokens.size(); t++)
+  {
     cout << tokens[t];
     cout << ((t == tokens.size() - 1) ? "]" : ";");
   }
@@ -642,111 +640,120 @@ TokenList GroupElement::tokenize_i (const std::string& p)
 #endif
   return tokens;
 }
+
 //-----------------------------------------------------------------------------
-bool GroupElement::match_i (const std::string& _p, const TokenList& tokens)
+bool GroupElement::match_i(const std::string &_p, const TokenList &tokens)
 {
   unsigned int t;
   std::string p(_p);
-  std::transform(p.begin(),p.end(),p.begin(),::tolower);
+  std::transform(p.begin(), p.end(), p.begin(), ::tolower);
 #if defined(_LOCAL_DEBUGGING)
   cout << "\t|- Group::match::pattern " << _p << std::endl;
 #endif
   bool result = false;
   std::string::size_type pos;
-  for (t = 0, pos = 0; t < tokens.size(); t++)
+  for(t = 0, pos = 0; t < tokens.size(); t++)
   {
     std::string token(tokens[t]);
-    std::transform(token.begin(),token.end(),token.begin(),::tolower);
-	  pos = p.find(token, pos);
-	  if (pos == std::string::npos)
-		  break;
+    std::transform(token.begin(), token.end(), token.begin(), ::tolower);
+    pos = p.find(token, pos);
+    if(pos == std::string::npos)
+      break;
   }
-  if (t == tokens.size()) {
+  if(t == tokens.size())
+  {
     result = true;
   }
 #if defined(_LOCAL_DEBUGGING)
-  if (result == true) {
+  if(result == true)
+  {
     cout << "\t\t|- Group::match::pattern matches tokens" << std::endl;
-  } else {
+  }
+  else
+  {
     cout << "\t\t|- Group::match::pattern does NOT match tokens" << std::endl;
   }
 #endif
   return result;
 }
+
 //-----------------------------------------------------------------------------
-bool GroupElement::name_matches (const std::string& n)
+bool GroupElement::name_matches(const std::string &n)
 {
   TokenList tokens = tokenize_i(n);
   return match_i(name, tokens) || match_i(get_fully_qualified_name(), tokens);
 }
+
 //-----------------------------------------------------------------------------
-bool GroupElement::name_equals (const std::string& in_name)
+bool GroupElement::name_equals(const std::string &in_name)
 {
   std::string lin(in_name);
-  std::transform(lin.begin(),lin.end(),lin.begin(),::tolower);
+  std::transform(lin.begin(), lin.end(), lin.begin(), ::tolower);
 
   std::string lfqn(get_fully_qualified_name());
-  std::transform(lfqn.begin(),lfqn.end(),lfqn.begin(),::tolower);
+  std::transform(lfqn.begin(), lfqn.end(), lfqn.begin(), ::tolower);
 
   std::string ln(name);
-  std::transform(ln.begin(),ln.end(),ln.begin(),::tolower);
+  std::transform(ln.begin(), ln.end(), ln.begin(), ::tolower);
 
   return lin == ln || lin == lfqn;
 }
+
 //-----------------------------------------------------------------------------
-GroupElement* GroupElement::set_parent (GroupElement* _parent)
+GroupElement *GroupElement::set_parent(GroupElement *_parent)
 {
-  GroupElement* previous_parent = parent;
-  parent = _parent;
+  GroupElement *previous_parent = parent;
+  parent                        = _parent;
   return previous_parent;
 }
+
 //-----------------------------------------------------------------------------
-bool GroupElement::is_connected ()
-{
-  return true;
-}
+bool GroupElement::is_connected() { return true; }
 
 //=============================================================================
 // class Group
 //=============================================================================
-Group::Group (const std::string& name)
-  : GroupElement(name), asynch_req_id(0)
+Group::Group(const std::string &name)
+    : GroupElement(name),
+      asynch_req_id(0)
 {
   //- noop ctor
 }
+
 //-----------------------------------------------------------------------------
-Group::~Group ()
+Group::~Group()
 {
   remove_all();
   arp.clear();
 }
+
 //-----------------------------------------------------------------------------
-Group * Group::get_parent () const
-{
-  return reinterpret_cast<Group*>(parent);
-}
+Group *Group::get_parent() const { return reinterpret_cast<Group *>(parent); }
+
 //-----------------------------------------------------------------------------
-bool Group::is_root_group () const
-{
-  return parent ? false : true;
-}
+bool Group::is_root_group() const { return parent ? false : true; }
+
 //-----------------------------------------------------------------------------
-std::vector<std::string> Group::get_device_list (bool fwd)
+std::vector<std::string> Group::get_device_list(bool fwd)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   std::vector<std::string> dl(0);
   std::vector<std::string> sub_dl(0);
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i()) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i())
+    {
       dl.push_back((*it)->get_name());
     }
-    else if (fwd) {
-      sub_dl = (static_cast<Group*>(*it))->get_device_list(fwd);
-      if (sub_dl.empty() == false) {
+    else if(fwd)
+    {
+      sub_dl = (static_cast<Group *>(*it))->get_device_list(fwd);
+      if(sub_dl.empty() == false)
+      {
         dl.insert(dl.end(), sub_dl.begin(), sub_dl.end());
       }
       sub_dl.clear();
@@ -754,20 +761,25 @@ std::vector<std::string> Group::get_device_list (bool fwd)
   }
   return dl;
 }
+
 //-----------------------------------------------------------------------------
-GroupElements Group::get_hiearchy ()
+GroupElements Group::get_hiearchy()
 {
   GroupElements te(0);
   GroupElements sub_te(0);
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i()) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i())
+    {
       te.push_back(*it);
     }
-    else {
-      sub_te = (static_cast<Group*>(*it))->get_hiearchy();
-      if (sub_te.empty() == false) {
+    else
+    {
+      sub_te = (static_cast<Group *>(*it))->get_hiearchy();
+      if(sub_te.empty() == false)
+      {
         te.insert(te.end(), sub_te.begin(), sub_te.end());
       }
       sub_te.clear();
@@ -775,29 +787,34 @@ GroupElements Group::get_hiearchy ()
   }
   return te;
 }
+
 //-----------------------------------------------------------------------------
-long Group::get_size (bool fwd)
+long Group::get_size(bool fwd)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   return get_size_i(fwd);
 }
+
 //-----------------------------------------------------------------------------
-long Group::get_size_i (bool fwd)
+long Group::get_size_i(bool fwd)
 {
-  long size = 0;
-  GroupElementsIterator it = elements.begin();
+  long size                 = 0;
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || fwd) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
       size += (*it)->get_size_i();
     }
   }
   return size;
 }
+
 //-----------------------------------------------------------------------------
-void Group::add (Group* g, int tmo_ms)
+void Group::add(Group *g, int tmo_ms)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
@@ -805,11 +822,14 @@ void Group::add (Group* g, int tmo_ms)
 #if defined(_LOCAL_DEBUGGING)
   cout << "Group::add::adding sub-group " << (g ? g->get_name() : "NULL") << std::endl;
 #endif
-  if (g == 0 || get_group_i(g->get_name()) == g || g->get_group_i(get_name()) == this) {
+  if(g == 0 || get_group_i(g->get_name()) == g || g->get_group_i(get_name()) == this)
+  {
 #if defined(_LOCAL_DEBUGGING)
-    cout << "Group::add::failed to add group" << (g ? (g->get_name() + " (self ref. or already in group)") : "NULL") << std::endl;
+    cout << "Group::add::failed to add group" << (g ? (g->get_name() + " (self ref. or already in group)") : "NULL")
+         << std::endl;
 #endif
-    if(g != 0) {
+    if(g != 0)
+    {
       g->set_timeout_millis(tmo_ms);
     }
     return;
@@ -817,59 +837,73 @@ void Group::add (Group* g, int tmo_ms)
   add_i(g, false);
   g->set_timeout_millis(tmo_ms);
 }
+
 //-----------------------------------------------------------------------------
-void Group::add (const std::string& p, int tmo_ms)
+void Group::add(const std::string &p, int tmo_ms)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  GroupElements el = GroupElementFactory::instanciate(p,tmo_ms);
-  for (unsigned int e = 0; e < el.size(); e++) {
-    if (el[e] && (add_i(el[e]) == false)) {
-      GroupElement* te = find_i(el[e]->get_name());
-      try {
+  GroupElements el = GroupElementFactory::instanciate(p, tmo_ms);
+  for(unsigned int e = 0; e < el.size(); e++)
+  {
+    if(el[e] && (add_i(el[e]) == false))
+    {
+      GroupElement *te = find_i(el[e]->get_name());
+      try
+      {
         te->set_timeout_millis(tmo_ms);
       }
-      catch(...) {
+      catch(...)
+      {
         // ignore errors
       }
       delete el[e];
     }
   }
 }
+
 //-----------------------------------------------------------------------------
-void Group::add (const std::vector<std::string>& pl, int tmo_ms)
+void Group::add(const std::vector<std::string> &pl, int tmo_ms)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  for (unsigned int p = 0; p < pl.size(); p++) {
-    GroupElements el = GroupElementFactory::instanciate(pl[p],tmo_ms);
-    for (unsigned int e = 0; e < el.size(); e++) {
-      if (el[e] && (add_i(el[e]) == false)) {
-        GroupElement* te = find_i(el[e]->get_name());
-        try {
+  for(unsigned int p = 0; p < pl.size(); p++)
+  {
+    GroupElements el = GroupElementFactory::instanciate(pl[p], tmo_ms);
+    for(unsigned int e = 0; e < el.size(); e++)
+    {
+      if(el[e] && (add_i(el[e]) == false))
+      {
+        GroupElement *te = find_i(el[e]->get_name());
+        try
+        {
           te->set_timeout_millis(tmo_ms);
         }
-	      catch(...) {
-	        // ignore errors
-	      }
-	      delete el[e];
+        catch(...)
+        {
+          // ignore errors
+        }
+        delete el[e];
       }
     }
   }
 }
+
 //-----------------------------------------------------------------------------
-bool Group::add_i (GroupElement* e, bool fwd)
+bool Group::add_i(GroupElement *e, bool fwd)
 {
-  if (e == 0 || e == this) {
+  if(e == 0 || e == this)
+  {
 #if defined(_LOCAL_DEBUGGING)
     cout << "Group::add_i::failed to add " << (e ? (e->get_name() + " (null or self ref)") : "NULL") << std::endl;
 #endif
     return false;
   }
-  GroupElement* te = find_i(e->get_name(), fwd);
-  if (te != 0 && te != this) {
+  GroupElement *te = find_i(e->get_name(), fwd);
+  if(te != 0 && te != this)
+  {
 #if defined(_LOCAL_DEBUGGING)
     cout << "Group::add_i::failed to add " << e->get_name() << " (already in group)" << std::endl;
 #endif
@@ -879,8 +913,9 @@ bool Group::add_i (GroupElement* e, bool fwd)
   e->set_parent(this);
   return true;
 }
+
 //-----------------------------------------------------------------------------
-void Group::remove (const std::string& p, bool fwd)
+void Group::remove(const std::string &p, bool fwd)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
@@ -890,8 +925,9 @@ void Group::remove (const std::string& p, bool fwd)
 #endif
   remove_i(p, fwd);
 }
+
 //-----------------------------------------------------------------------------
-void Group::remove (const std::vector<std::string>& pl, bool fwd)
+void Group::remove(const std::vector<std::string> &pl, bool fwd)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
@@ -899,60 +935,75 @@ void Group::remove (const std::vector<std::string>& pl, bool fwd)
 #if defined(_LOCAL_DEBUGGING)
   cout << "Group::remove::pattern list" << std::endl;
 #endif
-  for (unsigned int p = 0; p < pl.size(); p++) {
+  for(unsigned int p = 0; p < pl.size(); p++)
+  {
     remove_i(pl[p], fwd);
   }
 }
+
 //-----------------------------------------------------------------------------
-void Group::remove_i (const std::string& p, bool fwd)
+void Group::remove_i(const std::string &p, bool fwd)
 {
 #if defined(_LOCAL_DEBUGGING)
   cout << "\t|- Group::remove_i" << std::endl;
 #endif
-  if (name_equals(p)) {
+  if(name_equals(p))
+  {
 #if defined(_LOCAL_DEBUGGING)
     cout << "Group::remove_i::failed to remove " << p << " (can't remove self)" << std::endl;
 #endif
     return;
   }
   GroupElementsIterator it;
-  if (p.find('*', 0) == std::string::npos) {
-    for (it = elements.begin(); it != elements.end(); ++it) {
-      if ((*it)->name_equals(p)) {
+  if(p.find('*', 0) == std::string::npos)
+  {
+    for(it = elements.begin(); it != elements.end(); ++it)
+    {
+      if((*it)->name_equals(p))
+      {
         delete *it;
         elements.erase(it);
         break;
       }
     }
   }
-  else {
-    std::vector<GroupElement*> remove_list(0);
-    for (it = elements.begin(); it != elements.end(); ++it) {
-      if ((*it)->name_matches(p)) {
+  else
+  {
+    std::vector<GroupElement *> remove_list(0);
+    for(it = elements.begin(); it != elements.end(); ++it)
+    {
+      if((*it)->name_matches(p))
+      {
         remove_list.push_back(*it);
       }
     }
-    for (unsigned int i = 0; i < remove_list.size(); i++) {
+    for(unsigned int i = 0; i < remove_list.size(); i++)
+    {
       it = std::find(elements.begin(), elements.end(), remove_list[i]);
-      if (it != elements.end()) {
-# if defined(_LOCAL_DEBUGGING)
+      if(it != elements.end())
+      {
+#if defined(_LOCAL_DEBUGGING)
         cout << "\t|- Group::remove_i::removing " << (*it)->get_name() << std::endl;
-# endif // _LOCAL_DEBUGGING
+#endif // _LOCAL_DEBUGGING
         delete remove_list[i];
         elements.erase(it);
       }
     }
   }
-  if ( fwd ) {
-    for (it = elements.begin(); it != elements.end(); ++it) {
-      if ( (*it)->is_group_i() ) {
-        reinterpret_cast<Group*>((*it))->remove(p, fwd);
+  if(fwd)
+  {
+    for(it = elements.begin(); it != elements.end(); ++it)
+    {
+      if((*it)->is_group_i())
+      {
+        reinterpret_cast<Group *>((*it))->remove(p, fwd);
       }
     }
   }
 }
+
 //-----------------------------------------------------------------------------
-void Group::remove_all ()
+void Group::remove_all()
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
@@ -960,307 +1011,348 @@ void Group::remove_all ()
 #if defined(_LOCAL_DEBUGGING)
   cout << "Group::remove_all::" << get_name() << std::endl;
 #endif
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
+  for(; it != end; ++it)
+  {
     delete *it;
   }
   elements.clear();
 }
+
 //-----------------------------------------------------------------------------
-bool Group::contains (const std::string& n, bool fwd)
+bool Group::contains(const std::string &n, bool fwd)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   return (find_i(n, fwd) != 0) ? true : false;
 }
+
 //-----------------------------------------------------------------------------
-GroupElement* Group::find_i (const std::string& n, bool fwd)
+GroupElement *Group::find_i(const std::string &n, bool fwd)
 {
-  std::string::size_type pos = n.find('*',0);
-  bool is_pattern = (pos != std::string::npos) ? true : false;
-  if (is_pattern) {
-    if (name_matches(n))
-      return this;
-  }
-  else {
-    if (name_equals(n))
-      return this;
-  }
-  GroupElementsIterator it = elements.begin();
-  GroupElementsIterator end = elements.end();
-  for (; it != end; ++it)
+  std::string::size_type pos = n.find('*', 0);
+  bool is_pattern            = (pos != std::string::npos) ? true : false;
+  if(is_pattern)
   {
-    if (is_pattern) {
-      if ((*it)->name_matches(n))
+    if(name_matches(n))
+      return this;
+  }
+  else
+  {
+    if(name_equals(n))
+      return this;
+  }
+  GroupElementsIterator it  = elements.begin();
+  GroupElementsIterator end = elements.end();
+  for(; it != end; ++it)
+  {
+    if(is_pattern)
+    {
+      if((*it)->name_matches(n))
         return *it;
     }
-    else {
-      if ((*it)->name_equals(n))
+    else
+    {
+      if((*it)->name_equals(n))
         return *it;
     }
   }
-  GroupElement* e = 0;
-  if (fwd) {
-    it = elements.begin();
+  GroupElement *e = 0;
+  if(fwd)
+  {
+    it  = elements.begin();
     end = elements.end();
-    while (it != end && e == 0) {
+    while(it != end && e == 0)
+    {
       e = (*it)->find_i(n);
       ++it;
     }
   }
   return e;
 }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* Group::get_device (const std::string& n)
+DeviceProxy *Group::get_device(const std::string &n)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  DeviceProxy* dp = 0;
-  GroupElementsIterator it = elements.begin();
+  DeviceProxy *dp           = 0;
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  while (it != end && dp == 0) {
+  while(it != end && dp == 0)
+  {
     dp = (*it)->get_device(n);
     ++it;
   }
   return dp;
 }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* Group::get_device (long idx)
+DeviceProxy *Group::get_device(long idx)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  DeviceProxy* dp = 0;
-  GroupElementsIterator it = elements.begin();
+  DeviceProxy *dp           = 0;
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  while (it != end && dp == 0) {
+  while(it != end && dp == 0)
+  {
     dp = (*it)->get_device(idx--);
     ++it;
   }
   return dp;
 }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* Group::operator[] (long idx)
-{
-  return get_device(idx);
-}
+DeviceProxy *Group::operator[](long idx) { return get_device(idx); }
+
 //-----------------------------------------------------------------------------
-Group* Group::get_group (const std::string& n)
+Group *Group::get_group(const std::string &n)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   return get_group_i(n);
 }
+
 //-----------------------------------------------------------------------------
-Group* Group::get_group_i (const std::string& n)
+Group *Group::get_group_i(const std::string &n)
 {
-  GroupElement* e = find_i(n, true);
-  return (e != 0 && e->is_group_i()) ? reinterpret_cast<Group*>(e) : 0;
+  GroupElement *e = find_i(n, true);
+  return (e != 0 && e->is_group_i()) ? reinterpret_cast<Group *>(e) : 0;
 }
+
 //-----------------------------------------------------------------------------
-void Group::enable (const std::string& n, bool fwd)
+void Group::enable(const std::string &n, bool fwd)
 {
-  GroupElement* e = find_i(n, fwd);
-  if (e) e->enable();
+  GroupElement *e = find_i(n, fwd);
+  if(e)
+    e->enable();
 }
+
 //-----------------------------------------------------------------------------
-void Group::disable (const std::string& n, bool fwd)
+void Group::disable(const std::string &n, bool fwd)
 {
-  GroupElement* e = find_i(n, fwd);
-  if (e) e->disable();
+  GroupElement *e = find_i(n, fwd);
+  if(e)
+    e->disable();
 }
+
 //-----------------------------------------------------------------------------
-bool Group::ping (bool fwd)
+bool Group::ping(bool fwd)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  bool result = true;
-  GroupElementsIterator it = elements.begin();
+  bool result               = true;
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end && result != false ; ++it) {
-    if ((*it)->is_device_i() || fwd) {
+  for(; it != end && result != false; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
       result = (*it)->ping(fwd);
     }
   }
   return result;
 }
+
 //-----------------------------------------------------------------------------
-void Group::set_timeout_millis (int tmo_ms)
+void Group::set_timeout_millis(int tmo_ms)
 {
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end ; ++it) {
-    try {
+  for(; it != end; ++it)
+  {
+    try
+    {
       (*it)->set_timeout_millis(tmo_ms);
     }
-    catch(...) {
+    catch(...)
+    {
       // ignore errors
     }
   }
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReplyList Group::command_inout (const std::string& c, bool fwd)
+GroupCmdReplyList Group::command_inout(const std::string &c, bool fwd)
 {
   long id = command_inout_asynch_i(c, false, fwd, -1);
   return command_inout_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReplyList Group::command_inout (const std::string& c, const DeviceData& d, bool fwd)
+GroupCmdReplyList Group::command_inout(const std::string &c, const DeviceData &d, bool fwd)
 {
   long id = command_inout_asynch_i(c, d, false, fwd, -1);
   return command_inout_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReplyList Group::command_inout (const std::string& c, const std::vector<DeviceData>& d, bool fwd)
+GroupCmdReplyList Group::command_inout(const std::string &c, const std::vector<DeviceData> &d, bool fwd)
 {
   long id = command_inout_asynch_i(c, d, false, fwd, -1);
   return command_inout_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-long Group::command_inout_asynch (const std::string& c, bool fgt, bool fwd)
+long Group::command_inout_asynch(const std::string &c, bool fgt, bool fwd)
 {
   return command_inout_asynch_i(c, fgt, fwd, -1);
 }
+
 //-----------------------------------------------------------------------------
-long Group::command_inout_asynch_i (const std::string& c, bool fgt, bool fwd, long id)
+long Group::command_inout_asynch_i(const std::string &c, bool fgt, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  if (id == -1) {
+  if(id == -1)
+  {
     id = next_asynch_request_id();
   }
   GroupElements disconnected;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || fwd) {
-    	if((*it)->is_connected())
-    		(*it)->command_inout_asynch_i(c, fgt, fwd, id);
-    	else
-    		disconnected.push_back(*it);
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
+      if((*it)->is_connected())
+        (*it)->command_inout_asynch_i(c, fgt, fwd, id);
+      else
+        disconnected.push_back(*it);
     }
   }
   for(size_t i = 0; i < disconnected.size(); i++)
-	  disconnected[i]->command_inout_asynch_i(c, fgt, fwd, id);
-  if ( ! fgt ) {
+    disconnected[i]->command_inout_asynch_i(c, fgt, fwd, id);
+  if(!fgt)
+  {
     push_async_request(id, fwd);
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-long Group::command_inout_asynch (const std::string& c, const DeviceData& d, bool fgt, bool fwd)
+long Group::command_inout_asynch(const std::string &c, const DeviceData &d, bool fgt, bool fwd)
 {
   return command_inout_asynch_i(c, d, fgt, fwd, -1);
 }
+
 //-----------------------------------------------------------------------------
-long Group::command_inout_asynch_i (const std::string& c, const DeviceData& d, bool fgt, bool fwd, long id)
+long Group::command_inout_asynch_i(const std::string &c, const DeviceData &d, bool fgt, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  if (id == -1) {
+  if(id == -1)
+  {
     id = next_asynch_request_id();
   }
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || fwd) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
       (*it)->command_inout_asynch_i(c, d, fgt, fwd, id);
     }
   }
-  if ( ! fgt ) {
+  if(!fgt)
+  {
     push_async_request(id, fwd);
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-long Group::command_inout_asynch (const std::string& c, const std::vector<DeviceData>& d, bool fgt, bool fwd)
+long Group::command_inout_asynch(const std::string &c, const std::vector<DeviceData> &d, bool fgt, bool fwd)
 {
   return command_inout_asynch_i(c, d, fgt, fwd, -1);
 }
+
 //-----------------------------------------------------------------------------
-long Group::command_inout_asynch_i (const std::string& c, const std::vector<DeviceData>& d, bool fgt, bool fwd, long id)
+long Group::command_inout_asynch_i(const std::string &c, const std::vector<DeviceData> &d, bool fgt, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
 
   long gsize = get_size_i(fwd);
-  if (gsize != static_cast<long>(d.size()))
+  if(gsize != static_cast<long>(d.size()))
   {
     TangoSys_OMemStream desc;
-	  desc << "the size of the input argument list must equal the number of device in the group"
-         << " [expected:"
-         << gsize
-         << " - got:"
-         << d.size()
-         << "]"
-         << std::ends;
+    desc << "the size of the input argument list must equal the number of "
+            "device in the group"
+         << " [expected:" << gsize << " - got:" << d.size() << "]" << std::ends;
     TANGO_THROW_API_EXCEPTION(ApiDataExcept, API_MethodArgument, desc.str().c_str());
   }
 
-  if ( id == -1 )
+  if(id == -1)
     id = next_asynch_request_id();
 
-  for (unsigned int i = 0, j = 0; i < elements.size(); i++)
+  for(unsigned int i = 0, j = 0; i < elements.size(); i++)
   {
-    if ( elements[i]->is_device_i() )
+    if(elements[i]->is_device_i())
     {
       elements[i]->command_inout_asynch_i(c, d[j++], fgt, false, id);
     }
-    else if ( fwd )
+    else if(fwd)
     {
-      Tango::Group * g = reinterpret_cast<Tango::Group*>(elements[i]);
-      gsize = g->get_size_i(fwd);
-      std::vector<Tango::DeviceData> sub_d(d.begin() + j,  d.begin() + j + gsize);
-      g->command_inout_asynch_i(c, static_cast<const std::vector<DeviceData>&>(sub_d), fgt, fwd, id);
+      Tango::Group *g = reinterpret_cast<Tango::Group *>(elements[i]);
+      gsize           = g->get_size_i(fwd);
+      std::vector<Tango::DeviceData> sub_d(d.begin() + j, d.begin() + j + gsize);
+      g->command_inout_asynch_i(c, static_cast<const std::vector<DeviceData> &>(sub_d), fgt, fwd, id);
       j += gsize;
     }
   }
 
-  if ( ! fgt )
+  if(!fgt)
     push_async_request(id, fwd);
 
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReplyList Group::command_inout_reply (long ari, long tmo)
-{
-  return command_inout_reply_i(ari, tmo);
-}
+GroupCmdReplyList Group::command_inout_reply(long ari, long tmo) { return command_inout_reply_i(ari, tmo); }
+
 //-----------------------------------------------------------------------------
-GroupCmdReplyList Group::command_inout_reply_i (long ari, long tmo)
+GroupCmdReplyList Group::command_inout_reply_i(long ari, long tmo)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   AsynchRequestDescIt r = arp.find(ari);
-  if (r == arp.end()) {
+  if(r == arp.end())
+  {
     Tango::DevErrorList errors(1);
     errors.length(1);
     errors[0].severity = Tango::ERR;
-    errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupCmdReplyList reply;
   GroupCmdReplyList sub_reply;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || r->second) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || r->second)
+    {
       sub_reply = (*it)->command_inout_reply_i(ari, tmo);
-      if (sub_reply.empty() == false) {
+      if(sub_reply.empty() == false)
+      {
         reply.insert(reply.end(), sub_reply.begin(), sub_reply.end());
       }
-      if (sub_reply.has_failed_m) {
+      if(sub_reply.has_failed_m)
+      {
         reply.has_failed_m = true;
       }
       sub_reply.reset();
@@ -1269,80 +1361,88 @@ GroupCmdReplyList Group::command_inout_reply_i (long ari, long tmo)
   arp.erase(r);
   return reply;
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList Group::read_attribute (const std::string& a, bool fwd)
+GroupAttrReplyList Group::read_attribute(const std::string &a, bool fwd)
 {
   long id = read_attribute_asynch_i(a, fwd, -1);
   return read_attribute_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList Group::read_attributes (const std::vector<std::string>& al, bool fwd)
+GroupAttrReplyList Group::read_attributes(const std::vector<std::string> &al, bool fwd)
 {
   long id = read_attributes_asynch_i(al, fwd, -1);
   return read_attributes_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-long Group::read_attribute_asynch (const std::string& a, bool fwd)
-{
-  return read_attribute_asynch_i(a, fwd, -1);
-}
+long Group::read_attribute_asynch(const std::string &a, bool fwd) { return read_attribute_asynch_i(a, fwd, -1); }
+
 //-----------------------------------------------------------------------------
-long Group::read_attribute_asynch_i (const std::string& a, bool fwd, long id)
+long Group::read_attribute_asynch_i(const std::string &a, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  if (id == -1) {
+  if(id == -1)
+  {
     id = next_asynch_request_id();
   }
   GroupElements disconnected;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || fwd) {
-    	if((*it)->is_connected())
-    		id = (*it)->read_attribute_asynch_i(a, fwd, id);
-    	else
-    		disconnected.push_back(*it);
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
+      if((*it)->is_connected())
+        id = (*it)->read_attribute_asynch_i(a, fwd, id);
+      else
+        disconnected.push_back(*it);
     }
   }
   for(size_t i = 0; i < disconnected.size(); i++)
-	  id = disconnected[i]->read_attribute_asynch_i(a, fwd, id);
+    id = disconnected[i]->read_attribute_asynch_i(a, fwd, id);
   push_async_request(id, fwd);
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList Group::read_attribute_reply (long ari, long tmo)
-{
-  return read_attribute_reply_i(ari, tmo);
-}
+GroupAttrReplyList Group::read_attribute_reply(long ari, long tmo) { return read_attribute_reply_i(ari, tmo); }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList Group::read_attribute_reply_i (long ari, long tmo)
+GroupAttrReplyList Group::read_attribute_reply_i(long ari, long tmo)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   AsynchRequestDescIt r = arp.find(ari);
-  if (r == arp.end()) {
+  if(r == arp.end())
+  {
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupAttrReplyList reply;
   GroupAttrReplyList sub_reply;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || r->second) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || r->second)
+    {
       sub_reply = (*it)->read_attribute_reply_i(ari, tmo);
-      if (sub_reply.empty() == false) {
+      if(sub_reply.empty() == false)
+      {
         reply.insert(reply.end(), sub_reply.begin(), sub_reply.end());
       }
-      if (sub_reply.has_failed_m) {
+      if(sub_reply.has_failed_m)
+      {
         reply.has_failed_m = true;
       }
       sub_reply.reset();
@@ -1351,62 +1451,71 @@ GroupAttrReplyList Group::read_attribute_reply_i (long ari, long tmo)
   arp.erase(r);
   return reply;
 }
+
 //-----------------------------------------------------------------------------
-long Group::read_attributes_asynch (const std::vector<std::string>& al, bool fwd)
+long Group::read_attributes_asynch(const std::vector<std::string> &al, bool fwd)
 {
   return read_attributes_asynch_i(al, fwd, -1);
 }
+
 //-----------------------------------------------------------------------------
-long Group::read_attributes_asynch_i (const std::vector<std::string>& al, bool fwd, long id)
+long Group::read_attributes_asynch_i(const std::vector<std::string> &al, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  if (id == -1) {
+  if(id == -1)
+  {
     id = next_asynch_request_id();
   }
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || fwd) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
       id = (*it)->read_attributes_asynch_i(al, fwd, id);
     }
   }
   push_async_request(id, fwd);
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList Group::read_attributes_reply (long ari, long tmo)
-{
-  return read_attributes_reply_i(ari, tmo);
-}
+GroupAttrReplyList Group::read_attributes_reply(long ari, long tmo) { return read_attributes_reply_i(ari, tmo); }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList Group::read_attributes_reply_i (long ari, long tmo)
+GroupAttrReplyList Group::read_attributes_reply_i(long ari, long tmo)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   AsynchRequestDescIt r = arp.find(ari);
-  if (r == arp.end()) {
+  if(r == arp.end())
+  {
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupAttrReplyList reply;
   GroupAttrReplyList sub_reply;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || r->second) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || r->second)
+    {
       sub_reply = (*it)->read_attributes_reply_i(ari, tmo);
-      if (sub_reply.empty() == false) {
+      if(sub_reply.empty() == false)
+      {
         reply.insert(reply.end(), sub_reply.begin(), sub_reply.end());
       }
-      if (sub_reply.has_failed_m) {
+      if(sub_reply.has_failed_m)
+      {
         reply.has_failed_m = true;
       }
       sub_reply.reset();
@@ -1415,122 +1524,133 @@ GroupAttrReplyList Group::read_attributes_reply_i (long ari, long tmo)
   arp.erase(r);
   return reply;
 }
+
 //-----------------------------------------------------------------------------
-GroupReplyList Group::write_attribute (const DeviceAttribute& d, bool fwd)
+GroupReplyList Group::write_attribute(const DeviceAttribute &d, bool fwd)
 {
   long id = write_attribute_asynch_i(d, fwd, -1);
   return write_attribute_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-GroupReplyList Group::write_attribute (const std::vector<DeviceAttribute>& d, bool fwd)
+GroupReplyList Group::write_attribute(const std::vector<DeviceAttribute> &d, bool fwd)
 {
   long id = write_attribute_asynch_i(d, fwd, -1);
   return write_attribute_reply_i(id, 0);
 }
+
 //-----------------------------------------------------------------------------
-long Group::write_attribute_asynch (const DeviceAttribute& d, bool fwd)
-{
-  return write_attribute_asynch_i(d, fwd, -1);
-}
+long Group::write_attribute_asynch(const DeviceAttribute &d, bool fwd) { return write_attribute_asynch_i(d, fwd, -1); }
+
 //-----------------------------------------------------------------------------
-long Group::write_attribute_asynch_i (const DeviceAttribute& d, bool fwd, long id)
+long Group::write_attribute_asynch_i(const DeviceAttribute &d, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  if (id == -1) {
+  if(id == -1)
+  {
     id = next_asynch_request_id();
   }
   GroupElements disconnected;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || fwd) {
-    	if((*it)->is_connected())
-    		id = (*it)->write_attribute_asynch_i(d, fwd, id);
-    	else
-    		disconnected.push_back(*it);
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || fwd)
+    {
+      if((*it)->is_connected())
+        id = (*it)->write_attribute_asynch_i(d, fwd, id);
+      else
+        disconnected.push_back(*it);
     }
   }
   for(size_t i = 0; i < disconnected.size(); i++)
-	  id = disconnected[i]->write_attribute_asynch_i(d, fwd, id);
+    id = disconnected[i]->write_attribute_asynch_i(d, fwd, id);
   push_async_request(id, fwd);
   return id;
 }
+
 //-----------------------------------------------------------------------------
-long Group::write_attribute_asynch (const std::vector<DeviceAttribute>& d, bool fwd)
+long Group::write_attribute_asynch(const std::vector<DeviceAttribute> &d, bool fwd)
 {
   return write_attribute_asynch_i(d, fwd, -1);
 }
+
 //-----------------------------------------------------------------------------
-long Group::write_attribute_asynch_i (const std::vector<DeviceAttribute>& d, bool fwd, long id)
+long Group::write_attribute_asynch_i(const std::vector<DeviceAttribute> &d, bool fwd, long id)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   GroupReplyList rl;
   long gsize = get_size_i(fwd);
-  if (gsize != static_cast<long>(d.size())) {
+  if(gsize != static_cast<long>(d.size()))
+  {
     TangoSys_OMemStream desc;
-	  desc << "the size of the input argument list must equal the number of device in the group"
-         << " [expected:"
-         << gsize
-         << " - got:"
-         << d.size()
-         << "]"
-         << std::ends;
+    desc << "the size of the input argument list must equal the number of "
+            "device in the group"
+         << " [expected:" << gsize << " - got:" << d.size() << "]" << std::ends;
     TANGO_THROW_API_EXCEPTION(ApiDataExcept, API_MethodArgument, desc.str().c_str());
   }
-  if (id == -1) {
+  if(id == -1)
+  {
     id = next_asynch_request_id();
   }
-  for (unsigned int i = 0, j = 0; i < elements.size(); i++) {
-    if (elements[i]->is_device_i()) {
+  for(unsigned int i = 0, j = 0; i < elements.size(); i++)
+  {
+    if(elements[i]->is_device_i())
+    {
       elements[i]->write_attribute_asynch_i(d[j++], false, id);
     }
-    else if (fwd) {
-      Tango::Group * g = reinterpret_cast<Tango::Group*>(elements[i]);
-      long gsize = g->get_size_i(fwd);
-      std::vector<DeviceAttribute> sub_d(d.begin() + j,  d.begin() + j + gsize);
-      reinterpret_cast<Tango::Group*>(elements[i])->write_attribute_asynch_i(sub_d, fwd, id);
+    else if(fwd)
+    {
+      Tango::Group *g = reinterpret_cast<Tango::Group *>(elements[i]);
+      long gsize      = g->get_size_i(fwd);
+      std::vector<DeviceAttribute> sub_d(d.begin() + j, d.begin() + j + gsize);
+      reinterpret_cast<Tango::Group *>(elements[i])->write_attribute_asynch_i(sub_d, fwd, id);
       j += gsize;
     }
   }
   push_async_request(id, fwd);
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupReplyList Group::write_attribute_reply (long ari, long tmo)
-{
-  return write_attribute_reply_i(ari, tmo);
-}
+GroupReplyList Group::write_attribute_reply(long ari, long tmo) { return write_attribute_reply_i(ari, tmo); }
+
 //-----------------------------------------------------------------------------
-GroupReplyList Group::write_attribute_reply_i (long ari, long tmo)
+GroupReplyList Group::write_attribute_reply_i(long ari, long tmo)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
   AsynchRequestDescIt r = arp.find(ari);
-  if (r == arp.end()) {
+  if(r == arp.end())
+  {
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     throw DevFailed(errors);
   }
   GroupReplyList reply;
   GroupReplyList sub_reply;
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end; ++it) {
-    if ((*it)->is_device_i() || r->second) {
+  for(; it != end; ++it)
+  {
+    if((*it)->is_device_i() || r->second)
+    {
       sub_reply = (*it)->write_attribute_reply_i(ari, tmo);
-      if (sub_reply.empty() == false) {
+      if(sub_reply.empty() == false)
+      {
         reply.insert(reply.end(), sub_reply.begin(), sub_reply.end());
       }
-      if (sub_reply.has_failed_m) {
+      if(sub_reply.has_failed_m)
+      {
         reply.has_failed_m = true;
       }
       sub_reply.reset();
@@ -1539,82 +1659,74 @@ GroupReplyList Group::write_attribute_reply_i (long ari, long tmo)
   arp.erase(r);
   return reply;
 }
+
 //-----------------------------------------------------------------------------
-long Group::next_asynch_request_id ()
+long Group::next_asynch_request_id()
 {
- 	asynch_req_id++;
-  asynch_req_id %= (long)0x0FFF;
+  asynch_req_id++;
+  asynch_req_id %= (long) 0x0FFF;
   return asynch_req_id;
 }
+
 //-----------------------------------------------------------------------------
-void Group::dump (int indent_level)
+void Group::dump(int indent_level)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  GroupElementsIterator it = elements.begin();
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (int i = 0; i < indent_level ; i++) {
+  for(int i = 0; i < indent_level; i++)
+  {
     cout << "\t";
   }
-  cout << "|- GROUP: "
-       << get_fully_qualified_name()
-       << " ["
-       << get_size_i(false)
-       << ":"
-       << get_size_i(true)
-       << "]"
+  cout << "|- GROUP: " << get_fully_qualified_name() << " [" << get_size_i(false) << ":" << get_size_i(true) << "]"
        << std::endl;
-  for (; it != end ; ++it) {
+  for(; it != end; ++it)
+  {
     (*it)->dump(indent_level + 1);
   }
 }
+
 //-----------------------------------------------------------------------------
-void Group::dump (TangoSys_OMemStream& oms, int indent_level)
+void Group::dump(TangoSys_OMemStream &oms, int indent_level)
 {
 #ifdef TANGO_GROUP_HAS_THREAD_SAFE_IMPL
   omni_mutex_lock guard(elements_mutex);
 #endif
-  for (int i = 0; i < indent_level ; i++) {
+  for(int i = 0; i < indent_level; i++)
+  {
     oms << "\t";
   }
-  oms << "|- GROUP: "
-       << get_fully_qualified_name()
-       << " ["
-       << get_size_i(false)
-       << ":"
-       << get_size_i(true)
-       << "]"
-       << std::endl;
-  GroupElementsIterator it = elements.begin();
+  oms << "|- GROUP: " << get_fully_qualified_name() << " [" << get_size_i(false) << ":" << get_size_i(true) << "]"
+      << std::endl;
+  GroupElementsIterator it  = elements.begin();
   GroupElementsIterator end = elements.end();
-  for (; it != end ; ++it) {
+  for(; it != end; ++it)
+  {
     (*it)->dump(oms, indent_level + 1);
   }
-  if (indent_level == 0) {
+  if(indent_level == 0)
+  {
     oms << std::ends;
   }
 }
+
 //-----------------------------------------------------------------------------
-bool Group::is_device_i ()
-{
-  return false;
-}
+bool Group::is_device_i() { return false; }
+
 //-----------------------------------------------------------------------------
-bool Group::is_group_i ()
-{
-  return true;
-}
+bool Group::is_group_i() { return true; }
+
 //-----------------------------------------------------------------------------
-void Group::push_async_request(long rid, bool forwarded)
-{
-  arp.insert(AsynchRequestDescVal(rid, forwarded));
-}
+void Group::push_async_request(long rid, bool forwarded) { arp.insert(AsynchRequestDescVal(rid, forwarded)); }
+
 //-----------------------------------------------------------------------------
 void Group::pop_async_request(long rid)
 {
   AsynchRequestDescIt r = arp.find(rid);
-  if (r != arp.end()) {
+  if(r != arp.end())
+  {
     arp.erase(r);
   }
 }
@@ -1622,100 +1734,117 @@ void Group::pop_async_request(long rid)
 //=============================================================================
 // class GroupDeviceElement
 //=============================================================================
-GroupDeviceElement::GroupDeviceElement (const std::string& name)
-  : GroupElement(name), dp(0)
+GroupDeviceElement::GroupDeviceElement(const std::string &name)
+    : GroupElement(name),
+      dp(0)
 {
-  try {
+  try
+  {
     connect();
   }
-  catch (...) {
+  catch(...)
+  {
     //- ignore error
   }
 }
+
 //-----------------------------------------------------------------------------
-GroupDeviceElement::GroupDeviceElement (const std::string& name, int tmo_ms)
-  : GroupElement(name), dp(0)
+GroupDeviceElement::GroupDeviceElement(const std::string &name, int tmo_ms)
+    : GroupElement(name),
+      dp(0)
 {
-  try {
+  try
+  {
     connect();
     set_timeout_millis(tmo_ms);
   }
-  catch (...) {
+  catch(...)
+  {
     //- ignore error
   }
 }
+
 //-----------------------------------------------------------------------------
-GroupDeviceElement::~GroupDeviceElement ()
+GroupDeviceElement::~GroupDeviceElement()
 {
   disconnect();
   arp.clear();
 }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* GroupDeviceElement::get_device (const std::string& _n)
+DeviceProxy *GroupDeviceElement::get_device(const std::string &_n)
 {
-  try {
+  try
+  {
     std::string n(_n);
-    std::transform(n.begin(),n.end(),n.begin(),::tolower);
-    if (name_equals(n)) {
+    std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+    if(name_equals(n))
+    {
       return dev_proxy();
     }
   }
-  catch (...) {
+  catch(...)
+  {
     //- ignore exception then return null
   }
   return 0;
 }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* GroupDeviceElement::get_device (long idx)
-{
-  return ((--idx) == 0) ? dev_proxy() : 0;
-}
+DeviceProxy *GroupDeviceElement::get_device(long idx) { return ((--idx) == 0) ? dev_proxy() : 0; }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* GroupDeviceElement::operator[] (long idx)
-{
-  return get_device(idx);
-}
+DeviceProxy *GroupDeviceElement::operator[](long idx) { return get_device(idx); }
+
 //-----------------------------------------------------------------------------
-DeviceProxy* GroupDeviceElement::connect ()
+DeviceProxy *GroupDeviceElement::connect()
 {
   disconnect();
-  try {
-    dp = new DeviceProxy(const_cast<std::string&>(get_name()));
+  try
+  {
+    dp = new DeviceProxy(const_cast<std::string &>(get_name()));
     dp->set_transparency_reconnection(true);
   }
-  catch (...) {
+  catch(...)
+  {
     disconnect();
     throw;
   }
   return dp;
 }
+
 //-----------------------------------------------------------------------------
-void GroupDeviceElement::disconnect ()
+void GroupDeviceElement::disconnect()
 {
   //-TODO: how to handle pending asynch calls ?
-  if (dp) {
+  if(dp)
+  {
     delete dp;
     dp = 0;
   }
 }
+
 //-----------------------------------------------------------------------------
-bool GroupDeviceElement::ping (bool)
+bool GroupDeviceElement::ping(bool)
 {
   bool result = true;
-  try {
+  try
+  {
     dev_proxy()->ping();
   }
-  catch (...) {
+  catch(...)
+  {
     result = false;
   }
   return result;
 }
+
 //-----------------------------------------------------------------------------
-long GroupDeviceElement::command_inout_asynch_i (const std::string& c, bool fgt, TANGO_UNUSED(bool fwd), long id)
+long GroupDeviceElement::command_inout_asynch_i(const std::string &c, bool fgt, TANGO_UNUSED(bool fwd), long id)
 {
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
-    if ( ! fgt )
+    if(!fgt)
     {
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(id, c, false)));
     }
@@ -1724,30 +1853,30 @@ long GroupDeviceElement::command_inout_asynch_i (const std::string& c, bool fgt,
   {
     try
     {
-      long ari = dev_proxy()->command_inout_asynch(const_cast<std::string&>(c), fgt);
-      if ( ! fgt )
+      long ari = dev_proxy()->command_inout_asynch(const_cast<std::string &>(c), fgt);
+      if(!fgt)
       {
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(ari, c)));
       }
     }
-    catch (const Tango::DevFailed& df)
+    catch(const Tango::DevFailed &df)
     {
-      if ( ! fgt )
+      if(!fgt)
       {
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, c, df)));
       }
     }
-    catch (...)
+    catch(...)
     {
-      if ( ! fgt )
+      if(!fgt)
       {
         //- create a pseudo devfailed
         Tango::DevErrorList errors(1);
-		    errors.length(1);
-		    errors[0].severity = Tango::ERR;
-		    errors[0].desc = Tango::string_dup("unknown error");
-		    errors[0].reason = Tango::string_dup("unknown exception caught");
-		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+        errors.length(1);
+        errors[0].severity = Tango::ERR;
+        errors[0].desc     = Tango::string_dup("unknown error");
+        errors[0].reason   = Tango::string_dup("unknown exception caught");
+        errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, c, df)));
       }
@@ -1755,12 +1884,14 @@ long GroupDeviceElement::command_inout_asynch_i (const std::string& c, bool fgt,
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-long GroupDeviceElement::command_inout_asynch_i (const std::string& c, const DeviceData& d, bool fgt, TANGO_UNUSED(bool fwd), long id)
+long GroupDeviceElement::command_inout_asynch_i(const std::string &c, const DeviceData &d, bool fgt,
+                                                TANGO_UNUSED(bool fwd), long id)
 {
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
-    if ( ! fgt )
+    if(!fgt)
     {
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(id, c, false)));
     }
@@ -1769,30 +1900,30 @@ long GroupDeviceElement::command_inout_asynch_i (const std::string& c, const Dev
   {
     try
     {
-      long ari = dev_proxy()->command_inout_asynch(const_cast<std::string&>(c), const_cast<DeviceData&>(d), fgt);
-      if ( ! fgt )
+      long ari = dev_proxy()->command_inout_asynch(const_cast<std::string &>(c), const_cast<DeviceData &>(d), fgt);
+      if(!fgt)
       {
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(ari, c)));
       }
     }
-    catch (const Tango::DevFailed& df)
+    catch(const Tango::DevFailed &df)
     {
-      if ( ! fgt )
+      if(!fgt)
       {
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, c, df)));
       }
     }
-    catch (...)
+    catch(...)
     {
-      if ( ! fgt )
+      if(!fgt)
       {
         //- create a pseudo devfailed
         Tango::DevErrorList errors(1);
-		    errors.length(1);
-		    errors[0].severity = Tango::ERR;
-		    errors[0].desc = Tango::string_dup("unknown error");
-		    errors[0].reason = Tango::string_dup("unknown exception caught");
-		    errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+        errors.length(1);
+        errors[0].severity = Tango::ERR;
+        errors[0].desc     = Tango::string_dup("unknown error");
+        errors[0].reason   = Tango::string_dup("unknown exception caught");
+        errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
         DevFailed df(errors);
         arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, c, df)));
       }
@@ -1800,22 +1931,23 @@ long GroupDeviceElement::command_inout_asynch_i (const std::string& c, const Dev
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
+GroupCmdReplyList GroupDeviceElement::command_inout_reply_i(long id, long tmo)
 {
   GroupCmdReplyList rl;
 
   //- search actual asynch request id in this' repository
   AsynchRequestRepIterator it = arp.find(id);
-  if (it == arp.end())
+  if(it == arp.end())
   {
     //- error description
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupCmdReply(get_name(), "unknown", df));
@@ -1823,7 +1955,7 @@ GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
   }
 
   //- no reply if this group element is diabled
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
     rl.push_back(GroupCmdReply(get_name(), it->second.obj_names[0], false));
     //- remove request from repository
@@ -1831,8 +1963,9 @@ GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
     return rl;
   }
 
-  //- if got error during asynch call then previously stored exception is the reply
-  if (it->second.rq_id == -1)
+  //- if got error during asynch call then previously stored exception is the
+  // reply
+  if(it->second.rq_id == -1)
   {
     rl.push_back(GroupCmdReply(get_name(), it->second.obj_names[0], it->second.rq_ex));
     //- remove request from repository
@@ -1846,19 +1979,19 @@ GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
     DeviceData dd = dev_proxy()->command_inout_reply(it->second.rq_id, tmo);
     rl.push_back(GroupCmdReply(get_name(), it->second.obj_names[0], dd));
   }
-  catch (const Tango::DevFailed& df)
+  catch(const Tango::DevFailed &df)
   {
     rl.push_back(GroupCmdReply(get_name(), it->second.obj_names[0], df));
   }
-  catch (...)
+  catch(...)
   {
     //- create a pseudo devfailed
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].desc = Tango::string_dup("unknown error");
-		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].desc     = Tango::string_dup("unknown error");
+    errors[0].reason   = Tango::string_dup("unknown exception caught");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     rl.push_back(GroupCmdReply(get_name(), it->second.obj_names[0], df));
   }
@@ -1868,10 +2001,11 @@ GroupCmdReplyList GroupDeviceElement::command_inout_reply_i (long id, long tmo)
 
   return rl;
 }
+
 //-----------------------------------------------------------------------------
-long GroupDeviceElement::read_attribute_asynch_i (const std::string& a, TANGO_UNUSED(bool fwd), long id)
+long GroupDeviceElement::read_attribute_asynch_i(const std::string &a, TANGO_UNUSED(bool fwd), long id)
 {
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
     arp.insert(AsynchRequestRepValue(id, AsynchRequest(id, a, false)));
   }
@@ -1879,44 +2013,45 @@ long GroupDeviceElement::read_attribute_asynch_i (const std::string& a, TANGO_UN
   {
     try
     {
-      long ari = dev_proxy()->read_attribute_asynch(const_cast<std::string&>(a));
+      long ari = dev_proxy()->read_attribute_asynch(const_cast<std::string &>(a));
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(ari, a)));
     }
-    catch (const Tango::DevFailed& df)
+    catch(const Tango::DevFailed &df)
     {
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, a, df)));
     }
-    catch (...)
+    catch(...)
     {
       //- create a pseudo devfailed
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("unknown error");
-		  errors[0].reason = Tango::string_dup("unknown exception caught");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("unknown error");
+      errors[0].reason   = Tango::string_dup("unknown exception caught");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, a, df)));
     }
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo)
+GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i(long id, long tmo)
 {
   GroupAttrReplyList rl;
 
   //- search actual asynch request id in this' repository
   AsynchRequestRepIterator it = arp.find(id);
-  if (it == arp.end())
+  if(it == arp.end())
   {
     //- error description
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupAttrReply(get_name(), "unknown", df));
@@ -1924,7 +2059,7 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
   }
 
   //- no reply if this group element is diabled
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
     rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], false));
     //- remove request from repository
@@ -1932,8 +2067,9 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
     return rl;
   }
 
-  //- if got error during asynch call then previously stored exception is the reply
-  if (it->second.rq_id == -1)
+  //- if got error during asynch call then previously stored exception is the
+  // reply
+  if(it->second.rq_id == -1)
   {
     rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], it->second.rq_ex));
     //- remove request from repository
@@ -1944,21 +2080,21 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
   //- get reply from device
   try
   {
-    DeviceAttribute* da = dev_proxy()->read_attribute_reply(it->second.rq_id, tmo);
-    if (da == 0)
+    DeviceAttribute *da = dev_proxy()->read_attribute_reply(it->second.rq_id, tmo);
+    if(da == 0)
     {
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("internal error");
-		  errors[0].reason = Tango::string_dup("Tango::DeviceProxy::read_attribute_reply returned NULL");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("internal error");
+      errors[0].reason   = Tango::string_dup("Tango::DeviceProxy::read_attribute_reply returned NULL");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], df));
     }
     else
     {
-		  if (da->has_failed())
+      if(da->has_failed())
       {
         DevFailed df(da->get_err_stack());
         rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], df));
@@ -1970,19 +2106,19 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
       delete da;
     }
   }
-  catch (const Tango::DevFailed& df)
+  catch(const Tango::DevFailed &df)
   {
     rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], df));
   }
-  catch (...)
+  catch(...)
   {
     //- create a pseudo devfailed
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].desc = Tango::string_dup("unknown error");
-		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].desc     = Tango::string_dup("unknown error");
+    errors[0].reason   = Tango::string_dup("unknown exception caught");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], df));
   }
@@ -1992,10 +2128,11 @@ GroupAttrReplyList GroupDeviceElement::read_attribute_reply_i (long id, long tmo
 
   return rl;
 }
+
 //-----------------------------------------------------------------------------
-long GroupDeviceElement::read_attributes_asynch_i (const std::vector<std::string>& al, TANGO_UNUSED(bool fwd), long id)
+long GroupDeviceElement::read_attributes_asynch_i(const std::vector<std::string> &al, TANGO_UNUSED(bool fwd), long id)
 {
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
     arp.insert(AsynchRequestRepValue(id, AsynchRequest(id, al, false)));
   }
@@ -2003,45 +2140,46 @@ long GroupDeviceElement::read_attributes_asynch_i (const std::vector<std::string
   {
     try
     {
-      long ari = dev_proxy()->read_attributes_asynch(const_cast<std::vector<std::string>&>(al));
+      long ari = dev_proxy()->read_attributes_asynch(const_cast<std::vector<std::string> &>(al));
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(ari, al)));
     }
-    catch (const Tango::DevFailed& df)
+    catch(const Tango::DevFailed &df)
     {
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, al, df)));
     }
-    catch (...)
+    catch(...)
     {
       //- create a pseudo devfailed
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("unknown error");
-		  errors[0].reason = Tango::string_dup("unknown exception caught");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("unknown error");
+      errors[0].reason   = Tango::string_dup("unknown exception caught");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
       arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, al, df)));
     }
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tmo)
+GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i(long id, long tmo)
 {
   unsigned int a = 0;
   GroupAttrReplyList rl;
 
   //- search actual asynch request id in this' repository
   AsynchRequestRepIterator it = arp.find(id);
-  if (it == arp.end())
+  if(it == arp.end())
   {
     //- error description
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupAttrReply(get_name(), "unknown", df));
@@ -2049,9 +2187,9 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
   }
 
   //- no reply if this group element is diabled
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
-    for (a = 0; a < it->second.obj_names.size(); a++)
+    for(a = 0; a < it->second.obj_names.size(); a++)
     {
       rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[a], false));
     }
@@ -2060,10 +2198,11 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
     return rl;
   }
 
-  //- if got error during asynch call then previously stored exception is the reply
-  if (it->second.rq_id == -1)
+  //- if got error during asynch call then previously stored exception is the
+  // reply
+  if(it->second.rq_id == -1)
   {
-    for (a = 0; a < it->second.obj_names.size(); a++)
+    for(a = 0; a < it->second.obj_names.size(); a++)
     {
       rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[a], it->second.rq_ex));
     }
@@ -2075,26 +2214,26 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
   //- get reply from device
   try
   {
-    std::vector<DeviceAttribute>* dal = dev_proxy()->read_attributes_reply(it->second.rq_id, tmo);
-    if (dal == 0)
+    std::vector<DeviceAttribute> *dal = dev_proxy()->read_attributes_reply(it->second.rq_id, tmo);
+    if(dal == 0)
     {
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("internal error");
-		  errors[0].reason = Tango::string_dup("Tango::DeviceProxy::read_attribute_reply returned NULL");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("internal error");
+      errors[0].reason   = Tango::string_dup("Tango::DeviceProxy::read_attribute_reply returned NULL");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
-      for (a = 0; a < it->second.obj_names.size(); a++)
+      for(a = 0; a < it->second.obj_names.size(); a++)
       {
         rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[a], df));
       }
     }
     else
     {
-      for (a = 0; a < it->second.obj_names.size(); a++)
+      for(a = 0; a < it->second.obj_names.size(); a++)
       {
-        if ((*dal)[a].has_failed())
+        if((*dal)[a].has_failed())
         {
           DevFailed df((*dal)[a].get_err_stack());
           rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[a], df));
@@ -2107,24 +2246,24 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
       delete dal;
     }
   }
-  catch (const Tango::DevFailed& df)
+  catch(const Tango::DevFailed &df)
   {
-    for (a = 0; a < it->second.obj_names.size(); a++)
+    for(a = 0; a < it->second.obj_names.size(); a++)
     {
       rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[a], df));
     }
   }
-  catch (...)
+  catch(...)
   {
     //- create a pseudo devfailed
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].desc = Tango::string_dup("unknown error");
-		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].desc     = Tango::string_dup("unknown error");
+    errors[0].reason   = Tango::string_dup("unknown exception caught");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
-    for (a = 0; a < it->second.obj_names.size(); a++)
+    for(a = 0; a < it->second.obj_names.size(); a++)
     {
       rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[a], df));
     }
@@ -2135,54 +2274,56 @@ GroupAttrReplyList GroupDeviceElement::read_attributes_reply_i (long id, long tm
 
   return rl;
 }
+
 //-----------------------------------------------------------------------------
-long GroupDeviceElement::write_attribute_asynch_i (const DeviceAttribute& d, TANGO_UNUSED(bool fwd), long id)
+long GroupDeviceElement::write_attribute_asynch_i(const DeviceAttribute &d, TANGO_UNUSED(bool fwd), long id)
 {
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
-    arp.insert(AsynchRequestRepValue(id, AsynchRequest(id, const_cast<DeviceAttribute&>(d).get_name(), false)));
+    arp.insert(AsynchRequestRepValue(id, AsynchRequest(id, const_cast<DeviceAttribute &>(d).get_name(), false)));
   }
   else
   {
     try
     {
-      long ari = dev_proxy()->write_attribute_asynch(const_cast<DeviceAttribute&>(d));
-      arp.insert(AsynchRequestRepValue(id, AsynchRequest(ari, const_cast<DeviceAttribute&>(d).get_name())));
+      long ari = dev_proxy()->write_attribute_asynch(const_cast<DeviceAttribute &>(d));
+      arp.insert(AsynchRequestRepValue(id, AsynchRequest(ari, const_cast<DeviceAttribute &>(d).get_name())));
     }
-    catch (const Tango::DevFailed& df)
+    catch(const Tango::DevFailed &df)
     {
-      arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, const_cast<DeviceAttribute&>(d).get_name(), df)));
+      arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, const_cast<DeviceAttribute &>(d).get_name(), df)));
     }
-    catch (...)
+    catch(...)
     {
       //- create a pseudo devfailed
       Tango::DevErrorList errors(1);
-		  errors.length(1);
-		  errors[0].severity = Tango::ERR;
-		  errors[0].desc = Tango::string_dup("unknown error");
-		  errors[0].reason = Tango::string_dup("unknown exception caught");
-		  errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+      errors.length(1);
+      errors[0].severity = Tango::ERR;
+      errors[0].desc     = Tango::string_dup("unknown error");
+      errors[0].reason   = Tango::string_dup("unknown exception caught");
+      errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
       DevFailed df(errors);
-      arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, const_cast<DeviceAttribute&>(d).get_name(), df)));
+      arp.insert(AsynchRequestRepValue(id, AsynchRequest(-1, const_cast<DeviceAttribute &>(d).get_name(), df)));
     }
   }
   return id;
 }
+
 //-----------------------------------------------------------------------------
-GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
+GroupReplyList GroupDeviceElement::write_attribute_reply_i(long id, long tmo)
 {
   GroupReplyList rl;
   //- search actual asynch request id in this' repository
   AsynchRequestRepIterator it = arp.find(id);
-  if (it == arp.end())
+  if(it == arp.end())
   {
     //- error description
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].reason = Tango::string_dup(API_BadAsynPollId);
-    errors[0].desc = Tango::string_dup("Invalid asynch. request identifier specified");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].reason   = Tango::string_dup(API_BadAsynPollId);
+    errors[0].desc     = Tango::string_dup("Invalid asynch. request identifier specified");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     //- populate the returned vector
     rl.push_back(GroupReply(get_name(), "unknown", df));
@@ -2190,7 +2331,7 @@ GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
   }
 
   //- no reply if this group element is diabled
-  if ( ! is_enabled() )
+  if(!is_enabled())
   {
     rl.push_back(GroupAttrReply(get_name(), it->second.obj_names[0], false));
     //- remove request from repository
@@ -2198,8 +2339,9 @@ GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
     return rl;
   }
 
-  //- if got error during asynch call then previously stored exception is the reply
-  if (it->second.rq_id == -1)
+  //- if got error during asynch call then previously stored exception is the
+  // reply
+  if(it->second.rq_id == -1)
   {
     rl.push_back(GroupReply(get_name(), it->second.obj_names[0], it->second.rq_ex));
     //- remove request from repository
@@ -2213,19 +2355,19 @@ GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
     dev_proxy()->write_attribute_reply(it->second.rq_id, tmo);
     rl.push_back(GroupReply(get_name(), it->second.obj_names[0]));
   }
-  catch (const Tango::DevFailed& df)
+  catch(const Tango::DevFailed &df)
   {
     rl.push_back(GroupReply(get_name(), it->second.obj_names[0], df));
   }
-  catch (...)
+  catch(...)
   {
     //- create a pseudo devfailed
     Tango::DevErrorList errors(1);
-		errors.length(1);
-		errors[0].severity = Tango::ERR;
-		errors[0].desc = Tango::string_dup("unknown error");
-		errors[0].reason = Tango::string_dup("unknown exception caught");
-		errors[0].origin = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
+    errors.length(1);
+    errors[0].severity = Tango::ERR;
+    errors[0].desc     = Tango::string_dup("unknown error");
+    errors[0].reason   = Tango::string_dup("unknown exception caught");
+    errors[0].origin   = Tango::string_dup(TANGO_EXCEPTION_ORIGIN);
     DevFailed df(errors);
     rl.push_back(GroupReply(get_name(), it->second.obj_names[0], df));
   }
@@ -2233,52 +2375,48 @@ GroupReplyList GroupDeviceElement::write_attribute_reply_i (long id, long tmo)
   arp.erase(it);
   return rl;
 }
+
 //-----------------------------------------------------------------------------
-void GroupDeviceElement::dump (TANGO_UNUSED(int indent_level))
+void GroupDeviceElement::dump(TANGO_UNUSED(int indent_level))
 {
 #if defined(_LOCAL_DEBUGGING)
-  for (int i = 0; i < indent_level ; i++) {
+  for(int i = 0; i < indent_level; i++)
+  {
     cout << "\t";
   }
   cout << "|- DEVICE: " << get_name() << std::endl;
 #endif
 }
+
 //-----------------------------------------------------------------------------
-void GroupDeviceElement::dump (TangoSys_OMemStream& oms, int indent_level)
+void GroupDeviceElement::dump(TangoSys_OMemStream &oms, int indent_level)
 {
-  for (int i = 0; i < indent_level ; i++) {
+  for(int i = 0; i < indent_level; i++)
+  {
     oms << "\t";
   }
   oms << "|- DEVICE: " << get_name() << std::endl;
 }
+
 //-----------------------------------------------------------------------------
-bool GroupDeviceElement::is_connected ()
-{
-  return dev_proxy()->is_connected();
-}
+bool GroupDeviceElement::is_connected() { return dev_proxy()->is_connected(); }
+
 //-----------------------------------------------------------------------------
-bool GroupDeviceElement::is_device_i ()
-{
-  return true;
-}
+bool GroupDeviceElement::is_device_i() { return true; }
+
 //-----------------------------------------------------------------------------
-bool GroupDeviceElement::is_group_i ()
-{
-  return false;
-}
+bool GroupDeviceElement::is_group_i() { return false; }
+
 //-----------------------------------------------------------------------------
-long GroupDeviceElement::get_size_i (TANGO_UNUSED(bool fwd))
-{
-  return 1;
-}
+long GroupDeviceElement::get_size_i(TANGO_UNUSED(bool fwd)) { return 1; }
+
 //-----------------------------------------------------------------------------
-// the following function could throw an exception, see DeviceProxy::set_timeout_millis()
-void GroupDeviceElement::set_timeout_millis (int tmo)
+// the following function could throw an exception, see
+// DeviceProxy::set_timeout_millis()
+void GroupDeviceElement::set_timeout_millis(int tmo)
 {
-  if ( tmo >= 0 )
+  if(tmo >= 0)
     dev_proxy()->set_timeout_millis(tmo);
 }
 
 } // namespace Tango
-
-

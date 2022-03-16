@@ -10,7 +10,7 @@
 //
 // author(s) :          E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -37,13 +37,10 @@
 #ifndef _SECVEC_H
 #define _SECVEC_H
 
-
 #include <tango.h>
-
 
 namespace Tango
 {
-
 
 //
 // These functions are not defined within the tango namespace because the VC++
@@ -73,12 +70,12 @@ namespace Tango
  * @param lval The DevVarCharArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarCharArray &lval,const std::vector<unsigned char> &rval)
+inline void operator<<(DevVarCharArray &lval, const std::vector<unsigned char> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -87,15 +84,14 @@ inline void operator<<(DevVarCharArray &lval,const std::vector<unsigned char> &r
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarCharArray
  */
-inline void operator<<(std::vector<unsigned char> &lval,const DevVarCharArray &rval)
+inline void operator<<(std::vector<unsigned char> &lval, const DevVarCharArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
-
 
 //=============================================================================
 //
@@ -112,12 +108,12 @@ inline void operator<<(std::vector<unsigned char> &lval,const DevVarCharArray &r
  * @param lval The DevVarShortArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarShortArray &lval,const std::vector<short> &rval)
+inline void operator<<(DevVarShortArray &lval, const std::vector<short> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -126,13 +122,13 @@ inline void operator<<(DevVarShortArray &lval,const std::vector<short> &rval)
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarShortArray
  */
-inline void operator<<(std::vector<short> &lval,const DevVarShortArray &rval)
+inline void operator<<(std::vector<short> &lval, const DevVarShortArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //=============================================================================
@@ -150,12 +146,12 @@ inline void operator<<(std::vector<short> &lval,const DevVarShortArray &rval)
  * @param lval The DevVarLongArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarLongArray &lval,const std::vector<DevLong> &rval)
+inline void operator<<(DevVarLongArray &lval, const std::vector<DevLong> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -164,15 +160,14 @@ inline void operator<<(DevVarLongArray &lval,const std::vector<DevLong> &rval)
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarLongArray
  */
-inline void operator<<(std::vector<DevLong> &lval,const DevVarLongArray &rval)
+inline void operator<<(std::vector<DevLong> &lval, const DevVarLongArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
-
 
 //=============================================================================
 //
@@ -189,12 +184,12 @@ inline void operator<<(std::vector<DevLong> &lval,const DevVarLongArray &rval)
  * @param lval The DevVarLong64Array to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarLong64Array &lval,const std::vector<DevLong64> &rval)
+inline void operator<<(DevVarLong64Array &lval, const std::vector<DevLong64> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -203,13 +198,13 @@ inline void operator<<(DevVarLong64Array &lval,const std::vector<DevLong64> &rva
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarLong64Array
  */
-inline void operator<<(std::vector<DevLong64> &lval,const DevVarLong64Array &rval)
+inline void operator<<(std::vector<DevLong64> &lval, const DevVarLong64Array &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //=============================================================================
@@ -227,12 +222,12 @@ inline void operator<<(std::vector<DevLong64> &lval,const DevVarLong64Array &rva
  * @param lval The DevVarFloatArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarFloatArray &lval,const std::vector<float> &rval)
+inline void operator<<(DevVarFloatArray &lval, const std::vector<float> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -242,13 +237,13 @@ inline void operator<<(DevVarFloatArray &lval,const std::vector<float> &rval)
  * @param rval The DevVarFloatArray
  */
 
-inline void operator<<(std::vector<float> &lval,const DevVarFloatArray &rval)
+inline void operator<<(std::vector<float> &lval, const DevVarFloatArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //=============================================================================
@@ -266,12 +261,12 @@ inline void operator<<(std::vector<float> &lval,const DevVarFloatArray &rval)
  * @param lval The DevVarDoubleArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarDoubleArray &lval,const std::vector<double> &rval)
+inline void operator<<(DevVarDoubleArray &lval, const std::vector<double> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -281,15 +276,14 @@ inline void operator<<(DevVarDoubleArray &lval,const std::vector<double> &rval)
  * @param rval The DevVarDoubleArray
  */
 
-inline void operator<<(std::vector<double> &lval,const DevVarDoubleArray &rval)
+inline void operator<<(std::vector<double> &lval, const DevVarDoubleArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
-
 
 //=============================================================================
 //
@@ -306,12 +300,12 @@ inline void operator<<(std::vector<double> &lval,const DevVarDoubleArray &rval)
  * @param lval The DevVarBooleanArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarBooleanArray &lval,const std::vector<bool> &rval)
+inline void operator<<(DevVarBooleanArray &lval, const std::vector<bool> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -321,13 +315,13 @@ inline void operator<<(DevVarBooleanArray &lval,const std::vector<bool> &rval)
  * @param rval The DevVarBooleanArray
  */
 
-inline void operator<<(std::vector<bool> &lval,const DevVarBooleanArray &rval)
+inline void operator<<(std::vector<bool> &lval, const DevVarBooleanArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //=============================================================================
@@ -345,12 +339,12 @@ inline void operator<<(std::vector<bool> &lval,const DevVarBooleanArray &rval)
  * @param lval The DevVarUShortArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarUShortArray &lval,const std::vector<unsigned short> &rval)
+inline void operator<<(DevVarUShortArray &lval, const std::vector<unsigned short> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -360,13 +354,13 @@ inline void operator<<(DevVarUShortArray &lval,const std::vector<unsigned short>
  * @param rval The DevVarUShortArray
  */
 
-inline void operator<<(std::vector<unsigned short> &lval,const DevVarUShortArray &rval)
+inline void operator<<(std::vector<unsigned short> &lval, const DevVarUShortArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //=============================================================================
@@ -385,12 +379,12 @@ inline void operator<<(std::vector<unsigned short> &lval,const DevVarUShortArray
  * @param rval The C++ vector
  */
 
-inline void operator<<(DevVarULongArray &lval,const std::vector<DevULong> &rval)
+inline void operator<<(DevVarULongArray &lval, const std::vector<DevULong> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -399,15 +393,14 @@ inline void operator<<(DevVarULongArray &lval,const std::vector<DevULong> &rval)
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarULongArray
  */
-inline void operator<<(std::vector<DevULong> &lval,const DevVarULongArray &rval)
+inline void operator<<(std::vector<DevULong> &lval, const DevVarULongArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
-
 
 //=============================================================================
 //
@@ -425,12 +418,12 @@ inline void operator<<(std::vector<DevULong> &lval,const DevVarULongArray &rval)
  * @param rval The C++ vector
  */
 
-inline void operator<<(DevVarULong64Array &lval,const std::vector<DevULong64> &rval)
+inline void operator<<(DevVarULong64Array &lval, const std::vector<DevULong64> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -439,13 +432,13 @@ inline void operator<<(DevVarULong64Array &lval,const std::vector<DevULong64> &r
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarULong64Array
  */
-inline void operator<<(std::vector<DevULong64> &lval,const DevVarULong64Array &rval)
+inline void operator<<(std::vector<DevULong64> &lval, const DevVarULong64Array &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //=============================================================================
@@ -463,12 +456,12 @@ inline void operator<<(std::vector<DevULong64> &lval,const DevVarULong64Array &r
  * @param lval The DevVarStringArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarStringArray &lval,const std::vector<std::string> &rval)
+inline void operator<<(DevVarStringArray &lval, const std::vector<std::string> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = Tango::string_dup(rval[i].c_str());
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = Tango::string_dup(rval[i].c_str());
 }
 
 /**
@@ -477,17 +470,17 @@ inline void operator<<(DevVarStringArray &lval,const std::vector<std::string> &r
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarStringArray
  */
-inline void operator<<(std::vector<std::string> &lval,const DevVarStringArray &rval)
+inline void operator<<(std::vector<std::string> &lval, const DevVarStringArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	std::string str;
-	for (long i = 0;i < nb_elt;i++)
-	{
-		str = rval[i];
-		lval.push_back(str);
-	}
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  std::string str;
+  for(long i = 0; i < nb_elt; i++)
+  {
+    str = rval[i];
+    lval.push_back(str);
+  }
 }
 
 //=============================================================================
@@ -505,12 +498,12 @@ inline void operator<<(std::vector<std::string> &lval,const DevVarStringArray &r
  * @param lval The DevVarStateArray to be initialised
  * @param rval The C++ vector
  */
-inline void operator<<(DevVarStateArray &lval,const std::vector<DevState> &rval)
+inline void operator<<(DevVarStateArray &lval, const std::vector<DevState> &rval)
 {
-	size_t nb_elt = rval.size();
-	lval.length((CORBA::ULong)nb_elt);
-	for (unsigned long i = 0;i < nb_elt;i++)
-		lval[i] = rval[i];
+  size_t nb_elt = rval.size();
+  lval.length((CORBA::ULong) nb_elt);
+  for(unsigned long i = 0; i < nb_elt; i++)
+    lval[i] = rval[i];
 }
 
 /**
@@ -519,13 +512,13 @@ inline void operator<<(DevVarStateArray &lval,const std::vector<DevState> &rval)
  * @param lval The C++ vector to be initialised
  * @param rval The DevVarStateArray
  */
-inline void operator<<(std::vector<DevState> &lval,const DevVarStateArray &rval)
+inline void operator<<(std::vector<DevState> &lval, const DevVarStateArray &rval)
 {
-	long nb_elt = rval.length();
-	if (lval.empty() == false)
-		lval.clear();
-	for (long i = 0;i < nb_elt;i++)
-		lval.push_back(rval[i]);
+  long nb_elt = rval.length();
+  if(lval.empty() == false)
+    lval.clear();
+  for(long i = 0; i < nb_elt; i++)
+    lval.push_back(rval[i]);
 }
 
 //@}
@@ -548,7 +541,7 @@ inline void operator<<(std::vector<DevState> &lval,const DevVarStateArray &rval)
  * @param lval The C++ stream used for printing
  * @param rval The DevVarCharArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarCharArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarCharArray &rval);
 /**
  * Print a DevVarShortArray.
  *
@@ -557,7 +550,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarCharArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarShortArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarShortArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarShortArray &rval);
 /**
  * Print a DevVarLongArray.
  *
@@ -566,7 +559,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarShortArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarLongArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarLongArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarLongArray &rval);
 /**
  * Print a DevVarLong64Array.
  *
@@ -575,7 +568,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarLongArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarLong64Array sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarLong64Array &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarLong64Array &rval);
 /**
  * Print a DevVarFloatArray.
  *
@@ -584,7 +577,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarLong64Array &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarFloatArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarFloatArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarFloatArray &rval);
 /**
  * Print a DevVarDoubleArray.
  *
@@ -593,7 +586,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarFloatArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarDoubleArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarDoubleArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarDoubleArray &rval);
 /**
  * Print a DevVarBooleanArray.
  *
@@ -602,7 +595,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarDoubleArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarBooleanArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarBooleanArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarBooleanArray &rval);
 /**
  * Print a DevVarUShortArray.
  *
@@ -611,7 +604,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarBooleanArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarUShortArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarUShortArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarUShortArray &rval);
 /**
  * Print a DevVarULongArray.
  *
@@ -620,7 +613,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarUShortArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarULongArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarULongArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarULongArray &rval);
 /**
  * Print a DevVarULong64Array.
  *
@@ -629,7 +622,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarULongArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarULong64Array sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarULong64Array &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarULong64Array &rval);
 /**
  * Print a DevVarStringArray.
  *
@@ -638,7 +631,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarULong64Array &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarStringArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarStringArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarStringArray &rval);
 /**
  * Print a DevVarStateArray.
  *
@@ -647,7 +640,7 @@ std::ostream &operator<<(std::ostream &lval,const DevVarStringArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarStateArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarStateArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarStateArray &rval);
 /**
  * Print a DevVarEncodedArray.
  *
@@ -656,10 +649,9 @@ std::ostream &operator<<(std::ostream &lval,const DevVarStateArray &rval);
  * @param lval The C++ stream used for printing
  * @param rval The DevVarEncodedArray sequence to be printed
  */
-std::ostream &operator<<(std::ostream &lval,const DevVarEncodedArray &rval);
+std::ostream &operator<<(std::ostream &lval, const DevVarEncodedArray &rval);
 //@}
 
-} // End of Tango namespace
-
+} // namespace Tango
 
 #endif /* _SECVEC_ */

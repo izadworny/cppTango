@@ -1,10 +1,10 @@
 #include <zmq.hpp>
 
-int main(int, char**)
+int main(int, char **)
 {
   zmq::context_t c(1);
   zmq::socket_t s(c, ZMQ_REQ);
-  void* plain_socket = s.handle();
+  void *plain_socket = s.handle();
 
   s.disconnect("some endpoint");
 

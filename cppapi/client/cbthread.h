@@ -9,7 +9,7 @@
 //
 // author(s) :          E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -37,19 +37,36 @@
 
 #include <tango.h>
 
-
 namespace Tango
 {
 
-class CbThreadCmd: public omni_mutex
+class CbThreadCmd : public omni_mutex
 {
 public:
-	CbThreadCmd():stop(false) {}
-	void stop_thread() {omni_mutex_lock sync(*this);stop=true;}
-	void start_thread() {omni_mutex_lock sync(*this);stop=false;}
-	bool is_stopped() {omni_mutex_lock sync(*this);return stop;}
+  CbThreadCmd()
+      : stop(false)
+  {
+  }
 
-	bool stop;
+  void stop_thread()
+  {
+    omni_mutex_lock sync(*this);
+    stop = true;
+  }
+
+  void start_thread()
+  {
+    omni_mutex_lock sync(*this);
+    stop = false;
+  }
+
+  bool is_stopped()
+  {
+    omni_mutex_lock sync(*this);
+    return stop;
+  }
+
+  bool stop;
 };
 
 //=============================================================================
@@ -61,22 +78,23 @@ public:
 //
 //=============================================================================
 
-
-class CallBackThread: public omni_thread
+class CallBackThread : public omni_thread
 {
 public:
-	CallBackThread(CbThreadCmd &cmd,AsynReq *as):shared_cmd(cmd),
-						     asyn_ptr(as) {}
+  CallBackThread(CbThreadCmd &cmd, AsynReq *as)
+      : shared_cmd(cmd),
+        asyn_ptr(as)
+  {
+  }
 
-	void *run_undetached(void *);
-	void start() {start_undetached();}
+  void *run_undetached(void *);
 
-	CbThreadCmd	&shared_cmd;
-	AsynReq		*asyn_ptr;
+  void start() { start_undetached(); }
+
+  CbThreadCmd &shared_cmd;
+  AsynReq *asyn_ptr;
 };
 
-
-
-} // End of Tango namespace
+} // namespace Tango
 
 #endif /* _CBTHREAD_ */

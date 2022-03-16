@@ -2,7 +2,8 @@
 //
 // file :               W_pipe.cpp
 //
-// description :        C++ source code for the WPipe class. The WPipe class is a root class for derived
+// description :        C++ source code for the WPipe class. The WPipe class is
+// a root class for derived
 //						Pipe classes.
 //
 // project :            TANGO
@@ -16,16 +17,18 @@
 //
 // This file is part of Tango.
 //
-// Tango is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// Tango is free software: you can redistribute it and/or modify it under the
+// terms of the GNU Lesser General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option) any
+// later version.
 //
-// Tango is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// Tango is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+// details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with Tango.
-// If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU Lesser General Public License
+// along with Tango. If not, see <http://www.gnu.org/licenses/>.
 //
 //
 //-==================================================================================================================
@@ -45,8 +48,9 @@ namespace Tango
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-WPipe::WPipe(const std::string &_name,Tango::DispLevel _level)
-:Pipe(_name,_level,PIPE_READ_WRITE),w_ext(new WPipeExt)
+WPipe::WPipe(const std::string &_name, Tango::DispLevel _level)
+    : Pipe(_name, _level, PIPE_READ_WRITE),
+      w_ext(new WPipeExt)
 {
 }
 
@@ -62,9 +66,8 @@ WPipe::WPipe(const std::string &_name,Tango::DispLevel _level)
 
 WPipe &WPipe::operator[](const std::string &_na)
 {
-	get_blob().operator[](_na);
-	return *this;
+  get_blob().operator[](_na);
+  return *this;
 }
 
-
-} // End of Tango namespace
+} // namespace Tango

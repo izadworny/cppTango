@@ -34,106 +34,126 @@
 //        (Program Obviously used to Generate tango Object)
 //=============================================================================
 
-
 #ifndef FwdTestClass_H
 #define FwdTestClass_H
 
 #include <tango.h>
 #include <FwdTest.h>
 
-
-/*----- PROTECTED REGION END -----*/	//	FwdTestClass.h
-
+/*----- PROTECTED REGION END -----*/ //	FwdTestClass.h
 
 namespace FwdTest_ns
 {
-/*----- PROTECTED REGION ID(FwdTestClass::classes for dynamic creation) ENABLED START -----*/
+/*----- PROTECTED REGION ID(FwdTestClass::classes for dynamic creation) ENABLED
+ * START -----*/
 
-class FwdAttrScaSh: public Tango::FwdAttr
+class FwdAttrScaSh : public Tango::FwdAttr
 {
 public:
-    FwdAttrScaSh(const std::string &_n):FwdAttr(_n) {}
-	~FwdAttrScaSh() {}
+  FwdAttrScaSh(const std::string &_n)
+      : FwdAttr(_n)
+  {
+  }
+
+  ~FwdAttrScaSh() {}
 };
 
-class FwdAttrScaStr: public Tango::FwdAttr
+class FwdAttrScaStr : public Tango::FwdAttr
 {
 public:
-	FwdAttrScaStr(const std::string &_n):FwdAttr(_n) {}
-	~FwdAttrScaStr() {}
+  FwdAttrScaStr(const std::string &_n)
+      : FwdAttr(_n)
+  {
+  }
+
+  ~FwdAttrScaStr() {}
 };
 
-class FwdAttrSpecDb: public Tango::FwdAttr
+class FwdAttrSpecDb : public Tango::FwdAttr
 {
 public:
-    FwdAttrSpecDb(const std::string &_n):FwdAttr(_n) {}
-	~FwdAttrSpecDb() {}
+  FwdAttrSpecDb(const std::string &_n)
+      : FwdAttr(_n)
+  {
+  }
+
+  ~FwdAttrSpecDb() {}
 };
 
-class FwdAttrImaStr: public Tango::FwdAttr
+class FwdAttrImaStr : public Tango::FwdAttr
 {
 public:
-    FwdAttrImaStr(const std::string &_n):FwdAttr(_n) {}
-	~FwdAttrImaStr() {}
+  FwdAttrImaStr(const std::string &_n)
+      : FwdAttr(_n)
+  {
+  }
+
+  ~FwdAttrImaStr() {}
 };
 
-class FwdAttrScaSta: public Tango::FwdAttr
+class FwdAttrScaSta : public Tango::FwdAttr
 {
 public:
-	FwdAttrScaSta(const std::string &_n):FwdAttr(_n) {}
-	~FwdAttrScaSta() {}
+  FwdAttrScaSta(const std::string &_n)
+      : FwdAttr(_n)
+  {
+  }
+
+  ~FwdAttrScaSta() {}
 };
 
-/*----- PROTECTED REGION END -----*/	//	FwdTestClass::classes for dynamic creation
+/*----- PROTECTED REGION END -----*/ //	FwdTestClass::classes for dynamic
+                                     // creation
 
 /**
  *	The FwdTestClass singleton definition
  */
 
 #ifdef _TG_WINDOWS_
-class __declspec(dllexport)  FwdTestClass : public Tango::DeviceClass
+class __declspec(dllexport) FwdTestClass : public Tango::DeviceClass
 #else
 class FwdTestClass : public Tango::DeviceClass
 #endif
 {
-	/*----- PROTECTED REGION ID(FwdTestClass::Additionnal DServer data members) ENABLED START -----*/
+  /*----- PROTECTED REGION ID(FwdTestClass::Additionnal DServer data members)
+   * ENABLED START -----*/
 
+  /*----- PROTECTED REGION END -----*/ //	FwdTestClass::Additionnal DServer data
+                                       // members
 
-	/*----- PROTECTED REGION END -----*/	//	FwdTestClass::Additionnal DServer data members
+public:
+  //	write class properties data members
+  Tango::DbData cl_prop;
+  Tango::DbData cl_def_prop;
+  Tango::DbData dev_def_prop;
 
-	public:
-		//	write class properties data members
-		Tango::DbData	cl_prop;
-		Tango::DbData	cl_def_prop;
-		Tango::DbData	dev_def_prop;
+  //	Method prototypes
+  static FwdTestClass *init(const char *);
+  static FwdTestClass *instance();
+  ~FwdTestClass();
+  Tango::DbDatum get_class_property(std::string &);
+  Tango::DbDatum get_default_device_property(std::string &);
+  Tango::DbDatum get_default_class_property(std::string &);
 
-		//	Method prototypes
-		static FwdTestClass *init(const char *);
-		static FwdTestClass *instance();
-		~FwdTestClass();
-		Tango::DbDatum	get_class_property(std::string &);
-		Tango::DbDatum	get_default_device_property(std::string &);
-		Tango::DbDatum	get_default_class_property(std::string &);
+protected:
+  FwdTestClass(std::string &);
+  static FwdTestClass *_instance;
+  void command_factory();
+  void attribute_factory(std::vector<Tango::Attr *> &);
+  void write_class_property();
+  void set_default_property();
+  void get_class_property();
+  std::string get_cvstag();
+  std::string get_cvsroot();
 
-	protected:
-		FwdTestClass(std::string &);
-		static FwdTestClass *_instance;
-		void command_factory();
-		void attribute_factory(std::vector<Tango::Attr *> &);
-		void write_class_property();
-		void set_default_property();
-		void get_class_property();
-		std::string get_cvstag();
-		std::string get_cvsroot();
-
-	private:
-		void device_factory(const Tango::DevVarStringArray *);
-		void create_static_attribute_list(std::vector<Tango::Attr *> &);
-		void erase_dynamic_attributes(const Tango::DevVarStringArray *,std::vector<Tango::Attr *> &);
-		std::vector<std::string>	defaultAttList;
-		Tango::Attr *get_attr_object_by_name(std::vector<Tango::Attr *> &att_list, std::string attname);
+private:
+  void device_factory(const Tango::DevVarStringArray *);
+  void create_static_attribute_list(std::vector<Tango::Attr *> &);
+  void erase_dynamic_attributes(const Tango::DevVarStringArray *, std::vector<Tango::Attr *> &);
+  std::vector<std::string> defaultAttList;
+  Tango::Attr *get_attr_object_by_name(std::vector<Tango::Attr *> &att_list, std::string attname);
 };
 
-}	//	End of namespace
+} // namespace FwdTest_ns
 
-#endif   //	FwdTest_H
+#endif //	FwdTest_H

@@ -14,7 +14,7 @@
 //
 // author(s) :		A.Gotz + E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -64,110 +64,109 @@ namespace Tango
 
 #ifdef _TG_WINDOWS_
 typedef void (DServer::*PTR)(void);
+
 typedef union _convertor
 {
-	PTR d;
-	FARPROC s;
-}convertor;
+  PTR d;
+  FARPROC s;
+} convertor;
 #endif
-
 
 #ifdef __darwin__
-#include <dlfcn.h>
+  #include <dlfcn.h>
 
 typedef void (DServer::*PTR)(void);
+
 typedef union _convertor
 {
-	PTR d;
-	void *s;
-}convertor;
+  PTR d;
+  void *s;
+} convertor;
 #endif
-
 
 void DServer::class_factory()
 {
 #ifdef _TG_WINDOWS_
-	Tango::Util *tg = Tango::Util::instance();
-	std::string exe_name = tg->get_ds_exec_name();
-	exe_name = exe_name + ".exe";
-	HMODULE mod;
-	FARPROC proc;
-	convertor conv;
-	PTR tmp;
+  Tango::Util *tg      = Tango::Util::instance();
+  std::string exe_name = tg->get_ds_exec_name();
+  exe_name             = exe_name + ".exe";
+  HMODULE mod;
+  FARPROC proc;
+  convertor conv;
+  PTR tmp;
 
-	if ((mod = GetModuleHandle(exe_name.c_str())) == NULL)
-	{
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-		exit(-1);
-	}
+  if((mod = GetModuleHandle(exe_name.c_str())) == NULL)
+  {
+    std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+    exit(-1);
+  }
 
-//
-// Use the mangled name to find the user DServer::class_factory method
-//
-// Due to the fact that on Windows 64 bits we have both _WIN32 and _WIN64
-// defined, start by testing _WIN64 (See tango_config.h)
-//
+  //
+  // Use the mangled name to find the user DServer::class_factory method
+  //
+  // Due to the fact that on Windows 64 bits we have both _WIN32 and _WIN64
+  // defined, start by testing _WIN64 (See tango_config.h)
+  //
 
-#ifdef _WIN64
-	if ((proc = GetProcAddress(mod,"?class_factory@DServer@Tango@@AEAAXXZ")) == NULL)
-#elif _WIN32 /* WIN32 */
-	if ((proc = GetProcAddress(mod,"?class_factory@DServer@Tango@@AAEXXZ")) == NULL)
-#endif
-	{
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-		exit(-1);
-	}
-	else
-	{
-		conv.d = &DServer::stop_polling;
-		conv.s = proc;
+  #ifdef _WIN64
+  if((proc = GetProcAddress(mod, "?class_factory@DServer@Tango@@AEAAXXZ")) == NULL)
+  #elif _WIN32 /* WIN32 */
+  if((proc = GetProcAddress(mod, "?class_factory@DServer@Tango@@AAEXXZ")) == NULL)
+  #endif
+  {
+    std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+    exit(-1);
+  }
+  else
+  {
+    conv.d = &DServer::stop_polling;
+    conv.s = proc;
 
-		tmp = conv.d;
-		(this->*tmp)();
-	}
+    tmp = conv.d;
+    (this->*tmp)();
+  }
 
 #elif __darwin__
-	Tango::Util *tg = Tango::Util::instance();
-	std::string exe_name = tg->get_ds_exec_name();
-	exe_name = exe_name;
+  Tango::Util *tg      = Tango::Util::instance();
+  std::string exe_name = tg->get_ds_exec_name();
+  exe_name             = exe_name;
 
-	void *mod;
-	void *proc;
-	convertor conv;
-	PTR tmp;
+  void *mod;
+  void *proc;
+  convertor conv;
+  PTR tmp;
 
-	if ((mod = dlopen (exe_name.c_str(), RTLD_LAZY )) == NULL)
-	{
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-		exit(-1);
-	}
+  if((mod = dlopen(exe_name.c_str(), RTLD_LAZY)) == NULL)
+  {
+    std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+    exit(-1);
+  }
 
-//
-// Use the mangled name to find the user DServer::class_factory method
-//
-// Due to the fact that on Windows 64 bits we have both WIN32 and WIN64
-// defined, start by testing WIN64 (See tango_config.h)
-//
+  //
+  // Use the mangled name to find the user DServer::class_factory method
+  //
+  // Due to the fact that on Windows 64 bits we have both WIN32 and WIN64
+  // defined, start by testing WIN64 (See tango_config.h)
+  //
 
-	if ((proc = dlsym (mod,"_ZN5Tango7DServer13class_factoryEv")) == NULL)
-	{
-		std::cerr << "error : " << dlerror() << std::endl;
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-		exit(-1);
-	}
-	else
-	{
-		conv.d = &DServer::stop_polling;
-		conv.s = proc;
+  if((proc = dlsym(mod, "_ZN5Tango7DServer13class_factoryEv")) == NULL)
+  {
+    std::cerr << "error : " << dlerror() << std::endl;
+    std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+    exit(-1);
+  }
+  else
+  {
+    conv.d = &DServer::stop_polling;
+    conv.s = proc;
 
-		tmp = conv.d;
-		(this->*tmp)();
-	}
+    tmp = conv.d;
+    (this->*tmp)();
+  }
 #else
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
-		exit(-1);
+  std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+  exit(-1);
 #endif
-
 }
 
-} // End of Tango namespace
+} // namespace Tango

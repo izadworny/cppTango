@@ -12,7 +12,7 @@
 //
 // author(s) :          A.Gotz + E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -54,14 +54,11 @@ namespace Tango
 //
 //--------------------------------------------------------------------------
 
-DevRestartCmd::DevRestartCmd(const char *name,
-			     Tango::CmdArgType in,
-			     Tango::CmdArgType out,
-			     const char *in_desc):Command(name,in,out)
+DevRestartCmd::DevRestartCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+-------------------------------------------------------------------------
 //
@@ -73,33 +70,33 @@ DevRestartCmd::DevRestartCmd(const char *name,
 
 CORBA::Any *DevRestartCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "DevRestart::execute(): arrived " << std::endl;
 
-	cout4 << "DevRestart::execute(): arrived " << std::endl;
+  //
+  // Extract the input string
+  //
 
-//
-// Extract the input string
-//
+  const char *tmp_name;
+  if((in_any >>= tmp_name) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType,
+                          "Imcompatible command argument type, expected type is : string");
+  }
+  std::string d_name(tmp_name);
+  cout4 << "Received string = " << d_name << std::endl;
 
-	const char *tmp_name;
-	if ((in_any >>= tmp_name) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : string");
-	}
-	std::string d_name(tmp_name);
-	cout4 << "Received string = " << d_name << std::endl;
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  (static_cast<DServer *>(device))->restart(d_name);
 
-	(static_cast<DServer *>(device))->restart(d_name);
+  //
+  // return to the caller
+  //
 
-//
-// return to the caller
-//
-
-	CORBA::Any *ret = return_empty_any("DevRestartCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("DevRestartCmd");
+  return ret;
 }
 
 //+----------------------------------------------------------------------------
@@ -111,9 +108,8 @@ CORBA::Any *DevRestartCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 //
 //-----------------------------------------------------------------------------
 
-DevRestartServerCmd::DevRestartServerCmd(const char *name,
-	  	       			Tango::CmdArgType in,
-		       			Tango::CmdArgType out):Command(name,in,out)
+DevRestartServerCmd::DevRestartServerCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out)
+    : Command(name, in, out)
 {
 }
 
@@ -126,25 +122,23 @@ DevRestartServerCmd::DevRestartServerCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevRestartServerCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevRestartServerCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevRestartServerCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevRestartServerCmd::execute(): arrived" << std::endl;
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  (static_cast<DServer *>(device))->restart_server();
 
-	(static_cast<DServer *>(device))->restart_server();
+  //
+  // return to the caller
+  //
 
-//
-// return to the caller
-//
-
-	CORBA::Any *ret = return_empty_any("DevRestartServerCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("DevRestartServerCmd");
+  return ret;
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -155,12 +149,10 @@ CORBA::Any *DevRestartServerCmd::execute(DeviceImpl *device,TANGO_UNUSED(const C
 //
 //-----------------------------------------------------------------------------
 
-DevQueryClassCmd::DevQueryClassCmd(const char *name,
-			     	   Tango::CmdArgType in,
-			     	   Tango::CmdArgType out,
-				   const char *out_desc):Command(name,in,out)
+DevQueryClassCmd::DevQueryClassCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
 
 //+----------------------------------------------------------------------------
@@ -172,38 +164,36 @@ DevQueryClassCmd::DevQueryClassCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevQueryClassCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevQueryClassCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevQueryClassCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevQueryClassCmd::execute(): arrived" << std::endl;
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_class();
 
-	Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_class();
+  //
+  // return data to the caller
+  //
 
-//
-// return data to the caller
-//
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in DevQueryClassCmd::execute()" << std::endl;
+    delete ret;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in DevQueryClassCmd::execute()" << std::endl;
-		delete ret;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving DevQueryClassCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving DevQueryClassCmd::execute()" << std::endl;
+  return (out_any);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -214,12 +204,11 @@ CORBA::Any *DevQueryClassCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORB
 //
 //-----------------------------------------------------------------------------
 
-DevQueryDeviceCmd::DevQueryDeviceCmd(const char *name,
-			       	     Tango::CmdArgType in,
-			       	     Tango::CmdArgType out,
-				     const char *out_desc):Command(name,in,out)
+DevQueryDeviceCmd::DevQueryDeviceCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                     const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
 
 //+----------------------------------------------------------------------------
@@ -231,35 +220,34 @@ DevQueryDeviceCmd::DevQueryDeviceCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevQueryDeviceCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevQueryDeviceCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevQueryDeviceCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevQueryDeviceCmd::execute(): arrived" << std::endl;
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_device();
 
-	Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_device();
+  //
+  // return data to the caller
+  //
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in DevQueryDeviceCmd::execute()" << std::endl;
+    delete ret;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-//
-// return data to the caller
-//
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in DevQueryDeviceCmd::execute()" << std::endl;
-		delete ret;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving DevQueryDeviceCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving DevQueryDeviceCmd::execute()" << std::endl;
+  return (out_any);
 }
 
 //+----------------------------------------------------------------------------
@@ -271,12 +259,11 @@ CORBA::Any *DevQueryDeviceCmd::execute(DeviceImpl *device,TANGO_UNUSED(const COR
 //
 //-----------------------------------------------------------------------------
 
-DevQuerySubDeviceCmd::DevQuerySubDeviceCmd(const char *name,
-			       	     Tango::CmdArgType in,
-			       	     Tango::CmdArgType out,
-				     const char *out_desc):Command(name,in,out)
+DevQuerySubDeviceCmd::DevQuerySubDeviceCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                           const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
 
 //+----------------------------------------------------------------------------
@@ -288,39 +275,35 @@ DevQuerySubDeviceCmd::DevQuerySubDeviceCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevQuerySubDeviceCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevQuerySubDeviceCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevQuerySubDeviceCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevQuerySubDeviceCmd::execute(): arrived" << std::endl;
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_sub_device();
 
-	Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_sub_device();
+  //
+  // return data to the caller
+  //
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in DevQuerySubDeviceCmd::execute()" << std::endl;
+    delete ret;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-//
-// return data to the caller
-//
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in DevQuerySubDeviceCmd::execute()" << std::endl;
-		delete ret;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving DevQuerySubDeviceCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving DevQuerySubDeviceCmd::execute()" << std::endl;
+  return (out_any);
 }
-
-
-
 
 //+----------------------------------------------------------------------------
 //
@@ -331,9 +314,8 @@ CORBA::Any *DevQuerySubDeviceCmd::execute(DeviceImpl *device,TANGO_UNUSED(const 
 //
 //-----------------------------------------------------------------------------
 
-DevKillCmd::DevKillCmd(const char *name,
-	  	       Tango::CmdArgType in,
-		       Tango::CmdArgType out):Command(name,in,out)
+DevKillCmd::DevKillCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out)
+    : Command(name, in, out)
 {
 }
 
@@ -346,25 +328,23 @@ DevKillCmd::DevKillCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevKillCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevKillCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevKillCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevKillCmd::execute(): arrived" << std::endl;
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  (static_cast<DServer *>(device))->kill();
 
-	(static_cast<DServer *>(device))->kill();
+  //
+  // return to the caller
+  //
 
-//
-// return to the caller
-//
-
-	CORBA::Any *ret = return_empty_any("DevKillCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("DevKillCmd");
+  return ret;
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -375,12 +355,11 @@ CORBA::Any *DevKillCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORBA::Any
 //
 //-----------------------------------------------------------------------------
 
-DevSetTraceLevelCmd::DevSetTraceLevelCmd(const char *name,
-			     	   	 Tango::CmdArgType in,
-			     	   	 Tango::CmdArgType out,
-					 const char *in_desc):Command(name,in,out)
+DevSetTraceLevelCmd::DevSetTraceLevelCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                         const char *in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
 
 //+----------------------------------------------------------------------------
@@ -392,17 +371,15 @@ DevSetTraceLevelCmd::DevSetTraceLevelCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevSetTraceLevelCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevSetTraceLevelCmd::execute(TANGO_UNUSED(DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevSetTraceLevelCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevSetTraceLevelCmd::execute(): arrived" << std::endl;
+  TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "SetTraceLevel is no more supported, please use SetLoggingLevel");
 
-	TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "SetTraceLevel is no more supported, please use SetLoggingLevel");
-
-	CORBA::Any *ret = return_empty_any("DevSetTraceLevelCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("DevSetTraceLevelCmd");
+  return ret;
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -413,12 +390,11 @@ CORBA::Any *DevSetTraceLevelCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_
 //
 //-----------------------------------------------------------------------------
 
-DevGetTraceLevelCmd::DevGetTraceLevelCmd(const char *name,
-			     	   	 Tango::CmdArgType in,
-			     	   	 Tango::CmdArgType out,
-					 const char *out_desc):Command(name,in,out)
+DevGetTraceLevelCmd::DevGetTraceLevelCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                         const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
 
 //+----------------------------------------------------------------------------
@@ -430,23 +406,19 @@ DevGetTraceLevelCmd::DevGetTraceLevelCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevGetTraceLevelCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevGetTraceLevelCmd::execute(TANGO_UNUSED(DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "DevGetTraceLevelCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevGetTraceLevelCmd::execute(): arrived" << std::endl;
+  TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "GetTraceLevel is no more supported, please use GetLoggingLevel");
 
+  //
+  // Make the compiler happy
+  //
 
-  	TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "GetTraceLevel is no more supported, please use GetLoggingLevel");
-
-//
-// Make the compiler happy
-//
-
-	CORBA::Any *ret = return_empty_any("DevGetTraceLevelCmd");
-	return ret;
-
+  CORBA::Any *ret = return_empty_any("DevGetTraceLevelCmd");
+  return ret;
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -457,12 +429,11 @@ CORBA::Any *DevGetTraceLevelCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_
 //
 //-----------------------------------------------------------------------------
 
-DevGetTraceOutputCmd::DevGetTraceOutputCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   const char *out_desc):Command(name,in,out)
+DevGetTraceOutputCmd::DevGetTraceOutputCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                           const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
 
 //+----------------------------------------------------------------------------
@@ -474,14 +445,14 @@ DevGetTraceOutputCmd::DevGetTraceOutputCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevGetTraceOutputCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevGetTraceOutputCmd::execute(TANGO_UNUSED(DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	cout4 << "DevGetTraceOutputCmd::execute(): arrived" << std::endl;
+  cout4 << "DevGetTraceOutputCmd::execute(): arrived" << std::endl;
 
-	TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "GetTraceOutput is no more supported, please use GetLoggingTarget");
+  TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "GetTraceOutput is no more supported, please use GetLoggingTarget");
 
-	CORBA::Any *ret = return_empty_any("DevGetTraceOutputCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("DevGetTraceOutputCmd");
+  return ret;
 }
 
 //+----------------------------------------------------------------------------
@@ -493,15 +464,12 @@ CORBA::Any *DevGetTraceOutputCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO
 //
 //-----------------------------------------------------------------------------
 
-
-DevSetTraceOutputCmd::DevSetTraceOutputCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   const char *in_desc):Command(name,in,out)
+DevSetTraceOutputCmd::DevSetTraceOutputCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                           const char *in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -512,14 +480,14 @@ DevSetTraceOutputCmd::DevSetTraceOutputCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevSetTraceOutputCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *DevSetTraceOutputCmd::execute(TANGO_UNUSED(DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	cout4 << "DevSetTraceOutputCmd::execute(): arrived" << std::endl;
+  cout4 << "DevSetTraceOutputCmd::execute(): arrived" << std::endl;
 
-	TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "SetTraceOutput is no more supported, please use AddLoggingTarget");
+  TANGO_THROW_EXCEPTION(API_DeprecatedCommand, "SetTraceOutput is no more supported, please use AddLoggingTarget");
 
-	CORBA::Any *ret = return_empty_any("DevSetTraceOutputCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("DevSetTraceOutputCmd");
+  return ret;
 }
 
 //+----------------------------------------------------------------------------
@@ -531,69 +499,65 @@ CORBA::Any *DevSetTraceOutputCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO
 //
 //-----------------------------------------------------------------------------
 
-
-QueryWizardClassPropertyCmd::QueryWizardClassPropertyCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   const char *in_desc,
-					   const char *out_desc):Command(name,in,out)
+QueryWizardClassPropertyCmd::QueryWizardClassPropertyCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                                         const char *in_desc, const char *out_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
-	set_out_type_desc(out_desc);
+  set_in_type_desc(in_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
 // method : 		QueryWizardClassPropertyCmd::execute(string &s)
 //
-// description : 	method to trigger the execution of the "QueryWizardClassProperty"
+// description : 	method to trigger the execution of the
+// "QueryWizardClassProperty"
 //			command
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *QueryWizardClassPropertyCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *QueryWizardClassPropertyCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "QueryWizardClassPropertyCmd::execute(): arrived" << std::endl;
 
-	cout4 << "QueryWizardClassPropertyCmd::execute(): arrived" << std::endl;
+  //
+  // Extract the input string
+  //
 
-//
-// Extract the input string
-//
+  const char *tmp_name;
+  if((in_any >>= tmp_name) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType,
+                          "Imcompatible command argument type, expected type is : string");
+  }
+  std::string class_name(tmp_name);
 
-	const char *tmp_name;
-	if ((in_any >>= tmp_name) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : string");
-	}
-	std::string class_name(tmp_name);
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_class_prop(class_name);
 
-	Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_class_prop(class_name);
+  //
+  // return data to the caller
+  //
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in QueryWizardClassPropertyCmd::execute()" << std::endl;
+    delete ret;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-//
-// return data to the caller
-//
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in QueryWizardClassPropertyCmd::execute()" << std::endl;
-		delete ret;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving QueryWizardClassPropertyCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving QueryWizardClassPropertyCmd::execute()" << std::endl;
+  return (out_any);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -604,67 +568,64 @@ CORBA::Any *QueryWizardClassPropertyCmd::execute(DeviceImpl *device,const CORBA:
 //
 //-----------------------------------------------------------------------------
 
-
-QueryWizardDevPropertyCmd::QueryWizardDevPropertyCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   const char *in_desc,
-					   const char *out_desc):Command(name,in,out)
+QueryWizardDevPropertyCmd::QueryWizardDevPropertyCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                                     const char *in_desc, const char *out_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
-	set_out_type_desc(out_desc);
+  set_in_type_desc(in_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
 // method : 		QueryWizardDevPropertyCmd::execute()
 //
-// description : 	method to trigger the execution of the "QueryWizardDevProperty"
+// description : 	method to trigger the execution of the
+// "QueryWizardDevProperty"
 //			command
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *QueryWizardDevPropertyCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *QueryWizardDevPropertyCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "QueryWizardDevPropertyCmd::execute(): arrived" << std::endl;
 
-	cout4 << "QueryWizardDevPropertyCmd::execute(): arrived" << std::endl;
+  //
+  // Extract the input string
+  //
 
-//
-// Extract the input string
-//
+  const char *tmp_name;
+  if((in_any >>= tmp_name) == false)
+  {
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType,
+                          "Imcompatible command argument type, expected type is : string");
+  }
+  std::string class_name(tmp_name);
 
-	const char *tmp_name;
-	if ((in_any >>= tmp_name) == false)
-	{
-		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : string");
-	}
-	std::string class_name(tmp_name);
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_dev_prop(class_name);
 
-	Tango::DevVarStringArray *ret = (static_cast<DServer *>(device))->query_dev_prop(class_name);
+  //
+  // return data to the caller
+  //
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in QueryWizardDevPropertyCmd::execute()" << std::endl;
+    delete ret;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-//
-// return data to the caller
-//
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in QueryWizardDevPropertyCmd::execute()" << std::endl;
-		delete ret;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving QueryWizardDevPropertyCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving QueryWizardDevPropertyCmd::execute()" << std::endl;
+  return (out_any);
 }
 
 //+----------------------------------------------------------------------------
@@ -676,15 +637,12 @@ CORBA::Any *QueryWizardDevPropertyCmd::execute(DeviceImpl *device,const CORBA::A
 //
 //-----------------------------------------------------------------------------
 
-
-QueryEventChannelIORCmd::QueryEventChannelIORCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   const char *out_desc):Command(name,in,out)
+QueryEventChannelIORCmd::QueryEventChannelIORCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                                 const char *out_desc)
+    : Command(name, in, out)
 {
-	set_out_type_desc(out_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -695,49 +653,49 @@ QueryEventChannelIORCmd::QueryEventChannelIORCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *QueryEventChannelIORCmd::execute(TANGO_UNUSED(DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *QueryEventChannelIORCmd::execute(TANGO_UNUSED(DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  cout4 << "QueryEventChannelIORCmd::execute(): arrived" << std::endl;
 
-	cout4 << "QueryEventChannelIORCmd::execute(): arrived" << std::endl;
+  //
+  // Get DS event channel IOR which is stored in the EventSupplier object
+  //
 
-//
-// Get DS event channel IOR which is stored in the EventSupplier object
-//
+  CORBA::Any *out_any = NULL;
+  NotifdEventSupplier *nd_event_supplier;
+  nd_event_supplier = Util::instance()->get_notifd_event_supplier();
+  if(nd_event_supplier == NULL)
+  {
+    cout3 << "Try to retrieve DS event channel while NotifdEventSupplier "
+             "object is not yet created"
+          << std::endl;
 
-	CORBA::Any *out_any = NULL;
-	NotifdEventSupplier *nd_event_supplier;
-	nd_event_supplier = Util::instance()->get_notifd_event_supplier();
-	if (nd_event_supplier == NULL)
-	{
-		cout3 << "Try to retrieve DS event channel while NotifdEventSupplier object is not yet created" << std::endl;
+    TANGO_THROW_EXCEPTION(API_EventSupplierNotConstructed, "Try to retrieve DS event channel while "
+                                                           "EventSupplier object is not created");
+  }
+  else
+  {
+    std::string &ior = nd_event_supplier->get_event_channel_ior();
 
-		TANGO_THROW_EXCEPTION(API_EventSupplierNotConstructed, "Try to retrieve DS event channel while EventSupplier object is not created");
-	}
-	else
-	{
+    //
+    // return data to the caller
+    //
 
-		std::string &ior = nd_event_supplier->get_event_channel_ior();
+    try
+    {
+      out_any = new CORBA::Any();
+    }
+    catch(std::bad_alloc &)
+    {
+      cout3 << "Bad allocation while in QueryEventChannelIORCmd::execute()" << std::endl;
+      TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+    }
+    (*out_any) <<= ior.c_str();
+  }
 
-//
-// return data to the caller
-//
-
-		try
-		{
-			out_any = new CORBA::Any();
-		}
-		catch (std::bad_alloc &)
-		{
-			cout3 << "Bad allocation while in QueryEventChannelIORCmd::execute()" << std::endl;
-			TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-		}
-		(*out_any) <<= ior.c_str();
-	}
-
-	cout4 << "Leaving QueryEventChannelIORCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving QueryEventChannelIORCmd::execute()" << std::endl;
+  return (out_any);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -747,15 +705,11 @@ CORBA::Any *QueryEventChannelIORCmd::execute(TANGO_UNUSED(DeviceImpl *device),TA
 //
 //-----------------------------------------------------------------------------
 
-
-LockDeviceCmd::LockDeviceCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-			     	     	   const char *in_desc):Command(name,in,out)
+LockDeviceCmd::LockDeviceCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -765,32 +719,30 @@ LockDeviceCmd::LockDeviceCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *LockDeviceCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *LockDeviceCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "LockDeviceCmd::execute(): arrived" << std::endl;
 
-	cout4 << "LockDeviceCmd::execute(): arrived" << std::endl;
+  //
+  // Extract the input argument
+  //
 
-//
-// Extract the input argument
-//
+  const Tango::DevVarLongStringArray *in_data;
+  extract(in_any, in_data);
 
-	const Tango::DevVarLongStringArray *in_data;
-	extract(in_any,in_data);
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  (static_cast<DServer *>(device))->lock_device(in_data);
 
-	(static_cast<DServer *>(device))->lock_device(in_data);
+  //
+  // return data to the caller
+  //
 
-//
-// return data to the caller
-//
-
-	CORBA::Any *ret = return_empty_any("LockDeviceCmd");
-	return ret;
+  CORBA::Any *ret = return_empty_any("LockDeviceCmd");
+  return ret;
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -800,15 +752,11 @@ CORBA::Any *LockDeviceCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
 //
 //-----------------------------------------------------------------------------
 
-
-ReLockDevicesCmd::ReLockDevicesCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   const char *in_desc):Command(name,in,out)
+ReLockDevicesCmd::ReLockDevicesCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -818,31 +766,29 @@ ReLockDevicesCmd::ReLockDevicesCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *ReLockDevicesCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *ReLockDevicesCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "ReLockDevicesCmd::execute(): arrived" << std::endl;
 
-	cout4 << "ReLockDevicesCmd::execute(): arrived" << std::endl;
+  //
+  // Extract the input argument
+  //
 
-//
-// Extract the input argument
-//
+  const Tango::DevVarStringArray *in_data;
+  extract(in_any, in_data);
 
-	const Tango::DevVarStringArray *in_data;
-	extract(in_any,in_data);
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  (static_cast<DServer *>(device))->re_lock_devices(in_data);
 
-	(static_cast<DServer *>(device))->re_lock_devices(in_data);
+  //
+  // return data to the caller
+  //
 
-//
-// return data to the caller
-//
-
-	CORBA::Any *ret = return_empty_any("ReLockDevicesCmd");
-	return ret;
-
+  CORBA::Any *ret = return_empty_any("ReLockDevicesCmd");
+  return ret;
 }
 
 //+----------------------------------------------------------------------------
@@ -853,17 +799,13 @@ CORBA::Any *ReLockDevicesCmd::execute(DeviceImpl *device,const CORBA::Any &in_an
 //
 //-----------------------------------------------------------------------------
 
-
-UnLockDeviceCmd::UnLockDeviceCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   		   const char *in_desc,
-					   		   const char *out_desc):Command(name,in,out)
+UnLockDeviceCmd::UnLockDeviceCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                                 const char *out_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
-	set_out_type_desc(out_desc);
+  set_in_type_desc(in_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -873,42 +815,41 @@ UnLockDeviceCmd::UnLockDeviceCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *UnLockDeviceCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *UnLockDeviceCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "UnLockDeviceCmd::execute(): arrived" << std::endl;
 
-	cout4 << "UnLockDeviceCmd::execute(): arrived" << std::endl;
+  //
+  // Extract the input string
+  //
 
-//
-// Extract the input string
-//
+  const Tango::DevVarLongStringArray *in_data;
+  extract(in_any, in_data);
 
-	const Tango::DevVarLongStringArray *in_data;
-	extract(in_any,in_data);
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevLong ret = (static_cast<DServer *>(device))->un_lock_device(in_data);
 
-	Tango::DevLong ret = (static_cast<DServer *>(device))->un_lock_device(in_data);
+  //
+  // return data to the caller
+  //
 
-//
-// return data to the caller
-//
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in UnLockDeviceCmd::execute()" << std::endl;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in UnLockDeviceCmd::execute()" << std::endl;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving UnLockDeviceCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving UnLockDeviceCmd::execute()" << std::endl;
+  return (out_any);
 }
 
 //+----------------------------------------------------------------------------
@@ -919,17 +860,13 @@ CORBA::Any *UnLockDeviceCmd::execute(DeviceImpl *device,const CORBA::Any &in_any
 //
 //-----------------------------------------------------------------------------
 
-
-DevLockStatusCmd::DevLockStatusCmd(const char *name,
-			     	     	   Tango::CmdArgType in,
-			     	     	   Tango::CmdArgType out,
-					   		   const char *in_desc,
-					   		   const char *out_desc):Command(name,in,out)
+DevLockStatusCmd::DevLockStatusCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                                   const char *out_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
-	set_out_type_desc(out_desc);
+  set_in_type_desc(in_desc);
+  set_out_type_desc(out_desc);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -939,44 +876,42 @@ DevLockStatusCmd::DevLockStatusCmd(const char *name,
 //
 //-----------------------------------------------------------------------------
 
-CORBA::Any *DevLockStatusCmd::execute(DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *DevLockStatusCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
+  cout4 << "DevLockStatusCmd::execute(): arrived" << std::endl;
 
-	cout4 << "DevLockStatusCmd::execute(): arrived" << std::endl;
+  //
+  // Extract the input string
+  //
 
-//
-// Extract the input string
-//
+  Tango::ConstDevString in_data;
+  extract(in_any, in_data);
 
-	Tango::ConstDevString in_data;
-	extract(in_any,in_data);
+  //
+  // call DServer method which implements this command
+  //
 
-//
-// call DServer method which implements this command
-//
+  Tango::DevVarLongStringArray *ret = (static_cast<DServer *>(device))->dev_lock_status(in_data);
 
-	Tango::DevVarLongStringArray *ret = (static_cast<DServer *>(device))->dev_lock_status(in_data);
+  //
+  // return to the caller
+  //
 
-//
-// return to the caller
-//
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in DevLockStatusCmd::execute()" << std::endl;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in DevLockStatusCmd::execute()" << std::endl;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
-
-	cout4 << "Leaving DevLockStatusCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving DevLockStatusCmd::execute()" << std::endl;
+  return (out_any);
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -991,12 +926,9 @@ CORBA::Any *DevLockStatusCmd::execute(DeviceImpl *device,const CORBA::Any &in_an
 //		- out_desc : The output parameter description
 //
 //-----------------------------------------------------------------------------
-EventSubscriptionChangeCmd::EventSubscriptionChangeCmd(const char *name,
-								Tango::CmdArgType in,
-								Tango::CmdArgType out,
-								const char *in_desc,
-								const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+EventSubscriptionChangeCmd::EventSubscriptionChangeCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                                       const char *in_desc, const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
 
@@ -1004,8 +936,8 @@ EventSubscriptionChangeCmd::EventSubscriptionChangeCmd(const char *name,
 //	Constructor without in/out parameters description
 //
 
-EventSubscriptionChangeCmd::EventSubscriptionChangeCmd(const char *name,Tango::CmdArgType in,Tango::CmdArgType out)
-:Command(name,in,out)
+EventSubscriptionChangeCmd::EventSubscriptionChangeCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out)
+    : Command(name, in, out)
 {
 }
 
@@ -1023,12 +955,13 @@ EventSubscriptionChangeCmd::EventSubscriptionChangeCmd(const char *name,Tango::C
 // returns :	boolean - true == is allowed , false == not allowed
 //
 //-----------------------------------------------------------------------------
-bool EventSubscriptionChangeCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
+bool EventSubscriptionChangeCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device),
+                                            TANGO_UNUSED(const CORBA::Any &in_any))
 {
-		//	End of Generated Code
+  //	End of Generated Code
 
-		//	Re-Start of Generated Code
-		return true;
+  //	Re-Start of Generated Code
+  return true;
 }
 
 //+----------------------------------------------------------------------------
@@ -1044,65 +977,71 @@ bool EventSubscriptionChangeCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *devi
 // returns : The command output data (packed in the Any object)
 //
 //-----------------------------------------------------------------------------
-CORBA::Any *EventSubscriptionChangeCmd::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *EventSubscriptionChangeCmd::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout4 << "EventSubscriptionChangeCmd::execute(): arrived" << std::endl;
+  cout4 << "EventSubscriptionChangeCmd::execute(): arrived" << std::endl;
 
-//
-// Extract the input string array
-//
+  //
+  // Extract the input string array
+  //
 
-	const Tango::DevVarStringArray *in_data;
-	extract(in_any,in_data);
+  const Tango::DevVarStringArray *in_data;
+  extract(in_any, in_data);
 
-//
-// call DServer method which implements this command
-//
+  //
+  // call DServer method which implements this command
+  //
 
-	Tango::DevLong ret = (static_cast<DServer *>(device))->event_subscription_change(in_data);
+  Tango::DevLong ret = (static_cast<DServer *>(device))->event_subscription_change(in_data);
 
-//
-// return to the caller
-//
+  //
+  // return to the caller
+  //
 
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in EventSubscriptionChangeCmd::execute()" << std::endl;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in EventSubscriptionChangeCmd::execute()" << std::endl;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-	cout4 << "Leaving EventSubscriptionChangeCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving EventSubscriptionChangeCmd::execute()" << std::endl;
+  return (out_any);
 }
 
-const std::string ZmqEventSubscriptionChangeCmd::in_desc = "Event consumer wants to subscribe to.\n"
-"device name, attribute/pipe name, action (\"subscribe\"), event name, <Tango client IDL version>\"\n"
-"event name can take the following values:\n"
-"    \"change\",\n"
-"    \"quality\",\n"
-"    \"periodic\",\n"
-"    \"archive\",\n"
-"    \"user_event\",\n"
-"    \"attr_conf\",\n"
-"    \"data_ready\",\n"
-"    \"intr_change\",\n"
-"    \"pipe\"\n"
-"\"info\" can also be used as single parameter to retrieve information about the heartbeat and event pub endpoints.";
+const std::string ZmqEventSubscriptionChangeCmd::in_desc =
+    "Event consumer wants to subscribe to.\n"
+    "device name, attribute/pipe name, action (\"subscribe\"), event name, "
+    "<Tango client IDL version>\"\n"
+    "event name can take the following values:\n"
+    "    \"change\",\n"
+    "    \"quality\",\n"
+    "    \"periodic\",\n"
+    "    \"archive\",\n"
+    "    \"user_event\",\n"
+    "    \"attr_conf\",\n"
+    "    \"data_ready\",\n"
+    "    \"intr_change\",\n"
+    "    \"pipe\"\n"
+    "\"info\" can also be used as single parameter to retrieve information "
+    "about the heartbeat and event pub "
+    "endpoints.";
 
-const std::string ZmqEventSubscriptionChangeCmd::out_desc = "Str[0] = Heartbeat pub endpoint - Str[1] = Event pub endpoint\n"
-"...\n"
-"Str[n] = Alternate Heartbeat pub endpoint - Str[n+1] = Alternate Event pub endpoint\n"
-"Str[n+1] = event name used by this server as zmq topic to send events\n"
-"Str[n+2] = channel name used by this server to send heartbeat events\n"
-"Lg[0] = Tango lib release - Lg[1] = Device IDL release\n"
-"Lg[2] = Subscriber HWM - Lg[3] = Multicast rate\n"
-"Lg[4] = Multicast IVL - Lg[5] = ZMQ release";
+const std::string ZmqEventSubscriptionChangeCmd::out_desc =
+    "Str[0] = Heartbeat pub endpoint - Str[1] = Event pub endpoint\n"
+    "...\n"
+    "Str[n] = Alternate Heartbeat pub endpoint - Str[n+1] = Alternate Event "
+    "pub endpoint\n"
+    "Str[n+1] = event name used by this server as zmq topic to send events\n"
+    "Str[n+2] = channel name used by this server to send heartbeat events\n"
+    "Lg[0] = Tango lib release - Lg[1] = Device IDL release\n"
+    "Lg[2] = Subscriber HWM - Lg[3] = Multicast rate\n"
+    "Lg[4] = Multicast IVL - Lg[5] = ZMQ release";
 
 //+----------------------------------------------------------------------------
 //
@@ -1118,9 +1057,8 @@ const std::string ZmqEventSubscriptionChangeCmd::out_desc = "Str[0] = Heartbeat 
 //
 //-----------------------------------------------------------------------------
 ZmqEventSubscriptionChangeCmd::ZmqEventSubscriptionChangeCmd()
-:Command("ZmqEventSubscriptionChange",Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_LONGSTRINGARRAY,
-         ZmqEventSubscriptionChangeCmd::in_desc.c_str(),
-         ZmqEventSubscriptionChangeCmd::out_desc.c_str())
+    : Command("ZmqEventSubscriptionChange", Tango::DEVVAR_STRINGARRAY, Tango::DEVVAR_LONGSTRINGARRAY,
+              ZmqEventSubscriptionChangeCmd::in_desc.c_str(), ZmqEventSubscriptionChangeCmd::out_desc.c_str())
 {
 }
 
@@ -1142,12 +1080,13 @@ ZmqEventSubscriptionChangeCmd::ZmqEventSubscriptionChangeCmd()
 // returns :	boolean - true == is allowed , false == not allowed
 //
 //-----------------------------------------------------------------------------
-bool ZmqEventSubscriptionChangeCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
+bool ZmqEventSubscriptionChangeCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device),
+                                               TANGO_UNUSED(const CORBA::Any &in_any))
 {
-		//	End of Generated Code
+  //	End of Generated Code
 
-		//	Re-Start of Generated Code
-		return true;
+  //	Re-Start of Generated Code
+  return true;
 }
 
 //+----------------------------------------------------------------------------
@@ -1162,41 +1101,41 @@ bool ZmqEventSubscriptionChangeCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *d
 // returns : The command output data (packed in the Any object)
 //
 //-----------------------------------------------------------------------------
-CORBA::Any *ZmqEventSubscriptionChangeCmd::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *ZmqEventSubscriptionChangeCmd::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout4 << "ZmqEventSubscriptionChangeCmd::execute(): arrived" << std::endl;
+  cout4 << "ZmqEventSubscriptionChangeCmd::execute(): arrived" << std::endl;
 
-//
-// Extract the input string array
-//
+  //
+  // Extract the input string array
+  //
 
-	const Tango::DevVarStringArray *in_data;
-	extract(in_any,in_data);
+  const Tango::DevVarStringArray *in_data;
+  extract(in_any, in_data);
 
-//
-// call DServer method which implements this command
-//
+  //
+  // call DServer method which implements this command
+  //
 
-	Tango::DevVarLongStringArray *ret = (static_cast<DServer *>(device))->zmq_event_subscription_change(in_data);
+  Tango::DevVarLongStringArray *ret = (static_cast<DServer *>(device))->zmq_event_subscription_change(in_data);
 
-//
-// return to the caller
-//
+  //
+  // return to the caller
+  //
 
-	CORBA::Any *out_any = NULL;
-	try
-	{
-		out_any = new CORBA::Any();
-	}
-	catch (std::bad_alloc &)
-	{
-		cout3 << "Bad allocation while in ZmqEventSubscriptionChangeCmd::execute()" << std::endl;
-		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
-	}
-	(*out_any) <<= ret;
+  CORBA::Any *out_any = NULL;
+  try
+  {
+    out_any = new CORBA::Any();
+  }
+  catch(std::bad_alloc &)
+  {
+    cout3 << "Bad allocation while in ZmqEventSubscriptionChangeCmd::execute()" << std::endl;
+    TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
+  }
+  (*out_any) <<= ret;
 
-	cout4 << "Leaving ZmqEventSubscriptionChangeCmd::execute()" << std::endl;
-	return(out_any);
+  cout4 << "Leaving ZmqEventSubscriptionChangeCmd::execute()" << std::endl;
+  return (out_any);
 }
 
 //+----------------------------------------------------------------------------
@@ -1212,21 +1151,19 @@ CORBA::Any *ZmqEventSubscriptionChangeCmd::execute(Tango::DeviceImpl *device,con
 //		- out_desc : The output parameter description
 //
 //-----------------------------------------------------------------------------
-EventConfirmSubscriptionCmd::EventConfirmSubscriptionCmd(const char *name,
-								Tango::CmdArgType in,
-								Tango::CmdArgType out,
-								const char *in_desc)
-:Command(name,in,out)
+EventConfirmSubscriptionCmd::EventConfirmSubscriptionCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out,
+                                                         const char *in_desc)
+    : Command(name, in, out)
 {
-	set_in_type_desc(in_desc);
+  set_in_type_desc(in_desc);
 }
 
 //
 //	Constructor without in/out parameters description
 //
 
-EventConfirmSubscriptionCmd::EventConfirmSubscriptionCmd(const char *name,Tango::CmdArgType in,Tango::CmdArgType out)
-:Command(name,in,out)
+EventConfirmSubscriptionCmd::EventConfirmSubscriptionCmd(const char *name, Tango::CmdArgType in, Tango::CmdArgType out)
+    : Command(name, in, out)
 {
 }
 
@@ -1244,12 +1181,13 @@ EventConfirmSubscriptionCmd::EventConfirmSubscriptionCmd(const char *name,Tango:
 // returns :	boolean - true == is allowed , false == not allowed
 //
 //-----------------------------------------------------------------------------
-bool EventConfirmSubscriptionCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
+bool EventConfirmSubscriptionCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device),
+                                             TANGO_UNUSED(const CORBA::Any &in_any))
 {
-		//	End of Generated Code
+  //	End of Generated Code
 
-		//	Re-Start of Generated Code
-		return true;
+  //	Re-Start of Generated Code
+  return true;
 }
 
 //+----------------------------------------------------------------------------
@@ -1264,57 +1202,59 @@ bool EventConfirmSubscriptionCmd::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *dev
 // returns : The command output data (packed in the Any object)
 //
 //-----------------------------------------------------------------------------
-CORBA::Any *EventConfirmSubscriptionCmd::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
+CORBA::Any *EventConfirmSubscriptionCmd::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout4 << "EventConfirmSubscriptionCmd::execute(): arrived" << std::endl;
+  cout4 << "EventConfirmSubscriptionCmd::execute(): arrived" << std::endl;
 
-    //
-    // If we receive this command while the DS is in its shutting down sequence, do nothing
-    //
+  //
+  // If we receive this command while the DS is in its shutting down sequence,
+  // do nothing
+  //
 
-    Tango::Util *tg = Tango::Util::instance();
-    if (tg->get_heartbeat_thread_object() == NULL)
-    {
-        TangoSys_OMemStream o;
-        o << "The device server is shutting down! You can no longer subscribe for events" << std::ends;
+  Tango::Util *tg = Tango::Util::instance();
+  if(tg->get_heartbeat_thread_object() == NULL)
+  {
+    TangoSys_OMemStream o;
+    o << "The device server is shutting down! You can no longer subscribe for "
+         "events"
+      << std::ends;
 
-        TANGO_THROW_EXCEPTION(API_ShutdownInProgress, o.str());
-    }
-//
-// Extract the input string array
-//
+    TANGO_THROW_EXCEPTION(API_ShutdownInProgress, o.str());
+  }
+  //
+  // Extract the input string array
+  //
 
-	const Tango::DevVarStringArray *in_data;
-	extract(in_any,in_data);
+  const Tango::DevVarStringArray *in_data;
+  extract(in_any, in_data);
 
-    //
-    // Some check on argument
-    //
+  //
+  // Some check on argument
+  //
 
-    if ((in_data->length() == 0) || (in_data->length() % 3) != 0)
-    {
-        TangoSys_OMemStream o;
-        o << "Wrong number of input arguments: 3 needed per event: device name, attribute/pipe name and event name"
-          << std::endl;
+  if((in_data->length() == 0) || (in_data->length() % 3) != 0)
+  {
+    TangoSys_OMemStream o;
+    o << "Wrong number of input arguments: 3 needed per event: device name, "
+         "attribute/pipe name and event name"
+      << std::endl;
 
-        TANGO_THROW_EXCEPTION(API_WrongNumberOfArgs, o.str());
-    }
+    TANGO_THROW_EXCEPTION(API_WrongNumberOfArgs, o.str());
+  }
 
-//
-// call DServer method which implements this command
-//
+  //
+  // call DServer method which implements this command
+  //
 
-	(static_cast<DServer *>(device))->event_confirm_subscription(in_data);
+  (static_cast<DServer *>(device))->event_confirm_subscription(in_data);
 
-//
-// return data to the caller
-//
+  //
+  // return data to the caller
+  //
 
-	CORBA::Any *ret = return_empty_any("EventConfirmSubscriptionCmd");
-	return ret;
-
+  CORBA::Any *ret = return_empty_any("EventConfirmSubscriptionCmd");
+  return ret;
 }
-
 
 DServerClass *DServerClass::_instance = NULL;
 
@@ -1332,68 +1272,66 @@ DServerClass *DServerClass::_instance = NULL;
 //
 //-----------------------------------------------------------------------------
 
-bool less_than_dserver (Command *a,Command *b)
+bool less_than_dserver(Command *a, Command *b)
 {
-	if (a->get_name() < b->get_name())
-		return true;
-	else
-		return false;
+  if(a->get_name() < b->get_name())
+    return true;
+  else
+    return false;
 }
 
-DServerClass::DServerClass(const std::string &s):DeviceClass(s)
+DServerClass::DServerClass(const std::string &s)
+    : DeviceClass(s)
 {
+  try
+  {
+    //
+    // Add class command(s) to the command_list
+    //
 
-	try
-	{
+    command_factory();
 
-//
-// Add class command(s) to the command_list
-//
+    //
+    // Sort commands
+    //
 
-		command_factory();
+    sort(get_command_list().begin(), get_command_list().end(), less_than_dserver);
 
-//
-// Sort commands
-//
+    //
+    // Create device name from device server name
+    //
 
-		sort(get_command_list().begin(),get_command_list().end(),less_than_dserver);
+    std::string dev_name(DSDeviceDomain);
+    dev_name.append(1, '/');
+    dev_name.append(Tango::Util::instance()->get_ds_exec_name());
+    dev_name.append(1, '/');
+    dev_name.append(Tango::Util::instance()->get_ds_inst_name());
 
-//
-// Create device name from device server name
-//
+    Tango::DevVarStringArray dev_list(1);
+    dev_list.length(1);
+    dev_list[0] = dev_name.c_str();
 
-		std::string dev_name(DSDeviceDomain);
-		dev_name.append(1,'/');
-		dev_name.append(Tango::Util::instance()->get_ds_exec_name());
-		dev_name.append(1,'/');
-		dev_name.append(Tango::Util::instance()->get_ds_inst_name());
+    //
+    // Create the device server device
+    //
 
-		Tango::DevVarStringArray dev_list(1);
-                dev_list.length(1);
-		dev_list[0] = dev_name.c_str();
+    device_factory(&dev_list);
+  }
+  catch(std::bad_alloc &)
+  {
+    for(unsigned long i = 0; i < command_list.size(); i++)
+      delete command_list[i];
+    command_list.clear();
 
-//
-// Create the device server device
-//
-
-		device_factory(&dev_list);
-
-	}
-	catch (std::bad_alloc &)
-	{
-		for (unsigned long i = 0;i < command_list.size();i++)
-			delete command_list[i];
-		command_list.clear();
-
-		if (device_list.empty() == false)
-		{
-			for (unsigned long i = 0;i < device_list.size();i++)
-				delete device_list[i];
-			device_list.clear();
-		}
-		std::cerr << "Can't allocate memory while building the DServerClass object" << std::endl;
-		throw;
-	}
+    if(device_list.empty() == false)
+    {
+      for(unsigned long i = 0; i < device_list.size(); i++)
+        delete device_list[i];
+      device_list.clear();
+    }
+    std::cerr << "Can't allocate memory while building the DServerClass object" << std::endl;
+    throw;
+  }
 }
 
 //+----------------------------------------------------------------------------
@@ -1407,30 +1345,30 @@ DServerClass::DServerClass(const std::string &s):DeviceClass(s)
 
 DServerClass *DServerClass::instance()
 {
-	if (_instance == NULL)
-	{
-		std::cerr << "Class DServer is not initialised!" << std::endl;
-		TANGO_THROW_EXCEPTION(API_DServerClassNotInitialised, "The DServerClass is not yet initialised, please wait!");
-		//exit(-1);
-	}
-	return _instance;
+  if(_instance == NULL)
+  {
+    std::cerr << "Class DServer is not initialised!" << std::endl;
+    TANGO_THROW_EXCEPTION(API_DServerClassNotInitialised, "The DServerClass is not yet initialised, please wait!");
+    // exit(-1);
+  }
+  return _instance;
 }
 
 DServerClass *DServerClass::init()
 {
-	if (_instance == NULL)
-	{
-		try
-		{
-			std::string s("DServer");
-			_instance = new DServerClass(s);
-		}
-		catch (std::bad_alloc &)
-		{
-			throw;
-		}
-	}
-	return _instance;
+  if(_instance == NULL)
+  {
+    try
+    {
+      std::string s("DServer");
+      _instance = new DServerClass(s);
+    }
+    catch(std::bad_alloc &)
+    {
+      throw;
+    }
+  }
+  return _instance;
 }
 
 //+----------------------------------------------------------------------------
@@ -1444,167 +1382,105 @@ DServerClass *DServerClass::init()
 
 void DServerClass::command_factory()
 {
-	command_list.push_back(new DevRestartCmd("DevRestart",
-						 Tango::DEV_STRING,
-						 Tango::DEV_VOID,
-						 "Device name"));
-	command_list.push_back(new DevRestartServerCmd("RestartServer",
-						       Tango::DEV_VOID,
-						       Tango::DEV_VOID));
-	command_list.push_back(new DevQueryClassCmd("QueryClass",
-						    Tango::DEV_VOID,
-						    Tango::DEVVAR_STRINGARRAY,
-						    "Device server class(es) list"));
-	command_list.push_back(new DevQueryDeviceCmd("QueryDevice",
-						     Tango::DEV_VOID,
-						     Tango::DEVVAR_STRINGARRAY,
-						     "Device server device(s) list"));
-	command_list.push_back(new DevQuerySubDeviceCmd("QuerySubDevice",
-						     Tango::DEV_VOID,
-						     Tango::DEVVAR_STRINGARRAY,
-						     "Device server sub device(s) list"));
-	command_list.push_back(new DevKillCmd("Kill",
-					      Tango::DEV_VOID,
-					      Tango::DEV_VOID));
+  command_list.push_back(new DevRestartCmd("DevRestart", Tango::DEV_STRING, Tango::DEV_VOID, "Device name"));
+  command_list.push_back(new DevRestartServerCmd("RestartServer", Tango::DEV_VOID, Tango::DEV_VOID));
+  command_list.push_back(
+      new DevQueryClassCmd("QueryClass", Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY, "Device server class(es) list"));
+  command_list.push_back(
+      new DevQueryDeviceCmd("QueryDevice", Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY, "Device server device(s) list"));
+  command_list.push_back(new DevQuerySubDeviceCmd("QuerySubDevice", Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY,
+                                                  "Device server sub device(s) list"));
+  command_list.push_back(new DevKillCmd("Kill", Tango::DEV_VOID, Tango::DEV_VOID));
 
-//
-// Now, commands related to polling
-//
+  //
+  // Now, commands related to polling
+  //
 
-	command_list.push_back(new PolledDeviceCmd("PolledDevice",
-						   Tango::DEV_VOID,
-						   Tango::DEVVAR_STRINGARRAY,
-						   "Polled device name list"));
-	command_list.push_back(new DevPollStatusCmd("DevPollStatus",
-						   Tango::DEV_STRING,
-						   Tango::DEVVAR_STRINGARRAY,
-						   "Device name",
-						   "Device polling status"));
-	std::string msg("Lg[0]=Upd period.");
-	msg = msg + (" Str[0]=Device name");
-	msg = msg + (". Str[1]=Object type");
-	msg = msg + (". Str[2]=Object name");
+  command_list.push_back(
+      new PolledDeviceCmd("PolledDevice", Tango::DEV_VOID, Tango::DEVVAR_STRINGARRAY, "Polled device name list"));
+  command_list.push_back(new DevPollStatusCmd("DevPollStatus", Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
+                                              "Device name", "Device polling status"));
+  std::string msg("Lg[0]=Upd period.");
+  msg = msg + (" Str[0]=Device name");
+  msg = msg + (". Str[1]=Object type");
+  msg = msg + (". Str[2]=Object name");
 
-	command_list.push_back(new AddObjPollingCmd("AddObjPolling",
-						    Tango::DEVVAR_LONGSTRINGARRAY,
-						    Tango::DEV_VOID,
-						    msg));
+  command_list.push_back(new AddObjPollingCmd("AddObjPolling", Tango::DEVVAR_LONGSTRINGARRAY, Tango::DEV_VOID, msg));
 
-	command_list.push_back(new UpdObjPollingPeriodCmd("UpdObjPollingPeriod",
-							  Tango::DEVVAR_LONGSTRINGARRAY,
-							  Tango::DEV_VOID,
-							  msg));
+  command_list.push_back(
+      new UpdObjPollingPeriodCmd("UpdObjPollingPeriod", Tango::DEVVAR_LONGSTRINGARRAY, Tango::DEV_VOID, msg));
 
-	msg = "Str[0]=Device name. Str[1]=Object type. Str[2]=Object name";
+  msg = "Str[0]=Device name. Str[1]=Object type. Str[2]=Object name";
 
-	command_list.push_back(new RemObjPollingCmd("RemObjPolling",
-						    Tango::DEVVAR_STRINGARRAY,
-						    Tango::DEV_VOID,
-						    msg));
+  command_list.push_back(new RemObjPollingCmd("RemObjPolling", Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID, msg));
 
-	command_list.push_back(new StopPollingCmd("StopPolling",
-						  Tango::DEV_VOID,
-						  Tango::DEV_VOID));
+  command_list.push_back(new StopPollingCmd("StopPolling", Tango::DEV_VOID, Tango::DEV_VOID));
 
-	command_list.push_back(new StartPollingCmd("StartPolling",
-						   Tango::DEV_VOID,
-						   Tango::DEV_VOID));
+  command_list.push_back(new StartPollingCmd("StartPolling", Tango::DEV_VOID, Tango::DEV_VOID));
 
-  	msg = "Str[i]=Device-name. Str[i+1]=Target-type::Target-name";
+  msg = "Str[i]=Device-name. Str[i+1]=Target-type::Target-name";
 
-  	command_list.push_back(new AddLoggingTarget("AddLoggingTarget",
-			  			    Tango::DEVVAR_STRINGARRAY,
-			  			    Tango::DEV_VOID,
-			  			    msg));
+  command_list.push_back(new AddLoggingTarget("AddLoggingTarget", Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID, msg));
 
-  	command_list.push_back(new RemoveLoggingTarget("RemoveLoggingTarget",
-			  			       Tango::DEVVAR_STRINGARRAY,
-			  			       Tango::DEV_VOID,
-			  			       msg));
+  command_list.push_back(
+      new RemoveLoggingTarget("RemoveLoggingTarget", Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID, msg));
 
-  	command_list.push_back(new GetLoggingTarget("GetLoggingTarget",
-			       			    Tango::DEV_STRING,
-			  			    Tango::DEVVAR_STRINGARRAY,
-			  			    std::string("Device name"),
-			  			    std::string("Logging target list")));
+  command_list.push_back(new GetLoggingTarget("GetLoggingTarget", Tango::DEV_STRING, Tango::DEVVAR_STRINGARRAY,
+                                              std::string("Device name"), std::string("Logging target list")));
 
-	command_list.push_back(new SetLoggingLevel("SetLoggingLevel",
-			  			   Tango::DEVVAR_LONGSTRINGARRAY,
-			  			   Tango::DEV_VOID,
-			  			   std::string("Lg[i]=Logging Level. Str[i]=Device name.")));
+  command_list.push_back(new SetLoggingLevel("SetLoggingLevel", Tango::DEVVAR_LONGSTRINGARRAY, Tango::DEV_VOID,
+                                             std::string("Lg[i]=Logging Level. Str[i]=Device name.")));
 
-	command_list.push_back(new GetLoggingLevel("GetLoggingLevel",
-			  			   Tango::DEVVAR_STRINGARRAY,
-			  			   Tango::DEVVAR_LONGSTRINGARRAY,
-			  			   std::string("Device list"),
-			  			   std::string("Lg[i]=Logging Level. Str[i]=Device name.")));
+  command_list.push_back(new GetLoggingLevel("GetLoggingLevel", Tango::DEVVAR_STRINGARRAY,
+                                             Tango::DEVVAR_LONGSTRINGARRAY, std::string("Device list"),
+                                             std::string("Lg[i]=Logging Level. Str[i]=Device name.")));
 
-	command_list.push_back(new StopLogging("StopLogging",
-			  		       Tango::DEV_VOID,
-			  		       Tango::DEV_VOID));
+  command_list.push_back(new StopLogging("StopLogging", Tango::DEV_VOID, Tango::DEV_VOID));
 
-	command_list.push_back(new StartLogging("StartLogging",
-			  			Tango::DEV_VOID,
-			  			Tango::DEV_VOID));
-	command_list.push_back(new EventSubscriptionChangeCmd("EventSubscriptionChange",
-							Tango::DEVVAR_STRINGARRAY, Tango::DEV_LONG,
-							"Event consumer wants to subscribe to",
-							"Tango lib release"));
+  command_list.push_back(new StartLogging("StartLogging", Tango::DEV_VOID, Tango::DEV_VOID));
+  command_list.push_back(new EventSubscriptionChangeCmd("EventSubscriptionChange", Tango::DEVVAR_STRINGARRAY,
+                                                        Tango::DEV_LONG, "Event consumer wants to subscribe to",
+                                                        "Tango lib release"));
 
-    command_list.push_back(
-        new ZmqEventSubscriptionChangeCmd());
+  command_list.push_back(new ZmqEventSubscriptionChangeCmd());
 
-	command_list.push_back(new EventConfirmSubscriptionCmd("EventConfirmSubscription",
-							Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-							"Str[0] = dev1 name, Str[1] = att1 name, Str[2] = event name, Str[3] = dev2 name, Str[4] = att2 name, Str[5] = event name,..."));
+  command_list.push_back(
+      new EventConfirmSubscriptionCmd("EventConfirmSubscription", Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
+                                      "Str[0] = dev1 name, Str[1] = att1 name, Str[2] = event name, Str[3] = "
+                                      "dev2 "
+                                      "name, Str[4] = att2 name, Str[5] = event name,..."));
 
-	command_list.push_back(new QueryWizardClassPropertyCmd("QueryWizardClassProperty",
-							Tango::DEV_STRING,
-							Tango::DEVVAR_STRINGARRAY,
-							"Class name",
-							"Class property list (name - description and default value)"));
+  command_list.push_back(new QueryWizardClassPropertyCmd("QueryWizardClassProperty", Tango::DEV_STRING,
+                                                         Tango::DEVVAR_STRINGARRAY, "Class name",
+                                                         "Class property list (name - description and default value)"));
 
-	command_list.push_back(new QueryWizardDevPropertyCmd("QueryWizardDevProperty",
-							Tango::DEV_STRING,
-							Tango::DEVVAR_STRINGARRAY,
-							"Class name",
-							"Device property list (name - description and default value)"));
+  command_list.push_back(new QueryWizardDevPropertyCmd("QueryWizardDevProperty", Tango::DEV_STRING,
+                                                       Tango::DEVVAR_STRINGARRAY, "Class name",
+                                                       "Device property list (name - description and default value)"));
 
-//
-// Locking device commands
-//
+  //
+  // Locking device commands
+  //
 
-	command_list.push_back(new LockDeviceCmd("LockDevice",
-							Tango::DEVVAR_LONGSTRINGARRAY,
-							Tango::DEV_VOID,
-							"Str[0] = Device name. Lg[0] = Lock validity"));
+  command_list.push_back(new LockDeviceCmd("LockDevice", Tango::DEVVAR_LONGSTRINGARRAY, Tango::DEV_VOID,
+                                           "Str[0] = Device name. Lg[0] = Lock validity"));
 
-	command_list.push_back(new UnLockDeviceCmd("UnLockDevice",
-							Tango::DEVVAR_LONGSTRINGARRAY,
-							Tango::DEV_LONG,
-							"Str[x] = Device name(s). Lg[0] = Force flag",
-							"Device global lock counter"));
+  command_list.push_back(new UnLockDeviceCmd("UnLockDevice", Tango::DEVVAR_LONGSTRINGARRAY, Tango::DEV_LONG,
+                                             "Str[x] = Device name(s). Lg[0] = Force flag",
+                                             "Device global lock counter"));
 
-	command_list.push_back(new ReLockDevicesCmd("ReLockDevices",
-							Tango::DEVVAR_STRINGARRAY,
-							Tango::DEV_VOID,
-							"Device(s) name"));
+  command_list.push_back(
+      new ReLockDevicesCmd("ReLockDevices", Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID, "Device(s) name"));
 
-	command_list.push_back(new DevLockStatusCmd("DevLockStatus",
-							Tango::DEV_STRING,
-							Tango::DEVVAR_LONGSTRINGARRAY,
-							"Device name",
-							"Device locking status"));
+  command_list.push_back(new DevLockStatusCmd("DevLockStatus", Tango::DEV_STRING, Tango::DEVVAR_LONGSTRINGARRAY,
+                                              "Device name", "Device locking status"));
 
-	if (Util::_FileDb == true)
-	{
-		command_list.push_back(new QueryEventChannelIORCmd("QueryEventChannelIOR",
-							Tango::DEV_VOID,
-							Tango::DEV_STRING,
-							"Device server event channel IOR"));
-	}
+  if(Util::_FileDb == true)
+  {
+    command_list.push_back(new QueryEventChannelIORCmd("QueryEventChannelIOR", Tango::DEV_VOID, Tango::DEV_STRING,
+                                                       "Device server event channel IOR"));
+  }
 }
-
 
 //+----------------------------------------------------------------------------
 //
@@ -1620,46 +1496,40 @@ void DServerClass::command_factory()
 
 void DServerClass::device_factory(const Tango::DevVarStringArray *devlist_ptr)
 {
-	Tango::Util *tg = Tango::Util::instance();
+  Tango::Util *tg = Tango::Util::instance();
 
-	for (unsigned long i = 0;i < devlist_ptr->length();i++)
-	{
-		cout4 << "Device name : " << (*devlist_ptr)[i].in() << std::endl;
+  for(unsigned long i = 0; i < devlist_ptr->length(); i++)
+  {
+    cout4 << "Device name : " << (*devlist_ptr)[i].in() << std::endl;
 
-//
-// Create device and add it into the device list
-//
-		DServer *dserver = new DServer(this,
-                                   (*devlist_ptr)[i],
-                                   "A device server device !!",
-                                   Tango::ON,
-                                   "The device is ON");
+    //
+    // Create device and add it into the device list
+    //
+    DServer *dserver = new DServer(this, (*devlist_ptr)[i], "A device server device !!", Tango::ON, "The device is ON");
 
-		dserver->init_device();
+    dserver->init_device();
 
-		device_list.push_back(dserver);
+    device_list.push_back(dserver);
 
-//
-// Export device to the outside world
-//
+    //
+    // Export device to the outside world
+    //
 
-		if ((Tango::Util::_UseDb == true) && (Tango::Util::_FileDb == false))
-			export_device(device_list.back());
-		else
-			export_device(device_list.back(),(*devlist_ptr)[i]);
+    if((Tango::Util::_UseDb == true) && (Tango::Util::_FileDb == false))
+      export_device(device_list.back());
+    else
+      export_device(device_list.back(), (*devlist_ptr)[i]);
 
+    //
+    // After the export of the admin device, the server is marked as started
+    // and the database server connection timeout is set to the classical
+    // timeout value (Except for db server itself)
+    //
 
-//
-// After the export of the admin device, the server is marked as started
-// and the database server connection timeout is set to the classical
-// timeout value (Except for db server itself)
-//
-
-		Database *db = tg->get_database();
-		if ((db != NULL) && (Util::_FileDb == false))
-			db->set_timeout_millis(CLNT_TIMEOUT);
-
-	}
+    Database *db = tg->get_database();
+    if((db != NULL) && (Util::_FileDb == false))
+      db->set_timeout_millis(CLNT_TIMEOUT);
+  }
 }
 
-} // End of Tango namespace
+} // namespace Tango

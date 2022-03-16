@@ -3,8 +3,9 @@
 // file :		ClassPipe.h
 //
 // description :	Include file for the Tango pipe.
-//					MultiClassAttribute : A class to manage all the class level definition of pipes.
-//					There is one instance of this class for each Tango class
+//					MultiClassAttribute : A class to manage all the class level
+// definition of pipes. 					There is one instance of this class for each
+// Tango class
 //
 // project :		TANGO
 //
@@ -17,16 +18,18 @@
 //
 // This file is part of Tango.
 //
-// Tango is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// Tango is free software: you can redistribute it and/or modify it under the
+// terms of the GNU Lesser General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option) any
+// later version.
 //
-// Tango is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-// of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
+// Tango is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+// details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with Tango.
-// If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU Lesser General Public License
+// along with Tango. If not, see <http://www.gnu.org/licenses/>.
 //
 //
 //===================================================================================================================
@@ -44,7 +47,8 @@ namespace Tango
 //			The PipeProperty class
 //
 //
-// description :	This class is used to store a pair of pipe prop name, pipe prop value. Both name and value are
+// description :	This class is used to store a pair of pipe prop name, pipe
+// prop value. Both name and value are
 //					stored as strings
 //
 //=================================================================================================================
@@ -52,21 +56,27 @@ namespace Tango
 class PipeProperty
 {
 public:
-	PipeProperty(const std::string &name,const std::string &value):prop_name(name),prop_value(value) {}
-	~PipeProperty();
+  PipeProperty(const std::string &name, const std::string &value)
+      : prop_name(name),
+        prop_value(value)
+  {
+  }
 
-	PipeProperty(const PipeProperty &);
-	PipeProperty & operator=(const PipeProperty &);
+  ~PipeProperty();
 
-	PipeProperty(PipeProperty &&);
-	PipeProperty & operator=(PipeProperty &&);
+  PipeProperty(const PipeProperty &);
+  PipeProperty &operator=(const PipeProperty &);
 
-	const std::string &get_value() {return prop_value;}
-	const std::string &get_name() {return prop_name;}
+  PipeProperty(PipeProperty &&);
+  PipeProperty &operator=(PipeProperty &&);
+
+  const std::string &get_value() { return prop_value; }
+
+  const std::string &get_name() { return prop_name; }
 
 private:
-	std::string			prop_name;
-	std::string			prop_value;
+  std::string prop_name;
+  std::string prop_value;
 };
 
 //=================================================================================================================
@@ -83,18 +93,18 @@ class DeviceClass;
 class MultiClassPipe
 {
 public:
-	MultiClassPipe();
-	~MultiClassPipe();
+  MultiClassPipe();
+  ~MultiClassPipe();
 
-	void init_class_pipe(DeviceClass *);
+  void init_class_pipe(DeviceClass *);
 
-	std::vector<Tango::PipeProperty> &get_prop_list(const std::string &);
-/*	PipeProperty &get_prop(const string &prop_name);*/
+  std::vector<Tango::PipeProperty> &get_prop_list(const std::string &);
+  /*	PipeProperty &get_prop(const string &prop_name);*/
 
 protected:
-	std::map<std::string,std::vector<Tango::PipeProperty> >		pipe_prop_list;			// pipe_name - prop list
+  std::map<std::string, std::vector<Tango::PipeProperty>> pipe_prop_list; // pipe_name - prop list
 };
 
-} // End of Tango namespace
+} // namespace Tango
 
 #endif // _CLASS_ATTRIBUTE_H

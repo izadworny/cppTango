@@ -12,34 +12,31 @@ using namespace Tango;
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecChar::IOSeqVecChar(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecChar::IOSeqVecChar(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                           const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecChar::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecChar::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecChar::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarCharArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarCharArray *theInputArray;
+  extract(in_any, theInputArray);
 
-    std::vector<unsigned char> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecChar::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarCharArray *theOutputArray = new Tango::DevVarCharArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  std::vector<unsigned char> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecChar::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarCharArray *theOutputArray = new Tango::DevVarCharArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -50,34 +47,31 @@ CORBA::Any *IOSeqVecChar::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecShort::IOSeqVecShort(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecShort::IOSeqVecShort(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                             const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecShort::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarShortArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarShortArray *theInputArray;
+  extract(in_any, theInputArray);
 
-    std::vector<short> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarShortArray *theOutputArray = new Tango::DevVarShortArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  std::vector<short> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarShortArray *theOutputArray = new Tango::DevVarShortArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -88,35 +82,32 @@ CORBA::Any *IOSeqVecShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecLong::IOSeqVecLong(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecLong::IOSeqVecLong(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                           const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecLong::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecLong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecLong::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarLongArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarLongArray *theInputArray;
+  extract(in_any, theInputArray);
 
-//    vector<long> v1;
-    std::vector<Tango::DevLong> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecLong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarLongArray *theOutputArray = new Tango::DevVarLongArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  //    vector<long> v1;
+  std::vector<Tango::DevLong> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecLong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarLongArray *theOutputArray = new Tango::DevVarLongArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -127,34 +118,31 @@ CORBA::Any *IOSeqVecLong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecFloat::IOSeqVecFloat(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecFloat::IOSeqVecFloat(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                             const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecFloat::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecFloat::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecFloat::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarFloatArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarFloatArray *theInputArray;
+  extract(in_any, theInputArray);
 
-    std::vector<float> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecFloat::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarFloatArray *theOutputArray = new Tango::DevVarFloatArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  std::vector<float> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecFloat::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarFloatArray *theOutputArray = new Tango::DevVarFloatArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -165,34 +153,31 @@ CORBA::Any *IOSeqVecFloat::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecDouble::IOSeqVecDouble(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecDouble::IOSeqVecDouble(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                               const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecDouble::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecDouble::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecDouble::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarDoubleArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarDoubleArray *theInputArray;
+  extract(in_any, theInputArray);
 
-    std::vector<double> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecDouble::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarDoubleArray *theOutputArray = new Tango::DevVarDoubleArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  std::vector<double> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecDouble::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarDoubleArray *theOutputArray = new Tango::DevVarDoubleArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -203,34 +188,31 @@ CORBA::Any *IOSeqVecDouble::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecUShort::IOSeqVecUShort(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecUShort::IOSeqVecUShort(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                               const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecUShort::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecUShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecUShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarUShortArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarUShortArray *theInputArray;
+  extract(in_any, theInputArray);
 
-    std::vector<unsigned short> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecUShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarUShortArray *theOutputArray = new Tango::DevVarUShortArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  std::vector<unsigned short> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecUShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarUShortArray *theOutputArray = new Tango::DevVarUShortArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -241,35 +223,32 @@ CORBA::Any *IOSeqVecUShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecULong::IOSeqVecULong(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecULong::IOSeqVecULong(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                             const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecULong::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecULong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecULong::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarULongArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarULongArray *theInputArray;
+  extract(in_any, theInputArray);
 
-//    vector<unsigned long> v1;
-    std::vector<Tango::DevULong> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecULong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarULongArray *theOutputArray = new Tango::DevVarULongArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  //    vector<unsigned long> v1;
+  std::vector<Tango::DevULong> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecULong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarULongArray *theOutputArray = new Tango::DevVarULongArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }
 
 //+----------------------------------------------------------------------------
@@ -280,32 +259,29 @@ CORBA::Any *IOSeqVecULong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
 //
 //-----------------------------------------------------------------------------
 
-IOSeqVecString::IOSeqVecString(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOSeqVecString::IOSeqVecString(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                               const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
-
 
 bool IOSeqVecString::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
-
-CORBA::Any *IOSeqVecString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
+CORBA::Any *IOSeqVecString::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORBA::Any &in_any)
 {
-    const Tango::DevVarStringArray *theInputArray;
-    extract(in_any,theInputArray);
+  const Tango::DevVarStringArray *theInputArray;
+  extract(in_any, theInputArray);
 
-    std::vector<std::string> v1;
-    v1 << (*theInputArray);
-    cout << "[IOSeqVecString::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
-    Tango::DevVarStringArray *theOutputArray = new Tango::DevVarStringArray();
-    (*theOutputArray) << v1;
-    return insert(theOutputArray);
+  std::vector<std::string> v1;
+  v1 << (*theInputArray);
+  cout << "[IOSeqVecString::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+  Tango::DevVarStringArray *theOutputArray = new Tango::DevVarStringArray();
+  (*theOutputArray) << v1;
+  return insert(theOutputArray);
 }

@@ -3,8 +3,8 @@
 //+----------------------------------------------------------------------------
 //
 // method : 		IOArray1::IOArray1()
-// 
-// description : 	constructor for the IOArray1 command of the 
+//
+// description : 	constructor for the IOArray1 command of the
 //			DevTest.
 //
 // In : - name : The command name
@@ -15,17 +15,16 @@
 //
 //-----------------------------------------------------------------------------
 
-IOArray1::IOArray1(const char *name,Tango::CmdArgType in,
-		   Tango::CmdArgType out,const char *in_desc,
-		   const char *out_desc)
-:Command(name,in,out,in_desc,out_desc)
+IOArray1::IOArray1(const char *name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                   const char *out_desc)
+    : Command(name, in, out, in_desc, out_desc)
 {
 }
 
 //+----------------------------------------------------------------------------
 //
 // method : 		IOArray1::is_allowed()
-// 
+//
 // description : 	method to test whether command is allowed or not in this
 //			state. In this case, the command is allowed only if
 //			the device is in ON state
@@ -39,21 +38,20 @@ IOArray1::IOArray1(const char *name,Tango::CmdArgType in,
 
 bool IOArray1::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
+  //
+  // command allowed only if the device is on
+  //
 
-//
-// command allowed only if the device is on
-//
-
-	if (device->get_state() == Tango::ON)
-		return(true);
-	else
-		return(false);
+  if(device->get_state() == Tango::ON)
+    return (true);
+  else
+    return (false);
 }
 
 //+----------------------------------------------------------------------------
 //
 // method : 		IOArray1::execute()
-// 
+//
 // description : 	method to trigger the execution of the IOArray1
 //			command
 //
@@ -64,26 +62,24 @@ bool IOArray1::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::A
 //
 //-----------------------------------------------------------------------------
 
-
-CORBA::Any *IOArray1::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
-{	
-  try {
+CORBA::Any *IOArray1::execute(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
+{
+  try
+  {
     Tango::DevVarLongArray *argout;
     argout = new Tango::DevVarLongArray();
-    
+
     argout->length(4);
     (*argout)[0] = 10;
     (*argout)[1] = 20;
     (*argout)[2] = 30;
     (*argout)[3] = 40;
- 
+
     return insert(argout);
   }
-  catch (CORBA::Exception &e)
-    {
-      Tango::Except::print_exception(e);
-      throw ;
-    }
+  catch(CORBA::Exception &e)
+  {
+    Tango::Except::print_exception(e);
+    throw;
+  }
 }
-
-

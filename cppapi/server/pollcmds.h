@@ -15,7 +15,7 @@
 //
 // author(s) :          E.Taurel
 //
-// Copyright (C) :      2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
+// Copyright (C) : 2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
 //						European Synchrotron Radiation Facility
 //                      BP 220, Grenoble 38043
 //                      FRANCE
@@ -57,19 +57,14 @@ namespace Tango
 //
 //=============================================================================
 
-
 class PolledDeviceCmd : public Command
 {
 public:
+  PolledDeviceCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const char *desc);
 
+  ~PolledDeviceCmd() {}
 
-	PolledDeviceCmd(const char *cmd_name,
-		        Tango::CmdArgType in,
-		        Tango::CmdArgType out,
-		        const char *desc);
-	~PolledDeviceCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -82,20 +77,15 @@ public:
 //
 //=============================================================================
 
-
 class DevPollStatusCmd : public Command
 {
 public:
+  DevPollStatusCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const char *in_desc,
+                   const char *out_desc);
 
+  ~DevPollStatusCmd() {}
 
-	DevPollStatusCmd(const char *cmd_name,
-		        Tango::CmdArgType in,
-		        Tango::CmdArgType out,
-			const char *in_desc,
-		        const char *out_desc);
-	~DevPollStatusCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -108,19 +98,14 @@ public:
 //
 //=============================================================================
 
-
 class AddObjPollingCmd : public Command
 {
 public:
+  AddObjPollingCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc);
 
+  ~AddObjPollingCmd() {}
 
-	AddObjPollingCmd(const char *cmd_name,
-		        Tango::CmdArgType in,
-		        Tango::CmdArgType out,
-			const std::string &in_desc);
-	~AddObjPollingCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -132,19 +117,14 @@ public:
 //
 //=============================================================================
 
-
 class UpdObjPollingPeriodCmd : public Command
 {
 public:
+  UpdObjPollingPeriodCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc);
 
+  ~UpdObjPollingPeriodCmd() {}
 
-	UpdObjPollingPeriodCmd(const char *cmd_name,
-		               Tango::CmdArgType in,
-		               Tango::CmdArgType out,
-			       const std::string &in_desc);
-	~UpdObjPollingPeriodCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -157,21 +137,15 @@ public:
 //
 //=============================================================================
 
-
 class RemObjPollingCmd : public Command
 {
 public:
+  RemObjPollingCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out, const std::string &in_desc);
 
+  ~RemObjPollingCmd() {}
 
-	RemObjPollingCmd(const char *cmd_name,
-		         Tango::CmdArgType in,
-		         Tango::CmdArgType out,
-			 const std::string &in_desc);
-	~RemObjPollingCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
-
 
 //=============================================================================
 //
@@ -182,18 +156,14 @@ public:
 //
 //=============================================================================
 
-
 class StopPollingCmd : public Command
 {
 public:
+  StopPollingCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out);
 
+  ~StopPollingCmd() {}
 
-	StopPollingCmd(const char *cmd_name,
-		       Tango::CmdArgType in,
-		       Tango::CmdArgType out);
-	~StopPollingCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
 //=============================================================================
@@ -205,21 +175,16 @@ public:
 //
 //=============================================================================
 
-
 class StartPollingCmd : public Command
 {
 public:
+  StartPollingCmd(const char *cmd_name, Tango::CmdArgType in, Tango::CmdArgType out);
 
+  ~StartPollingCmd() {}
 
-	StartPollingCmd(const char *cmd_name,
-		       Tango::CmdArgType in,
-		       Tango::CmdArgType out);
-	~StartPollingCmd() {}
-
-	virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
+  virtual CORBA::Any *execute(DeviceImpl *device, const CORBA::Any &in_any);
 };
 
-
-} // End of Tango namespace
+} // namespace Tango
 
 #endif // _POLLCMDS_H

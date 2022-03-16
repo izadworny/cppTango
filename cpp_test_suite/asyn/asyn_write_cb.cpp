@@ -5,427 +5,436 @@
 #include <tango.h>
 #include <assert.h>
 
-#define	coutv	if (verbose == true) cout
+#define coutv         \
+  if(verbose == true) \
+  cout
 
 using namespace Tango;
 
 bool verbose = false;
 
-class MyCallBack: public CallBack
+class MyCallBack : public CallBack
 {
 public:
-	MyCallBack():cb_executed(0),to(false),attr_failed(false) {}
+  MyCallBack()
+      : cb_executed(0),
+        to(false),
+        attr_failed(false)
+  {
+  }
 
-	virtual void attr_written(AttrWrittenEvent *);
+  virtual void attr_written(AttrWrittenEvent *);
 
-	long cb_executed;
-	bool to;
-	bool attr_failed;
-	long nb_attr;
-	long faulty_attr_nb;
+  long cb_executed;
+  bool to;
+  bool attr_failed;
+  long nb_attr;
+  long faulty_attr_nb;
 };
 
 void MyCallBack::attr_written(AttrWrittenEvent *att)
 {
-	coutv << "In attr_written method for device " << att->device->dev_name() << std::endl;
-	for (unsigned int i = 0;i < att->attr_names.size();i++)
-		coutv << "Attribute written = " << att->attr_names[i] << std::endl;
+  coutv << "In attr_written method for device " << att->device->dev_name() << std::endl;
+  for(unsigned int i = 0; i < att->attr_names.size(); i++)
+    coutv << "Attribute written = " << att->attr_names[i] << std::endl;
 
-	nb_attr = att->attr_names.size();
-	faulty_attr_nb = att->errors.get_faulty_attr_nb();
+  nb_attr        = att->attr_names.size();
+  faulty_attr_nb = att->errors.get_faulty_attr_nb();
 
-	if (att->err == true)
-	{
-		long nb_err = att->errors.errors.length();
-		coutv << "write_attributes returns error" << std::endl;
-		coutv << "error length = " << nb_err << std::endl;
-		for (int i = 0;i < nb_err;i++)
-			coutv << "error[" << i << "].reason = " << att->errors.errors[i].reason << std::endl;
-		if (strcmp(att->errors.errors[nb_err - 1].reason,API_DeviceTimedOut) == 0)
-		{
-			to = true;
-			coutv << "Timeout error" << std::endl;
-		}
-		else if (strcmp(att->errors.errors[nb_err - 1].reason,API_AttributeFailed) == 0)
-		{
-			attr_failed = true;
-			coutv << "Write attributes failed error" << std::endl;
-		}
-		else
-			coutv << "Unknown error" << std::endl;
-	}
-	else
-	{
-		if (faulty_attr_nb != 0)
-		{
-			if (strcmp(att->errors.errors[0].reason,API_AttributeFailed) == 0)
-			{
-				if ((strcmp(att->errors.err_list[0].err_stack[0].reason,"aaa") == 0) &&
-				    (att->errors.err_list[0].idx_in_call == 0) &&
-				    (att->errors.err_list[0].name == "attr_asyn_write_except"))
-				{
-					attr_failed = true;
-					coutv << "Write attributes failed error" << std::endl;
-				}
-			}
-		}
-	}
+  if(att->err == true)
+  {
+    long nb_err = att->errors.errors.length();
+    coutv << "write_attributes returns error" << std::endl;
+    coutv << "error length = " << nb_err << std::endl;
+    for(int i = 0; i < nb_err; i++)
+      coutv << "error[" << i << "].reason = " << att->errors.errors[i].reason << std::endl;
+    if(strcmp(att->errors.errors[nb_err - 1].reason, API_DeviceTimedOut) == 0)
+    {
+      to = true;
+      coutv << "Timeout error" << std::endl;
+    }
+    else if(strcmp(att->errors.errors[nb_err - 1].reason, API_AttributeFailed) == 0)
+    {
+      attr_failed = true;
+      coutv << "Write attributes failed error" << std::endl;
+    }
+    else
+      coutv << "Unknown error" << std::endl;
+  }
+  else
+  {
+    if(faulty_attr_nb != 0)
+    {
+      if(strcmp(att->errors.errors[0].reason, API_AttributeFailed) == 0)
+      {
+        if((strcmp(att->errors.err_list[0].err_stack[0].reason, "aaa") == 0) &&
+           (att->errors.err_list[0].idx_in_call == 0) && (att->errors.err_list[0].name == "attr_asyn_write_except"))
+        {
+          attr_failed = true;
+          coutv << "Write attributes failed error" << std::endl;
+        }
+      }
+    }
+  }
 
-	cb_executed++;
+  cb_executed++;
 }
 
 int main(int argc, char **argv)
 {
-	DeviceProxy *device;
+  DeviceProxy *device;
 
-	if (argc == 1)
-	{
-		cout << "usage: %s device [-v]" << std::endl;
-		exit(-1);
-	}
+  if(argc == 1)
+  {
+    cout << "usage: %s device [-v]" << std::endl;
+    exit(-1);
+  }
 
-	std::string device_name = argv[1];
+  std::string device_name = argv[1];
 
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
+  if(argc == 3)
+  {
+    if(strcmp(argv[2], "-v") == 0)
+      verbose = true;
+  }
 
-	try
-	{
-		device = new DeviceProxy(device_name);
-	}
-	catch (CORBA::Exception &e)
-	{
-		Except::print_exception(e);
-		exit(1);
-	}
+  try
+  {
+    device = new DeviceProxy(device_name);
+  }
+  catch(CORBA::Exception &e)
+  {
+    Except::print_exception(e);
+    exit(1);
+  }
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+  coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
+  try
+  {
+    // Change timeout (with a useless name as a workaround for ORBacus bug)
 
-	try
-	{
+    //		device->set_timeout_millis(6000);
 
-// Change timeout (with a useless name as a workaround for ORBacus bug)
+    // Write one attribute
 
-//		device->set_timeout_millis(6000);
+    MyCallBack cb;
 
-// Write one attribute
+    DeviceAttribute send;
 
-		MyCallBack cb;
+    send.set_name("attr_asyn_write");
+    DevLong lg = 222;
+    send << lg;
 
-		DeviceAttribute send;
+    device->write_attribute_asynch(send, cb);
 
-		send.set_name("attr_asyn_write");
-		DevLong lg = 222;
-		send << lg;
+    // Check if attribute returned
 
-		device->write_attribute_asynch(send,cb);
+    long nb_not_arrived = 0;
+    while(cb.cb_executed == 0)
+    {
+      coutv << "Attribute not written yet" << std::endl;
+      nb_not_arrived++;
+      Tango_sleep(1);
 
-// Check if attribute returned
+      device->get_asynch_replies();
+    }
 
-		long nb_not_arrived = 0;
-		while (cb.cb_executed == 0)
-		{
-			coutv << "Attribute not written yet" << std::endl;
-			nb_not_arrived++;
-			Tango_sleep(1);
+    assert(cb.cb_executed == 1);
+    assert(nb_not_arrived >= 2);
+    assert(cb.nb_attr == 1);
+    assert(cb.faulty_attr_nb == 0);
 
-			device->get_asynch_replies();
-		}
+    cout << "   Asynchronous write_attribute in callback mode --> OK" << std::endl;
 
-		assert ( cb.cb_executed == 1 );
-		assert ( nb_not_arrived >= 2);
-		assert ( cb.nb_attr == 1);
-		assert ( cb.faulty_attr_nb == 0);
+    // Read attribute to check polling with blocking with timeout
 
-		cout << "   Asynchronous write_attribute in callback mode --> OK" << std::endl;
+    cb.cb_executed    = 0;
+    cb.nb_attr        = 0;
+    cb.faulty_attr_nb = 10;
 
-// Read attribute to check polling with blocking with timeout
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.nb_attr = 0;
-		cb.faulty_attr_nb = 10;
+    // Check if attribute returned
 
-		device->write_attribute_asynch(send,cb);
+    nb_not_arrived = 0;
+    while(cb.cb_executed == 0)
+    {
+      try
+      {
+        device->get_asynch_replies(200);
+      }
+      catch(AsynReplyNotArrived &)
+      {
+        coutv << "Attribute not yet written" << std::endl;
+        nb_not_arrived++;
+      }
+    }
 
-// Check if attribute returned
+    assert(cb.nb_attr == 1);
+    assert(nb_not_arrived >= 4);
+    assert(cb.cb_executed == 1);
+    assert(cb.faulty_attr_nb == 0);
 
-		nb_not_arrived = 0;
-		while (cb.cb_executed == 0)
-		{
-			try
-			{
-				device->get_asynch_replies(200);
-			}
-			catch (AsynReplyNotArrived &)
-			{
-				coutv << "Attribute not yet written" << std::endl;
-				nb_not_arrived++;
-			}
-		}
+    cout << "   Asynchronous write_attribute (callback) in blocking mode with "
+            "call timeout --> OK"
+         << std::endl;
 
-		assert ( cb.nb_attr== 1 );
-		assert ( nb_not_arrived >= 4);
-		assert ( cb.cb_executed == 1);
-		assert ( cb.faulty_attr_nb == 0);
+    // Send a command to check polling with blocking
 
-		cout << "   Asynchronous write_attribute (callback) in blocking mode with call timeout --> OK" << std::endl;
+    cb.cb_executed    = 0;
+    cb.nb_attr        = 0;
+    cb.faulty_attr_nb = 10;
 
-// Send a command to check polling with blocking
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.nb_attr = 0;
-		cb.faulty_attr_nb = 10;
+    // Check if command returned
 
-		device->write_attribute_asynch(send,cb);
+    device->get_asynch_replies(0);
 
-// Check if command returned
+    assert(cb.nb_attr == 1);
+    assert(cb.cb_executed == 1);
+    assert(cb.faulty_attr_nb == 0);
 
-		device->get_asynch_replies(0);
+    cout << "   Asynchronous write_attribute (callback) in blocking mode --> OK" << std::endl;
 
-		assert( cb.nb_attr == 1 );
-		assert( cb.cb_executed == 1);
-		assert ( cb.faulty_attr_nb == 0);
+    //---------------------------------------------------------------------------
+    //
+    //			Now test Timeout exception and asynchronous calls
+    //
+    //---------------------------------------------------------------------------
 
-		cout << "   Asynchronous write_attribute (callback) in blocking mode --> OK" << std::endl;
+    // Change timeout in order to test asynchronous calls and timeout
 
-//---------------------------------------------------------------------------
-//
-//			Now test Timeout exception and asynchronous calls
-//
-//---------------------------------------------------------------------------
+    //		device->set_timeout_millis(2000);
 
-// Change timeout in order to test asynchronous calls and timeout
+    // Read an attribute
 
-//		device->set_timeout_millis(2000);
+    cb.cb_executed    = 0;
+    cb.nb_attr        = 0;
+    cb.faulty_attr_nb = 10;
 
-// Read an attribute
+    send.set_name("attr_asyn_write_to");
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.nb_attr = 0;
-		cb.faulty_attr_nb = 10;
+    // Check if attribute returned
 
-		send.set_name("attr_asyn_write_to");
-		device->write_attribute_asynch(send,cb);
+    nb_not_arrived = 0;
+    while(cb.cb_executed == 0)
+    {
+      nb_not_arrived++;
+      coutv << "Attribute not yet written" << std::endl;
+      Tango_sleep(1);
 
-// Check if attribute returned
+      device->get_asynch_replies();
+    }
 
-		nb_not_arrived = 0;
-		while (cb.cb_executed == 0)
-		{
-			nb_not_arrived++;
-			coutv << "Attribute not yet written" << std::endl;
-			Tango_sleep(1);
+    assert(cb.to == true);
+    assert(nb_not_arrived >= 2);
+    assert(cb.nb_attr == 1);
+    assert(cb.faulty_attr_nb == 0);
 
-			device->get_asynch_replies();
-		}
+    cout << "   Device timeout exception with non blocking get_asynch_replies "
+            "--> OK"
+         << std::endl;
 
-		assert ( cb.to == true );
-		assert ( nb_not_arrived >= 2 );
-		assert ( cb.nb_attr == 1);
-		assert ( cb.faulty_attr_nb == 0);
+    // Read an attribute to check timeout with polling and blocking with timeout
 
-		cout << "   Device timeout exception with non blocking get_asynch_replies --> OK" << std::endl;
+    cb.cb_executed    = 0;
+    cb.to             = false;
+    cb.nb_attr        = 0;
+    cb.faulty_attr_nb = 10;
 
-// Read an attribute to check timeout with polling and blocking with timeout
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.to = false;
-		cb.nb_attr = 0;
-		cb.faulty_attr_nb = 10;
+    // Check if command returned
 
-		device->write_attribute_asynch(send,cb);
+    nb_not_arrived = 0;
+    while(cb.cb_executed == 0)
+    {
+      try
+      {
+        device->get_asynch_replies(500);
+      }
+      catch(AsynReplyNotArrived &)
+      {
+        coutv << "Attribute not yet written" << std::endl;
+        nb_not_arrived++;
+      }
+    }
+    assert(cb.to == true);
+    assert(nb_not_arrived >= 2);
+    assert(cb.nb_attr == 1);
+    assert(cb.faulty_attr_nb == 0);
 
-// Check if command returned
+    cout << "   Device timeout with blocking get_asynch_replies with call "
+            "timeout --> OK"
+         << std::endl;
 
-		nb_not_arrived = 0;
-		while (cb.cb_executed == 0)
-		{
-			try
-			{
-				device->get_asynch_replies(500);
-			}
-			catch (AsynReplyNotArrived &)
-			{
-				coutv << "Attribute not yet written" << std::endl;
-				nb_not_arrived++;
-			}
-		}
-		assert ( cb.to == true );
-		assert ( nb_not_arrived >= 2);
-		assert ( cb.nb_attr == 1);
-		assert ( cb.faulty_attr_nb == 0);
+    // Read an attribute to check polling with blocking
 
-		cout << "   Device timeout with blocking get_asynch_replies with call timeout --> OK" << std::endl;
+    cb.cb_executed    = 0;
+    cb.to             = false;
+    cb.nb_attr        = 0;
+    cb.faulty_attr_nb = 10;
 
-// Read an attribute to check polling with blocking
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.to = false;
-		cb.nb_attr = 0;
-		cb.faulty_attr_nb = 10;
+    // Check if attribute returned
 
-		device->write_attribute_asynch(send,cb);
+    device->get_asynch_replies(0);
 
-// Check if attribute returned
+    assert(cb.to == true);
+    assert(cb.nb_attr == 1);
+    assert(cb.faulty_attr_nb == 0);
 
-		device->get_asynch_replies(0);
+    cout << "   Device timeout with blocking get_asynch_replies --> OK" << std::endl;
 
-		assert ( cb.to == true );
-		assert ( cb.nb_attr == 1);
-		assert ( cb.faulty_attr_nb == 0);
+    //---------------------------------------------------------------------------
+    //
+    //			Now test DevFailed exception sent by server
+    //
+    //---------------------------------------------------------------------------
 
-		cout << "   Device timeout with blocking get_asynch_replies --> OK" << std::endl;
+    cout << "   Waiting for server to execute all previous requests" << std::endl;
+    Tango_sleep(5);
 
-//---------------------------------------------------------------------------
-//
-//			Now test DevFailed exception sent by server
-//
-//---------------------------------------------------------------------------
+    // Change timeout in order to test asynchronous calls and DevFailed
+    // exception
 
-		cout << "   Waiting for server to execute all previous requests" << std::endl;
-		Tango_sleep(5);
+    //		device->set_timeout_millis(5000);
 
-// Change timeout in order to test asynchronous calls and DevFailed exception
+    // Read attribute
 
-//		device->set_timeout_millis(5000);
+    cb.cb_executed    = 0;
+    cb.to             = false;
+    cb.nb_attr        = 0;
+    cb.faulty_attr_nb = 10;
 
-// Read attribute
+    send.set_name("attr_asyn_write_except");
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.to = false;
-		cb.nb_attr = 0;
-		cb.faulty_attr_nb = 10;
+    // Check if attribute returned
 
-		send.set_name("attr_asyn_write_except");
-		device->write_attribute_asynch(send,cb);
+    nb_not_arrived = 0;
+    while(cb.cb_executed == 0)
+    {
+      nb_not_arrived++;
+      coutv << "Attribute not yet written" << std::endl;
+      Tango_sleep(1);
 
-// Check if attribute returned
+      device->get_asynch_replies();
+    }
 
-		nb_not_arrived = 0;
-		while (cb.cb_executed == 0)
-		{
-			nb_not_arrived++;
-			coutv << "Attribute not yet written" << std::endl;
-			Tango_sleep(1);
+    assert(cb.attr_failed == true);
+    assert(nb_not_arrived >= 2);
+    assert(cb.nb_attr == 1);
+    assert(cb.faulty_attr_nb == 1);
 
-			device->get_asynch_replies();
-		}
+    cout << "   Device exception with non blocking get_asynch_replies --> OK" << std::endl;
 
-		assert ( cb.attr_failed == true );
-		assert ( nb_not_arrived >= 2);
-		assert ( cb.nb_attr == 1);
-		assert ( cb.faulty_attr_nb == 1);
+    // Read an attribute to check timeout with polling and blocking with timeout
 
-		cout << "   Device exception with non blocking get_asynch_replies --> OK" << std::endl;
+    cb.cb_executed = 0;
+    cb.attr_failed = false;
+    cb.nb_attr     = 0;
+    nb_not_arrived = 0;
 
-// Read an attribute to check timeout with polling and blocking with timeout
+    device->write_attribute_asynch(send, cb);
 
-		cb.cb_executed = 0;
-		cb.attr_failed = false;
-		cb.nb_attr = 0;
-		nb_not_arrived = 0;
+    // Check if attribute returned
 
-		device->write_attribute_asynch(send,cb);
+    while(cb.cb_executed == 0)
+    {
+      try
+      {
+        device->get_asynch_replies(500);
+      }
+      catch(AsynReplyNotArrived &)
+      {
+        coutv << "Attribute not yet written" << std::endl;
+        nb_not_arrived++;
+      }
+    }
+    assert(cb.attr_failed == true);
+    assert(cb.cb_executed == 1);
+    assert(nb_not_arrived >= 2);
+    assert(cb.nb_attr == 1);
 
-// Check if attribute returned
+    cout << "   Device exception with blocking get_asynch_replies with call "
+            "timeout --> OK"
+         << std::endl;
 
-		while (cb.cb_executed == 0)
-		{
-			try
-			{
-				device->get_asynch_replies(500);
-			}
-			catch (AsynReplyNotArrived &)
-			{
-				coutv << "Attribute not yet written" << std::endl;
-				nb_not_arrived++;
-			}
+    // Read an attribute to check polling with blocking
 
-		}
-		assert( cb.attr_failed == true );
-		assert(cb.cb_executed == 1);
-		assert( nb_not_arrived >= 2);
-		assert( cb.nb_attr == 1);
+    cb.cb_executed = 0;
+    cb.attr_failed = false;
+    cb.nb_attr     = 0;
 
-		cout << "   Device exception with blocking get_asynch_replies with call timeout --> OK" << std::endl;
+    device->write_attribute_asynch(send, cb);
 
-// Read an attribute to check polling with blocking
+    // Check if attribute returned
 
-		cb.cb_executed = 0;
-		cb.attr_failed = false;
-		cb.nb_attr = 0;
+    device->get_asynch_replies(0);
 
-		device->write_attribute_asynch(send,cb);
+    assert(cb.attr_failed == true);
+    assert(cb.cb_executed == 1);
+    assert(cb.nb_attr == 1);
 
-// Check if attribute returned
+    cout << "   Device exception with blocking get_asynch_replies --> OK" << std::endl;
 
-		device->get_asynch_replies(0);
+    //---------------------------------------------------------------------------
+    //
+    //			Now test several attributes written in one call
+    //
+    //---------------------------------------------------------------------------
 
-		assert(cb.attr_failed == true );
-		assert(cb.cb_executed == 1);
-		assert( cb.nb_attr == 1);
+    // Write several attributes in one call
 
-		cout << "   Device exception with blocking get_asynch_replies --> OK" << std::endl;
+    cb.nb_attr     = 0;
+    cb.cb_executed = 0;
 
-//---------------------------------------------------------------------------
-//
-//			Now test several attributes written in one call
-//
-//---------------------------------------------------------------------------
+    std::vector<DeviceAttribute> send_m(2);
 
-// Write several attributes in one call
+    send_m[0].set_name("attr_asyn_write");
+    lg = 222;
+    send_m[0] << lg;
 
-		cb.nb_attr = 0;
-		cb.cb_executed = 0;
+    send_m[1].set_name("Double_attr_w");
+    double db = 4.55;
+    send_m[1] << db;
 
-		std::vector<DeviceAttribute> send_m(2);
+    device->write_attributes_asynch(send_m, cb);
 
-		send_m[0].set_name("attr_asyn_write");
-		lg = 222;
-		send_m[0] << lg;
+    // Check if attribute returned
 
-		send_m[1].set_name("Double_attr_w");
-		double db = 4.55;
-		send_m[1] << db;
+    nb_not_arrived = 0;
+    while(cb.cb_executed == 0)
+    {
+      coutv << "Attributes not read written" << std::endl;
+      nb_not_arrived++;
+      Tango_sleep(1);
 
-		device->write_attributes_asynch(send_m,cb);
+      device->get_asynch_replies();
+    }
 
-// Check if attribute returned
+    assert(nb_not_arrived >= 2);
+    assert(cb.nb_attr == 2);
 
-		nb_not_arrived = 0;
-		while (cb.cb_executed == 0)
-		{
-			coutv << "Attributes not read written" << std::endl;
-			nb_not_arrived++;
-			Tango_sleep(1);
+    cout << "   Several attributes in write_attributes in callback mode --> OK" << std::endl;
+  }
+  catch(Tango::DevFailed &e)
+  {
+    Except::print_exception(e);
+    exit(-1);
+  }
+  catch(CORBA::Exception &ex)
+  {
+    Except::print_exception(ex);
+    exit(-1);
+  }
 
-			device->get_asynch_replies();
+  delete device;
 
-		}
-
-		assert ( nb_not_arrived >= 2);
-		assert ( cb.nb_attr == 2);
-
-		cout << "   Several attributes in write_attributes in callback mode --> OK" << std::endl;
-
-	}
-	catch (Tango::DevFailed &e)
-	{
-		Except::print_exception(e);
-		exit(-1);
-	}
-	catch (CORBA::Exception &ex)
-	{
-		Except::print_exception(ex);
-		exit(-1);
-	}
-
-
-	delete device;
-
-	return 0;
+  return 0;
 }
