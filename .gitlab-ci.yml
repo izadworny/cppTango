@@ -537,6 +537,28 @@ doxygen-documentation:
     paths:
       - build/doc_html
 
+clang-format:
+  image: debian:bullseye
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+    DOCKER_HOST: tcp://docker:2375
+    PATCH_FILE: clang-format.patch
+  before_script:
+    - apt-get update
+    - >
+      apt-get install -y
+      docker.io
+      git
+  script:
+    - ci/format-code.sh
+    - git diff > ${PATCH_FILE}
+      # fail job if the patch file is not empty
+    - '! test -s ${PATCH_FILE}'
+  artifacts:
+    when: always
+    paths:
+      - ${PATCH_FILE}
+
 sanitizer:
   <<: *job-template
   # Failures are temporarily allowed until sanitizer issues are fixed.
