@@ -68,9 +68,9 @@ add_library(idl_objects OBJECT ${SOURCES} tango.h)
 
 if(WIN32)
     target_compile_definitions(idl_objects PRIVATE "${windows_defs};__x86__;__NT__;__OSVERSION__=4;__WIN32__;_WIN32_WINNT=0x0400;")
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tango.h" DESTINATION include/idl)
 else()
     target_compile_options(idl_objects PRIVATE -fPIC)
     target_compile_definitions(idl_objects PRIVATE OMNI_UNLOADABLE_STUBS)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tango.h DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/idl")
 endif()
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tango.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tango/idl)
