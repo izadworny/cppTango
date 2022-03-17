@@ -488,11 +488,6 @@ void DevTestClass::command_factory()
 					      Tango::DEVVAR_LONGSTRINGARRAY,
 					      "void",
 					      "A unsigned long and string array"));
-	command_list.push_back(new GetLongSize("GetLongSize",
-					      Tango::DEV_VOID,
-					      Tango::DEV_SHORT,
-					      "void",
-					      "Sizeof long (32 or 64 bits)"));
 	command_list.push_back(new IOSetWAttrLimit("IOSetWAttrLimit",
 					      Tango::DEVVAR_DOUBLEARRAY,
 					      Tango::DEV_VOID,

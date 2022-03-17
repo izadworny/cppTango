@@ -11,6 +11,7 @@ echo "BUILD_SHARED_LIBS=$BUILD_SHARED_LIBS"
 echo "TANGO_USE_USING_NAMESPACE=$TANGO_USE_USING_NAMESPACE"
 echo "TANGO_USE_LIBCPP=$TANGO_USE_LIBCPP"
 echo "WARNINGS_AS_ERRORS=$WARNINGS_AS_ERRORS"
+echo "TOOLCHAIN_FILE=$TOOLCHAIN_FILE"
 echo "############################"
 
 docker exec cpp_tango mkdir -p /home/tango/src/build
@@ -21,10 +22,19 @@ TANGO_USE_LIBCPP=${TANGO_USE_LIBCPP:-OFF}
 USE_PCH=${USE_PCH:-OFF}
 BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS:-ON}
 WARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS:-OFF}
+SOURCE_DIR=/home/tango/src
+BUILD_DIR=${SOURCE_DIR}/build
+
+ADDITIONAL_ARGS=""
+
+if [[ -f "$TOOLCHAIN_FILE" && -s "$TOOLCHAIN_FILE" ]]
+then
+  ADDITIONAL_ARGS="${ADDITIONAL_ARGS} -DCMAKE_TOOLCHAIN_FILE=${SOURCE_DIR}/${TOOLCHAIN_FILE}"
+fi
 
 docker exec cpp_tango cmake                                \
-  -H/home/tango/src                                        \
-  -B/home/tango/src/build                                  \
+  -H${SOURCE_DIR}                                          \
+  -B${BUILD_DIR}                                           \
   -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}                 \
   -DCMAKE_VERBOSE_MAKEFILE=ON                              \
   -DCPPZMQ_BASE=/home/tango                                \
@@ -34,6 +44,7 @@ docker exec cpp_tango cmake                                \
   -DTANGO_USE_JPEG=${TANGO_USE_JPEG}                        \
   -DTANGO_USE_LIBCPP=${TANGO_USE_LIBCPP}                     \
   -DWARNINGS_AS_ERRORS=${WARNINGS_AS_ERRORS}               \
-  -DTANGO_ENABLE_COVERAGE=${TANGO_ENABLE_COVERAGE:-OFF}
+  -DTANGO_ENABLE_COVERAGE=${TANGO_ENABLE_COVERAGE:-OFF}    \
+  ${ADDITIONAL_ARGS}
 
-docker exec cpp_tango make -C /home/tango/src/build $MAKEFLAGS
+docker exec cpp_tango make -C ${BUILD_DIR} $MAKEFLAGS

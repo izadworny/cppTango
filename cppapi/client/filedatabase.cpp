@@ -19,6 +19,7 @@
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
+#include <numeric>
 #include <tango.h>
 
 // DbInfo                              done
@@ -227,6 +228,15 @@ bool hasAttributeName<T>::operator() (T* obj)
 	return (Tango::equalsIgnoreCase(obj->attribute_name,attribute_name));
 }
 
+namespace {
+
+char* to_corba_string(CORBA::ULong val)
+{
+  auto str = std::to_string(val);
+  return Tango::string_dup(str.c_str());
+}
+
+} // anonymous namespace
 
 FileDatabaseExt::FileDatabaseExt() {}
 FileDatabaseExt::~FileDatabaseExt() {}
@@ -1167,9 +1177,6 @@ CORBA::Any*   FileDatabase :: DbGetDeviceProperty(CORBA::Any& send)
 {
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
-	char num_prop_str[256];
-	char num_vals_str[256];
-	unsigned int num_prop = 0;
 
 	cout4 << "FILEDATABASE: entering DbGetDeviceProperty" << endl;
 
@@ -1181,9 +1188,8 @@ CORBA::Any*   FileDatabase :: DbGetDeviceProperty(CORBA::Any& send)
 
 	data_out->length(2);
 	(*data_out)[0] = Tango::string_dup( (*data_in)[0] ); index++;
-	num_prop = data_in->length() - 1;
-	std::snprintf(num_prop_str, sizeof(num_prop_str),"%ud",num_prop);
-	(*data_out)[index] = Tango::string_dup(num_prop_str); index++;
+	auto num_prop = data_in->length() - 1;
+	(*data_out)[index] = to_corba_string(num_prop); index++;
 
 	if (data_in->length() >= 2)
 	{
@@ -1212,8 +1218,7 @@ CORBA::Any*   FileDatabase :: DbGetDeviceProperty(CORBA::Any& send)
 							seq_length = seq_length + 2 + m_server.devices[i]->properties[m]->value.size();
 							data_out->length(seq_length);
 							(*data_out)[index] = Tango::string_dup( m_server.devices[i]->properties[m]->name.c_str() );index++;
-							std::snprintf(num_vals_str, sizeof(num_vals_str),"%d",num_val);
-							(*data_out)[index] = Tango::string_dup(num_vals_str); index++;
+							(*data_out)[index] = to_corba_string(num_val); index++;
 							for (int k=0; k < num_val; k++)
 							{
 								(*data_out)[index] = Tango::string_dup( m_server.devices[i]->properties[m]->value[k].c_str());index++;
@@ -1361,9 +1366,6 @@ CORBA::Any*   FileDatabase :: DbGetDeviceAttributeProperty(CORBA::Any& send)
 {
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
-	char num_prop_str[256];
-	char num_attr_str[256];
-	unsigned int num_attr = 0;
 
 	CORBA::Any* any_ptr;
 	any_ptr = new CORBA::Any();
@@ -1378,10 +1380,8 @@ CORBA::Any*   FileDatabase :: DbGetDeviceAttributeProperty(CORBA::Any& send)
 	int index = 0;
 	data_out->length(2);
 	(*data_out)[0] = Tango::string_dup( (*data_in)[0] ); index++;
-	num_attr = data_in->length() - 1;
-	std::snprintf(num_attr_str, sizeof(num_attr_str), "%ud", num_attr);
-	(*data_out)[index] = Tango::string_dup( num_attr_str ); index++;
-
+	auto num_attr = data_in->length() - 1;
+	(*data_out)[index] = to_corba_string(num_attr); index++;
 
 	std::vector<t_device*>::iterator dev_it;
 	dev_it = find_if(m_server.devices.begin(), m_server.devices.end(), hasName<t_device>(string((*data_in)[0])));
@@ -1397,28 +1397,20 @@ CORBA::Any*   FileDatabase :: DbGetDeviceAttributeProperty(CORBA::Any& send)
 			 {
 				if (equalsIgnoreCase((*dev_it)->attribute_properties[j]->attribute_name, (*data_in)[k+1].in()))
 				{
-                    unsigned int num_prop = 0;
-                    int num_attr_find = 0;
+					int num_attr_find = 0;
 
 					//cout << "Proprieta' " << (*dev_it)->attribute_properties[j]->attribute_name << " trovata." << endl;
-					num_prop = (*dev_it)->attribute_properties[j]->properties.size();
-					std::snprintf(num_prop_str, sizeof(num_prop_str), "%ud", num_prop);
-					//cout << "num proprieta'= " << num_prop_str << endl;
+					auto num_prop = (*dev_it)->attribute_properties[j]->properties.size();
 					num_attr_find++;
 
-					(*data_out)[index-1] = Tango::string_dup(num_prop_str);
+					(*data_out)[index-1] = to_corba_string(num_prop);
 
 					for (unsigned int l = 0; l < num_prop; l++)
 					{
-						char num_val_str[256];
 						data_out->length(index + 1 + 1 + (*dev_it)->attribute_properties[j]->properties[l]->value.size());
 						(*data_out)[index] = Tango::string_dup((*dev_it)->attribute_properties[j]->properties[l]->name.c_str());index++;
-#ifdef TANGO_LONG64
-						std::snprintf(num_val_str, sizeof(num_val_str), "%lu", (*dev_it)->attribute_properties[j]->properties[l]->value.size());
-#else
-						std::snprintf(num_val_str, sizeof(num_val_str), "%zu", (*dev_it)->attribute_properties[j]->properties[l]->value.size());
-#endif
-						(*data_out)[index] = Tango::string_dup(num_val_str); index++;
+						auto num_attr_prop = (*dev_it)->attribute_properties[j]->properties[l]->value.size();
+						(*data_out)[index] = to_corba_string(num_attr_prop); index++;
 
 						for(unsigned int ii = 0; ii < (*dev_it)->attribute_properties[j]->properties[l]->value.size(); ii++)
 						{
@@ -1594,10 +1586,6 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 {
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
-	char num_prop_str[256];
-	char num_vals_str[256];
-	unsigned int num_prop = 0;
-	unsigned int num_val = 0;
 
 	cout4 << "FILEDATABASE: entering DbGetClassProperty" << endl;
 
@@ -1607,12 +1595,10 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 	int index = 0;
 	int seq_length = 2;
 
-
 	data_out->length(2);
 	(*data_out)[0] = Tango::string_dup((*data_in)[0]); index++;
-	num_prop = data_in->length() - 1;
-	std::snprintf(num_prop_str, sizeof(num_prop_str),"%ud",num_prop);
-	(*data_out)[index] = Tango::string_dup(num_prop_str); index++;
+	auto num_prop = data_in->length() - 1;
+	(*data_out)[index] = to_corba_string(num_prop); index++;
 
 	unsigned long nb_classes_defined = m_server.classes.size();
 	unsigned long i;
@@ -1631,16 +1617,11 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 					if (equalsIgnoreCase((*data_in)[j].in(), m_server.classes[i]->properties[m]->name))
 					{
 						num_prop++;
-						num_val = m_server.classes[i]->properties[m]->value.size();
+						auto num_val = m_server.classes[i]->properties[m]->value.size();
 						seq_length = seq_length + 2 + num_val;
 						(*data_out).length(seq_length);
 						(*data_out)[index] = Tango::string_dup((*data_in)[j]); index++;
-#ifdef TANGO_LONG64
-						std::snprintf(num_vals_str, sizeof(num_vals_str),"%lu",m_server.classes[i]->properties[m]->value.size());
-#else
-						std::snprintf(num_vals_str, sizeof(num_vals_str),"%zu",m_server.classes[i]->properties[m]->value.size());
-#endif
-						(*data_out)[index] = Tango::string_dup(num_vals_str); index++;
+						(*data_out)[index] = to_corba_string(num_val); index++;
 						for (unsigned int n = 0; n < num_val; n++)
 						{
 							(*data_out)[index] = Tango::string_dup(m_server.classes[i]->properties[m]->value[n].c_str()); index++;
@@ -1794,10 +1775,6 @@ CORBA::Any*   FileDatabase :: DbGetClassAttributeProperty(CORBA::Any& send)
 	CORBA::Any* any_ptr = new CORBA::Any();
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
-	unsigned int num_attr  = 0;
-	int num_prop = 0;
-	char num_attr_str[256];
-	char num_prop_str[256];
 
 	cout4 << "FILEDATABASE: entering DbGetClassAttributeProperty" << endl;
 
@@ -1806,9 +1783,8 @@ CORBA::Any*   FileDatabase :: DbGetClassAttributeProperty(CORBA::Any& send)
 	int index = 0;
 	data_out->length(2);
 	(*data_out)[0] = Tango::string_dup((*data_in)[0]); index++;
-	num_attr = data_in->length() - 1;
-	std::snprintf(num_attr_str, sizeof(num_attr_str),"%ud",num_attr);
-	(*data_out)[1] = Tango::string_dup(num_attr_str); index++;
+	auto num_attr = data_in->length() - 1;
+	(*data_out)[1] = to_corba_string(num_attr); index++;
 
 	std::vector<t_tango_class*>::iterator it;
 	it = find_if(m_server.classes.begin(), m_server.classes.end(), hasName<t_tango_class>(string((*data_in)[0])));
@@ -1837,21 +1813,16 @@ CORBA::Any*   FileDatabase :: DbGetClassAttributeProperty(CORBA::Any& send)
 		{
 		 if (equalsIgnoreCase(classe_trovata.attribute_properties[j]->attribute_name, (*data_in)[k+1].in()))
 		 {
-			 num_prop = classe_trovata.attribute_properties[j]->properties.size();
-			 std::snprintf(num_prop_str, sizeof(num_prop_str), "%d", num_prop);
+			 auto num_prop = classe_trovata.attribute_properties[j]->properties.size();
 			 //data_out->length(index + 2*num_prop);
-			 (*data_out)[index-1] = Tango::string_dup(num_prop_str);
+			 (*data_out)[index-1] = to_corba_string(num_prop);
 			 for (unsigned int l = 0; l < classe_trovata.attribute_properties[j]->properties.size(); l++)
 			 {
-					char num_val_str[256];
 					data_out->length(index + 1 + 1 + classe_trovata.attribute_properties[j]->properties[l]->value.size());
 					(*data_out)[index] = Tango::string_dup(classe_trovata.attribute_properties[j]->properties[l]->name.c_str());index++;
-#ifdef TANGO_LONG64
-					std::snprintf(num_val_str, sizeof(num_val_str), "%lu", classe_trovata.attribute_properties[j]->properties[l]->value.size());
-#else
-					std::snprintf(num_val_str, sizeof(num_val_str), "%zu", classe_trovata.attribute_properties[j]->properties[l]->value.size());
-#endif
-					(*data_out)[index] = Tango::string_dup(num_val_str); index++;
+
+					auto num_attr_prop = classe_trovata.attribute_properties[j]->properties[l]->value.size();
+					(*data_out)[index] = to_corba_string(num_attr_prop); index++;
 				 //(*data_out)[index] = Tango::string_dup(classe_trovata.attribute_properties[j]->properties[l]->name.c_str());index++;
 				 //string temp_value("");
 				 if (classe_trovata.attribute_properties[j]->properties[l]->value.size() > 0)
@@ -2044,52 +2015,45 @@ CORBA::Any*  FileDatabase :: DbGetDeviceList(CORBA::Any& send)
 CORBA::Any*  FileDatabase :: DbInfo(CORBA::Any&){
 	CORBA::Any* any_ptr = new CORBA::Any();
 
+	auto generate_string = [](std::string prefix, CORBA::ULong size) -> char*
+	{
+		prefix += std::to_string(size);
+		return Tango::string_dup(prefix.c_str());
+	};
+
+	auto prop_func = [](CORBA::ULong init, auto s) -> CORBA::ULong
+	{
+		return init + s->properties.size();
+	};
+
+	auto prop_attr_func = [](CORBA::ULong init, auto s) -> CORBA::ULong
+	{
+		return init + s->attribute_properties.size();
+	};
+
+	auto accumulate = [](auto const& vec, auto func) -> CORBA::ULong
+	{
+		return std::accumulate(std::begin(vec), std::end(vec), 0u, func) ;
+	};
+
 	Tango::DevVarStringArray* data_out  = new DevVarStringArray;
 	data_out->length(13);
-	char temp_str[256];
-	std::snprintf(temp_str, sizeof(temp_str),"TANGO FileDatabase  %s", filename.c_str());
-	(*data_out)[0] = Tango::string_dup(temp_str);
+
+	auto header = std::string("TANGO FileDatabase  ") + filename;
+	(*data_out)[0] = Tango::string_dup(header.c_str());
 	(*data_out)[1] = Tango::string_dup("");
 	(*data_out)[2] = Tango::string_dup("Running since ----");
 	(*data_out)[3] = Tango::string_dup("");
-#ifdef TANGO_LONG64
-	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %lu", m_server.devices.size());
-#else
-	std::snprintf(temp_str, sizeof(temp_str),"Devices defined = %zu", m_server.devices.size());
-#endif
-	(*data_out)[4] = Tango::string_dup(temp_str);
-#ifdef TANGO_LONG64
-	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %lu", m_server.devices.size());
-#else
-	std::snprintf(temp_str, sizeof(temp_str),"Devices exported = %zu", m_server.devices.size());
-#endif
-	(*data_out)[5] = Tango::string_dup(temp_str);
+	(*data_out)[4] = generate_string("Devices defined = ", m_server.devices.size());
+	(*data_out)[5] = generate_string("Devices exported = ", m_server.devices.size());
 	(*data_out)[6] = Tango::string_dup("Device servers defined = 1");
 	(*data_out)[7] = Tango::string_dup("Device servers exported = 1");
 	(*data_out)[8] = Tango::string_dup("");
-	long temp_long = 0;
-	for(std::vector<t_tango_class*>::iterator it = m_server.classes.begin(); it != m_server.classes.end(); ++it)
-		temp_long += (*it)->properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Class properties defined = %ld", temp_long);
-	(*data_out)[9] = Tango::string_dup(temp_str);
+	(*data_out)[9] = generate_string("Class properties defined = ", accumulate(m_server.classes, prop_func));
+	(*data_out)[10] = generate_string("Device properties defined = ", accumulate(m_server.devices, prop_func));
+	(*data_out)[11] = generate_string("Class attribute properties defined = ", accumulate(m_server.classes, prop_attr_func));
+	(*data_out)[12] = generate_string("Device attribute properties defined = ", accumulate(m_server.devices, prop_attr_func));
 
-	temp_long = 0;
-	for(std::vector<t_device*>::iterator ite = m_server.devices.begin(); ite != m_server.devices.end(); ++ite)
-		temp_long += (*ite)->properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Device properties defined = %ld", temp_long);
-	(*data_out)[10] = Tango::string_dup(temp_str);
-
-	temp_long = 0;
-	for(std::vector<t_tango_class*>::iterator iter = m_server.classes.begin(); iter != m_server.classes.end(); ++iter)
-		temp_long += (*iter)->attribute_properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Class attribute properties defined = %ld", temp_long);
-	(*data_out)[11] = Tango::string_dup(temp_str);
-
-	temp_long = 0;
-	for(std::vector<t_device*>::iterator itera = m_server.devices.begin(); itera != m_server.devices.end(); ++itera)
-		temp_long += (*itera)->attribute_properties.size();
-	std::snprintf(temp_str, sizeof(temp_str),"Device attribute properties defined = %ld", temp_long);
-	(*data_out)[12] = Tango::string_dup(temp_str);
 	(*any_ptr) <<= data_out;
 
 	return any_ptr;
@@ -2243,7 +2207,6 @@ CORBA::Any*  FileDatabase :: DbGetProperty(CORBA::Any& send)
 
 	const Tango::DevVarStringArray* data_in = NULL;
 	Tango::DevVarStringArray* data_out  = new DevVarStringArray;
-	char num_attr_str[256];
 	const char* zero_str = "0";
 
 	cout4 << "FILEDATABASE: entering DbGetProperty" << endl;
@@ -2251,7 +2214,6 @@ CORBA::Any*  FileDatabase :: DbGetProperty(CORBA::Any& send)
 	send >>= data_in;
 
 	data_out->length(2);
-	std::snprintf(num_attr_str, sizeof(num_attr_str),"%ud",data_in->length()-1);
 	(*data_out)[0] = Tango::string_dup((*data_in)[0]);
 	(*data_out)[1] = Tango::string_dup(zero_str);
 

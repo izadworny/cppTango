@@ -101,11 +101,12 @@ for the generic debian howto.
 sudo dpkg --add-architecture i386
 sudo apt update
 sudo apt remove libcos4-dev libomniorb4-dev libomnithread4-dev libzmq3-dev
-sudo apt install gcc-multilib g++-multilib gcc-i686-linux-gnu
+sudo apt install gcc-i686-linux-gnu
+sudo apt install gcc-multilib g++-multilib
 sudo apt install libcos4-dev:i386 libomniorb4-dev:i386 libomnithread4-dev:i386 libzmq3-dev:i386
 mkdir build-cross-32bit
 cd build-cross-32bit
-cmake -DCMAKE_TOOLCHAIN_FILE=..\configure\toolchain-i686.cmake ..
+cmake -DCMAKE_TOOLCHAIN_FILE=../configure/toolchain-i686.cmake ..
 make [-j NUMBER_OF_CPUS]
 ```
 

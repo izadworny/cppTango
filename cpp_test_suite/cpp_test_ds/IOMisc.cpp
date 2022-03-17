@@ -1292,52 +1292,6 @@ CORBA::Any *FileDbCmd::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const COR
 
 //+----------------------------------------------------------------------------
 //
-// method : 		GetLongSize::GetLongSize()
-//
-// description : 	constructor for the GetLongSize command of the
-//			DevTest.
-//
-// In : - name : The command name
-//	- in : The input parameter type
-//	- out : The output parameter type
-//	- in_desc : The input parameter description
-//	- out_desc : The output parameter description
-//
-//-----------------------------------------------------------------------------
-
-GetLongSize::GetLongSize(const char *name, Tango::CmdArgType in,
-						 Tango::CmdArgType out, const char *in_desc,
-						 const char *out_desc)
-	: Tango::Command(name, in, out, in_desc, out_desc)
-{
-}
-
-bool GetLongSize::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
-{
-
-//
-// command always allowed
-//
-
-	return(true);
-}
-
-
-
-CORBA::Any *GetLongSize::execute(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_UNUSED(const CORBA::Any &in_any))
-{
-	short size;
-#ifdef TANGO_LONG64
-	size = 64;
-#else
-	size = 32;
-#endif
-	return insert(size);
-}
-
-
-//+----------------------------------------------------------------------------
-//
 // method : 		ChangeEncodedFormat::ChangeEncodedFormat()
 //
 // description : 	constructor for the ChangeEncodedFormat command of the
