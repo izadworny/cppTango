@@ -71,3 +71,11 @@ knows who is tackling what.
 - In most cases the reviewers will want something changed, the assignment will
   then also change back to the merge request creator to reflect that.
 - Once the requested changes are implemented, the assigment changes back again to the reviewers.
+
+## Code formatting
+
+- Our coding style is defined via a .clang-format file in the top level directory.
+  Please configure your editor to use that.
+- The style is checked as part of CI, use `ci/format-code.sh` to format the code.
+- Please refrain from adding "fix formatting" commits as these are in general
+  not necessary and will also not be accepted.
