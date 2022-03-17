@@ -246,3 +246,7 @@ if(WIN32)
 endif()
 
 option(TANGO_USE_USING_NAMESPACE "Use \"using namespace\" in header files (deprecated, but ON for backwards compatibility.)." ON)
+
+configure_file(tango.pc.cmake tango.pc @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tango.pc"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
