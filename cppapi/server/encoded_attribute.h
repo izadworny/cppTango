@@ -259,7 +259,7 @@ namespace Tango
             // the caller.
             // ----------------------------------------------------------------------------
             void jpeg_decode(std::size_t jpegSize, unsigned char *jpegData,
-                    int *width, int *height, int *format, unsigned char*& frame);
+                    int *width, int *height, unsigned char*& frame);
     };
 
 #define INC_INDEX() \
