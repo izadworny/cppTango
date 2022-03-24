@@ -317,7 +317,7 @@ void WAttribute::set_rvalue()
             break;
 
         case Tango::DEV_ENCODED:
-            set_value(&encoded_val, 1, 0, false);
+            set_value(&encoded_val, 1L, 0, false);
             break;
     }
 }

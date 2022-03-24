@@ -46,6 +46,7 @@
 #include <devintr.h>
 #include <dintrthread.h>
 #include "event_subscription_state.h"
+#include "auto_tango_monitor.h"
 
 #ifdef _TG_WINDOWS_
 #include <sys/timeb.h>
@@ -58,8 +59,6 @@ namespace Tango
 
 class Command;
 class DeviceClass;
-class AutoTangoMonitor;
-class NoSyncModelTangoMonitor;
 class EventSupplier;
 class EventSubscriptionChangeCmd;
 class Util;
@@ -936,283 +935,8 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_change_event (const std::string &attr_name, Tango::DevShort *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevLong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevLong  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevLong64  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevFloat attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevFloat *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevDouble attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevDouble *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevString attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevString *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevBoolean attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevBoolean *p_data, long x = 1,long y = 0,bool release = false);
-
-/**void push_change_event (string attr_name, Tango::DevBoolea
- * Push a change event for an attribute with Tango::DevUShort attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevUShort *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevUChar attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevUChar *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevULong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevULong  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevULong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevULong64  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevState attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevState  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a change event for an attribute with Tango::DevEncoded attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_change_event (const std::string &attr_name, Tango::DevEncoded  *p_data, long x = 1,long y = 0,bool release = false);
+        template<class T>
+	void push_change_event(const std::string &attr_name, T* p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a change event for an attribute with Tango::DevEncoded attribute data type
@@ -1260,342 +984,12 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
+        template<class T>
 #ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevShort *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_change_event (const std::string &attr_name, T* p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_change_event (const std::string &attr_name, Tango::DevShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_change_event (const std::string &attr_name, T* p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
-/**
- * Push a change event for an attribute with Tango::DevLong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevLong *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevLong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a change event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevLong64 *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevLong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a change event for an attribute with Tango::DevFloat attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevFloat *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevFloat *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a change event for an attribute with Tango::DevDouble attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevDouble *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevDouble *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a change event for an attribute with Tango::DevString attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevString *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevString *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a change event for an attribute with Tango::DevBoolean attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevBoolean *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevBoolean *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a change event for an attribute with Tango::DevUShort attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevUShort *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevUShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a change event for an attribute with Tango::DevUChar attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevUChar *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevUChar *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a change event for an attribute with Tango::DevULong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevULong *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevULong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a change event for an attribute with Tango::DevULong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevULong64 *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevULong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a change event for an attribute with Tango::DevState attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevState *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevState *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a change event for an attribute with Tango::DevEncoded attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the change event criteria depending
- * on the configuration choosen with set_change_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevEncoded *p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevEncoded *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
 /**
  * Push a change event for an attribute with Tango::DevEncoded attribute data type
  * when the data rea specified with two pointers.
@@ -1683,283 +1077,8 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_archive_event (const std::string &attr_name, Tango::DevShort *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevLong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevLong  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevLong64  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevFloat attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevFloat *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevDouble attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevDouble *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevString attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevString *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevBoolean attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevBoolean *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevUShort attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevUShort *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevUChar attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevUChar *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevULong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevULong *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevULong64  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevState attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevState *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push an archive event for an attribute with Tango::DevEncoded attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_archive_event (const std::string &attr_name, Tango::DevEncoded *p_data, long x = 1,long y = 0,bool release = false);
+        template<class T>
+	void push_archive_event (const std::string &attr_name, T* p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push an archive event for an attribute with Tango::DevEncoded attribute data type
@@ -2007,337 +1126,12 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
+        template<class T>
 #ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_archive_event (const std::string &attr_name, T* p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_archive_event (const std::string &attr_name, Tango::DevShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_archive_event (const std::string &attr_name, T* p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
-/**
- * Push an archive event for an attribute with Tango::DevLong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevLong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevLong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevLong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevLong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevFloat attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevFloat *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevFloat *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevDouble attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevDouble *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevDouble *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevString attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevString *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevString *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevBoolean attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevBoolean *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevBoolean *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevUShort attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevUShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevUShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevUChar attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevUChar *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevUChar *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevULong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevULong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevULong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevULong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevULong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevULong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push an archive event for an attribute with Tango::DevState attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevState *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevState *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push an archive event for an attribute with Tango::DevEncoded attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The event is triggered with or without checking of the archive event criteria depending
- * on the configuration choosen with set_archive_event().
- *
- * @param attr_name The name of the attribute
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevEncoded *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevEncoded *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
 /**
  * Push an archive event for an attribute with Tango::DevEncoded attribute data type
  * when it is specified using two pointers.
@@ -2414,283 +1208,8 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevShort *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevLong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong64  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevFloat attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevFloat *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevDouble attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevDouble *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevString attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevBoolean attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevBoolean *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevUShort attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUShort *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevUChar attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUChar *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevULong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevULong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong64  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevState attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevState  *p_data, long x = 1,long y = 0,bool release = false);
-
-/**
- * Push a user event for an attribute with Tango::DevEncoded attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name and a pointer to the data to be pushed as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- * The time stamp of the event is set to the actual time and the attribute quality
- * is set to valid.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevEncoded *p_data, long x = 1,long y = 0,bool release = false);
+        template<class T>
+	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,T* p_data, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevEncoded attribute data type
@@ -2738,340 +1257,11 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
+        template<class T>
 #ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,T* p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a user event for an attribute with Tango::DevLong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a user event for an attribute with Tango::DevLong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevLong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a user event for an attribute with Tango::DevFloat attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevFloat *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevFloat *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a user event for an attribute with Tango::DevDouble attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevDouble *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevDouble *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a user event for an attribute with Tango::DevString attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a user event for an attribute with Tango::DevBoolean attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevBoolean *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevBoolean *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a user event for an attribute with Tango::DevUShort attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUShort *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUShort *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-/**
- * Push a user event for an attribute with Tango::DevUChar attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUChar *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevUChar *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a user event for an attribute with Tango::DevULong attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a user event for an attribute with Tango::DevULong64 attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong64 *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevULong64 *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a user event for an attribute with Tango::DevState attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevState *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevState *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
-
-/**
- * Push a user event for an attribute with Tango::DevEncoded attribute data type.
- * The event is pushed to the event system.
- *
- * The method needs the attribue name, a pointer to the data to be pushed, the time stamp
- * for the data and the attribute quality factor as input.
- * Depending on the attribute type the dimensions x and why need to be given.
- *
- * @param attr_name The name of the attribute
- * @param filt_names The filterable fields name
- * @param filt_vals The filterable fields value (as double)
- * @param p_data Pointer to the data to be pushed
- * @param t The time stamp
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevEncoded *p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevEncoded *p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
+	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,T* p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 #endif
 
 /**
@@ -3579,6 +1769,20 @@ private:
 	Tango::Device_var				d_var;
 	PortableServer::ObjectId_var	obj_id;
 
+// Push event and call the proper firing method in attribute
+// allow for factorization for any type of event
+template<class T, void (Attribute::*fire)(void)>
+void push_event(const std::string &attr_name, T* p_data, long x, long y , bool release);
+template<class T, void (Attribute::*fire)(void)>
+#ifdef _TG_WINDOWS_
+void push_event (const std::string &attr_name, T* p_data,
+			  struct _timeb &t, Tango::AttrQuality qual,
+			  long x,long y ,bool release);
+#else
+void push_event (const std::string &attr_name, T* p_data,
+			  struct timeval &t, Tango::AttrQuality qual,
+			  long x,long y ,bool release);
+#endif
 protected:
 };
 
@@ -3590,6 +1794,126 @@ inline void DeviceImpl::set_state(const Tango::DevState &new_state)
         ext->alarm_state_user = time(NULL);
     else
         ext->alarm_state_user = 0;
+}
+
+template<class T, void (Attribute::*fire)(void)>
+#ifdef _TG_WINDOWS_
+void DeviceImpl::push_event (const std::string &attr_name, T* p_data,
+			  struct _timeb &t, Tango::AttrQuality qual,
+			  long x,long y ,bool release)
+#else
+void DeviceImpl::push_event (const std::string &attr_name, T* p_data,
+			  struct timeval &t, Tango::AttrQuality qual,
+			  long x,long y ,bool release)
+#endif
+{
+	// get the tango synchroisation monitor
+	Tango::AutoTangoMonitor synch(this);
+
+	// search the attribute from the attribute list
+	Tango::MultiAttribute *attr_list = get_device_attr();
+	Tango::Attribute &attr           = attr_list->get_attr_by_name (attr_name.c_str());
+
+	// set the attribute value
+	attr.set_value_date_quality (p_data, t, qual, x, y, release);
+	// push the event
+	(attr.*fire)();
+}
+
+template<class T, void (Attribute::*fire)(void)>
+inline void DeviceImpl::push_event(const std::string &attr_name, T* p_data, long x, long y , bool release)
+{
+	// get the tango synchronization monitor
+	Tango::AutoTangoMonitor synch(this);
+
+	// search the attribute from the attribute list
+	Tango::MultiAttribute *attr_list = get_device_attr();
+	Tango::Attribute &attr           = attr_list->get_attr_by_name (attr_name.c_str());
+
+	// set the attribute value
+	attr.set_value (p_data, x, y, release);
+	// push the event
+	(attr.*fire)();
+}
+
+template<class T>
+#ifdef _TG_WINDOWS_
+void DeviceImpl::push_change_event (const std::string &attr_name, T* p_data,
+			  struct _timeb &t, Tango::AttrQuality qual,
+			  long x,long y ,bool release)
+#else
+void DeviceImpl::push_change_event (const std::string &attr_name, T* p_data,
+				  struct timeval &t, Tango::AttrQuality qual,
+				  long x,long y ,bool release)
+#endif
+{
+    push_event<T, &Attribute::fire_change_event>(attr_name, p_data, t, qual, x, y, release);
+}
+
+template<class T>
+#ifdef _TG_WINDOWS_
+void DeviceImpl::push_archive_event (const std::string &attr_name, T* p_data,
+			  struct _timeb &t, Tango::AttrQuality qual,
+			  long x,long y ,bool release)
+#else
+void DeviceImpl::push_archive_event (const std::string &attr_name, T* p_data,
+				  struct timeval &t, Tango::AttrQuality qual,
+				  long x,long y ,bool release)
+#endif
+{
+    push_event<T, &Attribute::fire_archive_event>(attr_name, p_data, t, qual, x, y, release);
+}
+
+template<class T>
+inline void DeviceImpl::push_change_event(const std::string &attr_name, T* p_data, long x, long y , bool release)
+{
+    push_event<T, &Attribute::fire_change_event>(attr_name, p_data, x, y, release);
+}
+
+template<class T>
+inline void DeviceImpl::push_archive_event(const std::string &attr_name, T* p_data, long x, long y , bool release)
+{
+    push_event<T, &Attribute::fire_archive_event>(attr_name, p_data, x, y, release);
+}
+
+template<class T>
+inline void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals, T* p_data, long x, long y , bool release)
+{
+	// get the tango synchroisation monitor
+	Tango::AutoTangoMonitor synch(this);
+
+	// search the attribute from the attribute list
+	Tango::MultiAttribute *attr_list = get_device_attr();
+	Tango::Attribute &attr           = attr_list->get_attr_by_name (attr_name.c_str());
+
+	// set the attribute value
+	attr.set_value (p_data, x, y, release);
+	// push the event
+	attr.fire_event(filt_names,filt_vals);
+}
+
+template<class T>
+#ifdef _TG_WINDOWS_
+void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
+			     T* p_data,struct _timeb &t, Tango::AttrQuality qual,
+			     long x,long y ,bool release)
+#else
+void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
+			     T* p_data,struct timeval &t, Tango::AttrQuality qual,
+			     long x,long y ,bool release)
+#endif
+{
+	// get the tango synchroisation monitor
+	Tango::AutoTangoMonitor synch(this);
+
+	// search the attribute from the attribute list
+	Tango::MultiAttribute *attr_list = get_device_attr();
+	Tango::Attribute &attr           = attr_list->get_attr_by_name (attr_name.c_str());
+
+	// set the attribute value
+	attr.set_value_date_quality (p_data, t, qual, x, y, release);
+	// push the event
+	attr.fire_event(filt_names,filt_vals);
 }
 
 } // End of Tango namespace

@@ -548,23 +548,6 @@ public:
  */
 //@{
 /**
- * Set internal attribute value (for Tango::DevShort attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevShort *p_data,long x = 1,long y = 0,bool release = false);
-/**
  * Set internal attribute value (for Tango::DevEncoded attribute data type).
  *
  * This method stores the attribute read value inside the object. This data will be

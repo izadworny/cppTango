@@ -3,6 +3,7 @@ set(SOURCES attrdesc.cpp
             attribute.cpp
             attrsetval.cpp
             attrmanip.cpp
+            auto_tango_monitor.cpp
             basiccommand.cpp
             blackbox.cpp
             class_factory.cpp
