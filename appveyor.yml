@@ -9,7 +9,7 @@ configuration:
 
 environment:
   # Common variables
-  IDL_BASE: C:\projects\tangoidl
+  TANGO_IDL_BASE: C:\projects\tangoidl
   IDL_SOURCE: C:\projects\tangoidl-source
   JPEG_VERSION: 2.0.3
   JPEG_BASE: C:/libjpeg-turbo
@@ -28,8 +28,8 @@ environment:
       PYTHONPATH: c:\Python37-x64\
       PYTHONPATHOMNI: "/cygdrive/c/Python37-x64/python"
       PYVER: "py37"
-      USE_PCH: ON
-      WARNINGS_AS_ERRORS: ON
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: ON
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
@@ -42,8 +42,8 @@ environment:
       PYTHONPATH: c:\Python37\
       PYTHONPATHOMNI: "/cygdrive/c/Python37/python"
       PYVER: "py37"
-      USE_PCH: ON
-      WARNINGS_AS_ERRORS: OFF
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: OFF
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: x64
@@ -57,8 +57,8 @@ environment:
       PYTHONPATH: c:\Python36-x64\
       PYTHONPATHOMNI: "/cygdrive/c/Python36-x64/python"
       PYVER: "py36"
-      USE_PCH: ON
-      WARNINGS_AS_ERRORS: OFF
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: OFF
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       platform: win32
@@ -71,8 +71,8 @@ environment:
       PYTHONPATH: c:\Python36\
       PYTHONPATHOMNI: "/cygdrive/c/Python36/python"
       PYVER: "py36"
-      USE_PCH: ON
-      WARNINGS_AS_ERRORS: OFF
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: OFF
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
 
 init:
@@ -139,25 +139,25 @@ install:
   - cmd: cmake --build ./ --target install --config Release
   # Tango IDL
   - cmd: cd %IDL_SOURCE%
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_INSTALL_PREFIX="%IDL_BASE%" .
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_INSTALL_PREFIX="%TANGO_IDL_BASE%" .
   - cmd: cmake --build ./ --target install --config Debug
   - cmd: cmake --build ./ --target install --config Release
   # Tango API
   - cmd: cd "C:\projects\cppTango"
-  - cmd: set ZMQ_BASE=C:/projects/zeromq/
-  - cmd: set CPPZMQ_BASE=C:/projects/zeromq/
-  - cmd: set OMNI_BASE=C:/projects/omniorb/
+  - cmd: set TANGO_ZMQ_BASE=C:/projects/zeromq/
+  - cmd: set TANGO_CPPZMQ_BASE=C:/projects/zeromq/
+  - cmd: set TANGO_OMNI_BASE=C:/projects/omniorb/
   - cmd: set PTHREAD_WIN=C:/projects/pthreads-win32/
-  - cmd: if not defined USE_PCH set USE_PCH=OFF
-  - cmd: set WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS%
+  - cmd: if not defined TANGO_USE_PCH set TANGO_USE_PCH=OFF
+  - cmd: set TANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS%
   #- cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBUILD_SHARED_LIBS=TRUE .
   #- cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -
   # Static builds
   - cmd: cd c:/projects/static_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=OFF -DWARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DJPEG_BASE="%JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DUSE_PCH=%USE_PCH% -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=OFF -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DJPEG_BASE="%JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=%TANGO_USE_PCH% -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
   # Dynamic builds
   - cmd: cd c:/projects/dynamic_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=ON -DWARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE  -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DIDL_BASE="%IDL_BASE%" -DOMNI_BASE="%OMNI_BASE%" -DZMQ_BASE="%ZMQ_BASE%" -DCPPZMQ_BASE="%CPPZMQ_BASE%" -DJPEG_BASE="%JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DUSE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=ON -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE  -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DJPEG_BASE="%JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
 
 clone_folder: C:\projects\cppTango
 

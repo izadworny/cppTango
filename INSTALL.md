@@ -78,18 +78,18 @@ PKG_CONFIG_PATH="/usr/local/libzmq:/usr/local/omniORB" cmake ..
 | `CMAKE_BUILD_TYPE`           | `Release`                              | Compilation type, can be `Release`, `Debug` or `RelWithDebInfo/MinSizeRel` (Linux only)
 | `CMAKE_INSTALL_PREFIX`       | `/usr/local` or `C:/Program Files`     | Desired install path
 | `CMAKE_VERBOSE_MAKEFILE`     | `OFF`                                  | Allows to increase the verbosity level with `ON`
-| `CPPZMQ_BASE`                |                                        | cppzmq installed path
-| `IDL_BASE`                   |                                        | tangoidl installed path
-| `OMNI_BASE`                  |                                        | omniORB4 installed path
+| `TANGO_CPPZMQ_BASE`          |                                        | cppzmq installed path
 | `TANGO_ENABLE_COVERAGE`      | `OFF`                                  | Instrument code for coverage analysis (Requires CMake 3.13+)
 | `TANGO_ENABLE_SANITIZER`     | *empty*                                | Compile with sanitizers, one of: `ASAN`, `TSAN`, `UBSAN` or `MSAN` (Requires CMake 3.13+ and Clang/GCC)
+| `TANGO_IDL_BASE`             |                                        | tangoidl installed path
 | `TANGO_INSTALL_DEPENDENCIES` | `OFF`                                  | Install dependencies of tango as well (Windows only)
+| `TANGO_OMNI_BASE`            |                                        | omniORB4 installed path
 | `TANGO_USE_JPEG`             | `ON`                                   | Build with jpeg support, in this case a jpeg library implementation is needed.
 | `TANGO_USE_LIBCPP`           | `OFF`                                  | Compile against libc++ instead of stdlibc++ (Requires CMake 3.13+ and clang)
+| `TANGO_USE_PCH`              | `ON`                                   | Use precompiled headers (makes compilation much faster)
 | `TANGO_USE_USING_NAMESPACE`  | `ON`                                   | `ON` will include the `std` namespace in tango headers. Choose `OFF` for modern builds.
-| `USE_PCH`                    | `ON`                                   | Use precompiled headers (makes compilation much faster)
-| `WARNINGS_AS_ERRORS`         | `OFF`                                  | Treat compiler warnings as errors
-| `ZMQ_BASE`                   |                                        | libzmq installed path
+| `TANGO_WARNINGS_AS_ERRORS`   | `OFF`                                  | Treat compiler warnings as errors
+| `TANGO_ZMQ_BASE`             |                                        | libzmq installed path
 
 cppTango supports unity builds to speed up the compilation. Please see the
 [related CMake documentation](https://cmake.org/cmake/help/latest/prop_tgt/UNITY_BUILD.html)
@@ -187,7 +187,7 @@ if cmake does not find some of the dependencies, you can either add a custom `PK
 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig cmake ..
 ```
 
-or use the the CMAKE variables `ZMQ_BASE`, `CPPZMQ_BASE`, `IDL_BASE`, `OMNI_BASE` from [here](#cmake-variables).
+or use the the CMAKE variables `TANGO_ZMQ_BASE`, `TANGO_CPPZMQ_BASE`, `TANGO_IDL_BASE`, `TANGO_OMNI_BASE` from [here](#cmake-variables).
 
 # Using pkg-config in packages requiring tango
 
@@ -295,9 +295,9 @@ cmake --build . --target install
 
 ```
 cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release           \
-      -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DIDL_BASE="c:/projects/tango-idl"    \
-      -DOMNI_BASE="c:/projects/omniorb" -DZMQ_BASE="c:/projects/zeromq" -DCPPZMQ_BASE="c:/projects/zeromq" \
-      -DPTHREAD_WIN="c:/projects/pthreads-win32" -DUSE_PCH=OFF -DBUILD_TESTING=OFF ..
+      -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DTANGO_IDL_BASE="c:/projects/tango-idl"    \
+      -DTANGO_OMNI_BASE="c:/projects/omniorb" -DTANGO_ZMQ_BASE="c:/projects/zeromq" -DTANGO_CPPZMQ_BASE="c:/projects/zeromq" \
+      -DPTHREAD_WIN="c:/projects/pthreads-win32" -DTANGO_USE_PCH=OFF -DBUILD_TESTING=OFF ..
 ```
 
 - Compile with `cmake --build .`

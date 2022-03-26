@@ -16,14 +16,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(CTest)
 
-option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+option(TANGO_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 option(BUILD_SHARED_LIBS "Build a shared library instead of static" ON)
 option(TANGO_USE_LIBCPP "Build against libc++" OFF)
 
-option(USE_PCH "Use precompiled header for server/tango.h" ON)
-if (USE_PCH AND NOT (CMAKE_CXX_COMPILER_ID MATCHES "GNU|MSVC|Clang"))
+option(TANGO_USE_PCH "Use precompiled header for server/tango.h" ON)
+if (TANGO_USE_PCH AND NOT (CMAKE_CXX_COMPILER_ID MATCHES "GNU|MSVC|Clang"))
     message(WARNING "Precompiled headers are not supported for selected compiler.")
-    set(USE_PCH OFF)
+    set(TANGO_USE_PCH OFF)
 endif()
 
 option(TANGO_ENABLE_COVERAGE "Instrument code for coverage analysis" OFF)
