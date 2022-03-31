@@ -50,6 +50,7 @@ namespace Tango
 #define   TBS(s)  	#s
 #define   XTBS(s)	TBS(s)
 
+// NOLINTBEGIN(readability-identifier-naming)
 const char * const TgLibVers               = XTBS(TANGO_VERSION_MAJOR.TANGO_VERSION_MINOR.TANGO_VERSION_PATCH);
 const char * const TgLibMajorVers		   = XTBS(TANGO_VERSION_MAJOR);
 
@@ -81,6 +82,9 @@ const char* const AllCmd				   = "All commands";
 
 const char* const PollCommand              = "command";
 const char* const PollAttribute            = "attribute";
+const char* const NoClass				   = "noclass";
+// NOLINTEND(readability-identifier-naming)
+
 const char* const LOCAL_POLL_REQUEST	   = "_local";
 const int   LOCAL_REQUEST_STR_SIZE		   = 6;
 
@@ -97,7 +101,6 @@ const char* const TANGO_PY_MOD_NAME        = "_PyTango.pyd";
 const char* const DATABASE_CLASS           = "DataBase";
 
 const int   TANGO_FLOAT_PRECISION          = 15;
-const char * const NoClass				   = "noclass";
 
 const char * const SCALAR_PIPE             = "Scalar";
 const char * const ARRAY_PIPE              = "Array";
@@ -205,8 +208,10 @@ const char* const MAX_GIOP_PER_SERVER      = "128";
 // Tango name length
 //
 
+// NOLINTBEGIN(readability-identifier-naming)
 const unsigned int MaxServerNameLength     = 255;
 const int   MaxDevPropLength               = 255;
+// NOLINTEND(readability-identifier-naming)
 
 //
 // For forwarded attribute implementation
@@ -253,26 +258,31 @@ const char* const WINDOWS_ENV_VAR_FILE     = "tangorc";
 // Logging targets (as string)
 //
 
+// NOLINTBEGIN(readability-identifier-naming)
 const char* const kLogTargetConsole        = "console";
 const char* const kLogTargetFile           = "file";
 const char* const kLogTargetDevice         = "device";
+// NOLINTEND(readability-identifier-naming)
 
 //
 // Logging target [type/name] separator
 //
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 const char* const kLogTargetSep            = "::";
 
 //
 // TANGO <rolling log files> threshold
 //
 
+// NOLINTBEGIN(readability-identifier-naming)
 // Min RollingFileAppender threshold (~500kB)
 const size_t kMinRollingThreshold          = 500;
 // Default RollingFileAppender threshold (~20MB)
 const size_t kDefaultRollingThreshold      = 20 * 1024;
 // Max RollingFileAppender threshold (~1GB)
 const size_t kMaxRollingThreshold          = 1024 * 1024;
+// NOLINTEND(readability-identifier-naming)
 
 
 // Include namespaces in header files (deprecated).
@@ -284,6 +294,7 @@ const size_t kMaxRollingThreshold          = 1024 * 1024;
 // The optional attribute properties
 //
 
+// NOLINTBEGIN(readability-identifier-naming)
 const char* const AlrmValueNotSpec         = "Not specified";
 const char* const AssocWritNotSpec         = "None";
 const char* const LabelNotSpec             = "No label";
@@ -301,6 +312,7 @@ const char* const NotANumber               = "NaN";
 const char* const MemNotUsed               = "Not used yet";
 const char* const MemAttrPropName          = "__value";
 const char* const RootAttrPropName		   = "__root_att";
+// NOLINTEND(readability-identifier-naming)
 
 // For DevEnum data type
 
@@ -319,6 +331,7 @@ typedef bool (DeviceImpl::*StateMethPtr)(const CORBA::Any &);
 
 typedef void (DeviceImpl::*CmdMethPtr)();
 
+// NOLINTBEGIN(readability-identifier-naming)
 typedef void (DeviceImpl::*CmdMethPtr_Bo)(DevBoolean);
 typedef void (DeviceImpl::*CmdMethPtr_Sh)(DevShort);
 typedef void (DeviceImpl::*CmdMethPtr_Lg)(DevLong);
@@ -738,6 +751,7 @@ typedef DevState *(DeviceImpl::*Sta_CmdMethPtr_StrA)(const DevVarStringArray *);
 typedef DevState *(DeviceImpl::*Sta_CmdMethPtr_LSA)(const DevVarLongStringArray *);
 typedef DevState *(DeviceImpl::*Sta_CmdMethPtr_DSA)(const DevVarDoubleStringArray *);
 typedef DevState *(DeviceImpl::*Sta_CmdMethPtr_Sta)(DevState);
+// NOLINTEND(readability-identifier-naming)
 
 
 //

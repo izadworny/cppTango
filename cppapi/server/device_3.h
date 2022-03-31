@@ -80,6 +80,7 @@ struct AttIdx
  * @ingroup Server
  */
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class Device_3Impl : public virtual POA_Tango::Device_3,
 		     public Device_2Impl
 {

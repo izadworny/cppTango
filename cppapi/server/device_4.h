@@ -72,6 +72,7 @@ namespace Tango
  * @ingroup Server
  */
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class Device_4Impl : public virtual POA_Tango::Device_4,
 		     public Device_3Impl
 {

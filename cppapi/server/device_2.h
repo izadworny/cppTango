@@ -71,6 +71,7 @@ class DeviceClass;
  * @ingroup Server
  */
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class Device_2Impl : public virtual POA_Tango::Device_2,
 		     public DeviceImpl
 {
