@@ -70,7 +70,7 @@ with the comments section in 'makeprofiles/default.profile' file to fully unders
 
 Below there is a brief tutorial on how to set the parameters:
 
-Define TANGO_BASE, OMNI_BASE, LOG4TANGO_BASE, ZMQ_BASE indicating the directories which contain 'include' and 'lib'
+Define TANGO_BASE, TANGO_OMNI_BASE, LOG4TANGO_BASE, TANGO_ZMQ_BASE indicating the directories which contain 'include' and 'lib'
 folders for Tango, omniORB, log4tango and ZMQ libraries.
 If your Tango 'include' or 'lib' directories are different then TANGO_BASE/include or TANGO_BASE/lib define
 TANGO_INCLUDE_DIR or TANGO_LIB_DIR which will take precedence over TANGO_BASE/include or TANGO_BASE/lib respectively.

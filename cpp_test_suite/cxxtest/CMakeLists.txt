@@ -36,7 +36,7 @@ function(CXX_GENERATE_TEST name)
 	    ${CMAKE_CURRENT_SOURCE_DIR}/../new_tests)
     target_link_libraries(${name} PRIVATE tango ${CMAKE_THREAD_LIBS_INIT})
     target_compile_definitions(${name} PRIVATE ${COMMON_TEST_CXX_DEFS})
-    if(USE_PCH)
+    if(TANGO_USE_PCH)
         tango_target_test_pch(${name})
     endif()
 

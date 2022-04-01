@@ -4,7 +4,7 @@ variables: &variables
   # Build parameters. We later override them at job level if needed.
   RUN_TESTS: "ON"
   STOCK_CPPZMQ: "ON"
-  USE_PCH: "ON"
+  TANGO_USE_PCH: "ON"
   CMAKE_BUILD_TYPE: "Debug"
   TANGO_USE_USING_NAMESPACE: "ON"
   TANGO_USE_JPEG: "ON"
@@ -106,9 +106,9 @@ llvm-latest:
     <<: *variables
     OS_TYPE: llvm-latest
     RUN_TESTS: "OFF"
-    WARNINGS_AS_ERRORS: "ON"
+    TANGO_WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_USING_NAMESPACE: "OFF"
-    USE_PCH: "OFF"
+    TANGO_USE_PCH: "OFF"
     STOCK_CPPZMQ: "OFF"
 
 gcc-latest:
@@ -117,9 +117,9 @@ gcc-latest:
     <<: *variables
     OS_TYPE: gcc-latest
     RUN_TESTS: "OFF"
-    WARNINGS_AS_ERRORS: "ON"
+    TANGO_WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_USING_NAMESPACE: "OFF"
-    USE_PCH: "OFF"
+    TANGO_USE_PCH: "OFF"
     STOCK_CPPZMQ: "OFF"
 
 ubuntu-20.04:
@@ -176,7 +176,7 @@ debian11-no-pch:
   variables:
     <<: *variables
     OS_TYPE: debian11
-    USE_PCH: "OFF"
+    TANGO_USE_PCH: "OFF"
     RUN_TESTS: "OFF"
     STOCK_CPPZMQ: "OFF"
 
@@ -213,8 +213,8 @@ debian11-cross-32bit:
     STOCK_CPPZMQ: "OFF"
     TANGO_USE_USING_NAMESPACE: "OFF"
     TOOLCHAIN_FILE: "configure/toolchain-i686.cmake"
-    USE_PCH: "OFF"
-    WARNINGS_AS_ERRORS: "ON"
+    TANGO_USE_PCH: "OFF"
+    TANGO_WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_JPEG: "OFF"
 
 debian10:
@@ -274,7 +274,7 @@ clang-analyzer:
       -DCMAKE_BUILD_TYPE=Debug
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
       -DBUILD_TESTING=OFF
-      -DUSE_PCH=OFF
+      -DTANGO_USE_PCH=OFF
       -DTANGO_USE_USING_NAMESPACE=OFF
     - make -C build idl_source
     # scan-build command must be wrapped in quotes because
@@ -355,7 +355,7 @@ clang-tidy:
       -DCMAKE_UNITY_BUILD=ON
       -DCMAKE_UNITY_BUILD_BATCH_SIZE=0
       -DBUILD_TESTING=OFF
-      -DUSE_PCH=OFF
+      -DTANGO_USE_PCH=OFF
       -DTANGO_USE_USING_NAMESPACE=OFF
     - make -C build idl_source
     - >
@@ -456,10 +456,10 @@ cmake-with-locations-and-min-versions:
       -DCMAKE_BUILD_TYPE=Debug
       -DBUILD_TESTING=ON
       -DTANGO_USE_JPEG=ON
-      -DCPPZMQ_BASE=/usr/local/cppzmq
-      -DIDL_BASE=/usr/local/tango-idl
-      -DOMNI_BASE=/usr/local/omniORB
-      -DZMQ_BASE=/usr/local/zmq
+      -DTANGO_CPPZMQ_BASE=/usr/local/cppzmq
+      -DTANGO_IDL_BASE=/usr/local/tango-idl
+      -DTANGO_OMNI_BASE=/usr/local/omniORB
+      -DTANGO_ZMQ_BASE=/usr/local/zmq
       -DJPEG_BASE=/usr/local/libjpeg
     - make
 
@@ -505,10 +505,10 @@ alpine:
       cmake ..
       -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       -DBUILD_TESTING=ON
-      -DCPPZMQ_BASE=/usr/local/cppzmq
-      -DIDL_BASE=/usr/local/tango-idl
-      -DOMNI_BASE=/usr/local/omniORB
-      -DZMQ_BASE=/usr/local/zmq
+      -DTANGO_CPPZMQ_BASE=/usr/local/cppzmq
+      -DTANGO_IDL_BASE=/usr/local/tango-idl
+      -DTANGO_OMNI_BASE=/usr/local/omniORB
+      -DTANGO_ZMQ_BASE=/usr/local/zmq
     - make
 
 doxygen-documentation:
@@ -546,7 +546,7 @@ doxygen-documentation:
       cmake . -B build
       -DCMAKE_BUILD_TYPE=Debug
       -DBUILD_TESTING=OFF
-      -DIDL_BASE=/usr/local/tango-idl
+      -DTANGO_IDL_BASE=/usr/local/tango-idl
     - make -C build doc
   artifacts:
     when: always
@@ -618,7 +618,7 @@ sanitizer:
       cmake ..
       -DCMAKE_BUILD_TYPE=Debug
       -DBUILD_TESTING=ON
-      -DUSE_PCH=ON
+      -DTANGO_USE_PCH=ON
       -DTANGO_ENABLE_SANITIZER=$SANITIZER
     - make
     - docker pull registry.gitlab.com/tango-controls/docker/mysql:5.16-mysql-5
@@ -667,7 +667,7 @@ libcpp:
     OS_TYPE: llvm-latest
     RUN_TESTS: "OFF"
     STOCK_CPPZMQ: "OFF"
-    WARNINGS_AS_ERRORS: "ON"
+    TANGO_WARNINGS_AS_ERRORS: "ON"
     TANGO_USE_USING_NAMESPACE: "OFF"
-    USE_PCH: "OFF"
+    TANGO_USE_PCH: "OFF"
     TANGO_USE_LIBCPP: "ON"

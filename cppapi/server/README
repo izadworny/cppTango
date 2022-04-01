@@ -33,9 +33,9 @@ tango_dll builds dll tango libs (debug and release). Nowdays, to build dll
 libraries, you need "perl" on your windows computer which is available in the
 Windows NT or XP resource kit. It is in our TODO list to remove this "perl"
 usage.
-To correctly build libraries, two environment variables called "OMNI_BASE" 
+To correctly build libraries, two environment variables called "TANGO_OMNI_BASE" 
 and "LOG4TANGO_BASE" are needed.
-The environment variable OMNI_BASE should be set to the directory where 
+The environment variable TANGO_OMNI_BASE should be set to the directory where 
 omniORB has been installed.
 The environment variable LOG4TANGO_BASE should be set to the directory where
 log4tango has been installed.
