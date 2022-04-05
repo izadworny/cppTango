@@ -141,7 +141,6 @@ DServerSignal::DServerSignal():TangoMonitor("signal")
 #ifdef linux
 	sig_name[SIGXCPU] = "SIGXCPU";
 	sig_name[SIGXFSZ] = "SIGXFSZ";
-	sig_name[SIGCLD]  = "SIGCLD";
 	sig_name[SIGPWR]  = "SIGPWR";
 #else
 #ifdef __darwin__
