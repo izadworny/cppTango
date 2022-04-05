@@ -1703,21 +1703,24 @@ public :
  * Get class property std::list
  *
  * Query the database for a std::list of properties defined for the specified class.
+ * A wildcard can be specified in a second argument to match against property name. 
  * @code
  * std::string classname("MyClass");
  *
- * DbDatum db_datum = db->get_object_property_list(classname);
+ * DbDatum db_datum = db->get_class_property_list(classname);
  *
  * std::vector<std::string> prop_list;
  * db_datum >> prop_list;
  * @endcode
  *
  * @param [in] class_name The class name
+ * @param [in] wildcard Optional wildcard to match property name
  * @return The class property std::list
  *
  * @exception ConnectionFailed,CommunicationFailed,DevFailed from device
  */
 	DbDatum get_class_property_list(const std::string &class_name);
+	DbDatum get_class_property_list(const std::string &class_name, const std::string &wildcard);
 /**
  * Get class attribute std::list
  *
