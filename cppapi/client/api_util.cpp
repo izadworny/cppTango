@@ -2391,4 +2391,8 @@ ostream &operator<<(ostream &o_str, PipeInfo &p)
     return o_str;
 }
 
+void _KillProc_::run(void *) {
+	::exit(-1);
+}
+
 } // End of tango namespace
