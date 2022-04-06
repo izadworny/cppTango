@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Unreleased
 
-## [9.3.5] - 2022-XX-XX
+## [9.3.6] - 202X-XX-XX
+
+## [9.3.5] - 2022-02-24
 
 ### Fixed
 
