@@ -134,21 +134,29 @@
 
 #ifndef _TG_WINDOWS_
     #if defined(__GNUC__) || defined(__clang__)
-	#if __cplusplus >= 201103L
-                #define HAS_UNIQUE_PTR
-                #define HAS_RVALUE
-                #define HAS_LAMBDA_FUNC
-                #define HAS_ISNAN_IN_STD
-                #define HAS_NULLPTR
-                #define HAS_RANGE_BASE_FOR
-                #define INIT_LIST
-                #define HAS_THREAD
-                #define HAS_TYPE_TRAITS
+    #if __cplusplus >= 201103L
+        #if __GNUC__ == 4
+            #if __GNUC_MINOR__ > 7
                 #define HAS_UNDERLYING
-                #define HAS_VARIADIC_TEMPLATE
-                #define HAS_MAP_AT
                 #define HAS_ATTRIBUTE_SPECIFIERS
-	#endif
+            #endif
+        #elif __GNUC__ > 4
+            #define HAS_UNDERLYING
+            #define HAS_ATTRIBUTE_SPECIFIERS
+        #endif
+
+        #define HAS_UNIQUE_PTR
+        #define HAS_RVALUE
+        #define HAS_LAMBDA_FUNC
+        #define HAS_ISNAN_IN_STD
+        #define HAS_NULLPTR
+        #define HAS_RANGE_BASE_FOR
+        #define INIT_LIST
+        #define HAS_THREAD
+        #define HAS_TYPE_TRAITS
+        #define HAS_VARIADIC_TEMPLATE
+        #define HAS_MAP_AT
+    #endif
     #endif
 #else
     #ifdef WIN32_VC10
