@@ -188,6 +188,28 @@ else(WIN32)
 endif(WIN32)
 
 if(NOT WIN32)
+    set(TANGO_CXX_STANDARD 11 CACHE STRING "C++ Standard")
+    include(CheckCXXCompilerFlag)
+
+    CHECK_CXX_COMPILER_FLAG("-std=c++${TANGO_CXX_STANDARD}" COMPILER_SUPPORTS_CXXYY)
+
+    if(COMPILER_SUPPORTS_CXXYY)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${TANGO_CXX_STANDARD}")
+    else()
+      if(TANGO_CXX_STANDARD EQUAL 11)
+        CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+        if(COMPILER_SUPPORTS_CXX0X)
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+        else()
+          message(WARNING "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. We therefore selected the C++98 standard.")
+          set(TANGO_CXX_STANDARD 98)
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${TANGO_CXX_STANDARD}")
+        endif()
+      endif()
+
+      message(SEND_ERROR "The compiler ${CMAKE_CXX_COMPILER} does not support the requested C++ standard ${TANGO_CXX_STANDARD}.")
+    endif()
+
     #setup for GNU CXX compiler
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
       if(CMAKE_BUILD_TYPE MATCHES "(Release|RelWithDebInfo|MinSizeRel)")

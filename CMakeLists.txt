@@ -46,6 +46,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/log4tango/include)
 add_subdirectory("log4tango")
 add_subdirectory("cppapi")
 
+if(TANGO_CXX_STANDARD EQUAL 98)
+  message(WARNING "Not building the tests, because that is only supported for C++11 or higher.")
+  SET(BUILD_TESTING OFF)
+endif()
+
 if(BUILD_TESTING)
   if(BUILD_SHARED_LIBS)
     add_subdirectory("cpp_test_suite")

@@ -8,6 +8,7 @@ variables: &variables
   STOCK_CPPZMQ: "ON"
   CMAKE_BUILD_TYPE: "Debug"
   BUILD_SHARED_LIBS: "ON"
+  TANGO_CXX_STANDARD: "11"
 
 services:
   - docker:20.10.1-dind
@@ -110,6 +111,14 @@ debian10-static:
     OS_TYPE: debian10
     RUN_TESTS: "OFF"
     BUILD_SHARED_LIBS: "OFF"
+
+debian10-Cxx98:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: debian10
+    RUN_TESTS: "OFF"
+    TANGO_CXX_STANDARD: "98"
 
 debian9:
   <<: *job-template
