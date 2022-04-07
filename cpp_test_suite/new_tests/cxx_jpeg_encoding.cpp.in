@@ -74,9 +74,13 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
             raw_32bits = load_file(resource_path+"/peppers_alpha.data");
             raw_8bits = load_file(resource_path+"/peppers_gray.data");
             decoded_gray = load_file(resource_path+"/peppers_gray_decoded.data");
-            decoded_rgb = load_file(resource_path+"/peppers_decoded.data");
+#ifdef JCS_EXTENSIONS
             jpeg_rgb = load_file(resource_path+"/peppers.jpeg");
-
+            decoded_rgb = load_file(resource_path+"/peppers_decoded.data");
+#else
+            jpeg_rgb = load_file(resource_path+"/peppers-9.jpeg");
+            decoded_rgb = load_file(resource_path+"/peppers_decoded-9.data");
+#endif
             // Set the position of the beginning of the jpeg image, not to compare header data.
             jpeg_rgb_start_offset = find_jpeg_start(jpeg_rgb.data(), jpeg_rgb.size());
 
@@ -123,18 +127,24 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
             offset = find_jpeg_start(encoder->get_data(), encoder->get_size());
             TS_ASSERT_SAME_DATA(jpeg_rgb.data()+jpeg_rgb_start_offset, encoder->get_data()+offset, 1000);
 
+#ifdef JCS_EXTENSIONS
             encoder->encode_jpeg_rgb32(raw_32bits.data(), 512, 512, 100);
 
             offset = find_jpeg_start(encoder->get_data(), encoder->get_size());
             TS_ASSERT_SAME_DATA(jpeg_rgb.data()+jpeg_rgb_start_offset, encoder->get_data()+offset, 1000);
-
+#else
+            TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb32(raw_32bits.data(), 512, 512, 100), Tango::DevFailed &e,
+                    TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_UnsupportedFeature));
+#endif
             // Check if it throws errors
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_gray8(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
                     TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_EncodeErr));
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb24(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
                     TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_EncodeErr));
+#ifdef JCS_EXTENSIONS
             TS_ASSERT_THROWS_ASSERT(encoder->encode_jpeg_rgb32(raw_8bits.data(), 0, 0, 100), Tango::DevFailed &e,
                     TS_ASSERT_EQUALS(std::string(e.errors[0].reason.in()), Tango::API_EncodeErr));
+#endif
 
 #else
 
