@@ -6,6 +6,8 @@ ARG APP_UID=2000
 
 ARG APP_GID=2000
 
+ARG JPEG_LIB=libjpeg-dev
+
 MAINTAINER TANGO Controls team <tango@esrf.fr>
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -23,7 +25,7 @@ RUN apt-get update && apt-get install -y \
   libzmq3-dev                            \
   lsb-release                            \
   omniidl                                \
-  libjpeg-dev                            \
+  ${JPEG_LIB}                            \
   python3
 
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - &&                                                  \
