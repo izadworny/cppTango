@@ -160,22 +160,21 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 //+------------------------------------------------------------------------------------------------------------------
 //
 // method :
-//		DServer::event_subscription()
+//   DServer::event_subscription()
 //
 // description :
-//		method to do all the necessary checks on attribute config to generate events
+//   method to do all the necessary checks on attribute config to generate events
 //
 // args :
-// 		in :
-//      	- obj_name : The attribute/pipe name
-//      	- action : What the user want to do
-//      	- event : The event type
-//      	- ct : The channel type (notifd or zmq)
-//      	- dev : The device pointer
-//			- client_lib : Tango release number used by client
+//   in :
+//     - device :  device server
+//     - obj_name : The attribute/pipe name
+//     - action : What the user want to do
+//     - event : The event type
+//     - channel_type : The channel type (notifd or zmq)
+//     - client_lib : Tango release number used by client
 //
 //--------------------------------------------------------------------------------------------------------------------
-
 void DServer::event_subscription(
 	DeviceImpl &device,
 	const std::string &obj_name,
