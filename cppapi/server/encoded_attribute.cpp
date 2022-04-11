@@ -541,10 +541,13 @@ namespace
             jpeg_write_scanlines(&cinfo, row_ptr, 1);
         }
 
-        *jpegSize = size;
-
         jpeg_finish_compress(&cinfo);
         jpeg_destroy_compress(&cinfo);
+       
+        // Set it up after the call to jpeg_finish_compress
+        // cause this is where it is actually set.
+        // Depending on the implementation, if done before it will return 4096 all the time
+        *jpegSize = size;
     }
 }
 // --------------------------------------------------------------------------
