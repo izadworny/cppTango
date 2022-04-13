@@ -229,3 +229,7 @@ include(configure/coveralls.cmake)
 
 option(TANGO_JPEG_MMX "Build MMX support" ON)
 option(BUILD_SHARED_LIBS "Build a shared library instead of static" ON)
+
+configure_file(tango.pc.cmake tango.pc @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tango.pc"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")

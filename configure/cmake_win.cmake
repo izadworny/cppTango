@@ -87,14 +87,7 @@ install(DIRECTORY "$<TARGET_FILE_DIR:${TANGO_LIBRARY_NAME}>/"
         DESTINATION bin COMPONENT dynamic
         FILES_MATCHING PATTERN "*.pdb")
 
-install(DIRECTORY log4tango/include/log4tango DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "threading" EXCLUDE)
-install(DIRECTORY log4tango/include/log4tango/threading DESTINATION include/log4tango COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-install(DIRECTORY cppapi/server/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "server_objects_sta.dir" EXCLUDE PATTERN "server_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "idl" EXCLUDE PATTERN "jpeg" EXCLUDE PATTERN "jpeg_mmx" EXCLUDE)
-install(DIRECTORY cppapi/client/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "client_objects_sta.dir" EXCLUDE PATTERN "client_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "helpers" EXCLUDE)
-install(DIRECTORY cppapi/client/helpers/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-install(FILES cppapi/server/resource.h DESTINATION include COMPONENT headers)
-install(FILES cppapi/server/tango.h DESTINATION include COMPONENT headers)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cppapi/server/tango_const.h DESTINATION include COMPONENT headers)
+install(FILES cppapi/server/resource.h DESTINATION include/tango COMPONENT headers)
 
 if (TANGO_INSTALL_DEPENDENCIES)
     install(DIRECTORY ${OMNI_BASE}/include/COS DESTINATION include COMPONENT)
@@ -259,8 +252,3 @@ if (TANGO_INSTALL_DEPENDENCIES)
         install(FILES ${PTHREAD_WIN}/bin/pthreadVC2d.ilk DESTINATION bin COMPONENT dynamic)
     endif(PTHREAD_WIN)
 endif()
-
-configure_file(tango.pc.cmake tango.pc @ONLY)
-
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tango.pc"
-        DESTINATION include/pkgconfig COMPONENT headers)
