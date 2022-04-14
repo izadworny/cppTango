@@ -30,6 +30,7 @@
 - `-DBUILD_TESTING=<ON|OFF>` Build the test suite (`ON` by default)
 - `-DBUILD_SHARED_LIBS=<ON|OFF>` Build tango as shared library (`ON` by default)
 - `-DTANGO_ENABLE_COVERAGE=<ON|OFF>` Instrument code for coverage analysis (`OFF` by default, requires CMake 3.13+, GCC/Clang only)
+- `-DTANGO_CXX_STANDARD=<98|11|14|...>` C++ Standard (`11` by default, Linux only)
 
 Typical output:
 

@@ -260,7 +260,7 @@ private:
 class _KillProc_: public omni_thread
 {
 public:
-	void run(void *) {::exit(-1);}
+	void run(void *);
 };
 
 #endif /* _APIUTIL_H */
