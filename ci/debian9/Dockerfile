@@ -4,6 +4,8 @@ ARG APP_UID=2000
 
 ARG APP_GID=2000
 
+ARG JPEG_LIB=libjpeg-dev
+
 MAINTAINER TANGO Controls team <tango@esrf.fr>
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -20,7 +22,7 @@ RUN apt-get update && apt-get install -y \
   libcos4-dev                            \
   libomnithread3-dev                     \
   python3                                \
-  libjpeg-dev                            \
+  ${JPEG_LIB}                            \
   libzmq3-dev
 
 RUN apt-get install -y \

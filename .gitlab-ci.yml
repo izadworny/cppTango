@@ -11,6 +11,7 @@ variables: &variables
   BUILD_SHARED_LIBS: "ON"
   TANGO_USE_LIBCPP: "OFF"
   TOOLCHAIN_FILE: ""
+  JPEG_LIB: libjpeg-dev
 
 services:
   - docker:20.10.1-dind
@@ -29,7 +30,7 @@ workflow:
     - echo "core.%e.%p.%t" > /proc/sys/kernel/core_pattern
     - apt-get update && apt-get install -y git wget unzip docker.io
     - ci/before_install.sh
-    - docker build -t cpp_tango ci/${OS_TYPE}
+    - docker build --build-arg JPEG_LIB=${JPEG_LIB} -t cpp_tango ci/${OS_TYPE}
     - >
         docker run
         --rm
@@ -230,6 +231,14 @@ debian9:
     <<: *variables
     OS_TYPE: debian9
     STOCK_CPPZMQ: "OFF"
+
+ubuntu-20.04-jpeg9:
+  <<: *job-template
+  variables:
+    <<: *variables
+    OS_TYPE: ubuntu-20.04
+    STOCK_CPPZMQ: "OFF"
+    JPEG_LIB: libjpeg9-dev
 
 clang-analyzer:
   image: ubuntu:focal

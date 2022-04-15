@@ -41,8 +41,6 @@
 using namespace Tango;
 
 #define SAFE_FREE(x) if(x) {free(x);x=NULL;}
-#define JPEG_GRAY_FORMAT  0
-#define JPEG_RGB32_FORMAT 1
 
 // ----------------------------------------------------------------------------
 
@@ -296,14 +294,7 @@ void EncodedAttribute::decode_rgb32(DeviceAttribute *attr,int *width,int *height
 
     if( isJPEG )
     {
-        int jFormat;
-        jpeg_decode(size,&(rawBuff[0]),width,height,&jFormat,*rgb32);
-
-        if( jFormat==JPEG_GRAY_FORMAT )
-        {
-            // Should not happen
-            TANGO_THROW_EXCEPTION(API_WrongFormat, "Not a color format");
-        }
+        jpeg_decode(size,&(rawBuff[0]),width,height,*rgb32);
 
         return;
     }
@@ -367,14 +358,7 @@ void EncodedAttribute::decode_gray8(DeviceAttribute *attr,int *width,int *height
 
     if( isJPEG )
     {
-        int jFormat;
-        jpeg_decode(size,&(rawBuff[0]),width,height,&jFormat,*gray8);
-
-        if( jFormat!=JPEG_GRAY_FORMAT )
-        {
-            // Should not happen
-            TANGO_THROW_EXCEPTION(API_WrongFormat, "Not a grayscale 8bit format");
-        }
+        jpeg_decode(size,&(rawBuff[0]),width,height,*gray8);
 
         return;
     }
@@ -529,8 +513,12 @@ namespace
                 }
             case color_space::RGBA:
                 {
+#ifdef JCS_EXTENSIONS
                     cinfo.input_components = 4;
                     cinfo.in_color_space = JCS_EXT_RGBA;
+#else
+                    TANGO_THROW_API_EXCEPTION(ApiNonSuppExcept, API_UnsupportedFeature, "JPEG implementation does not support alpha channel");
+#endif
                     break;
                 }
             case color_space::GRAY:
@@ -553,10 +541,13 @@ namespace
             jpeg_write_scanlines(&cinfo, row_ptr, 1);
         }
 
-        *jpegSize = size;
-
         jpeg_finish_compress(&cinfo);
         jpeg_destroy_compress(&cinfo);
+       
+        // Set it up after the call to jpeg_finish_compress
+        // cause this is where it is actually set.
+        // Depending on the implementation, if done before it will return 4096 all the time
+        *jpegSize = size;
     }
 }
 // --------------------------------------------------------------------------
@@ -581,7 +572,7 @@ void EncodedAttribute::jpeg_encode_gray8(int width,int height,unsigned char *gra
 // --------------------------------------------------------------------------
 
 void EncodedAttribute::jpeg_decode(std::size_t jpegSize, unsigned char *jpegData,
-        int *width,int *height,int *format,unsigned char*& frame) {
+        int *width,int *height,unsigned char*& frame) {
 
     jpeg_decompress_struct cinfo{};
     jpeg_error_mgr jerr{};
@@ -594,17 +585,16 @@ void EncodedAttribute::jpeg_decode(std::size_t jpegSize, unsigned char *jpegData
     jpeg_mem_src(&cinfo, jpegData, (unsigned long)jpegSize);
     jpeg_read_header(&cinfo, TRUE);
     // Check if the image is gray or RGB
-    // If RGB outputs to RGBA.
+    // For RGB images, outputs to RGBA if supported by the jpeg implementation(which is the case for libjpeg-turbo)
+    // outputs to RGB otherwise.
     if(cinfo.num_components == 3)
     {
+#ifdef JCS_EXTENSIONS
         cinfo.out_color_space = JCS_EXT_RGBA;
-        *format = JPEG_RGB32_FORMAT;
+#else
+        cinfo.out_color_space = JCS_RGB;
+#endif
     }
-    else
-    {
-        *format = JPEG_GRAY_FORMAT;
-    }
-
 
     jpeg_start_decompress(&cinfo);
 
@@ -647,7 +637,7 @@ void EncodedAttribute::jpeg_encode_gray8(int, int, unsigned char*,
 }
 
 void EncodedAttribute::jpeg_decode(std::size_t, unsigned char*,
-        int*, int*, int*, unsigned char*&)
+        int*, int*, unsigned char*&)
 {
     TANGO_THROW_API_EXCEPTION(ApiNonSuppExcept, API_UnsupportedFeature, "Tango was built without jpeg support");
 }

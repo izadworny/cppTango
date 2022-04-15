@@ -8,7 +8,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug \
       -DTANGO_IDL_BASE="$PREFIX" \
       -DTANGO_OMNI_BASE="$PREFIX" \
       -DTANGO_ZMQ_BASE="$PREFIX" \
-      -DTANGO_JPEG_MMX=OFF \
+      -DTANGO_JPEG_BASE="$PREFIX" \
       -DBUILD_TESTING=OFF \
       ..
 
