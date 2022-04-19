@@ -1278,9 +1278,9 @@ void Util::check_pool_conf(DServer *admin_dev,unsigned long pool_size)
 
 			if (loop == nb_dev)
 			{
-				cout << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
-				cout << " but it is not defined in DS"<< std::endl;
-				cout << "The pool configuration will be automatically updated" << std::endl;
+				TANGO_LOG << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
+				TANGO_LOG << " but it is not defined in DS"<< std::endl;
+				TANGO_LOG << "The pool configuration will be automatically updated" << std::endl;
 			}
 			else
 			{
@@ -1296,9 +1296,9 @@ void Util::check_pool_conf(DServer *admin_dev,unsigned long pool_size)
 
 				if ((poll_cmd_list.empty() == true) && (poll_attr_list.empty() == true))
 				{
-					cout << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
-					cout << " but it does not have any cmd/attr polled"<< std::endl;
-					cout << "The pool configuration will be automatically updated" << std::endl;
+					TANGO_LOG << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
+					TANGO_LOG << " but it does not have any cmd/attr polled"<< std::endl;
+					TANGO_LOG << "The pool configuration will be automatically updated" << std::endl;
 				}
 				else
 				{
@@ -1337,9 +1337,9 @@ void Util::check_pool_conf(DServer *admin_dev,unsigned long pool_size)
 
 	if (mod_conf.size() > pool_size)
 	{
-		cout << "WARNING: More threads defined in the polling threads pool configuration";
-		cout << " than in its size ("<< mod_conf.size() << " > " << pool_size << ")" << std::endl;
-		cout << "The pool configuration will be automatically updated" << std::endl;
+		TANGO_LOG << "WARNING: More threads defined in the polling threads pool configuration";
+		TANGO_LOG << " than in its size ("<< mod_conf.size() << " > " << pool_size << ")" << std::endl;
+		TANGO_LOG << "The pool configuration will be automatically updated" << std::endl;
 
 //
 // If we have more threads in the conf than in the pool, distribute the extra thread devices to the still existing
@@ -1431,9 +1431,9 @@ int Util::check_dev_poll(std::vector<std::string> &poll_cmd_list,std::vector<std
 
 		if (i_cmd == cmd_list.end())
 		{
-			cout << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
-			cout << " a command which does not exist anymore"<< std::endl;
-			cout << "The device polling configuration will be automatically updated" << std::endl;
+			TANGO_LOG << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
+			TANGO_LOG << " a command which does not exist anymore"<< std::endl;
+			TANGO_LOG << "The device polling configuration will be automatically updated" << std::endl;
 
 			ret = -1;
 			poll_cmd_list.erase(iter,iter + 2);
@@ -1466,9 +1466,9 @@ int Util::check_dev_poll(std::vector<std::string> &poll_cmd_list,std::vector<std
 
 		if (i_attr == att_list.end())
 		{
-			cout << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
-			cout << " an attribute which does not exist anymore (" << polled_attr << ")" << std::endl;
-			cout << "The device polling configuration will be automatically updated" << std::endl;
+			TANGO_LOG << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
+			TANGO_LOG << " an attribute which does not exist anymore (" << polled_attr << ")" << std::endl;
+			TANGO_LOG << "The device polling configuration will be automatically updated" << std::endl;
 
 			if (ret == -1)
 				ret = -3;

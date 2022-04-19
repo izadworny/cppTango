@@ -4738,9 +4738,9 @@ void Database::get_class_pipe_property(std::string device_class, DbData &db_data
 
 				if (err_reason == DB_TooOldStoredProc)
 				{
-					cout << "WARNING: You database stored procedure is too old to support device pipe" << std::endl;
-					cout << "Please, update to stored procedure release 1.9 or more" << std::endl;
-					cout << "Trying direct Db access" << std::endl;
+					TANGO_LOG << "WARNING: You database stored procedure is too old to support device pipe" << std::endl;
+					TANGO_LOG << "Please, update to stored procedure release 1.9 or more" << std::endl;
+					TANGO_LOG << "Trying direct Db access" << std::endl;
 				}
 
 //
@@ -4897,9 +4897,9 @@ void Database::get_device_pipe_property(std::string dev, DbData &db_data, DbServ
 			{
 				if (err_reason == DB_TooOldStoredProc)
 				{
-					cout << "WARNING: You database stored procedure is too old to support device pipe" << std::endl;
-					cout << "Please, update to stored procedure release 1.9 or more" << std::endl;
-					cout << "Trying direct Db access" << std::endl;
+					TANGO_LOG << "WARNING: You database stored procedure is too old to support device pipe" << std::endl;
+					TANGO_LOG << "Please, update to stored procedure release 1.9 or more" << std::endl;
+					TANGO_LOG << "Trying direct Db access" << std::endl;
 				}
 
 //

@@ -546,7 +546,7 @@ void Util::create_CORBA_objects()
 //		building a Util singleton, for Windows non-console mode, it is necessary to :
 //         - Build a UNIX like argc,argv from the command line
 //         - Initialise the ORB
-//         - Create a debug output window if verbose mode is requested and change cout so that it prints into this
+//         - Create a debug output window if verbose mode is requested and change TANGO_LOG so that it prints into this
 //			 window
 //
 // arguments :
@@ -1817,7 +1817,7 @@ void Util::server_init(TANGO_UNUSED(bool with_window))
 		ds_window = new W32Win(this,nCmd);
 
 //
-// Change cout that it uses the graphical console window
+// Change TANGO_LOG that it uses the graphical console window
 //
 
 
@@ -2002,7 +2002,7 @@ void Util::server_run()
 		}
 		else
 		{
-			cout << "Ready to accept request" << std::endl;
+			TANGO_LOG << "Ready to accept request" << std::endl;
 
 			//JM : 9.8.2005 : destroy() should be called at the exit of run()!
 			try
@@ -2018,7 +2018,7 @@ void Util::server_run()
 		}
 	}
 #else
-	cout << "Ready to accept request" << std::endl;
+	TANGO_LOG << "Ready to accept request" << std::endl;
 
 	//JM : 9.8.2005 : destroy() should be called at the exit of run()!
 	try

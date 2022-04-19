@@ -553,7 +553,7 @@ bool NTService::install(char *inst_name,bool autoStart)
 
     if(serviceHandle)
     {
-        cout << title_.c_str() << ": installed." << std::endl;
+        TANGO_LOG << title_.c_str() << ": installed." << std::endl;
         ::CloseServiceHandle(serviceHandle);
         rc = true;
     }

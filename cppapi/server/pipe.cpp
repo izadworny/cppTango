@@ -294,7 +294,7 @@ void Pipe::upd_database(std::vector<Attribute::AttPropDb> &v_db,const std::strin
 		cout4 << *cosp.prop_to_update << " properties to update in db" << std::endl;
 		(*cosp.db_d)[0] << *cosp.prop_to_update;
 //for (const auto &elem: *cosp.db_d)
-//	cout << "prop_to_update name = " << elem.name << std::endl;
+//	TANGO_LOG << "prop_to_update name = " << elem.name << std::endl;
 
 		Tango::Util *tg = Tango::Util::instance();
 
@@ -323,7 +323,7 @@ void Pipe::upd_database(std::vector<Attribute::AttPropDb> &v_db,const std::strin
 		cout4 << *cosp.prop_to_delete << " properties to delete in db" << std::endl;
 		(*cosp.db_del)[0] << *cosp.prop_to_delete;
 //for (const auto &elem: *cosp.db_del)
-//	cout << "prop_to_delete name = " << elem.name << std::endl;
+//	TANGO_LOG << "prop_to_delete name = " << elem.name << std::endl;
 
 		Tango::Util *tg = Tango::Util::instance();
 

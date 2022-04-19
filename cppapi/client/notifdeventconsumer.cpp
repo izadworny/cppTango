@@ -191,7 +191,7 @@ void NotifdEventConsumer::cleanup_EventChannel_map()
 
                     // disconnect the pushsupplier to stop receiving events
 
-                    //cout << "EventConsumer::cleanup_EventChannel_map(): Disconnect push supplier!" << std::endl;
+                    //TANGO_LOG << "EventConsumer::cleanup_EventChannel_map(): Disconnect push supplier!" << std::endl;
 
                     evt_ch.structuredProxyPushSupplier->disconnect_structured_push_supplier();
                 }
@@ -660,7 +660,7 @@ void NotifdEventConsumer::push_structured_event(const CosNotification::Structure
 	std::string event_type(event.header.fixed_header.event_type.type_name);
 	std::string event_name(event.header.fixed_header.event_name);
 
-//	cout << "Received event: domain_name = " << domain_name << ", event_type = " << event_type << ", event_name = " << event_name << std::endl;
+//	TANGO_LOG << "Received event: domain_name = " << domain_name << ", event_type = " << event_type << ", event_name = " << event_name << std::endl;
 
 	bool svr_send_tg_host = false;
 

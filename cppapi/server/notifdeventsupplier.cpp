@@ -238,8 +238,8 @@ void NotifdEventSupplier::connect_to_notifd(NotifService &ns,const CORBA::ORB_va
 				catch (...) {}
 
 //
-// There is a cout and a cerr here to have the message displayed on the console
-// AND sent to the logging system (cout is redirected to the logging when
+// There is a TANGO_LOG and a cerr here to have the message displayed on the console
+// AND sent to the logging system (TANGO_LOG is redirected to the logging when
 // compiled with -D_TANGO_LIB)
 //
 
@@ -331,8 +331,8 @@ void NotifdEventSupplier::connect_to_notifd(NotifService &ns,const CORBA::ORB_va
 		}
 
 //
-// There is a cout and a cerr here to have the message displayed on the console
-// AND sent to the logging system (cout is redirected to the logging when
+// There is a TANGO_LOG and a cerr here to have the message displayed on the console
+// AND sent to the logging system (TANGO_LOG is redirected to the logging when
 // compiled with -D_TANGO_LIB)
 // Print these messages only during DS startup sequence
 //
@@ -369,13 +369,13 @@ void NotifdEventSupplier::connect_to_notifd(NotifService &ns,const CORBA::ORB_va
 		catch (...)
 		{
 //
-// There is a cout and a cerr here to have the message displayed on the console
-// AND sent to the logging system (cout is redirected to the logging when
+// There is a TANGO_LOG and a cerr here to have the message displayed on the console
+// AND sent to the logging system (TANGO_LOG is redirected to the logging when
 // compiled with -D_TANGO_LIB)
 //
 
 			std::cerr << d_name << " has no event channel defined in the database - creating it " << std::endl;
-			cout << d_name << " has no event channel defined in the database - creating it " << std::endl;
+			TANGO_LOG << d_name << " has no event channel defined in the database - creating it " << std::endl;
 
 			channel_exported = 0;
 		}

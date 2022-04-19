@@ -69,8 +69,7 @@ inline const char* basename(const char* path)
 
 #ifdef _TANGO_LIB //== compiling TANGO lib ====================
 
-//-- Overwrite std::cout  -------------------------------------
-#define cout                                                \
+#define TANGO_LOG                                                \
     if (API_LOGGER)                                         \
       API_LOGGER->get_stream(log4tango::Level::INFO, false) \
         << log4tango::LogInitiator::_begin_log              \
@@ -79,7 +78,7 @@ inline const char* basename(const char* path)
 
 #else
 
-#define cout std::cout
+#define TANGO_LOG std::cout
 
 #endif //== compiling TANGO lib ===============================
 

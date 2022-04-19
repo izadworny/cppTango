@@ -274,12 +274,12 @@ public:
  * Pipe pi;
  *
  * std::bitset<DevicePipeBlob::numFlags> bs = pi.exceptions();
- * cout << "bs = " << bs << std::endl;
+ * TANGO_LOG << "bs = " << bs << std::endl;
  *
  * pi.set_exceptions(DevicePipeBlob::wrongtype_flag);
  * bs = pi.exceptions();
  *
- * cout << "bs = " << bs << std::endl;
+ * TANGO_LOG << "bs = " << bs << std::endl;
  * @endcode
  *
  * @return The exception flag
