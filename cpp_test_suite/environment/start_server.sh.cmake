@@ -18,7 +18,11 @@ server_path="${3:-cpp_test_ds}"
     # Exec is needed for signal handling (e.g. for sending TERM on shutdown),
     # otherwise we would need to trap the signals and forward them manually.
     (
-        server_pid="${BASHPID}"
+        # Obtain the PID of this subshell. It is the same as the PID of the
+        # device server due to the use of exec. Note that we do not use the
+        # $BASHPID variable for compatibility with bash < 4.0.
+        server_pid="$(sh -c 'printf $PPID')"
+
         echo "Starting ${server}/${instance} (PID: ${server_pid})"
 
         # Store PID in a file so that the process can be shut down later.
