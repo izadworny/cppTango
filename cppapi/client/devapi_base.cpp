@@ -8664,7 +8664,7 @@ bool DeviceProxy::is_locked()
 
     ask_locking_status(v_str, v_l);
 
-    return (bool) v_l[0];
+    return v_l[0] > 0;
 }
 
 //-----------------------------------------------------------------------------
