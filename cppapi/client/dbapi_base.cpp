@@ -3045,7 +3045,7 @@ DbDatum Database::get_server_class_list(string &servname)
         db_datum.value_string.resize(nb_classes);
         for (int i=0,j=0; i<n_props; i++)
         {
-            if( strcmp( (*prop_list)[i] , "DServer" ) !=0 )
+            if( TG_strcasecmp( (*prop_list)[i] , "DServer" ) !=0 )
                 db_datum.value_string[j++] = (*prop_list)[i];
         }
     }
