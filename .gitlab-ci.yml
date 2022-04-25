@@ -638,6 +638,9 @@ build-conda-dev-package:
   stage: test
   image: registry.gitlab.com/tango-controls/docker/conda-build:latest
   services: []
+  variables:
+    <<: *variables
+    GIT_DEPTH: 1000
   script:
     # Download conda_build_config.yaml here as the entrypoint isn't executed
     # by kubernetes executor: https://gitlab.com/gitlab-org/gitlab-runner/-/issues/4125
