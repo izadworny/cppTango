@@ -38,6 +38,13 @@
 //-===========================================================================
 
 #include <dserver.h>
+#ifdef __darwin__
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <algorithm>
+#include <regex>
+#endif
 
 namespace Tango
 {
@@ -128,39 +135,134 @@ void DServer::class_factory()
 
 #elif __darwin__
 	Tango::Util *tg = Tango::Util::instance();
-	std::string exe_name = tg->get_ds_exec_name();
-	exe_name = exe_name;
+	std::string exe_name = tg->get_ds_unmodified_exec_name();
+
+    // Figure out what the full path of exe_name is.
+    char full_path_exe_name[PATH_MAX];
+    std::memset(full_path_exe_name, 0, PATH_MAX);
+
+    // We'll use this to check if the file found in the path is not a directory.
+    struct stat exec_file_stat;
+    std::memset(&exec_file_stat, 0, sizeof(exec_file_stat));
+    if((realpath(exe_name.c_str(), full_path_exe_name) == NULL) || (stat(full_path_exe_name, &exec_file_stat) != 0) ||  ((exec_file_stat.st_mode & S_IFDIR) == S_IFDIR))
+    {
+        // OK. We got here because
+        // - realpath returned NULL which indicates that it could
+        //   not resolve the full path for the Device Server's executable.
+        // - The stat call failed. Not much we can do.
+        // - The stat call reveals that there exists a directory of the same
+        //   in the path.
+        // The shell must have found the executable in one of the directories in
+        // ${PATH}, Otherwise this code here would now not be executed.
+        // Therefore I will now iterate over all directories in ${PATH}
+        // and try to find the executable there.
+
+        // But first get the directories in ${PATH} and split 'em up at ":".
+        // Create a handy lambda function for the splitting.
+        auto split = [](const std::string& path_env, const std::string delimiter = ":") -> std::vector< std::string >
+        {
+            std::regex regex{delimiter};
+            return { std::sregex_token_iterator(path_env.begin(), path_env.end(), regex, -1), std::sregex_token_iterator() };
+        };
+
+        // Now fetch the paths from the ${PATHS} environment variable.
+        const std::string path_environment{getenv("PATH")};
+        // Call the lambda function to split it at every ":"".
+        auto paths{split(path_environment)};
+        // Now the std::vector paths should contain one path per entry.
+
+        // If this is true, I have found the executable.
+        bool found{false};
+
+        // Shortened name of the executable, contains just the name
+        // of the executable without any "/" or ".".
+        const std::string shortened_exe_name{tg->get_ds_exec_name()};
+
+        // A lambda funtion that checks if a file exists in a path.
+        // I will iterate over every entry in paths and call this lambda.
+        auto file_exists_in_path = [&full_path_exe_name, &exec_file_stat, &shortened_exe_name, &found](const std::string& path) -> void
+        {
+            if(found == false)
+            {
+                const std::string full_path{path + "/" + shortened_exe_name};
+                // Check if the executable exists in the path and that it is not
+                // a directory of the same name.
+                std::memset(&exec_file_stat, 0, sizeof(exec_file_stat));
+                if((stat(full_path.c_str(), &exec_file_stat) == 0) &&  ((exec_file_stat.st_mode & S_IFDIR) == 0))
+                {
+                    // Found the executable, update the variable.
+                    std::memset(full_path_exe_name, 0, PATH_MAX);
+                    std::strncpy(full_path_exe_name, full_path.c_str(), full_path.size());
+                    // I tell myself to not look further.
+                    found = true;
+                }
+            }
+        };
+
+        // Call file_exists_in_path for every item in paths until
+        // file_exists_in_path returns true and has set full_path_exe_name
+        // to the correct value, which means that we found the executable.
+        // If the executable still was not found, then something is wrong
+        // and we exit.
+        std::for_each(paths.begin(), paths.end(), file_exists_in_path);
+        if(found == false)
+        {
+            std::cerr << "The Device Server's executable \""
+                << exe_name
+                << "\" cannot be resolved to a full path name. This means "
+                    "that the Device Server cannot be started. This usually "
+                    "happens if the executable for the Device Server is in "
+                    "one of the directories in ${PATH}. Unfortunately could "
+                    "the executable not be found in any of the PATH "
+                    "directories. This is what you can do now: Start the "
+                    "Device Server again, but run it by providing the full "
+                    "path name plus the executable, e.g. "
+                    "/opt/foo/MyDeviceServer.\n";
+                // Exit with the proper error code.
+                exit(-ENOENT);
+        }
+        // If we reach this point, then full_path_exe_name should contain
+        // the full path to the Device Server executable and hence the call
+        // to dlopen further down should ne successful.
+    }
 
 	void *mod;
-	void *proc;
-	convertor conv;
-	PTR tmp;
-
-	if ((mod = dlopen (exe_name.c_str(), RTLD_LAZY )) == NULL)
+	if ((mod = dlopen(full_path_exe_name, RTLD_LAZY )) == NULL)
 	{
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+		std::cerr << "Error: Cannot find the file "
+		    << full_path_exe_name
+		    << ". Therefore the file cannot be checked for exported Device "
+		        "classes. This is an error and the Device Server cannot "
+		        "continue. The OS error is:\n\t"
+		    << dlerror()
+		    << "\nExiting.\n";
 		exit(-1);
 	}
 
 //
 // Use the mangled name to find the user DServer::class_factory method
 //
-// Due to the fact that on Windows 64 bits we have both WIN32 and WIN64
-// defined, start by testing WIN64 (See tango_config.h)
-//
-
-	if ((proc = dlsym (mod,"_ZN5Tango7DServer13class_factoryEv")) == NULL)
+    void* proc{nullptr};
+    const std::string darwin_class_factory_symbol
+    {"_ZN5Tango7DServer13class_factoryEv"};
+	if ((proc = dlsym(mod, darwin_class_factory_symbol.c_str())) == NULL)
 	{
-		std::cerr << "error : " << dlerror() << std::endl;
-		std::cerr << "Oops, no class defined in this server. Exiting ..." << std::endl;
+		std::cerr << "Error: When inspecting the file exe_name, the symbol "
+		        "for the Tango Class Factory ("
+		    << darwin_class_factory_symbol
+		    << ") could not be found. This likely means that the inspected "
+		        "file does not contain a Tango Device Class. The OS error "
+		        "is:\n\t"
+		    << dlerror()
+		    << "\nCannot continue, because there is no class defined in this "
+		        "Device Server. Exiting.\n";
 		exit(-1);
 	}
 	else
 	{
-		conv.d = &DServer::stop_polling;
-		conv.s = proc;
-
-		tmp = conv.d;
+    	convertor conv{.d = &DServer::stop_polling};
+        conv.s = proc;
+		PTR tmp{conv.d};
 		(this->*tmp)();
 	}
 #else
