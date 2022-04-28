@@ -45,35 +45,6 @@ environment:
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: OFF
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      platform: x64
-      ARCH: x64-msvc14
-      VCPKG_DEFAULT_TRIPLET: x64-windows
-      CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
-      MSVCVERSION: v140
-      MSVCYEAR: "vs2015"
-      MSVCABR: "14"
-      VC_VER: 14.0
-      PYTHONPATH: c:\Python36-x64\
-      PYTHONPATHOMNI: "/cygdrive/c/Python36-x64/python"
-      PYVER: "py36"
-      TANGO_USE_PCH: ON
-      TANGO_WARNINGS_AS_ERRORS: OFF
-      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      platform: win32
-      ARCH: win32-msvc14
-      CMAKE_GENERATOR: "Visual Studio 14 2015"
-      MSVCVERSION: v140
-      MSVCYEAR: "vs2015"
-      MSVCABR: "14"
-      VC_VER: 14.0
-      PYTHONPATH: c:\Python36\
-      PYTHONPATHOMNI: "/cygdrive/c/Python36/python"
-      PYVER: "py36"
-      TANGO_USE_PCH: ON
-      TANGO_WARNINGS_AS_ERRORS: OFF
-      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
 
 init:
   # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
@@ -125,8 +96,6 @@ install:
   - cmd: md dynamic_build
   # Setting Visual Compiler
   - cmd: cd "C:\projects\"
-  - cmd: if %ARCH%==win32-msvc14 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
-  - cmd: if %ARCH%==x64-msvc14 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
   - cmd: if %ARCH%==win32-msvc15 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
   - cmd: if %ARCH%==x64-msvc15 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
   - cmd: echo "Generator='%CMAKE_GENERATOR%'"
