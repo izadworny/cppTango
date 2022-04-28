@@ -1,9 +1,10 @@
 #ifndef DServerMiscTestSuite_h
 #define DServerMiscTestSuite_h
 
-#include "cxx_common.h"
 #include <thread>
 #include <chrono>
+
+#include "cxx_common.h"
 
 #undef SUITE_NAME
 #define SUITE_NAME DServerMiscTestSuite
@@ -93,7 +94,7 @@ public:
 		}
 		catch(CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -202,7 +203,7 @@ public:
 		TS_ASSERT_EQUALS(str, "A device server device !!");
 
 		TS_ASSERT_THROWS_NOTHING(str = dserver->status());
-cout << "str = " << str << endl;
+TEST_LOG << "str = " << str << endl;
 		TS_ASSERT_EQUALS(str, "The device is ON\nThe polling is ON");
 
 		TS_ASSERT_THROWS_NOTHING(state_out = dserver->state());
@@ -478,5 +479,4 @@ cout << "str = " << str << endl;
     }
 
 };
-#undef cout
 #endif // DServerMiscTestSuite_h

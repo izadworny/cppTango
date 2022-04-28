@@ -2,6 +2,7 @@
 #define DServerCmdTestSuite_h
 
 #include "compare_test.h"
+
 #include "cxx_common.h"
 
 #undef SUITE_NAME
@@ -77,7 +78,7 @@ public:
                 dserver->command_inout("SetLoggingLevel", din);
             }
             catch (DevFailed &e) {
-                cout << endl << "Exception in suite tearDown():" << endl;
+                TEST_LOG << endl << "Exception in suite tearDown():" << endl;
                 Except::print_exception(e);
             }
         }
@@ -94,7 +95,7 @@ public:
                 dserver->command_inout("RemoveLoggingTarget", din);
             }
             catch (DevFailed &e) {
-                cout << endl << "Exception in suite tearDown():" << endl;
+                TEST_LOG << endl << "Exception in suite tearDown():" << endl;
                 Except::print_exception(e);
             }
         }
@@ -310,12 +311,11 @@ public:
                 CmpTst::CompareTest::leave_output(ref_file);
             }
             catch (CmpTst::CompareTestException &in_e) {
-                cout << in_e.what() << endl;
+                TEST_LOG << in_e.what() << endl;
             }
             TS_FAIL(e.what());
         }
     }
 };
 
-#undef cout
 #endif // DServerCmdTestSuite_h

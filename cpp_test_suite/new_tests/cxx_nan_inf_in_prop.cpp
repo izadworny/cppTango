@@ -2,6 +2,7 @@
 #define NanInfInPropSuite_h
 
 #include <limits>
+
 #include "cxx_common.h"
 
 #undef SUITE_NAME
@@ -63,7 +64,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -76,7 +77,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -443,5 +444,4 @@ public:
     }
 
 };
-#undef cout
 #endif // NanInfInPropSuite_h

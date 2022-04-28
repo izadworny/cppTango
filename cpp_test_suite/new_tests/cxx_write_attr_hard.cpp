@@ -275,5 +275,5 @@ public:
 
 	}
 };
-#undef cout
+
 #endif // WriteAttrHardware_h

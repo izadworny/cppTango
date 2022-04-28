@@ -185,5 +185,4 @@ public:
 	}
 };
 
-#undef cout
 #endif // DynCmdTestSuite_h

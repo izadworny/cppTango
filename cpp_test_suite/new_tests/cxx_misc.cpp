@@ -72,7 +72,7 @@ public:
 		}
 		catch(CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -170,5 +170,4 @@ public:
 		TS_ASSERT_EQUALS(device1->info().server_version, server_version);
 	}
 };
-#undef cout
 #endif // MiscTestSuite_h

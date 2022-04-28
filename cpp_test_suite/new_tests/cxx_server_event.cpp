@@ -4,10 +4,7 @@
 #ifndef ServerEventTestSuite_h
 #define ServerEventTestSuite_h
 
-
 #include "cxx_common.h"
-
-#define    coutv    if (verbose == true) cout
 
 #undef SUITE_NAME
 #define SUITE_NAME ServerEventTestSuite
@@ -82,7 +79,7 @@ public:
 // Ask the device server to subscribe to an event
 //
     void test_device_server_subscribe_to_event(void) {
-        coutv << endl << "new DeviceProxy(" << device1->name() << ") returned" << endl << endl;
+        TEST_LOG << endl << "new DeviceProxy(" << device1->name() << ") returned" << endl << endl;
 
 
         vector<string> vs{device2_name, "Short_attr", "periodic"};
@@ -107,7 +104,7 @@ public:
         Tango::DevLong cb;
         da >> cb;
 
-        coutv << "cb executed = " << cb << endl;
+        TEST_LOG << "cb executed = " << cb << endl;
         TS_ASSERT_LESS_THAN_EQUALS(2, cb);
         TS_ASSERT_LESS_THAN_EQUALS(cb, 4);
     }
@@ -135,7 +132,6 @@ public:
     }
 };
 
-#undef cout
 #endif // ServerEventTestSuite_h
 
 

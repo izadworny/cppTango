@@ -3,20 +3,14 @@
 
 #include "cxx_common.h"
 
-#define coutv		if (verbose == true) cout << "\t"
-#define coutv_cb 	if (parent->verbose == true) cout << "\t"
-
 #undef SUITE_NAME
 #define SUITE_NAME SvrMcastLocalRemoteTestSuite
 
-
-//
 // In this test, the local server is used to send mcast event locally (to this client) but
 // also to another client running on a remote host. This another client is in fact a device server
 // as well with the commands IOSubscribeEvent, IOGetCbExecuted and IOUnsubscribeEvent.
 // This allows us to test the case where we have a server firing multicast event to local and
 // remote clients
-//
 
 class SvrMcastLocalRemoteTestSuite: public CxxTest::TestSuite
 {
@@ -171,11 +165,11 @@ public:
 // Check that the attribute is now polled at 1000 mS
 
 		bool po = device_local->is_attribute_polled(att_name);
-		coutv << "Local device: attribute polled : " << po << endl;
+		TEST_LOG << "Local device: attribute polled : " << po << endl;
 		TS_ASSERT(po);
 
 		int poll_period = device_local->get_attribute_poll_period(att_name);
-		coutv << "Local device: att polling period : " << poll_period << endl;
+		TEST_LOG << "Local device: att polling period : " << poll_period << endl;
 		TS_ASSERT_EQUALS(poll_period, 1000);
 
 // Ask remote device to subscribe to the same event
@@ -190,7 +184,7 @@ public:
 		CxxTest::TangoPrinter::restore_set("remote_subscribe");
 		dd_out = device_remote->command_inout("IOSubscribeEvent",dd_in);
 		dd_out >> eve_id_remote;
-		coutv << "Remote event id = " << eve_id_remote << endl;
+		TEST_LOG << "Remote event id = " << eve_id_remote << endl;
 	}
 
 // Check that first point has been received
@@ -204,7 +198,7 @@ public:
 		da = device_remote->command_inout("IOGetCbExecuted");
 		Tango::DevLong cb = 0;
 		da >> cb;
-		coutv << "Remote event ctr = " << cb << endl;
+		TEST_LOG << "Remote event ctr = " << cb << endl;
 		TS_ASSERT_EQUALS(cb, 1);
 	}
 
@@ -228,7 +222,7 @@ public:
 		Sleep(2000);
 #endif
 
-		coutv << "local cb excuted = " << cb->cb_executed << endl;
+		TEST_LOG << "local cb excuted = " << cb->cb_executed << endl;
 
 		TS_ASSERT_EQUALS(cb->cb_executed, 2);
 		TS_ASSERT_EQUALS(cb->val_size, 4);
@@ -237,7 +231,7 @@ public:
 		da = device_remote->command_inout("IOGetCbExecuted");
 		Tango::DevLong cb = 0;
 		da >> cb;
-		coutv << "remote cb excuted = " << cb << endl;
+		TEST_LOG << "remote cb excuted = " << cb << endl;
 		TS_ASSERT_EQUALS(cb, 2);
 	}
 
@@ -264,7 +258,7 @@ void SvrMcastLocalRemoteTestSuite::EventCallBack::push_event(Tango::EventData* e
 
 	try
 	{
-		coutv_cb << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 			*(event_data->attr_value) >> value;
@@ -279,11 +273,9 @@ void SvrMcastLocalRemoteTestSuite::EventCallBack::push_event(Tango::EventData* e
 	}
 	catch (...)
 	{
-		coutv_cb << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
 
-#undef cout
 #endif // SvrMcastLocalRemoteTestSuite_h
-

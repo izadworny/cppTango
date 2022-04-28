@@ -133,5 +133,4 @@ public:
 				TS_ASSERT_EQUALS(e.errors[0].severity, Tango::ERR));
 	}
 };
-#undef cout
 #endif // MiscUtilTestSuite_h

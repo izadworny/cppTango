@@ -3,8 +3,6 @@
 
 #include "cxx_common.h"
 
-#define    coutv    if (verbose == true) cout
-
 #undef SUITE_NAME
 #define SUITE_NAME AsynReconnectionTestSuite
 
@@ -73,7 +71,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -124,7 +122,7 @@ public:
 				catch (AsynReplyNotArrived&)
 				{
 					finish = false;
-					coutv << "Attribute not yet written" << endl;
+					TEST_LOG << "Attribute not yet written" << endl;
 					nb_not_arrived++;
 				}
 				if (finish == false)
@@ -133,7 +131,7 @@ public:
 
 			assert(nb_not_arrived >= 1);
 
-			cout << "   Asynchronous write_attribute in polling mode --> OK" << endl;
+			TEST_LOG << "   Asynchronous write_attribute in polling mode --> OK" << endl;
 		}
 		catch(const Tango::DevFailed &e)
 		{
@@ -182,7 +180,7 @@ public:
                 catch (AsynReplyNotArrived&)
                 {
                     finish = false;
-                    coutv << "Attribute not yet written" << endl;
+                    TEST_LOG << "Attribute not yet written" << endl;
                     nb_not_arrived++;
                 }
                 if (finish == false)
@@ -206,14 +204,14 @@ public:
 					received = device1->read_attribute_reply(read_id);
 					Tango::DevLong val;
 					*received >> val;
-					coutv << "attr_asyn_write attribute value = " << val << endl;
+					TEST_LOG << "attr_asyn_write attribute value = " << val << endl;
 					assert( val == 444 );
 					finish = true;
 				}
 				catch (AsynReplyNotArrived&)
 				{
 					finish = false;
-					coutv << "Attribute not yet read" << endl;
+					TEST_LOG << "Attribute not yet read" << endl;
 					nb_not_arrived++;
 				}
 				if (finish == false)
@@ -223,9 +221,9 @@ public:
 
 			assert ( nb_not_arrived >= 1);
 
-			coutv << "   Asynchronous read_attribute in polling mode --> OK" << endl;
+			TEST_LOG << "   Asynchronous read_attribute in polling mode --> OK" << endl;
 
-            cout << "   Asynchronous write_attribute in polling mode after reconnection--> OK" << endl;
+            TEST_LOG << "   Asynchronous write_attribute in polling mode after reconnection--> OK" << endl;
         }
         catch(const Tango::DevFailed &e)
         {
@@ -239,5 +237,4 @@ public:
         }
     }
 };
-#undef cout
 #endif // AsynReconnectionTestSuite_h

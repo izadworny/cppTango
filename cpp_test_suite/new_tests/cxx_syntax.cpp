@@ -261,5 +261,5 @@ public:
 		delete device2;
 	}
 };
-#undef cout
+
 #endif // SyntaxTestSuite_h

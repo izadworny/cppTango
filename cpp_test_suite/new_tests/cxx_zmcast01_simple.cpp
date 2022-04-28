@@ -3,18 +3,13 @@
 
 #include "cxx_common.h"
 
-#define coutv	if (verbose == true) cout << "\t"
-#define coutv_cb 	if (parent->verbose == true) cout << "\t"
-
 #undef SUITE_NAME
 #define SUITE_NAME McastSimpleTestSuite
 
-//
 // In this test, the client subscribes to two multicast events
 // One event comes from a device running in the same host than the client
 // The other event comes from a device running in a different host (therefore using PGM to communicate)
 // These two events are using different callback objects
-//
 
 class McastSimpleTestSuite: public CxxTest::TestSuite
 {
@@ -123,11 +118,11 @@ public:
 // Check that the attribute is now polled at 1000 mS
 
 		bool po = local_device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << endl;
+		TEST_LOG << "attribute polled : " << po << endl;
 		TS_ASSERT(po);
 
 		int poll_period = local_device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << endl;
+		TEST_LOG << "att polling period : " << poll_period << endl;
 		TS_ASSERT_EQUALS(poll_period, 1000);
 	}
 
@@ -142,11 +137,11 @@ public:
 // Check that the attribute is now polled at 1000 mS
 
 		bool po = remote_device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << endl;
+		TEST_LOG << "attribute polled : " << po << endl;
 		TS_ASSERT(po);
 
 		int poll_period = remote_device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << endl;
+		TEST_LOG << "att polling period : " << poll_period << endl;
 		TS_ASSERT_EQUALS(poll_period, 1000);
 	}
 
@@ -184,8 +179,8 @@ public:
 		Sleep(2000);
 #endif
 
-		coutv << "local cb excuted = " << cb_local->cb_executed << endl;
-		coutv << "remote cb executed = " << cb_remote->cb_executed << endl;
+		TEST_LOG << "local cb excuted = " << cb_local->cb_executed << endl;
+		TEST_LOG << "remote cb executed = " << cb_remote->cb_executed << endl;
 
 		TS_ASSERT_EQUALS(cb_local->cb_executed, 2);
 		TS_ASSERT_EQUALS(cb_local->val, 31);
@@ -264,7 +259,7 @@ void McastSimpleTestSuite::EventCallBack::push_event(Tango::EventData* event_dat
 
 	try
 	{
-		coutv_cb << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << endl;
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << endl;
 		if (!event_data->err)
 		{
 			*(event_data->attr_value) >> value;
@@ -279,11 +274,10 @@ void McastSimpleTestSuite::EventCallBack::push_event(Tango::EventData* event_dat
 	}
 	catch (...)
 	{
-		coutv_cb << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
 
-#undef cout
 #endif // McastSimpleTestSuite_h
 

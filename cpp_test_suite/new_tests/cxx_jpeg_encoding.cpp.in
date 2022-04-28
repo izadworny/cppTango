@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+
 #include <cxx_common.h>
 
 #undef SUITE_NAME
@@ -223,5 +224,4 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
 
         }
 };
-#undef cout
 #endif // JPEGEncodedTestSuite_h

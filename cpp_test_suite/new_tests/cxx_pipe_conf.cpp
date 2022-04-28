@@ -196,7 +196,7 @@ public:
 		TS_ASSERT_EQUALS(pi.description, "toto");
 
 		pi2 = device2->get_pipe_config(pipe_name);
-cout << "pi2.description = " << pi2.description << endl;
+TEST_LOG << "pi2.description = " << pi2.description << endl;
 		TS_ASSERT_EQUALS(pi2.description, "No description");
 
 // Return to lib
@@ -382,6 +382,4 @@ cout << "pi2.description = " << pi2.description << endl;
 
 };
 
-
-#undef cout
 #endif // PipeTestSuite_h

@@ -1,9 +1,9 @@
 #ifndef AttrMiscTestSuite_h
 #define AttrMiscTestSuite_h
 
-#include "cxx_common.h"
-
 #include <tango_current_function.h>
+
+#include "cxx_common.h"
 
 #undef SUITE_NAME
 #define SUITE_NAME AttrMiscTestSuite
@@ -74,7 +74,7 @@ public:
 	virtual ~SUITE_NAME()
 	{
 time_t ti = time(NULL);
-cout << "Destroying suite at " << ctime(&ti) << endl;
+TEST_LOG << "Destroying suite at " << ctime(&ti) << endl;
 		DevLong lg;
 		DeviceData din;
 		lg = 1246;
@@ -91,7 +91,7 @@ cout << "Destroying suite at " << ctime(&ti) << endl;
 		}
 		catch (CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -109,7 +109,7 @@ cout << "Destroying suite at " << ctime(&ti) << endl;
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -259,16 +259,16 @@ cout << "Destroying suite at " << ctime(&ti) << endl;
 		CxxTest::TangoPrinter::restore_set("timeout");
 
 time_t ti = time(NULL);
-cout << "Calling SetGetProperties at " << ctime(&ti) << endl;
+TEST_LOG << "Calling SetGetProperties at " << ctime(&ti) << endl;
 struct timeval start,stop;
 gettimeofday(&start,NULL);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("SetGetProperties"));
 		TS_ASSERT_THROWS_NOTHING(dout >> props);
 gettimeofday(&stop,NULL);
 double elapsed = (double)(stop.tv_sec - start.tv_sec) + (double)(stop.tv_usec - start.tv_usec) / 1000000.0;
-cout << "required time for command SetGetProperties = " << elapsed << endl;
+TEST_LOG << "required time for command SetGetProperties = " << elapsed << endl;
 
-//		cout << "## prop length = " << (*props).length() << endl;
+//		TEST_LOG << "## prop length = " << (*props).length() << endl;
 
 		TS_ASSERT_EQUALS((*props).length(), 420);
 		size_t i = 0;
@@ -970,7 +970,7 @@ cout << "required time for command SetGetProperties = " << elapsed << endl;
 		TS_ASSERT_EQUALS(state, Tango::ALARM);
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("Status"));
 		dout >> status;
-cout << "status = " << status << endl;
+TEST_LOG << "status = " << status << endl;
 		TS_ASSERT_EQUALS(std::string(status), "The device is in ALARM state.\nAlarm : Value too low for Long_attr");
 
 		lg = 1200;
@@ -1155,5 +1155,4 @@ cout << "status = " << status << endl;
             TS_ASSERT(std::string(e.errors[0].reason.in()) == API_AttrValueNotSet));
     }
 };
-#undef cout
 #endif // AttrMiscTestSuite_h

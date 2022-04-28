@@ -3,8 +3,6 @@
 
 #include "cxx_common.h"
 
-#define coutv_cb 	if (parent->verbose == true) cout << "\t"
-
 #undef SUITE_NAME
 #define SUITE_NAME EnumAttTestSuite
 
@@ -474,5 +472,4 @@ public:
 	}
 };
 
-#undef cout
 #endif // EnumTestSuite_h

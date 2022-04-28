@@ -71,7 +71,7 @@ public:
 //
 //	void test_command_AddLoggingTarget_information(void) {
 //		CommandInfo cmd_inf = dserver->command_query("AddLoggingTarget");
-//		cout << "name: " << cmd_inf.cmd_name << " tag: " << cmd_inf.cmd_tag << " displ_level: " << cmd_inf.disp_level << " in_type: " << cmd_inf.in_type << " type_desc: " << cmd_inf.in_type_desc << " out_type: " << cmd_inf.out_type << " out_type_desc: " << cmd_inf.out_type_desc << endl;
+//		TEST_LOG << "name: " << cmd_inf.cmd_name << " tag: " << cmd_inf.cmd_tag << " displ_level: " << cmd_inf.disp_level << " in_type: " << cmd_inf.in_type << " type_desc: " << cmd_inf.in_type_desc << " out_type: " << cmd_inf.out_type << " out_type_desc: " << cmd_inf.out_type_desc << endl;
 //	}
 
 // Test command list query
@@ -540,5 +540,4 @@ public:
 	}
 
 };
-#undef cout
 #endif // CmdQueryTestSuite_h

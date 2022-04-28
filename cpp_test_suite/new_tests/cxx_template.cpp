@@ -74,7 +74,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -113,5 +113,5 @@ public:
 		CxxTest::TangoPrinter::restore_unset("my_restore_point");
 	}
 };
-#undef cout
+
 #endif // TemplateTestSuite_h

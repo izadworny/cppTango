@@ -4,11 +4,9 @@
 #ifndef StatelessSubTestSuite_h
 #define StatelessSubTestSuite_h
 
-
 #include <thread>
-#include "cxx_common.h"
 
-#define    coutv    if (verbose == true) cout
+#include "cxx_common.h"
 
 #undef SUITE_NAME
 #define SUITE_NAME StatelessSubTestSuite
@@ -20,10 +18,10 @@ public:
     ~EventCallback() {}
 
     void push_event(Tango::EventData *ed) {
-        cout << "In callback with error flag = " << std::boolalpha << ed->err << endl;
+        TEST_LOG << "In callback with error flag = " << std::boolalpha << ed->err << endl;
         if (ed->err) {
             cb_err++;
-            cout << "Error: " << ed->errors[0].reason << endl;
+            TEST_LOG << "Error: " << ed->errors[0].reason << endl;
         } else {
             cb_executed++;
         }
@@ -135,15 +133,14 @@ public:
 // Check error and connection
 //
 
-        coutv << "cb err = " << eventCallback.cb_err << endl;
-        coutv << "cb executed = " << eventCallback.cb_executed << endl;
+        TEST_LOG << "cb err = " << eventCallback.cb_err << endl;
+        TEST_LOG << "cb executed = " << eventCallback.cb_executed << endl;
 
         TS_ASSERT_LESS_THAN_EQUALS (1, eventCallback.cb_err);
         TS_ASSERT_LESS_THAN_EQUALS (1, eventCallback.cb_executed);
     }
 };
 
-#undef cout
 #endif // StatelessSubTestSuite_h
 
 

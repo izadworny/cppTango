@@ -1,11 +1,11 @@
 #ifndef BlackboxTestSuite_h
 #define BlackboxTestSuite_h
 
-#include "cxx_common.h"
-
 #ifdef _TG_WINDOWS_
 #include <process.h> // needed to obtain process id
 #endif 	// _TG_WINDOWS_
+
+#include "cxx_common.h"
 
 #undef SUITE_NAME
 #define SUITE_NAME BlackboxTestSuite
@@ -81,7 +81,7 @@ public:
 		}
 		catch(CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -191,12 +191,12 @@ public:
 		{
 			if(i%2 == 0)
 			{
-//				cout << "===> attr_name: " << string(result.svalue[i].in()) << endl;
+//				TEST_LOG << "===> attr_name: " << string(result.svalue[i].in()) << endl;
 				attr_name = device3_name + "/" + string(result.svalue[i].in());
 			}
 			else
 			{
-//				cout << "===> attr_prop: " << string(result.svalue[i].in()) << endl;
+//				TEST_LOG << "===> attr_prop: " << string(result.svalue[i].in()) << endl;
 				attr_prop = string(result.svalue[i].in());
 
 				AttributeProxy *my_attr = nullptr;
@@ -211,74 +211,74 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(device3 = new DeviceProxy(device3_name));
 
-cout << "Start of strange test" << endl;
+TEST_LOG << "Start of strange test" << endl;
 		try
 		{
 			vector<string> *bb = device3->black_box(5);
-			cout << endl << "===> blackbox size: " << (*bb).size() << endl;
+			TEST_LOG << endl << "===> blackbox size: " << (*bb).size() << endl;
 			if((*bb).size() > 0)
-					cout << "===> first element: " << (*bb)[0] << endl;
+					TEST_LOG << "===> first element: " << (*bb)[0] << endl;
 		}
 		catch(DevFailed &e)
 		{
 			string reas(e.errors[0].reason.in());
-cout << "Exception errors length = " << e.errors.length() << endl;
-cout << "Exception reason = " << reas << endl;
-cout << "Exception desc = " << e.errors[0].desc.in() << endl;
-cout << "Exception origin = " << e.errors[0].origin.in() << endl;
+TEST_LOG << "Exception errors length = " << e.errors.length() << endl;
+TEST_LOG << "Exception reason = " << reas << endl;
+TEST_LOG << "Exception desc = " << e.errors[0].desc.in() << endl;
+TEST_LOG << "Exception origin = " << e.errors[0].origin.in() << endl;
 if (e.errors.length() > 1)
 {
-cout << "Exception 1 reason = " << e.errors[1].reason.in() << endl;
-cout << "Exception 1 desc = " << e.errors[1].desc.in() << endl;
-cout << "Exception 1 origin = " << e.errors[1].origin.in() << endl;
+TEST_LOG << "Exception 1 reason = " << e.errors[1].reason.in() << endl;
+TEST_LOG << "Exception 1 desc = " << e.errors[1].desc.in() << endl;
+TEST_LOG << "Exception 1 origin = " << e.errors[1].origin.in() << endl;
 }
 Tango::DeviceProxy *dev = new Tango::DeviceProxy(dserver_name);
 try
 {
 Tango::DeviceData dd = dev->command_inout("QueryDevice");
-cout << "Device list = " << dd << endl;
+TEST_LOG << "Device list = " << dd << endl;
 }
 catch (Tango::DevFailed &e)
 {
-cout << "Again exception when talking to adm device!!!" << endl;
+TEST_LOG << "Again exception when talking to adm device!!!" << endl;
 }
-			cout << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
+			TEST_LOG << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
 //			TS_ASSERT_EQUALS(reas, API_BlackBoxEmpty);
 			if (reas == API_CorbaException)
 			{
-cout << "Too early, sleeping 4 more seconds...." << endl;
+TEST_LOG << "Too early, sleeping 4 more seconds...." << endl;
 				Tango_sleep(4);
 
 				try
 				{
 					vector<string> *bb = device3->black_box(5);
-					cout << endl << "===> blackbox size: " << (*bb).size() << endl;
+					TEST_LOG << endl << "===> blackbox size: " << (*bb).size() << endl;
 					if((*bb).size() > 0)
-							cout << "===> first element: " << (*bb)[0] << endl;
+							TEST_LOG << "===> first element: " << (*bb)[0] << endl;
 				}
 				catch(DevFailed &e)
 				{
 					string reas(e.errors[0].reason.in());
-cout << "Exception reason = " << reas << endl;
-cout << "Exception desc = " << e.errors[0].desc.in() << endl;
-cout << "Exception origin = " << e.errors[0].origin.in() << endl;
+TEST_LOG << "Exception reason = " << reas << endl;
+TEST_LOG << "Exception desc = " << e.errors[0].desc.in() << endl;
+TEST_LOG << "Exception origin = " << e.errors[0].origin.in() << endl;
 if (e.errors.length() > 1)
 {
-cout << "Exception 1 reason = " << e.errors[1].reason.in() << endl;
-cout << "Exception 1 desc = " << e.errors[1].desc.in() << endl;
-cout << "Exception 1 origin = " << e.errors[1].origin.in() << endl;
+TEST_LOG << "Exception 1 reason = " << e.errors[1].reason.in() << endl;
+TEST_LOG << "Exception 1 desc = " << e.errors[1].desc.in() << endl;
+TEST_LOG << "Exception 1 origin = " << e.errors[1].origin.in() << endl;
 }
 Tango::DeviceProxy *dev = new Tango::DeviceProxy(dserver_name);
 try
 {
 Tango::DeviceData dd = dev->command_inout("QueryDevice");
-cout << "Device list = " << dd << endl;
+TEST_LOG << "Device list = " << dd << endl;
 }
 catch (Tango::DevFailed &e)
 {
-cout << "Again exception when talking to adm device!!!" << endl;
+TEST_LOG << "Again exception when talking to adm device!!!" << endl;
 }
-					cout << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
+					TEST_LOG << "===> Nothing yet stored in blackbox, error reason = " << reas << endl;
 				        TS_ASSERT_EQUALS(reas, API_BlackBoxEmpty);
 				}
 			}
@@ -287,7 +287,7 @@ cout << "Again exception when talking to adm device!!!" << endl;
 		}
 		catch(...)
 		{
-			cout << "===> Error in checking blackbox size" << endl;
+			TEST_LOG << "===> Error in checking blackbox size" << endl;
 			TS_ASSERT (false);
 		}
 
@@ -303,5 +303,4 @@ cout << "Again exception when talking to adm device!!!" << endl;
 		TS_ASSERT_EQUALS(out_str, reference_str);
 	}
 };
-#undef cout
 #endif // BlackboxTestSuite_h

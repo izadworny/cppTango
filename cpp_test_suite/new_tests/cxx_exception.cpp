@@ -57,7 +57,7 @@ public:
 		}
 		catch(CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -140,7 +140,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-//		cout << "----> STATE: " << state_out << endl;
+//		TEST_LOG << "----> STATE: " << state_out << endl;
 		TS_ASSERT_EQUALS(state_out, Tango::OFF);
 
 		DevLong num = 1L;
@@ -154,9 +154,8 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOState", din));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
-//		cout << "----> STATE: " << state_out << endl;
+//		TEST_LOG << "----> STATE: " << state_out << endl;
 		TS_ASSERT_EQUALS(state_out, Tango::ON);
 	}
 };
-#undef cout
 #endif // ExceptionTestSuite_h

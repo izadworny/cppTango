@@ -694,6 +694,4 @@ public:
 	}
 };
 
-
-#undef cout
 #endif // PipeTestSuite_h
