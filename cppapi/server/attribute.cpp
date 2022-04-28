@@ -340,7 +340,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): rel_change = " << rel_change[0] << " " << rel_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): rel_change = " << rel_change[0] << " " << rel_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("rel_change",dev_name,"Attribute::init_event_prop()");
@@ -400,7 +400,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): abs_change = " << abs_change[0] << " " << abs_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): abs_change = " << abs_change[0] << " " << abs_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("abs_change",dev_name,"Attribute::init_event_prop()");
@@ -460,7 +460,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): archive_rel_change = " << archive_rel_change[0] << " " << archive_rel_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): archive_rel_change = " << archive_rel_change[0] << " " << archive_rel_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("archive_rel_change",dev_name,"Attribute::init_event_prop()");
@@ -520,7 +520,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): archive_abs_change = " << archive_abs_change[0] << " " << archive_abs_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): archive_abs_change = " << archive_abs_change[0] << " " << archive_abs_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("archive_abs_change",dev_name,"Attribute::init_event_prop()");
@@ -557,7 +557,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 			{
 				if (event_period_tmp > 0)
 					event_period = event_period_tmp;
-				cout1 << "Attribute::Attribute(): event_period_str " << event_period_str << " event_period = " << event_period << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): event_period_str " << event_period_str << " event_period = " << event_period << std::endl;
 			}
 			else
 				throw_err_format("event_period",dev_name,"Attribute::init_event_prop()");
@@ -596,7 +596,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 				{
 					archive_period = archive_period_tmp;
 				}
-				cout1 << "Attribute::Attribute(): archive_period_str " << archive_period_str << " archive_period = " << archive_period << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): archive_period_str " << archive_period_str << " archive_period = " << archive_period << std::endl;
 			}
 			else
 				throw_err_format("archive_period",dev_name,"Attribute::init_event_prop()");

@@ -586,7 +586,7 @@ bool IOString::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::A
 CORBA::Any *IOString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
 {
 
-	cout2 << "[IOString::execute] arrived" << std::endl;
+	TANGO_LOG_INFO << "[IOString::execute] arrived" << std::endl;
 	try {
 
 	  Tango::DevString theWord;

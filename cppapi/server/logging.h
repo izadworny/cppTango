@@ -82,15 +82,13 @@ inline const char* basename(const char* path)
 
 #endif //== compiling TANGO lib ===============================
 
-// Map. cout1..2 to INFO level --------------------------------
-#define cout1                                      \
+// Map. TANGO_LOG_INFO to INFO level --------------------------------
+#define TANGO_LOG_INFO                             \
   if (API_LOGGER && API_LOGGER->is_info_enabled()) \
     API_LOGGER->info_stream()                      \
       << log4tango::LogInitiator::_begin_log       \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
-
-#define cout2 cout1
 
 // Map. cout3..5 to DEBUG level -------------------------------
 #define cout3                                       \

@@ -220,13 +220,13 @@ void DevTest::delete_device()
 void DevTest::always_executed_hook()
 {
 
-	cout2 << "In always_executed_hook method" << std::endl;
+	TANGO_LOG_INFO << "In always_executed_hook method" << std::endl;
 
 }
 
 void DevTest::server_init_hook()
 {
-    cout2 << "In server_init_hook method" << std::endl;
+    TANGO_LOG_INFO << "In server_init_hook method" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -242,7 +242,7 @@ void DevTest::server_init_hook()
 Tango::ConstDevString DevTest::dev_status()
 {
 
-	cout2 << "In DayOfWeek state command" << std::endl;
+	TANGO_LOG_INFO << "In DayOfWeek state command" << std::endl;
 #ifdef WIN32
 	Tango::ConstDevString stat = DeviceImpl::dev_status();
 #else

@@ -395,7 +395,7 @@ void Util::effective_job(int argc,char *argv[])
 
 		if (log_client_orb_deleted)
 		{
-			cout1 << "Client ORB was initialized in before the server ORB, all proxies must be invalidated" << std::endl;
+			TANGO_LOG_INFO << "Client ORB was initialized in before the server ORB, all proxies must be invalidated" << std::endl;
 		}
 		cout4 << "Connected to database" << std::endl;
 		if (get_db_cache() == NULL)
