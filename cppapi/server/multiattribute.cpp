@@ -95,7 +95,7 @@ MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_clas
 :ext(new MultiAttribute::MultiAttributeExt)
 {
 	long i;
-	cout4 << "Entering MultiAttribute class constructor for device " << dev_name << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiAttribute class constructor for device " << dev_name << std::endl;
 
 //
 // Retrieve attr name list
@@ -110,7 +110,7 @@ MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_clas
 // is forced by the get_property call executed during xxxClass construction before we reach this code.
 //
 
-    cout4 << nb_attr << " attribute(s)" << std::endl;
+    TANGO_LOG_DEBUG << nb_attr << " attribute(s)" << std::endl;
 
 	if (nb_attr != 0)
 	{
@@ -141,7 +141,7 @@ MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_clas
 			}
 			catch (Tango::DevFailed &)
 			{
-			    cout4 << "Exception while accessing database" << std::endl;
+			    TANGO_LOG_DEBUG << "Exception while accessing database" << std::endl;
 
 				tg->get_database()->set_timeout_millis(old_db_timeout);
 				TangoSys_OMemStream o;
@@ -316,7 +316,7 @@ MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_clas
 						alarm_attr_list.push_back(i - sub);
 				}
 
-				cout4 << *(attr_list[i - sub]) << std::endl;
+				TANGO_LOG_DEBUG << *(attr_list[i - sub]) << std::endl;
 			}
 			else
 				sub++;
@@ -344,7 +344,7 @@ MultiAttribute::MultiAttribute(const std::string &dev_name,DeviceClass *dev_clas
 		check_associated(i,dev_name);
 	}
 
-	cout4 << "Leaving MultiAttribute class constructor" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving MultiAttribute class constructor" << std::endl;
 }
 
 //+----------------------------------------------------------------------------------------------------------------
@@ -691,7 +691,7 @@ void MultiAttribute::check_idl_release(DeviceImpl *dev)
 
 void MultiAttribute::add_attribute(const std::string &dev_name,DeviceClass *dev_class_ptr,long index)
 {
-	cout4 << "Entering MultiAttribute::add_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiAttribute::add_attribute" << std::endl;
 
 //
 // Retrieve device class attribute list
@@ -853,7 +853,7 @@ void MultiAttribute::add_attribute(const std::string &dev_name,DeviceClass *dev_
 
 	check_associated(index,dev_name);
 
-	cout4 << "Leaving MultiAttribute::add_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving MultiAttribute::add_attribute" << std::endl;
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -874,7 +874,7 @@ void MultiAttribute::add_attribute(const std::string &dev_name,DeviceClass *dev_
 
 void MultiAttribute::add_fwd_attribute(const std::string &dev_name,DeviceClass *dev_class_ptr,long index, Attr *new_attr)
 {
-	cout4 << "Entering MultiAttribute::add_fwd_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiAttribute::add_fwd_attribute" << std::endl;
 
 //
 // Retrieve device class attribute list
@@ -985,7 +985,7 @@ void MultiAttribute::add_fwd_attribute(const std::string &dev_name,DeviceClass *
 //
 	check_associated(index,dev_name);
 
-	cout4 << "Leaving MultiAttribute::add_fwd_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving MultiAttribute::add_fwd_attribute" << std::endl;
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -1006,7 +1006,7 @@ void MultiAttribute::add_fwd_attribute(const std::string &dev_name,DeviceClass *
 
 void MultiAttribute::remove_attribute(const std::string &attr_name,bool update_idx)
 {
-	cout4 << "Entering MultiAttribute::remove_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiAttribute::remove_attribute" << std::endl;
 
 //
 // Get attribute index in vector
@@ -1118,7 +1118,7 @@ void MultiAttribute::remove_attribute(const std::string &attr_name,bool update_i
 		check_associated(i,default_dev_name);
 	}
 
-	cout4 << "Leaving MultiAttribute::remove_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving MultiAttribute::remove_attribute" << std::endl;
 }
 
 
@@ -1150,7 +1150,7 @@ Attribute &MultiAttribute::get_attr_by_name(const char *attr_name)
     }
     catch(std::out_of_range &)
     {
-        cout3 << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
+        TANGO_LOG_DEBUG << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
 
         o << attr_name << " attribute not found" << std::ends;
@@ -1187,7 +1187,7 @@ WAttribute &MultiAttribute::get_w_attr_by_name(const char *attr_name)
     }
     catch(std::out_of_range &)
     {
-        cout3 << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
+        TANGO_LOG_DEBUG << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
 
         o << attr_name << " writable attribute not found" << std::ends;
@@ -1197,7 +1197,7 @@ WAttribute &MultiAttribute::get_w_attr_by_name(const char *attr_name)
     if ((attr->get_writable() != Tango::WRITE) &&
         (attr->get_writable() != Tango::READ_WRITE))
     {
-        cout3 << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
+        TANGO_LOG_DEBUG << "MultiAttribute::get_attr_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
 
         o << attr_name << " writable attribute not found" << std::ends;
@@ -1235,7 +1235,7 @@ long MultiAttribute::get_attr_ind_by_name(const char *attr_name)
     }
     catch(std::out_of_range &)
     {
-        cout3 << "MultiAttribute::get_attr_ind_by_name throwing exception" << std::endl;
+        TANGO_LOG_DEBUG << "MultiAttribute::get_attr_ind_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
 
         o << attr_name << " attribute not found" << std::ends;

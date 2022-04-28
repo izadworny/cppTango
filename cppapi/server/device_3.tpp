@@ -58,7 +58,7 @@ template <typename T,typename V>
 void Device_3Impl::set_attribute_config_3_local(const T &new_conf,TANGO_UNUSED(const V &dummy_arg),
 												bool fwd_cb,int caller_idl)
 {
-	cout4 << "Entering Device_3Impl::set_attribute_config_3_local" << std::endl;
+	TANGO_LOG_DEBUG << "Entering Device_3Impl::set_attribute_config_3_local" << std::endl;
 
 //
 // Return exception if the device does not have any attribute
@@ -293,7 +293,7 @@ void Device_3Impl::set_attribute_config_3_local(const T &new_conf,TANGO_UNUSED(c
 // Return to caller
 //
 
-	cout4 << "Leaving Device_3Impl::set_attribute_config_3_local" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_3Impl::set_attribute_config_3_local" << std::endl;
 }
 
 template <typename T>

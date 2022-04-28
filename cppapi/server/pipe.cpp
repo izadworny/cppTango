@@ -291,7 +291,7 @@ void Pipe::upd_database(std::vector<Attribute::AttPropDb> &v_db,const std::strin
 
 	if (*cosp.prop_to_update != 0)
 	{
-		cout4 << *cosp.prop_to_update << " properties to update in db" << std::endl;
+		TANGO_LOG_DEBUG << *cosp.prop_to_update << " properties to update in db" << std::endl;
 		(*cosp.db_d)[0] << *cosp.prop_to_update;
 //for (const auto &elem: *cosp.db_d)
 //	TANGO_LOG << "prop_to_update name = " << elem.name << std::endl;
@@ -320,7 +320,7 @@ void Pipe::upd_database(std::vector<Attribute::AttPropDb> &v_db,const std::strin
 
 	if (*cosp.prop_to_delete != 0)
 	{
-		cout4 << *cosp.prop_to_delete << " properties to delete in db" << std::endl;
+		TANGO_LOG_DEBUG << *cosp.prop_to_delete << " properties to delete in db" << std::endl;
 		(*cosp.db_del)[0] << *cosp.prop_to_delete;
 //for (const auto &elem: *cosp.db_del)
 //	TANGO_LOG << "prop_to_delete name = " << elem.name << std::endl;
@@ -681,7 +681,7 @@ Pipe &Pipe::operator[](const std::string &_na)
 
 void Pipe::fire_event(DeviceImpl *dev,DevFailed *except)
 {
-	cout4 << "Pipe::fire_event() entering ..." << std::endl;
+	TANGO_LOG_DEBUG << "Pipe::fire_event() entering ..." << std::endl;
 
 //
 // Check if it is needed to send an event
@@ -742,7 +742,7 @@ void Pipe::fire_event(DeviceImpl *_dev,DevicePipeBlob *_dat,bool reuse_it)
 
 void Pipe::fire_event(DeviceImpl *dev,DevicePipeBlob *p_data,struct timeval &t,bool reuse_it)
 {
-	cout4 << "Pipe::fire_event() entering ..." << std::endl;
+	TANGO_LOG_DEBUG << "Pipe::fire_event() entering ..." << std::endl;
 
 //
 // Check if it is needed to send an event

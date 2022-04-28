@@ -103,7 +103,7 @@ AddLoggingTarget::AddLoggingTarget (const char *name,
 CORBA::Any *AddLoggingTarget::execute (DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "AddLoggingTarget::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "AddLoggingTarget::execute(): arrived " << std::endl;
 
 //
 // Extract the input data
@@ -153,7 +153,7 @@ RemoveLoggingTarget::RemoveLoggingTarget (const char *name,
 CORBA::Any *RemoveLoggingTarget::execute (DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "RemoveLoggingTarget::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "RemoveLoggingTarget::execute(): arrived " << std::endl;
 
 //
 // Extract the input data
@@ -205,7 +205,7 @@ GetLoggingTarget::GetLoggingTarget (const char *name,
 CORBA::Any *GetLoggingTarget::execute (DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "GetLoggingTarget::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "GetLoggingTarget::execute(): arrived " << std::endl;
 
 //
 // Extract the input data
@@ -249,7 +249,7 @@ SetLoggingLevel::SetLoggingLevel   (const char *name,
 CORBA::Any *SetLoggingLevel::execute (DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "SetLoggingLevel::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "SetLoggingLevel::execute(): arrived " << std::endl;
 
 //
 // Extract the input data
@@ -300,7 +300,7 @@ GetLoggingLevel::GetLoggingLevel   (const char *name,
 //--------------------------------------------------------------------------
 CORBA::Any *GetLoggingLevel::execute (DeviceImpl *device, const CORBA::Any &in_any)
 {
-	cout4 << "GetLoggingLevel::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "GetLoggingLevel::execute(): arrived " << std::endl;
 
 //
 // Extract the input data
@@ -343,7 +343,7 @@ StopLogging::StopLogging(const char *name,
 //--------------------------------------------------------------------------
 CORBA::Any *StopLogging::execute (DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	cout4 << "StopLogging::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "StopLogging::execute(): arrived " << std::endl;
 
 //
 // Call the concrete device method
@@ -382,7 +382,7 @@ StartLogging::StartLogging (const char *name,
 //--------------------------------------------------------------------------
 CORBA::Any *StartLogging::execute (DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	cout4 << "StartLogging::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "StartLogging::execute(): arrived " << std::endl;
 
 //
 // Call the concrete device method

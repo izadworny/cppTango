@@ -189,7 +189,7 @@ void DeviceClass::get_class_system_resource()
 
 		if (db_data[0].is_empty() == true)
 		{
-			cout4 << "doc_url property for class " << name << " is not defined in database" << std::endl;
+			TANGO_LOG_DEBUG << "doc_url property for class " << name << " is not defined in database" << std::endl;
 			try
 			{
 				db->get_class_property("Default",db_data,tg->get_db_cache());
@@ -243,7 +243,7 @@ void DeviceClass::get_class_system_resource()
 
 void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 {
-	cout4 << "Entering DeviceClass::set_memorized_values() method" << std::endl;
+	TANGO_LOG_DEBUG << "Entering DeviceClass::set_memorized_values() method" << std::endl;
 
 	short sh;
 	Tango::DevVarShortArray sh_seq(1);
@@ -544,7 +544,7 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 
 					catch (Tango::DevFailed &e)
 					{
-						cout3 << "Cannot configure setpoint value for memorized attribute " << att.get_name() << std::endl;
+						TANGO_LOG_DEBUG << "Cannot configure setpoint value for memorized attribute " << att.get_name() << std::endl;
 						Tango::Except::print_exception(e);
 
 						nb_wr--;
@@ -566,17 +566,17 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 
 			try
 			{
-				cout4 << "Writing data for " << att_val.length() << " attribute(s) for device " << device_list[i]->get_name() << std::endl;
+				TANGO_LOG_DEBUG << "Writing data for " << att_val.length() << " attribute(s) for device " << device_list[i]->get_name() << std::endl;
 				(static_cast<Device_3Impl *>(device_list[i]))->write_attributes_3(att_val);
 			}
 			catch (Tango::DevFailed &e)
 			{
-				cout3 << "Cannot write setpoint(s) value for any memorized attribute(s) on device " << device_list[i]->get_name() << std::endl;
+				TANGO_LOG_DEBUG << "Cannot write setpoint(s) value for any memorized attribute(s) on device " << device_list[i]->get_name() << std::endl;
 				Tango::Except::print_exception(e);
 			}
 			catch (Tango::MultiDevFailed &e)
 			{
-				cout3 << "Cannot write setpoint(s) value for memorized attribute(s) of device " << device_list[i]->get_name() << std::endl;
+				TANGO_LOG_DEBUG << "Cannot write setpoint(s) value for memorized attribute(s) of device " << device_list[i]->get_name() << std::endl;
 				for (unsigned long k = 0;k < e.errors.length();k++)
 				{
 					WAttribute &att = device_list[i]->get_device_attr()->get_w_attr_by_name(att_val[e.errors[k].index_in_call].name.in());
@@ -593,7 +593,7 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 			}
 			catch (...)
 			{
-				cout3 << "Cannot write setpoint(s) value for memorized attribute(s) of device " << device_list[i]->get_name() << std::endl;
+				TANGO_LOG_DEBUG << "Cannot write setpoint(s) value for memorized attribute(s) of device " << device_list[i]->get_name() << std::endl;
 				std::cerr << "Received unknown exception while trying to write memorized attribute(s)" << std::endl;
 
 				size_t nb_att = att_val.length();
@@ -632,7 +632,7 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 		}
 	}
 
-	cout4 << "Leaving DeviceClass::set_memorized_values() method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::set_memorized_values() method" << std::endl;
 
 }
 
@@ -676,7 +676,7 @@ void DeviceClass::throw_mem_value(DeviceImpl *dev,const Attribute &att)
 
 DeviceClass::~DeviceClass()
 {
-	cout4 << "Entering DeviceClass destructor for class " << name << std::endl;
+	TANGO_LOG_DEBUG << "Entering DeviceClass destructor for class " << name << std::endl;
 
 //
 // Destroy the DbClass object
@@ -775,7 +775,7 @@ DeviceClass::~DeviceClass()
 //
 
 
-	cout4 << "Leaving DeviceClass destructor for class " << name << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass destructor for class " << name << std::endl;
 }
 
 
@@ -798,7 +798,7 @@ DeviceClass::~DeviceClass()
 
 void DeviceClass::delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_poa)
 {
-	cout4 << "Entering DeviceClas::delete_dev method for device with index " << idx << std::endl;
+	TANGO_LOG_DEBUG << "Entering DeviceClas::delete_dev method for device with index " << idx << std::endl;
 
 //
 // If the polling thread is alive and if device is polled, ask polling thread to stop polling
@@ -841,7 +841,7 @@ void DeviceClass::delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_
 #endif
 	}
 
-	cout4 << "Leaving DeviceClass delete_dev" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass delete_dev" << std::endl;
 }
 
 
@@ -864,20 +864,20 @@ void DeviceClass::delete_dev(long idx,Tango::Util *tg,PortableServer::POA_ptr r_
 #if defined _TG_WINDOWS_
 void DeviceClass::register_signal(long signo)
 {
-	cout4 << "DeviceClass::register_signal() arrived for signal " << signo << std::endl;
+	TANGO_LOG_DEBUG << "DeviceClass::register_signal() arrived for signal " << signo << std::endl;
 
 	DServerSignal::instance()->register_class_signal(signo,this);
 
-	cout4 << "Leaving DeviceClass::register_signal method()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::register_signal method()" << std::endl;
 }
 #else
 void DeviceClass::register_signal(long signo,bool handler)
 {
-	cout4 << "DeviceClass::register_signal() arrived for signal " << signo << std::endl;
+	TANGO_LOG_DEBUG << "DeviceClass::register_signal() arrived for signal " << signo << std::endl;
 
 	DServerSignal::instance()->register_class_signal(signo,handler,this);
 
-	cout4 << "Leaving DeviceClass::register_signal method()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::register_signal method()" << std::endl;
 }
 #endif
 
@@ -898,11 +898,11 @@ void DeviceClass::register_signal(long signo,bool handler)
 
 void DeviceClass::unregister_signal(long signo)
 {
-	cout4 << "DeviceClass::unregister_signal() arrived for signal " << signo << std::endl;
+	TANGO_LOG_DEBUG << "DeviceClass::unregister_signal() arrived for signal " << signo << std::endl;
 
 	DServerSignal::instance()->unregister_class_signal(signo,this);
 
-	cout4 << "Leaving DeviceClass::unregister_signal method()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::unregister_signal method()" << std::endl;
 }
 
 //+-----------------------------------------------------------------------------------------------------------------
@@ -922,9 +922,9 @@ void DeviceClass::unregister_signal(long signo)
 
 void DeviceClass::signal_handler(long signo)
 {
-	cout4 << "DeviceClass::signal_handler() arrived for signal " << signo << std::endl;
+	TANGO_LOG_DEBUG << "DeviceClass::signal_handler() arrived for signal " << signo << std::endl;
 
-	cout4 << "Leaving DeviceClass::signal_handler method()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::signal_handler method()" << std::endl;
 }
 
 
@@ -947,7 +947,7 @@ void DeviceClass::signal_handler(long signo)
 
 void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 {
-	cout4 << "DeviceClass::export_device() arrived" << std::endl;
+	TANGO_LOG_DEBUG << "DeviceClass::export_device() arrived" << std::endl;
 
 	Device_var d;
 
@@ -962,7 +962,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 //
 
 		std::string &dev_name = dev->get_name_lower();
-		cout4 << "DeviceClass::export_device::dev_name=" << dev_name << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::export_device::dev_name=" << dev_name << std::endl;
 		if ((get_device_factory_done() == false) && (dev_name.find("dserver") != 0))
 			dev->get_dev_monitor().get_monitor();
 
@@ -1075,7 +1075,7 @@ void DeviceClass::export_device(DeviceImpl *dev,const char *corba_obj_name)
 	dev->set_exported_flag(true);
 	dev->enable_intr_change_ev();
 
-	cout4 << "Leaving DeviceClass::export_device method()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::export_device method()" << std::endl;
 }
 
 
@@ -1098,7 +1098,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,const std::string &c
 
 	std::string command_lower(command);
 
-	cout4 << "Entering DeviceClass::command_handler() method" << std::endl;
+	TANGO_LOG_DEBUG << "Entering DeviceClass::command_handler() method" << std::endl;
 
 	std::transform(command_lower.begin(),command_lower.end(),command_lower.begin(),::tolower);
 
@@ -1160,7 +1160,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,const std::string &c
 	if (found == false)
 	{
 
-		cout3 << "DeviceClass::command_handler(): command " << command << " not found in class/device command" << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::command_handler(): command " << command << " not found in class/device command" << std::endl;
 
 		Command *def_cmd = get_default_command();
 		if (def_cmd != NULL)
@@ -1211,7 +1211,7 @@ CORBA::Any *DeviceClass::command_handler(DeviceImpl *device,const std::string &c
 		}
 	}
 
-	cout4 << "Leaving DeviceClass::command_handler() method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceClass::command_handler() method" << std::endl;
 	return ret;
 }
 
@@ -1454,7 +1454,7 @@ bool DeviceClass::is_command_allowed(const char *cmd)
 
 void DeviceClass::get_mcast_event(DServer *dserv)
 {
-	cout4 << "Entering DeviceClass::get_mcast_event() method" << std::endl;
+	TANGO_LOG_DEBUG << "Entering DeviceClass::get_mcast_event() method" << std::endl;
 	std::vector<std::string> m_cast;
 
 	for (unsigned int i = 0;i < device_list.size();++i)
@@ -1499,7 +1499,7 @@ Command &DeviceClass::get_cmd_by_name(const std::string &cmd_name)
 
 	if (pos == command_list.end())
 	{
-		cout3 << "DeviceClass::get_cmd_by_name throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::get_cmd_by_name throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << cmd_name << " command not found" << std::ends;
@@ -1529,7 +1529,7 @@ Pipe &DeviceClass::get_pipe_by_name(const std::string &pipe_name,const std::stri
     std::map<std::string,std::vector<Pipe *> >::iterator ite = ext->dev_pipe_list.find(dev_name);
     if (ite == ext->dev_pipe_list.end())
     {
-		cout3 << "DeviceClass::get_pipe_by_name throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::get_pipe_by_name throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << dev_name << " device not found in pipe map" << std::ends;
@@ -1550,7 +1550,7 @@ Pipe &DeviceClass::get_pipe_by_name(const std::string &pipe_name,const std::stri
 
 	if (pos == ite->second.end())
 	{
-		cout3 << "DeviceClass::get_pipe_by_name throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::get_pipe_by_name throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << pipe_name << " pipe not found" << std::ends;
@@ -1588,7 +1588,7 @@ void DeviceClass::remove_command(const std::string &cmd_name)
 
 	if (pos == command_list.end())
 	{
-		cout3 << "DeviceClass::get_cmd_by_name throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::get_cmd_by_name throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << cmd_name << " command not found" << std::ends;
@@ -1699,7 +1699,7 @@ std::vector<Pipe *> &DeviceClass::get_pipe_list(const std::string &dev_name)
     std::map<std::string,std::vector<Pipe *> >::iterator ite = ext->dev_pipe_list.find(local_dev_name);
     if (ite == ext->dev_pipe_list.end())
     {
-		cout3 << "DeviceClass::get_pipe_by_name throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "DeviceClass::get_pipe_by_name throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << dev_name << " device not found in pipe map" << std::ends;

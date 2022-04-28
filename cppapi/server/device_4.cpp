@@ -131,7 +131,7 @@ Tango::DevAttrHistory_4 *Device_4Impl::read_attribute_history_4(const char* name
 	TangoMonitor &mon = get_poll_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_4Impl::read_attribute_history_4 arrived, requested history depth = " << n << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::read_attribute_history_4 arrived, requested history depth = " << n << std::endl;
 
 //
 // Record operation request in black box
@@ -225,7 +225,7 @@ Tango::DevAttrHistory_4 *Device_4Impl::read_attribute_history_4(const char* name
 	else
 		polled_attr->get_attr_history(n,back,att.get_data_type(),att.get_data_format());
 
-	cout4 << "Leaving Device_4Impl::read_attribute_history_4 method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_4Impl::read_attribute_history_4 method" << std::endl;
 	return back;
 
 }
@@ -250,7 +250,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 	TangoMonitor &mon = get_poll_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_4Impl::command_inout_history_4 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::command_inout_history_4 arrived" << std::endl;
 	Tango::DevCmdHistory_4 *back = NULL;
 
 	std::string cmd_str(command);
@@ -426,7 +426,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 		polled_cmd->get_cmd_history(n,back,cmd_type);
 	}
 
-	cout4 << "Leaving Device_4Impl::command_inout_history_4 method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_4Impl::command_inout_history_4 method" << std::endl;
 	return back;
 }
 
@@ -445,7 +445,7 @@ CORBA::Any *Device_4Impl::command_inout_4(const char *in_cmd,
 					  Tango::DevSource source,
 					  const Tango::ClntIdent &cl_id)
 {
-	cout4 << "Device_4Impl::command_inout_4 arrived, source = " << source << ", command = " << in_cmd << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::command_inout_4 arrived, source = " << source << ", command = " << in_cmd << std::endl;
 
 //
 // Record operation request in black box
@@ -492,7 +492,7 @@ CORBA::Any *Device_4Impl::command_inout_4(const char *in_cmd,
 Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVarStringArray& names,
 					     Tango::DevSource source,const Tango::ClntIdent &cl_id)
 {
-	cout4 << "Device_4Impl::read_attributes_4 arrived for dev " << get_name() << ", att[0] = " << names[0] << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::read_attributes_4 arrived for dev " << get_name() << ", att[0] = " << names[0] << std::endl;
 
 //
 // Record operation request in black box
@@ -754,7 +754,7 @@ void Device_4Impl::write_attributes_4(const Tango::AttributeValueList_4 & values
 									  const Tango::ClntIdent &cl_id)
 {
 	AutoTangoMonitor sync(this,true);
-	cout4 << "Device_4Impl::write_attributes_4 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::write_attributes_4 arrived" << std::endl;
 
 //
 // Record operation request in black box
@@ -795,7 +795,7 @@ void Device_4Impl::set_attribute_config_4(const Tango::AttributeConfigList_3& ne
 										  const Tango::ClntIdent &cl_id)
 {
 	AutoTangoMonitor sync(this,true);
-	cout4 << "Device_4Impl::set_attribute_config_4 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::set_attribute_config_4 arrived" << std::endl;
 
 //
 // The attribute conf. is protected by two monitors. One protects access between
@@ -843,7 +843,7 @@ Tango::AttributeValueList_4* Device_4Impl::write_read_attributes_4(const Tango::
 									  const Tango::ClntIdent &cl_id)
 {
 	AutoTangoMonitor sync(this,true);
-	cout4 << "Device_4Impl::write_read_attributes_4 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_4Impl::write_read_attributes_4 arrived" << std::endl;
 
 //
 // Record operation request in black box

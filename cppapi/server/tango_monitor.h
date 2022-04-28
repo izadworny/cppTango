@@ -121,7 +121,7 @@ inline void TangoMonitor::get_monitor()
 
 	omni_mutex_lock synchronized(*this);
 
-	cout4 << "In get_monitor() " << name << ", thread = " << th->id() << ", ctr = " << locked_ctr << std::endl;
+	TANGO_LOG_DEBUG << "In get_monitor() " << name << ", thread = " << th->id() << ", ctr = " << locked_ctr << std::endl;
 
 	if (locked_ctr == 0)
 	{
@@ -131,13 +131,13 @@ inline void TangoMonitor::get_monitor()
 	{
 		while(locked_ctr > 0)
 		{
-			cout4 << "Thread " << th->id() << ": waiting !!" << std::endl;
+			TANGO_LOG_DEBUG << "Thread " << th->id() << ": waiting !!" << std::endl;
             int interupted;
 
 			interupted = wait(_timeout);
 			if (interupted == false)
 			{
-				cout4 << "TIME OUT for thread " << th->id() << std::endl;
+				TANGO_LOG_DEBUG << "TIME OUT for thread " << th->id() << std::endl;
 				TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Not able to acquire serialization (dev, class or process) monitor");
 			}
 		}
@@ -145,7 +145,7 @@ inline void TangoMonitor::get_monitor()
 	}
 	else
 	{
-		cout4 << "owner_thread !!" << std::endl;
+		TANGO_LOG_DEBUG << "owner_thread !!" << std::endl;
 	}
 
 	locked_ctr++;
@@ -168,14 +168,14 @@ inline void TangoMonitor::rel_monitor()
 	omni_thread *th = omni_thread::self();
 	omni_mutex_lock synchronized(*this);
 
-	cout4 << "In rel_monitor() " << name << ", ctr = " << locked_ctr << ", thread = " << th->id() << std::endl;
+	TANGO_LOG_DEBUG << "In rel_monitor() " << name << ", ctr = " << locked_ctr << ", thread = " << th->id() << std::endl;
 	if ((locked_ctr == 0) || (th != locking_thread))
 		return;
 
 	locked_ctr--;
 	if (locked_ctr == 0)
 	{
-		cout4 << "Signalling !" << std::endl;
+		TANGO_LOG_DEBUG << "Signalling !" << std::endl;
 		locking_thread = NULL;
 		cond.signal();
 	}

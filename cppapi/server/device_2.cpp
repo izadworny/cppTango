@@ -125,7 +125,7 @@ CORBA::Any *Device_2Impl::command_inout_2(const char *in_cmd,
 					  const CORBA::Any &in_data,
 					  Tango::DevSource source)
 {
-	cout4 << "Device_2Impl::command_inout_2 arrived, source = " << source << ", command = " << in_cmd << std::endl;
+	TANGO_LOG_DEBUG << "Device_2Impl::command_inout_2 arrived, source = " << source << ", command = " << in_cmd << std::endl;
 	PollObj *polled_cmd = NULL;
 	bool polling_failed = false;
 	CORBA::Any *ret = NULL;
@@ -366,7 +366,7 @@ CORBA::Any *Device_2Impl::command_inout_2(const char *in_cmd,
 
 		if (source == Tango::CACHE)
 		{
-			cout4 << "Device_2Impl: Returning data from polling buffer" << std::endl;
+			TANGO_LOG_DEBUG << "Device_2Impl: Returning data from polling buffer" << std::endl;
 			if ((state_cmd == true) || (status_cmd == true))
 			{
 				long vers = get_dev_idl_version();
@@ -394,7 +394,7 @@ CORBA::Any *Device_2Impl::command_inout_2(const char *in_cmd,
 		{
 			if (polling_failed == false)
 			{
-				cout4 << "Device_2Impl: Returning data from polling buffer" << std::endl;
+				TANGO_LOG_DEBUG << "Device_2Impl: Returning data from polling buffer" << std::endl;
 				if ((state_cmd == true) || (status_cmd == true))
 				{
 					long vers = get_dev_idl_version();
@@ -447,7 +447,7 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 {
 //	AutoTangoMonitor sync(this);
 
-	cout4 << "Device_2Impl::read_attributes_2 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_2Impl::read_attributes_2 arrived" << std::endl;
 
 	bool att_in_fault = false;
 	bool polling_failed = false;
@@ -910,7 +910,7 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 		}
 		else
 		{
-			cout4 << "Device_2Impl: Returning attribute(s) value from polling buffer" << std::endl;
+			TANGO_LOG_DEBUG << "Device_2Impl: Returning attribute(s) value from polling buffer" << std::endl;
 			//return back;
 		}
 	}
@@ -949,7 +949,7 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 
 Tango::DevCmdInfoList_2 *Device_2Impl::command_list_query_2()
 {
-	cout4 << "Device_2Impl::command_list_query_2 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_2Impl::command_list_query_2 arrived" << std::endl;
 
 //
 // Record operation request in black box
@@ -964,7 +964,7 @@ Tango::DevCmdInfoList_2 *Device_2Impl::command_list_query_2()
 	long nb_cmd_class = device_class->get_command_list().size();
 	long nb_cmd_dev = get_local_command_list().size();
 	long nb_cmd = nb_cmd_class + nb_cmd_dev;
-	cout4 << nb_cmd << " command(s) for device" << std::endl;
+	TANGO_LOG_DEBUG << nb_cmd << " command(s) for device" << std::endl;
 	Tango::DevCmdInfoList_2 *back = NULL;
 
 	try
@@ -1030,7 +1030,7 @@ Tango::DevCmdInfoList_2 *Device_2Impl::command_list_query_2()
 // Return to caller
 //
 
-	cout4 << "Leaving Device_2Impl::command_list_query_2" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_2Impl::command_list_query_2" << std::endl;
 	return back;
 }
 
@@ -1053,7 +1053,7 @@ Tango::DevCmdInfoList_2 *Device_2Impl::command_list_query_2()
 
 Tango::DevCmdInfo_2 *Device_2Impl::command_query_2(const char *command)
 {
-	cout4 << "DeviceImpl::command_query_2 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "DeviceImpl::command_query_2 arrived" << std::endl;
 
 	Tango::DevCmdInfo_2 *back = NULL;
 	std::string cmd(command);
@@ -1133,7 +1133,7 @@ Tango::DevCmdInfo_2 *Device_2Impl::command_query_2(const char *command)
 	else
 	{
 		delete back;
-		cout3 << "Device_2Impl::command_query_2(): command " << command << " not found" << std::endl;
+		TANGO_LOG_DEBUG << "Device_2Impl::command_query_2(): command " << command << " not found" << std::endl;
 
 //
 // throw an exception to client
@@ -1149,7 +1149,7 @@ Tango::DevCmdInfo_2 *Device_2Impl::command_query_2(const char *command)
 // Return to caller
 //
 
-	cout4 << "Leaving Device_2Impl::command_query_2" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_2Impl::command_query_2" << std::endl;
 	return back;
 }
 
@@ -1179,7 +1179,7 @@ Tango::AttributeConfigList_2 *Device_2Impl::get_attribute_config_2(const Tango::
 	TangoMonitor &mon = get_att_conf_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_2Impl::get_attribute_config_2 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_2Impl::get_attribute_config_2 arrived" << std::endl;
 
 	long nb_attr = names.length();
 	Tango::AttributeConfigList_2 *back = NULL;
@@ -1267,7 +1267,7 @@ Tango::AttributeConfigList_2 *Device_2Impl::get_attribute_config_2(const Tango::
 // Return to caller
 //
 
-	cout4 << "Leaving Device_2Impl::get_attribute_config_2" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_2Impl::get_attribute_config_2" << std::endl;
 
 	return back;
 }
@@ -1293,7 +1293,7 @@ Tango::DevCmdHistoryList *Device_2Impl::command_inout_history_2(const char* comm
 	TangoMonitor &mon = get_poll_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_2Impl::command_inout_history_2 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_2Impl::command_inout_history_2 arrived" << std::endl;
 	Tango::DevCmdHistoryList *back = NULL;
 
 	std::string cmd_str(command);
@@ -1455,7 +1455,7 @@ Tango::DevCmdHistoryList *Device_2Impl::command_inout_history_2(const char* comm
 	else
 		polled_cmd->get_cmd_history(n,back);
 
-	cout4 << "Leaving Device_2Impl::command_inout_history_2 method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_2Impl::command_inout_history_2 method" << std::endl;
 	return back;
 }
 
@@ -1481,7 +1481,7 @@ Tango::DevAttrHistoryList *Device_2Impl::read_attribute_history_2(const char* na
 	TangoMonitor &mon = get_poll_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_2Impl::read_attribute_history_2 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_2Impl::read_attribute_history_2 arrived" << std::endl;
 
 //
 // Record operation request in black box
@@ -1578,7 +1578,7 @@ Tango::DevAttrHistoryList *Device_2Impl::read_attribute_history_2(const char* na
 		delete back_3;
 	}
 
-	cout4 << "Leaving Device_2Impl::command_inout_history_2 method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_2Impl::command_inout_history_2 method" << std::endl;
 	return back;
 }
 

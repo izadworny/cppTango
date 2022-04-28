@@ -66,7 +66,7 @@ DbServerCache::DbServerCache(Database *db,const std::string &ds_name,const std::
 	}
 	catch (Tango::DevFailed &)
 	{
-		cout3 << "Got an exception while getting cache data from database !!" << std::endl;
+		TANGO_LOG_DEBUG << "Got an exception while getting cache data from database !!" << std::endl;
 		throw;
 	}
 
@@ -510,9 +510,9 @@ void DbServerCache::get_obj_prop(DevVarStringArray *in_param,PropEltIdx &obj,boo
 	std::snprintf(n_prop_str, sizeof(n_prop_str),"%d",found_prop);
 	ret_obj_prop[1] = Tango::string_dup(n_prop_str);
 
-//	cout4 << "DbCache --> Data returned for a get_obj_property for object " << (*in_param)[0] << std::endl;
+//	TANGO_LOG_DEBUG << "DbCache --> Data returned for a get_obj_property for object " << (*in_param)[0] << std::endl;
 //	for (unsigned int ll=0;ll< ret_obj_prop.length();ll++)
-//		cout4 << "    DbCache --> Returned std::string = " << ret_obj_prop[ll] << std::endl;
+//		TANGO_LOG_DEBUG << "    DbCache --> Returned std::string = " << ret_obj_prop[ll] << std::endl;
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -722,9 +722,9 @@ const DevVarStringArray *DbServerCache::get_class_att_property(DevVarStringArray
 		TANGO_THROW_EXCEPTION(DB_ClassNotFoundInCache, o.str());
 	}
 
-//	cout4 << "DbCache --> Returned data for a get_class_att_property for class " << (*in_param)[0] << std::endl;
+//	TANGO_LOG_DEBUG << "DbCache --> Returned data for a get_class_att_property for class " << (*in_param)[0] << std::endl;
 //	for (unsigned int ll=0;ll< ret_obj_att_prop.length();ll++)
-//		cout4 << "    DbCache --> Returned object att prop = " << ret_obj_att_prop[ll] << std::endl;
+//		TANGO_LOG_DEBUG << "    DbCache --> Returned object att prop = " << ret_obj_att_prop[ll] << std::endl;
 
 	return &ret_obj_att_prop;
 }
@@ -818,9 +818,9 @@ const DevVarStringArray *DbServerCache::get_dev_att_property(DevVarStringArray *
 		}
 	}
 
-//	cout4 << "DbCache --> Returned data for a get_dev_att_property for device " << (*in_param)[0] << std::endl;
+//	TANGO_LOG_DEBUG << "DbCache --> Returned data for a get_dev_att_property for device " << (*in_param)[0] << std::endl;
 //	for (unsigned int ll=0;ll< ret_obj_att_prop.length();ll++)
-//		cout4 << "    DbCache --> Returned object att prop = " << ret_obj_att_prop[ll] << std::endl;
+//		TANGO_LOG_DEBUG << "    DbCache --> Returned object att prop = " << ret_obj_att_prop[ll] << std::endl;
 
 	return &ret_obj_att_prop;
 }
@@ -1512,9 +1512,9 @@ const DevVarStringArray *DbServerCache::get_class_pipe_property(DevVarStringArra
 		TANGO_THROW_EXCEPTION(DB_ClassNotFoundInCache, o.str());
 	}
 
-//	cout4 << "DbCache --> Returned data for a get_class_pipe_property for class " << (*in_param)[0] << std::endl;
+//	TANGO_LOG_DEBUG << "DbCache --> Returned data for a get_class_pipe_property for class " << (*in_param)[0] << std::endl;
 //	for (unsigned int ll=0;ll< ret_obj_pipe_prop.length();ll++)
-//		cout4 << "    DbCache --> Returned object pipe prop = " << ret_obj_pipe_prop[ll] << std::endl;
+//		TANGO_LOG_DEBUG << "    DbCache --> Returned object pipe prop = " << ret_obj_pipe_prop[ll] << std::endl;
 
 	return &ret_obj_pipe_prop;
 }
@@ -1620,9 +1620,9 @@ const DevVarStringArray *DbServerCache::get_dev_pipe_property(DevVarStringArray 
 		}
 	}
 
-//	cout4 << "DbCache --> Returned data for a get_dev_pipe_property for device " << (*in_param)[0] << std::endl;
+//	TANGO_LOG_DEBUG << "DbCache --> Returned data for a get_dev_pipe_property for device " << (*in_param)[0] << std::endl;
 //	for (unsigned int ll=0;ll< ret_obj_pipe_prop.length();ll++)
-//		cout4 << "    DbCache --> Returned object pipe prop = " << ret_obj_pipe_prop[ll] << std::endl;
+//		TANGO_LOG_DEBUG << "    DbCache --> Returned object pipe prop = " << ret_obj_pipe_prop[ll] << std::endl;
 
 	return &ret_obj_pipe_prop;
 }

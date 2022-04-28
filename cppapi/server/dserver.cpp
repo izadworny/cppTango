@@ -133,7 +133,7 @@ void DServer::init_device()
 		delete_devices();
 	}
 
-	cout3 << "DServer::DSserver() create dserver " << device_name << std::endl;
+	TANGO_LOG_DEBUG << "DServer::DSserver() create dserver " << device_name << std::endl;
 
 	bool class_factory_done = false;
 	unsigned long i = 0;
@@ -240,7 +240,7 @@ void DServer::init_device()
 					for (int l = 0;l < nb_dev;l++)
 						dev_list[l] = na.value_string[l].c_str();
 
-					cout4 << dev_list.length() << " device(s) defined" << std::endl;
+					TANGO_LOG_DEBUG << dev_list.length() << " device(s) defined" << std::endl;
 
 //
 // Create all device(s) - Device creation creates device pipe(s)
@@ -435,7 +435,7 @@ void DServer::server_init_hook()
     {
         for (DeviceImpl *device : dclass->get_device_list())
         {
-            cout4 << "Device " << device->get_name_lower() << " executes init_server_hook" << std::endl;
+            TANGO_LOG_DEBUG << "Device " << device->get_name_lower() << " executes init_server_hook" << std::endl;
             try
             {
                 device->server_init_hook();
@@ -590,7 +590,7 @@ Tango::DevVarStringArray *DServer::query_class()
 {
 	NoSyncModelTangoMonitor sync(this);
 
-	cout4 << "In query_class command" << std::endl;
+	TANGO_LOG_DEBUG << "In query_class command" << std::endl;
 
 	long nb_class = class_list.size();
 	Tango::DevVarStringArray *ret = NULL;
@@ -630,7 +630,7 @@ Tango::DevVarStringArray *DServer::query_device()
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In query_device command" << std::endl;
+	TANGO_LOG_DEBUG << "In query_device command" << std::endl;
 
 	long nb_class = class_list.size();
 	Tango::DevVarStringArray *ret = NULL;
@@ -681,7 +681,7 @@ Tango::DevVarStringArray *DServer::query_sub_device()
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In query_sub_device command" << std::endl;
+	TANGO_LOG_DEBUG << "In query_sub_device command" << std::endl;
 
 	Tango::DevVarStringArray *ret;
 
@@ -711,7 +711,7 @@ void DServer::restart(const std::string &d_name)
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In restart method" << std::endl;
+	TANGO_LOG_DEBUG << "In restart method" << std::endl;
 
 //
 // Change device name to lower case letters and remove extra field in name in case of (#dbase=xxx or protocol specif)
@@ -757,7 +757,7 @@ void DServer::restart(const std::string &d_name)
 
 	if ((i == nb_class) && (ite == ite_end))
 	{
-		cout3 << "Device " << d_name << " not found in server !" << std::endl;
+		TANGO_LOG_DEBUG << "Device " << d_name << " not found in server !" << std::endl;
 		TangoSys_OMemStream o;
 		o << "Device " << d_name << " not found" << std::ends;
 		TANGO_THROW_EXCEPTION(API_DeviceNotFound, o.str());
@@ -971,7 +971,7 @@ void DServer::restart(const std::string &d_name)
 	}
 	if (i == d_list.size())
 	{
-		cout3 << "Not able to find the new device" << std::endl;
+		TANGO_LOG_DEBUG << "Not able to find the new device" << std::endl;
 		TangoSys_OMemStream o;
 		o << "Not able to find the new device" << std::ends;
 		TANGO_THROW_EXCEPTION(API_DeviceNotFound, o.str());
@@ -1019,7 +1019,7 @@ void DServer::restart(const std::string &d_name)
 	{
 		if (di.has_changed(new_dev) == true)
 		{
-			cout4 << "Device interface has changed !!!!!!!!!!!!!!!!!!!" << std::endl;
+			TANGO_LOG_DEBUG << "Device interface has changed !!!!!!!!!!!!!!!!!!!" << std::endl;
 
 			Device_5Impl *dev_5 = static_cast<Device_5Impl *>(new_dev);
 			DevCmdInfoList_2 *cmds_list = dev_5->command_list_query_2();
@@ -1194,7 +1194,7 @@ Tango::DevVarStringArray *DServer::query_class_prop(std::string &class_name)
 {
 	NoSyncModelTangoMonitor sync(this);
 
-	cout4 << "In query_class_prop command" << std::endl;
+	TANGO_LOG_DEBUG << "In query_class_prop command" << std::endl;
 
 	long nb_class = class_list.size();
 	Tango::DevVarStringArray *ret = NULL;
@@ -1262,7 +1262,7 @@ Tango::DevVarStringArray *DServer::query_dev_prop(std::string &class_name)
 {
 	NoSyncModelTangoMonitor sync(this);
 
-	cout4 << "In query_dev_prop command" << std::endl;
+	TANGO_LOG_DEBUG << "In query_dev_prop command" << std::endl;
 
 	long nb_class = class_list.size();
 	Tango::DevVarStringArray *ret = NULL;
@@ -1331,7 +1331,7 @@ void DServer::kill()
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In kill command" << std::endl;
+	TANGO_LOG_DEBUG << "In kill command" << std::endl;
 
 //
 // Create the thread and start it
@@ -1345,7 +1345,7 @@ void DServer::kill()
 
 void *KillThread::run_undetached(TANGO_UNUSED(void *ptr))
 {
-	cout4 << "In the killer thread !!!" << std::endl;
+	TANGO_LOG_DEBUG << "In the killer thread !!!" << std::endl;
 
 	is_tango_library_thread = true;
 
@@ -1373,7 +1373,7 @@ void *KillThread::run_undetached(TANGO_UNUSED(void *ptr))
 
 void DServer::create_cpp_class(const char *cl_name,const char *par_name)
 {
-	cout4 << "In DServer::create_cpp_class for " << cl_name <<  ", " << par_name << std::endl;
+	TANGO_LOG_DEBUG << "In DServer::create_cpp_class for " << cl_name <<  ", " << par_name << std::endl;
 	std::string class_name(cl_name);
 	std::string lib_name = class_name;
 
@@ -1397,13 +1397,13 @@ void DServer::create_cpp_class(const char *cl_name,const char *par_name)
 		TANGO_THROW_EXCEPTION(API_ClassNotFound, o.str());
 	}
 
-	cout4 << "GetModuleHandle is a success" << std::endl;
+	TANGO_LOG_DEBUG << "GetModuleHandle is a success" << std::endl;
 
 	std::string sym_name("_create_");
 	sym_name = sym_name + class_name;
 	sym_name = sym_name + "_class";
 
-	cout4 << "Symbol name = " << sym_name << std::endl;
+	TANGO_LOG_DEBUG << "Symbol name = " << sym_name << std::endl;
 	FARPROC proc;
 
 	if ((proc = GetProcAddress(mod,sym_name.c_str())) == NULL)
@@ -1413,7 +1413,7 @@ void DServer::create_cpp_class(const char *cl_name,const char *par_name)
 
 		TANGO_THROW_EXCEPTION(API_ClassNotFound, o.str());
 	}
-	cout4 << "GetProcAddress is a success" << std::endl;
+	TANGO_LOG_DEBUG << "GetProcAddress is a success" << std::endl;
 
 	Cpp_creator_ptr mt = (Cpp_creator_ptr)proc;
 #else
@@ -1429,7 +1429,7 @@ void DServer::create_cpp_class(const char *cl_name,const char *par_name)
 		TANGO_THROW_EXCEPTION(API_ClassNotFound, o.str());
 	}
 
-	cout4 << "dlopen is a success" << std::endl;
+	TANGO_LOG_DEBUG << "dlopen is a success" << std::endl;
 
 	void *sym;
 
@@ -1437,7 +1437,7 @@ void DServer::create_cpp_class(const char *cl_name,const char *par_name)
 	sym_name = sym_name + class_name;
 	sym_name = sym_name + "_class";
 
-	cout4 << "Symbol name = " << sym_name << std::endl;
+	TANGO_LOG_DEBUG << "Symbol name = " << sym_name << std::endl;
 
 	sym = dlsym(lib_ptr,sym_name.c_str());
 	if (sym == NULL)
@@ -1448,7 +1448,7 @@ void DServer::create_cpp_class(const char *cl_name,const char *par_name)
 		TANGO_THROW_EXCEPTION(API_ClassNotFound, o.str());
 	}
 
-	cout4 << "dlsym is a success" << std::endl;
+	TANGO_LOG_DEBUG << "dlsym is a success" << std::endl;
 
 	Cpp_creator_ptr mt = (Cpp_creator_ptr)sym;
 #endif /* _TG_WINDOWS_ */
@@ -1961,7 +1961,7 @@ void DServer::mem_devices_interface(std::map<std::string,DevIntr> &_map)
 				if (event_supplier_zmq->any_dev_intr_client(devs[loop]) == true &&
 					devs[loop]->get_dev_idl_version() >= MIN_IDL_DEV_INTR)
 				{
-					cout4 << "Memorize dev interface for device " << devs[loop]->get_name() << std::endl;
+					TANGO_LOG_DEBUG << "Memorize dev interface for device " << devs[loop]->get_name() << std::endl;
 
 					DevIntr di;
 					di.get_interface(devs[loop]);
@@ -1999,7 +1999,7 @@ void DServer::changed_devices_interface(std::map<std::string,DevIntr> &_map)
 		DeviceImpl *dev = tg->get_device_by_name(pos->first);
 		if (pos->second.has_changed(dev) == true)
 		{
-			cout4 << "Device interface for device " << dev->get_name() << " has changed !!!!!!!!!!!!!!!!!!!" << std::endl;
+			TANGO_LOG_DEBUG << "Device interface for device " << dev->get_name() << " has changed !!!!!!!!!!!!!!!!!!!" << std::endl;
 
 			Device_5Impl *dev_5 = static_cast<Device_5Impl *>(dev);
 			DevCmdInfoList_2 *cmds_list = dev_5->command_list_query_2();

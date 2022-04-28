@@ -72,7 +72,7 @@ PolledDeviceCmd::PolledDeviceCmd(const char *name,
 CORBA::Any *PolledDeviceCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 
-	cout4 << "PolledDevice::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "PolledDevice::execute(): arrived " << std::endl;
 
 //
 // Call the device method and return to caller
@@ -112,7 +112,7 @@ DevPollStatusCmd::DevPollStatusCmd(const char *name,
 CORBA::Any *DevPollStatusCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "DevPollStatus::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "DevPollStatus::execute(): arrived " << std::endl;
 
 //
 // Extract the input string
@@ -124,7 +124,7 @@ CORBA::Any *DevPollStatusCmd::execute(DeviceImpl *device, const CORBA::Any &in_a
 		TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, "Imcompatible command argument type, expected type is : string");
 	}
 	std::string d_name(tmp_name);
-	cout4 << "Received string = " << d_name << std::endl;
+	TANGO_LOG_DEBUG << "Received string = " << d_name << std::endl;
 
 //
 // Call the device method and return to caller
@@ -163,7 +163,7 @@ AddObjPollingCmd::AddObjPollingCmd(const char *name,
 CORBA::Any *AddObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "AddObjPolling::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "AddObjPolling::execute(): arrived " << std::endl;
 
 //
 // Extract the input structure
@@ -219,7 +219,7 @@ UpdObjPollingPeriodCmd::UpdObjPollingPeriodCmd(const char *name,
 CORBA::Any *UpdObjPollingPeriodCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "UpdObjPollingPeriod::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "UpdObjPollingPeriod::execute(): arrived " << std::endl;
 
 //
 // Extract the input structure
@@ -275,7 +275,7 @@ RemObjPollingCmd::RemObjPollingCmd(const char *name,
 CORBA::Any *RemObjPollingCmd::execute(DeviceImpl *device, const CORBA::Any &in_any)
 {
 
-	cout4 << "RemObjPolling::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "RemObjPolling::execute(): arrived " << std::endl;
 
 //
 // Extract the input structure
@@ -328,7 +328,7 @@ StopPollingCmd::StopPollingCmd(const char *name,
 CORBA::Any *StopPollingCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 
-	cout4 << "StopPolling::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "StopPolling::execute(): arrived " << std::endl;
 
 //
 // Call the device method and return to caller
@@ -371,7 +371,7 @@ StartPollingCmd::StartPollingCmd(const char *name,
 CORBA::Any *StartPollingCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 
-	cout4 << "StartPolling::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "StartPolling::execute(): arrived " << std::endl;
 
 //
 // Call the device method and return to caller

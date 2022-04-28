@@ -661,7 +661,7 @@ void DevTestClass::command_factory()
 
 void DevTestClass::device_factory(const Tango::DevVarStringArray *devlist_ptr) {
   for (unsigned long i = 0;i < devlist_ptr->length();i++) {
-    cout4 << "Device name : " << (*devlist_ptr)[i] << std::endl;
+    TANGO_LOG_DEBUG << "Device name : " << (*devlist_ptr)[i] << std::endl;
 //
 // Create device and add it into the device list
 //

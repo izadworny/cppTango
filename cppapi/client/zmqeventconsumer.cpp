@@ -70,7 +70,7 @@ ZmqEventConsumer *ZmqEventConsumer::_instance = NULL;
 ZmqEventConsumer::ZmqEventConsumer(ApiUtil *ptr) : EventConsumer(ptr),
 omni_thread((void *)ptr),zmq_context(1),ctrl_socket_bound(false), nb_current_delay_event_requests(0)
 {
-	cout3 << "calling Tango::ZmqEventConsumer::ZmqEventConsumer() \n";
+	TANGO_LOG_DEBUG << "calling Tango::ZmqEventConsumer::ZmqEventConsumer() \n";
 	_instance = this;
 
 //
@@ -3417,12 +3417,12 @@ ReceivedFromAdmin ZmqEventConsumer::initialize_received_from_admin(const Tango::
 
     }
 
-    cout4 << "received_from_admin.event_name = " << result.event_name << std::endl;
+    TANGO_LOG_DEBUG << "received_from_admin.event_name = " << result.event_name << std::endl;
     if (result.channel_name.empty())
     {
         TANGO_THROW_API_EXCEPTION(EventSystemExcept, API_NotSupported, "Server did not send the channel name. The server is possibly too old. The event system is not initialized!");
     }
-    cout4 << "received_from_admin.channel_name = " << result.channel_name << std::endl;
+    TANGO_LOG_DEBUG << "received_from_admin.channel_name = " << result.channel_name << std::endl;
     return result;
 }
 

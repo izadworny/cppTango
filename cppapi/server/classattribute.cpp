@@ -149,7 +149,7 @@ MultiClassAttribute::~MultiClassAttribute()
 
 MultiClassAttribute::MultiClassAttribute()
 {
-	cout4 << "Entering MultiClassAttribute constructor" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiClassAttribute constructor" << std::endl;
 }
 
 //+-------------------------------------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ MultiClassAttribute::MultiClassAttribute()
 
 void MultiClassAttribute::init_class_attribute(const std::string &class_name,long base)
 {
-	cout4 << "Entering MultiClassAttribute::init_class_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiClassAttribute::init_class_attribute" << std::endl;
 	long i;
 
 	Tango::Util *tg = Tango::Util::instance();
@@ -269,10 +269,10 @@ void MultiClassAttribute::init_class_attribute(const std::string &class_name,lon
 
   	for (i = 0;i < nb_attr;i++)
 	{
-		cout4 << *(attr_list[i + base]) << std::endl;
+		TANGO_LOG_DEBUG << *(attr_list[i + base]) << std::endl;
   	}
 
-	cout4 << "Leaving MultiClassAttribute::init_class_attribute" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving MultiClassAttribute::init_class_attribute" << std::endl;
 }
 
 

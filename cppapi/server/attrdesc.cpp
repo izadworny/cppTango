@@ -68,7 +68,7 @@ fire_dr_event(false),ext(new AttrExt),cl_name("Attr")
 
 	if ((writable == Tango::WRITE) && (assoc_name != AssocWritNotSpec))
 	{
-		cout3 << "Attr::Attr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::Attr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -78,7 +78,7 @@ fire_dr_event(false),ext(new AttrExt),cl_name("Attr")
 
 	if ((writable == Tango::READ_WITH_WRITE) && (assoc_name == AssocWritNotSpec))
 	{
-		cout3 << "Attr::Attr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::Attr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -111,7 +111,7 @@ poll_period(0),ext(new AttrExt)
 
 	if ((writable == Tango::WRITE) && (assoc_name != AssocWritNotSpec))
 	{
-		cout3 << "Attr::Attr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::Attr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -121,7 +121,7 @@ poll_period(0),ext(new AttrExt)
 
 	if ((writable == Tango::READ_WITH_WRITE) && (assoc_name == AssocWritNotSpec))
 	{
-		cout3 << "Attr::Attr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::Attr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -200,7 +200,7 @@ void Attr::check_type()
 
 	if (unsuported == true)
 	{
-		cout3 << "Attr::check_type throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::check_type throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -635,7 +635,7 @@ void Attr::set_memorized()
 {
 	if (format != Tango::SCALAR)
 	{
-		cout3 << "Attr::set_memorized() throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::set_memorized() throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name;
@@ -645,7 +645,7 @@ void Attr::set_memorized()
 
 	if ((type == DEV_STATE) || (type == DEV_ENCODED))
 	{
-		cout3 << "Attr::set_memorized() throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::set_memorized() throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name;
@@ -655,7 +655,7 @@ void Attr::set_memorized()
 
 	if ((writable == READ) || (writable == READ_WITH_WRITE))
 	{
-		cout3 << "Attr::set_memorized() throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "Attr::set_memorized() throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name;
@@ -684,7 +684,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,long x)
 	format = Tango::SPECTRUM;
 	if (x <= 0)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -694,7 +694,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,long x)
 
 	if (type == DEV_ENCODED)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute: " << name << ": ";
@@ -710,7 +710,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,Tango::AttrWriteTy
 	format = Tango::SPECTRUM;
 	if (x <= 0)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -720,7 +720,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,Tango::AttrWriteTy
 
 	if (type == DEV_ENCODED)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute: " << name << ": ";
@@ -736,7 +736,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,long x,DispLevel l
 	format = Tango::SPECTRUM;
 	if (x <= 0)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -746,7 +746,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,long x,DispLevel l
 
 	if (type == DEV_ENCODED)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute: " << name << ": ";
@@ -762,7 +762,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,Tango::AttrWriteTy
 	format = Tango::SPECTRUM;
 	if (x <= 0)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -772,7 +772,7 @@ SpectrumAttr::SpectrumAttr(const char *att_name,long att_type,Tango::AttrWriteTy
 
 	if (type == DEV_ENCODED)
 	{
-		cout3 << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "SpectrumAttr::SpectrumAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute: " << name << ": ";
@@ -803,7 +803,7 @@ ImageAttr::ImageAttr(const char *att_name,long att_type,long x,long y)
 	format = Tango::IMAGE;
 	if (y <= 0)
 	{
-		cout3 << "ImageAttr::ImageAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "ImageAttr::ImageAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -820,7 +820,7 @@ ImageAttr::ImageAttr(const char *att_name,long att_type,Tango::AttrWriteType w_t
 	format = Tango::IMAGE;
 	if (y <= 0)
 	{
-		cout3 << "ImageAttr::ImageAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "ImageAttr::ImageAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -837,7 +837,7 @@ ImageAttr::ImageAttr(const char *att_name,long att_type,long x,
 	format = Tango::IMAGE;
 	if (y <= 0)
 	{
-		cout3 << "ImageAttr::ImageAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "ImageAttr::ImageAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";
@@ -854,7 +854,7 @@ ImageAttr::ImageAttr(const char *att_name,long att_type,Tango::AttrWriteType w_t
 	format = Tango::IMAGE;
 	if (y <= 0)
 	{
-		cout3 << "ImageAttr::ImageAttr throwing exception" << std::endl;
+		TANGO_LOG_DEBUG << "ImageAttr::ImageAttr throwing exception" << std::endl;
 		TangoSys_OMemStream o;
 
 		o << "Attribute : " << name << ": ";

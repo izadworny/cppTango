@@ -73,7 +73,7 @@ access_proxy(NULL),access_checked(false),access_service_defined(false),db_tg(NUL
 
 	check_tango_host(tango_host_env_var.c_str());
 
-	cout4 <<"Database::Database(): TANGO host " << host << " port " << port << std::endl;
+	TANGO_LOG_DEBUG <<"Database::Database(): TANGO host " << host << " port " << port << std::endl;
 
 	build_connection();
 
@@ -108,7 +108,7 @@ access_proxy(NULL),access_checked(false),access_service_defined(false),db_tg(NUL
 
 	delete [] tango_host_env_c_str;
 
-	cout4 <<"Database::Database(): TANGO host " << host << " port " << port << std::endl;
+	TANGO_LOG_DEBUG <<"Database::Database(): TANGO host " << host << " port " << port << std::endl;
 
 	build_connection();
 
@@ -1458,7 +1458,7 @@ void Database::get_device_attribute_property(std::string dev, DbData &db_data, D
 		}
 	}
 
-    cout4 << "Leaving get_device_attribute_property" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving get_device_attribute_property" << std::endl;
 	return;
 }
 
@@ -4981,7 +4981,7 @@ void Database::get_device_pipe_property(std::string dev, DbData &db_data, DbServ
 		}
 	}
 
-    cout4 << "Leaving get_device_pipe_property" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving get_device_pipe_property" << std::endl;
 	return;
 }
 

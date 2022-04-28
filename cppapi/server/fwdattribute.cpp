@@ -599,7 +599,7 @@ void FwdAttribute::convert_event_prop(const std::string &prop_str,double *ptr)
 
 void FwdAttribute::upd_att_config_base(const char *new_label)
 {
-	cout4 << "Entering FwdAttribute::upd_att_config_base" << std::endl;
+	TANGO_LOG_DEBUG << "Entering FwdAttribute::upd_att_config_base" << std::endl;
 
 //
 // Throw exception in case of fwd att wrongly configured or if the root device is not yet accessible
@@ -660,7 +660,7 @@ void FwdAttribute::upd_att_config(const Tango::AttributeConfig_5 &conf)
 			aie.writable_attr_name = fwd_att_name;
 		aile.push_back(aie);
 
-		cout4 << "Sending att conf to root device " << fwd_dev_name << std::endl;
+		TANGO_LOG_DEBUG << "Sending att conf to root device " << fwd_dev_name << std::endl;
 		dev->set_attribute_config(aile);
 	}
 }
@@ -685,7 +685,7 @@ void FwdAttribute::upd_att_config(const Tango::AttributeConfig_3 &conf)
 		aie.name = fwd_att_name;
 		aile.push_back(aie);
 
-		cout4 << "Sending att conf to root device " << fwd_dev_name << std::endl;
+		TANGO_LOG_DEBUG << "Sending att conf to root device " << fwd_dev_name << std::endl;
 		dev->set_attribute_config(aile);
 	}
 }
@@ -749,7 +749,7 @@ bool FwdAttribute::new_att_conf(const Tango::AttributeConfig_3 *conf3,const Tang
 
 void FwdAttribute::upd_att_label(const char *new_label)
 {
-	cout4 << "Entering FwdAttribute::upd_att_label() for att " << name << " with label set to " << new_label << std::endl;
+	TANGO_LOG_DEBUG << "Entering FwdAttribute::upd_att_label() for att " << name << " with label set to " << new_label << std::endl;
 	std::string old_label = label;
 
 //

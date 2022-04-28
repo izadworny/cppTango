@@ -245,7 +245,7 @@ FileDatabaseExt::~FileDatabaseExt() {}
 FileDatabase::FileDatabase(const std::string& file_name)
   :ext(new FileDatabaseExt)
 {
-	cout4 << "FILEDATABASE: FileDatabase constructor" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: FileDatabase constructor" << endl;
 	filename = file_name;
 
 	parse_res_file(filename);
@@ -253,7 +253,7 @@ FileDatabase::FileDatabase(const std::string& file_name)
 
 FileDatabase::~FileDatabase()
 {
-	cout4 << "FILEDATABASE: FileDatabase destructor" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: FileDatabase destructor" << endl;
 //	write_file();
 
 	std::vector<t_device*>::iterator i;
@@ -408,7 +408,7 @@ string FileDatabase :: read_word(ifstream& f)
      }
      if(CurrentChar==0 || CurrentChar=='\n')
      {
-		cout3 << "Error at line " << StartLine << endl;
+		TANGO_LOG_DEBUG << "Error at line " << StartLine << endl;
 		TangoSys_MemStream desc;
 		desc << "File database: Error in file at line " << StartLine;
 		desc << " in file " << filename << "." << ends;
@@ -471,7 +471,7 @@ string FileDatabase:: read_full_word(ifstream& f)
   		}
   		if( CurrentChar==0 || CurrentChar=='\n')
   		{
-			cout3 << "Warning: String too long at line " << StartLine << endl;
+			TANGO_LOG_DEBUG << "Warning: String too long at line " << StartLine << endl;
 			TangoSys_MemStream desc;
 			desc << "File database: String too long at line " << StartLine;
 			desc << " in file " << filename << "." << ends;
@@ -504,7 +504,7 @@ void FileDatabase:: CHECK_LEX(int lt,int le)
 {
    	if( lt!=le )
 	{
-		cout3 << "Error at line " << StartLine << endl;
+		TANGO_LOG_DEBUG << "Error at line " << StartLine << endl;
 		TangoSys_MemStream desc;
 		desc << "File database: Error in file at line " << StartLine;
 		desc << " in file " << filename << "." << ends;
@@ -572,7 +572,7 @@ std::string FileDatabase::parse_res_file(const std::string &file_name)
 	NextChar=' ';
 	CurrentChar=' ';
 
-	cout4 << "FILEDATABASE: entering parse_res_file" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering parse_res_file" << endl;
 
 /* OPEN THE FILE                  */
 
@@ -1178,7 +1178,7 @@ CORBA::Any*   FileDatabase :: DbGetDeviceProperty(CORBA::Any& send)
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
 
-	cout4 << "FILEDATABASE: entering DbGetDeviceProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbGetDeviceProperty" << endl;
 
 	send >>= data_in;
 
@@ -1264,7 +1264,7 @@ CORBA::Any*   FileDatabase :: DbGetDeviceProperty(CORBA::Any& send)
 
 CORBA::Any*   FileDatabase :: DbPutDeviceProperty(CORBA::Any& send)
 {
-	cout4 << "FILEDATABASE: entering DbPutDeviceProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbPutDeviceProperty" << endl;
 
 	CORBA::Any* any_ptr = new CORBA::Any;
 
@@ -1281,7 +1281,7 @@ CORBA::Any*   FileDatabase :: DbPutDeviceProperty(CORBA::Any& send)
 		it = find_if(m_server.devices.begin(), m_server.devices.end(), hasName<t_device>(string((*data_in)[index])));index++;
 		if (it == m_server.devices.end())
 		{
-			cout4 << "Nome device " << (*data_in)[0] << " non trovato. " << endl;
+			TANGO_LOG_DEBUG << "Nome device " << (*data_in)[0] << " non trovato. " << endl;
 			return any_ptr;
 		}
 		t_device& device_trovato = *(*(it));
@@ -1326,7 +1326,7 @@ CORBA::Any*   FileDatabase :: DbPutDeviceProperty(CORBA::Any& send)
 
 CORBA::Any*   FileDatabase :: DbDeleteDeviceProperty(CORBA::Any& send)
 {
-	cout4 << "FILEDATABASE: entering DbDeleteDeviceProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbDeleteDeviceProperty" << endl;
 
 	const Tango::DevVarStringArray* data_in = NULL;
 
@@ -1370,7 +1370,7 @@ CORBA::Any*   FileDatabase :: DbGetDeviceAttributeProperty(CORBA::Any& send)
 	CORBA::Any* any_ptr;
 	any_ptr = new CORBA::Any();
 
-	cout4 << "FILEDATABASE: entering DbGetDeviceAttributeProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbGetDeviceAttributeProperty" << endl;
 
 	send >>= data_in;
 
@@ -1452,7 +1452,7 @@ CORBA::Any*   FileDatabase :: DbPutDeviceAttributeProperty(CORBA::Any& send)
 
 	CORBA::Any* ret = new CORBA::Any;
 
-	cout4 << "FILEDATABASE: entering DbPutDeviceAttributeProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbPutDeviceAttributeProperty" << endl;
 
 	send >>= data_in;
 
@@ -1540,7 +1540,7 @@ CORBA::Any*   FileDatabase :: DbPutDeviceAttributeProperty(CORBA::Any& send)
 
 CORBA::Any*   FileDatabase :: DbDeleteDeviceAttributeProperty(CORBA::Any& send)
 {
-	cout4 << "FILEDATABASE: entering DbDeleteDeviceAttributeProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbDeleteDeviceAttributeProperty" << endl;
 
 	const Tango::DevVarStringArray* data_in = NULL;
 
@@ -1587,7 +1587,7 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
 
-	cout4 << "FILEDATABASE: entering DbGetClassProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbGetClassProperty" << endl;
 
 	send >>= data_in;
 
@@ -1658,7 +1658,7 @@ CORBA::Any*   FileDatabase :: DbGetClassProperty(CORBA::Any& send)
 
 	(*any_ptr) <<= data_out;
 
-	cout4 << "FILEDATABASE: ending DbGetClassProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: ending DbGetClassProperty" << endl;
 
 	return any_ptr;
 }
@@ -1671,7 +1671,7 @@ CORBA::Any*   FileDatabase :: DbPutClassProperty(CORBA::Any& send)
 	unsigned int n_properties=0;
 	int n_values=0;
 
-	cout4 << "FILEDATABASE: entering DbPutClassProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbPutClassProperty" << endl;
 
 	send >>= data_in;
 //	for(unsigned int n = 0; n < data_in->length(); n++)
@@ -1684,7 +1684,7 @@ CORBA::Any*   FileDatabase :: DbPutClassProperty(CORBA::Any& send)
 		it = find_if(m_server.classes.begin(), m_server.classes.end(), hasName<t_tango_class>(string((*data_in)[index])));index++;
 		if (it == m_server.classes.end())
 		{
-			cout4 << "Nome classe " << (*data_in)[0] << " non trovato. " << endl;
+			TANGO_LOG_DEBUG << "Nome classe " << (*data_in)[0] << " non trovato. " << endl;
 			return ret;
 		}
 		t_tango_class& classe_trovata = *(*(it));
@@ -1735,7 +1735,7 @@ CORBA::Any*   FileDatabase :: DbPutClassProperty(CORBA::Any& send)
 
 CORBA::Any*   FileDatabase :: DbDeleteClassProperty(CORBA::Any& send)
 {
-	cout4 << "FILEDATABASE: entering DbDeleteClassProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbDeleteClassProperty" << endl;
 
 	const Tango::DevVarStringArray* data_in = NULL;
 
@@ -1776,7 +1776,7 @@ CORBA::Any*   FileDatabase :: DbGetClassAttributeProperty(CORBA::Any& send)
 	Tango::DevVarStringArray* data_out = new DevVarStringArray;
 	const Tango::DevVarStringArray* data_in = NULL;
 
-	cout4 << "FILEDATABASE: entering DbGetClassAttributeProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbGetClassAttributeProperty" << endl;
 
 	send >>= data_in;
 
@@ -1790,7 +1790,7 @@ CORBA::Any*   FileDatabase :: DbGetClassAttributeProperty(CORBA::Any& send)
 	it = find_if(m_server.classes.begin(), m_server.classes.end(), hasName<t_tango_class>(string((*data_in)[0])));
 	if (it == m_server.classes.end())
 	{
-		cout4 << "Nome classe " << (*data_in)[0] << " non trovato. " << endl;
+		TANGO_LOG_DEBUG << "Nome classe " << (*data_in)[0] << " non trovato. " << endl;
 		data_out->length(index + num_attr*2);
 		for(unsigned int j = 0; j < num_attr; j++)
 		{
@@ -1859,7 +1859,7 @@ CORBA::Any*  FileDatabase :: DbPutClassAttributeProperty(CORBA::Any& send)
 	unsigned int num_vals = 0;
 	unsigned int index = 0;
 
-	cout4 << "FILEDATABASE: entering DbPutClassAttributeProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbPutClassAttributeProperty" << endl;
 
 	send >>= data_in;
 
@@ -1867,7 +1867,7 @@ CORBA::Any*  FileDatabase :: DbPutClassAttributeProperty(CORBA::Any& send)
 	it = find_if(m_server.classes.begin(), m_server.classes.end(), hasName<t_tango_class>(string((*data_in)[index])));index++;
 	if (it == m_server.classes.end())
 	{
-		cout4 << "FILEDATABASE:  DbPutClassAttributeProperty class " << string((*data_in)[0]) << " not found." << endl;
+		TANGO_LOG_DEBUG << "FILEDATABASE:  DbPutClassAttributeProperty class " << string((*data_in)[0]) << " not found." << endl;
 	} else {
 		sscanf((*data_in)[index],"%6u",&num_attr); index++;
 		t_tango_class& classe_trovata = *(*(it));
@@ -1961,7 +1961,7 @@ CORBA::Any*  FileDatabase :: DbGetDeviceList(CORBA::Any& send)
 	const Tango::DevVarStringArray* data_in = NULL;
 	Tango::DevVarStringArray* data_out  = new DevVarStringArray;
 
-	cout4 << "FILEDATABASE: entering DbGetDeviceList" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbGetDeviceList" << endl;
 
 	send >>= data_in;
 
@@ -2209,7 +2209,7 @@ CORBA::Any*  FileDatabase :: DbGetProperty(CORBA::Any& send)
 	Tango::DevVarStringArray* data_out  = new DevVarStringArray;
 	const char* zero_str = "0";
 
-	cout4 << "FILEDATABASE: entering DbGetProperty" << endl;
+	TANGO_LOG_DEBUG << "FILEDATABASE: entering DbGetProperty" << endl;
 
 	send >>= data_in;
 

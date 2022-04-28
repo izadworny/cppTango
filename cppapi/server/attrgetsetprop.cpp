@@ -2807,7 +2807,7 @@ void Attribute::db_access(const Attribute::CheckOneStrProp &cosp,const std::stri
 
 	if (*cosp.prop_to_update != 0)
 	{
-		cout4 << *cosp.prop_to_update << " properties to update in db" << std::endl;
+		TANGO_LOG_DEBUG << *cosp.prop_to_update << " properties to update in db" << std::endl;
 		(*cosp.db_d)[0] << *cosp.prop_to_update;
 //for (const auto &elem: *cosp.db_d)
 //	TANGO_LOG << "prop_to_update name = " << elem.name << std::endl;
@@ -2836,7 +2836,7 @@ void Attribute::db_access(const Attribute::CheckOneStrProp &cosp,const std::stri
 
 	if (*cosp.prop_to_delete != 0)
 	{
-		cout4 << *cosp.prop_to_delete << " properties to delete in db" << std::endl;
+		TANGO_LOG_DEBUG << *cosp.prop_to_delete << " properties to delete in db" << std::endl;
 		(*cosp.db_del)[0] << *cosp.prop_to_delete;
 //for (const auto &elem: *cosp.db_del)
 //	TANGO_LOG << "prop_to_delete name = " << elem.name << std::endl;
