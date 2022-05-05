@@ -2,7 +2,7 @@
 
 The following software packages are required to build cppTango:
 
-- A C++14 compliant compiler like GCC, clang or Visual Studio (2015 or newer)
+- A C++14 compliant compiler like GCC, clang or Visual Studio (2017 or newer)
 - [cmake](https://cmake.org), 3.7 or newer
 - [tango-idl](https://gitlab.com/tango-controls/tango-idl)
 - [omniorb](http://omniorb.sourceforge.net), 4.2.1 or newer
@@ -22,11 +22,11 @@ On current debian systems the dependencies, except tango-idl, are available as d
 sudo apt install cmake build-essential git libcos4-dev libomniorb4-dev libomnithread4-dev libzmq3-dev omniidl libjpeg-dev python3
 ```
 
-> **Note:**  
-> Debian and derivatives provide both `libzmq` and `cppzmq` as one package (`libzmq3-dev`).  
-> Versions provided will not necessarily satisfy both requirements.  
-> In that case, manual compilation of `cppzmq` may be necessary.  
-> This problem is known for at least Ubuntu 20.04. See [#899](https://gitlab.com/tango-controls/cppTango/-/issues/899) for details. 
+> **Note:**
+> Debian and derivatives provide both `libzmq` and `cppzmq` as one package (`libzmq3-dev`).
+> Versions provided will not necessarily satisfy both requirements.
+> In that case, manual compilation of `cppzmq` may be necessary.
+> This problem is known for at least Ubuntu 20.04. See [#899](https://gitlab.com/tango-controls/cppTango/-/issues/899) for details.
 
 If your linux does not have precompiled packages for these dependencies jump to the
 [next](#compiling-the-dependencies) section for compilation instructions.
