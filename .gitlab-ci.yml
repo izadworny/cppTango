@@ -156,7 +156,9 @@ coverage:
   artifacts:
     when: always
     reports:
-      cobertura: coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
     paths:
       - build/cpp_test_suite/test_results
       - build/cpp_test_suite/*/core.*
