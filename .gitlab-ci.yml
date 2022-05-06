@@ -156,12 +156,17 @@ coverage:
   artifacts:
     when: always
     reports:
-      cobertura: coverage.xml
+      coverage_report:
+        # coverage report provides line-by-line info
+        coverage_format: cobertura
+        path: coverage.xml
     paths:
       - build/cpp_test_suite/test_results
       - build/cpp_test_suite/*/core.*
       - coverage.xml
       - coverage.tar.gz
+  # keyword/regex to extract total coverage % for this CI job (which is also called "coverage")
+  coverage: '/^TOTAL.*\s+(\d+\%)$/'
 
 debian11-static:
   <<: *job-template
