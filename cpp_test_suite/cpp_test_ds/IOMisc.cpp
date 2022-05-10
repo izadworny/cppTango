@@ -41,7 +41,7 @@ CORBA::Any *IODServDevice::execute(TANGO_UNUSED(Tango::DeviceImpl *device), TANG
 {
 	try
 	{
-		cout << "[IODServDevice::execute]" << std::endl;
+		TANGO_LOG << "[IODServDevice::execute]" << std::endl;
 
 		Tango::DeviceImpl *dev;
 		Tango::Util *tg = Tango::Util::instance();
@@ -100,7 +100,7 @@ CORBA::Any *IODevByName::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const 
 	{
 		Tango::DevString dev_name;
 		extract(in_any, dev_name);
-		cout << "[IODevByName::execute] received dev name " << dev_name << std::endl;
+		TANGO_LOG << "[IODevByName::execute] received dev name " << dev_name << std::endl;
 
 		Tango::DeviceImpl *dev;
 		Tango::Util *tg = Tango::Util::instance();
@@ -160,7 +160,7 @@ CORBA::Any *IODevListByClass::execute(TANGO_UNUSED(Tango::DeviceImpl *device), c
 	{
 		Tango::DevString class_name;
 		extract(in_any, class_name);
-		cout << "[IODevListByClass::execute] received class name " << class_name << std::endl;
+		TANGO_LOG << "[IODevListByClass::execute] received class name " << class_name << std::endl;
 
 		std::vector<Tango::DeviceImpl *> d_list;
 		Tango::Util *tg = Tango::Util::instance();
@@ -227,7 +227,7 @@ CORBA::Any *IOSleep::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORB
 		Tango::DevUShort sleeping_Time;
 
 		extract(in_any, sleeping_Time);
-		cout << "[IOSleep::execute] sleeping time " << sleeping_Time << std::endl;
+		TANGO_LOG << "[IOSleep::execute] sleeping time " << sleeping_Time << std::endl;
 #ifdef WIN32
 		Sleep(sleeping_Time);
 #else
@@ -283,7 +283,7 @@ CORBA::Any *IOState::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any
 	{
 		Tango::DevState theState;
 		extract(in_any, theState);
-		cout << "[IOState::execute] received state " << theState << std::endl;
+		TANGO_LOG << "[IOState::execute] received state " << theState << std::endl;
 		device->set_state(theState);
 		return insert();
 	}
@@ -1123,7 +1123,7 @@ bool IOGetCbExecuted::is_allowed(TANGO_UNUSED(Tango::DeviceImpl *device), TANGO_
 
 CORBA::Any *IOGetCbExecuted::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	cout << "[IOGetCbExecuted::execute] received, returned value = " << (static_cast<DevTest *>(device))->cb.cb_executed << std::endl;
+	TANGO_LOG << "[IOGetCbExecuted::execute] received, returned value = " << (static_cast<DevTest *>(device))->cb.cb_executed << std::endl;
 
 	Tango::DevLong exec = (static_cast<DevTest *>(device))->cb.cb_executed;
 	return insert(exec);
@@ -1529,7 +1529,7 @@ void *AcquisitionThread::run_undetached (TANGO_UNUSED(void *arg))
 		}
 		while (n != 1);
 
-		cout << "Thread : Connect device = " << dev_list_sorted[1]->get_name() << std::endl;
+		TANGO_LOG << "Thread : Connect device = " << dev_list_sorted[1]->get_name() << std::endl;
 
 		try
 		{
@@ -1814,7 +1814,7 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
     local_dev->stop_poll_att(att2_name);
     local_dev->stop_poll_att(att3_name);
 
-    cout << "ReynaldPollThread exiting" << std::endl;
+    TANGO_LOG << "ReynaldPollThread exiting" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -1980,7 +1980,7 @@ CORBA::Any *SetGetAlarms::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const 
 
 	try
 	{
-		cout << "[SetGetAlarms::execute]" << std::endl;
+		TANGO_LOG << "[SetGetAlarms::execute]" << std::endl;
 
 		Tango::MultiAttribute *attributes = device->get_device_attr();
 		Tango::DevVarStringArray *alarms = new Tango::DevVarStringArray();
@@ -2405,17 +2405,17 @@ CORBA::Any *SetGetAlarms::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const 
 		alarms->length(alarms_vec.size());
 		for (unsigned int i = 0; i < alarms_vec.size(); i++)
 		{
-//			cout << alarms_vec[i] << std::endl;
+//			TANGO_LOG << alarms_vec[i] << std::endl;
 			(*alarms)[i] = Tango::string_dup(alarms_vec[i].c_str());
 		}
 
-		cout << "Alarms have been set" << std::endl;
+		TANGO_LOG << "Alarms have been set" << std::endl;
 
 		return insert(alarms);
 	}
 	catch (CORBA::Exception &e)
 	{
-		cout << "Exception while setting alarms" << std::endl;
+		TANGO_LOG << "Exception while setting alarms" << std::endl;
 		Tango::Except::print_exception(e);
 		throw ;
 	}
@@ -2469,7 +2469,7 @@ CORBA::Any *SetGetRanges::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const 
 
 	try
 	{
-		cout << "[SetGetRanges::execute]" << std::endl;
+		TANGO_LOG << "[SetGetRanges::execute]" << std::endl;
 
 		Tango::MultiAttribute *attributes = device->get_device_attr();
 		Tango::DevVarStringArray *ranges = new Tango::DevVarStringArray();
@@ -2786,17 +2786,17 @@ CORBA::Any *SetGetRanges::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const 
 		ranges->length(ranges_vec.size());
 		for (unsigned int i = 0; i < ranges_vec.size(); i++)
 		{
-//			cout << ranges_vec[i] << std::endl;
+//			TANGO_LOG << ranges_vec[i] << std::endl;
 			(*ranges)[i] = Tango::string_dup(ranges_vec[i].c_str());
 		}
 
-		cout << "Ranges have been set" << std::endl;
+		TANGO_LOG << "Ranges have been set" << std::endl;
 
 		return insert(ranges);
 	}
 	catch (CORBA::Exception &e)
 	{
-		cout << "Exception while setting ranges" << std::endl;
+		TANGO_LOG << "Exception while setting ranges" << std::endl;
 		Tango::Except::print_exception(e);
 		throw ;
 	}
@@ -2861,7 +2861,7 @@ CORBA::Any *SetGetProperties::execute(Tango::DeviceImpl *device, TANGO_UNUSED(co
 
 	try
 	{
-		cout << "[SetGetProperties::execute]" << std::endl;
+		TANGO_LOG << "[SetGetProperties::execute]" << std::endl;
 
 		Tango::MultiAttribute *attributes = device->get_device_attr();
 		Tango::DevVarStringArray *props = new Tango::DevVarStringArray();
@@ -4157,18 +4157,18 @@ Tango_sleep(1);
 		props->length(props_vec.size());
 		for (unsigned int i = 0; i < props_vec.size(); i++)
 		{
-//			cout << props_vec[i] << std::endl;
+//			TANGO_LOG << props_vec[i] << std::endl;
 			(*props)[i] = Tango::string_dup(props_vec[i].c_str());
 		}
 
-		cout << "Properties have been set" << std::endl;
+		TANGO_LOG << "Properties have been set" << std::endl;
 
 		return insert(props);
 	}
 	catch (CORBA::Exception &e)
 	{
 		db->set_timeout_millis(Tango::DB_TIMEOUT);
-		cout << "Exception while setting properties" << std::endl;
+		TANGO_LOG << "Exception while setting properties" << std::endl;
 		Tango::Except::print_exception(e);
 		throw ;
 	}

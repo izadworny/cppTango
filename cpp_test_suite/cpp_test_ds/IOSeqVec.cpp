@@ -36,7 +36,7 @@ CORBA::Any *IOSeqVecChar::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
 
     std::vector<unsigned char> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecChar::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecChar::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarCharArray *theOutputArray = new Tango::DevVarCharArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -74,7 +74,7 @@ CORBA::Any *IOSeqVecShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
 
     std::vector<short> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarShortArray *theOutputArray = new Tango::DevVarShortArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -113,7 +113,7 @@ CORBA::Any *IOSeqVecLong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
 //    vector<long> v1;
     std::vector<Tango::DevLong> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecLong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecLong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarLongArray *theOutputArray = new Tango::DevVarLongArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -151,7 +151,7 @@ CORBA::Any *IOSeqVecFloat::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
 
     std::vector<float> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecFloat::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecFloat::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarFloatArray *theOutputArray = new Tango::DevVarFloatArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -189,7 +189,7 @@ CORBA::Any *IOSeqVecDouble::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
 
     std::vector<double> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecDouble::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecDouble::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarDoubleArray *theOutputArray = new Tango::DevVarDoubleArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -227,7 +227,7 @@ CORBA::Any *IOSeqVecUShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
 
     std::vector<unsigned short> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecUShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecUShort::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarUShortArray *theOutputArray = new Tango::DevVarUShortArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -266,7 +266,7 @@ CORBA::Any *IOSeqVecULong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
 //    vector<unsigned long> v1;
     std::vector<Tango::DevULong> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecULong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecULong::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarULongArray *theOutputArray = new Tango::DevVarULongArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
@@ -304,7 +304,7 @@ CORBA::Any *IOSeqVecString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
 
     std::vector<std::string> v1;
     v1 << (*theInputArray);
-    cout << "[IOSeqVecString::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
+    TANGO_LOG << "[IOSeqVecString::execute] " << v1.size() << " elt(s) in temp vector" << std::endl;
     Tango::DevVarStringArray *theOutputArray = new Tango::DevVarStringArray();
     (*theOutputArray) << v1;
     return insert(theOutputArray);
