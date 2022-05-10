@@ -12,16 +12,13 @@ protected:
 	class EventCallBack : public Tango::CallBack
 	{
 	public:
-		EventCallBack(FwdAttTestSuite *ptr):parent(ptr) {}
+		EventCallBack(FwdAttTestSuite *) {}
 		void push_event(Tango::EventData*);
 
 		int 		cb_executed;
 		int 		cb_err;
 		DevShort 	val;
 		string		ev_name;
-
-	private:
-		FwdAttTestSuite	*parent;
 	};
 
 	DeviceProxy 			*device1,*device2,*fwd_device;
