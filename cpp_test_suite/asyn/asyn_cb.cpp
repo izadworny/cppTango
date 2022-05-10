@@ -1,15 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_asyn.h"
 
 class MyCallBack: public CallBack
 {
@@ -23,11 +12,11 @@ public:
 
 void MyCallBack::cmd_ended(CmdDoneEvent *cmd)
 {
-	coutv << "In cmd_ended method for device " << cmd->device->dev_name() << std::endl;
-	coutv << "Command = " << cmd->cmd_name << std::endl;
+	TEST_LOG << "In cmd_ended method for device " << cmd->device->dev_name() << std::endl;
+	TEST_LOG << "Command = " << cmd->cmd_name << std::endl;
 	short l;
 	cmd->argout >> l;
-	coutv << "Command result = " << l << std::endl;
+	TEST_LOG << "Command result = " << l << std::endl;
 
 	cb_executed++;
 }
@@ -38,7 +27,7 @@ int main(int argc, char **argv)
 
 	if ((argc < 3) || (argc > 4))
 	{
-		cout << "usage: asyn_cb <device1> <device2> [-v]" << std::endl;
+		TEST_LOG << "usage: asyn_cb <device1> <device2> [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -83,13 +72,13 @@ int main(int argc, char **argv)
 // Wait for replies
 //
 
-		coutv << "Waiting for replies" << std::endl;
+		TEST_LOG << "Waiting for replies" << std::endl;
 		Tango_sleep(5);
 
 
 		long nb_replies;
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request arrived" << std::endl;
+		TEST_LOG << nb_replies << " request arrived" << std::endl;
 		assert ( nb_replies == 3 );
 
 //
@@ -102,7 +91,7 @@ int main(int argc, char **argv)
 		assert (cb_dev2.cb_executed == 0);
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request arrived" << std::endl;
+		TEST_LOG << nb_replies << " request arrived" << std::endl;
 
 //
 // Fire callback for the second device
@@ -113,10 +102,10 @@ int main(int argc, char **argv)
 		assert (cb_dev1.cb_executed == 2);
 		assert (cb_dev2.cb_executed == 1);
 
-		cout << "   Callback fired by device --> OK" << std::endl;
+		TEST_LOG << "   Callback fired by device --> OK" << std::endl;
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request there" << std::endl;
+		TEST_LOG << nb_replies << " request there" << std::endl;
 
 //
 // Check get_asynch_replies without any replies
@@ -127,7 +116,7 @@ int main(int argc, char **argv)
 		assert (cb_dev1.cb_executed == 2);
 		assert (cb_dev2.cb_executed == 1);
 
-		cout << "   Fire callabck without replies --> OK" << std::endl;
+		TEST_LOG << "   Fire callabck without replies --> OK" << std::endl;
 
 //
 // Send commands
@@ -137,11 +126,11 @@ int main(int argc, char **argv)
 		device->command_inout_asynch("IOShortSleep",din,cb_dev1);
 		device->command_inout_asynch("IOShortSleep",din,cb_dev1);
 
-		coutv << "Waiting for replies" << std::endl;
+		TEST_LOG << "Waiting for replies" << std::endl;
 		Tango_sleep(5);
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request there" << std::endl;
+		TEST_LOG << nb_replies << " request there" << std::endl;
 		assert (nb_replies == 3);
 
 //
@@ -151,12 +140,12 @@ int main(int argc, char **argv)
 		ApiUtil::instance()->get_asynch_replies();
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request there" << std::endl;
+		TEST_LOG << nb_replies << " request there" << std::endl;
 		assert (nb_replies == 0);
 		assert (cb_dev1.cb_executed == 4);
 		assert (cb_dev2.cb_executed == 2);
 
-		cout << "   Fire all callbacks at once --> OK" << std::endl;
+		TEST_LOG << "   Fire all callbacks at once --> OK" << std::endl;
 
 //
 // Send a request in polling mode
@@ -165,24 +154,24 @@ int main(int argc, char **argv)
 		device->command_inout_asynch("IOShortSleep",din);
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request there" << std::endl;
+		TEST_LOG << nb_replies << " request there" << std::endl;
 		assert (nb_replies == 0);
 		nb_replies = ApiUtil::instance()->pending_asynch_call(POLLING);
-		coutv << nb_replies << " request there (polling)" << std::endl;
+		TEST_LOG << nb_replies << " request there (polling)" << std::endl;
 		assert (nb_replies == 1);
 
-		coutv << "Waiting for replies" << std::endl;
+		TEST_LOG << "Waiting for replies" << std::endl;
 		Tango_sleep(3);
 
 		ApiUtil::instance()->get_asynch_replies();
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
-		coutv << nb_replies << " request there" << std::endl;
+		TEST_LOG << nb_replies << " request there" << std::endl;
 		assert (nb_replies == 0);
 		nb_replies = ApiUtil::instance()->pending_asynch_call(POLLING);
-		coutv << nb_replies << " request there (polling)" << std::endl;
+		TEST_LOG << nb_replies << " request there (polling)" << std::endl;
 		assert (nb_replies == 1);
-		cout << "   No pb when mixing polling and callback mode --> OK" << std::endl;
+		TEST_LOG << "   No pb when mixing polling and callback mode --> OK" << std::endl;
 
 	}
 	catch (Tango::DevFailed &e)

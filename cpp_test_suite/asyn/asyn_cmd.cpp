@@ -1,13 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
+#include "cxx_common_asyn.h"
 
 int main(int argc, char **argv)
 {
@@ -16,7 +7,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -70,7 +61,7 @@ int main(int argc, char **argv)
 			catch (AsynReplyNotArrived&)
 			{
 				finish = false;
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 				nb_not_arrived++;
 			}
 			if (finish == false)
@@ -78,7 +69,7 @@ int main(int argc, char **argv)
 		}
 		assert ( nb_not_arrived >= 2);
 
-		cout << "   Aynchronous command_inout in polling mode --> OK" << std::endl;
+		TEST_LOG << "   Aynchronous command_inout in polling mode --> OK" << std::endl;
 
 // Send a command to check polling with blocking with timeout
 
@@ -101,13 +92,13 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 				nb_not_arrived++;
 			}
 		}
 		assert ( nb_not_arrived >= 4);
 
-		cout << "   Aynchronous command_inout in blocking mode with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Aynchronous command_inout in blocking mode with call timeout --> OK" << std::endl;
 
 // Send a command to check polling with blocking
 
@@ -122,7 +113,7 @@ int main(int argc, char **argv)
 
 		assert( l == 8 );
 
-		cout << "   Aynchronous command_inout in blocking mode --> OK" << std::endl;
+		TEST_LOG << "   Aynchronous command_inout in blocking mode --> OK" << std::endl;
 
 //---------------------------------------------------------------------------
 //
@@ -158,7 +149,7 @@ int main(int argc, char **argv)
 			{
 				finish = false;
 				nb_not_arrived++;
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 			}
 			catch (CommunicationFailed &e)
 			{
@@ -166,10 +157,10 @@ int main(int argc, char **argv)
 				if (strcmp(e.errors[1].reason,API_DeviceTimedOut) == 0)
 				{
 					to = true;
-					coutv << "Timeout exception" << std::endl;
+					TEST_LOG << "Timeout exception" << std::endl;
 				}
 				else
-					coutv << "Comm exception" << std::endl;
+					TEST_LOG << "Comm exception" << std::endl;
 			}
 			if (finish == false)
 				Tango_sleep(1);
@@ -177,7 +168,7 @@ int main(int argc, char **argv)
 		assert ( to == true );
 		assert ( nb_not_arrived >= 2 );
 
-		cout << "   Device timeout exception with non blocking command_inout_reply --> OK" << std::endl;
+		TEST_LOG << "   Device timeout exception with non blocking command_inout_reply --> OK" << std::endl;
 
 // Send a command to check timeout with polling and blocking with timeout
 
@@ -197,7 +188,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 				nb_not_arrived++;
 			}
 			catch (CommunicationFailed &e)
@@ -206,16 +197,16 @@ int main(int argc, char **argv)
 				if (strcmp(e.errors[1].reason,API_DeviceTimedOut) == 0)
 				{
 					to = true;
-					coutv << "Timeout exception" << std::endl;
+					TEST_LOG << "Timeout exception" << std::endl;
 				}
 				else
-					coutv << "Comm exception" << std::endl;
+					TEST_LOG << "Comm exception" << std::endl;
 			}
 		}
 		assert( to == true );
 		assert( nb_not_arrived >= 2);
 
-		cout << "   Device timeout with blocking command_inout_reply with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Device timeout with blocking command_inout_reply with call timeout --> OK" << std::endl;
 
 // Send a command to check polling with blocking
 
@@ -235,14 +226,14 @@ int main(int argc, char **argv)
 			if (strcmp(e.errors[1].reason,API_DeviceTimedOut) == 0)
 			{
 				to = true;
-				coutv << "Timeout exception" << std::endl;
+				TEST_LOG << "Timeout exception" << std::endl;
 			}
 			else
-				coutv << "Comm exception" << std::endl;
+				TEST_LOG << "Comm exception" << std::endl;
 		}
 		assert(to == true );
 
-		cout << "   Device timeout with blocking command_inout_reply --> OK" << std::endl;
+		TEST_LOG << "   Device timeout with blocking command_inout_reply --> OK" << std::endl;
 
 //---------------------------------------------------------------------------
 //
@@ -250,7 +241,7 @@ int main(int argc, char **argv)
 //
 //---------------------------------------------------------------------------
 
-		cout << "   Waiting for server to execute all previous requests" << std::endl;
+		TEST_LOG << "   Waiting for server to execute all previous requests" << std::endl;
 		Tango_sleep(4);
 
 // Change timeout in order to test asynchronous calls and DevFailed exception
@@ -279,7 +270,7 @@ int main(int argc, char **argv)
 			{
 				finish = false;
 				nb_not_arrived++;
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 			}
 			catch (DevFailed &e)
 			{
@@ -287,10 +278,10 @@ int main(int argc, char **argv)
 				if (strcmp(e.errors[0].reason,"aaa") == 0)
 				{
 					failed = true;
-					coutv << "Server exception" << std::endl;
+					TEST_LOG << "Server exception" << std::endl;
 				}
 				else
-					coutv << "Comm exception" << std::endl;
+					TEST_LOG << "Comm exception" << std::endl;
 			}
 			if (finish == false)
 				Tango_sleep(1);
@@ -298,7 +289,7 @@ int main(int argc, char **argv)
 		assert ( failed == true );
 		assert ( nb_not_arrived >= 2);
 
-		cout << "   Device exception with non blocking command_inout_reply --> OK" << std::endl;
+		TEST_LOG << "   Device exception with non blocking command_inout_reply --> OK" << std::endl;
 
 // Send a command to check timeout with polling and blocking with timeout
 
@@ -317,7 +308,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 			}
 			catch (DevFailed &e)
 			{
@@ -325,15 +316,15 @@ int main(int argc, char **argv)
 				if (strcmp(e.errors[0].reason,"aaa") == 0)
 				{
 					failed = true;
-					coutv << "Server exception" << std::endl;
+					TEST_LOG << "Server exception" << std::endl;
 				}
 				else
-					coutv << "Comm exception" << std::endl;
+					TEST_LOG << "Comm exception" << std::endl;
 			}
 		}
 		assert( failed == true );
 
-		cout << "   Device exception with blocking command_inout_reply with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Device exception with blocking command_inout_reply with call timeout --> OK" << std::endl;
 
 // Send a command to check polling with blocking
 
@@ -352,14 +343,14 @@ int main(int argc, char **argv)
 			if (strcmp(e.errors[0].reason,"aaa") == 0)
 			{
 				failed = true;
-				coutv << "Server exception" << std::endl;
+				TEST_LOG << "Server exception" << std::endl;
 			}
 			else
-				coutv << "Comm exception" << std::endl;
+				TEST_LOG << "Comm exception" << std::endl;
 		}
 		assert(failed == true );
 
-		cout << "   Device exception with blocking command_inout_reply --> OK" << std::endl;
+		TEST_LOG << "   Device exception with blocking command_inout_reply --> OK" << std::endl;
 	}
 	catch (Tango::DevFailed &e)
 	{

@@ -1,15 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_asyn.h"
 
 class MyCallBack: public CallBack
 {
@@ -26,33 +15,33 @@ public:
 
 void MyCallBack::cmd_ended(CmdDoneEvent *cmd)
 {
-	coutv << "In cmd_ended method for device " << cmd->device->dev_name() << std::endl;
-	coutv << "Command = " << cmd->cmd_name << std::endl;
+	TEST_LOG << "In cmd_ended method for device " << cmd->device->dev_name() << std::endl;
+	TEST_LOG << "Command = " << cmd->cmd_name << std::endl;
 
 	if (cmd->errors.length() == 0)
 	{
 		cmd->argout >> l;
-		coutv << "Command result = " << l << std::endl;
+		TEST_LOG << "Command result = " << l << std::endl;
 	}
 	else
 	{
 		long nb_err = cmd->errors.length();
-		coutv << "Command returns error" << std::endl;
-		coutv << "error length = " << nb_err << std::endl;
+		TEST_LOG << "Command returns error" << std::endl;
+		TEST_LOG << "error length = " << nb_err << std::endl;
 		for (int i = 0;i < nb_err;i++)
-			coutv << "error[" << i << "].reason = " << cmd->errors[i].reason << std::endl;
+			TEST_LOG << "error[" << i << "].reason = " << cmd->errors[i].reason << std::endl;
 		if (strcmp(cmd->errors[nb_err - 1].reason,API_DeviceTimedOut) == 0)
 		{
 			to = true;
-			coutv << "Timeout error" << std::endl;
+			TEST_LOG << "Timeout error" << std::endl;
 		}
 		else if (strcmp(cmd->errors[nb_err - 1].reason,API_CommandFailed) == 0)
 		{
 			cmd_failed = true;
-			coutv << "Command failed error" << std::endl;
+			TEST_LOG << "Command failed error" << std::endl;
 		}
 		else
-			coutv << "Unknown error" << std::endl;
+			TEST_LOG << "Unknown error" << std::endl;
 	}
 
 	cb_executed++;
@@ -65,7 +54,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -109,7 +98,7 @@ int main(int argc, char **argv)
 
 		while (cb.cb_executed == 0)
 		{
-			coutv << "Command not yet arrived" << std::endl;
+			TEST_LOG << "Command not yet arrived" << std::endl;
 			nb_not_arrived++;
 			Tango_sleep(1);
 
@@ -119,7 +108,7 @@ int main(int argc, char **argv)
 		assert ( cb.cb_executed == 1);
 		assert ( cb.l == 8);
 
-		cout << "   Aynchronous command_inout in callback mode --> OK" << std::endl;
+		TEST_LOG << "   Aynchronous command_inout in callback mode --> OK" << std::endl;
 
 // Send a command to check callback with blocking with timeout
 
@@ -138,7 +127,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 				nb_not_arrived++;
 			}
 		}
@@ -146,7 +135,7 @@ int main(int argc, char **argv)
 		assert ( cb.cb_executed == 1);
 		assert ( cb.l == 8);
 
-		cout << "   Aynchronous command_inout in blocking mode with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Aynchronous command_inout in blocking mode with call timeout --> OK" << std::endl;
 
 // Send a command to check callback with blocking
 
@@ -162,7 +151,7 @@ int main(int argc, char **argv)
 		assert( cb.l == 8 );
 		assert( cb.cb_executed == 1);
 
-		cout << "   Aynchronous command_inout in blocking mode without timeout --> OK" << std::endl;
+		TEST_LOG << "   Aynchronous command_inout in blocking mode without timeout --> OK" << std::endl;
 
 //---------------------------------------------------------------------------
 //
@@ -188,7 +177,7 @@ int main(int argc, char **argv)
 		while (cb.cb_executed == 0)
 		{
 			nb_not_arrived++;
-			coutv << "Command not yet arrived" << std::endl;
+			TEST_LOG << "Command not yet arrived" << std::endl;
 			Tango_sleep(1);
 
 			device->get_asynch_replies();
@@ -197,7 +186,7 @@ int main(int argc, char **argv)
 		assert ( cb.to == true );
 		assert ( nb_not_arrived >= 2 );
 
-		cout << "   Device timeout exception with non blocking get_asynch_replies --> OK" << std::endl;
+		TEST_LOG << "   Device timeout exception with non blocking get_asynch_replies --> OK" << std::endl;
 
 // Send a command to check timeout with polling and blocking with timeout
 
@@ -218,7 +207,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 				nb_not_arrived++;
 			}
 		}
@@ -226,7 +215,7 @@ int main(int argc, char **argv)
 		assert( nb_not_arrived >= 2);
 		assert( cb.l == 0);
 
-		cout << "   Device timeout with blocking get_asynch_replies with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Device timeout with blocking get_asynch_replies with call timeout --> OK" << std::endl;
 
 // Send a command to check polling with blocking
 
@@ -244,7 +233,7 @@ int main(int argc, char **argv)
 		assert(cb.to == true );
 		assert( cb.l == 0);
 
-		cout << "   Device timeout with blocking get_asynch_replies without timeout --> OK" << std::endl;
+		TEST_LOG << "   Device timeout with blocking get_asynch_replies without timeout --> OK" << std::endl;
 
 //---------------------------------------------------------------------------
 //
@@ -252,7 +241,7 @@ int main(int argc, char **argv)
 //
 //---------------------------------------------------------------------------
 
-		cout << "   Waiting for server to execute all previous requests" << std::endl;
+		TEST_LOG << "   Waiting for server to execute all previous requests" << std::endl;
 		Tango_sleep(5);
 
 
@@ -272,7 +261,7 @@ int main(int argc, char **argv)
 		while (cb.cb_executed == 0)
 		{
 			nb_not_arrived++;
-			coutv << "Command not yet arrived" << std::endl;
+			TEST_LOG << "Command not yet arrived" << std::endl;
 			Tango_sleep(1);
 
 			device->get_asynch_replies();
@@ -280,7 +269,7 @@ int main(int argc, char **argv)
 		assert ( cb.cmd_failed == true );
 		assert ( nb_not_arrived >= 2);
 
-		cout << "   Device exception with non blocking get_asynch_replies --> OK" << std::endl;
+		TEST_LOG << "   Device exception with non blocking get_asynch_replies --> OK" << std::endl;
 
 // Send a command to check timeout with polling and blocking with timeout
 
@@ -302,7 +291,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Command not yet arrived" << std::endl;
+				TEST_LOG << "Command not yet arrived" << std::endl;
 				nb_not_arrived++;
 			}
 		}
@@ -310,7 +299,7 @@ int main(int argc, char **argv)
 		assert( cb.cb_executed == 1);
 		assert( nb_not_arrived >= 2);
 
-		cout << "   Device exception with blocking get_asynch_replies with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Device exception with blocking get_asynch_replies with call timeout --> OK" << std::endl;
 
 // Send a command to check polling with blocking
 
@@ -329,7 +318,7 @@ int main(int argc, char **argv)
 		assert(cb.cb_executed == 1);
 		assert(cb.l == 0);
 
-		cout << "   Device exception with blocking get_asynch_replies without timeout --> OK" << std::endl;
+		TEST_LOG << "   Device exception with blocking get_asynch_replies without timeout --> OK" << std::endl;
 
 	}
 	catch (Tango::DevFailed &e)
