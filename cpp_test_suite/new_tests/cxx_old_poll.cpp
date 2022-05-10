@@ -263,7 +263,7 @@ public:
 
         TSM_ASSERT_LESS_THAN("Not enough data in the polling buffer, restart later", 4u, d_hist->size());
 
-        short first_val_first_rec;
+        short first_val_first_rec = 0;
         for (size_t i = 0; i < d_hist->size(); i++) {
             vector<short> vect;
             (*d_hist)[i] >> vect;
@@ -356,7 +356,7 @@ public:
 
         TSM_ASSERT_LESS_THAN("Not enough data in the polling buffer, restart later", 4u, d_hist->size());
 
-        unsigned char first_val_enc;
+        unsigned char first_val_enc = 0;
         for (size_t i = 0; i < d_hist->size(); i++) {
             DevEncoded the_enc;
             (*d_hist)[i] >> the_enc;
