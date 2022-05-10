@@ -1,23 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -45,40 +26,40 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 #else
 	gettimeofday(&now_timeval,NULL);
 #endif
-	coutv << "date : tv_sec = " << now_timeval.tv_sec;
-	coutv << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	delta_msec = ((now_timeval.tv_sec - old_sec) * 1000) + ((now_timeval.tv_usec - old_usec) / 1000);
 
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 
 	try
 	{
-		coutv << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 
 			*(event_data->attr_value) >> value;
-			coutv << "CallBack value size " << value.size() << std::endl;
+			TEST_LOG << "CallBack value size " << value.size() << std::endl;
 			val = value[2];
 			val_size = value.size();
-			coutv << "Callback value " << val << std::endl;
+			TEST_LOG << "Callback value " << val << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 			if (strcmp(event_data->errors[0].reason.in(),"bbb") == 0)
 				cb_err++;
 		}
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -89,7 +70,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -111,7 +92,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 
 	try
@@ -162,11 +143,11 @@ int main(int argc, char **argv)
 //
 
 		bool po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		int poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 250);
 
 
@@ -183,7 +164,7 @@ int main(int argc, char **argv)
 
 
 		eve_id = device->subscribe_event(att_name,Tango::CHANGE_EVENT,1,filters);
-		cout << "   subscribe_event --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event --> OK" << std::endl;
 //
 // Send 10 change events
 //
@@ -204,15 +185,15 @@ int main(int argc, char **argv)
 //
 		device->get_events(eve_id, &cb);
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 1);
 		assert (cb.val == 40);
-		cout << "   CallBack executed only for the last arrived event --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed only for the last arrived event --> OK" << std::endl;
 //
 // unsubscribe the event
 //
 		device->unsubscribe_event(eve_id);
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 
 //
@@ -244,15 +225,15 @@ int main(int argc, char **argv)
 //
 		device->get_events(eve_id, &cb);
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
 		assert (cb.val == 50);
-		cout << "   CallBack executed only for the last 5 arrived events --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed only for the last 5 arrived events --> OK" << std::endl;
 //
 // unsubscribe the event
 //
 		device->unsubscribe_event(eve_id);
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 
 //
@@ -284,11 +265,11 @@ int main(int argc, char **argv)
 //
 		device->get_events(eve_id, &cb);
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 11); // 1 synchrounous event at subscription +
 		                               // 10 value changes
 		assert (cb.val == 60);
-		cout << "   CallBack executed for 11 arrived events --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed for 11 arrived events --> OK" << std::endl;
 
 
 
@@ -317,12 +298,12 @@ int main(int argc, char **argv)
 //
 // Check that all events were kept and can be read as a vector
 //
-		coutv << "event queue size = " << device->event_queue_size(eve_id) << std::endl;
+		TEST_LOG << "event queue size = " << device->event_queue_size(eve_id) << std::endl;
 		assert (device->event_queue_size(eve_id) == 15);
 
 		EventDataList event_list;
 		device->get_events(eve_id, event_list);
-		coutv << "number of events read = " << event_list.size() << std::endl;
+		TEST_LOG << "number of events read = " << event_list.size() << std::endl;
 		assert (event_list.size() == 15);
 
 		long ref_val = 61;
@@ -332,17 +313,17 @@ int main(int argc, char **argv)
 			std::vector<DevLong> value;
 			*((*vpos)->attr_value) >> value;
 
-			coutv << "event value = " << value[2] << std::endl;
+			TEST_LOG << "event value = " << value[2] << std::endl;
 			assert (value[2] == ref_val);
 			ref_val++;
 		}
-		cout << "   Data received for 15 arrived events --> OK" << std::endl;
+		TEST_LOG << "   Data received for 15 arrived events --> OK" << std::endl;
 
 //
 // unsubscribe the event
 //
 		device->unsubscribe_event(eve_id);
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 
 //
@@ -390,7 +371,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_executed == 15);
 		assert (cb.val == 85);
 
-		cout << "   Three CallBacks executed only for the last 5 arrived events --> OK" << std::endl;
+		TEST_LOG << "   Three CallBacks executed only for the last 5 arrived events --> OK" << std::endl;
 //
 // unsubscribe the event
 //
@@ -398,7 +379,7 @@ int main(int argc, char **argv)
 		device->unsubscribe_event(eve_id1);
 		device->unsubscribe_event(eve_id2);
 
-		cout << "   unsubscribe_events --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_events --> OK" << std::endl;
 //
 // Stop polling
 //

@@ -1,25 +1,7 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
 #include <thread>
 #include <chrono>
 
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -46,21 +28,21 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 #else
 	gettimeofday(&now_timeval,NULL);
 #endif
-	coutv << "date : tv_sec = " << now_timeval.tv_sec;
-	coutv << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	delta_msec = ((now_timeval.tv_sec - old_sec) * 1000) + ((now_timeval.tv_usec - old_usec) / 1000);
 
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 
 	try
 	{
-		coutv << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 			std::string::size_type pos = event_data->attr_name.find_last_of('/');
@@ -70,25 +52,25 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 			if (att_name == "state")
 			{
 				*(event_data->attr_value) >> sta;
-				coutv << "State in callback: " << DevStateName[sta] << std::endl;
+				TEST_LOG << "State in callback: " << DevStateName[sta] << std::endl;
 			}
 			else if (att_name == "status")
 			{
 				*(event_data->attr_value) >> status;
-				coutv << "Status in callback: " << status << std::endl;
+				TEST_LOG << "Status in callback: " << status << std::endl;
 			}
 			else
-				cout << "Received callback for an unknown attribute : " << event_data->attr_name << std::endl;
+				TEST_LOG << "Received callback for an unknown attribute : " << event_data->attr_name << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 		}
 	}
 	catch (...)
 	{
 		cb_err++;
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -99,7 +81,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -121,7 +103,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 	try
 	{
@@ -163,17 +145,17 @@ int main(int argc, char **argv)
 //
 
 		bool po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		po = device->is_command_polled(att_name);
 		assert( po == true);
 
 		int poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 1000);
 
-		cout << "   subscribe_event on state attribute --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event on state attribute --> OK" << std::endl;
 
 //
 // Check that first point has been received
@@ -182,7 +164,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_executed == 1);
 		assert (cb.sta == Tango::ON);
 		assert (cb.cb_err == 0);
-		cout << "   first point received --> OK" << std::endl;
+		TEST_LOG << "   first point received --> OK" << std::endl;
 
 		Tango_sleep(1);
 
@@ -207,7 +189,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_err == 0);
 		assert (cb.sta == Tango::ON);
 
-		cout << "   Event on state change --> OK" << std::endl;
+		TEST_LOG << "   Event on state change --> OK" << std::endl;
 
 //
 // Execute command manually push a change event on state
@@ -220,7 +202,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_err == 0);
 		assert (cb.sta == Tango::ON);
 
-		cout << "   Event on state manually pushed --> OK" << std::endl;
+		TEST_LOG << "   Event on state manually pushed --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -232,7 +214,7 @@ int main(int argc, char **argv)
 //
 		device->stop_poll_attribute(att_name);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // Clear data in callback object and subscribe to status event
@@ -247,7 +229,7 @@ int main(int argc, char **argv)
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 		eve_id = device->subscribe_event(att_name,Tango::CHANGE_EVENT,&cb,filters);
-		cout << "   subscribe_event on status attribute --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event on status attribute --> OK" << std::endl;
 
 //
 // Check that first point has been received
@@ -255,7 +237,7 @@ int main(int argc, char **argv)
 
 		assert (cb.cb_executed == 1);
 		assert (cb.cb_err == 0);
-		cout << "   first point received --> OK" << std::endl;
+		TEST_LOG << "   first point received --> OK" << std::endl;
 
 		Tango_sleep(1);
 
@@ -281,7 +263,7 @@ int main(int argc, char **argv)
 		assert (pos != std::string::npos);
 		assert (cb.cb_err == 0);
 
-		cout << "   Event on status change --> OK" << std::endl;
+		TEST_LOG << "   Event on status change --> OK" << std::endl;
 
 //
 // Execute command manually push a change event on status
@@ -293,7 +275,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_executed >= 4);
 		assert (cb.cb_err == 0);
 
-		cout << "   Event on status manually pushed --> OK" << std::endl;
+		TEST_LOG << "   Event on status manually pushed --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -301,7 +283,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // Stop polling

@@ -1,23 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -45,39 +26,39 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 #else
 	gettimeofday(&now_timeval,NULL);
 #endif
-	coutv << "date : tv_sec = " << now_timeval.tv_sec;
-	coutv << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	delta_msec = ((now_timeval.tv_sec - old_sec) * 1000) + ((now_timeval.tv_usec - old_usec) / 1000);
 
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 
 	try
 	{
-		coutv << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 
 			*(event_data->attr_value) >> value;
-			coutv << "CallBack value size " << value.size() << std::endl;
+			TEST_LOG << "CallBack value size " << value.size() << std::endl;
 			val = value[0];
 			val_size = value.size();
-			coutv << "Callback value " << val << std::endl;
+			TEST_LOG << "Callback value " << val << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 			cb_err++;
 		}
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -88,7 +69,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -110,7 +91,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 
 	try
@@ -171,14 +152,14 @@ int main(int argc, char **argv)
 //
 
 		bool po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		int poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 1000);
 
-		cout << "   subscribe_event --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event --> OK" << std::endl;
 
 //
 // Check that first point has been received
@@ -187,7 +168,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_executed == 1);
 		assert (cb.val == 0x800000000LL);
 		assert (cb.val_size == 2);
-		cout << "   first point received --> OK" << std::endl;
+		TEST_LOG << "   first point received --> OK" << std::endl;
 
 //
 // Check that callback was called after a positive value change
@@ -217,12 +198,12 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 3);
 		assert (cb.val == 0x800000001LL);
 		assert (cb.val_size == 2);
 
-		cout << "   CallBack executed for positive absolute delta --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed for positive absolute delta --> OK" << std::endl;
 
 //
 // Check that callback was called after a negative value change
@@ -238,12 +219,12 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 4);
 		assert (cb.val == 0x800000000LL);
 		assert (cb.val_size == 2);
 
-		cout << "   CallBack executed for negative absolute delta --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed for negative absolute delta --> OK" << std::endl;
 
 //
 // Check that callback was called after adding one elt to the spectrum
@@ -253,12 +234,12 @@ int main(int argc, char **argv)
 
 		Tango_sleep(2);
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
 		assert (cb.val == 0x800000000LL);
 		assert (cb.val_size == 3);
 
-		cout << "   CallBack executed when spectrum size increases --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed when spectrum size increases --> OK" << std::endl;
 
 //
 // Check that callback was called after removing one elt to the spectrum
@@ -268,12 +249,12 @@ int main(int argc, char **argv)
 
 		Tango_sleep(2);
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 6);
 		assert (cb.val == 0x800000000LL);
 		assert (cb.val_size == 2);
 
-		cout << "   CallBack executed when spectrum size decreases --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed when spectrum size decreases --> OK" << std::endl;
 
 //
 // Stop polling
@@ -287,10 +268,10 @@ int main(int argc, char **argv)
 
 		Tango_sleep(1);
 
-		coutv << "cb err = " << cb.cb_err << std::endl;
+		TEST_LOG << "cb err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 1);
 
-		cout << "   Error received in callback if we stop polling --> OK" << std::endl;
+		TEST_LOG << "   Error received in callback if we stop polling --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -298,7 +279,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 	}
 	catch (Tango::DevFailed &e)

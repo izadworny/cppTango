@@ -1,23 +1,5 @@
-/*
- * example of a client using the TANGO device api.
- */
+#include "cxx_common_event.h"
 
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
 void check_attribute_data_type(DeviceProxy *,std::string &, const char *);
 
 class EventCallBack : public Tango::CallBack
@@ -36,21 +18,21 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 
 	try
 	{
-		coutv << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
-			coutv << "CallBack value " << *(event_data->attr_value) << std::endl;
+			TEST_LOG << "CallBack value " << *(event_data->attr_value) << std::endl;
 			data_type = event_data->attr_value->get_type();
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 			cb_err++;
 		}
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 }
 
@@ -60,7 +42,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device [-v]" << std::endl;
 		exit(-1);
 	}
 
@@ -82,7 +64,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 
 	try
@@ -200,11 +182,11 @@ void check_attribute_data_type(DeviceProxy *device,std::string &att_name, const 
 //
 
 	bool po = device->is_attribute_polled(att_name);
-	coutv << "attribute polled : " << po << std::endl;
+	TEST_LOG << "attribute polled : " << po << std::endl;
 	assert( po == true);
 
 	int poll_period = device->get_attribute_poll_period(att_name);
-	coutv << "att polling period : " << poll_period << std::endl;
+	TEST_LOG << "att polling period : " << poll_period << std::endl;
 	assert( poll_period == 500);
 
 //
@@ -225,7 +207,7 @@ void check_attribute_data_type(DeviceProxy *device,std::string &att_name, const 
 	Sleep(2000);
 #endif
 
-	coutv << "cb excuted = " << cb.cb_executed << std::endl;
+	TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 	assert (cb.cb_executed != 0);
 
 	std::string requested_type(data_type);
@@ -235,7 +217,7 @@ void check_attribute_data_type(DeviceProxy *device,std::string &att_name, const 
 		assert (received_type == requested_type);
 	}
 
-	cout << "   Event received for " << data_type << " attribute --> OK" << std::endl;
+	TEST_LOG << "   Event received for " << data_type << " attribute --> OK" << std::endl;
 
 //
 // unsubscribe to the event and stop polling

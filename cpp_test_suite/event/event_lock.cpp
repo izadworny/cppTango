@@ -1,3 +1,5 @@
+#include "cxx_common_event.h"
+
 // Testprogram to demonstrate a tango exit crash problem:
 // memory double free or corruption.
 //
@@ -13,10 +15,6 @@
 // for the attribute "long_scalar" (i used absolute change of 1).
 //
 // GJK, 7/2009,  georg.kasper@frm2.tum.de
-
-#include "tango.h"
-
-using namespace std;
 
 const int NODATA = -9999;
 
@@ -78,7 +76,7 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        cout << "usage: event_lock <device>" << std::endl;
+        TEST_LOG << "usage: event_lock <device>" << std::endl;
         exit(-1);
     }
 
@@ -97,7 +95,7 @@ int main(int argc, char *argv[])
 
         dev->lock();
 
-        cout << "   Device locked and subscribed to one change event --> OK" << std::endl;
+        TEST_LOG << "   Device locked and subscribed to one change event --> OK" << std::endl;
 
         int cnt = 0;
         while (cnt < 3)
@@ -108,7 +106,7 @@ int main(int argc, char *argv[])
         }
 
         dev->unlock();
-        cout << "   Device unlocked --> OK" << std::endl;
+        TEST_LOG << "   Device unlocked --> OK" << std::endl;
 
         if (eventID != NODATA)
         {
@@ -124,13 +122,13 @@ int main(int argc, char *argv[])
     }
     catch (...)
     {
-        cout << "Unknown exception....." << std::endl;
+        TEST_LOG << "Unknown exception....." << std::endl;
         assert(false);
     }
 
     delete dev;
 
-    cout << "   Memory corruption at process exit--> ??" << std::endl;
+    TEST_LOG << "   Memory corruption at process exit--> ??" << std::endl;
 
     return 0;
 }
