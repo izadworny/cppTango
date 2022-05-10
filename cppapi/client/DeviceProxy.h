@@ -222,14 +222,14 @@ public :
  *
  * A method which returns information on the device in a DeviceInfo structure. Example :
  * \code
- * cout << " device info : " << std::endl
+ * std::cout << " device info : " << std::endl
  * DeviceInfo dev_info = my_device->info() << std::endl;
- * cout << " dev_class " << dev_info.dev_class;
- * cout << " server_id " << dev_info.server_id;
- * cout << " server_host " << dev_info.server_host;
- * cout << " server_version " << dev_info.server_version;
- * cout << " doc_url " << dev_info.doc_url;
- * cout << " device_type " << dev_info.dev_type;
+ * std::cout << " dev_class " << dev_info.dev_class;
+ * std::cout << " server_id " << dev_info.server_id;
+ * std::cout << " server_host " << dev_info.server_host;
+ * std::cout << " server_version " << dev_info.server_version;
+ * std::cout << " doc_url " << dev_info.doc_url;
+ * std::cout << " device_type " << dev_info.dev_type;
  * \endcode
  * All DeviceInfo fields are strings except server_version
  * which is a long integer.
@@ -257,7 +257,7 @@ public :
  *
  * A method which returns the status of the device as a std::string. Example :
  * \code
- * cout << "device status: " << my_device->status() << std::endl;
+ * std::cout << "device status: " << my_device->status() << std::endl;
  * \endcode
  *
  * @return Device status
@@ -270,7 +270,7 @@ public :
  *
  * A method which sends a ping to the device and returns the time elapsed as microseconds. Example :
  * @code
- * cout << " device ping took " << my_device->ping() << " microseconds" << std::endl;
+ * std::cout << " device ping took " << my_device->ping() << " microseconds" << std::endl;
  * @endcode
  *
  * @throws ConnectionFailed, CommunicationFailed
@@ -432,14 +432,14 @@ public :
  *     {
  *        std::string str;
  *        (*hist)[i] >> str;
- *        cout << "Status = " << str << std::endl;
+ *        std::cout << "Status = " << str << std::endl;
  *     }
  *     else
  *     {
- *        cout << "Command failed !" << std::endl;
- *        cout << "Error level 0 desc = " << ((*hist)[i].errors())[0].desc << std::endl;
+ *        std::cout << "Command failed !" << std::endl;
+ *        std::cout << "Error level 0 desc = " << ((*hist)[i].errors())[0].desc << std::endl;
  *     }
- *     cout << "Date = " << (*hist)[i].date().tv_sec << std::endl;
+ *     std::cout << "Date = " << (*hist)[i].date().tv_sec << std::endl;
  * }
  * delete hist;
  * @endcode
@@ -472,14 +472,14 @@ public :
  *     {
  *        std::string str;
  *        (*hist)[i] >> str;
- *        cout << "Status = " << str << std::endl;
+ *        std::cout << "Status = " << str << std::endl;
  *     }
  *     else
  *     {
- *        cout << "Command failed !" << std::endl;
- *        cout << "Error level 0 desc = " << ((*hist)[i].errors())[0].desc << std::endl;
+ *        std::cout << "Command failed !" << std::endl;
+ *        std::cout << "Error level 0 desc = " << ((*hist)[i].errors())[0].desc << std::endl;
  *     }
- *     cout << "Date = " << (*hist)[i].date().tv_sec << std::endl;
+ *     std::cout << "Date = " << (*hist)[i].date().tv_sec << std::endl;
  * }
  * delete hist;
  * @endcode
@@ -634,7 +634,7 @@ public :
  * (*devattr)[0] >> short_attr_1;
  * (*devattr)[1] >> long_attr_2;
  *
- * cout << "my_attribute value " << short_attr;
+ * std::cout << "my_attribute value " << short_attr;
  * delete devattr;
  * @endcode
  *
@@ -765,18 +765,18 @@ public :
  *    bool fail = (*hist)[i].has_failed();
  *    if (fail == false)
  *    {
- *       cout << "Attribute name = " << (*hist)[i].get_name() << std::endl;
- *       cout << "Attribute quality factor = " << (*hist)[i].get_quality() << std::endl;
+ *       std::cout << "Attribute name = " << (*hist)[i].get_name() << std::endl;
+ *       std::cout << "Attribute quality factor = " << (*hist)[i].get_quality() << std::endl;
  *       long value;
  *       (*hist)[i] >> value;
- *       cout << "Current = " << value << std::endl;
+ *       std::cout << "Current = " << value << std::endl;
  *    }
  *    else
  *    {
- *       cout << "Attribute failed !" << std::endl;
- *       cout << "Error level 0 desc = " << ((*hist)[i].get_err_stack())[0].desc << std::endl;
+ *       std::cout << "Attribute failed !" << std::endl;
+ *       std::cout << "Error level 0 desc = " << ((*hist)[i].get_err_stack())[0].desc << std::endl;
  *    }
- *    cout << "Date = " << (*hist)[i].get_date().tv_sec << std::endl;
+ *    std::cout << "Date = " << (*hist)[i].get_date().tv_sec << std::endl;
  * }
  * delete hist;
  * @endcode
@@ -808,18 +808,18 @@ public :
  *    bool fail = (*hist)[i].has_failed();
  *    if (fail == false)
  *    {
- *       cout << "Attribute name = " << (*hist)[i].get_name() << std::endl;
- *       cout << "Attribute quality factor = " << (*hist)[i].get_quality() << std::endl;
+ *       std::cout << "Attribute name = " << (*hist)[i].get_name() << std::endl;
+ *       std::cout << "Attribute quality factor = " << (*hist)[i].get_quality() << std::endl;
  *       long value;
  *       (*hist)[i] >> value;
- *       cout << "Current = " << value << std::endl;
+ *       std::cout << "Current = " << value << std::endl;
  *    }
  *    else
  *    {
- *       cout << "Attribute failed !" << std::endl;
- *       cout << "Error level 0 desc = " << ((*hist)[i].get_err_stack())[0].desc << std::endl;
+ *       std::cout << "Attribute failed !" << std::endl;
+ *       std::cout << "Error level 0 desc = " << ((*hist)[i].get_err_stack())[0].desc << std::endl;
  *    }
- *    cout << "Date = " << (*hist)[i].get_date().tv_sec << std::endl;
+ *    std::cout << "Date = " << (*hist)[i].get_date().tv_sec << std::endl;
  * }
  * delete hist;
  * @endcode

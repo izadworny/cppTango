@@ -143,7 +143,7 @@ public :
  * A method which return the status of the device to which the attribute belongs to. The status is returned as
  * a string. Example :
  * @code
- * cout << "device status: " << my_attr->status() << std::endl;
+ * std::cout << "device status: " << my_attr->status() << std::endl;
  * @endcode
  *
  * @return The underlying device status
@@ -169,7 +169,7 @@ public :
  * A method which sends a ping to the device to which the attribute belongs and returns the time elapsed in
  * microseconds. Example :
  * @code
- * cout << "device ping took " << my_device->ping() << “ microseconds” << std::endl;
+ * std::cout << "device ping took " << my_device->ping() << “ microseconds” << std::endl;
  * @endcode
  *
  * @return Time needed by the ping call
@@ -266,18 +266,18 @@ public :
  *    bool fail = (*hist)[i].has_failed();
  *    if (fail == false)
  *    {
- *       cout << "Attribute name = " << (*hist)[i].get_name() << std::endl;
- *       cout << "Attribute quality factor = " << (*hist)[i].get_quality() << std::endl;
+ *       std::cout << "Attribute name = " << (*hist)[i].get_name() << std::endl;
+ *       std::cout << "Attribute quality factor = " << (*hist)[i].get_quality() << std::endl;
  *       long value;
  *       (*hist)[i] >> value;
- *       cout << "Current = " << value << std::endl;
+ *       std::cout << "Current = " << value << std::endl;
  *    }
  *    else
  *    {
- *       cout << "Attribute failed !" << std::endl;
- *       cout << "Error level 0 desc = " << ((*hist)[i].get_err_stack())[0].desc << std::endl;
+ *       std::cout << "Attribute failed !" << std::endl;
+ *       std::cout << "Error level 0 desc = " << ((*hist)[i].get_err_stack())[0].desc << std::endl;
  *    }
- *    cout << "Date = " << (*hist)[i].get_date().tv_sec << std::endl;
+ *    std::cout << "Date = " << (*hist)[i].get_date().tv_sec << std::endl;
  * }
  * delete hist;
  * @endcode

@@ -259,7 +259,7 @@ public:
  * }
  * catch (DevFailed &e)
  * {
- *    cout << "DevicePipeBlob insertion failed" << std::endl;
+ *    std::cout << "DevicePipeBlob insertion failed" << std::endl;
  *    ....
  * }
  *
@@ -283,7 +283,7 @@ public:
  * }
  * catch (DevFailed &e)
  * {
- *    cout << "DevicePipeBlob insertion failed" << std::endl;
+ *    std::cout << "DevicePipeBlob insertion failed" << std::endl;
  *    ....
  * }
  *
@@ -409,7 +409,7 @@ public:
  * }
  * catch (DevFailed &e)
  * {
- *    cout << "DevicePipeBlob extraction failed" << std::endl;
+ *    std::cout << "DevicePipeBlob extraction failed" << std::endl;
  *    ....
  * }
  *
@@ -429,11 +429,11 @@ public:
  * }
  * catch (DevFailed &e)
  * {
- *    cout << "DevicePipeBlob extraction failed" << std::endl;
+ *    std::cout << "DevicePipeBlob extraction failed" << std::endl;
  *    ....
  * }
  *
- * cout << "Data element name = " << de_dl.name << " - Value = " << de_dl.value << std::endl;
+ * std::cout << "Data element name = " << de_dl.name << " - Value = " << de_dl.value << std::endl;
  * ...
  * delete de_dvush.value;
  * @endcode
@@ -544,12 +544,12 @@ public:
  * DevicePipeBlob dpb;
  *
  * std::bitset<DevicePipeBlob::numFlags> bs = dpb.exceptions();
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  *
  * dpb.set_exceptions(DevicePipeBlob::wrongtype_flag);
  * bs = dpb.exceptions();
  *
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  * @endcode
  *
  * @return The exception flag
@@ -988,12 +988,12 @@ public :
  * DevicePipe dp;
  *
  * std::bitset<DevicePipeBlob::numFlags> bs = dp.exceptions();
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  *
  * dp.set_exceptions(DevicePipeBlob::wrongtype_flag);
  * bs = dp.exceptions();
  *
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  * @endcode
  *
  * @return The exception flag
@@ -1064,7 +1064,7 @@ public :
  * DevicePipe out;
  *
  * out = dev->read_pipe(“MyPipe”);
- * cout << “Pipe content: ” << out << std::endl;
+ * std::cout << “Pipe content: ” << out << std::endl;
  * @endcode
  *
  * @param [in] str The printing stream

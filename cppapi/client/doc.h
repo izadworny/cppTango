@@ -469,11 +469,11 @@ typedef vector<AttributeInfoEx> AttributeInfoListEx;
  *    long nb_faulty = e.get_faulty_attr_nb();
  *    for (long i = 0;i < nb_faulty;i++)
  *    {
- *       cout << "Attribute " << e.err_list[i].name << " failed!" << endl;
+ *       std::cout << "Attribute " << e.err_list[i].name << " failed!" << endl;
  *       for (long j = 0;j < e.err_list[i].err_stack.length();j++)
  *       {
- *          cout << "Reason [" << j << "] = " << e.err_list[i].err_stack[j].reason;
- *          cout << "Desc [" << j << "] = " << e.err_list[i].err_stack[j].desc;
+ *          std::cout << "Reason [" << j << "] = " << e.err_list[i].err_stack[j].reason;
+ *          std::cout << "Desc [" << j << "] = " << e.err_list[i].err_stack[j].desc;
  *       }
  *    }
  * }

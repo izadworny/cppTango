@@ -561,12 +561,12 @@ public:
  * DbDatum da;
  *
  * std::bitset<DbDatum::numFlags> bs = da.exceptions();
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  *
  * da.set_exceptions(DbDatum::wrongtype_flag);
  * bs = da.exceptions();
  *
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  * @endcode
  *
  * @return The exception flag
@@ -606,7 +606,7 @@ public:
  * }
  * else
  * {
- *     cout << device_name << " has no parity defined in database !" << std::endl;
+ *     std::cout << device_name << " has no parity defined in database !" << std::endl;
  * }
  * @endcode
  *

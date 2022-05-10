@@ -219,7 +219,7 @@ public :
  *    }
  *    const DevVarLongArray *out;
  *    dout >> out;
- *    cout << “Received value = “ << (*out)[0];
+ *    std::cout << “Received value = “ << (*out)[0];
  * }
  * @endcode
  *
@@ -514,12 +514,12 @@ public :
  * DeviceData dd;
  *
  * std::bitset<DeviceData::numFlags> bs = dd.exceptions();
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  *
  * da.set_exceptions(DeviceData::wrongtype_flag);
  * bs = dd.exceptions();
  *
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  * @endcode
  *
  * @return The exception flag
@@ -587,7 +587,7 @@ public :
  * }
  * else
  * {
- *    cout << “ no data read from serial line !” << std::endl;
+ *    std::cout << “ no data read from serial line !” << std::endl;
  * }
  * @endcode
  *
@@ -615,7 +615,7 @@ public :
  * DeviceData out;
  *
  * out = dev->command_inout(“MyCommand”);
- * cout << “Command returned: ” << out << std::endl;
+ * std::cout << “Command returned: ” << out << std::endl;
  * @endcode
  *
  * @param [in] str The printing stream

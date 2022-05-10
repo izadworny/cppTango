@@ -371,8 +371,8 @@ public :
  *    {
  *       short cmd_result;
  *       cmd->argout >> cmd_result;
- *       cout << "Command result = " << cmd_result << std::endl;
- *       cout << "Callback personal data = " << data << std::endl;
+ *       std::cout << "Command result = " << cmd_result << std::endl;
+ *       std::cout << "Callback personal data = " << data << std::endl;
  *    }
  * }
  *

@@ -120,7 +120,7 @@ public :
  * Query the database for some general info about the tables in the database.
  * Result is returned as a string. Example :
  * @code
- * cout << db->get_info() << std::endl;
+ * std::cout << db->get_info() << std::endl;
  * @endcode
  * will return information like this:
  * @code
@@ -187,11 +187,11 @@ public :
  *
  * my_device_import = db->import_device(“my/own/device”);
  *
- * cout << “ device ” << my_device_import.name;
- * cout << “exported ” << my_device_import.exported;
- * cout << “ior ” << my_device_import.ior;
- * cout << “version ” << my_device_import.version;
- * cout << std::endl;
+ * std::cout << “ device ” << my_device_import.name;
+ * std::cout << “exported ” << my_device_import.exported;
+ * std::cout << “ior ” << my_device_import.ior;
+ * std::cout << “version ” << my_device_import.version;
+ * std::cout << std::endl;
  * @endcode
  *
  * @param [in] dev_name The device name
@@ -507,17 +507,17 @@ public :
  * // Print the modification history of the specified property
  * for(int i=0;i<hist.size();i++)
  * {
- *    cout << "Name:" << hist[i].get_name() << std::endl;
- *    cout << "Date:" << hist[i].get_date() << std::endl;
+ *    std::cout << "Name:" << hist[i].get_name() << std::endl;
+ *    std::cout << "Date:" << hist[i].get_date() << std::endl;
  *    if( hist[i].is_deleted() )
  *    {
- *        cout << "Deleted !" << std::endl;
+ *        std::cout << "Deleted !" << std::endl;
  *    }
  *    else
  *    {
  *        hist[i].get_value() >> result;
  *        for (int j=0; j<result.size(); j++)
- *           cout << "Value:" << result[j] << std::endl;
+ *           std::cout << "Value:" << result[j] << std::endl;
  *    }
  * }
  * @endcode
@@ -1777,9 +1777,9 @@ public :
  * std::vector<std::string> al_list;
  * db_data >> al_list;
  *
- * cout << al_list.size() << " device alias defined in db" << std::endl;
+ * std::cout << al_list.size() << " device alias defined in db" << std::endl;
  * for (int i=0;i < al_list.size();i++)
- *     cout << "alias = " << al_list[i] << std::endl;
+ *     std::cout << "alias = " << al_list[i] << std::endl;
  * @endcode
  *
  * @param [in] filter The filter
