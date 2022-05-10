@@ -1,19 +1,10 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv) {
     DeviceProxy *device;
 
     if (argc != 3) {
-        cout << "usage: %s device loop" << endl;
+        TEST_LOG << "usage: %s device loop" << endl;
         exit(-1);
     }
 
@@ -28,7 +19,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+    TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
     int i;
 
@@ -43,7 +34,7 @@ int main(int argc, char **argv) {
             exit(-1);
         }
     }
-    cout << "   Void --> OK" << endl;
+    TEST_LOG << "   Void --> OK" << endl;
 
 // Test boolean
 
@@ -64,7 +55,7 @@ int main(int argc, char **argv) {
         assert(in != received);
         assert(data_type == Tango::DEV_BOOLEAN);
     }
-    cout << "   Boolean --> OK" << endl;
+    TEST_LOG << "   Boolean --> OK" << endl;
 
 // test short
 
@@ -85,7 +76,7 @@ int main(int argc, char **argv) {
         assert(received == (in * 2));
         assert(data_type == Tango::DEV_SHORT);
     }
-    cout << "   Short --> OK" << endl;
+    TEST_LOG << "   Short --> OK" << endl;
 
 // test long
 
@@ -104,7 +95,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(received == (in * 2));
     }
-    cout << "   Long --> OK" << endl;
+    TEST_LOG << "   Long --> OK" << endl;
 
 // test float
 
@@ -123,7 +114,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(received == (in * 2));
     }
-    cout << "   Float --> OK" << endl;
+    TEST_LOG << "   Float --> OK" << endl;
 
 // test double
 
@@ -142,7 +133,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(received == (in * 2));
     }
-    cout << "   Double --> OK" << endl;
+    TEST_LOG << "   Double --> OK" << endl;
 
 // test unsigned short
 
@@ -161,7 +152,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(received == (in * 2));
     }
-    cout << "   Unsigned Short --> OK" << endl;
+    TEST_LOG << "   Unsigned Short --> OK" << endl;
 
 // test unsigned long
 
@@ -180,7 +171,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(received == (in * 2));
     }
-    cout << "   Unsigned Long --> OK" << endl;
+    TEST_LOG << "   Unsigned Long --> OK" << endl;
 
 // test C++ string
 
@@ -199,7 +190,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(received == "cba");
     }
-    cout << "   C++ string --> OK" << endl;
+    TEST_LOG << "   C++ string --> OK" << endl;
 
 // test classical C string
 
@@ -218,7 +209,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(strcmp(received, "dcba") == 0);
     }
-    cout << "   const char * string --> OK" << endl;
+    TEST_LOG << "   const char * string --> OK" << endl;
 
 // test direct classical C string
 
@@ -236,7 +227,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(strcmp(received, "edcba") == 0);
     }
-    cout << "   direct const char * string --> OK" << endl;
+    TEST_LOG << "   direct const char * string --> OK" << endl;
 
 // test non-const C string
 
@@ -256,7 +247,7 @@ int main(int argc, char **argv) {
         dout >> received;
         assert(strcmp(received, "fedcba") == 0);
     }
-    cout << "   char * string --> OK" << endl;
+    TEST_LOG << "   char * string --> OK" << endl;
 
     // test DevVarBooleanArray
 
@@ -303,7 +294,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == true);
         assert((*received)[1] == false);
     }
-    cout << "   DevVarBooleanArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarBooleanArray (by pointer and reference) --> OK" << endl;
 
 // test char array
 
@@ -327,7 +318,7 @@ int main(int argc, char **argv) {
         assert(in[1] == received[0]);
         assert(data_type == Tango::DEVVAR_CHARARRAY);
     }
-    cout << "   vector of unsigned char --> OK" << endl;
+    TEST_LOG << "   vector of unsigned char --> OK" << endl;
 
 // test DevVarCharArray
 
@@ -377,7 +368,7 @@ int main(int argc, char **argv) {
         assert(in[0] == (*received)[1]);
         assert(in[1] == (*received)[0]);
     }
-    cout << "   DevVarCharArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarCharArray (by pointer and reference) --> OK" << endl;
 
 // test short array
 
@@ -399,7 +390,7 @@ int main(int argc, char **argv) {
         assert(received[0] == (in[0] * 2));
         assert(received[1] == (in[1] * 2));
     }
-    cout << "   vector of short --> OK" << endl;
+    TEST_LOG << "   vector of short --> OK" << endl;
 
 // test DevVarShortArray
 
@@ -444,7 +435,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == (in[0] * 2));
         assert((*received)[1] == (in[1] * 2));
     }
-    cout << "   DevVarShortArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarShortArray (by pointer and reference) --> OK" << endl;
 
 // test long array
 
@@ -466,7 +457,7 @@ int main(int argc, char **argv) {
         assert(received[0] == (in[0] * 2));
         assert(received[1] == (in[1] * 2));
     }
-    cout << "   vector of long --> OK" << endl;
+    TEST_LOG << "   vector of long --> OK" << endl;
 
 // test DevVarLongArray
 
@@ -509,7 +500,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == (in[0] * 2));
         assert((*received)[1] == (in[1] * 2));
     }
-    cout << "   DevVarLongArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarLongArray (by pointer and reference) --> OK" << endl;
 
 // test float array
 
@@ -531,7 +522,7 @@ int main(int argc, char **argv) {
         assert(received[0] == (in[0] * 2));
         assert(received[1] == (in[1] * 2));
     }
-    cout << "   vector of float --> OK" << endl;
+    TEST_LOG << "   vector of float --> OK" << endl;
 
 // test DevVarFloatArray
 
@@ -574,7 +565,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == (in[0] * 2));
         assert((*received)[1] == (in[1] * 2));
     }
-    cout << "   DevVarFloatArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarFloatArray (by pointer and reference) --> OK" << endl;
 
 // test double array
 
@@ -596,7 +587,7 @@ int main(int argc, char **argv) {
         assert(received[0] == (in[0] * 2));
         assert(received[1] == (in[1] * 2));
     }
-    cout << "   vector of double --> OK" << endl;
+    TEST_LOG << "   vector of double --> OK" << endl;
 
 // test DevVarDoubleArray
 
@@ -639,7 +630,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == (in[0] * 2));
         assert((*received)[1] == (in[1] * 2));
     }
-    cout << "   DevVarDoubleArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarDoubleArray (by pointer and reference) --> OK" << endl;
 
 // test unsigned short array
 
@@ -661,7 +652,7 @@ int main(int argc, char **argv) {
         assert(received[0] == (in[0] * 2));
         assert(received[1] == (in[1] * 2));
     }
-    cout << "   vector of unsigned short --> OK" << endl;
+    TEST_LOG << "   vector of unsigned short --> OK" << endl;
 
 // test DevVarUShortArray
 
@@ -704,7 +695,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == (in[0] * 2));
         assert((*received)[1] == (in[1] * 2));
     }
-    cout << "   DevVarUShortArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarUShortArray (by pointer and reference) --> OK" << endl;
 
 // test unsigned long array
 
@@ -726,7 +717,7 @@ int main(int argc, char **argv) {
         assert(received[0] == (in[0] * 2));
         assert(received[1] == (in[1] * 2));
     }
-    cout << "   vector of unsigned long --> OK" << endl;
+    TEST_LOG << "   vector of unsigned long --> OK" << endl;
 
 // test DevVarULongArray
 
@@ -769,7 +760,7 @@ int main(int argc, char **argv) {
         assert((*received)[0] == (in[0] * 2));
         assert((*received)[1] == (in[1] * 2));
     }
-    cout << "   DevVarULongArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarULongArray (by pointer and reference) --> OK" << endl;
 
 // test string array
 
@@ -794,7 +785,7 @@ int main(int argc, char **argv) {
         assert(received[1] == in[0]);
         assert(data_type == Tango::DEVVAR_STRINGARRAY);
     }
-    cout << "   vector of string --> OK" << endl;
+    TEST_LOG << "   vector of string --> OK" << endl;
 
 // test DevVarStringArray
 
@@ -817,7 +808,7 @@ int main(int argc, char **argv) {
         assert(!strcmp((*received)[0], "def"));
         assert(!strcmp((*received)[1], "abc"));
     }
-    cout << "   DevVarStringArray --> OK" << endl;
+    TEST_LOG << "   DevVarStringArray --> OK" << endl;
 
 // test vector of long and vector of string
 
@@ -848,7 +839,7 @@ int main(int argc, char **argv) {
         assert(received1[1] == (in1[1] * 2));
         assert(received1[2] == (in1[2] * 2));
     }
-    cout << "   vector of long, string --> OK" << endl;
+    TEST_LOG << "   vector of long, string --> OK" << endl;
 
 // test DevVarLongStringArray
 
@@ -905,7 +896,7 @@ int main(int argc, char **argv) {
         assert(!strcmp(received->svalue[1], in.svalue[1]));
         assert(data_type == Tango::DEVVAR_LONGSTRINGARRAY);
     }
-    cout << "   DevVarLongStringArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarLongStringArray (by pointer and reference) --> OK" << endl;
 
 // test vector of double and vector of string
 
@@ -938,7 +929,7 @@ int main(int argc, char **argv) {
         assert(received1[2] == (in1[2] * 2));
         assert(data_type == Tango::DEVVAR_DOUBLESTRINGARRAY);
     }
-    cout << "   vector of double, string --> OK" << endl;
+    TEST_LOG << "   vector of double, string --> OK" << endl;
 
 // test DevVarDoubleStringArray
 
@@ -998,7 +989,7 @@ int main(int argc, char **argv) {
         assert(!strcmp(received->svalue[1], in.svalue[1]));
         assert(!strcmp(received->svalue[2], in.svalue[2]));
     }
-    cout << "   DevVarDoubleStringArray (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevVarDoubleStringArray (by pointer and reference) --> OK" << endl;
 
 // test DevEncoded
 
@@ -1086,7 +1077,7 @@ int main(int argc, char **argv) {
         assert(!strcmp(received.encoded_format, "Returned string"));
         assert(data_type == Tango::DEV_ENCODED);
     }
-    cout << "   DevEncoded (by pointer and reference) --> OK" << endl;
+    TEST_LOG << "   DevEncoded (by pointer and reference) --> OK" << endl;
 
     delete device;
 

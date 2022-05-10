@@ -1,20 +1,11 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
 
 	if (argc != 2)
 	{
-		cout << "usage: print_data <device>" << endl;
+		TEST_LOG << "usage: print_data <device>" << endl;
 		exit(-1);
 	}
 
@@ -26,44 +17,44 @@ int main(int argc, char **argv)
 	bool in = true;
 	bool out;
 	din << in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> out;
 	assert (out == true);
 
-	cout << "   Boolean --> OK" << endl;
+	TEST_LOG << "   Boolean --> OK" << endl;
 
 // test short
 
 	short s_in = 2;
 	short s_out;
 	din << s_in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> s_out;
 	assert (s_out == 2);
 	
-	cout << "   Short --> OK" << endl;
+	TEST_LOG << "   Short --> OK" << endl;
 
 // test long
 
 	DevLong l_in = 3;
 	DevLong l_out;
 	din << l_in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> l_out;
 	assert (l_out == 3);
 	
-	cout << "   Long --> OK" << endl;
+	TEST_LOG << "   Long --> OK" << endl;
 
 // test float
 
 	float f_in = (float)3.1;
 	float f_out;
 	din << f_in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> f_out;
 	assert (f_out == (float)3.1);
 	
-	cout << "   Float --> OK" << endl;
+	TEST_LOG << "   Float --> OK" << endl;
 			
 // test double
 
@@ -71,44 +62,44 @@ int main(int argc, char **argv)
 	double db_in = 1.3;
 	double db_out;
 	din << db_in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> db_out;
 	assert (db_out == 1.3);
 	
-	cout << "   Double --> OK" << endl;
+	TEST_LOG << "   Double --> OK" << endl;
 
 // test unsigned short
 
 	unsigned short us_in = 100;
 	unsigned short us_out;
 	din << us_in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> us_out;
 	assert (us_out == 100);
 
-	cout << "   Unsigned Short --> OK" << endl;
+	TEST_LOG << "   Unsigned Short --> OK" << endl;
 
 // test unsigned long
 
 	DevULong ul_in = 1000;
 	DevULong ul_out;
 	din << ul_in;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> ul_out;
 	assert (ul_out == 1000);
 	
-	cout << "   Unsigned Long --> OK" << endl;
+	TEST_LOG << "   Unsigned Long --> OK" << endl;
 
 // test string
 
 	string str("abc");
 	string str_out;
 	din << str;
-	cout << "Data = " << din << endl;
+	TEST_LOG << "Data = " << din << endl;
 	din >> str_out;
 	assert (str_out == "abc");
 	
-	cout << "   String --> OK" << endl;
+	TEST_LOG << "   String --> OK" << endl;
 
 // test DevVarCharArray
 
@@ -117,12 +108,12 @@ int main(int argc, char **argv)
 	ch_in.push_back(0);
 	ch_in.push_back(1);
 	din << ch_in;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> ch_out;
 	assert (ch_out[0] == 0);
 	assert (ch_out[1] == 1);
 	
-	cout << "   DevVarCharArray --> OK" << endl;
+	TEST_LOG << "   DevVarCharArray --> OK" << endl;
 	
 // test DevVarShortArray
 
@@ -132,12 +123,12 @@ int main(int argc, char **argv)
 	(*sh_in)[0] = 10;
 	(*sh_in)[1] = 20;
 	din << sh_in;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> sh_out;
 	assert (sh_out[0] == 10);
 	assert (sh_out[1] == 20);
 	
-	cout << "   DevVarShortArray --> OK" << endl;
+	TEST_LOG << "   DevVarShortArray --> OK" << endl;
 	
 // test DevVarLongArray
 
@@ -147,12 +138,12 @@ int main(int argc, char **argv)
 	(*lg_arr)[0] = 111;
 	(*lg_arr)[1] = 222;
 	din << lg_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> lg_arr_out;
 	assert (lg_arr_out[0] == 111);
 	assert (lg_arr_out[1] == 222);
 	
-	cout << "   DevVarLongArray --> OK" << endl;
+	TEST_LOG << "   DevVarLongArray --> OK" << endl;
 	
 // test DevVarFloatArray
 
@@ -162,12 +153,12 @@ int main(int argc, char **argv)
 	(*fl_arr)[0] = (float)1.11;
 	(*fl_arr)[1] = (float)2.22;
 	din << fl_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> fl_arr_out;
 	assert (fl_arr_out[0] == (float)1.11);
 	assert (fl_arr_out[1] == (float)2.22);
 	
-	cout << "   DevVarFloatArray --> OK" << endl;
+	TEST_LOG << "   DevVarFloatArray --> OK" << endl;
 
 // test DevVarDoubleArray
 
@@ -177,12 +168,12 @@ int main(int argc, char **argv)
 	(*db_arr)[0] = 1.12;
 	(*db_arr)[1] = 3.45;
 	din << db_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> db_arr_out;
 	assert (db_arr_out[0] == 1.12);
 	assert (db_arr_out[1] == 3.45);
 	
-	cout << "   DevVarDoubleArray --> OK" << endl;
+	TEST_LOG << "   DevVarDoubleArray --> OK" << endl;
 	
 // test DevVarUShortArray
 
@@ -192,12 +183,12 @@ int main(int argc, char **argv)
 	(*us_arr)[0] = 11;
 	(*us_arr)[1] = 22;
 	din << us_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> us_arr_out;
 	assert (us_arr_out[0] == 11);
 	assert (us_arr_out[1] == 22);
 
-	cout << "   DevVarUShortArray --> OK" << endl;
+	TEST_LOG << "   DevVarUShortArray --> OK" << endl;
 	
 // test DevVarULongArray
 
@@ -207,12 +198,12 @@ int main(int argc, char **argv)
 	(*ul_arr)[0] = 1111;
 	(*ul_arr)[1] = 2222;
 	din << ul_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> ul_arr_out;
 	assert (ul_arr_out[0] == 1111);
 	assert (ul_arr_out[1] == 2222);
 	
-	cout << "   DevVarULongArray --> OK" << endl;
+	TEST_LOG << "   DevVarULongArray --> OK" << endl;
 	
 // test DevVarStringArray
 
@@ -223,13 +214,13 @@ int main(int argc, char **argv)
 	(*str_arr)[1] = Tango::string_dup("def");
 	(*str_arr)[2] = Tango::string_dup("ghi");
 	din << str_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din >> str_arr_out;
 	assert (str_arr_out[0] == "abc");
 	assert (str_arr_out[1] == "def");
 	assert (str_arr_out[2] == "ghi");
 
-	cout << "   DevVarStringArray --> OK" << endl;
+	TEST_LOG << "   DevVarStringArray --> OK" << endl;
 	
 // test DevVarLongStringArray
 
@@ -243,14 +234,14 @@ int main(int argc, char **argv)
 	lgstr_arr->svalue[0] = Tango::string_dup("zxc");
 	lgstr_arr->svalue[1] = Tango::string_dup("qwe");
 	din << lgstr_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din.extract(lg_lgstr,str_lgstr);
 	assert (lg_lgstr[0] == 1110);
 	assert (lg_lgstr[1] == 2220);
 	assert (str_lgstr[0] == "zxc");
 	assert (str_lgstr[1] == "qwe");
 	
-	cout << "   DevVarLongStringArray --> OK" << endl;
+	TEST_LOG << "   DevVarLongStringArray --> OK" << endl;
 	
 // test DevVarDoubleStringArray
 
@@ -266,7 +257,7 @@ int main(int argc, char **argv)
 	dbstr_arr->svalue[1] = Tango::string_dup("jkl");
 	dbstr_arr->svalue[2] = Tango::string_dup("bnm");
 	din << dbstr_arr;
-	cout << din << endl;
+	TEST_LOG << din << endl;
 	din.extract(db_dbstr,str_dbstr);
 	assert (db_dbstr[0] == 1.11);
 	assert (db_dbstr[1] == 22.2);
@@ -274,7 +265,7 @@ int main(int argc, char **argv)
 	assert (str_dbstr[1] == "jkl");
 	assert (str_dbstr[2] == "bnm");
 	
-	cout << "   DevVarDoubleStringArray --> OK" << endl;
+	TEST_LOG << "   DevVarDoubleStringArray --> OK" << endl;
 	
 // test DevState
 
@@ -282,11 +273,11 @@ int main(int argc, char **argv)
 	DevState sta = Tango::STANDBY;
 	DevState sta_out;
 	din << sta;
-	cout << "State = " << din << endl;
+	TEST_LOG << "State = " << din << endl;
 	din >> sta_out;
 	assert (sta_out == Tango::STANDBY);
 	
-	cout << "   DevState --> OK" << endl;
+	TEST_LOG << "   DevState --> OK" << endl;
 		
 // test DevEncoded
 
@@ -296,7 +287,7 @@ int main(int argc, char **argv)
 	de.encoded_data[0] = 11;
 	de.encoded_data[1] = 22;
 	din << de;
-	cout << "DevEncoded = " << din << endl;
+	TEST_LOG << "DevEncoded = " << din << endl;
 	DevEncoded dout;
 	din >> dout;
 	assert (!strcmp(dout.encoded_format,"the string"));
@@ -304,29 +295,29 @@ int main(int argc, char **argv)
 	assert (dout.encoded_data[0] == 11);
 	assert (dout.encoded_data[1] == 22);
 
-	cout << "   DevEncoded --> OK" << endl;
+	TEST_LOG << "   DevEncoded --> OK" << endl;
 	
 // Attribute
 
 	DeviceAttribute da;
-	cout << da << endl;
-cout << "Empty attribute OK" << endl;
+	TEST_LOG << da << endl;
+TEST_LOG << "Empty attribute OK" << endl;
 	
 	short s_attr = 20;
 	da << s_attr;
-	cout << da << endl;
-cout << "DA with init value OK" << endl;
+	TEST_LOG << da << endl;
+TEST_LOG << "DA with init value OK" << endl;
 	
 	DeviceProxy dev(device_name);
 	
 	da = dev.read_attribute("Long_attr");
-cout << "Attribute read" << endl;
-	cout << da  << endl;
+TEST_LOG << "Attribute read" << endl;
+	TEST_LOG << da  << endl;
 	Tango::DevLong la;
 	da >> la;
 	assert (la == 1246);
 
-	cout << "	DeviceAttribute --> OK" << endl;
+	TEST_LOG << "	DeviceAttribute --> OK" << endl;
 	
 	
 	return 0;

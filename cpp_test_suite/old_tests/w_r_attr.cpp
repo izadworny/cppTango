@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		cout << "usage: %s device" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -31,7 +22,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 //
 // Try to write_read a scalar attribute
@@ -57,7 +48,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Write_Read SCALAR attribute --> OK" << endl;
+	TEST_LOG << "  Write_Read SCALAR attribute --> OK" << endl;
 
 //
 // Try to write_read a spectrum attribute
@@ -89,7 +80,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Write_Read SPECTRUM attribute --> OK" << endl;
+	TEST_LOG << "  Write_Read SPECTRUM attribute --> OK" << endl;
 
 //
 // Try to write_read an image attribute
@@ -125,7 +116,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Write_Read IMAGE attribute --> OK" << endl;
+	TEST_LOG << "  Write_Read IMAGE attribute --> OK" << endl;
 
 //
 // Try to write_read different attribute in one go
@@ -168,7 +159,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Simple write_read_attributes (1 W / 1 R) --> OK" << endl;
+	TEST_LOG << "  Simple write_read_attributes (1 W / 1 R) --> OK" << endl;
 
 //
 // Try to write_read different attribute (more elaborated case)
@@ -230,7 +221,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Elaborated write_read_attributes (2 W / 3 R) --> OK" << endl;
+	TEST_LOG << "  Elaborated write_read_attributes (2 W / 3 R) --> OK" << endl;
 
 //
 // Try to write a non writable attribute
@@ -258,7 +249,7 @@ int main(int argc, char **argv)
 	assert (devfailed_except == true);
 	assert (except_reason == API_AttrNotWritable);
 
-	cout << "  Some basic exception cases --> OK" << endl;
+	TEST_LOG << "  Some basic exception cases --> OK" << endl;
 	
 	delete device;
 	return 0;	

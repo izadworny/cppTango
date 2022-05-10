@@ -1,19 +1,10 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
 #ifdef WIN32
 #include <limits>
 #else
 #include <math.h>
 #endif
 
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -21,7 +12,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 3)
 	{
-		cout << "usage: %s device loop" << endl;
+		TEST_LOG << "usage: %s device loop" << endl;
 		exit(-1);
 	}
 
@@ -38,7 +29,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	int i;
 
@@ -65,7 +56,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Short --> OK" << endl;
+	TEST_LOG << "   Short --> OK" << endl;
 
 // Write a short (with DeviceAttribute constructor)
 
@@ -90,7 +81,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Short (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Short (with DeviceAttribute constructor) --> OK" << endl;
 		
 // Write a long
 
@@ -114,7 +105,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Long --> OK" << endl;
+	TEST_LOG << "   Long --> OK" << endl;
 	
 // Write a long (with DeviceAttribute constructor)
 
@@ -139,7 +130,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Long (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Long (with DeviceAttribute constructor) --> OK" << endl;
 	
 // Write a double
 
@@ -163,7 +154,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Double --> OK" << endl;
+	TEST_LOG << "   Double --> OK" << endl;
 	
 // Write a double (with DeviceAttribute constructor)
 
@@ -188,7 +179,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Double (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Double (with DeviceAttribute constructor) --> OK" << endl;
 	
 // Write a string
 
@@ -212,7 +203,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   String --> OK" << endl;
+	TEST_LOG << "   String --> OK" << endl;
 	
 // Write a string (with DeviceAttribute constructor)
 
@@ -237,7 +228,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   String (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   String (with DeviceAttribute constructor) --> OK" << endl;
 
 // Write a float
 
@@ -261,7 +252,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Float --> OK" << endl;
+	TEST_LOG << "   Float --> OK" << endl;
 
 // Write a float (with DeviceAttribute constructor)
 
@@ -286,7 +277,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Float (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Float (with DeviceAttribute constructor) --> OK" << endl;
 
 // Write a boolean
 
@@ -310,7 +301,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Boolean --> OK" << endl;
+	TEST_LOG << "   Boolean --> OK" << endl;
 
 // Write a boolean (with DeviceAttribute constructor)
 
@@ -335,7 +326,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Boolean (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Boolean (with DeviceAttribute constructor) --> OK" << endl;
 
 // Write an unsigned short
 
@@ -359,7 +350,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Unsigned Short --> OK" << endl;
+	TEST_LOG << "   Unsigned Short --> OK" << endl;
 
 // Write an unsigned short (with DeviceAttribute constructor)
 
@@ -384,7 +375,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Unsigned Short (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Unsigned Short (with DeviceAttribute constructor) --> OK" << endl;
 
 // Write an unsigned char
 
@@ -408,7 +399,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Unsigned Char --> OK" << endl;
+	TEST_LOG << "   Unsigned Char --> OK" << endl;
 
 // Write an unsigned char (with DeviceAttribute constructor)
 
@@ -433,7 +424,7 @@ int main(int argc, char **argv)
 		dout >> received;
 		assert( received == in );
 	}
-	cout << "   Unsigned Char (with DeviceAttribute constructor) --> OK" << endl;
+	TEST_LOG << "   Unsigned Char (with DeviceAttribute constructor) --> OK" << endl;
 
 //
 // Write one non-writable attribute
@@ -459,7 +450,7 @@ int main(int argc, char **argv)
 	assert (devfailed == true);
 	assert (except_reason == API_AttrNotWritable);
 	
-	cout << "   write_attribute() method with exception --> OK" << endl;
+	TEST_LOG << "   write_attribute() method with exception --> OK" << endl;
 	
 //
 // One test with several attributes within the same call
@@ -496,7 +487,7 @@ int main(int argc, char **argv)
 		dout_d >> received_d;
 		assert( received_d == in_d );
 	}
-	cout << "   write_attributes() method with several attributes --> OK" << endl;
+	TEST_LOG << "   write_attributes() method with several attributes --> OK" << endl;
 
 
 /****************************************************************************
@@ -544,7 +535,7 @@ int main(int argc, char **argv)
 	assert (idx_att_in_fault[0] == 1);		
 	assert (idx_att_in_fault[1] == 3);
 	
-	cout << "   write_attributes() method with several attributes and exception --> OK" << endl;
+	TEST_LOG << "   write_attributes() method with several attributes and exception --> OK" << endl;
 
 //
 // Check that NaN and INF are refused
@@ -635,7 +626,7 @@ int main(int argc, char **argv)
 	assert( except == true );
 #endif /* SUNPRO_CC */
 
-	cout << "   NaN and INF refused for double/float attributes --> OK" << endl;
+	TEST_LOG << "   NaN and INF refused for double/float attributes --> OK" << endl;
 	
 	delete device;
 	return 0;	

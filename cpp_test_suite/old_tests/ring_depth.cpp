@@ -1,17 +1,8 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
 #ifdef WIN32
 #include <process.h>
 #endif
 
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -19,7 +10,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		cout << "usage: " << argv[0] << " <device>" << endl;
+		TEST_LOG << "usage: " << argv[0] << " <device>" << endl;
 		exit(-1);
 	}
 
@@ -35,7 +26,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << '\n' << "new DeviceProxy(" << device->name() << ") returned" << '\n' << endl;
+	TEST_LOG << '\n' << "new DeviceProxy(" << device->name() << ") returned" << '\n' << endl;
 
 	try
 	{
@@ -136,7 +127,7 @@ int main(int argc, char **argv)
 		dep = poll_attr.substr(pos, end - pos);
 		assert (dep == "15");
 
-		cout << "   Command and attribute with their own polling buffer depth --> OK" << endl;
+		TEST_LOG << "   Command and attribute with their own polling buffer depth --> OK" << endl;
 
 		delete poll_sta;
 
@@ -174,7 +165,7 @@ int main(int argc, char **argv)
 		assert (vs_poll[10] == "Attribute Double_spec_attr polling period = 0");
 		assert (vs_poll[11] == "Command OULong polling period = 0");
 
-		cout << "   Polling related methods in DeviceImpl --> OK" << endl;
+		TEST_LOG << "   Polling related methods in DeviceImpl --> OK" << endl;
 
 // Change polling period in polled attribute !!!
 
@@ -196,7 +187,7 @@ int main(int argc, char **argv)
 		assert (vs_poll[7] == "Attribute Short_attr polling period = 250");
 		assert (vs_poll[8] == "Attribute ReynaldPollAttr polling period = 250");
 
-		cout << "   Polled attributes changing their own polling period --> OK" << endl;
+		TEST_LOG << "   Polled attributes changing their own polling period --> OK" << endl;
 
 	}
 	catch (Tango::DevFailed &e)

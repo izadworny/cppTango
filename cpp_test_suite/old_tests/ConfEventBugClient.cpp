@@ -1,3 +1,4 @@
+#include "cxx_common_old.h"
 // Testprogram to demonstrate a server internal data update problem in 7.0.2-bugfix (snapshot: 24.7.2009)
 //
 // This client uses the server "TangoTest test"
@@ -20,11 +21,6 @@
 /// NO PRODUCTION CODE
 /// NO ERROR CHECKS
 
-#include "tango.h"
-#include <assert.h>
-
-using namespace std;
-
 std::string  abs_change_according_last_event = "-not yet set-";
 std::string  rel_change_according_last_event = "-not yet set-";
 
@@ -42,7 +38,7 @@ void ConfigChangedEventCallback::push_event( Tango::AttrConfEventData* ed )
         abs_change_according_last_event = ed->attr_conf->events.ch_event.abs_change;
         rel_change_according_last_event = ed->attr_conf->events.ch_event.rel_change;
 
-//	cout << "[ConfigChangedEventCallback]: push_event( AttrConfEventData ) entering for:" << endl
+//	TEST_LOG << "[ConfigChangedEventCallback]: push_event( AttrConfEventData ) entering for:" << endl
 //             << "[ConfigChangedEventCallback]: " << ed->attr_name << endl
 //             << "[ConfigChangedEventCallback]: event type: " << ed->event << endl
 //             << "[ConfigChangedEventCallback]: err: " << ed->err << endl
@@ -62,7 +58,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		cout << "usage: ConfEventBugClient <device>" << endl;
+		TEST_LOG << "usage: ConfEventBugClient <device>" << endl;
 		exit(-1);
 	}
 
@@ -71,32 +67,32 @@ int main(int argc, char **argv)
 	string resetValue = "Not specified";
 //		string resetValue = "NaN";
 
-//        cout << "[main]: This program assumes that  \"TangoTest test\"  is running" << endl;
-//        cout << "[main]: connect to " << dn 
+//        TEST_LOG << "[main]: This program assumes that  \"TangoTest test\"  is running" << endl;
+//        TEST_LOG << "[main]: connect to " << dn
 //             << "  TANGO_HOST=" 
 //             << (getenv( "TANGO_HOST" ) != NULL ? getenv( "TANGO_HOST" ) : "not set")
 //             << endl;
 
 	dev = new Tango::DeviceProxy( dn );
-//        cout << "[main]: ok, connected." << endl;
+//        TEST_LOG << "[main]: ok, connected." << endl;
 
         // put into a defined state:
 	ai = dev->attribute_query( an );
 	ai.events.ch_event.abs_change = "33333";
 	ai.events.ch_event.rel_change = "99.99";
-//        cout << "[main]: for " << an << ": set abs_change to: " << ai.events.ch_event.abs_change << endl;
-//        cout << "[main]: for " << an << ": set rel_change to: " << ai.events.ch_event.rel_change << endl;
+//        TEST_LOG << "[main]: for " << an << ": set abs_change to: " << ai.events.ch_event.abs_change << endl;
+//        TEST_LOG << "[main]: for " << an << ": set rel_change to: " << ai.events.ch_event.rel_change << endl;
 	ail.push_back( ai );
 	dev->set_attribute_config( ail );
 
-//        cout << "[main]: make a subscribe_event() for: attribute configuration changed, " << an << endl;
+//        TEST_LOG << "[main]: make a subscribe_event() for: attribute configuration changed, " << an << endl;
 	const vector< string >  filters;
 	dev -> subscribe_event( an, Tango::ATTR_CONF_EVENT, configChangedEventCallback, filters );
-//        cout << "[main]: subscribe_event() done." << endl << endl;
+//        TEST_LOG << "[main]: subscribe_event() done." << endl << endl;
 
 	Tango_sleep( 1 );
-//        cout << "[main]: current setting according configuration changed event: abs_chang=" <<  abs_change_according_last_event << endl;
-//        cout << "[main]: current setting according configuration changed event: rel_chang=" <<  rel_change_according_last_event << endl;
+//        TEST_LOG << "[main]: current setting according configuration changed event: abs_chang=" <<  abs_change_according_last_event << endl;
+//        TEST_LOG << "[main]: current setting according configuration changed event: rel_chang=" <<  rel_change_according_last_event << endl;
 
 	// try to reset:
 	ai = dev->attribute_query( an );
@@ -106,16 +102,16 @@ int main(int argc, char **argv)
 	ail.push_back( ai );
 	dev->set_attribute_config( ail );
 
-//        cout << "[main]: clearing setting for rel/abs_change.  Wait for a config changed event ..." << endl;
+//        TEST_LOG << "[main]: clearing setting for rel/abs_change.  Wait for a config changed event ..." << endl;
 	Tango_sleep( 1 );
 
 	// bug demonstration:
-//	cout << "[main]: doing a query for configuration from server: dev->attribute_query() ..." << endl;
+//	TEST_LOG << "[main]: doing a query for configuration from server: dev->attribute_query() ..." << endl;
 	ai = dev->attribute_query( an );
-//	cout << "[main]: setting as seen by server:                                abs_change=" << ai.events.ch_event.abs_change << endl;
-//	cout << "[main]: setting as seen by client due to the config change event: abs_change=" << abs_change_according_last_event << endl;
-//	cout << "[main]: setting as seen by server:                                rel_change=" << ai.events.ch_event.rel_change << endl;
-//	cout << "[main]: setting as seen by client due to the config change event: rel_change=" << rel_change_according_last_event << endl;
+//	TEST_LOG << "[main]: setting as seen by server:                                abs_change=" << ai.events.ch_event.abs_change << endl;
+//	TEST_LOG << "[main]: setting as seen by client due to the config change event: abs_change=" << abs_change_according_last_event << endl;
+//	TEST_LOG << "[main]: setting as seen by server:                                rel_change=" << ai.events.ch_event.rel_change << endl;
+//	TEST_LOG << "[main]: setting as seen by client due to the config change event: rel_change=" << rel_change_according_last_event << endl;
 
 	assert (abs_change_according_last_event == resetValue);
 	assert (rel_change_according_last_event == resetValue);
@@ -124,7 +120,7 @@ int main(int argc, char **argv)
      || rel_change_according_last_event != resetValue )
 	{
 		rc = -1;
-		cout << endl << "[main]: BUG: could not reset setting." << endl;
+		TEST_LOG << endl << "[main]: BUG: could not reset setting." << endl;
 	}*/
 
 	assert (ai.events.ch_event.abs_change == abs_change_according_last_event);
@@ -134,11 +130,11 @@ int main(int argc, char **argv)
      || ai.events.ch_event.rel_change != rel_change_according_last_event )
 	{
 		rc = -1;
-		cout << endl << "[main]: BUG: server sent a config changed event with correct data, but did not update the data internal." << endl;
+		TEST_LOG << endl << "[main]: BUG: server sent a config changed event with correct data, but did not update the data internal." << endl;
 	}*/
 
-//	cout << endl;
-	cout << "   Resetting attribute event configuration parameters --> OK" << endl;
+//	TEST_LOG << endl;
+	TEST_LOG << "   Resetting attribute event configuration parameters --> OK" << endl;
 	return rc;
 }
 

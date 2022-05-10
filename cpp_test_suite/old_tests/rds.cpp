@@ -1,16 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -18,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device [-v] " << endl;
 		exit(-1);
 	}
 
@@ -40,7 +28,7 @@ int main(int argc, char **argv)
 		exit(1);
         }
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 
 //**************************************************************************
@@ -112,17 +100,17 @@ int main(int argc, char **argv)
 		
 		unsigned int i;
 		for (i = 0;i < vs.size();i++)
-			coutv << "Attribute vector " << i << " = " << vs[i] << endl;
+			TEST_LOG << "Attribute vector " << i << " = " << vs[i] << endl;
 
 // Get device state and status
 
 		DevState sta;
 		sta = device->state();
-		coutv << "State = " << DevStateName[sta] << endl;
+		TEST_LOG << "State = " << DevStateName[sta] << endl;
 				
 		string status;
 		status = device->status();
-		coutv << "Status = " << status << endl;
+		TEST_LOG << "Status = " << status << endl;
 		
 		string::size_type pos;
 		pos = status.find("ON state");
@@ -139,17 +127,17 @@ int main(int argc, char **argv)
 #endif		
 
 		sta = device->state();
-		coutv << "State = " << DevStateName[sta] << endl;
+		TEST_LOG << "State = " << DevStateName[sta] << endl;
 				
 		status = device->status();
-		coutv << "Status = " << status << endl;
+		TEST_LOG << "Status = " << status << endl;
 		
 		pos = status.find("ON state");
 		
 		assert (sta == Tango::ON);
 		assert (pos != string::npos);
 
-		cout << "   Write without setting RDS --> OK" << endl;
+		TEST_LOG << "   Write without setting RDS --> OK" << endl;
 		
 // Write the attribute with setting the rds
 
@@ -163,15 +151,15 @@ int main(int argc, char **argv)
 		da >> vs;
 		
 		for (i = 0;i < vs.size();i++)
-			coutv << "Attribute vector " << i << " = " << vs[i] << endl;
+			TEST_LOG << "Attribute vector " << i << " = " << vs[i] << endl;
 
 // Get device state and status
 
 		sta = device->state();
-		coutv << "State = " << DevStateName[sta] << endl;
+		TEST_LOG << "State = " << DevStateName[sta] << endl;
 				
 		status = device->status();
-		coutv << "Status = " << status << endl;
+		TEST_LOG << "Status = " << status << endl;
 		
 		pos = status.find("ON state");
 		
@@ -187,11 +175,11 @@ int main(int argc, char **argv)
 #endif		
 
 		sta = device->state();
-		coutv << "State = " << DevStateName[sta] << endl;
+		TEST_LOG << "State = " << DevStateName[sta] << endl;
 		assert (sta == Tango::ALARM);
 				
 		status = device->status();
-		coutv << "Status = " << status << endl;
+		TEST_LOG << "Status = " << status << endl;
 		
 		pos = status.find("ALARM state");
 		assert (pos != string::npos);
@@ -200,7 +188,7 @@ int main(int argc, char **argv)
 		pos = status.find("Short_spec_attr_rw");
 		assert (pos != string::npos);		
 
-		cout << "   Write with setting RDS --> OK" << endl;
+		TEST_LOG << "   Write with setting RDS --> OK" << endl;
 
 // Write the attribute without setting the rds
 
@@ -214,15 +202,15 @@ int main(int argc, char **argv)
 		da >> vs;
 		
 		for (i = 0;i < vs.size();i++)
-			coutv << "Attribute vector " << i << " = " << vs[i] << endl;
+			TEST_LOG << "Attribute vector " << i << " = " << vs[i] << endl;
 
 // Get device state and status
 
 		sta = device->state();
-		coutv << "State = " << DevStateName[sta] << endl;
+		TEST_LOG << "State = " << DevStateName[sta] << endl;
 				
 		status = device->status();
-		coutv << "Status = " << status << endl;
+		TEST_LOG << "Status = " << status << endl;
 		
 		pos = status.find("ON state");
 		
@@ -238,17 +226,17 @@ int main(int argc, char **argv)
 #endif		
 
 		sta = device->state();
-		coutv << "State = " << DevStateName[sta] << endl;
+		TEST_LOG << "State = " << DevStateName[sta] << endl;
 				
 		status = device->status();
-		coutv << "Status = " << status << endl;
+		TEST_LOG << "Status = " << status << endl;
 		
 		pos = status.find("ON state");
 		
 		assert (sta == Tango::ON);
 		assert (pos != string::npos);
 
-		cout << "   Write without setting RDS --> OK" << endl;
+		TEST_LOG << "   Write without setting RDS --> OK" << endl;
 									
 // Remove rds property (delta_t and delta_val) and restart device
 		

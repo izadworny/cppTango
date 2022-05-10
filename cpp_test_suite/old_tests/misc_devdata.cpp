@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main()
 {
@@ -25,7 +16,7 @@ int main()
 	bool ret = da >> lo;
 	assert ( ret == false );
 	
-	cout << "   Extraction from empty object --> OK" << endl;
+	TEST_LOG << "   Extraction from empty object --> OK" << endl;
 
 
 	flags.set(DeviceData::isempty_flag);
@@ -40,7 +31,7 @@ int main()
 	{
 	}
 	
-	cout << "   Extraction from empty object (exception) --> OK" << endl;
+	TEST_LOG << "   Extraction from empty object (exception) --> OK" << endl;
 	flags.reset();
 		
 // Test wrong type
@@ -54,7 +45,7 @@ int main()
 	ret = db >> fl;
 	assert ( ret == false );
 	
-	cout << "   Extraction with wrong type --> OK" << endl;
+	TEST_LOG << "   Extraction with wrong type --> OK" << endl;
 
 	flags.set(DeviceData::wrongtype_flag);
 	db.exceptions(flags);
@@ -68,7 +59,7 @@ int main()
 	{
 	}
 	
-	cout << "   Extraction with wrong type (exception) --> OK" << endl;
+	TEST_LOG << "   Extraction with wrong type (exception) --> OK" << endl;
 
 // Test assignement operator
 
@@ -86,7 +77,7 @@ int main()
 	assert( out[0] == "abc");
 	assert( out[1] == "def");
 	
-	cout << "   assignement operator --> OK" << endl;
+	TEST_LOG << "   assignement operator --> OK" << endl;
 	
 // Test copy constructor
 
@@ -101,7 +92,7 @@ int main()
 	
 	assert( db_out == db2 );
 	
-	cout << "   Copy constructor --> OK" << endl;
+	TEST_LOG << "   Copy constructor --> OK" << endl;
 
 // Test move assignement (if available)
 
@@ -116,7 +107,7 @@ int main()
 
 	assert(fl_move_out == fl_move);
 
-	cout << "   Move assignement --> OK" << endl;
+	TEST_LOG << "   Move assignement --> OK" << endl;
 
 	return 0;		
 }

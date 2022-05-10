@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 3)
 	{
-		cout << "usage: %s device loop" << endl;
+		TEST_LOG << "usage: %s device loop" << endl;
 		exit(-1);
 	}
 
@@ -32,7 +23,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 	int i;
 
 // Test SCALAR short
@@ -63,7 +54,7 @@ int main(int argc, char **argv)
 		assert ( data_format == Tango::SCALAR );
 #endif
 	}
-	cout << "   Scalar short --> OK" << endl;
+	TEST_LOG << "   Scalar short --> OK" << endl;
 		
 // Test SCALAR long
 
@@ -92,7 +83,7 @@ int main(int argc, char **argv)
 		assert ( data_format == Tango::SCALAR );
 #endif
 	}
-	cout << "   Scalar long --> OK" << endl;
+	TEST_LOG << "   Scalar long --> OK" << endl;
 
 // Test SCALAR double
 
@@ -112,7 +103,7 @@ int main(int argc, char **argv)
 		da >> db;
 		assert ( db == 3.2 );
 	}
-	cout << "   Scalar double --> OK" << endl;
+	TEST_LOG << "   Scalar double --> OK" << endl;
 
 // Test SCALAR string
 
@@ -132,7 +123,7 @@ int main(int argc, char **argv)
 		da >> str;
 		assert ( str == "test_string" );
 	}
-	cout << "   Scalar C++ string --> OK" << endl;
+	TEST_LOG << "   Scalar C++ string --> OK" << endl;
 
 // Test SCALAR float
 
@@ -152,7 +143,7 @@ int main(int argc, char **argv)
 			exit(-1);
 		}
 	}
-	cout << "   Scalar float --> OK" << endl;
+	TEST_LOG << "   Scalar float --> OK" << endl;
 
 // Test SCALAR boolean
 
@@ -172,7 +163,7 @@ int main(int argc, char **argv)
 		da >> db;
 		assert ( db == true );
 	}
-	cout << "   Scalar boolean --> OK" << endl;
+	TEST_LOG << "   Scalar boolean --> OK" << endl;
 
 // Test SCALAR unsigned short
 
@@ -192,7 +183,7 @@ int main(int argc, char **argv)
 		da >> db;
 		assert ( db == 111 );
 	}
-	cout << "   Scalar unsigned short --> OK" << endl;
+	TEST_LOG << "   Scalar unsigned short --> OK" << endl;
 
 // Test SCALAR unsigned char
 
@@ -212,7 +203,7 @@ int main(int argc, char **argv)
 		da >> db;
 		assert ( db == 88 );
 	}
-	cout << "   Scalar unsigned char --> OK" << endl;
+	TEST_LOG << "   Scalar unsigned char --> OK" << endl;
 
 // Test SCALAR long 64 bits
 
@@ -239,7 +230,7 @@ int main(int argc, char **argv)
 		assert ( data_format == Tango::SCALAR );
 #endif
 	}
-	cout << "   Scalar long 64 bits --> OK" << endl;
+	TEST_LOG << "   Scalar long 64 bits --> OK" << endl;
 	
 // Test SCALAR unsigned long 
 
@@ -261,7 +252,7 @@ int main(int argc, char **argv)
 		assert ( lo == 0xC0000000L );
 		assert ( data_type == Tango::DEV_ULONG );
 	}
-	cout << "   Scalar unsigned long --> OK" << endl;
+	TEST_LOG << "   Scalar unsigned long --> OK" << endl;
 	
 // Test SCALAR unsigned long 64 bits
 
@@ -283,7 +274,7 @@ int main(int argc, char **argv)
 		assert ( lo == 0xC000000000000000LL );
 		assert ( data_type == Tango::DEV_ULONG64 );
 	}
-	cout << "   Scalar unsigned long 64 bits --> OK" << endl;
+	TEST_LOG << "   Scalar unsigned long 64 bits --> OK" << endl;
 	
 // Test SCALAR state
 
@@ -313,7 +304,7 @@ int main(int argc, char **argv)
 		assert ( data_format == Tango::SCALAR );
 #endif
 	}
-	cout << "   Scalar state --> OK" << endl;
+	TEST_LOG << "   Scalar state --> OK" << endl;
 
 // Test SCALAR DevEncoded
 
@@ -346,7 +337,7 @@ int main(int argc, char **argv)
 		assert ( lo.encoded_data[2] == 99 );
 		assert ( lo.encoded_data[3] == 100 );
 	}
-	cout << "   Scalar DevEncoded --> OK" << endl;
+	TEST_LOG << "   Scalar DevEncoded --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -387,7 +378,7 @@ int main(int argc, char **argv)
                 }
 #endif
 	}
-	cout << "   Scalar DevEncoded (JPEG) --> OK" << endl;
+	TEST_LOG << "   Scalar DevEncoded (JPEG) --> OK" << endl;
 #endif
 
 // Thirteen in one go
@@ -470,7 +461,7 @@ int main(int argc, char **argv)
 		delete received;
 	}
 	
-	cout << "   Thirteen in one call --> OK" << endl;
+	TEST_LOG << "   Thirteen in one call --> OK" << endl;
 	
 //
 //---------------------------------------------------------------------------------------------
@@ -504,7 +495,7 @@ int main(int argc, char **argv)
 		assert ( sh[2] == 30 );
 		assert ( sh[3] == 40 );
 	}
-	cout << "   Spectrum short (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum short (C++ vector) --> OK" << endl;
 
 // Test SPECTRUM long
 
@@ -534,7 +525,7 @@ int main(int argc, char **argv)
 		assert ( lo[3] == 3 );
 		assert ( lo[9] == 9 );
 	}
-	cout << "   Spectrum long (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum long (C++ vector) --> OK" << endl;
 
 // Test SPECTRUM double
 
@@ -559,7 +550,7 @@ int main(int argc, char **argv)
 		assert ( db[1] == 2.22 );
 		assert ( data_type == Tango::DEV_DOUBLE );
 	}
-	cout << "   Spectrum double (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum double (C++ vector) --> OK" << endl;
 	
 // Test SPECTRUM string
 
@@ -582,7 +573,7 @@ int main(int argc, char **argv)
 		assert ( str[0] == "Hello world" );
 		assert ( str[1] == "Hello universe" );
 	}
-	cout << "   Spectrum string (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum string (C++ vector) --> OK" << endl;
 
 // Test SPECTRUM float
 
@@ -606,7 +597,7 @@ int main(int argc, char **argv)
 		assert ( sh[1] == 8.5 );
 		assert ( sh[2] == 16.5 );
 	}
-	cout << "   Spectrum float (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum float (C++ vector) --> OK" << endl;
 
 // Test SPECTRUM boolean
 
@@ -636,7 +627,7 @@ int main(int argc, char **argv)
 		assert ( sh[3] == true );
 		assert ( sh[4] == true );
 	}
-	cout << "   Spectrum boolean (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum boolean (C++ vector) --> OK" << endl;
 
 // Test SPECTRUM unsigned short
 
@@ -659,7 +650,7 @@ int main(int argc, char **argv)
 		assert ( sh[0] == 333 );
 		assert ( sh[1] == 444 );
 	}
-	cout << "   Spectrum unsigned short (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned short (C++ vector) --> OK" << endl;
 	
 // Test SPECTRUM unsigned char
 
@@ -686,7 +677,7 @@ int main(int argc, char **argv)
 		assert ( sh[4] == 200 );
 		assert ( sh[5] == 12 );
 	}
-	cout << "   Spectrum unsigned char (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned char (C++ vector) --> OK" << endl;
 	
 // Test SPECTRUM long 64 bits
 
@@ -711,7 +702,7 @@ int main(int argc, char **argv)
 		assert ( lo[2] == 100000 );
 		assert ( lo[3] == 0);
 	}
-	cout << "   Spectrum long 64 bits (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum long 64 bits (C++ vector) --> OK" << endl;
 	
 // Test SPECTRUM unsigned long
 
@@ -736,7 +727,7 @@ int main(int argc, char **argv)
 		assert ( lo[2] == 222222 );
 		assert ( lo[3] == 0);
 	}
-	cout << "   Spectrum unsigned long (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned long (C++ vector) --> OK" << endl;
 	
 // Test SPECTRUM unsigned long 64 bits
 
@@ -761,7 +752,7 @@ int main(int argc, char **argv)
 		assert ( lo[2] == 888888 );
 		assert ( lo[3] == 0);
 	}
-	cout << "   Spectrum unsigned long 64 bits (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned long 64 bits (C++ vector) --> OK" << endl;
 	
 // Test SPECTRUM state
 
@@ -785,7 +776,7 @@ int main(int argc, char **argv)
 		assert ( lo[1] == Tango::OFF );
 		assert ( lo[2] == Tango::UNKNOWN );
 	}
-	cout << "   Spectrum state (C++ vector) --> OK" << endl;
+	TEST_LOG << "   Spectrum state (C++ vector) --> OK" << endl;
 	
 //
 //-----------------------------------------------------------------------------------------
@@ -815,7 +806,7 @@ int main(int argc, char **argv)
 		
 		delete sh;
 	}
-	cout << "   Spectrum short (DevVarShortArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum short (DevVarShortArray) --> OK" << endl;
 
 // Test SPECTRUM long
 
@@ -840,7 +831,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Spectrum long (DevVarLongArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum long (DevVarLongArray) --> OK" << endl;
 
 // Test SPECTRUM double
 
@@ -863,7 +854,7 @@ int main(int argc, char **argv)
 		
 		delete db;
 	}
-	cout << "   Spectrum double (DevVarDoubleArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum double (DevVarDoubleArray) --> OK" << endl;
 
 // Test SPECTRUM string
 
@@ -886,7 +877,7 @@ int main(int argc, char **argv)
 		
 		delete str;
 	}
-	cout << "   Spectrum string (DevVarStringArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum string (DevVarStringArray) --> OK" << endl;
 
 // Test SPECTRUM float
 
@@ -910,7 +901,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Spectrum float (DevVarFloatArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum float (DevVarFloatArray) --> OK" << endl;
 	
 // Test SPECTRUM boolean
 
@@ -939,7 +930,7 @@ int main(int argc, char **argv)
 				
 		delete lo;
 	}
-	cout << "   Spectrum boolean (DevVarBooleanArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum boolean (DevVarBooleanArray) --> OK" << endl;
 				
 // Test SPECTRUM unsigned short
 
@@ -962,7 +953,7 @@ int main(int argc, char **argv)
 				
 		delete lo;
 	}
-	cout << "   Spectrum unsigned short (DevVarUShortArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned short (DevVarUShortArray) --> OK" << endl;
 	
 // Test SPECTRUM unsigned char
 
@@ -989,7 +980,7 @@ int main(int argc, char **argv)
 				
 		delete lo;
 	}
-	cout << "   Spectrum unsigned char (DevVarCharArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned char (DevVarCharArray) --> OK" << endl;
 	
 // Test SPECTRUM long 64 bits
 
@@ -1016,7 +1007,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Spectrum long 64 bits (DevVarLong64Array) --> OK" << endl;
+	TEST_LOG << "   Spectrum long 64 bits (DevVarLong64Array) --> OK" << endl;
 	
 // Test SPECTRUM unsigned long
 
@@ -1043,7 +1034,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Spectrum unsigned long (DevVarULongArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned long (DevVarULongArray) --> OK" << endl;
 	
 // Test SPECTRUM unsigned long 64 bits
 
@@ -1070,7 +1061,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Spectrum unsigned long 64 bits (DevVarULong64Array) --> OK" << endl;
+	TEST_LOG << "   Spectrum unsigned long 64 bits (DevVarULong64Array) --> OK" << endl;
 
 //    Test SPECTRUM boolean
 
@@ -1097,7 +1088,7 @@ int main(int argc, char **argv)
 
         delete lo;
     }
-    cout << "   Spectrum unsigned long 64 bits (DevVarULong64Array) --> OK" << endl;
+    TEST_LOG << "   Spectrum unsigned long 64 bits (DevVarULong64Array) --> OK" << endl;
 
 // Test SPECTRUM state
 
@@ -1126,7 +1117,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Spectrum state (DevVarStateArray) --> OK" << endl;
+	TEST_LOG << "   Spectrum state (DevVarStateArray) --> OK" << endl;
 	
 // Test IMAGE short
 
@@ -1153,7 +1144,7 @@ int main(int argc, char **argv)
 		
 		delete lo;
 	}
-	cout << "   Image short (DevVarShortArray) --> OK" << endl;
+	TEST_LOG << "   Image short (DevVarShortArray) --> OK" << endl;
 
 // Test exception on attribute data format unknown
 
@@ -1177,7 +1168,7 @@ int main(int argc, char **argv)
 	AttrDataFormat df = db.get_data_format();
 	assert ( df == Tango::FMT_UNKNOWN );
 	
-	cout << "   Exception/Error for unknown attribute data format --> OK" << endl;
+	TEST_LOG << "   Exception/Error for unknown attribute data format --> OK" << endl;
 #endif
 			
 	delete device;

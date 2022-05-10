@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 
 	if (argc != 4)
 	{
-		cout << "usage: copy_devproxy <device1> <device2> <device3>" << endl;
+		TEST_LOG << "usage: copy_devproxy <device1> <device2> <device3>" << endl;
 		exit(-1);
 	}
 
@@ -33,7 +24,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 		
 	try
 	{
@@ -54,7 +45,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 	
-	cout << "   Copy constructor --> OK" << endl;
+	TEST_LOG << "   Copy constructor --> OK" << endl;
 	
 // Test assignement operator
 
@@ -68,7 +59,7 @@ int main(int argc, char **argv)
 	assert (dev3.get_idl_version() == 5);
 #endif
 	
-	cout << "   Assignement operator --> OK" << endl;
+	TEST_LOG << "   Assignement operator --> OK" << endl;
 				
 	delete device;
 	return 0;

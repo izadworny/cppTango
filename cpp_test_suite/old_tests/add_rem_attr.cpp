@@ -1,16 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -18,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device [-v] " << endl;
 		exit(-1);
 	}
 
@@ -40,7 +28,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	try
 	{
@@ -53,7 +41,7 @@ int main(int argc, char **argv)
 		att_list = device->get_attribute_list();
 		long nb_att = att_list->size();
 		
-		coutv << "Device attribute number before add = " << nb_att << endl;
+		TEST_LOG << "Device attribute number before add = " << nb_att << endl;
 
 //
 // Add one attribute to the device
@@ -72,7 +60,7 @@ int main(int argc, char **argv)
 		att_list_add = device->get_attribute_list();
 		long nb_att_add = att_list_add->size();
 		
-		coutv << "Device attribute number after add = " << nb_att_add << endl;
+		TEST_LOG << "Device attribute number after add = " << nb_att_add << endl;
 		assert (nb_att_add == (nb_att + 1));
 		
 //
@@ -85,10 +73,10 @@ int main(int argc, char **argv)
 		att_list_add2 = device->get_attribute_list();
 		long nb_att_add2 = att_list_add2->size();
 		
-		coutv << "Device attribute number after second add = " << nb_att_add2 << endl;
+		TEST_LOG << "Device attribute number after second add = " << nb_att_add2 << endl;
 		assert (nb_att_add2 == (nb_att + 1));
 		
-		cout << "   Adding attribute --> OK" << endl;
+		TEST_LOG << "   Adding attribute --> OK" << endl;
 		
 //
 // Remove the attribute
@@ -100,7 +88,7 @@ int main(int argc, char **argv)
 		att_list_rem = device->get_attribute_list();
 		long nb_att_rem = att_list_rem->size();
 		
-		coutv << "Device attribute number after removing add = " << nb_att_rem << endl;
+		TEST_LOG << "Device attribute number after removing add = " << nb_att_rem << endl;
 		assert (nb_att_rem == nb_att);
 		
 //
@@ -114,13 +102,13 @@ int main(int argc, char **argv)
 		}
 		catch (Tango::DevFailed &e)
 		{
-			coutv << "Received exception" << endl;
+			TEST_LOG << "Received exception" << endl;
 			except = true;
 		}
 		
 		assert (except == true);
 		
-		cout << "   Removing attribute --> OK" << endl;		
+		TEST_LOG << "   Removing attribute --> OK" << endl;
 						
 	}
 	catch (Tango::DevFailed &e)

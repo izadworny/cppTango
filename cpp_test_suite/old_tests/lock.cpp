@@ -1,10 +1,3 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
 #ifdef WIN32
 #include <process.h>
 #define WEXITSTATUS(w) w
@@ -12,14 +5,9 @@
 #include <sys/wait.h>
 #endif
 
+#include "cxx_common_old.h"
+
 #include "locked_device_cmd.h"
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
 
 int main(int argc, char **argv)
 {
@@ -27,7 +15,7 @@ int main(int argc, char **argv)
 	
 	if ((argc < 3) || (argc > 4))
 	{
-		cout << "usage: lock <device1> <device2> [-v] " << endl;
+		TEST_LOG << "usage: lock <device1> <device2> [-v] " << endl;
 		exit(-1);
 	}
 
@@ -50,7 +38,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 
 	try
@@ -72,12 +60,12 @@ int main(int argc, char **argv)
 		}
 
 		assert ( except == true );
-		cout << "  Admin device unlockable --> OK" << endl;
+		TEST_LOG << "  Admin device unlockable --> OK" << endl;
 
 // Unlocking a non locked device does nothing
 
 		device->unlock();
-		cout << "  Unlock a non-locked device --> OK" << endl;
+		TEST_LOG << "  Unlock a non-locked device --> OK" << endl;
 
 // Lock validity checks
 
@@ -107,7 +95,7 @@ int main(int argc, char **argv)
 
 		assert ( except == true );
 
-		cout << "  Basic test on lock validity argument --> OK" << endl;
+		TEST_LOG << "  Basic test on lock validity argument --> OK" << endl;
 
 // Lock the device, and do some basic test
 
@@ -115,29 +103,29 @@ int main(int argc, char **argv)
 		LockerInfo the_locker;
 
 		bool_ret = device->is_locked();
-		coutv << "Passed 10" << endl;
+		TEST_LOG << "Passed 10" << endl;
 		assert ( bool_ret == false );
 
 		bool_ret = device->is_locked_by_me();
-		coutv << "Passed 11" << endl;
+		TEST_LOG << "Passed 11" << endl;
 		assert ( bool_ret == false );
 
 		bool_ret = device->get_locker(the_locker);
-		coutv << "Passed 12" << endl;
+		TEST_LOG << "Passed 12" << endl;
 		assert (bool_ret == false );
 
 		device->lock();
 
 		bool_ret = device->is_locked();
-		coutv << "Passed 13" << endl;
+		TEST_LOG << "Passed 13" << endl;
 		assert ( bool_ret == true );
 
 		bool_ret = device->is_locked_by_me();
-		coutv << "Passed 14" << endl;
+		TEST_LOG << "Passed 14" << endl;
 		assert ( bool_ret == true );
 
 		bool_ret = device->get_locker(the_locker);
-		coutv << "Passed 15" << endl;
+		TEST_LOG << "Passed 15" << endl;
 		assert ( bool_ret == true );
 		assert ( the_locker.ll == Tango::CPP );
 #ifdef WIN32
@@ -182,13 +170,13 @@ int main(int argc, char **argv)
 		sub_process_cmd = sub_process_cmd + device_name;
 		int ret = system(sub_process_cmd.c_str());
 
-		coutv << "Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		device->unlock();
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "Locked_device returned value after unlock = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "Locked_device returned value after unlock = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
 		bool_ret = device->is_locked();
@@ -200,7 +188,7 @@ int main(int argc, char **argv)
 		bool_ret = device->get_locker(the_locker);
 		assert (bool_ret == false);
 
-		cout << "  Basic Lock/Unlock --> OK" << endl;
+		TEST_LOG << "  Basic Lock/Unlock --> OK" << endl;
 
 // Check the allowed commands
 
@@ -209,10 +197,10 @@ int main(int argc, char **argv)
 		sub_proc = sub_proc + device_name;
 		ret = system(sub_proc.c_str());
 
-		coutv << "allowed_cmd returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "allowed_cmd returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
-		cout << "  Allowed command while device is locked --> OK" << endl;
+		TEST_LOG << "  Allowed command while device is locked --> OK" << endl;
 		device->unlock();
 
 // Re-entrant lock
@@ -222,24 +210,24 @@ int main(int argc, char **argv)
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Re-entrant lock) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Re-entrant lock) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		device->unlock();
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Re-entrant lock) Locked_device returned value after first unlock = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Re-entrant lock) Locked_device returned value after first unlock = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		device->unlock();
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Re-entrant lock) Locked_device returned value after second unlock = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Re-entrant lock) Locked_device returned value after second unlock = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
-		cout << "  Re-Entrant Lock/Unlock --> OK" << endl;
+		TEST_LOG << "  Re-Entrant Lock/Unlock --> OK" << endl;
 
 // Destroying the device unlock it
 
@@ -248,16 +236,16 @@ int main(int argc, char **argv)
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Destroying device) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Destroying device) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		delete device;
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Destroying device) Locked_device returned value after the delete = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Destroying device) Locked_device returned value after the delete = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
-		cout << "  Destroy the DeviceProxy unlocks the device --> OK" << endl;
+		TEST_LOG << "  Destroy the DeviceProxy unlocks the device --> OK" << endl;
 		device = new DeviceProxy(device_name);
 
 // Restarting a device keep the lock
@@ -270,10 +258,10 @@ int main(int argc, char **argv)
 		device->state();
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Restarting device) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Restarting device) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
-		cout << "  Restart a locked device keeps the lock --> OK" << endl;	
+		TEST_LOG << "  Restart a locked device keeps the lock --> OK" << endl;
 
 // Impossible to restart a locked device by another client
 
@@ -282,10 +270,10 @@ int main(int argc, char **argv)
 
 		ret = system(restart_cmd.c_str());
 
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
-		cout << "  Impossible to restart a device locked by another client --> OK" << endl;
+		TEST_LOG << "  Impossible to restart a device locked by another client --> OK" << endl;
 
 // Impossible to do polling related commands on a locked device
 
@@ -295,44 +283,44 @@ int main(int argc, char **argv)
 		string res = base_restart + " AddObjPolling";
 
 		ret = system(restart_cmd.c_str());
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		res = base_restart + " RemObjPolling";
 
 		ret = system(restart_cmd.c_str());
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		res = base_restart + " UpdObjPollingPeriod";
 
 		ret = system(restart_cmd.c_str());
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
-		cout << "  Impossible to change polling on a device locked by another client --> OK" << endl;
+		TEST_LOG << "  Impossible to change polling on a device locked by another client --> OK" << endl;
 
 // Impossible to do logging related commands on a locked device
 
 		res = base_restart + " AddLoggingTarget";
 
 		ret = system(restart_cmd.c_str());
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		res = base_restart + " RemoveLoggingTarget";
 
 		ret = system(restart_cmd.c_str());
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		res = base_restart + " SetLoggingLevel";
 
 		ret = system(restart_cmd.c_str());
-		coutv << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "restart_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
-		cout << "  Impossible to change logging on a device locked by another client --> OK" << endl;	
+		TEST_LOG << "  Impossible to change logging on a device locked by another client --> OK" << endl;
 
 // Check that the locking thread is doing periodic re-lock
 
@@ -345,7 +333,7 @@ int main(int argc, char **argv)
 		device->unlock();
 		delete device2;
 
-		cout << "  Locking thread re-locks the device --> OK" << endl;
+		TEST_LOG << "  Locking thread re-locks the device --> OK" << endl;
 
 // Unlock a device using the back door
 
@@ -383,14 +371,14 @@ int main(int argc, char **argv)
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Back door) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Back door) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
 		device->unlock();
 		device->unlock();
 		device->unlock();
 
-		cout << "  Another client unlocks the device using the back door --> OK" << endl;
+		TEST_LOG << "  Another client unlocks the device using the back door --> OK" << endl;
 
 // Restarting a server breaks the lock
 
@@ -433,12 +421,12 @@ int main(int argc, char **argv)
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Restart server) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Restart server) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
 		device->unlock();
 
-		cout << "  Restart the server breaks the lock --> OK" << endl;
+		TEST_LOG << "  Restart the server breaks the lock --> OK" << endl;
 
 // Locking without relock kills the lock
 
@@ -449,7 +437,7 @@ int main(int argc, char **argv)
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Without ReLock) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Without ReLock) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 1);
 
 		ApiUtil *au = ApiUtil::instance();
@@ -462,10 +450,10 @@ int main(int argc, char **argv)
 
 		ret = system(sub_process_cmd.c_str());
 
-		coutv << "(Without ReLock) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
+		TEST_LOG << "(Without ReLock) Locked_device returned value = " << WEXITSTATUS(ret) << endl;
 		assert ( WEXITSTATUS(ret) == 0);
 
-		cout << "  Lock validity --> OK" << endl;
+		TEST_LOG << "  Lock validity --> OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{

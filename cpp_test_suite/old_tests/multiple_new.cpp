@@ -1,12 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 5)
 	{
-		cout << "usage: %s device1 device2 device3 loop" << endl;
+		TEST_LOG << "usage: %s device1 device2 device3 loop" << endl;
 		exit(-1);
 	}
 
@@ -32,10 +24,10 @@ int main(int argc, char **argv)
 		try 
 		{
 			device1 = new DeviceProxy(device_name1);
-			cout << endl << "new DeviceProxy(" << device1->name() << ") returned" << endl << endl;
+			TEST_LOG << endl << "new DeviceProxy(" << device1->name() << ") returned" << endl << endl;
 			
 			device1->ping();
-			cout << "Ping on device " << device1->name() << " successfull" << endl;
+			TEST_LOG << "Ping on device " << device1->name() << " successfull" << endl;
 		}
        	 	catch (CORBA::Exception &e)
        	 	{
@@ -50,10 +42,10 @@ int main(int argc, char **argv)
 		try 
 		{
 			device2 = new DeviceProxy(device_name2);
-			cout << endl << "new DeviceProxy(" << device2->name() << ") returned" << endl << endl;
+			TEST_LOG << endl << "new DeviceProxy(" << device2->name() << ") returned" << endl << endl;
 			
 			device2->ping();
-			cout << "Ping on device " << device2->name() << " successfull" << endl;
+			TEST_LOG << "Ping on device " << device2->name() << " successfull" << endl;
 		}
         	catch (CORBA::Exception &e)
         	{
@@ -68,10 +60,10 @@ int main(int argc, char **argv)
 		try 
 		{
 			device3 = new DeviceProxy(device_name3);
-			cout << endl << "new DeviceProxy(" << device3->name() << ") returned" << endl << endl;
+			TEST_LOG << endl << "new DeviceProxy(" << device3->name() << ") returned" << endl << endl;
 			
 			device3->ping();
-			cout << "Ping on device " << device3->name() << " successfull" << endl;
+			TEST_LOG << "Ping on device " << device3->name() << " successfull" << endl;
 		}
 		catch (CORBA::Exception &e)
 		{
@@ -84,11 +76,11 @@ int main(int argc, char **argv)
 //
 
 		vector<Database *> dbs = ApiUtil::instance()->get_db_vect();
-		cout << "Db objects number = " << dbs.size() << endl;
+		TEST_LOG << "Db objects number = " << dbs.size() << endl;
 		for (unsigned int i = 0;i < dbs.size();i++)
 		{
-			cout << "database host = " << dbs[i]->get_db_host() << endl;
-			cout << "database port = " << dbs[i]->get_db_port() << endl;
+			TEST_LOG << "database host = " << dbs[i]->get_db_host() << endl;
+			TEST_LOG << "database port = " << dbs[i]->get_db_port() << endl;
 		}
 	
 		delete device1;

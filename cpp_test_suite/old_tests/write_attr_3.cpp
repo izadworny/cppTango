@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 3)
 	{
-		cout << "usage: %s device loop" << endl;
+		TEST_LOG << "usage: %s device loop" << endl;
 		exit(-1);
 	}
 
@@ -32,7 +23,7 @@ int main(int argc, char **argv)
 		exit(1);
         }
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	int i;
 
@@ -138,7 +129,7 @@ int main(int argc, char **argv)
 	assert (devfailed_except == true);
 	assert (except_reason == API_AttrIncorrectDataNumber);
 	
-	cout << "   Exception cases --> OK" << endl;
+	TEST_LOG << "   Exception cases --> OK" << endl;
 
 /******************************************************************************
 *
@@ -170,7 +161,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum short (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum short (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -197,7 +188,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum short by vector (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum short by vector (WRITE attribute) --> OK" << endl;
 
 // A long spectrum 
 
@@ -222,7 +213,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum long (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum long (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -247,7 +238,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum long by vector (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum long by vector (WRITE attribute) --> OK" << endl;
 
 // A double spectrum 
 
@@ -272,7 +263,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum double (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum double (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -297,7 +288,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum double by vector (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum double by vector (WRITE attribute) --> OK" << endl;
 
 // A string spectrum 
 
@@ -322,7 +313,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum string (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum string (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -348,7 +339,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum string by vector (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum string by vector (WRITE attribute) --> OK" << endl;
 
 // A float spectrum 
 
@@ -374,7 +365,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum float (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum float (WRITE attribute) --> OK" << endl;
 	
 // A boolean spectrum 
 
@@ -400,7 +391,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum boolean (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum boolean (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -427,7 +418,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum boolean by vector (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum boolean by vector (WRITE attribute) --> OK" << endl;
 
 // A unsigned short spectrum 
 
@@ -452,7 +443,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum unsigned short (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum unsigned short (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -477,7 +468,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum unsigned short by vector (WRITE attribute) --> OK" << endl;		
+	TEST_LOG << "   Write spectrum unsigned short by vector (WRITE attribute) --> OK" << endl;
 
 // A unsigned char spectrum 
 
@@ -504,7 +495,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum unsigned char (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum unsigned char (WRITE attribute) --> OK" << endl;
 	
 	for (i = 0;i < loop;i++)
 	{
@@ -531,7 +522,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum unsigned char by vector (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum unsigned char by vector (WRITE attribute) --> OK" << endl;
 	
 // A long 64 bits spectrum 
 
@@ -560,7 +551,7 @@ int main(int argc, char **argv)
 		assert( vout[3] == 10000 );
 		assert( vout[4] == 22222 );
 	}
-	cout << "   Write spectrum long 64 bits (READ/WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum long 64 bits (READ/WRITE attribute) --> OK" << endl;
 	
 // A unsigned long spectrum 
 
@@ -589,7 +580,7 @@ int main(int argc, char **argv)
 		assert( vout[3] == 111 );
 		assert( vout[4] == 7777 );
 	}
-	cout << "   Write spectrum unsigned long (READ/WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum unsigned long (READ/WRITE attribute) --> OK" << endl;
 	
 // A unsigned long 64 bits spectrum 
 
@@ -618,7 +609,7 @@ int main(int argc, char **argv)
 		assert( vout[3] == 111111 );
 		assert( vout[4] == 777777 );
 	}
-	cout << "   Write spectrum unsigned long 64 bits (READ/WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum unsigned long 64 bits (READ/WRITE attribute) --> OK" << endl;
 	
 // A state spectrum 
 
@@ -646,7 +637,7 @@ int main(int argc, char **argv)
 		assert( vout[2] == Tango::STANDBY );
 		assert( vout[3] == Tango::MOVING );
 	}
-	cout << "   Write spectrum state (READ/WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum state (READ/WRITE attribute) --> OK" << endl;
 	
 
 	
@@ -683,7 +674,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write image short (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image short (WRITE attribute) --> OK" << endl;
 
 // A string image 
 
@@ -710,7 +701,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write image string (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image string (WRITE attribute) --> OK" << endl;
 
 // A float image 
 
@@ -739,7 +730,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write image float (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image float (WRITE attribute) --> OK" << endl;
 
 // A unsigned short image 
 
@@ -770,7 +761,7 @@ int main(int argc, char **argv)
 		dout >> vout;
 		assert( vout == vin );
 	}
-	cout << "   Write image unsigned short (WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image unsigned short (WRITE attribute) --> OK" << endl;
 				
 /******************************************************************************
 *
@@ -804,7 +795,7 @@ int main(int argc, char **argv)
 		vin.insert(vin.begin(),8);
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum short (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum short (READ_WRITE attribute) --> OK" << endl;
 
 // A string spectrum 
 
@@ -832,7 +823,7 @@ int main(int argc, char **argv)
 
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum string (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum string (READ_WRITE attribute) --> OK" << endl;
 
 // A float spectrum 
 
@@ -860,7 +851,7 @@ int main(int argc, char **argv)
 		vin.insert(vin.begin(),5.5f);
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum float (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum float (READ_WRITE attribute) --> OK" << endl;
 	
 // A unsigned char spectrum 
 
@@ -889,7 +880,7 @@ int main(int argc, char **argv)
 		vin.insert(vin.begin(),22);
 		assert( vout == vin );
 	}
-	cout << "   Write spectrum unsigned char (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write spectrum unsigned char (READ_WRITE attribute) --> OK" << endl;
 		
 /******************************************************************************
 *
@@ -937,7 +928,7 @@ int main(int argc, char **argv)
 		
 		assert( vout == vin );
 	}
-	cout << "   Write image short (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image short (READ_WRITE attribute) --> OK" << endl;
 
 // A string image 
 
@@ -967,7 +958,7 @@ int main(int argc, char **argv)
 
 		assert( vout == vin );
 	}
-	cout << "   Write image string (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image string (READ_WRITE attribute) --> OK" << endl;
 			
 // A boolean image 
 
@@ -1016,7 +1007,7 @@ int main(int argc, char **argv)
 		assert(vin[4] == vout[4]);
 		assert(vin[5] == vout[5]);
 	}
-	cout << "   Write image boolean (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image boolean (READ_WRITE attribute) --> OK" << endl;
 	
 // A insigned short image 
 
@@ -1056,7 +1047,7 @@ int main(int argc, char **argv)
 		
 		assert( vout == vin );
 	}
-	cout << "   Write image unsigned short (READ_WRITE attribute) --> OK" << endl;
+	TEST_LOG << "   Write image unsigned short (READ_WRITE attribute) --> OK" << endl;
 
 // The user code a set_write_value in its write_xxx method
 
@@ -1097,7 +1088,7 @@ int main(int argc, char **argv)
 		assert(ula->length() == 2);
 		assert((*ula)[1] == 1111);
 	}
-	cout << "   User code a set_write_value in its write_xxx method --> OK" << endl;
+	TEST_LOG << "   User code a set_write_value in its write_xxx method --> OK" << endl;
 	
 		
 	delete device;

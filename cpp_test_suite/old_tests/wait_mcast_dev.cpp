@@ -1,12 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 3)
 	{
-		cout << "usage: %s device loop" << endl;
+		TEST_LOG << "usage: %s device loop" << endl;
 		exit(-1);
 	}
 
@@ -53,7 +45,7 @@ int main(int argc, char **argv)
 				ctr--;
 				if (ctr == 0)
 					exit(-1);
-				cout << "Multicast device not ready, waiting for 30 sec" << endl;
+				TEST_LOG << "Multicast device not ready, waiting for 30 sec" << endl;
 				Tango_sleep(30);
 			}
 		}

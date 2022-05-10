@@ -1,16 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -18,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device [-v] " << endl;
 		exit(-1);
 	}
 
@@ -40,7 +28,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 
 //**************************************************************************
@@ -112,15 +100,15 @@ int main(int argc, char **argv)
 		(*r_att)[1] >> read_str;
 		(*r_att)[2] >> read_bo;
 		
-		coutv << "Read value for Short_attr_w = " << read_sh << endl;
-		coutv << "Read value for String_attr_w = " << read_str << endl;
-		coutv << "Read value for Boolean_attr_w = " << read_bo << endl;
+		TEST_LOG << "Read value for Short_attr_w = " << read_sh << endl;
+		TEST_LOG << "Read value for String_attr_w = " << read_str << endl;
+		TEST_LOG << "Read value for Boolean_attr_w = " << read_bo << endl;
 
 		assert ( read_sh == sh );
 		assert ( read_str == str );
 		assert ( read_bo == bo );
 		
-		cout << "   Memorized attributes --> OK" << endl;
+		TEST_LOG << "   Memorized attributes --> OK" << endl;
 							
 // Reset the boolean attribute which is part of the device server
 // output message taken into account in the automatic sequence
@@ -225,7 +213,7 @@ int main(int argc, char **argv)
 
 		assert (except == false);
 
-		cout << "   Setting min_value/max_value for memorized attributes --> OK" << endl;
+		TEST_LOG << "   Setting min_value/max_value for memorized attributes --> OK" << endl;
 
 		delete att_conf;
 		delete att_conf2;
