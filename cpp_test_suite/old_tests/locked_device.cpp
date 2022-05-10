@@ -16,17 +16,11 @@ int main(int argc, char **argv)
 
 	if ((argc == 1) || (argc > 3))
 	{
-		TEST_LOG << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
-
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{

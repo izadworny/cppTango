@@ -34,7 +34,6 @@ class RecoZmqTestSuite : public CxxTest::TestSuite {
 protected:
     DeviceProxy *device1, *device2;
     string device1_name, device2_name, device1_instance_name, device2_instance_name;
-    bool verbose;
     EventCallback eventCallback;
 
 public:
@@ -50,8 +49,6 @@ public:
 
         device1_name = CxxTest::TangoPrinter::get_param("device1");
         device2_name = CxxTest::TangoPrinter::get_param("device20");
-
-        verbose = CxxTest::TangoPrinter::is_param_defined("verbose");
 
         CxxTest::TangoPrinter::validate_args();
 

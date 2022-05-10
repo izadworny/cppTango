@@ -15,18 +15,12 @@ int main(int argc, char **argv)
 	
 	if ((argc < 3) || (argc > 4))
 	{
-		TEST_LOG << "usage: lock <device1> <device2> [-v] " << endl;
+		TEST_LOG << "usage: lock <device1> <device2>" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
 	string device2_name = argv[2];
-	
-	if (argc == 4)
-	{
-		if (strcmp(argv[3],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{

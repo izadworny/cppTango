@@ -36,7 +36,6 @@ class StatelessSubTestSuite : public CxxTest::TestSuite {
 protected:
     DeviceProxy *device2;
     string device2_name, device1_instance_name, device2_instance_name;
-    bool verbose;
     EventCallback eventCallback;
 
 public:
@@ -49,8 +48,6 @@ public:
 //
 
         device2_name = CxxTest::TangoPrinter::get_param("device20");
-
-        verbose = CxxTest::TangoPrinter::is_param_defined("verbose");
 
         CxxTest::TangoPrinter::validate_args();
 

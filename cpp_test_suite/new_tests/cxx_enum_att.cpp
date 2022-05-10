@@ -12,8 +12,6 @@ protected:
 	DeviceProxy 			*device1,*adm_dev;
 	string 					device1_name;
 
-	bool					verbose;
-
 public:
 	SUITE_NAME()
 	{
@@ -24,8 +22,6 @@ public:
 
 		// user arguments, obtained from the command line sequentially
 		device1_name = CxxTest::TangoPrinter::get_param("device1");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();

@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc < 2)
 	{
-		TEST_LOG << "usage: %s device [-v]" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 		string verb = argv[2];
 		if (verb != "-v")
 		{
-			TEST_LOG << "Usage: %s device [-v]" << endl;
+			TEST_LOG << "Usage: %s device" << endl;
 			exit(-1);
 		}
 	}

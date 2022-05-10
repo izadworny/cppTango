@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 	
 	if ((argc < 4) || (argc > 5))
 	{
-		TEST_LOG << "usage: sub_dev <device1> <device2> <device3> [-v] " << endl;
+		TEST_LOG << "usage: sub_dev <device1> <device2> <device3>" << endl;
 		exit(-1);
 	}
 
@@ -27,12 +27,6 @@ int main(int argc, char **argv)
 	devices.push_back(device2_name);
 	devices.push_back(device3_name);
 	sort(devices.begin(), devices.end());
-
-	if (argc == 5)
-	{
-		if (strcmp(argv[4],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{

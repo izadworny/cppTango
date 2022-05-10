@@ -41,19 +41,13 @@ int main(int argc, char **argv)
 
 	if (argc < 4 || argc > 5)
 	{
-		TEST_LOG << "usage: multi_dev_event device1 device2 device3 [-v]" << std::endl;
+		TEST_LOG << "usage: multi_dev_event device1 device2 device3" << std::endl;
 		exit(-1);
 	}
 
 	std::string device1_name = argv[1];
 	std::string device2_name = argv[2];
 	std::string device3_name = argv[3];
-
-	if (argc == 5)
-	{
-		if (strcmp(argv[4],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{

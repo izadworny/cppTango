@@ -17,19 +17,13 @@ int main(int argc, char **argv)
 	
 	if ((argc < 3) || (argc > 4))
 	{
-		TEST_LOG << "usage: restart_device device cmd [-v] " << endl;
+		TEST_LOG << "usage: restart_device device cmd" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
 	string cmd_name = argv[2];
 	transform(cmd_name.begin(),cmd_name.end(),cmd_name.begin(),::tolower);
-	
-	if (argc == 4)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{

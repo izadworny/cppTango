@@ -27,18 +27,12 @@ int main(int argc, char **argv)
 
 	if ((argc < 3) || (argc > 4))
 	{
-		TEST_LOG << "usage: asyn_cb2 <device1> <device2> [-v]" << std::endl;
+		TEST_LOG << "usage: asyn_cb2 <device1> <device2>" << std::endl;
 		exit(-1);
 	}
 
 	std::string device1_name = argv[1];
 	std::string device2_name = argv[2];
-
-	if (argc == 4)
-	{
-		if (strcmp(argv[3],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{

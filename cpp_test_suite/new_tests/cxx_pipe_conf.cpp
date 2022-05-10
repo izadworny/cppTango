@@ -15,9 +15,6 @@ protected:
 	string					device2_name;
 	DeviceProxy 			*root_admin;
 
-
-	bool					verbose;
-
 public:
 	SUITE_NAME()
 	{
@@ -29,8 +26,6 @@ public:
 		device1_name = CxxTest::TangoPrinter::get_param("device1");
 		device2_name = CxxTest::TangoPrinter::get_param("device2");
 		string full_ds_name = CxxTest::TangoPrinter::get_param("fulldsname");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();

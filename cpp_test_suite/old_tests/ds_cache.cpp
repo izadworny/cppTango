@@ -5,12 +5,6 @@ const int8_t	kBase = 75;
 int main(int argc, char **argv)
 {
 
-	if (argc == 2)
-	{
-		if (strcmp(argv[1],"-v") == 0)
-			verbose = true;
-	}
-
 	try
 	{
 

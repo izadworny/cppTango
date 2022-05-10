@@ -39,8 +39,6 @@ protected:
 	Tango::DevLong 	eve_id_remote;
 	EventCallBack 	*cb;
 
-	bool 			verbose;
-
 public:
 	SUITE_NAME()
 	{
@@ -55,8 +53,6 @@ public:
 
 		local_device_name = CxxTest::TangoPrinter::get_param_loc("local_device","local device name");
 		remote_device_name = CxxTest::TangoPrinter::get_param_loc("remote_device","remote device name");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();

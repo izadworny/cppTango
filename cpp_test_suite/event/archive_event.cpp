@@ -75,17 +75,11 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		TEST_LOG << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
-
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{

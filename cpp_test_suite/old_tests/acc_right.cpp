@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 {	
 	if ((argc < 6) || (argc > 7))
 	{
-		TEST_LOG << "usage: acc_right user host device1 device2 admin_device [-v] " << endl;
+		TEST_LOG << "usage: acc_right user host device1 device2 admin_device" << endl;
 		exit(-1);
 	}
 
@@ -30,12 +30,6 @@ int main(int argc, char **argv)
 	string device = argv[3];
 	string another_device(argv[4]);
 	string admin_device(argv[5]);
-	
-	if (argc == 7)
-	{
-		if (strcmp(argv[6],"-v") == 0)
-			verbose = true;
-	}	
 
 	struct hostent *my_addr;
 	if ((my_addr = gethostbyname(host.c_str())) == NULL)

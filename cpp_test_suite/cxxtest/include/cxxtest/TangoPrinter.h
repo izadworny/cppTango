@@ -756,7 +756,6 @@ public:
         params_tmp["-?"] = param_desc("-?", "help, lists all possible parameters");
         params_tmp["help"] = param_desc("--help", "help, lists all possible parameters");
         params_tmp["-help"] = param_desc("-help", "help, lists all possible parameters");
-        params_tmp["verbose"] = param_desc("--v", "verbose mode");
         params_tmp["loop"] =
             param_desc("--loop=", "execute test cases marked with '__loop' suffix the indicated number of times");
         params_tmp["suiteloop"] = param_desc("--suiteloop=",

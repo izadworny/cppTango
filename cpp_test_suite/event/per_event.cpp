@@ -138,18 +138,12 @@ int main(int argc, char **argv)
 
 	if (argc < 3 || argc > 4)
 	{
-		TEST_LOG << "usage: %s device1 device2 [-v]" << std::endl;
+		TEST_LOG << "usage: %s device1 device2" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
-    std::string device_name_sub = argv[2];
-
-	if (argc == 4)
-	{
-		if (strcmp(argv[3],"-v") == 0)
-			verbose = true;
-	}
+  std::string device_name_sub = argv[2];
 
 	try
 	{

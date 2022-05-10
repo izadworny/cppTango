@@ -13,12 +13,6 @@ void check_size(const char *,long,long, bool*);
 int main(int argc, char **argv)
 {
 
-	if (argc == 2)
-	{
-		if (strcmp(argv[1],"-v") == 0)
-			verbose = true;
-	}
-
 	bool isOK = true;
 
 	check_size("Attr",sizeof(Attr),128, &isOK);  // Was 52 in V4

@@ -72,18 +72,12 @@ int main(int argc, char **argv)
 
 	if ((argc == 1) || (argc == 2))
 	{
-		TEST_LOG << "usage: %s device sleeping_time [-v]" << std::endl;
+		TEST_LOG << "usage: %s device sleeping_time" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
 	long sleeping_time = atol(argv[2]);
-
-	if (argc == 4)
-	{
-		if (strcmp(argv[3],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{

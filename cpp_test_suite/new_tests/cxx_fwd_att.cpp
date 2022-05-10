@@ -33,8 +33,6 @@ protected:
 	string 					fwd_device_name;
 	DeviceProxy 			*root_admin,*ad;
 
-	bool					verbose;
-
 public:
 	SUITE_NAME()
 	{
@@ -49,8 +47,6 @@ public:
 		device2_name = CxxTest::TangoPrinter::get_param("device2");
 		full_ds_name = CxxTest::TangoPrinter::get_param("fulldsname");
 		fwd_device_name = CxxTest::TangoPrinter::get_param_loc("fwd_device");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();

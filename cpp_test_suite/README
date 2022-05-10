@@ -267,7 +267,6 @@ DEFINITION		COMMAND LINE		DESCRIPTION
 -?				-?					help, lists all possible parameters
 help			--help				help, lists all possible parameters
 -help			-help				help, lists all possible parameters
-verbose			--v					verbose mode
 loop			--loop=				execute test cases marked with '__loop' suffix the indicated number of times
 suiteloop		--suiteloop=		execute test suites marked with '__loop' suffix the indicated number of times
 device1			--device1=			device1 name, e.g. test/device/1

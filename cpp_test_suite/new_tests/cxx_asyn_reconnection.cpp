@@ -12,7 +12,6 @@ protected:
 	DeviceProxy *device1;
 	string device1_name;
 	string device1_instance_name;
-	bool verbose;
 
 public:
 	SUITE_NAME() :
@@ -31,8 +30,6 @@ public:
 
 		// predefined optional parameters
 		//CxxTest::TangoPrinter::get_param_opt("loop"); // loop parameter is then managed by the CXX framework itself
-		// or
-		verbose = CxxTest::TangoPrinter::is_param_opt_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();
