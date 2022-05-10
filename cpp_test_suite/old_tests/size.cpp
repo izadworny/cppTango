@@ -10,7 +10,7 @@
 
 void check_size(const char *,long,long, bool*);
 
-int main(int argc, char **argv)
+int main(int, char **)
 {
 
 	bool isOK = true;
