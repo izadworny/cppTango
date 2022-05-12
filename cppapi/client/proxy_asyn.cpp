@@ -241,7 +241,7 @@ DeviceData Connection::command_inout_reply(long id)
 // other methods. This was not the case in omniORB 4.1!
 //
 
-    CORBA::Environment_ptr env;
+    CORBA::Environment_ptr env = nullptr;
     try
     {
         env = req.request->env();
@@ -551,7 +551,7 @@ DeviceData Connection::command_inout_reply(long id,long call_timeout)
 //
 
 	DeviceData data_out;
-	CORBA::Environment_ptr env;
+	CORBA::Environment_ptr env = nullptr;
 
     try
     {
@@ -927,7 +927,7 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes_reply(long id)
 // other methods. This was not the case in omniORB 4.1!
 //
 
-		CORBA::Environment_ptr env;
+		CORBA::Environment_ptr env = nullptr;
 		try
 		{
             env = req.request->env();
@@ -1128,7 +1128,7 @@ DeviceAttribute *DeviceProxy::read_attribute_reply(long id)
 // other methods. This was not the case in omniORB 4.1!
 //
 
-		CORBA::Environment_ptr env;
+		CORBA::Environment_ptr env = nullptr;
 		try
 		{
             env = req.request->env();
@@ -1362,7 +1362,7 @@ std::vector<DeviceAttribute> *DeviceProxy::read_attributes_reply(long id,long ca
 // other methods. This was not the case in omniORB 4.1!
 //
 
-	CORBA::Environment_ptr env;
+	CORBA::Environment_ptr env = nullptr;
 	try
 	{
         env = req.request->env();
@@ -1604,7 +1604,7 @@ DeviceAttribute *DeviceProxy::read_attribute_reply(long id,long call_timeout)
 // other methods. This was not the case in omniORB 4.1!
 //
 
-	CORBA::Environment_ptr env;
+	CORBA::Environment_ptr env = nullptr;
 	try
 	{
 	    env = req.request->env();
@@ -2206,7 +2206,7 @@ void DeviceProxy::write_attributes_reply(long id,long call_timeout)
 // other methods. This was not the case in omniORB 4.1!
 //
 
-	CORBA::Environment_ptr env;
+	CORBA::Environment_ptr env = nullptr;
 	try
 	{
 	    env = req.request->env();
@@ -2307,7 +2307,7 @@ void DeviceProxy::write_attributes_reply(long id)
 // other methods. This was not the case in omniORB 4.1!
 //
 
-		CORBA::Environment_ptr env;
+		CORBA::Environment_ptr env = nullptr;
 		try
 		{
 		    env = req.request->env();
