@@ -223,7 +223,7 @@ CORBA::Any *DevInitCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::An
 // Init device
 //
 
-	Tango::Util *tg;
+	Tango::Util *tg = nullptr;
 
 	try
 	{
