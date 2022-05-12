@@ -230,13 +230,6 @@ debian10:
     OS_TYPE: debian10
     STOCK_CPPZMQ: "OFF"
 
-debian9:
-  <<: *job-template
-  variables:
-    <<: *variables
-    OS_TYPE: debian9
-    STOCK_CPPZMQ: "OFF"
-
 ubuntu-20.04-jpeg9:
   <<: *job-template
   variables:
