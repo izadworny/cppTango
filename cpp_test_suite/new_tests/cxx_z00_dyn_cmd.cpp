@@ -96,7 +96,7 @@ public:
 		TS_ASSERT_EQUALS(ci.in_type, DEV_VOID);
 		TS_ASSERT_EQUALS(ci.out_type, DEV_FLOAT);
 
-		CommandInfoList *cil;
+		CommandInfoList *cil = nullptr;
 		TS_ASSERT_THROWS_NOTHING(cil = device1->command_list_query());
 		bool found = false;
 		size_t nb_cmd = cil->size();
@@ -110,7 +110,7 @@ public:
 
 		// Command also in command list for device 2
 
-		CommandInfoList *cil2;
+		CommandInfoList *cil2 = nullptr;
 		TS_ASSERT_THROWS_NOTHING(cil2 = device2->command_list_query());
 		found = false;
 		nb_cmd = cil2->size();
@@ -153,7 +153,7 @@ public:
 		TS_ASSERT_EQUALS(ci.in_type, DEV_VOID);
 		TS_ASSERT_EQUALS(ci.out_type, DEV_FLOAT);
 
-		CommandInfoList *cil;
+		CommandInfoList *cil = nullptr;
 		TS_ASSERT_THROWS_NOTHING(cil = device1->command_list_query());
 		bool found = false;
 		size_t nb_cmd = cil->size();
@@ -167,7 +167,7 @@ public:
 
 		// Command should not be in command list for device 2
 
-		CommandInfoList *cil2;
+		CommandInfoList *cil2 = nullptr;
 		TS_ASSERT_THROWS_NOTHING(cil2 = device2->command_list_query());
 		found = false;
 		nb_cmd = cil2->size();
