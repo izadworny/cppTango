@@ -668,7 +668,7 @@ public:
 
 		// Read data history
 
-		vector<DeviceAttributeHistory> *hist;
+		vector<DeviceAttributeHistory> *hist = nullptr;
 
  		TS_ASSERT_THROWS_NOTHING(hist = fwd_device->attribute_history("fwd_short_rw",5));
 
