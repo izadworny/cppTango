@@ -2174,6 +2174,9 @@ public:
 	template <typename T>
 	void set_upd_properties(const T &,const std::string &,bool f_s=false);
 
+	template <typename T>
+	void delete_data_if_needed(T* data, bool release);
+
 	virtual void set_rvalue() {}
 	void delete_seq();
 	bool check_scalar_wattribute();
@@ -2844,22 +2847,6 @@ inline void Attribute::set_att_conf_event_sub(int cl_lib)
 	{ \
 		Tango::AttributeValue_5 *tmp_ptr = &((*A)[B]); \
 		(tmp_ptr)->rel_attr_mutex(); \
-	} \
-	else \
-		(void)0
-
-
-//
-// Again a macro for clean pointer delete
-//
-
-#define SAFE_DELETE(ptr) \
-	if (release == true) \
-	{ \
-		if (is_fwd_att() == true) \
-			delete [] ptr; \
-		else \
-			delete ptr; \
 	} \
 	else \
 		(void)0

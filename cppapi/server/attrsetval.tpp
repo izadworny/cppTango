@@ -45,6 +45,39 @@
 namespace Tango
 {
 
+//+-------------------------------------------------------------------------
+//
+// method :      Attribute::delete_data_if_needed
+//
+// description : The method frees the memory of the T*
+//               attribute if the release = true
+//
+// in :          data : The attribute name
+//               release : A flag set to true if memory must be
+//                        de-allocated
+//
+//--------------------------------------------------------------------------
+template <typename T>
+void Attribute::delete_data_if_needed(T* data, bool release)
+{
+	if (!release || !data)
+	{
+		return;
+	}
+
+	if (is_fwd_att())
+	{
+		// Note that here we assume that the generated sequence class is inherited
+		// from _CORBA_Sequence. This should be fixed once we have a mapping from
+		// data types to sequence types.
+		_CORBA_Sequence<T>::freebuf(data);
+	}
+	else
+	{
+		delete data;
+	}
+}
+
 //+-------------------------------------------------------------------------------------------------------------------
 //
 // method :
@@ -75,7 +108,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 
 	if (data_type != Tango::DEV_ENUM)
 	{
-		SAFE_DELETE(enum_ptr);
+		delete_data_if_needed(enum_ptr,release);
 
 		std::stringstream o;
 		o << "Invalid data type for attribute " << name << std::ends;
@@ -88,7 +121,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 
 	if (short_enum == false && uns_int_enum == false)
 	{
-		SAFE_DELETE(enum_ptr);
+		delete_data_if_needed(enum_ptr,release);
 
 		std::stringstream ss;
 		ss << "Invalid enumeration type. Supported types are C++11 scoped enum with short as underlying data type\n";
@@ -103,7 +136,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 
 	if (std::is_enum<T>::value == false)
 	{
-		SAFE_DELETE(enum_ptr);
+		delete_data_if_needed(enum_ptr,release);
 		TANGO_THROW_EXCEPTION(API_IncompatibleArgumentType, "The input argument data type is not an enumeration");
 	}
 
@@ -113,7 +146,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 
 	if (enum_labels.size() == 0)
 	{
-		SAFE_DELETE(enum_ptr);
+		delete_data_if_needed(enum_ptr,release);
 
 		std::stringstream ss;
 		ss << "Attribute " << name << " data type is enum but no enum labels are defined!";
@@ -132,7 +165,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 
 	if (att.same_type(typeid(T)) == false)
 	{
-		SAFE_DELETE(enum_ptr);
+		delete_data_if_needed(enum_ptr,release);
 
 		std::stringstream ss;
 		ss << "Invalid enumeration type. Requested enum type is " << att.get_enum_type();
@@ -145,7 +178,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 
 	if ((x > max_x) || (y > max_y))
 	{
-		SAFE_DELETE(enum_ptr);
+		delete_data_if_needed(enum_ptr,release);
 
 		std::stringstream o;
 		o << "Data size for attribute " << name << " exceeds given limit" << std::ends;
@@ -191,7 +224,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 		loc_enum_ptr[i] = (short)enum_ptr[i];
 		if (loc_enum_ptr[i] < 0 || loc_enum_ptr[i] > max_val)
 		{
-			SAFE_DELETE(enum_ptr);
+			delete_data_if_needed(enum_ptr,release);
 			enum_nb = 0;
 
 			std::stringstream ss;
@@ -203,7 +236,7 @@ void Attribute::set_value(T *enum_ptr,long x,long y,bool release)
 		}
 	}
 
-	SAFE_DELETE(enum_ptr);
+	delete_data_if_needed(enum_ptr,release);
 
 	if (date == false)
 	{

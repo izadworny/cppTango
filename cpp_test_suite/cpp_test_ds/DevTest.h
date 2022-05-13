@@ -32,7 +32,7 @@ public :
 	DevTest(Tango::DeviceClass *,const char *);
 	DevTest(Tango::DeviceClass *,const char *,const char *);
 	DevTest(Tango::DeviceClass *,const char *,const char *,Tango::DevState, const char *);
-	~DevTest() {}
+	~DevTest() { delete_device(); }
 
 	// virtual Tango_DevString& dev_InOutString(Tango_DevString DateToParse);
 	virtual Tango::ConstDevString dev_status();
@@ -41,6 +41,7 @@ public :
 	virtual void signal_handler(long signo);
 
 	virtual void init_device();
+	virtual void delete_device();
 
 	short *get_short_array() {return array2_buffer;}
 
@@ -100,6 +101,7 @@ public :
 	void read_ULong_attr_rw(Tango::Attribute &att);
 	void read_ULong64_attr_rw(Tango::Attribute &att);
 	void read_State_attr_rw(Tango::Attribute &att);
+	void read_String_attr_rw(Tango::Attribute &att);
 	void read_attr_asyn(Tango::Attribute &att);
 	void read_attr_asyn_to(Tango::Attribute &att);
 	void read_attr_asyn_except(Tango::Attribute &att);
@@ -163,6 +165,7 @@ public :
 	void write_ULong_attr_rw(Tango::WAttribute &att);
 	void write_ULong64_attr_rw(Tango::WAttribute &att);
 	void write_State_attr_rw(Tango::WAttribute &att);
+	void write_String_attr_rw(Tango::WAttribute &att);
 	void write_Short_attr_w(Tango::WAttribute &att);
 	void write_Short_attr_w2(Tango::WAttribute &att);
 	void write_Long_attr_w(Tango::WAttribute &att);
@@ -259,6 +262,7 @@ protected :
 	Tango::DevULong 	attr_ulong_rw;
 	Tango::DevULong64 	attr_ulong64_rw;
 	Tango::DevState 	attr_state_rw;
+	Tango::DevString	attr_string_rw;
 	Tango::DevLong 		attr_long;
 	Tango::DevLong64 	attr_long64;
 	Tango::DevDouble 	attr_db_array[3];
