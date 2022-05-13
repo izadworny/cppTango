@@ -35,8 +35,6 @@
 
 #include <string>
 
-#include <idl/tango.h>
-
 using namespace std;
 
 

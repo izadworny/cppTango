@@ -43,6 +43,7 @@
 // Include IDL generated files which includes CORBA include files
 //
 
+#define USE_stub_in_nt_dll
 #include <idl/tango.h>
 
 //

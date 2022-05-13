@@ -223,7 +223,7 @@ public:
 protected:
 ///@privatesection
   //- exception flag (enable/disable)
-  static bool exception_enabled;
+  TANGO_IMP static bool exception_enabled;
   //- the device name
   std::string dev_name_m;
   //- command or attribute name

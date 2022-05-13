@@ -1219,31 +1219,31 @@ typedef struct _AttributeIdlData
 template <typename T>
 struct ranges_type2const
 {
-	static CmdArgType enu;
-	static TANGO_CXX11_ABI string str;
+	TANGO_IMP static CmdArgType enu;
+	TANGO_IMP static TANGO_CXX11_ABI string str;
 };
 
 template <CmdArgType>
 struct ranges_const2type
 {
-	static TANGO_CXX11_ABI string str;
+	TANGO_IMP static TANGO_CXX11_ABI string str;
 };
 
-#define RANGES_TYPE2CONST(type,constant) \
-	template <> \
-	struct ranges_type2const<type> \
-	{ \
-		static CmdArgType enu; \
-		TANGO_CXX11_ABI static string str; \
-	}; \
-	CmdArgType ranges_type2const<type>::enu = constant; \
-	TANGO_CXX11_ABI string ranges_type2const<type>::str = #type; \
-	template<> \
-	struct ranges_const2type<Tango::constant> \
-	{ \
-		typedef type Type; \
-		TANGO_CXX11_ABI static string str; \
-	}; \
+#define RANGES_TYPE2CONST(type,constant)                                  \
+	template <>                                                             \
+	struct ranges_type2const<type>                                          \
+	{                                                                       \
+		TANGO_IMP static CmdArgType enu;                                      \
+		TANGO_IMP TANGO_CXX11_ABI static string str;                          \
+	};                                                                      \
+	CmdArgType ranges_type2const<type>::enu = constant;                     \
+	TANGO_CXX11_ABI string ranges_type2const<type>::str = #type;            \
+	template<>                                                              \
+	struct ranges_const2type<Tango::constant>                               \
+	{                                                                       \
+		typedef type Type;                                                    \
+		TANGO_IMP TANGO_CXX11_ABI static string str;                          \
+	};                                                                      \
 	TANGO_CXX11_ABI string ranges_const2type<Tango::constant>::str = #type;
 
 
