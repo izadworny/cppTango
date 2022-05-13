@@ -53,7 +53,7 @@ Exceptions to the hard approval rule: The [Code Owners][co], when reviewing an M
 
 # Assigning an issue or an MR
 
-Assignees of an issue or MR are usually the ones who are actively working on it. The cppTango team will assign the issues and MRs to the contributors and team members wither during the weekly meeting or when the open issues and MRs are groomed. If you, as contributor, think that somebody should get involved, leave a comment in the issue or MR and tag the comment with that person's user name.
+Assignees of an issue or MR are usually the ones who are actively working on it. The cppTango team will assign the issues and MRs to the contributors and team members whether during the weekly meeting or when the open issues and MRs are groomed. If you, as contributor, think that somebody should get involved, leave a comment in the issue or MR and tag the comment with that person's user name.
 
 ## Issues
 
