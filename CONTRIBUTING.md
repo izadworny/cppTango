@@ -79,4 +79,4 @@ Very very rarely it happens though, that we disagree and cannot find a common gr
 
 # Glossary
 
-- [co]:[Code Owners](https://gitlab.com/tango-controls/cppTango/-/blob/main/CODEOWNERS): The cppTango contributers who have a little bit more decision power than contributors. Usually they are the people who are either paid for working on cppTango or Tango Controls or they can just spend a significant amount of their time on cppTango or Tango Controls.
+- [co]:[Code Owners](https://gitlab.com/tango-controls/cppTango/-/blob/main/CODEOWNERS): The cppTango contributors who have a little bit more decision power than contributors. Usually they are the people who are either paid for working on cppTango or Tango Controls or they can just spend a significant amount of their time on cppTango or Tango Controls.
