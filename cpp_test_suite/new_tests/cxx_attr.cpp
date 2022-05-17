@@ -126,7 +126,7 @@ public:
 
 	void test_several_SCALAR_attributes_in_one_call(void)
 	{
-		vector<DeviceAttribute> *attr_vec;
+		vector<DeviceAttribute> *attr_vec = nullptr;
 		DeviceAttribute short_attr, long_attr, double_attr, string_attr;
 		vector<string> name_vec;
 		DevShort sh;
@@ -254,7 +254,7 @@ public:
 
 	void test_several_SPECTRUM_attributes_in_one_call(void)
 	{
-		vector<DeviceAttribute> *attr_vec;
+		vector<DeviceAttribute> *attr_vec = nullptr;
 		DeviceAttribute double_attr, string_attr;
 		vector<string> name_vec;
 		vector<DevDouble> db;
@@ -341,7 +341,7 @@ public:
 
 	void test_one_call_with_all_three_types(void)
 	{
-		vector<DeviceAttribute> *attr_vec;
+		vector<DeviceAttribute> *attr_vec = nullptr;
 		DeviceAttribute long_attr, double_attr, string_attr;
 		vector<string> name_vec;
 		vector<DevLong> lg;
