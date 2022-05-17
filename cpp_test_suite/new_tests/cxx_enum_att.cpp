@@ -362,7 +362,7 @@ public:
 
 // Read data history
 
-		vector<DeviceAttributeHistory> *hist;
+		vector<DeviceAttributeHistory> *hist = nullptr;
 
  		TS_ASSERT_THROWS_NOTHING(hist = device1->attribute_history("Enum_attr_rw",5));
 
