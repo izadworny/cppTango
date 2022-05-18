@@ -737,7 +737,7 @@ public:
         if (CxxTest::TangoPrinter::is_restore_set("dev1_source_cache"))
             TS_ASSERT_THROWS_NOTHING(device->set_source(Tango::CACHE_DEV));
 
-        vector <string> *poll_str;
+        vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
         unsigned long nb_polled = BASIC_NB_POLL;
@@ -765,7 +765,7 @@ public:
 
     void test_polling_status_from_device_name_2(void) {
         auto device2 = new DeviceProxy(device2_name);
-        vector <string> *poll_str;
+        vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device2->polling_status());
 
         if (verbose) {
@@ -870,7 +870,7 @@ public:
 #else
         this_thread::sleep_for(chrono::seconds{3});
 #endif
-        vector <string> *poll_str;
+        vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
         if (verbose) {
@@ -946,7 +946,7 @@ public:
 
         TS_ASSERT(!poll);
 
-        vector <string> *poll_str;
+        vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
         if (verbose) {
@@ -1007,7 +1007,7 @@ public:
         this_thread::sleep_for(chrono::seconds{3});
 #endif
 
-        vector <string> *poll_str;
+        vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
         if (verbose) {
@@ -1042,7 +1042,7 @@ public:
 
         TS_ASSERT(!poll);
 
-        vector <string> *poll_str;
+        vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
         if (verbose) {

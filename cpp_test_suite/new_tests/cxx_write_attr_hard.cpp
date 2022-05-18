@@ -103,8 +103,8 @@ public:
 
 		CxxTest::TangoPrinter::restore_set("restore_except");
 
-		vector<Tango::DeviceAttribute> *read_bef;
-		vector<Tango::DeviceAttribute> *read_after;
+		vector<Tango::DeviceAttribute> *read_bef = nullptr;
+		vector<Tango::DeviceAttribute> *read_after = nullptr;
 
 		TS_ASSERT_THROWS_NOTHING(read_bef = device->read_attributes(vs));
 
@@ -171,8 +171,8 @@ public:
 		din << (short)2;
 		TS_ASSERT_THROWS_NOTHING(device->command_inout("WriteAttrHardwareThrow",din));
 
-		vector<Tango::DeviceAttribute> *read_bef;
-		vector<Tango::DeviceAttribute> *read_after;
+		vector<Tango::DeviceAttribute> *read_bef = nullptr;
+		vector<Tango::DeviceAttribute> *read_after = nullptr;
 
 		TS_ASSERT_THROWS_NOTHING(read_bef = device->read_attributes(vs));
 
@@ -228,8 +228,8 @@ public:
 		din << (short)3;
 		TS_ASSERT_THROWS_NOTHING(device->command_inout("WriteAttrHardwareThrow",din));
 
-		vector<Tango::DeviceAttribute> *read_bef;
-		vector<Tango::DeviceAttribute> *read_after;
+		vector<Tango::DeviceAttribute> *read_bef = nullptr;
+		vector<Tango::DeviceAttribute> *read_after = nullptr;
 
 		TS_ASSERT_THROWS_NOTHING(read_bef = device->read_attributes(vs));
 

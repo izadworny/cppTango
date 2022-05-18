@@ -140,7 +140,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->write_attribute(ushort_attr_w));
 		TS_ASSERT_THROWS_NOTHING(device1->write_attribute(uchar_attr_w));
 
-		vector<DeviceAttribute> *attributes_vec;
+		vector<DeviceAttribute> *attributes_vec = nullptr;
 		TS_ASSERT_THROWS_NOTHING(attributes_vec = device1->read_attributes(attributes_str));
 
 		vector<DeviceAttribute> &attributes = *attributes_vec;
@@ -192,7 +192,7 @@ public:
 		attributes_str.push_back("String_attr_w");
 		attributes_str.push_back("Boolean_attr_w");
 
-		vector<DeviceAttribute> *attributes_vec;
+		vector<DeviceAttribute> *attributes_vec = nullptr;
 		TS_ASSERT_THROWS_NOTHING(attributes_vec = device1->read_attributes(attributes_str));
 
 		vector<DeviceAttribute> &attributes = *attributes_vec;

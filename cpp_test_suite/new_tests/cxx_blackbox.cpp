@@ -136,7 +136,7 @@ public:
 		dout >> lg_out;
 		TS_ASSERT_EQUALS(lg_out, 20);
 
-		vector<string> *blackbox_out;
+		vector<string> *blackbox_out = nullptr;
 		string out_str, version_str, reference_str, pid_str;
 
 		// sets the "command_inout" suffix (refer to blackbox.cpp build_info_as_str())

@@ -207,7 +207,7 @@ public:
 
 	void test_several_attributes_in_one_call(void)
 	{
-		AttributeInfoListEx *att_inf_list;
+		AttributeInfoListEx *att_inf_list = nullptr;
 		AttributeInfoEx att_inf;
 		vector<string> attributes;
 		attributes.push_back("String_spec_attr");
