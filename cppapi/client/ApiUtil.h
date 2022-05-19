@@ -248,6 +248,16 @@ private:
     ZmqEventConsumer            *zmq_event_consumer;
     std::vector<std::string>              host_ip_adrs;
     DevLong                     user_sub_hwm;
+    /***
+     * Process a request.
+     * Send the proper call to the connection based on the request type, and, once processed,
+     * remove it from the request list.
+     * @param connection, connection to be used to process the request.
+     * It should not be null and is managed outside of this function.
+     * @param tg_req, request description.
+     * @param req, the request to be forwarded on the connection
+     */
+    void process_request(Connection* connection, const TgRequest& tg_req, CORBA::Request_ptr& req);
 
     template <typename T> static void attr_to_device_base(const T *,DeviceAttribute *);
 };

@@ -170,89 +170,77 @@ void WAttribute::check_type(T &TANGO_UNUSED(dummy), const std::string &origin)
 // 			- val : Data to be set as written value
 //
 //-----------------------------------------------------------------------------------------------------------------
-
-template <typename T>
-void WAttribute::set_write_value(T val)
+template<class T, typename std::enable_if<std::is_enum<T>::value, T>::type*>
+inline void WAttribute::set_write_value(T *val, size_t x, size_t y)
 {
-	check_type(val,"WAttribute::set_write_value");
+    T dum;
+    check_type(dum,"WAttribute::set_write_value");
 
-	CORBA::Any tmp_any;
-	Tango::DevVarShortArray tmp_seq(1);
-	tmp_seq.length(1);
-	tmp_seq[0] = (short)val;
+    size_t nb_data;
 
-	tmp_any <<= tmp_seq;
+    if (y == 0)
+        nb_data = x;
+    else
+        nb_data = x * y;
 
-	check_written_value(tmp_any,1,0);
-	copy_data(tmp_any);
-	set_user_set_write_value(true);
+    short *ptr = new short [nb_data];
+    for (size_t i = 0;i < nb_data; ++i)
+        ptr[i] = (short)val[i];
+
+    try
+    {
+        Tango::DevVarShortArray tmp_seq(static_cast<CORBA::ULong>(nb_data),static_cast<CORBA::ULong>(nb_data),ptr,false);
+
+        CORBA::Any tmp_any;
+        tmp_any <<= tmp_seq;
+        check_written_value(tmp_any, x, y);
+        copy_data(tmp_any);
+        set_user_set_write_value(true);
+
+        delete [] ptr;
+    }
+    catch (...)
+    {
+        delete [] ptr;
+        throw;
+    }
 }
 
-template <typename T>
-void WAttribute::set_write_value(T *val, long x, long y)
+template<class T, typename std::enable_if<!std::is_enum<T>::value, T>::type*>
+inline void WAttribute::set_write_value(T* val, size_t x, size_t y)
 {
-	T dum;
-	check_type(dum,"WAttribute::set_write_value");
+    size_t nb_data;
 
-	long nb_data;
+    if (y == 0)
+    {
+        nb_data = x;
+    }
+    else
+    {
+        nb_data = x * y;
+    }
 
-	if (y == 0)
-		nb_data = x;
-	else
-		nb_data = x * y;
+    typename tango_type_traits<T>::ArrayType tmp_seq(static_cast<CORBA::ULong>(nb_data), static_cast<CORBA::ULong>(nb_data), val, false);
 
-	short *ptr = new short [nb_data];
-	for (int i = 0;i < nb_data;i++)
-		ptr[i] = (short)val[i];
-
-	try
-	{
-		Tango::DevVarShortArray tmp_seq(nb_data,nb_data,ptr,false);
-
-		CORBA::Any 	tmp_any;
-		tmp_any <<= tmp_seq;
-		check_written_value(tmp_any, x, y);
-		copy_data(tmp_any);
-		set_user_set_write_value(true);
-
-		delete [] ptr;
-	}
-	catch (...)
-	{
-		delete [] ptr;
-		throw;
-	}
+    CORBA::Any tmp_any;
+    tmp_any <<= tmp_seq;
+    check_written_value(tmp_any, x, y);
+    copy_data(tmp_any);
+    set_user_set_write_value(true);
 }
 
-template <typename T>
-void WAttribute::set_write_value(std::vector<T> &val, long x, long y)
+template<class T>
+inline void WAttribute::set_write_value(std::vector<T> &val, size_t x, size_t y)
 {
-	T dum;
-	check_type(dum,"WAttribute::set_write_value");
-
-	short *ptr = new short [val.size()];
-	for (unsigned int i = 0;i < val.size();i++)
-		ptr[i] = (short)val[i];
-
-	try
-	{
-		Tango::DevVarShortArray tmp_seq(val.size(),val.size(),ptr,false);
-
-		CORBA::Any 	tmp_any;
-		tmp_any <<= tmp_seq;
-
-		check_written_value(tmp_any, x, y);
-		copy_data(tmp_any);
-		set_user_set_write_value(true);
-
-		delete [] ptr;
-	}
-	catch (...)
-	{
-		delete [] ptr;
-		throw;
-	}
+    set_write_value(&val[0], x, y);
 }
+
+template<class T>
+inline void WAttribute::set_write_value(T val)
+{
+    set_write_value(&val, 1, 0);
+}
+
 
 } // End of Tango namespace
 #endif // _WATTRSETVAL_TPP

@@ -94,8 +94,19 @@ private :
     void omni420_except_attr(int,char *,read_attr_type);
     void omni420_timeout_wattr(int,char *);
     void omni420_except_wattr(int,char *);
+/**
+ * Extracts values from Any and push it to a vector of DeviceAttributeHistory
+ */
+    template<class T>
+    void extract_value(CORBA::Any&, std::vector<DeviceAttributeHistory>&);
 
-	friend class AttributeProxy;
+/**
+ * Extracts values from Any and push it to a vector of DeviceDataHistory
+ */
+    template<class T>
+    void extract_value(CORBA::Any&, std::vector<DeviceDataHistory>&, const Tango::AttributeDimList& ad);
+
+    friend class AttributeProxy;
 
 protected :
 /// @privatesection

@@ -3168,5 +3168,156 @@ long _convert_tango_lib_release()
 	return ret;
 }
 
+std::ostream& operator<<(std::ostream& o_str, const CmdArgType& type)
+{
+    o_str << data_type_to_string(type);
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const AttrDataFormat& format)
+{
+    switch (format)
+    {
+        case Tango::FMT_UNKNOWN:
+            o_str << "Unknown";
+            break;
+
+        case Tango::SCALAR :
+            o_str << "Scalar";
+            break;
+
+        case Tango::SPECTRUM :
+            o_str << "Spectrum";
+            break;
+
+        case Tango::IMAGE :
+            o_str << "Image";
+            break;
+        
+        default:
+            o_str << "Undefined Format " << static_cast<std::underlying_type_t<AttrDataFormat>>(format);
+            break;
+    }
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const AttrWriteType& writable)
+{
+    switch (writable)
+    {
+        case Tango::WRITE:
+            o_str << "Write";
+            break;
+
+        case Tango::READ:
+            o_str << "Read";
+            break;
+
+        case Tango::READ_WRITE:
+            o_str << "Read/Write";
+            break;
+
+        case Tango::READ_WITH_WRITE:
+            o_str << "Read with write";
+            break;
+
+        default:
+            o_str << "Undefined WriteType " << static_cast<std::underlying_type_t<AttrWriteType>>(writable);
+            break;
+    }
+    return o_str;
+}
+std::ostream& operator<<(std::ostream& o_str, const PipeWriteType& writable)
+{
+    switch (writable)
+    {
+        case Tango::PIPE_READ:
+            o_str << "Read";
+            break;
+
+        case Tango::PIPE_READ_WRITE:
+            o_str << "Read/Write";
+            break;
+
+        default:
+            o_str << "Undefined PipeWriteType " << static_cast<std::underlying_type_t<PipeWriteType>>(writable);
+            break;
+    }
+    return o_str;
+}
+
+std::ostream& operator<<(std::ostream& o_str, const DispLevel& level)
+{
+    switch (level)
+    {
+        case DL_UNKNOWN :
+            o_str << "Unknown";
+            break;
+
+        case OPERATOR:
+            o_str << "Operator";
+            break;
+
+        case EXPERT:
+            o_str << "Expert";
+            break;
+
+        default:
+            o_str << "Undefined Display Level " << static_cast<std::underlying_type_t<DispLevel>>(level);
+            break;
+    }
+    return o_str;
+}
+
+std::ostream& operator<<(std::ostream& o_str, const FwdAttError& fae)
+{
+    switch (fae)
+    {
+        case FWD_WRONG_ATTR:
+            o_str << "Attribute not found in root device";
+            break;
+
+        case FWD_CONF_LOOP:
+            o_str << "Loop found in root attributes configuration";
+            break;
+
+        case FWD_WRONG_DEV:
+            o_str << "Wrong root device";
+            break;
+
+        case FWD_MISSING_ROOT:
+            o_str << "Missing or wrong root attribute definition";
+            break;
+
+        case FWD_ROOT_DEV_LOCAL_DEV:
+            o_str << "Root device is local device";
+            break;
+
+        case FWD_WRONG_SYNTAX:
+            o_str << "Wrong syntax in root attribute definition";
+            break;
+
+        case FWD_ROOT_DEV_NOT_STARTED:
+            o_str << "Root device not started yet. Polling (if any) for this attribute not available";
+            break;
+
+        case FWD_TOO_OLD_LOCAL_DEVICE:
+            o_str << "Local device too old (< IDL 5)";
+            break;
+
+        case FWD_TOO_OLD_ROOT_DEVICE:
+            o_str << "Root device too old (< IDL 5)";
+            break;
+
+        case FWD_DOUBLE_USED:
+        {
+            o_str << "Root attribute already used in this device server process for attribute ";
+            break;
+        }
+
+        default:
+            o_str << "Undefined ForwardAttributeError" << static_cast<std::underlying_type_t<FwdAttError>>(fae);
+            break;
+    }
+    return o_str;
+}
 
 } // End of Tango namespace

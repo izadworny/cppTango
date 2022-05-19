@@ -209,51 +209,10 @@ log4tango::LoggerStream& operator<< (log4tango::LoggerStream& ls, const Attribut
 	(const_cast<Attribute &>(a)).get_properties(conf);
 
         ls << "Attribute name: " << conf.name.in() << std::endl;
-	ls << "Attribute data_type: ";
-	switch (conf.data_type)
-	{
-	  case Tango::DEV_SHORT :
-		  ls << "Tango::DevShort" << std::endl;
-		  break;
-
-	  case Tango::DEV_LONG :
-		  ls << "Tango::DevLong" << std::endl;
-		  break;
-
-	  case Tango::DEV_DOUBLE :
-		  ls << "Tango::DevDouble" << std::endl;
-		  break;
-
-	  case Tango::DEV_STRING :
-		  ls << "Tango::DevString" << std::endl;
-		  break;
-
-	  case Tango::DEV_FLOAT :
-		  ls << "Tango::DevFloat" << std::endl;
-		  break;
-
-	  case Tango::DEV_BOOLEAN :
-		  ls << "Tango::DevBoolean" << std::endl;
-		  break;
-
-	  case Tango::DEV_USHORT :
-		  ls << "Tango::DevUShort" << std::endl;
-		  break;
-
-	  case Tango::DEV_UCHAR :
-		  ls << "Tango::DevUChar" << std::endl;
-		  break;
-
-	  case Tango::DEV_STATE :
-	  	  ls << "Tango::DevState" << std::endl;
-		  break;
-
-	  case Tango::DEV_ENUM :
-		  ls << "Tango::DevEnum" << std::endl;
-		  break;
-	}
+	ls << "Attribute data_type: " << (CmdArgType)conf.data_type << std::endl;
 	ls << "Attribute data_format: ";
-	switch (conf.data_format)
+	
+        switch (conf.data_format)
 	{
 	  case Tango::FMT_UNKNOWN:
 	  	  break;

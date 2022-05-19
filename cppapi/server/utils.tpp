@@ -325,7 +325,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
 // Set Attribute object value
 //
 
-                att.set_value((T *)(data.get_data())[i].ptr,
+                att.set_value(const_cast<T*>((data.get_data())[i].ptr),
                           (data.get_data())[i].x,
                           (data.get_data())[i].y,
                           (data.get_data())[i].release);

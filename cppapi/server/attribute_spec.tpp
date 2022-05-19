@@ -811,5 +811,162 @@ inline void Attribute::set_max_warning(const std::string &new_max_warning_str)
 	}
 }
 
+
+template<>
+inline Tango::DevVarULong64Array** Attribute::get_value_storage()
+{
+    return &value.ulg64_seq;
+}
+
+template<>
+inline Tango::DevVarShortArray** Attribute::get_value_storage()
+{
+    return &value.sh_seq;
+}
+
+template<>
+inline Tango::DevVarDoubleArray** Attribute::get_value_storage()
+{
+    return &value.db_seq;
+}
+
+template<>
+inline Tango::DevVarStringArray** Attribute::get_value_storage()
+{
+    return &value.str_seq;
+}
+
+template<>
+inline Tango::DevVarFloatArray** Attribute::get_value_storage()
+{
+    return &value.fl_seq;
+}
+
+template<>
+inline Tango::DevVarBooleanArray** Attribute::get_value_storage()
+{
+    return &value.boo_seq;
+}
+
+template<>
+inline Tango::DevVarUShortArray** Attribute::get_value_storage()
+{
+    return &value.ush_seq;
+}
+
+template<>
+inline Tango::DevVarCharArray** Attribute::get_value_storage()
+{
+    return &value.cha_seq;
+}
+
+template<>
+inline Tango::DevVarLong64Array** Attribute::get_value_storage()
+{
+    return &value.lg64_seq;
+}
+
+template<>
+inline Tango::DevVarLongArray** Attribute::get_value_storage()
+{
+    return &value.lg_seq;
+}
+
+template<>
+inline Tango::DevVarULongArray** Attribute::get_value_storage()
+{
+    return &value.ulg_seq;
+}
+
+template<>
+inline Tango::DevVarStateArray** Attribute::get_value_storage()
+{
+    return &value.state_seq;
+}
+
+template<>
+inline Tango::DevVarEncodedArray** Attribute::get_value_storage()
+{
+    return &value.enc_seq;
+}
+
+template<>
+inline Tango::DevULong64 (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_ulo64;
+}
+
+template<>
+inline Tango::DevLong64 (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_lo64;
+}
+
+template<>
+inline Tango::DevULong (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_ulo;
+}
+
+template<>
+inline Tango::DevState (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_state;
+}
+
+template<>
+inline Tango::DevShort (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_sh;
+}
+
+template<>
+inline Tango::DevLong (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_lo;
+}
+
+template<>
+inline Tango::DevFloat (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_fl;
+}
+
+template<>
+inline Tango::DevDouble (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_db;
+}
+
+template<>
+inline Tango::DevString (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_str;
+}
+
+template<>
+inline Tango::DevUShort (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_ush;
+}
+
+template<>
+inline Tango::DevBoolean (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_boo;
+}
+
+template<>
+inline Tango::DevUChar (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_cha;
+}
+
+template<>
+inline Tango::DevEncoded (&Attribute::get_tmp_storage())[2]
+{
+    return tmp_enc;
+}
+
 } // End of Tango namespace
 #endif // _ATTRIBUTE_SPEC_TPP

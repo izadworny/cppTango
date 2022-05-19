@@ -66,6 +66,7 @@ namespace Tango {
 
 	// A short inline function to hide the CORBA::string_free function
 	inline void string_free(char *s) {return CORBA::string_free(s);}
+
 }
 //
 // Some Windows specific include (necessary when used with MFC)
@@ -124,6 +125,7 @@ namespace Tango {
 #if !defined(TANGO_CLIENT)
 	#include <log4tango.h>
 #endif
+
 
 //
 // Include Tango files in order to simplfy device server developer include

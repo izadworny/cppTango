@@ -348,7 +348,7 @@ public :
 	DevVarFloatArray_var	FloatSeq;
 	DevVarBooleanArray_var	BooleanSeq;
 	DevVarUShortArray_var	UShortSeq;
-	DevVarCharArray_var		UCharSeq;
+	DevVarCharArray_var	UCharSeq;
 	DevVarLong64Array_var	Long64Seq;
 	DevVarULongArray_var	ULongSeq;
 	DevVarULong64Array_var	ULong64Seq;
@@ -1304,7 +1304,15 @@ public :
 //@}
 ///@privatesection
 	friend std::ostream &operator<<(std::ostream &, const DeviceAttribute &);
-
+/**
+ * Update internal data sequence with buffer.
+ * copies data_length elements starting from offset position from buffer to the internal sequence.
+ * @param buffer, data to be copied.
+ * @param offset, index of the first element in the buffer to be copied.
+ * @param data_length, number of elements to copy.
+ */
+    template<class T>
+    void update_internal_sequence(const T* buffer, std::size_t offset, std::size_t data_length);
 protected :
 ///@privatesection
 	std::bitset<numFlags> 	exceptions_flags;
@@ -1330,6 +1338,105 @@ protected :
 
 private:
     void init_common_class_members(const char * name,int dim_x,int dim_y);
+/**
+ * Returns ref to the internal sequence for this type.
+ * Does not manage memory.
+ */
+    template<class T>
+    T& get_seq_storage();
+    
 };
+
+template<class T>
+void DeviceAttribute::update_internal_sequence(const T* buffer, std::size_t offset, std::size_t data_length)
+{
+    auto& seq = get_seq_storage<typename T::_var_type>();
+    
+    seq = new T();
+    seq->length(data_length);
+    
+    for (size_t i = 0; i < data_length; ++i)
+    {
+        seq[i] = (*buffer)[offset + i];
+    }
+}
+
+template<>
+inline Tango::DevVarStringArray_var& DeviceAttribute::get_seq_storage()
+{
+    return StringSeq;
+}
+
+template<>
+inline Tango::DevVarULong64Array_var& DeviceAttribute::get_seq_storage()
+{
+    return ULong64Seq;
+}
+
+template<>
+inline Tango::DevVarShortArray_var& DeviceAttribute::get_seq_storage()
+{
+    return ShortSeq;
+}
+
+template<>
+inline Tango::DevVarDoubleArray_var& DeviceAttribute::get_seq_storage()
+{
+    return DoubleSeq;
+}
+
+template<>
+inline Tango::DevVarFloatArray_var& DeviceAttribute::get_seq_storage()
+{
+    return FloatSeq;
+}
+
+template<>
+inline Tango::DevVarBooleanArray_var& DeviceAttribute::get_seq_storage()
+{
+    return BooleanSeq;
+}
+
+template<>
+inline Tango::DevVarUShortArray_var& DeviceAttribute::get_seq_storage()
+{
+    return UShortSeq;
+}
+
+template<>
+inline Tango::DevVarCharArray_var& DeviceAttribute::get_seq_storage()
+{
+    return UCharSeq;
+}
+
+template<>
+inline Tango::DevVarLong64Array_var& DeviceAttribute::get_seq_storage()
+{
+    return Long64Seq;
+}
+
+template<>
+inline Tango::DevVarLongArray_var& DeviceAttribute::get_seq_storage()
+{
+    return LongSeq;
+}
+
+template<>
+inline Tango::DevVarULongArray_var& DeviceAttribute::get_seq_storage()
+{
+    return ULongSeq;
+}
+
+template<>
+inline Tango::DevVarStateArray_var& DeviceAttribute::get_seq_storage()
+{
+    return StateSeq;
+}
+
+template<>
+inline Tango::DevVarEncodedArray_var& DeviceAttribute::get_seq_storage()
+{
+    return EncodedSeq;
+}
 
 #endif /* _DEVICEATTRIBUTE_H */

@@ -307,6 +307,7 @@ public:
 //@}
 
 private:
+
 	CORBA::Any *attr2cmd(AttributeValue_3 &,bool,bool);
 	CORBA::Any *attr2cmd(AttributeValue_4 &,bool,bool);
 	CORBA::Any *attr2cmd(AttributeValue_5 &,bool,bool);

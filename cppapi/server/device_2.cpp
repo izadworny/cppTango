@@ -44,6 +44,26 @@
 namespace Tango
 {
 
+    namespace
+    {
+        template<class T>
+        void copy_data(const CORBA::Any& hist, CORBA::Any live);
+
+        template<class T>
+        void copy_data(const CORBA::Any& hist, CORBA::Any live)
+        {
+            const typename tango_type_traits<T>::ArrayType* tmp;
+            hist >>= tmp;
+            typename tango_type_traits<T>::ArrayType* new_tmp = new typename tango_type_traits<T>::ArrayType(
+                tmp->length(),
+                tmp->length(),
+                const_cast<T *>(tmp->get_buffer()),
+                false);
+            live <<= new_tmp;
+        }
+
+    }
+
 //+-------------------------------------------------------------------------
 //
 // method : 		Device_2Impl::Device_2Impl
@@ -1781,138 +1801,56 @@ void Device_2Impl::Polled_2_Live(TANGO_UNUSED(long data_type),Tango::AttrValUnio
 
 void Device_2Impl::Polled_2_Live(long data_type,CORBA::Any &hist_any,CORBA::Any &live_any)
 {
-	const Tango::DevVarDoubleArray *tmp_db;
-	Tango::DevVarDoubleArray *new_tmp_db;
-	const Tango::DevVarShortArray *tmp_sh;
-	Tango::DevVarShortArray *new_tmp_sh;
-	const Tango::DevVarLongArray *tmp_lg;
-	Tango::DevVarLongArray *new_tmp_lg;
-	const Tango::DevVarLong64Array *tmp_lg64;
-	Tango::DevVarLong64Array *new_tmp_lg64;
-	const Tango::DevVarStringArray *tmp_str;
-	Tango::DevVarStringArray *new_tmp_str;
-	const Tango::DevVarFloatArray *tmp_fl;
-	Tango::DevVarFloatArray *new_tmp_fl;
-	const Tango::DevVarBooleanArray *tmp_boo;
-	Tango::DevVarBooleanArray *new_tmp_boo;
-	const Tango::DevVarUShortArray *tmp_ush;
-	Tango::DevVarUShortArray *new_tmp_ush;
-	const Tango::DevVarCharArray *tmp_uch;
-	Tango::DevVarCharArray *new_tmp_uch;
-	const Tango::DevVarULongArray *tmp_ulg;
-	Tango::DevVarULongArray *new_tmp_ulg;
-	const Tango::DevVarULong64Array *tmp_ulg64;
-	Tango::DevVarULong64Array *new_tmp_ulg64;
-	const Tango::DevVarStateArray *tmp_state;
-	Tango::DevVarStateArray *new_tmp_state;
-
 	switch (data_type)
 	{
 	case Tango::DEV_SHORT :
 	case Tango::DEV_ENUM :
-		hist_any >>= tmp_sh;
-		new_tmp_sh = new DevVarShortArray(
-		tmp_sh->length(),
-		tmp_sh->length(),
-		const_cast<short *>(tmp_sh->get_buffer()),
-		false);
-		live_any <<= new_tmp_sh;
-		break;
+            copy_data<Tango::DevShort>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_DOUBLE :
-		hist_any >>= tmp_db;
-		new_tmp_db = new DevVarDoubleArray(
-		tmp_db->length(),
-		tmp_db->length(),
-		const_cast<double *>(tmp_db->get_buffer()),
-		false);
-		live_any <<= new_tmp_db;
-		break;
+            copy_data<Tango::DevDouble>(hist_any, live_any);
+	    break;
 
 	case Tango::DEV_LONG :
-		hist_any >>= tmp_lg;
-		new_tmp_lg = new DevVarLongArray(tmp_lg->length(),tmp_lg->length(),
-								const_cast<DevLong *>(tmp_lg->get_buffer()),false);
-		live_any <<= new_tmp_lg;
-		break;
+            copy_data<Tango::DevLong>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_LONG64 :
-		hist_any >>= tmp_lg64;
-		new_tmp_lg64 = new DevVarLong64Array(tmp_lg64->length(),tmp_lg64->length(),
-								const_cast<DevLong64 *>(tmp_lg64->get_buffer()),false);
-		live_any <<= new_tmp_lg64;
-		break;
+            copy_data<Tango::DevLong64>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_STRING :
-		hist_any >>= tmp_str;
-		new_tmp_str = new DevVarStringArray(
-			tmp_str->length(),
-			tmp_str->length(),
-			const_cast<char **>(tmp_str->get_buffer()),
-			false);
-		live_any <<= new_tmp_str;
-		break;
+            copy_data<Tango::DevString>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_FLOAT :
-		hist_any >>= tmp_fl;
-		new_tmp_fl = new DevVarFloatArray(
-			tmp_fl->length(),
-			tmp_fl->length(),
-			const_cast<float *>(tmp_fl->get_buffer()),
-			false);
-		live_any <<= new_tmp_fl;
-		break;
+            copy_data<Tango::DevFloat>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_BOOLEAN :
-		hist_any >>= tmp_boo;
-		new_tmp_boo = new DevVarBooleanArray(
-			tmp_boo->length(),
-			tmp_boo->length(),
-			const_cast<DevBoolean *>(tmp_boo->get_buffer()),
-			false);
-		live_any <<= new_tmp_boo;
-		break;
+            copy_data<Tango::DevBoolean>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_USHORT :
-		hist_any >>= tmp_ush;
-		new_tmp_ush = new DevVarUShortArray(
-			tmp_ush->length(),
-			tmp_ush->length(),
-			const_cast<DevUShort *>(tmp_ush->get_buffer()),
-			false);
-		live_any <<= new_tmp_ush;
-		break;
+            copy_data<Tango::DevUShort>(hist_any, live_any);
+            break;
 
 	case Tango::DEV_UCHAR :
-		hist_any >>= tmp_uch;
-		new_tmp_uch = new DevVarCharArray(
-			tmp_uch->length(),
-		   tmp_uch->length(),
- 		   const_cast<DevUChar *>(tmp_uch->get_buffer()),
- 		   false);
- 	   live_any <<= new_tmp_uch;
- 	   break;
+            copy_data<Tango::DevUChar>(hist_any, live_any);
+ 	    break;
 
-   case Tango::DEV_ULONG :
- 	   hist_any >>= tmp_ulg;
- 	   new_tmp_ulg = new DevVarULongArray(tmp_ulg->length(),tmp_ulg->length(),
- 								   const_cast<DevULong *>(tmp_ulg->get_buffer()),false);
- 	   live_any <<= new_tmp_ulg;
- 	   break;
+        case Tango::DEV_ULONG :
+            copy_data<Tango::DevULong>(hist_any, live_any);
+ 	    break;
 
-   case Tango::DEV_ULONG64 :
- 	   hist_any >>= tmp_ulg64;
- 	   new_tmp_ulg64 = new DevVarULong64Array(tmp_ulg64->length(),tmp_ulg64->length(),
- 								   const_cast<DevULong64 *>(tmp_ulg64->get_buffer()),false);
- 	   live_any <<= new_tmp_ulg64;
- 	   break;
+        case Tango::DEV_ULONG64 :
+            copy_data<Tango::DevULong64>(hist_any, live_any);
+ 	    break;
 
-   case Tango::DEV_STATE :
- 	   hist_any >>= tmp_state;
- 	   new_tmp_state = new DevVarStateArray(tmp_state->length(),tmp_state->length(),
- 								   const_cast<DevState *>(tmp_state->get_buffer()),false);
- 	   live_any <<= new_tmp_state;
- 	   break;
+        case Tango::DEV_STATE :
+            copy_data<Tango::DevState>(hist_any, live_any);
+ 	    break;
    }
 }
 

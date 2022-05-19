@@ -41,6 +41,7 @@
 #include <functional>
 #include <time.h>
 #include <iterator>
+#include <type_traits>
 
 #ifdef _TG_WINDOWS_
 	#include <sys/types.h>
@@ -65,7 +66,64 @@ typedef union _Attr_CheckVal
 	DevULong		ulg;
 	DevULong64		ulg64;
 	DevState		d_sta;
+/**
+ * Returns a ref to the proper field based on type.
+ * Does not manage memory.
+ */
+        template<class T>
+        const T& get_value();
 }Attr_CheckVal;
+
+template<>
+inline const Tango::DevShort& Attr_CheckVal::get_value()
+{
+    return sh;
+}
+template<>
+inline const Tango::DevLong& Attr_CheckVal::get_value()
+{
+    return lg;
+}
+template<>
+inline const Tango::DevDouble& Attr_CheckVal::get_value()
+{
+    return db;
+}
+template<>
+inline const Tango::DevFloat& Attr_CheckVal::get_value()
+{
+    return fl;
+}
+template<>
+inline const Tango::DevUShort& Attr_CheckVal::get_value()
+{
+    return ush;
+}
+template<>
+inline const Tango::DevUChar& Attr_CheckVal::get_value()
+{
+    return uch;
+}
+template<>
+inline const Tango::DevLong64& Attr_CheckVal::get_value()
+{
+    return lg64;
+}
+template<>
+inline const Tango::DevULong& Attr_CheckVal::get_value()
+{
+    return ulg;
+}
+template<>
+inline const Tango::DevULong64& Attr_CheckVal::get_value()
+{
+    return ulg64;
+}
+template<>
+inline const Tango::DevState& Attr_CheckVal::get_value()
+{
+    return d_sta;
+}
 
 typedef union _Attr_Value
 {
@@ -490,230 +548,6 @@ public:
  */
 //@{
 /**
- * Set internal attribute value (for Tango::DevShort attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevShort *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevLong attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevLong *p_data,long x = 1, long y = 0,bool release = false);
-
-/**
- * Set internal attribute value (for Tango::DevLong64 attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevLong64 *p_data,long x = 1,long y = 0,bool release = false);
-
-/**
- * Set internal attribute value (for Tango::DevFloat attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevFloat *p_data,long x = 1,long y = 0,bool release = false);
-
-/**
- * Set internal attribute value (for Tango::DevDouble attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevDouble *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevString attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevString *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevBoolean attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevBoolean *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevUShort attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevUShort *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevUChar attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevUChar *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevULong attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevULong *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevULong64 attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevULong64 *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevState attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevState *p_data,long x = 1,long y = 0,bool release = false);
-/**
- * Set internal attribute value (for Tango::DevEncoded attribute data type).
- *
- * This method stores the attribute read value inside the object. This data will be
- * returned to the caller. This method also stores the date when it is called
- * and initialise the attribute quality factor.
- *
- * @param p_data The attribute read value
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value(Tango::DevEncoded *p_data,long x = 1, long y = 0,bool release = false);
-/**
  * Set internal attribute value (for Tango::DevEncoded attribute data type).
  *
  * This method stores the attribute read value inside the object. This data will be
@@ -744,852 +578,37 @@ public:
  */
 	void set_value(Tango::EncodedAttribute *attr);
 
+
+/**
+ * Set internal attribute value (for enum attribute data type).
+ *
+ * This method stores the attribute read value inside the object. This data will be
+ * returned to the caller. This method also stores the date when it is called
+ * and initialise the attribute quality factor.
+ *
+ * @param attr Handle to attribute object
+ * @exception DevFailed If the attribute data type is not coherent.
+ * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
+ * <b>DevFailed</b> exception specification
+ */
+        template <class T, typename std::enable_if<std::is_enum<T>::value && !std::is_same<T, Tango::DevState>::value, T>::type* = nullptr>
+	void set_value(T *,long x = 1,long y = 0,bool release = false);
+        
+/**
+ * Set internal attribute value (for non enum attribute data type).
+ *
+ * This method stores the attribute read value inside the object. This data will be
+ * returned to the caller. This method also stores the date when it is called
+ * and initialise the attribute quality factor.
+ *
+ * @param attr Handle to attribute object
+ * @exception DevFailed If the attribute data type is not coherent.
+ * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
+ * <b>DevFailed</b> exception specification
+ */
+        template <class T, typename std::enable_if<!std::is_enum<T>::value || std::is_same<T, Tango::DevState>::value, T>::type* = nullptr>
+	void set_value(T *,long x = 1,long y = 0,bool release = false);
 //---------------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevShort attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevShort *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevShort *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevShort attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevShort *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevLong attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevLong *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevLong *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevLong attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevLong *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevLong64 attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevLong64 *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevLong64 *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevLong64 attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevLong64 *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevFloat attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-
-	void set_value_date_quality(Tango::DevFloat *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevFloat *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevFloat attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevFloat *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevDouble attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-
-	void set_value_date_quality(Tango::DevDouble *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevDouble *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevDouble attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevDouble *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevString attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevString *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevString *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevString attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevString *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevBoolean attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-
-	void set_value_date_quality(Tango::DevBoolean *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevBoolean *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevBoolean attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevBoolean *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevUShort attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-
-	void set_value_date_quality(Tango::DevUShort *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevUShort *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevUShort attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevUShort *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevUChar attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-
-	void set_value_date_quality(Tango::DevUChar *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevUChar *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevUChar attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevUChar *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevULong attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevULong *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevULong *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevULong attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevULong *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevULong64 attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevULong64 *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevULong64 *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevULong64 attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevULong64 *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevState attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevState *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevState *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevState attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevState *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-#endif
-
-//-----------------------------------------------------------------------
-
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevEncoded attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevEncoded *p_data,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevEncoded attribute data type
- * when splitted in format and data).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * @param p_data_str The attribute coded format string
- * @param p_data The attribute raw data
- * @param size Size of the attribute raw data part
- * @param t The date
- * @param qual The attribute quality factor
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevString *p_data_str,
-					Tango::DevUChar *p_data,
-					long size,
-				    time_t t,
-				    Tango::AttrQuality qual,
-				    bool release = false);
-#ifdef _TG_WINDOWS_
-	void set_value_date_quality(Tango::DevEncoded *p_data,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-
-	void set_value_date_quality(Tango::DevString *p_data_str,
-					Tango::DevUChar *p_data,
-					long size,
-				    struct _timeb &t,
-				    Tango::AttrQuality qual,
-				    bool release = false);
-#else
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevEncoded attribute data type).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data The attribute read value
- * @param t The date
- * @param qual The attribute quality factor
- * @param x The attribute x length. Default value is 1
- * @param y The attribute y length. Default value is 0
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevEncoded *p_data,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x = 1,long y = 0,
-				    bool release = false);
-/**
- * Set internal attribute value, date and quality factor (for Tango::DevEncoded attribute data type
- * when splitted in data format and data themselves).
- *
- * This method stores the attribute read value, the date and the attribute
- * quality factor inside the object. This data will be
- * returned to the caller.
- *
- * Please note that for Win32 user, the same method is defined using a
- * "_timeb" structure instead of a "timeval" structure to set date.
- *
- * @param p_data_str The attribute format string
- * @param p_data The attribute raw data
- * @param size Size of the attribute raw data part
- * @param t The date
- * @param qual The attribute quality factor
- * @param release The release flag. If true, memory pointed to by p_data will be
- * 		  freed after being send to the client. Default value is false.
- * @exception DevFailed If the attribute data type is not coherent.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void set_value_date_quality(Tango::DevString *p_data_str,
-					Tango::DevUChar *p_data,
-					long size,
-				    struct timeval &t,
-				    Tango::AttrQuality qual,
-				    bool release = false);
-#endif
 
 
 /**
@@ -2135,18 +1154,62 @@ protected:
 
 public:
 /// @privatesection
+/**
+ * Returns the internal buffer to keep data of this type.
+ * It does not do any memory management
+ */
+        template<class T>
+        T** get_value_storage();
 
-	template <typename T>
-	void set_value(T *,long x = 1,long y = 0,bool release = false);
+/**
+ * Returns the internal buffer to keep temporary data of this type.
+ * It does not do any memory management
+ */
+        template<class T>
+        T (&get_tmp_storage())[2];
 
-	template <typename T>
+/**
+ * Set internal attribute value, date and quality factor (for Tango::DevShort attribute data type).
+ *
+ * This method stores the attribute read value, the date and the attribute
+ * quality factor inside the object. This data will be
+ * returned to the caller.
+ *
+ * @param p_data The attribute read value
+ * @param t The date
+ * @param qual The attribute quality factor
+ * @param x The attribute x length. Default value is 1
+ * @param y The attribute y length. Default value is 0
+ * @param release The release flag. If true, memory pointed to by p_data will be
+ * 		  freed after being send to the client. Default value is false.
+ * @exception DevFailed If the attribute data type is not coherent.
+ * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
+ * <b>DevFailed</b> exception specification
+ */
+        template<class T>
 	void set_value_date_quality(T *,time_t,Tango::AttrQuality,long x=1,long y=0,bool rel=false);
+
+        void set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUChar *p_data,long size,time_t t,
+				    Tango::AttrQuality qual,
+				    bool release = false);
 #ifdef _TG_WINDOWS_
-	template <typename T>
-	void set_value_date_quality(T *,struct _timeb &,Tango::AttrQuality,long x=1,long y=1,bool rel=false);
+        template<class T>
+	void set_value_date_quality(T *,struct _timeb &,Tango::AttrQuality,long x=1,long y=0,bool rel=false);
+        void set_value_date_quality(Tango::DevString *p_data_str,
+                Tango::DevUChar *p_data,
+                long size,
+                struct _timeb&,
+                Tango::AttrQuality qual,
+                bool release = false);
 #else
-	template <typename T>
-	void set_value_date_quality(T *,struct timeval &,Tango::AttrQuality,long x=1,long y=1,bool rel=false);
+        template<class T>
+	void set_value_date_quality(T *,struct timeval &,Tango::AttrQuality,long x=1,long y=0,bool rel=false);
+        void set_value_date_quality(Tango::DevString *p_data_str,
+                Tango::DevUChar *p_data,
+                long size,
+                struct timeval&,
+                Tango::AttrQuality qual,
+                bool release = false);
 #endif
 
 //
@@ -2318,11 +1381,26 @@ public:
 
 	void fire_error_periodic_event(DevFailed *);
 
+        /**
+         * Extract internal value to dest.
+         * Free internal memory.
+         * @param dest, receiving Any that will contain the data.
+         */
+        void extract_value(CORBA::Any& dest);
+
 	friend class EventSupplier;
 	friend class ZmqEventSupplier;
 	friend class DServer;
 
 private:
+        /**
+         * Extract internal value to dest depending on the type.
+         * Free internal memory.
+         * @param dest, receiving Any that will contain the data.
+         */
+        template<class T>
+        void _extract_value(CORBA::Any& dest);
+
 	void set_data_size();
 	void throw_min_max_value(const std::string &,const std::string &,MinMaxValueCheck);
 	void log_quality();
@@ -2519,6 +1597,7 @@ protected:
 	bool				att_mem_exception;				// Flag set to true if the attribute is writable and
 														// memorized and if it failed at init
 	std::vector<int> 		client_lib[numEventType];		// Clients lib used (for event sending and compat)
+
 };
 
 //
@@ -2749,6 +1828,75 @@ inline void Attribute::set_att_conf_event_sub(int cl_lib)
 	}
 }
 
+//+-------------------------------------------------------------------------
+//
+// method :      Attribute::delete_data_if_needed
+//
+// description : The method frees the memory of the T*
+//               attribute if the release = true
+//
+// in :          data : The attribute name
+//               release : A flag set to true if memory must be
+//                        de-allocated
+//
+//--------------------------------------------------------------------------
+template <typename T>
+inline void Attribute::delete_data_if_needed(T* data, bool release)
+{
+	if (!release || !data)
+	{
+		return;
+	}
+
+	if (is_fwd_att())
+	{
+		// Note that here we assume that the generated sequence class is inherited
+		// from _CORBA_Sequence. This should be fixed once we have a mapping from
+		// data types to sequence types.
+		_CORBA_Sequence<T>::freebuf(data);
+	}
+	else
+	{
+		delete data;
+	}
+}
+
+//+-------------------------------------------------------------------------
+//
+// method :      Attribute::delete_data_if_needed
+//
+// description : Template specialization  which frees the memory of the
+//               Tango::DevString* attribute if the release = true,
+//               it is necessary due to the different allocation
+//
+// in :          data : The attribute name
+//               release : A flag set to true if memory must be
+//                        de-allocated
+//
+//--------------------------------------------------------------------------
+template <>
+inline void Attribute::delete_data_if_needed<Tango::DevString>(Tango::DevString* data, bool release)
+{
+	if (!release || !data)
+	{
+		return;
+	}
+
+	if (is_fwd_att())
+	{
+		// p_data is the underlying buffer of DevVarStringArray
+		// and it must be released using freebuf, not delete[].
+		// Note that freebuf also releases memory for all array
+		// elements. We assign null pointer to prevent that.
+		*data = nullptr;
+		Tango::DevVarStringArray::freebuf(data);
+	}
+	else
+	{
+		delete data;
+	}
+}
+
 //
 // Macro to help coding
 //
@@ -2852,5 +2000,4 @@ inline void Attribute::set_att_conf_event_sub(int cl_lib)
 		(void)0
 
 } // End of Tango namespace
-
 #endif // _ATTRIBUTE_H

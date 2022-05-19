@@ -5610,31 +5610,13 @@ std::ostream &operator<<(std::ostream &o_str, const DeviceAttribute &da)
 // Print data format
 //
 
-		o_str << "Data format = ";
-		switch (da.data_format)
-		{
-		case Tango::SCALAR:
-			o_str << "SCALAR, ";
-			break;
-
-		case Tango::SPECTRUM:
-			o_str << "SPECTRUM, ";
-			break;
-
-		case Tango::IMAGE:
-			o_str << "IMAGE, ";
-			break;
-
-		case Tango::FMT_UNKNOWN:
-			o_str << "UNKNOWN, ";
-			break;
-		}
+		o_str << "Data format = " << da.data_format << ", ";
 
 //
 // Print data type
 //
 
-	    o_str << "Data type = " << data_type_to_string(da.get_type()) << ")" << std::endl;
+	    o_str << "Data type = " << (CmdArgType)da.get_type() << ")" << std::endl;
 
 //
 // Print data (if valid)

@@ -52,6 +52,7 @@ auto find_property(std::vector<Tango::AttrProperty> &prop_list, const char *prop
 	                    [&prop_name](Tango::AttrProperty& attr){ return attr.get_name() == prop_name; });
 }
 
+
 } // anonymous
 
 namespace Tango
@@ -5900,6 +5901,85 @@ void Attribute::remove_client_lib(int _l,const std::string &ev_name)
 	std::vector<int>::iterator pos = find(client_lib[i].begin(),client_lib[i].end(),_l);
 	if (pos != client_lib[i].end())
 		client_lib[i].erase(pos);
+}
+
+void Attribute::extract_value(CORBA::Any& dest)
+{
+    switch (get_data_type())
+    {
+        case Tango::DEV_SHORT :
+        case Tango::DEV_ENUM :
+        {
+            _extract_value<Tango::DevVarShortArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_LONG :
+        {
+            _extract_value<Tango::DevVarLongArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_LONG64 :
+        {
+            _extract_value<Tango::DevVarLong64Array>(dest);
+            break;
+        }
+
+        case Tango::DEV_DOUBLE :
+        {
+            _extract_value<Tango::DevVarDoubleArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_STRING :
+        {
+            _extract_value<Tango::DevVarStringArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_FLOAT :
+        {
+            _extract_value<Tango::DevVarFloatArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_BOOLEAN :
+        {
+            _extract_value<Tango::DevVarBooleanArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_USHORT :
+        {
+            _extract_value<Tango::DevVarUShortArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_UCHAR :
+        {
+            _extract_value<Tango::DevVarCharArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_ULONG :
+        {
+            _extract_value<Tango::DevVarULongArray>(dest);
+            break;
+        }
+
+        case Tango::DEV_ULONG64 :
+        {
+            _extract_value<Tango::DevVarULong64Array>(dest);
+            break;
+        }
+
+        case Tango::DEV_STATE :
+        {
+            _extract_value<Tango::DevVarStateArray>(dest);
+            break;
+        }
+    }
 }
 
 //-------------------------------------------------------------------------------------------------------------------

@@ -813,7 +813,7 @@ public:
 
 		// get polling status for the device
 		status_ref[0] = "Polled attribute name = attr_wrong_size\nPolling period (mS) = 200\nPolling ring buffer depth = 10";
-		status_ref[1] = "Last attribute read FAILED :\n\tReason = API_AttrOptProp\n\tDesc = Data size for attribute attr_wrong_size exceeds given limit";
+		status_ref[1] = "Last attribute read FAILED :\n\tReason = API_AttrOptProp\n\tDesc = Data size for attribute attr_wrong_size [1000, 1000] exceeds given limit [1, 0]";
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("DevPollStatus", din));
 		dout >> status_arr;
@@ -828,7 +828,7 @@ public:
 		status[1] = status_arr_str.substr(status_arr_str.length() - status_ref[1].length(),
 				status_ref[1].length()); // last 3 lines
 		TS_ASSERT_EQUALS(status[1], status_ref[1]);
-
+		
 		// restart the device
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("DevRestart", din));
@@ -836,7 +836,7 @@ public:
 
 		// again get polling status for the device
 		status_ref[0] = "Polled attribute name = attr_wrong_size\nPolling period (mS) = 200\nPolling ring buffer depth = 10";
-		status_ref[1] = "Last attribute read FAILED :\n\tReason = API_AttrOptProp\n\tDesc = Data size for attribute attr_wrong_size exceeds given limit";
+		status_ref[1] = "Last attribute read FAILED :\n\tReason = API_AttrOptProp\n\tDesc = Data size for attribute attr_wrong_size [1000, 1000] exceeds given limit [1, 0]";
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("DevPollStatus", din));
 		dout >> status_arr;
