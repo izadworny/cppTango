@@ -30,6 +30,7 @@
 //-==================================================================================================================
 
 #include <tango.h>
+#include "utils.h"
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -66,8 +67,6 @@ namespace Tango
 
 Util *Util::_instance = NULL;
 int Util::_tracelevel = 0;
-bool Util::_UseDb = true;
-bool Util::_FileDb = false;
 bool Util::_daemon = false;
 long Util::_sleep_between_connect = 60;
 bool Util::_constructed = false;
@@ -138,7 +137,7 @@ Util *Util::init(HINSTANCE hi,int nCmd)
 
 Util *Util::instance(bool exit)
 {
-	if (_instance == NULL)
+	if (!_instance)
 	{
 		if (exit == true)
 			Util::print_err_message("Tango is not initialised !!!\nExiting");
@@ -762,7 +761,7 @@ void Util::check_args(int argc,char *argv[])
 					{
 						if ( !_UseDb )
 							print_usage(argv[0]);
-						Tango::Util::_FileDb = true;
+						_FileDb = true;
 						database_file_name = argv[ind];
 						database_file_name.erase(0,6);
 #ifdef _TG_WINDOWS_

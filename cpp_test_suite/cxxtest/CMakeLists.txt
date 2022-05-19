@@ -1,9 +1,5 @@
 find_package (Threads REQUIRED)
-find_program(PYTHON_INTERPRETER NAMES python3)
-
-if(NOT PYTHON_INTERPRETER)
-  message(FATAL_ERROR "Could not find python 3.")
-endif()
+find_package(PYTHON3 REQUIRED)
 
 function(CXX_GENERATE_TEST name)
 
@@ -20,7 +16,7 @@ function(CXX_GENERATE_TEST name)
         set(INPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/../new_tests/${name}.cpp")
     ENDIF()
     add_custom_command(OUTPUT ${name}.cpp
-                       COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
+                       COMMAND "${Python3_EXECUTABLE}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
                                --template=${CMAKE_CURRENT_SOURCE_DIR}/template/tango_template.tpl
                                -o ${name}.cpp
                                ${INPUT_FILE}
@@ -35,7 +31,7 @@ function(CXX_GENERATE_TEST name)
     target_include_directories(${name} PRIVATE
 	    ${CMAKE_CURRENT_SOURCE_DIR}/../new_tests)
     target_link_libraries(${name} PRIVATE tango ${CMAKE_THREAD_LIBS_INIT})
-    target_compile_definitions(${name} PRIVATE ${COMMON_TEST_CXX_DEFS})
+    target_compile_definitions(${name} PRIVATE ${COMMON_TEST_CXX_DEFS} LOG4TANGO_HAS_DLL TANGO_HAS_DLL)
     if(TANGO_USE_PCH)
         tango_target_test_pch(${name})
     endif()

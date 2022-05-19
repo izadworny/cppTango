@@ -352,7 +352,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
 // Update db
 //
 
-    if ((with_db_upd == true) && (Tango::Util::_UseDb == true))
+    if ((with_db_upd == true) && tg->use_db())
     {
         DbData send_data;
         send_data.push_back(DbDatum("polling_threads_pool_conf"));
@@ -508,7 +508,7 @@ void DeviceImpl::get_dev_system_resource()
 //
 
     Tango::Util *tg = Tango::Util::instance();
-    if (tg->_UseDb == true)
+    if (tg->use_db())
     {
         DbData db_data;
 
@@ -2379,7 +2379,7 @@ void DeviceImpl::set_attribute_config(const Tango::AttributeConfigList &new_conf
             bool old_alarm = attr.is_alarmed().any();
             std::vector<Attribute::AttPropDb> v_db;
             attr.set_properties(new_conf[i], device_name, false, v_db);
-            if (Tango::Util::_UseDb == true)
+            if (Tango::Util::instance()->use_db())
             {
                 attr.upd_database(v_db);
             }
@@ -3075,7 +3075,7 @@ void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
                 }
             }
 
-            if ((Tango::Util::_UseDb == true) && (att_in_db.empty() == false))
+            if (Tango::Util::instance()->use_db() && (att_in_db.empty() == false))
             {
                 try
                 {
@@ -3400,7 +3400,7 @@ void DeviceImpl::remove_attribute(Tango::Attr *rem_attr, bool free_it, bool clea
 // already stopped.
 //
 
-            if (clean_db == true && Tango::Util::_UseDb == true)
+            if (clean_db == true && tg->use_db())
             {
 
 //
@@ -3792,7 +3792,7 @@ void DeviceImpl::remove_command(Tango::Command *rem_cmd, bool free_it, bool clea
 // already stopped.
 //
 
-            if (clean_db == true && Tango::Util::_UseDb == true)
+            if (clean_db == true && tg->use_db())
             {
 
 //
@@ -4005,7 +4005,7 @@ void DeviceImpl::init_cmd_poll_ext_trig(const std::string &cmd_name)
 //
 
     Tango::Util *tg = Tango::Util::instance();
-    if (tg->_UseDb == true)
+    if (tg->use_db())
     {
         std::vector<std::string> &poll_list = get_polled_cmd();
         Tango::DbData poll_data;
@@ -4064,7 +4064,7 @@ void DeviceImpl::init_cmd_poll_period()
 //
 
     Tango::Util *tg = Tango::Util::instance();
-    if (tg->_UseDb == true)
+    if (tg->use_db())
     {
         std::vector<std::string> &poll_list = get_polled_cmd();
         Tango::DbData poll_data;
@@ -4189,7 +4189,7 @@ void DeviceImpl::init_attr_poll_ext_trig(const std::string &attr_name)
 //
 
     Tango::Util *tg = Tango::Util::instance();
-    if (tg->_UseDb == true)
+    if (tg->use_db())
     {
         std::vector<std::string> &poll_list = get_polled_attr();
         Tango::DbData poll_data;
@@ -4269,7 +4269,7 @@ void DeviceImpl::init_attr_poll_period()
 //
 
     Tango::Util *tg = Tango::Util::instance();
-    if (tg->_UseDb == true)
+    if (tg->use_db())
     {
         std::vector<std::string> &poll_list = get_polled_attr();
         Tango::DbData poll_data;
@@ -6060,7 +6060,7 @@ void DeviceImpl::end_pipe_config()
         Tango::Util *tg = Tango::Util::instance();
         Tango::DbData db_list;
 
-        if (tg->_UseDb == true)
+        if (tg->use_db())
         {
             for (size_t i = 0; i < nb_pipe; i++)
             {
@@ -6074,7 +6074,7 @@ void DeviceImpl::end_pipe_config()
 
 
             int old_db_timeout = 0;
-            if (Util::_FileDb == false)
+            if (!tg->use_file_db())
             {
                 old_db_timeout = tg->get_database()->get_timeout_millis();
             }
@@ -6314,4 +6314,18 @@ void DeviceImpl::set_pipe_event_subscription_states(const PipeEventSubscriptionS
     }
 }
 
+DbDevice *DeviceImpl::get_db_device()
+{
+	if (!Util::instance()->use_db())
+	{
+		TangoSys_OMemStream desc_mess;
+		desc_mess << "Method not available for device ";
+		desc_mess << device_name;
+		desc_mess << " which is a non database device";
+
+		TANGO_THROW_EXCEPTION(API_NonDatabaseDevice, desc_mess.str());
+	}
+
+	return db_dev;
+}
 } // End of Tango namespace

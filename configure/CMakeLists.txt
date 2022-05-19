@@ -95,7 +95,11 @@ if(TANGO_ZMQ_BASE)
     endif()
     include_directories(SYSTEM ${TANGO_ZMQ_BASE}/include)
 else()
-    pkg_search_module(ZMQ_PKG REQUIRED libzmq)
+    find_package(ZeroMQ REQUIRED)
+	if (WIN32)
+	    link_directories(${ZeroMQ_INCLUDES})
+		set(ZMQ_PKG_LIBRARIES ${ZeroMQ_LIBRARIES})
+	endif()
 endif()
 
 # Check for jpeg support

@@ -202,10 +202,8 @@ CORBA::Any *IOLong::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
     Tango::DevLong theNumber;
     extract(in_any,theNumber);
     cout << "[IOLong::execute] received number " << theNumber << std::endl;
-    DEV_DEBUG_STREAM(device) << "[IOLong::execute] received number " << theNumber;
     theNumber = theNumber * 2;
     cout << "[IOLong::execute] return number " << theNumber << std::endl;
-    DEV_DEBUG_STREAM(device) << "[IOLong::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -259,10 +257,8 @@ CORBA::Any *IOLong64::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any
     Tango::DevLong theNumber;
     extract(in_any,theNumber);
     cout << "[IOLong64::execute] received number " << theNumber << std::endl;
-    DEV_DEBUG_STREAM(device) << "[IOLong64::execute] received number " << theNumber;
     theNumber = theNumber * 2;
     cout << "[IOLong64::execute] return number " << theNumber << std::endl;
-    DEV_DEBUG_STREAM(device) << "[IOLong64::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -586,7 +582,7 @@ bool IOString::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::A
 CORBA::Any *IOString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
 {
 
-	cout2 << "[IOString::execute] arrived" << std::endl;
+	cout << "[IOString::execute] arrived" << std::endl;
 	try {
 
 	  Tango::DevString theWord;
@@ -1316,7 +1312,6 @@ CORBA::Any *OLong::execute(Tango::DeviceImpl *device,TANGO_UNUSED(const CORBA::A
   try {
     long theNumber = 22;
     cout << "[OLong::execute] return number " << theNumber << std::endl;
-    DEV_DEBUG_STREAM(device) << "[OLong::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)

@@ -79,7 +79,7 @@ namespace Tango {
 //			but overloaded many times for all Tango types.
 //
 //-----------------------------------------------------------------------------
-
+/*
     void Command::throw_bad_type(const char *type) {
         TangoSys_OMemStream o;
 
@@ -216,7 +216,7 @@ namespace Tango {
         if ((in >>= data) == false)
             throw_bad_type("DevEncoded");
     }
-
+*/
 //+----------------------------------------------------------------------------
 //
 // method : 		Command::insert()
@@ -240,7 +240,7 @@ namespace Tango {
         alloc_any(out_any);
         return out_any;
     }
-
+/*
     CORBA::Any *Command::insert(Tango::DevBoolean data) {
         CORBA::Any *out_any;
         alloc_any(out_any);
@@ -583,7 +583,7 @@ namespace Tango {
 
         return out_any;
     }
-
+*/
 //+-------------------------------------------------------------------------
 //
 // method : 		TempCommand class constructors

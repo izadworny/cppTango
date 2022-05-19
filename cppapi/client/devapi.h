@@ -751,8 +751,8 @@ public:
 ///					Some inline methods
 ///					-------------------
 ///
-
-inline ApiUtil *ApiUtil::instance()
+/*
+ApiUtil *ApiUtil::instance()
 {
 	omni_mutex_lock lo(inst_mutex);
 
@@ -760,6 +760,7 @@ inline ApiUtil *ApiUtil::instance()
 		_instance = new ApiUtil();
 	return _instance;
 }
+*/
 
 inline long Connection::add_asyn_request(CORBA::Request_ptr req,TgRequest::ReqType req_type)
 {

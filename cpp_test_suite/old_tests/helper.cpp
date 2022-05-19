@@ -427,7 +427,7 @@ int main(int argc, char **argv)
 	}
         catch (CORBA::Exception &e)
         {
-              	Except::print_exception(e);
-		exit(1);
+            Except::print_exception(e);
+		    exit(1);
         }
 }

@@ -1,6 +1,10 @@
 project(test_suite)
 
-set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g")
+if(MSVC)
+    set(CMAKE_CXX_FLAGS_RELEASE "/Od /DEBUG")
+else()
+	set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g")
+endif()
 
 #TODO different OS
 set(SERV_NAME "DevTest")
@@ -22,7 +26,7 @@ add_subdirectory(environment)
 
 function(TEST_SUITE_ADD_TEST test)
     add_executable(${test} ${test}.cpp)
-    target_compile_definitions(${test} PUBLIC VALGRIND _PTHREADS)
+    target_compile_definitions(${test} PUBLIC VALGRIND _PTHREADS PRIVATE LOG4TANGO_HAS_DLL TANGO_HAS_DLL)
     target_link_libraries(${test} tango ${CMAKE_DL_LIBS})
     if(TANGO_USE_PCH)
         tango_target_test_pch(${test})

@@ -233,7 +233,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-    	virtual Tango::AttributeValueList *read_attributes_2(const Tango::DevVarStringArray& names,
+    virtual Tango::AttributeValueList *read_attributes_2(const Tango::DevVarStringArray& names,
 							     Tango::DevSource source);
 
 /**

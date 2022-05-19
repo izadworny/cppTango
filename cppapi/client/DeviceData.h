@@ -80,7 +80,7 @@ public :
 	DeviceData & operator=(const DeviceData &);
 	DeviceData(DeviceData &&);
 	DeviceData & operator=(DeviceData &&);
-	virtual ~DeviceData();
+	 virtual ~DeviceData();
 
 	CORBA::Any_var any;
 
@@ -437,7 +437,7 @@ public :
 //
 
 //	bool operator >> (bool&);
-	bool operator >> (short&);
+    bool operator >> (short&);
 	bool operator >> (unsigned short&);
 	bool operator >> (DevLong&);
 	bool operator >> (DevULong&);

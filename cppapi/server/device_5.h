@@ -208,7 +208,7 @@ public:
  * <b>DevFailed</b> exception specification
  */
 
-    	virtual Tango::AttributeValueList_5* write_read_attributes_5(const Tango::AttributeValueList_4 &values,
+    virtual Tango::AttributeValueList_5* write_read_attributes_5(const Tango::AttributeValueList_4 &values,
 																   const Tango::DevVarStringArray &r_names,
 																   const Tango::ClntIdent &cl_ident);
 
@@ -312,7 +312,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-    	virtual void set_pipe_config_5(const Tango::PipeConfigList& new_conf,
+    virtual void set_pipe_config_5(const Tango::PipeConfigList& new_conf,
     										const Tango::ClntIdent &cl_ident);
 
 /**

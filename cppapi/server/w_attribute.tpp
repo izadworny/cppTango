@@ -64,8 +64,8 @@ void WAttribute::set_min_value(const T &new_min_value)
 		(data_type == Tango::DEV_STATE))
 		throw_err_data_type("min_value",d_name,"WAttribute::set_min_value()");
 
-	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-		(data_type != ranges_type2const<T>::enu))
+	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+		(data_type != ranges_type2const<T>::enu()))
 	{
 		std::string err_msg = "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
 		TANGO_THROW_EXCEPTION(API_IncompatibleAttrDataType, err_msg.c_str());
@@ -89,7 +89,7 @@ void WAttribute::set_min_value(const T &new_min_value)
 
 	TangoSys_MemStream str;
 	str.precision(TANGO_FLOAT_PRECISION);
-	if(ranges_type2const<T>::enu == Tango::DEV_UCHAR)
+	if(ranges_type2const<T>::enu() == Tango::DEV_UCHAR)
 		str << (short)new_min_value; // to represent the numeric value
 	else
 		str << new_min_value;
@@ -142,7 +142,7 @@ void WAttribute::set_min_value(const T &new_min_value)
 	}
 
 
-	if (Tango::Util::_UseDb == true)
+	if (tg->use_db())
 	{
 		if(user_defaults && min_value_tmp_str == usr_def_val)
 		{
@@ -224,8 +224,8 @@ void WAttribute::set_min_value(const T &new_min_value)
 template <typename T>
 void WAttribute::get_min_value(T &min_val)
 {
-	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-		(data_type != ranges_type2const<T>::enu))
+	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+		(data_type != ranges_type2const<T>::enu()))
 	{
 		std::string err_msg = "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
 		TANGO_THROW_EXCEPTION(API_IncompatibleAttrDataType, err_msg.c_str());
@@ -268,8 +268,8 @@ void WAttribute::set_max_value(const T &new_max_value)
 		(data_type == Tango::DEV_STATE))
 		throw_err_data_type("max_value",d_name,"WAttribute::set_max_value()");
 
-	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-		(data_type != ranges_type2const<T>::enu))
+	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+		(data_type != ranges_type2const<T>::enu()))
 	{
 		std::string err_msg = "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
 		TANGO_THROW_EXCEPTION(API_IncompatibleAttrDataType, err_msg.c_str());
@@ -293,7 +293,7 @@ void WAttribute::set_max_value(const T &new_max_value)
 
 	TangoSys_MemStream str;
 	str.precision(TANGO_FLOAT_PRECISION);
-	if(ranges_type2const<T>::enu == Tango::DEV_UCHAR)
+	if(ranges_type2const<T>::enu() == Tango::DEV_UCHAR)
 		str << (short)new_max_value; // to represent the numeric value
 	else
 		str << new_max_value;
@@ -346,7 +346,7 @@ void WAttribute::set_max_value(const T &new_max_value)
 	}
 
 
-	if (Tango::Util::_UseDb == true)
+	if (tg->use_db())
 	{
 		if(user_defaults && max_value_tmp_str == usr_def_val)
 		{
@@ -428,8 +428,8 @@ void WAttribute::set_max_value(const T &new_max_value)
 template <typename T>
 void WAttribute::get_max_value(T &max_val)
 {
-	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-		(data_type != ranges_type2const<T>::enu))
+	if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+		(data_type != ranges_type2const<T>::enu()))
 	{
 		std::string err_msg = "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
 		TANGO_THROW_EXCEPTION(API_IncompatibleAttrDataType, err_msg.c_str());

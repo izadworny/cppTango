@@ -279,7 +279,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-    	virtual void write_attributes_4(const Tango::AttributeValueList_4 &values,
+    virtual void write_attributes_4(const Tango::AttributeValueList_4 &values,
     									const Tango::ClntIdent &cl_ident);
 
 /**
@@ -299,7 +299,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-    	virtual void set_attribute_config_4(const Tango::AttributeConfigList_3& new_conf,
+    virtual void set_attribute_config_4(const Tango::AttributeConfigList_3& new_conf,
     										const Tango::ClntIdent &cl_ident);
 
 /**
@@ -324,7 +324,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-    	virtual Tango::AttributeValueList_4* write_read_attributes_4(const Tango::AttributeValueList_4 &values,
+    virtual Tango::AttributeValueList_4* write_read_attributes_4(const Tango::AttributeValueList_4 &values,
     										  const Tango::ClntIdent &cl_ident);
 
 //@}

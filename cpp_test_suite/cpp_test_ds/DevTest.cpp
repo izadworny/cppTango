@@ -100,7 +100,7 @@ DevTest::DevTest(Tango::DeviceClass *cl,const char *s,const char *d, Tango::DevS
 void DevTest::init_device()
 {
 	cout << "DevTest::DevTest() create  " << device_name << std::endl;
-	DEBUG_STREAM << "Creating " << device_name << std::endl;
+	//DEBUG_STREAM << "Creating " << device_name << std::endl;
 
 	Tango::Util *tg = Tango::Util::instance();
 
@@ -215,13 +215,13 @@ void DevTest::init_device()
 void DevTest::always_executed_hook()
 {
 
-	cout2 << "In always_executed_hook method" << std::endl;
+	cout << "In always_executed_hook method" << std::endl;
 
 }
 
 void DevTest::server_init_hook()
 {
-    cout2 << "In server_init_hook method" << std::endl;
+    cout << "In server_init_hook method" << std::endl;
 }
 
 //+----------------------------------------------------------------------------
@@ -237,12 +237,10 @@ void DevTest::server_init_hook()
 Tango::ConstDevString DevTest::dev_status()
 {
 
-	cout2 << "In DayOfWeek state command" << std::endl;
-#ifdef WIN32
-	Tango::ConstDevString stat = DeviceImpl::dev_status();
-#else
+	cout << "In DayOfWeek state command" << std::endl;
+
 	Tango::ConstDevString stat = Tango::DeviceImpl::dev_status();
-#endif
+
 	return stat;
 }
 
@@ -794,11 +792,6 @@ void DevTest::signal_handler(long signo)
 	cout << "[Device signal handler] received signal number " << signo;
 	cout << " for device " << device_name << std::endl;
 
-	DEBUG_STREAM << "[Device signal handler] received signal number "
-		     << signo
-	 	     << " for device "
-		     << device_name
-		     << std::endl;
 }
 
 

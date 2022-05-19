@@ -187,7 +187,7 @@ void MultiClassAttribute::init_class_attribute(const std::string &class_name,lon
 // before we reach this code.
 //
 
-	if ((nb_attr != 0) && (Tango::Util::_UseDb == true))
+	if ((nb_attr != 0) && tg->use_db())
 	{
 		Tango::DbData db_list;
 

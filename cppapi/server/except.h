@@ -36,8 +36,6 @@
 #include <string>
 #include <tango_const.h>
 
-#include <idl/tango.h>
-
 #include <tango_current_function.h>
 
 #ifdef TANGO_USE_USING_NAMESPACE

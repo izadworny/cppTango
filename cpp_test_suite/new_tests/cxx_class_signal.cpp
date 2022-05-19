@@ -239,7 +239,18 @@ public:
 		dout >> result;
 		pid = atoi((*result).svalue[0].in());
 		if(pid > 0)
+#ifdef WIN32
+        {
+			HANDLE handle = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+			if(nullptr != handle)
+			{
+				TerminateProcess(handle, 0);
+				CloseHandle(handle);
+			}
+        }
+#else   
 			kill(pid, sig_num_int);
+#endif
 		Tango_sleep(2);
 
 		// set logging level back to defaults

@@ -1087,33 +1087,64 @@ typedef struct _AttributeIdlData
 template <typename T>
 struct ranges_type2const
 {
-	static CmdArgType enu;
-	static TANGO_CXX11_ABI std::string str;
+	TANGO_IMP_EXP static CmdArgType enu;
+	TANGO_IMP_EXP static TANGO_CXX11_ABI std::string str;
 };
 
 template <CmdArgType>
 struct ranges_const2type
 {
-	static TANGO_CXX11_ABI std::string str;
+	TANGO_IMP_EXP static TANGO_CXX11_ABI std::string str;
 };
 
-#define RANGES_TYPE2CONST(type,constant)                                       \
+#define RANGES_TYPE2CONST_DECL(type,constant)                                  \
   template <>                                                                  \
   struct ranges_type2const<type>                                               \
   {                                                                            \
-    static CmdArgType enu;                                                     \
-    TANGO_CXX11_ABI static std::string str;                                    \
+    static constexpr CmdArgType enu() {return constant;}                                       \
+    TANGO_IMP_EXP TANGO_CXX11_ABI static std::string str;                      \
   };                                                                           \
-  CmdArgType ranges_type2const<type>::enu = constant;                          \
-  TANGO_CXX11_ABI std::string ranges_type2const<type>::str = #type;            \
   template<>                                                                   \
   struct ranges_const2type<Tango::constant>                                    \
   {                                                                            \
     typedef type Type;                                                         \
-    TANGO_CXX11_ABI static std::string str;                                    \
-  };                                                                           \
+    TANGO_IMP_EXP TANGO_CXX11_ABI static std::string str;                      \
+  };
+
+#define RANGES_TYPE2CONST(type,constant)                                       \
+  TANGO_CXX11_ABI std::string ranges_type2const<type>::str = #type;            \
                                                                                \
   TANGO_CXX11_ABI std::string ranges_const2type<Tango::constant>::str = #type;
+
+RANGES_TYPE2CONST_DECL(Tango::DevDouble,DEV_DOUBLE)
+RANGES_TYPE2CONST_DECL(Tango::DevFloat,DEV_FLOAT)
+RANGES_TYPE2CONST_DECL(Tango::DevLong,DEV_LONG)
+RANGES_TYPE2CONST_DECL(Tango::DevLong64,DEV_LONG64)
+RANGES_TYPE2CONST_DECL(Tango::DevShort,DEV_SHORT)
+RANGES_TYPE2CONST_DECL(Tango::DevUChar,DEV_UCHAR)
+RANGES_TYPE2CONST_DECL(Tango::DevULong,DEV_ULONG)
+RANGES_TYPE2CONST_DECL(Tango::DevULong64,DEV_ULONG64)
+RANGES_TYPE2CONST_DECL(Tango::DevUShort,DEV_USHORT)
+RANGES_TYPE2CONST_DECL(Tango::DevEncoded,DEV_ENCODED)
+RANGES_TYPE2CONST_DECL(Tango::DevVarShortArray,DEVVAR_SHORTARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarUShortArray,DEVVAR_USHORTARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarLongArray,DEVVAR_LONGARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarULongArray,DEVVAR_ULONGARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarLong64Array,DEVVAR_LONG64ARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarULong64Array,DEVVAR_ULONG64ARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarCharArray,DEVVAR_CHARARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarFloatArray,DEVVAR_FLOATARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarDoubleArray,DEVVAR_DOUBLEARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarStringArray,DEVVAR_STRINGARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarBooleanArray,DEVVAR_BOOLEANARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarLongStringArray,DEVVAR_LONGSTRINGARRAY)
+RANGES_TYPE2CONST_DECL(Tango::DevVarDoubleStringArray,DEVVAR_DOUBLESTRINGARRAY)
+RANGES_TYPE2CONST_DECL(Tango::ConstDevString,CONST_DEV_STRING)
+
+
+RANGES_TYPE2CONST_DECL(Tango::DevBoolean,DEV_BOOLEAN)
+RANGES_TYPE2CONST_DECL(Tango::DevString,DEV_STRING)
+RANGES_TYPE2CONST_DECL(Tango::DevState,DEV_STATE)
 
 #cmakedefine TANGO_USE_JPEG
 

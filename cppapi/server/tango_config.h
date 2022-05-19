@@ -89,17 +89,12 @@
 //
 
 #ifdef  _TG_WINDOWS_
-	#if ((defined _USRDLL) || (defined TANGO_HAS_DLL))
-		#if (defined _TANGO_LIB)
-			#define TANGO_IMP_EXP	__declspec(dllexport)
-			#define TANGO_IMP
-		#else
-			#define TANGO_IMP_EXP	__declspec(dllimport)
-			#define TANGO_IMP	__declspec(dllimport)
-		#endif
-	#else
-		#define TANGO_IMP_EXP
+	#if (defined _TANGO_LIB)
+		#define TANGO_IMP_EXP	__declspec(dllexport)
 		#define TANGO_IMP
+	#else
+		#define TANGO_IMP_EXP	__declspec(dllimport)
+		#define TANGO_IMP	__declspec(dllimport)
 	#endif
 #else
 	#define TANGO_IMP_EXP

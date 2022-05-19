@@ -47,7 +47,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
 #endif
-
+#define USE_sub_in_nt_dll
 #include <idl/tango.h>
 
 #if defined(__clang__)

@@ -1,5 +1,4 @@
-set(TESTS   acc_right
-            add_rem_attr
+set(TESTS   add_rem_attr
             add_rem_dev
             allowed_cmd
             att_conf

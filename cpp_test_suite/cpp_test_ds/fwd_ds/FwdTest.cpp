@@ -110,7 +110,7 @@ FwdTest::FwdTest(Tango::DeviceClass *cl, const char *s, const char *d)
 //--------------------------------------------------------
 void FwdTest::delete_device()
 {
-	DEBUG_STREAM << "FwdTest::delete_device() " << device_name << std::endl;
+	//DEBUG_STREAM << "FwdTest::delete_device() " << device_name << std::endl;
 	/*----- PROTECTED REGION ID(FwdTest::delete_device) ENABLED START -----*/
 
 	//	Delete device allocated objects

@@ -836,8 +836,11 @@ public:
 	void test_use_devices_from_remote_tango_host()
 	{
 		const std::string original_tango_host = std::getenv("TANGO_HOST");
-
+#ifdef _TG_WINDOWS_
+        TS_ASSERT_EQUALS(0, _putenv_s("TANGO_HOST", ""));
+#else
 		TS_ASSERT_EQUALS(0, unsetenv("TANGO_HOST"));
+#endif
 		ApiUtil::instance()->cleanup();
 
 		Group group("group");
@@ -856,7 +859,11 @@ public:
 		TS_ASSERT_EQUALS(ON, state);
 
 		const bool force_update = true;
+#ifdef _TG_WINDOWS_
+		TS_ASSERT_EQUALS(0, _putenv_s("TANGO_HOST", original_tango_host.c_str()));
+#else
 		TS_ASSERT_EQUALS(0, setenv("TANGO_HOST", original_tango_host.c_str(), force_update));
+#endif
 		ApiUtil::instance()->cleanup();
 	}
 

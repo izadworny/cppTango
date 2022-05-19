@@ -5,12 +5,15 @@
 #include <tango.h>
 #include <assert.h>
 
-
+#ifdef _TG_WINDOWS_
+#include <sys/types.h>
+#include <ws2tcpip.h>
+#else
 #include <netdb.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

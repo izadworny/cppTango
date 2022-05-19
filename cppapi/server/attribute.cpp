@@ -5383,7 +5383,7 @@ void Attribute::avns_in_db(const char *prop_name,const std::string &dev_name)
 {
     Tango::Util *tg = Tango::Util::instance();
 
-    if (Tango::Util::_UseDb == true)
+    if (tg->use_db())
     {
         DbDatum attr_dd(name), prop_dd(prop_name);
         attr_dd << 1L;

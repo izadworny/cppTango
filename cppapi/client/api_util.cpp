@@ -50,7 +50,7 @@
 namespace Tango
 {
 
-ApiUtil *ApiUtil::_instance = NULL;
+ApiUtil *ApiUtil::_instance = nullptr;
 
 omni_mutex ApiUtil::inst_mutex;
 
@@ -64,6 +64,24 @@ void _t_handler(TANGO_UNUSED(int signum))
     std::thread t(_killproc_);
     t.detach();
     Tango_sleep(3);
+}
+
+ApiUtil *ApiUtil::instance()
+{
+    omni_mutex_lock lo(inst_mutex);
+    
+    if (_instance == nullptr)
+    	_instance = new ApiUtil();
+    return _instance;
+}
+
+void ApiUtil::cleanup()
+{
+    if (_instance != NULL)
+	{
+		delete _instance;
+		_instance = nullptr;
+	}
 }
 
 //+-----------------------------------------------------------------------------------------------------------------

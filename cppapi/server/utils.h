@@ -148,7 +148,7 @@ public:
  * @param CmdShow The display window flag
  * @return The Util object reference
  */
-        TANGO_IMP_EXP static Util *init(HINSTANCE AppInst,int CmdShow);
+    static Util *init(HINSTANCE AppInst,int CmdShow);
 #endif
 
 /**
@@ -160,7 +160,7 @@ public:
  *
  * @return The Util object reference
  */
-	TANGO_IMP_EXP static Util *instance(bool exit = true);
+	static Util *instance(bool exit = true);
 //@}
 
 /**@name Destructor
@@ -605,6 +605,10 @@ public:
  * the device server process exit.
  */
  	void server_set_event_loop(bool (*f_ptr)()) {ev_loop_func = f_ptr;}
+	
+	bool use_db() { return _UseDb;}
+	
+	bool use_file_db() { return _FileDb;}
 //@}
 
 
@@ -613,12 +617,8 @@ public:
 /**
  * The process trace level
  */
-	static int		_tracelevel;
-/**
- * The database use flag (Use with extreme care). Implemented for device
- * server started without database usage.
- */
-	TANGO_IMP static bool	_UseDb;
+	TANGO_IMP static int		_tracelevel;
+
 /**
  * A daemon process flag. If this flag is set to true, the server
  * process will not exit if it not able to connect to the database.
@@ -635,9 +635,6 @@ public:
  	TANGO_IMP static long	_sleep_between_connect;
 //@}
 
-/// @privatesection
-
-	TANGO_IMP static bool	_FileDb;
 
 /// @publicsection
 
@@ -822,8 +819,14 @@ public:
     bool get_polling_bef_9() {return polling_bef_9;}
 
 private:
-	TANGO_IMP static Util	*_instance;
+	static Util	*_instance;
 	static bool				_constructed;
+/**
+ * The database use flag (Use with extreme care). Implemented for device
+ * server started without database usage.
+ */
+	bool	_UseDb = true;
+	bool	_FileDb = false;
 #ifdef _TG_WINDOWS_
 	static bool				_win;
 	int						argc;
@@ -1097,21 +1100,6 @@ inline CORBA::Any *return_empty_any(const char *cmd)
 	}
 	return(out_any);
 
-}
-
-inline DbDevice *DeviceImpl::get_db_device()
-{
-	if (Tango::Util::_UseDb == false)
-	{
-		TangoSys_OMemStream desc_mess;
-		desc_mess << "Method not available for device ";
-		desc_mess << device_name;
-		desc_mess << " which is a non database device";
-
-		TANGO_THROW_EXCEPTION(API_NonDatabaseDevice, desc_mess.str());
-	}
-
-	return db_dev;
 }
 
 void clear_att_dim(Tango::AttributeValue_3 &att_val);

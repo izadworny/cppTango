@@ -228,11 +228,8 @@ CORBA::Any *IOSleep::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORB
 
 		extract(in_any, sleeping_Time);
 		cout << "[IOSleep::execute] sleeping time " << sleeping_Time << std::endl;
-#ifdef WIN32
-		Sleep(sleeping_Time);
-#else
-		sleep(sleeping_Time);
-#endif
+		Tango_sleep(sleeping_Time);
+
 		return insert();
 	}
 	catch (CORBA::Exception &e)

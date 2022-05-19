@@ -70,13 +70,7 @@ class DServer;
  * @ingroup Server
  */
 
-class
-#ifdef _TG_WINDOWS_
-	#ifndef _TANGO_LIB
-		__declspec(dllexport)
-	#endif
-#endif
-		DeviceClass
+class DeviceClass
 {
 	friend class Tango::AutoTangoMonitor;
 public:

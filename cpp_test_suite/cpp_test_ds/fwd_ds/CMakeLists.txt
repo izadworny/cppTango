@@ -7,6 +7,7 @@ set(SOURCES ClassFactory.cpp
 add_executable(FwdTest ${SOURCES})
 target_include_directories(FwdTest PUBLIC .)
 target_link_libraries(FwdTest PUBLIC tango ${CMAKE_DL_LIBS})
+target_compile_definitions(FwdTest PRIVATE LOG4TANGO_HAS_DLL TANGO_HAS_DLL)
 if(TANGO_USE_PCH)
     tango_target_test_pch(FwdTest)
     target_compile_definitions(FwdTest PRIVATE ${COMMON_TEST_CXX_DEFS})

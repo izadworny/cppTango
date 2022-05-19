@@ -109,7 +109,7 @@ namespace Tango {
 class Util;
 
 #if defined (_TG_WINDOWS_) && !defined(_TANGO_LIB) && defined(TANGO_HAS_DLL)
- extern __declspec(dllimport) log4tango::Logger* _core_logger;
+ extern TANGO_IMP_EXP log4tango::Logger* _core_logger;
 #else
  extern log4tango::Logger* _core_logger;
 #endif
@@ -133,7 +133,7 @@ public:
   /**
    * Returns the core logger substitute
    **/
-  inline static log4tango::Logger* get_core_logger (void) {
+  static log4tango::Logger* get_core_logger (void) {
     return _core_logger;
   }
 

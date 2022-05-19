@@ -309,13 +309,9 @@ int main(int argc, char **argv)
 	device->set_source(Tango::CACHE);
 
 #ifdef VALGRIND
-	usleep(3000000);
+	Tango_sleep(3);
 #else
-#ifdef WIN32
-	Tango_sleep(2);
-#else
-	usleep(1200000);
-#endif
+	Tango_sleep(1.2);
 #endif
 
 	try
@@ -406,11 +402,7 @@ int main(int argc, char **argv)
 	device->poll_attribute(state_name,1000);
 	device->set_source(Tango::CACHE);
 
-#ifdef WIN32
-	Tango_sleep(2);
-#else
-	usleep(1200000);
-#endif
+	Tango_sleep(1.2);
 
 	DeviceData dd;
 	try

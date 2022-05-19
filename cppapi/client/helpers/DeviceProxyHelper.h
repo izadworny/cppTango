@@ -435,7 +435,7 @@ namespace Tango
 		//  Overloaded commands to  avoid usage of DevVarXX ARRAY for argout
 		//---------------------------------------------------------------------------
 		template <class _IN>
-			void internal_command_inout (const std::string& TANGO_UNUSED(cmd_name), const _IN& TANGO_UNUSED(argin), DevVarLongStringArray& TANGO_UNUSED(argout), std::string file= __FILE__, int line= __LINE__)
+		inline void internal_command_inout (const std::string& TANGO_UNUSED(cmd_name), const _IN& TANGO_UNUSED(argin), DevVarLongStringArray& TANGO_UNUSED(argout), std::string file= __FILE__, int line= __LINE__)
 		{
 			TangoSys_OMemStream o;
 			o << " [" << file << "::" << line << "]" << std::ends;

@@ -181,8 +181,8 @@ void Attribute::set_min_alarm(const T &new_min_alarm)
         (data_type == Tango::DEV_ENUM))
         throw_err_data_type("min_alarm", d_name, "Attribute::set_min_alarm()");
 
-    else if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    else if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -207,7 +207,7 @@ void Attribute::set_min_alarm(const T &new_min_alarm)
 
     TangoSys_MemStream str;
     str.precision(TANGO_FLOAT_PRECISION);
-    if (ranges_type2const<T>::enu == Tango::DEV_UCHAR)
+    if (ranges_type2const<T>::enu() == Tango::DEV_UCHAR)
         str << (short) new_min_alarm; // to represent the numeric value
     else
         str << new_min_alarm;
@@ -261,7 +261,7 @@ void Attribute::set_min_alarm(const T &new_min_alarm)
     }
 
 
-    if (Tango::Util::_UseDb == true)
+    if (tg->use_db())
     {
         if (user_defaults && min_alarm_tmp_str == usr_def_val)
         {
@@ -343,8 +343,8 @@ void Attribute::set_min_alarm(const T &new_min_alarm)
 template<typename T>
 void Attribute::get_min_alarm(T &min_al)
 {
-    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -397,8 +397,8 @@ void Attribute::set_max_alarm(const T &new_max_alarm)
         (data_type == Tango::DEV_ENUM))
         throw_err_data_type("max_alarm", d_name, "Attribute::set_max_alarm()");
 
-    else if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    else if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -423,7 +423,7 @@ void Attribute::set_max_alarm(const T &new_max_alarm)
 
     TangoSys_MemStream str;
     str.precision(TANGO_FLOAT_PRECISION);
-    if (ranges_type2const<T>::enu == Tango::DEV_UCHAR)
+    if (ranges_type2const<T>::enu() == Tango::DEV_UCHAR)
         str << (short) new_max_alarm; // to represent the numeric value
     else
         str << new_max_alarm;
@@ -477,7 +477,7 @@ void Attribute::set_max_alarm(const T &new_max_alarm)
     }
 
 
-    if (Tango::Util::_UseDb == true)
+    if (tg->use_db())
     {
         if (user_defaults && max_alarm_tmp_str == usr_def_val)
         {
@@ -560,8 +560,8 @@ void Attribute::set_max_alarm(const T &new_max_alarm)
 template<typename T>
 void Attribute::get_max_alarm(T &max_al)
 {
-    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -615,8 +615,8 @@ void Attribute::set_min_warning(const T &new_min_warning)
         throw_err_data_type("min_warning", d_name, "Attribute::set_min_warning()");
 
     else if (!(data_type == DEV_ENCODED &&
-        ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+        ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -641,7 +641,7 @@ void Attribute::set_min_warning(const T &new_min_warning)
 
     TangoSys_MemStream str;
     str.precision(TANGO_FLOAT_PRECISION);
-    if (ranges_type2const<T>::enu == Tango::DEV_UCHAR)
+    if (ranges_type2const<T>::enu() == Tango::DEV_UCHAR)
         str << (short) new_min_warning; // to represent the numeric value
     else
         str << new_min_warning;
@@ -695,7 +695,7 @@ void Attribute::set_min_warning(const T &new_min_warning)
     }
 
 
-    if (Tango::Util::_UseDb == true)
+    if (tg->use_db())
     {
         if (user_defaults && min_warning_tmp_str == usr_def_val)
         {
@@ -778,8 +778,8 @@ void Attribute::set_min_warning(const T &new_min_warning)
 template<typename T>
 void Attribute::get_min_warning(T &min_war)
 {
-    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -832,8 +832,8 @@ void Attribute::set_max_warning(const T &new_max_warning)
         (data_type == Tango::DEV_ENUM))
         throw_err_data_type("max_warning", d_name, "Attribute::set_max_warning()");
 
-    else if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    else if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -858,7 +858,7 @@ void Attribute::set_max_warning(const T &new_max_warning)
 
     TangoSys_MemStream str;
     str.precision(TANGO_FLOAT_PRECISION);
-    if (ranges_type2const<T>::enu == Tango::DEV_UCHAR)
+    if (ranges_type2const<T>::enu() == Tango::DEV_UCHAR)
         str << (short) new_max_warning; // to represent the numeric value
     else
         str << new_max_warning;
@@ -912,7 +912,7 @@ void Attribute::set_max_warning(const T &new_max_warning)
     }
 
 
-    if (Tango::Util::_UseDb == true)
+    if (tg->use_db())
     {
         if (user_defaults && max_warning_tmp_str == usr_def_val)
         {
@@ -994,8 +994,8 @@ void Attribute::set_max_warning(const T &new_max_warning)
 template<typename T>
 void Attribute::get_max_warning(T &max_war)
 {
-    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        (data_type != ranges_type2const<T>::enu))
+    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -1041,9 +1041,9 @@ void Attribute::get_properties(Tango::MultiAttrProp<T> &props)
 // Check data type
 //
 
-    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        !(data_type == DEV_ENUM && ranges_type2const<T>::enu == DEV_SHORT) &&
-        (data_type != ranges_type2const<T>::enu))
+    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        !(data_type == DEV_ENUM && ranges_type2const<T>::enu() == DEV_SHORT) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;
@@ -1109,9 +1109,9 @@ void Attribute::set_properties(Tango::MultiAttrProp<T> &props)
 // Check data type
 //
 
-    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu == DEV_UCHAR) &&
-        !(data_type == DEV_ENUM && ranges_type2const<T>::enu == DEV_SHORT) &&
-        (data_type != ranges_type2const<T>::enu))
+    if (!(data_type == DEV_ENCODED && ranges_type2const<T>::enu() == DEV_UCHAR) &&
+        !(data_type == DEV_ENUM && ranges_type2const<T>::enu() == DEV_SHORT) &&
+        (data_type != ranges_type2const<T>::enu()))
     {
         std::string err_msg =
             "Attribute (" + name + ") data type does not match the type provided : " + ranges_type2const<T>::str;

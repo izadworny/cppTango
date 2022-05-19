@@ -260,317 +260,18 @@ public:
  * command input data
  */
 //@{
-/**
- * Extract a boolean data from a CORBA Any object.
+	/**
+ * Extract data from a CORBA Any object.
  *
  * @param in The CORBA Any object
- * @param data Reference to the extracted boolean data
+ * @param data Reference to the extracted data
  * @exception DevFailed If the Any object does not contains a data of the
  * waited type.
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	void extract(const CORBA::Any &in,Tango::DevBoolean &data);
-
-/**
- * Extract a short data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted short data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevShort &data);
-
-/**
- * Extract a long data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted long data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevLong &data);
-
-/**
- * Extract a 64 bits long data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted 64 bits long data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevLong64 &data);
-
-/**
- * Extract a float data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted float data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevFloat &data);
-
-/**
- * Extract a double data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted double data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevDouble &data);
-
-/**
- * Extract an unsigned short data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted unsigned short data
- * @exception DevFailed If the Any object does not contanis a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevUShort &data);
-
-/**
- * Extract an unsigned long data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted unsigned long data
- * @exception DevFailed If the Any object does not contanis a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevULong &data);
-
-/**
- * Extract an unsigned 64 bits long data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted unsigned 64 bits long data
- * @exception DevFailed If the Any object does not contanis a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevULong64 &data);
-
-/**
- * Extract a string from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted string data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevString &data);
-
-/**
- * Extract a const string from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted string data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const char *&data);
-
-/**
- * Extract a char array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted char array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarCharArray *&data);
-
-/**
- * Extract a short array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted short array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarShortArray *&data);
-
-/**
- * Extract a long array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted long array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarLongArray *&data);
-
-/**
- * Extract a 64 bits long array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted 64 bits long array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarLong64Array *&data);
-
-/**
- * Extract a float array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted float array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarFloatArray *&data);
-
-/**
- * Extract a double array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted double array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarDoubleArray *&data);
-
-/**
- * Extract a unsigned short array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted unsigned char array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarUShortArray *&data);
-
-/**
- * Extract a unsigned long array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted unsigned long array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarULongArray *&data);
-
-/**
- * Extract a unsigned 64 bits long array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted unsigned 64 bits long array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarULong64Array *&data);
-
-/**
- * Extract a string array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted string array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarStringArray *&data);
-
-/**
- * Extract a string array from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted string array
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-        void extract(const CORBA::Any &in,const Tango::DevVarBooleanArray *&data);
-
-/**
- * Extract a DevVarLongStringArray data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted DevVarLongStringArray data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarLongStringArray *&data);
-
-/**
- * Extract a DevVarDoubleStringArray data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted DevVarDoubleStringArray data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevVarDoubleStringArray *&data);
-
-/**
- * Extract a Tango device state data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted device state data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,Tango::DevState &data);
-
-/**
- * Extract a Tango DevEncoded data from a CORBA Any object.
- *
- * @param in The CORBA Any object
- * @param data Reference to the extracted DevEncoded data
- * @exception DevFailed If the Any object does not contains a data of the
- * waited type.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	void extract(const CORBA::Any &in,const Tango::DevEncoded *&data);
+	template<class T>
+	void extract(const CORBA::Any &in,T &data);
 //@}
 
 /**@name Insert methods.
@@ -587,495 +288,17 @@ public:
 	CORBA::Any *insert();
 
 /**
- * Create a CORBA Any object and insert a Tango::DevBoolean data in it.
+ * Create a CORBA Any object and insert data in it.
  *
  * @param data The data to be inserted into the Any object
  * @exception DevFailed If the Any object creation failed.
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-	CORBA::Any *insert(Tango::DevBoolean data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevShort data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevShort data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevLong data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevLong data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevLong64 data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevLong64 data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevFloat data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevFloat data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevDouble data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevDouble data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevUShort data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevUShort data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevULong data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevULong data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevULong64 data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevULong64 data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevString data in it.
- *
- * This method will also de-allocate the string passed as parameter.
- *
- * @param data The string to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevString data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevString data in it.
- * Te parameter type is char * and not Tango::DevString because the const
- * C++ modifier applied to a Tango::DevString make the pointer constant and
- * not the pointed to characters to be constant.
- *
- * @param data The string to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(const char *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarCharArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarCharArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarCharArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarCharArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarCharArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarShortArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarShortArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarShortArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarShortArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarShortArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarLongArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarLongArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarLongArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarLongArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarLongArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarLong64Array data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarLong64Array &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarLong64Array data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarLongArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarLong64Array *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarFloatArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarFloatArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarFloatArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarFloatArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarFloatArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarDoubleArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarDoubleArray &data);
-
-/**
- * Create a CORBA CORBA::Any object and insert a Tango::DevVarDoubleArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarDoubleArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarDoubleArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarUShortArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarUShortArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarUShortArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarUShortArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarUShortArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarULongArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarULongArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarULongArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarULongArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarULongArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarULong64Array data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarULong64Array &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarULong64Array data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarULongArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarULong64Array *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarStringArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarStringArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarStringArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarStringArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarStringArray *data);
-
-        //TODO templates
-/**
- * Create a CORBA Any object and insert a Tango::DevVarBooleanArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-		CORBA::Any *insert(DevVarBooleanArray *data);
-/**
- * Create a CORBA Any object and insert a Tango::DevVarBooleanArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarBooleanArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-        CORBA::Any *insert(DevVarBooleanArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarLongStringArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarLongStringArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarLongStringArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarLongStringArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarLongStringArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarDoubleStringArray data in it.
- *
- * This method will do a <b>deep copy</b> of the array into the Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarDoubleStringArray &data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevVarDoubleStringArray data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarDoubleStringArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevVarDoubleStringArray *data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevState data in it.
- *
- * @param data The data to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevState data);
-
-/**
- * Create a CORBA Any object and insert a Tango::DevEncoded data in it.
- *
- * This method <b>consumes</b> the memory used by the array.
- * When the CORBA layer will destroy the Any object, the memory allocated
- * for the array will also be freed. This is the recommended method to
- * insert Tango::DevVarDoubleStringArray data type into a CORBA Any object.
- *
- * @param data The array to be inserted into the Any object
- * @exception DevFailed If the Any object creation failed.
- * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
- * <b>DevFailed</b> exception specification
- */
-	CORBA::Any *insert(Tango::DevEncoded *data);
+    template<class T, typename std::enable_if<std::is_pointer<T>::value>::type* = nullptr>
+	CORBA::Any *insert(T data);
+    template<class T, typename std::enable_if<!std::is_pointer<T>::value>::type* = nullptr>
+	CORBA::Any *insert(T data);
 //@}
 
 protected:
@@ -1115,7 +338,8 @@ private:
     };
 
 	void alloc_any(CORBA::Any *&);
-	void throw_bad_type(const char *);
+	template<class T>
+	void throw_bad_type();
 
     std::unique_ptr<CommandExt>          ext;           // Class extension
 
@@ -1127,6 +351,85 @@ private:
     long			    poll_period;		    // Polling period
 
 };
+
+template<class T>
+inline void Command::throw_bad_type()
+{
+    std::stringstream o;
+	CmdArgType type = ranges_type2const<T>::enu();
+    o << "Incompatible command argument type, expected type is : Tango::" << type << std::ends;
+    TANGO_THROW_EXCEPTION(API_IncompatibleCmdArgumentType, o.str());
+}
+
+template<class T>
+inline void Command::extract(const CORBA::Any &in, T &data) {
+    if (!(in >>= data))
+        throw_bad_type<std::remove_const<std::remove_pointer<T>::type>::type>();
+}
+
+template<>
+inline void Command::extract(const CORBA::Any &in, const char*&data) {
+    if (!(in >>= data))
+        throw_bad_type<Tango::ConstDevString>();
+}
+
+template<>
+inline void Command::extract(const CORBA::Any &in, Tango::DevBoolean &data) {
+    if (!(in >>= CORBA::Any::to_boolean(data)))
+        throw_bad_type<Tango::DevBoolean>();
+}
+
+template<>
+inline void Command::extract(const CORBA::Any &in, Tango::DevString &data) {
+    if (!(in >>= const_cast<const char *&>(data)))
+        throw_bad_type<Tango::DevString>();
+}
+
+template<>
+inline CORBA::Any *Command::insert(Tango::DevBoolean data) {
+    auto* out_any = insert();
+    CORBA::Any::from_boolean tmp(data);
+
+    (*out_any) <<= tmp;
+    return out_any;
+}
+
+template<>
+inline CORBA::Any *Command::insert(Tango::DevString data) {
+    auto* out_any = insert();
+
+    (*out_any) <<= data;
+    delete[] data;
+
+    return out_any;
+}
+
+template<>
+inline CORBA::Any *Command::insert(const char *data) {
+    auto* out_any = insert();
+
+    (*out_any) <<= data;
+    return out_any;
+}
+
+template<class T, typename std::enable_if<std::is_pointer<T>::value>::type*>
+inline CORBA::Any *Command::insert(T data) {
+    auto* out_any = insert();
+
+	(*out_any) <<= *data;
+	delete data;
+
+    return out_any;
+}
+
+template<class T, typename std::enable_if<!std::is_pointer<T>::value>::type*>
+inline CORBA::Any *Command::insert(T data) {
+    auto* out_any = insert();
+
+    (*out_any) <<= data;
+
+    return out_any;
+}
 
 //=============================================================================
 //
@@ -1794,7 +1097,7 @@ CORBA::Any *TemplCommandIn<INARG>::execute(DeviceImpl *dev_ptr,const CORBA::Any 
 //
 
 	INARG in_data;
-	extract(in_any,in_data);
+	extract(in_any, (INARG)in_data);
 	(dev_ptr->*exe_ptr_in)(in_data);
 	return insert();
 }
@@ -2031,7 +1334,7 @@ CORBA::Any *TemplCommandOut<OUTARG>::execute(DeviceImpl *dev_ptr,TANGO_UNUSED(co
 // Execute the command associated method
 //
 
-	return insert((dev_ptr->*exe_ptr_out)());
+	return insert<OUTARG>((dev_ptr->*exe_ptr_out)());
 }
 
 } // End of Tango namespace

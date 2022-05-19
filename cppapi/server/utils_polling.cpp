@@ -405,7 +405,7 @@ void Util::polling_configure()
 	    }
 	}
 
-	if (((dev_db_upd.empty() == false) || (conf_needs_db_upd == true)) && (_UseDb == true))
+	if (((dev_db_upd.empty() == false) || (conf_needs_db_upd == true)) && use_db())
 		upd_polling_prop(dev_db_upd,admin_dev);
 
 	cout4 << "Leaving polling_configure()" << std::endl;
@@ -729,7 +729,7 @@ void Util::trigger_cmd_polling(Tango::DeviceImpl *dev,const std::string &name)
 
 void Util::clean_attr_polled_prop()
 {
-	if (Tango::Util::_UseDb == true)
+	if (use_db())
 	{
 		DbData send_data;
 		DbDatum db_info("polled_attr");
@@ -776,7 +776,7 @@ void Util::clean_attr_polled_prop()
 
 void Util::clean_cmd_polled_prop()
 {
-	if (Tango::Util::_UseDb == true)
+	if (use_db())
 	{
 		DbData send_data;
 		DbDatum db_info("polled_cmd");
