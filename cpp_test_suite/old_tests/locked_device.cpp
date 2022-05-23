@@ -1,3 +1,4 @@
+#include "cxx_common_old.h"
 /*
  * Small utility program to help testing locking features.
  *
@@ -9,33 +10,17 @@
  *   3 : State or Status command failed
  */
 
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
-
 int main(int argc, char **argv)
 {
 	DeviceProxy *device;
 
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
-
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -91,7 +76,7 @@ int main(int argc, char **argv)
 		catch (AsynReplyNotArrived&)
 		{
 			finish = false;
-			coutv << "Command not yet arrived" << endl;
+			TEST_LOG << "Command not yet arrived" << endl;
 		}
 		catch (DevFailed &e)
 		{
@@ -136,7 +121,7 @@ int main(int argc, char **argv)
 		catch (AsynReplyNotArrived&)
 		{
 			finish = false;
-			coutv << "Attribute not yet written" << endl;
+			TEST_LOG << "Attribute not yet written" << endl;
 		}
 		catch (DevFailed &e)
 		{

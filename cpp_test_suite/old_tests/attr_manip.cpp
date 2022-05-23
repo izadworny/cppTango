@@ -1,16 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -18,17 +6,11 @@ int main(int argc, char **argv)
 	
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
-	
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{
@@ -40,7 +22,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	try
 	{
@@ -52,14 +34,14 @@ int main(int argc, char **argv)
 
 		string att("attr_dq_db");
 		AttributeInfo sta_ai = device->get_attribute_config(att);		
-		coutv << sta_ai << endl;
+		TEST_LOG << sta_ai << endl;
 
 //
 // Get attr value
 //
 
 		DeviceAttribute da = device->read_attribute(att);
-		coutv << da << endl;
+		TEST_LOG << da << endl;
 		double att_value;
 		da >> att_value;
 		
@@ -78,9 +60,9 @@ int main(int argc, char **argv)
 //
 
 		AttributeInfo sta_ai_2 = device->get_attribute_config(att);		
-		coutv << sta_ai_2 << endl;
+		TEST_LOG << sta_ai_2 << endl;
 		
-		cout << "Formatted value = " << Tango::AttrManip(sta_ai_2.format) << att_value << endl;				
+		TEST_LOG << "Formatted value = " << Tango::AttrManip(sta_ai_2.format) << att_value << endl;
 
 //
 // Set another format
@@ -95,9 +77,9 @@ int main(int argc, char **argv)
 //
 
 		sta_ai_2 = device->get_attribute_config(att);		
-		coutv << sta_ai_2 << endl;
+		TEST_LOG << sta_ai_2 << endl;
 		
-		cout << "Formatted value = " << Tango::AttrManip(sta_ai_2.format) << att_value << endl;	
+		TEST_LOG << "Formatted value = " << Tango::AttrManip(sta_ai_2.format) << att_value << endl;
 
 //
 // Reset attribute config

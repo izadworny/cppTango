@@ -61,8 +61,7 @@ function(CXX_GENERATE_TEST name)
             --dsloglevel=5
             --suiteloop=1
             --devicealias=${DEV1_ALIAS}
-            --attributealias=${ATTR_ALIAS}
-            --verbose=true)
+            --attributealias=${ATTR_ALIAS})
 endfunction()
 
 CXX_GENERATE_TEST(cxx_syntax)

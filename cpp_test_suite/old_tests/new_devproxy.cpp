@@ -1,12 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		cout << "usage: %s device" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -24,7 +16,7 @@ int main(int argc, char **argv)
 	{
 		device = new DeviceProxy(device_name);
 		
-		cout << "new DeviceProxy does not throw exception" << endl;
+		TEST_LOG << "new DeviceProxy does not throw exception" << endl;
 	}
         catch (CORBA::Exception &e)
         {
@@ -32,7 +24,7 @@ int main(int argc, char **argv)
 		exit(1);
         }
 
-	cout << endl << "Device IDL version : " << device->get_idl_version() << endl;
+	TEST_LOG << endl << "Device IDL version : " << device->get_idl_version() << endl;
 
 	try
 	{	
@@ -44,7 +36,7 @@ int main(int argc, char **argv)
 		Except::print_exception(e);
 		exit(-1);
 	}
-	cout << "Ping successfull" << endl;
+	TEST_LOG << "Ping successfull" << endl;
 
 //	sleep(1000);
 

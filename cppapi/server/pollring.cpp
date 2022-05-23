@@ -107,7 +107,7 @@ PollRing::PollRing(long max_size):ring(max_size)
 
 PollRing::~PollRing()
 {
-	cout4 << "In PollRing destructor" << std::endl;
+	TANGO_LOG_DEBUG << "In PollRing destructor" << std::endl;
 
 	long nb = ring.size();
 

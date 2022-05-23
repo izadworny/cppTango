@@ -1,16 +1,7 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 void stop_poll_att_no_except(DeviceProxy *,const char *);
 void stop_poll_cmd_no_except(DeviceProxy *,const char *);
-
 
 int main(int argc, char **argv)
 {
@@ -39,8 +30,8 @@ int main(int argc, char **argv)
 		}
 	}
 
-//	cout << "Device name = " << device_name << endl;
-//	cout << "Kill device name = " << kill_device_name << endl;
+//	TEST_LOG << "Device name = " << device_name << endl;
+//	TEST_LOG << "Kill device name = " << kill_device_name << endl;
 
 	try 
 	{
@@ -62,7 +53,7 @@ int main(int argc, char **argv)
 		kill_device_name.clear();
 	}
 
-//	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+//	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	if (kill_device_name.empty() == false)
 	{

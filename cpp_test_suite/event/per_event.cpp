@@ -1,25 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-#include <chrono>
-#include <thread>
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -48,31 +27,31 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 	gettimeofday(&now_timeval,NULL);
 #endif
 
-	coutv << "date : tv_sec = " << now_timeval.tv_sec;
-	coutv << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	delta_msec = ((now_timeval.tv_sec - old_sec) * 1000) + ((now_timeval.tv_usec - old_usec) / 1000);
 
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 
 	try
 	{
-		coutv << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 
 			*(event_data->attr_value) >> value;
 			d_format = event_data->attr_value->get_data_format();
-			coutv << "CallBack value " << value << std::endl;
+			TEST_LOG << "CallBack value " << value << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 			a_cb_err++;
 //			Tango::Except::print_error_stack(event_data->errors);
 			if (strcmp(event_data->errors[0].reason.in(),"aaa") == 0)
@@ -83,7 +62,7 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -106,11 +85,11 @@ public:
 void EventCallBackSub::push_event(Tango::EventData* event_data)
 {
 	cb_executed++;
-	coutv << "I have received an event for attribute " << event_data->attr_name << std::endl;
+	TEST_LOG << "I have received an event for attribute " << event_data->attr_name << std::endl;
 
 	if (event_data->err == true)
 	{
-		coutv << "The event is an error" << std::endl;
+		TEST_LOG << "The event is an error" << std::endl;
 		Tango::Except::print_error_stack(event_data->errors);
         cb_err++;
 	}
@@ -118,13 +97,13 @@ void EventCallBackSub::push_event(Tango::EventData* event_data)
 	{
         if (cb_executed == 2)
         {
-            coutv << "Going to subscribe to another event" << std::endl;
+            TEST_LOG << "Going to subscribe to another event" << std::endl;
             try
             {
                 dev2 = new Tango::DeviceProxy(dev_name);
-                coutv << "DeviceProxy object created" << std::endl;
+                TEST_LOG << "DeviceProxy object created" << std::endl;
                 ev_id2 = dev2->subscribe_event(attr_name,Tango::PERIODIC_EVENT,this,true);
-                coutv << "Subscribed to event, id = " << ev_id2 << std::endl;
+                TEST_LOG << "Subscribed to event, id = " << ev_id2 << std::endl;
             }
             catch (Tango::DevFailed &e)
             {
@@ -136,7 +115,7 @@ void EventCallBackSub::push_event(Tango::EventData* event_data)
         {
             try
             {
-                coutv << "Going to unsubscribe, ev_id2 = " << ev_id2 << std::endl;
+                TEST_LOG << "Going to unsubscribe, ev_id2 = " << ev_id2 << std::endl;
                 dev2->unsubscribe_event(ev_id2);
                 delete dev2;
             }
@@ -159,18 +138,12 @@ int main(int argc, char **argv)
 
 	if (argc < 3 || argc > 4)
 	{
-		cout << "usage: %s device1 device2 [-v]" << std::endl;
+		TEST_LOG << "usage: %s device1 device2" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
-    std::string device_name_sub = argv[2];
-
-	if (argc == 4)
-	{
-		if (strcmp(argv[3],"-v") == 0)
-			verbose = true;
-	}
+  std::string device_name_sub = argv[2];
 
 	try
 	{
@@ -182,7 +155,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 	try
 	{
@@ -240,14 +213,14 @@ int main(int argc, char **argv)
 //
 
 		bool po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		int poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 500);
 
-		cout << "   subscribe_event --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event --> OK" << std::endl;
 
 //
 // Check that callback was called
@@ -267,7 +240,7 @@ int main(int argc, char **argv)
 		Sleep(5000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed > 2);
 		assert (cb.cb_executed < 7);
 		assert (cb.delta_msec > 900);
@@ -275,7 +248,7 @@ int main(int argc, char **argv)
 		assert (cb.a_cb_err == 0);
 		assert (cb.d_format == SCALAR);
 
-		cout << "   CallBack executed every 1000 mS --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed every 1000 mS --> OK" << std::endl;
 
 //
 // Force the attribute to throw exception
@@ -293,13 +266,13 @@ int main(int argc, char **argv)
 //
 
 		Tango_sleep(3);
-		coutv << "Callback cb_err = " << cb.cb_err << std::endl;
+		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err > 2);
 		assert (cb.cb_err < 5);
 		assert (cb.delta_msec > 950);
 		assert (cb.delta_msec < 1050);
 
-		cout << "   CallBack executed when attribute throw exception every 1000 mS --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed when attribute throw exception every 1000 mS --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -307,7 +280,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // Attribute does not send exception any more
@@ -329,20 +302,20 @@ int main(int argc, char **argv)
 		filters.push_back("$counter % 2 == 0");
 
 		eve_id = device->subscribe_event(att_name,Tango::PERIODIC_EVENT,&cb,filters);
-		cout << "   subscribe_event (with modulo filter) --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event (with modulo filter) --> OK" << std::endl;
 
 //
 // Check that callback was called
 //
 
 		Tango_sleep(6);
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed > 2);
 		assert (cb.cb_executed < 5);
 		assert (cb.delta_msec > 1900);
 		assert (cb.delta_msec < 2100);
 
-		cout << "   CallBack executed every 2000 mS --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed every 2000 mS --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -350,7 +323,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id);
 
-		cout << "   unsubscribe_event (with filter) --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event (with filter) --> OK" << std::endl;
 #endif
 
 //
@@ -375,28 +348,28 @@ int main(int argc, char **argv)
 //
 
 		po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 200);
 
-		cout << "   subscribe_event (with attribute already polled) --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event (with attribute already polled) --> OK" << std::endl;
 
 //
 // Check that callback was called
 //
 
 		Tango_sleep(3);
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed > 2);
 		assert (cb.cb_executed < 5);
 		assert (cb.delta_msec > 900);
 		assert (cb.delta_msec < 1100);
 		assert (cb.d_format == SCALAR);
 
-		cout << "   CallBack executed every 1000 mS --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed every 1000 mS --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -404,7 +377,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // Stop polling
@@ -463,14 +436,14 @@ int main(int argc, char **argv)
 //
 
 		po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 200);
 
-		cout << "   subscribe_event (with event_period property set) --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event (with event_period property set) --> OK" << std::endl;
 
 //
 // Check that callback was called
@@ -478,13 +451,13 @@ int main(int argc, char **argv)
 
 //		Tango_sleep(3);
 		Tango_sleep(6);
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed >= 5);
 		assert (cb.cb_executed < 12);
 		assert (cb.delta_msec > 500);
 		assert (cb.delta_msec < 700);
 
-		cout << "   CallBack executed every 600 mS --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed every 600 mS --> OK" << std::endl;
 
 //
 // Change polling period to 600mS
@@ -516,7 +489,7 @@ int main(int argc, char **argv)
 
 		assert (cb.cb_err_out_of_sync > 2);
 
-		cout << "   Receiving out_of_sync exception --> OK" << std::endl;
+		TEST_LOG << "   Receiving out_of_sync exception --> OK" << std::endl;
 
 //
 // No out of sync exception any more
@@ -543,7 +516,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_err == 0);
 		assert (cb.cb_err_out_of_sync == 0);
 
-		cout << "   Back to periodic event after out_of_sync exception --> OK" << std::endl;*/
+		TEST_LOG << "   Back to periodic event after out_of_sync exception --> OK" << std::endl;*/
 
 //
 // unsubscribe to the event
@@ -551,7 +524,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // subscribe again to test subsription in CB an dpoll attribute on second device
@@ -574,15 +547,15 @@ int main(int argc, char **argv)
         device->unsubscribe_event(eve_id);
         dev_sub.stop_poll_attribute(att_name);
 
-        coutv << "cb_executed = " << cb_sub.cb_executed << std::endl;
-        coutv << "cb_executed_sub = " << cb_sub.cb_executed_sub << std::endl;
-        coutv << "cb_err = " << cb_sub.cb_err << std::endl;
+        TEST_LOG << "cb_executed = " << cb_sub.cb_executed << std::endl;
+        TEST_LOG << "cb_executed_sub = " << cb_sub.cb_executed_sub << std::endl;
+        TEST_LOG << "cb_err = " << cb_sub.cb_err << std::endl;
 
 		assert (cb_sub.cb_executed > 10);
         assert (cb_sub.cb_executed_sub >= 3);
 		assert (cb_sub.cb_err == 0);
 
-        cout << "   subscription / unsubscription in event callback --> OK" << std::endl;
+        TEST_LOG << "   subscription / unsubscription in event callback --> OK" << std::endl;
 
 //
 // Stop polling

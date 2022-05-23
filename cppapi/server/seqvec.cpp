@@ -49,7 +49,7 @@ namespace Tango
 //
 // description :	These methods allow an easy way to print all sequence
 //			element using the following syntax
-//				cout << seq << std::endl;
+//				TANGO_LOG << seq << std::endl;
 //
 //=============================================================================
 

@@ -1,9 +1,6 @@
-#include <tango.h>
 #include <time.h>
-#include <assert.h>
 
-using namespace std;
-
+#include "cxx_common_old.h"
 
 void check_description(Tango::DeviceProxy &d,Tango::DeviceProxy &,string &,const char *,const char *,const char *,const char *);
 void check_min_value(Tango::DeviceProxy &d,Tango::DeviceProxy &,string &,const char *,const char *,const char *,const char *);
@@ -31,22 +28,22 @@ int main(int argc,char *argv[])
 
 		string att("DefAttr");
 
-		cout << "DeviceProxy instance created successfully" << endl;
+		TEST_LOG << "DeviceProxy instance created successfully" << endl;
 
         check_description(dev,admin_dev,att,"Dev desc","No description","No description","No description");
-        cout << "        Description : no class, no lib --> OK" << endl;
+        TEST_LOG << "        Description : no class, no lib --> OK" << endl;
 
         att = "DefClassAttr";
         check_description(dev,admin_dev,att,"Dev desc","Class desc","No description","No description");
-        cout << "        Description : class, no lib --> OK" << endl;
+        TEST_LOG << "        Description : class, no lib --> OK" << endl;
 
         att = "DefUserAttr";
         check_description(dev,admin_dev,att,"Dev desc","User desc","User desc","No description");
-        cout << "        Description : no class, lib --> OK" << endl;
+        TEST_LOG << "        Description : no class, lib --> OK" << endl;
 
         att = "DefClassUserAttr";
         check_description(dev,admin_dev,att,"Dev desc","Class description","User desc","No description");
-        cout << "        Description : class, lib --> OK" << endl;
+        TEST_LOG << "        Description : class, lib --> OK" << endl;
 
 //
 // For number attribute property
@@ -54,19 +51,19 @@ int main(int argc,char *argv[])
 
         att = "DefAttr";
         check_min_value(dev,admin_dev,att,"10","Not specified","Not specified","Not specified");
-        cout << "\n        min_value : no class, no lib --> OK" << endl;
+        TEST_LOG << "\n        min_value : no class, no lib --> OK" << endl;
 
         att = "DefClassAttr";
         check_min_value(dev,admin_dev,att,"10","20","Not specified","Not specified");
-        cout << "        min_value : class, no lib --> OK" << endl;
+        TEST_LOG << "        min_value : class, no lib --> OK" << endl;
 
         att = "DefUserAttr";
         check_min_value(dev,admin_dev,att,"10","30","30","Not specified");
-        cout << "        min_value : no class, lib --> OK" << endl;
+        TEST_LOG << "        min_value : no class, lib --> OK" << endl;
 
         att = "DefClassUserAttr";
         check_min_value(dev,admin_dev,att,"10","20","30","Not specified");
-        cout << "        min_value : class, lib --> OK" << endl;
+        TEST_LOG << "        min_value : class, lib --> OK" << endl;
 
 //
 // For event_period attribute property
@@ -74,19 +71,19 @@ int main(int argc,char *argv[])
 
         att = "DefAttr";
         check_ev_period_value(dev,admin_dev,att,"2500","1000","1000","1000");
-        cout << "\n        event_period : no class, no lib --> OK" << endl;
+        TEST_LOG << "\n        event_period : no class, no lib --> OK" << endl;
 
         att = "DefClassAttr";
         check_ev_period_value(dev,admin_dev,att,"2500","500","1000","1000");
-        cout << "        event_period : class, no lib --> OK" << endl;
+        TEST_LOG << "        event_period : class, no lib --> OK" << endl;
 
         att = "DefUserAttr";
         check_ev_period_value(dev,admin_dev,att,"2500","1500","1500","1000");
-        cout << "        event_period : no class, lib --> OK" << endl;
+        TEST_LOG << "        event_period : no class, lib --> OK" << endl;
 
         att = "DefClassUserAttr";
         check_ev_period_value(dev,admin_dev,att,"2500","500","1500","1000");
-        cout << "        event_period : class, lib --> OK" << endl;
+        TEST_LOG << "        event_period : class, lib --> OK" << endl;
 
 //
 // For rel_change attribute property
@@ -94,19 +91,19 @@ int main(int argc,char *argv[])
 
         att = "DefAttr";
         check_rel_change_value(dev,admin_dev,att,"12","Not specified","Not specified","Not specified");
-        cout << "\n        rel_change : no class, no lib --> OK" << endl;
+        TEST_LOG << "\n        rel_change : no class, no lib --> OK" << endl;
 
         att = "DefClassAttr";
         check_rel_change_value(dev,admin_dev,att,"12","33,44","Not specified","Not specified");
-        cout << "        rel_change : class, no lib --> OK" << endl;
+        TEST_LOG << "        rel_change : class, no lib --> OK" << endl;
 
         att = "DefUserAttr";
         check_rel_change_value(dev,admin_dev,att,"12","55","55","Not specified");
-        cout << "        rel_change : no class, lib --> OK" << endl;
+        TEST_LOG << "        rel_change : no class, lib --> OK" << endl;
 
         att = "DefClassUserAttr";
         check_rel_change_value(dev,admin_dev,att,"12","33,44","55","Not specified");
-        cout << "        rel_change : class, lib --> OK" << endl;
+        TEST_LOG << "        rel_change : class, lib --> OK" << endl;
 
 //
 // For rds alarm
@@ -114,19 +111,19 @@ int main(int argc,char *argv[])
 
         att = "DefAttr";
         check_delta_val_value(dev,admin_dev,att,"222","Not specified","Not specified","Not specified");
-        cout << "\n        delta_val : no class, no lib --> OK" << endl;
+        TEST_LOG << "\n        delta_val : no class, no lib --> OK" << endl;
 
         att = "DefClassAttr";
         check_delta_val_value(dev,admin_dev,att,"222","5","Not specified","Not specified");
-        cout << "        delta_val : class, no lib --> OK" << endl;
+        TEST_LOG << "        delta_val : class, no lib --> OK" << endl;
 
         att = "DefUserAttr";
         check_delta_val_value(dev,admin_dev,att,"222","77","77","Not specified");
-        cout << "        delta_val : no class, lib --> OK" << endl;
+        TEST_LOG << "        delta_val : no class, lib --> OK" << endl;
 
         att = "DefClassUserAttr";
         check_delta_val_value(dev,admin_dev,att,"222","5","77","Not specified");
-        cout << "        delta_val : class, lib --> OK" << endl;
+        TEST_LOG << "        delta_val : class, lib --> OK" << endl;
     }
 	catch (Tango::DevFailed &e)
 	{

@@ -112,7 +112,7 @@ void Device_3Impl::real_ctor()
 Tango::AttributeValueList_3* Device_3Impl::read_attributes_3(const Tango::DevVarStringArray& names,
 					     Tango::DevSource source)
 {
-	cout4 << "Device_3Impl::read_attributes_3 arrived for dev " << get_name() << ", att[0] = " << names[0] << std::endl;
+	TANGO_LOG_DEBUG << "Device_3Impl::read_attributes_3 arrived for dev " << get_name() << ", att[0] = " << names[0] << std::endl;
 
 //
 // Record operation request in black box
@@ -503,11 +503,11 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 
 					if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (aid.data_4 != nullptr || aid.data_5 != nullptr))
 					{
-						cout4 << "Locking attribute mutex for attribute " << att.get_name() << std::endl;
+						TANGO_LOG_DEBUG << "Locking attribute mutex for attribute " << att.get_name() << std::endl;
 						omni_mutex *attr_mut = att.get_attr_mutex();
 						if (attr_mut->trylock() == 0)
 						{
-							cout4 << "Mutex for attribute " << att.get_name() << " is already taken.........." << std::endl;
+							TANGO_LOG_DEBUG << "Mutex for attribute " << att.get_name() << " is already taken.........." << std::endl;
 							attr_mut->lock();
 						}
 					}
@@ -553,7 +553,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					{
 						if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
 						{
-							cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+							TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 							omni_mutex *attr_mut = att.get_attr_mutex();
 							attr_mut->unlock();
 						}
@@ -563,7 +563,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					{
 						if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
 						{
-							cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+							TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 							omni_mutex *attr_mut = att.get_attr_mutex();
 							attr_mut->unlock();
 						}
@@ -593,7 +593,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					{
 						if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
 						{
-							cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to a severe error which is not a DevFailed" << std::endl;
+							TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to a severe error which is not a DevFailed" << std::endl;
 							omni_mutex *attr_mut = att.get_attr_mutex();
 							attr_mut->unlock();
 						}
@@ -603,7 +603,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					{
 						if ((att.get_attr_serial_model() == ATTR_BY_KERNEL) && (is_allowed_failed == false))
 						{
-							cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to severe error which is not a DevFailed" << std::endl;
+							TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to severe error which is not a DevFailed" << std::endl;
 							omni_mutex *attr_mut = att.get_attr_mutex();
 							attr_mut->unlock();
 						}
@@ -656,7 +656,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 				{
 					if ((atsm != ATTR_NO_SYNC) && (w_type == Tango::READ_WITH_WRITE))
 					{
-						cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+						TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 						omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 						attr_mut->unlock();
 					}
@@ -666,7 +666,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 				{
 					if ((atsm != ATTR_NO_SYNC) && (w_type == Tango::READ_WITH_WRITE))
 					{
-						cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+						TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 						omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 						attr_mut->unlock();
 					}
@@ -852,7 +852,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 						{
 							if ((i != state_idx) && (i != status_idx) && (atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
 							{
-								cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+								TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 								omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 								attr_mut->unlock();
 							}
@@ -862,7 +862,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 						{
 							if ((i != state_idx) && (i != status_idx) && (atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
 							{
-								cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+								TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 								omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 								attr_mut->unlock();
 							}
@@ -902,7 +902,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 							{
 								if ((atsm != ATTR_NO_SYNC) && ((att.is_fwd_att() == true) || (w_type != Tango::WRITE)))
 								{
-									cout4 << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
+									TANGO_LOG_DEBUG << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
 									if (atsm == ATTR_BY_KERNEL)
 										GIVE_ATT_MUTEX_5(aid.data_5,index,att);
 									else
@@ -916,7 +916,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 							{
 								if ((atsm != ATTR_NO_SYNC) && ((att.is_fwd_att() == true) || (w_type != Tango::WRITE)))
 								{
-									cout4 << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
+									TANGO_LOG_DEBUG << "Giving attribute mutex to CORBA structure for attribute " << att.get_name() << std::endl;
 									if (atsm == ATTR_BY_KERNEL)
 										GIVE_ATT_MUTEX(aid.data_4,index,att);
 									else
@@ -934,7 +934,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 						{
 							if (aid.data_5 != nullptr)
 							{
-								cout4 << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
+								TANGO_LOG_DEBUG << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
 								if (att.get_writable() != Tango::WRITE)
 								{
 									REL_ATT_MUTEX_5(aid.data_5,index,att);
@@ -943,7 +943,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 							}
 							else if (aid.data_4 != nullptr)
 							{
-								cout4 << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
+								TANGO_LOG_DEBUG << "Asking CORBA structure to release attribute mutex for attribute " << att.get_name() << std::endl;
 								if (att.get_writable() != Tango::WRITE)
 								{
 									REL_ATT_MUTEX(aid.data_4,index,att);
@@ -968,7 +968,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					{
 						if ((atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
 						{
-							cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+							TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 							omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 							attr_mut->unlock();
 						}
@@ -981,7 +981,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 					{
 						if ((atsm != ATTR_NO_SYNC) && (att.get_writable() != Tango::WRITE))
 						{
-							cout4 << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
+							TANGO_LOG_DEBUG << "Releasing attribute mutex for attribute " << att.get_name() << " due to error" << std::endl;
 							omni_mutex *attr_mut = (atsm == ATTR_BY_KERNEL) ? att.get_attr_mutex() : att.get_user_attr_mutex();
 							attr_mut->unlock();
 						}
@@ -1013,7 +1013,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 
 	sub.set_associated_device(last_associated_device);
 
-	cout4 << "Leaving Device_3Impl::read_attributes_no_except" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_3Impl::read_attributes_no_except" << std::endl;
 }
 
 
@@ -1039,7 +1039,7 @@ void Device_3Impl::read_attributes_no_except(const Tango::DevVarStringArray& nam
 void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& names,Tango::AttributeIdlData &aid)
 {
 	unsigned long nb_names = names.length();
-    cout4 << "Reading " << nb_names << " attr in read_attributes_from_cache()" << std::endl;
+    TANGO_LOG_DEBUG << "Reading " << nb_names << " attr in read_attributes_from_cache()" << std::endl;
 
 //
 // Check that device supports the wanted attribute and that the attribute is polled. If some are non polled, store
@@ -1381,7 +1381,7 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 void Device_3Impl::write_attributes_3(const Tango::AttributeValueList& values)
 {
 	AutoTangoMonitor sync(this,true);
-	cout4 << "Device_3Impl::write_attributes_3 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_3Impl::write_attributes_3 arrived" << std::endl;
 
 //
 // Record operation request in black box. If this method is executed with the request to store info in
@@ -1852,7 +1852,7 @@ void Device_3Impl::write_attributes_34(const Tango::AttributeValueList *values_3
 // Return to caller.
 //
 
-	cout4 << "Leaving Device_3Impl::write_attributes_34" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_3Impl::write_attributes_34" << std::endl;
 
 	if (nb_failed != 0)
 	{
@@ -1887,7 +1887,7 @@ Tango::DevAttrHistoryList_3 *Device_3Impl::read_attribute_history_3(const char* 
 	TangoMonitor &mon = get_poll_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_3Impl::read_attribute_history_3 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_3Impl::read_attribute_history_3 arrived" << std::endl;
 
 //
 // Record operation request in black box
@@ -1974,7 +1974,7 @@ Tango::DevAttrHistoryList_3 *Device_3Impl::read_attribute_history_3(const char* 
 	else
 		polled_attr->get_attr_history_43(n,back,att.get_data_type());
 
-	cout4 << "Leaving Device_3Impl::command_inout_history_3 method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_3Impl::command_inout_history_3 method" << std::endl;
 	return back;
 }
 
@@ -1992,7 +1992,7 @@ Tango::DevAttrHistoryList_3 *Device_3Impl::read_attribute_history_3(const char* 
 
 Tango::DevInfo_3 *Device_3Impl::info_3()
 {
-	cout4 << "Device_3Impl::info_3 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_3Impl::info_3 arrived" << std::endl;
 
 	Tango::DevInfo_3 *back = NULL;
 
@@ -2060,7 +2060,7 @@ Tango::DevInfo_3 *Device_3Impl::info_3()
 // Return to caller
 //
 
-	cout4 << "Leaving Device_3Impl::info_3" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_3Impl::info_3" << std::endl;
 	return back;
 }
 
@@ -2092,7 +2092,7 @@ Tango::AttributeConfigList_3 *Device_3Impl::get_attribute_config_3(const Tango::
 	TangoMonitor &mon = get_att_conf_monitor();
 	AutoTangoMonitor sync(&mon);
 
-	cout4 << "Device_3Impl::get_attribute_config_3 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Device_3Impl::get_attribute_config_3 arrived" << std::endl;
 
 	long nb_attr = names.length();
 	Tango::AttributeConfigList_3 *back = NULL;
@@ -2170,7 +2170,7 @@ Tango::AttributeConfigList_3 *Device_3Impl::get_attribute_config_3(const Tango::
 // Return to caller
 //
 
-	cout4 << "Leaving Device_3Impl::get_attribute_config_3" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Device_3Impl::get_attribute_config_3" << std::endl;
 
 	return back;
 }
@@ -2193,7 +2193,7 @@ Tango::AttributeConfigList_3 *Device_3Impl::get_attribute_config_3(const Tango::
 void Device_3Impl::set_attribute_config_3(const Tango::AttributeConfigList_3& new_conf)
 {
 	AutoTangoMonitor sync(this,true);
-	cout4 << "DeviceImpl::set_attribute_config_3 arrived" << std::endl;
+	TANGO_LOG_DEBUG << "DeviceImpl::set_attribute_config_3 arrived" << std::endl;
 
 //
 // The attribute conf. is protected by two monitors. One protects access between get and set attribute conf.
@@ -2419,7 +2419,7 @@ void Device_3Impl::get_attr_props(const char *attr_name,std::vector<AttrProperty
 		}
 		catch (Tango::DevFailed &)
 		{
-			cout4 << "Exception while accessing database" << std::endl;
+			TANGO_LOG_DEBUG << "Exception while accessing database" << std::endl;
 
 			TangoSys_OMemStream o;
 			o << "Can't get device attribute properties for device " << device_name << ", attribute " << attr_name << std::ends;

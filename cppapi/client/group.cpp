@@ -611,7 +611,7 @@ GroupElement* GroupElement::find_i (const std::string& n, TANGO_UNUSED(bool fwd)
 TokenList GroupElement::tokenize_i (const std::string& p)
 {
 #if defined(_LOCAL_DEBUGGING)
-  cout << "\t|- Group::tokenize::pattern [" << p << "]" << std::endl;
+  TANGO_LOG << "\t|- Group::tokenize::pattern [" << p << "]" << std::endl;
 #endif
 	int done = 0;
   std::string token;
@@ -633,12 +633,12 @@ TokenList GroupElement::tokenize_i (const std::string& p)
 		last_pos = pos + 1;
   } while (!done);
 #if defined(_LOCAL_DEBUGGING)
-  cout << "\t\t|- tokens: [";
+  TANGO_LOG << "\t\t|- tokens: [";
   for (int t = 0; t < tokens.size(); t++) {
-    cout << tokens[t];
-    cout << ((t == tokens.size() - 1) ? "]" : ";");
+    TANGO_LOG << tokens[t];
+    TANGO_LOG << ((t == tokens.size() - 1) ? "]" : ";");
   }
-  cout << std::endl;
+  TANGO_LOG << std::endl;
 #endif
   return tokens;
 }
@@ -649,7 +649,7 @@ bool GroupElement::match_i (const std::string& _p, const TokenList& tokens)
   std::string p(_p);
   std::transform(p.begin(),p.end(),p.begin(),::tolower);
 #if defined(_LOCAL_DEBUGGING)
-  cout << "\t|- Group::match::pattern " << _p << std::endl;
+  TANGO_LOG << "\t|- Group::match::pattern " << _p << std::endl;
 #endif
   bool result = false;
   std::string::size_type pos;
@@ -666,9 +666,9 @@ bool GroupElement::match_i (const std::string& _p, const TokenList& tokens)
   }
 #if defined(_LOCAL_DEBUGGING)
   if (result == true) {
-    cout << "\t\t|- Group::match::pattern matches tokens" << std::endl;
+    TANGO_LOG << "\t\t|- Group::match::pattern matches tokens" << std::endl;
   } else {
-    cout << "\t\t|- Group::match::pattern does NOT match tokens" << std::endl;
+    TANGO_LOG << "\t\t|- Group::match::pattern does NOT match tokens" << std::endl;
   }
 #endif
   return result;
@@ -803,11 +803,11 @@ void Group::add (Group* g, int tmo_ms)
   omni_mutex_lock guard(elements_mutex);
 #endif
 #if defined(_LOCAL_DEBUGGING)
-  cout << "Group::add::adding sub-group " << (g ? g->get_name() : "NULL") << std::endl;
+  TANGO_LOG << "Group::add::adding sub-group " << (g ? g->get_name() : "NULL") << std::endl;
 #endif
   if (g == 0 || get_group_i(g->get_name()) == g || g->get_group_i(get_name()) == this) {
 #if defined(_LOCAL_DEBUGGING)
-    cout << "Group::add::failed to add group" << (g ? (g->get_name() + " (self ref. or already in group)") : "NULL") << std::endl;
+    TANGO_LOG << "Group::add::failed to add group" << (g ? (g->get_name() + " (self ref. or already in group)") : "NULL") << std::endl;
 #endif
     if(g != 0) {
       g->set_timeout_millis(tmo_ms);
@@ -864,14 +864,14 @@ bool Group::add_i (GroupElement* e, bool fwd)
 {
   if (e == 0 || e == this) {
 #if defined(_LOCAL_DEBUGGING)
-    cout << "Group::add_i::failed to add " << (e ? (e->get_name() + " (null or self ref)") : "NULL") << std::endl;
+    TANGO_LOG << "Group::add_i::failed to add " << (e ? (e->get_name() + " (null or self ref)") : "NULL") << std::endl;
 #endif
     return false;
   }
   GroupElement* te = find_i(e->get_name(), fwd);
   if (te != 0 && te != this) {
 #if defined(_LOCAL_DEBUGGING)
-    cout << "Group::add_i::failed to add " << e->get_name() << " (already in group)" << std::endl;
+    TANGO_LOG << "Group::add_i::failed to add " << e->get_name() << " (already in group)" << std::endl;
 #endif
     return false;
   }
@@ -886,7 +886,7 @@ void Group::remove (const std::string& p, bool fwd)
   omni_mutex_lock guard(elements_mutex);
 #endif
 #if defined(_LOCAL_DEBUGGING)
-  cout << "Group::remove::pattern [" << p << "]" << std::endl;
+  TANGO_LOG << "Group::remove::pattern [" << p << "]" << std::endl;
 #endif
   remove_i(p, fwd);
 }
@@ -897,7 +897,7 @@ void Group::remove (const std::vector<std::string>& pl, bool fwd)
   omni_mutex_lock guard(elements_mutex);
 #endif
 #if defined(_LOCAL_DEBUGGING)
-  cout << "Group::remove::pattern list" << std::endl;
+  TANGO_LOG << "Group::remove::pattern list" << std::endl;
 #endif
   for (unsigned int p = 0; p < pl.size(); p++) {
     remove_i(pl[p], fwd);
@@ -907,11 +907,11 @@ void Group::remove (const std::vector<std::string>& pl, bool fwd)
 void Group::remove_i (const std::string& p, bool fwd)
 {
 #if defined(_LOCAL_DEBUGGING)
-  cout << "\t|- Group::remove_i" << std::endl;
+  TANGO_LOG << "\t|- Group::remove_i" << std::endl;
 #endif
   if (name_equals(p)) {
 #if defined(_LOCAL_DEBUGGING)
-    cout << "Group::remove_i::failed to remove " << p << " (can't remove self)" << std::endl;
+    TANGO_LOG << "Group::remove_i::failed to remove " << p << " (can't remove self)" << std::endl;
 #endif
     return;
   }
@@ -936,7 +936,7 @@ void Group::remove_i (const std::string& p, bool fwd)
       it = std::find(elements.begin(), elements.end(), remove_list[i]);
       if (it != elements.end()) {
 # if defined(_LOCAL_DEBUGGING)
-        cout << "\t|- Group::remove_i::removing " << (*it)->get_name() << std::endl;
+        TANGO_LOG << "\t|- Group::remove_i::removing " << (*it)->get_name() << std::endl;
 # endif // _LOCAL_DEBUGGING
         delete remove_list[i];
         elements.erase(it);
@@ -958,7 +958,7 @@ void Group::remove_all ()
   omni_mutex_lock guard(elements_mutex);
 #endif
 #if defined(_LOCAL_DEBUGGING)
-  cout << "Group::remove_all::" << get_name() << std::endl;
+  TANGO_LOG << "Group::remove_all::" << get_name() << std::endl;
 #endif
   GroupElementsIterator it = elements.begin();
   GroupElementsIterator end = elements.end();
@@ -1555,9 +1555,9 @@ void Group::dump (int indent_level)
   GroupElementsIterator it = elements.begin();
   GroupElementsIterator end = elements.end();
   for (int i = 0; i < indent_level ; i++) {
-    cout << "\t";
+    TANGO_LOG << "\t";
   }
-  cout << "|- GROUP: "
+  TANGO_LOG << "|- GROUP: "
        << get_fully_qualified_name()
        << " ["
        << get_size_i(false)
@@ -2238,9 +2238,9 @@ void GroupDeviceElement::dump (TANGO_UNUSED(int indent_level))
 {
 #if defined(_LOCAL_DEBUGGING)
   for (int i = 0; i < indent_level ; i++) {
-    cout << "\t";
+    TANGO_LOG << "\t";
   }
-  cout << "|- DEVICE: " << get_name() << std::endl;
+  TANGO_LOG << "|- DEVICE: " << get_name() << std::endl;
 #endif
 }
 //-----------------------------------------------------------------------------

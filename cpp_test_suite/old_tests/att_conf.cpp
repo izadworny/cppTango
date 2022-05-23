@@ -14,9 +14,7 @@
 //
 // contact: georg.kasper@frm2.tum.de
 
-#include "tango.h"
-
-using namespace std;
+#include "cxx_common_old.h"
 
 const char * const notset = "Not specified";
 
@@ -35,7 +33,7 @@ int main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		cout << "usage: att_conf <device>" << endl;
+		TEST_LOG << "usage: att_conf <device>" << endl;
 		exit(-1);
 	}
 
@@ -58,14 +56,14 @@ int main(int argc, char **argv)
 	{
 		dev = new Tango::DeviceProxy( dnUrl );
 		adm_dev = new Tango::DeviceProxy( dev->adm_name().c_str() );
-//		cout << "connected to: " <<  dev->dev_name() << "\t";
-//		cout << "with adm_device: " <<  dev->adm_name() << endl;
-//		cout << "connected to: " <<  adm_dev->dev_name() << endl;
+//		TEST_LOG << "connected to: " <<  dev->dev_name() << "\t";
+//		TEST_LOG << "with adm_device: " <<  dev->adm_name() << endl;
+//		TEST_LOG << "connected to: " <<  adm_dev->dev_name() << endl;
 
 		ai_orig = dev->attribute_query( an );
 
 		// test 1: change to numerical/string values:
-//		cout << endl << "test 1:  change to numerical/string values" << endl;
+//		TEST_LOG << endl << "test 1:  change to numerical/string values" << endl;
 		ai_expected = ai_orig;
 		setValues( ai_expected, false );
 		ail.clear();
@@ -81,7 +79,7 @@ int main(int argc, char **argv)
 		if( res != 0 )
 		{
 			rc = 1;
-//			cout << "test 1: FAILED, set and control numerical changes." << endl;
+//			TEST_LOG << "test 1: FAILED, set and control numerical changes." << endl;
 
 			ail.clear();
         	ail.push_back( ai_orig );
@@ -90,10 +88,10 @@ int main(int argc, char **argv)
 			exit(-1);
 		}
 		else
-			cout << "   Set and control numerical changes --> OK" << endl;
+			TEST_LOG << "   Set and control numerical changes --> OK" << endl;
 
 		// test 2: change to: Not specified
-//		cout << endl << "test 2:  change to Not specified" << endl;
+//		TEST_LOG << endl << "test 2:  change to Not specified" << endl;
 		ai_expected = ai_orig;
 		setValues( ai_expected, true );
 		ail.clear();
@@ -110,7 +108,7 @@ int main(int argc, char **argv)
 		if( res != 0 )
 		{
 			rc = rc*10 + 1;
-//			cout << "test 2: FAILED, set all to '" << notset << "' control changes"  << endl;
+//			TEST_LOG << "test 2: FAILED, set all to '" << notset << "' control changes"  << endl;
 
 			ail.clear();
         	ail.push_back( ai_orig );
@@ -119,17 +117,17 @@ int main(int argc, char **argv)
 			exit(-1);
 		}
 		else
-			cout << "   Set all to 'not specified' --> OK" << endl;
+			TEST_LOG << "   Set all to 'not specified' --> OK" << endl;
 
 		// test 3: device restart, change to numerical/string values
-//		cout << endl << "test 3:  change to numerical/string values with device restart" << endl;
+//		TEST_LOG << endl << "test 3:  change to numerical/string values with device restart" << endl;
 		ai_expected = ai_orig;
 		setValues( ai_expected, false );
 		ail.clear();
         ail.push_back( ai_expected );
         dev->set_attribute_config( ail );
 
-//		cout << "         make a DevRestart" << endl;
+//		TEST_LOG << "         make a DevRestart" << endl;
 		ddIn << devnm;
 		adm_dev->set_timeout_millis(6000);
 		ddOut = adm_dev->command_inout( "DevRestart", ddIn );
@@ -139,7 +137,7 @@ int main(int argc, char **argv)
 		if( res != 0 )
 		{
 			rc = rc*10 + 1;
-//			cout << "test 3: FAILED, set all to numerical/string values and control changes after a DevRestart"  << endl;
+//			TEST_LOG << "test 3: FAILED, set all to numerical/string values and control changes after a DevRestart"  << endl;
 
 			ail.clear();
         	ail.push_back( ai_orig );
@@ -148,17 +146,17 @@ int main(int argc, char **argv)
 			exit(-1);
 		}
 		else
-			cout << "   Set all to numerical/string values and control changes after a DevRestart --> OK" << endl;
+			TEST_LOG << "   Set all to numerical/string values and control changes after a DevRestart --> OK" << endl;
 
 
 		// test 4: device restart, change to 'Not specified'
-//		cout << endl << "test 4:  change to 'Not specified' with device restart" << endl;
+//		TEST_LOG << endl << "test 4:  change to 'Not specified' with device restart" << endl;
 		ai_expected = ai_orig;
 		setValues( ai_expected, true );
 		ail.clear();
         ail.push_back( ai_expected );
         dev->set_attribute_config( ail );
-//		cout << "         make a DevRestart" << endl;
+//		TEST_LOG << "         make a DevRestart" << endl;
 		ddIn << devnm;
 		ddOut = adm_dev->command_inout( "DevRestart", ddIn );
 #ifdef WIN32
@@ -173,10 +171,10 @@ int main(int argc, char **argv)
 		if( res != 0 )
 		{
 			rc = rc*10 + 1;
-//			cout << "test 4: FAILED, set all to '" << notset << "' control changes after a DevRestart"  << endl;
+//			TEST_LOG << "test 4: FAILED, set all to '" << notset << "' control changes after a DevRestart"  << endl;
 		}
 		else
-			cout << "   Set all to 'Not specified' + control changes after a DevRestart --> OK" << endl;
+			TEST_LOG << "   Set all to 'Not specified' + control changes after a DevRestart --> OK" << endl;
 
 
 		// restore original setting:
@@ -234,7 +232,7 @@ int	compare( Tango::AttributeInfoEx & ai_act, Tango::AttributeInfoEx & ai_expect
 
 #	define CMP(x)   if( (ai_act.x != ai_expected.x) ) \
 			{ 	rc = 1; \
-				cout << #x \
+				TEST_LOG << #x \
 				<< ":\tBUG got: " \
 				<< ai_act.x \
 				<< "\texpected: " \

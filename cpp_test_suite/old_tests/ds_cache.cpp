@@ -1,25 +1,9 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
+#include "cxx_common_old.h"
 
 const int8_t	kBase = 75;
-#define	coutv	if (verbose == true) cout
-bool verbose = false;
 
-using namespace Tango;
-using namespace std;
-
-int main(int argc, char **argv)
+int main(int, char **)
 {
-
-	if (argc == 2)
-	{
-		if (strcmp(argv[1],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -107,18 +91,18 @@ int main(int argc, char **argv)
 		string ds_name("DsCache/test");
 		DbServerCache *dsc = new DbServerCache(db,ds_name,h_name);	
 		
-		cout << "   Filling db cache --> OK" << endl;
+		TEST_LOG << "   Filling db cache --> OK" << endl;
 
 //
 // Check cache size
 //
 
 		int ca_size = dsc->get_data_nb();
-		coutv << "Cache size computed = " << cache_size << endl;
-		coutv << "Cache size = " << ca_size << endl;
+		TEST_LOG << "Cache size computed = " << cache_size << endl;
+		TEST_LOG << "Cache size = " << ca_size << endl;
 		assert(ca_size == cache_size);
 
-		cout << "   Db cache size --> OK" << endl;
+		TEST_LOG << "   Db cache size --> OK" << endl;
 
 //
 // Check indexes in cache
@@ -126,58 +110,58 @@ int main(int argc, char **argv)
 
 		int first = 1, last = 0;
 		const DbServerCache::EltIdx &imp_data = dsc->get_imp_dat();
-		coutv << "Adm dev import data between " << imp_data.first_idx << " and " << imp_data.last_idx << endl;
+		TEST_LOG << "Adm dev import data between " << imp_data.first_idx << " and " << imp_data.last_idx << endl;
 		last = first + 7;
 		assert(imp_data.first_idx == first);
 		assert(imp_data.last_idx == last);
 		
 		const DbServerCache::EltIdx &notifd_eve = dsc->get_imp_notifd_event();
-		coutv << "Notifd import event data between " << notifd_eve.first_idx << " and " << notifd_eve.last_idx << endl;
+		TEST_LOG << "Notifd import event data between " << notifd_eve.first_idx << " and " << notifd_eve.last_idx << endl;
 		first = last + 1;
 		last = first + notifd_size - 1;
 		assert(notifd_eve.first_idx == first);
 		assert(notifd_eve.last_idx == last);
 
 		const DbServerCache::EltIdx &ds_eve = dsc->get_imp_adm_event();
-		coutv << "DS import event data between " << ds_eve.first_idx << " and " << ds_eve.last_idx << endl;
+		TEST_LOG << "DS import event data between " << ds_eve.first_idx << " and " << ds_eve.last_idx << endl;
 		first = last + 1;
 		last = first + 1;
 		assert(ds_eve.first_idx == first);
 		assert(ds_eve.last_idx == last);
 
 		const DbServerCache::PropEltIdx &DServer_prop = dsc->get_DServer_class_prop();
-		coutv << "DServer class prop data between " << DServer_prop.first_idx << " and " << DServer_prop.last_idx << endl;
+		TEST_LOG << "DServer class prop data between " << DServer_prop.first_idx << " and " << DServer_prop.last_idx << endl;
 		first = last + 1;
 		last = first + 14;
 		assert(DServer_prop.first_idx == first);
 		assert(DServer_prop.last_idx == last);
 
 		const DbServerCache::PropEltIdx &Default_prop = dsc->get_Default_prop();
-		coutv << "Default prop data between " << Default_prop.first_idx << " and " << Default_prop.last_idx << endl;
+		TEST_LOG << "Default prop data between " << Default_prop.first_idx << " and " << Default_prop.last_idx << endl;
 		first = last + 1;
 		last = first + 1;
 		assert(Default_prop.first_idx == first);
 		assert(Default_prop.last_idx == last);
 
 		const DbServerCache::PropEltIdx &adm_prop = dsc->get_adm_dev_prop();
-		coutv << "Admin dev prop data between " << adm_prop.first_idx << " and " << adm_prop.last_idx << endl;
+		TEST_LOG << "Admin dev prop data between " << adm_prop.first_idx << " and " << adm_prop.last_idx << endl;
 		first = last + 1;
 		last = first + 1;
 		assert(adm_prop.first_idx == first);
 		assert(adm_prop.last_idx == last);
 
 		int class_nb = dsc->get_class_nb();
-		coutv << "class nb = " << class_nb << endl;
+		TEST_LOG << "class nb = " << class_nb << endl;
 		assert(class_nb == 2);
 
 		const DbServerCache::ClassEltIdx *class_elt = dsc->get_classes_elt();
-		coutv << "Class prop data between " << class_elt->class_prop.first_idx << " and " << class_elt->class_prop.last_idx << endl;
+		TEST_LOG << "Class prop data between " << class_elt->class_prop.first_idx << " and " << class_elt->class_prop.last_idx << endl;
 		first = last + 3;
 		last = first + 1;
 		assert(class_elt->class_prop.first_idx == first);
 		assert(class_elt->class_prop.last_idx == last);
 
-		coutv << "Class attribute prop data between " << class_elt->class_att_prop.first_idx << " and " << class_elt->class_att_prop.last_idx << endl;
+		TEST_LOG << "Class attribute prop data between " << class_elt->class_att_prop.first_idx << " and " << class_elt->class_att_prop.last_idx << endl;
 		first = last + 1;
 		last = first + 1;
 		assert(class_elt->class_att_prop.first_idx == first);
@@ -186,11 +170,11 @@ int main(int argc, char **argv)
 		assert(class_elt->dev_nb == 2);
 
 		const DbServerCache::PropEltIdx &ctrl_prop = dsc->get_ctrl_serv_prop();
-		coutv << "Control system object prop data between " << ctrl_prop.first_idx << " and " << ctrl_prop.last_idx << endl;
+		TEST_LOG << "Control system object prop data between " << ctrl_prop.first_idx << " and " << ctrl_prop.last_idx << endl;
 		assert(ctrl_prop.first_idx == kBase + notifd_size);
 		assert(ctrl_prop.last_idx == (kBase + notifd_size + 2 + (2 * nb_prop) + prop_elt) - 1);
 
-		cout << "   Indexes in db cache --> OK" << endl;
+		TEST_LOG << "   Indexes in db cache --> OK" << endl;
 
 //
 // Get some data from cache
@@ -204,7 +188,7 @@ int main(int argc, char **argv)
 		db_data >> vs;
 		assert(vs.size() == 2);
 
-		cout << "   Getting device name list from cache --> OK" << endl;
+		TEST_LOG << "   Getting device name list from cache --> OK" << endl;
 
 //
 // Get some device property from cache
@@ -221,7 +205,7 @@ int main(int argc, char **argv)
 		assert(vs.size() == 1);
 		assert(vs[0] == "25");
 
-		cout << "   Getting device property from cache --> OK" << endl;
+		TEST_LOG << "   Getting device property from cache --> OK" << endl;
 
 //
 // Get class prop
@@ -235,11 +219,11 @@ int main(int argc, char **argv)
 
 		db_prop[0] >> vs;
 
-		coutv << "Prop nb = " << vs.size() << ", first value = " << vs[0] << endl;
+		TEST_LOG << "Prop nb = " << vs.size() << ", first value = " << vs[0] << endl;
 		assert(vs.size() == 11);
 		assert(vs[0] == "QueryClass");
 
-		cout << "   Getting class property --> OK" << endl;
+		TEST_LOG << "   Getting class property --> OK" << endl;
 
 
 		delete db;

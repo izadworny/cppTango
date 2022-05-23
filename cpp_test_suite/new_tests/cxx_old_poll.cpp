@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <chrono>
+
 #include "cxx_common.h"
 
 #define BASIC_NB_POLL        16u
@@ -39,7 +40,6 @@ protected:
     string new_dev, new_dev1_th2, new_dev2_th2, new_dev1_th3;
     vector <string> ref_polling_pool_conf;
 
-    bool verbose;
     int hist_depth;
 
 public:
@@ -62,8 +62,6 @@ public:
         serv_name = CxxTest::TangoPrinter::get_param("fulldsname");
 
         admin_dev_name += serv_name;
-
-        verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
         CxxTest::TangoPrinter::validate_args();
 
@@ -104,9 +102,9 @@ public:
             exit(-1);
         }
 
-        cout << "Wait for 7 seconds to fill in polling buffer..." << endl;
+        TEST_LOG << "Wait for 7 seconds to fill in polling buffer..." << endl;
         this_thread::sleep_for(chrono::seconds{7});
-        cout << "Done." << endl;
+        TEST_LOG << "Done." << endl;
     }
 
     virtual ~SUITE_NAME() {
@@ -114,8 +112,8 @@ public:
 //
 // Clean up --------------------------------------------------------
 //
-//	cout << "Device name = " << device_name << endl;
-//	cout << "Kill device name = " << kill_device_name << endl;
+//	TEST_LOG << "Device name = " << device_name << endl;
+//	TEST_LOG << "Kill device name = " << kill_device_name << endl;
 
 
         if (CxxTest::TangoPrinter::is_restore_set("dev1_source_cache"))
@@ -124,7 +122,7 @@ public:
         if (CxxTest::TangoPrinter::is_restore_set("dev2_poll_PollLong_attr_1000"))
             stop_poll_att_no_except(new DeviceProxy(device2_name), "PollLong_attr");
 
-//	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+//	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
         stop_poll_cmd_no_except(device, "IOPollStr1");
         stop_poll_cmd_no_except(device, "IOArray1");
         stop_poll_cmd_no_except(device, "IOPollArray2");
@@ -190,17 +188,15 @@ public:
             if ((*d_hist)[i].has_failed() == false)
                 (*d_hist)[i] >> str;
 
-            if (verbose) {
-                cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
-                if ((*d_hist)[i].has_failed() == false) {
-                    (*d_hist)[i] >> str;
-                    cout << "Value = " << str << endl;
-                }
-                TimeVal &t = (*d_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-                cout << endl;
+            TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+            if ((*d_hist)[i].has_failed() == false) {
+                (*d_hist)[i] >> str;
+                TEST_LOG << "Value = " << str << endl;
             }
+            TimeVal &t = (*d_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+            TEST_LOG << endl;
         }
 
         DevErrorList del;
@@ -267,19 +263,17 @@ public:
 
         TSM_ASSERT_LESS_THAN("Not enough data in the polling buffer, restart later", 4u, d_hist->size());
 
-        short first_val_first_rec;
+        short first_val_first_rec = 0;
         for (size_t i = 0; i < d_hist->size(); i++) {
             vector<short> vect;
             (*d_hist)[i] >> vect;
 
-            if (verbose) {
-                cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
-                cout << "Value 0 = " << vect[0] << ", Value 1 = " << vect[1] << endl;
-                TimeVal &t = (*d_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-                cout << endl;
-            }
+            TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+            TEST_LOG << "Value 0 = " << vect[0] << ", Value 1 = " << vect[1] << endl;
+            TimeVal &t = (*d_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+            TEST_LOG << endl;
 
             if (i == 0)
                 first_val_first_rec = vect[0];
@@ -313,13 +307,11 @@ public:
         auto d_hist = device->command_history("IOExcept", hist_depth);
 
         for (size_t i = 0; i < d_hist->size(); i++) {
-            if (verbose) {
-                cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
-                TimeVal &t = (*d_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-                cout << endl;
-            }
+            TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+            TimeVal &t = (*d_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+            TEST_LOG << endl;
 
             TS_ASSERT((*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 1u);
@@ -333,9 +325,7 @@ public:
         auto d_hist = device->command_history("State", hist_depth);
 
         for (size_t i = 0; i < d_hist->size(); i++) {
-            if (verbose) {
-                cout << (*d_hist)[i] << endl;
-            }
+            TEST_LOG << (*d_hist)[i] << endl;
 
             TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
@@ -350,9 +340,7 @@ public:
         auto d_hist = device->command_history("Status", hist_depth);
 
         for (size_t i = 0; i < d_hist->size(); i++) {
-            if (verbose) {
-                cout << (*d_hist)[i] << endl;
-            }
+            TEST_LOG << (*d_hist)[i] << endl;
 
             TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
@@ -368,21 +356,19 @@ public:
 
         TSM_ASSERT_LESS_THAN("Not enough data in the polling buffer, restart later", 4u, d_hist->size());
 
-        unsigned char first_val_enc;
+        unsigned char first_val_enc = 0;
         for (size_t i = 0; i < d_hist->size(); i++) {
             DevEncoded the_enc;
             (*d_hist)[i] >> the_enc;
 
-            if (verbose) {
-                cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
-                cout << "Encoded_format = " << the_enc.encoded_format << endl;
-                for (unsigned int ii = 0; ii < the_enc.encoded_data.length(); ++ii)
-                    cout << "Encoded_data = " << (int) the_enc.encoded_data[ii] << endl;
-                TimeVal &t = (*d_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-                cout << endl;
-            }
+            TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+            TEST_LOG << "Encoded_format = " << the_enc.encoded_format << endl;
+            for (unsigned int ii = 0; ii < the_enc.encoded_data.length(); ++ii)
+                TEST_LOG << "Encoded_data = " << (int) the_enc.encoded_data[ii] << endl;
+            TimeVal &t = (*d_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+            TEST_LOG << endl;
 
             TS_ASSERT(!(*d_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*d_hist)[i].get_err_stack().length(), 0u);
@@ -433,14 +419,12 @@ public:
         for (size_t i = 0; i < a_hist->size(); i++) {
             (*a_hist)[i] >> lo;
 
-            if (verbose) {
-                cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
-                cout << "Value = " << lo << endl;
-                TimeVal &t = (*a_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-                cout << endl;
-            }
+            TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+            TEST_LOG << "Value = " << lo << endl;
+            TimeVal &t = (*a_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+            TEST_LOG << endl;
 
             TS_ASSERT(!(*a_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*a_hist)[i].get_err_stack().length(), 0u);
@@ -487,23 +471,21 @@ public:
         }
 
         for (size_t i = 0; i < a_hist->size(); i++) {
-            if (verbose) {
-                cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
-                TimeVal &t = (*a_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                if ((*a_hist)[i].has_failed() == false) {
-                    (*a_hist)[i] >> str;
-                    cout << "Value = " << str[0];
-                    if (str.size() == 2)
-                        cout << ", Value = " << str[1];
-                    cout << endl;
-                } else {
-                    cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-                    cout << "Error level 0 reason = " << ((*a_hist)[i].get_err_stack())[0].reason << endl;
-                    cout << "Error level 0 desc = " << ((*a_hist)[i].get_err_stack())[0].desc << endl;
-                }
-                cout << endl;
+            TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+            TimeVal &t = (*a_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            if ((*a_hist)[i].has_failed() == false) {
+                (*a_hist)[i] >> str;
+                TEST_LOG << "Value = " << str[0];
+                if (str.size() == 2)
+                    TEST_LOG << ", Value = " << str[1];
+                TEST_LOG << endl;
+            } else {
+                TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+                TEST_LOG << "Error level 0 reason = " << ((*a_hist)[i].get_err_stack())[0].reason << endl;
+                TEST_LOG << "Error level 0 desc = " << ((*a_hist)[i].get_err_stack())[0].desc << endl;
             }
+            TEST_LOG << endl;
         }
 
         switch (ar) {
@@ -599,10 +581,8 @@ public:
 
         for (size_t i = 0; i < enc_hist->size(); i++) {
 
-            if (verbose) {
-                cout << "Value = " << (*enc_hist)[i] << endl;
-                cout << endl;
-            }
+            TEST_LOG << "Value = " << (*enc_hist)[i] << endl;
+            TEST_LOG << endl;
 
             TS_ASSERT(!(*enc_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*enc_hist)[i].get_err_stack().length(), 0u);
@@ -626,15 +606,13 @@ public:
         auto a_hist = device->attribute_history("attr_wrong_type", hist_depth);
 
         for (size_t i = 0; i < a_hist->size(); i++) {
-            if (verbose) {
-                cout << "Command failed = " << (*a_hist)[i].has_failed() << endl;
-                TimeVal &t = (*a_hist)[i].get_date();
-                cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-                cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-                cout << "Error level 0 reason = " << ((*a_hist)[i].get_err_stack())[0].reason << endl;
-                cout << "Error level 0 desc = " << ((*a_hist)[i].get_err_stack())[0].desc << endl;
-                cout << endl;
-            }
+            TEST_LOG << "Command failed = " << (*a_hist)[i].has_failed() << endl;
+            TimeVal &t = (*a_hist)[i].get_date();
+            TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+            TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+            TEST_LOG << "Error level 0 reason = " << ((*a_hist)[i].get_err_stack())[0].reason << endl;
+            TEST_LOG << "Error level 0 desc = " << ((*a_hist)[i].get_err_stack())[0].desc << endl;
+            TEST_LOG << endl;
 
             TS_ASSERT((*a_hist)[i].has_failed());
             TS_ASSERT_EQUALS((*a_hist)[i].get_err_stack().length(), 1u);
@@ -665,8 +643,7 @@ public:
         DevLong64 lo;
         da >> lo;
         data_type = da.get_type();
-        if (verbose)
-            cout << "64 bits attribute data = " << hex << lo << dec << endl;
+        TEST_LOG << "64 bits attribute data = " << hex << lo << dec << endl;
         TS_ASSERT_EQUALS(lo, 0x800000000LL);
         TS_ASSERT_EQUALS(data_type, Tango::DEV_LONG64);
     }
@@ -680,8 +657,7 @@ public:
         DevULong64 ulo;
         da_ulo >> ulo;
         int data_type_ulo = da_ulo.get_type();
-        if (verbose)
-            cout << "unsigned 64 bits attribute data = " << hex << ulo << dec << endl;
+        TEST_LOG << "unsigned 64 bits attribute data = " << hex << ulo << dec << endl;
         TS_ASSERT_EQUALS(ulo, 0xC000000000000000LL);
         TS_ASSERT_EQUALS(data_type_ulo, Tango::DEV_ULONG64);
     }
@@ -750,13 +726,11 @@ public:
             }
         }
 
-        if (verbose) {
-            cout << poll_str->size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < poll_str->size(); i++)
-                cout << "Polling status = " << (*poll_str)[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < poll_str->size(); i++)
+            TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+        TEST_LOG << endl;
 
         TS_ASSERT_EQUALS(poll_str->size(), nb_polled);
 
@@ -768,13 +742,11 @@ public:
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device2->polling_status());
 
-        if (verbose) {
-            cout << poll_str->size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < poll_str->size(); i++)
-                cout << "Polling status = " << (*poll_str)[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < poll_str->size(); i++)
+            TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+        TEST_LOG << endl;
 
         TS_ASSERT_EQUALS(poll_str->size(), 0u);
         delete poll_str;
@@ -804,13 +776,11 @@ public:
             }
         }
 
-        if (verbose) {
-            cout << v_str.size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < v_str.size(); i++)
-                cout << "Polling status = " << v_str[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << v_str.size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < v_str.size(); i++)
+            TEST_LOG << "Polling status = " << v_str[i] << endl;
+        TEST_LOG << endl;
 
         TS_ASSERT_EQUALS(v_str.size(), nb_polled);
     }
@@ -821,18 +791,14 @@ public:
         int per = 0;
         TS_ASSERT_THROWS_NOTHING(per = device->get_command_poll_period(cmd));
 
-        if (verbose) {
-            cout << "Cmd " << cmd << " polling period = " << per << endl;
-        }
+        TEST_LOG << "Cmd " << cmd << " polling period = " << per << endl;
 
         TS_ASSERT_EQUALS(per, 2000);
 
         string attr("PollLong_attr");
         TS_ASSERT_THROWS_NOTHING(per = device->get_attribute_poll_period(attr));
 
-        if (verbose)
-            cout << "Attr " << attr << " polling period = " << per << endl;
-
+        TEST_LOG << "Attr " << attr << " polling period = " << per << endl;
         TS_ASSERT_EQUALS(per, 1000);
     }
 
@@ -873,13 +839,11 @@ public:
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
-        if (verbose) {
-            cout << poll_str->size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < poll_str->size(); i++)
-                cout << "Polling status = " << (*poll_str)[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < poll_str->size(); i++)
+            TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+        TEST_LOG << endl;
 
         std::size_t nb_polled = BASIC_NB_POLL + 1;
         for (unsigned int i = 0; i < poll_str->size(); i++) {
@@ -949,13 +913,11 @@ public:
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
-        if (verbose) {
-            cout << poll_str->size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < poll_str->size(); i++)
-                cout << "Polling status = " << (*poll_str)[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < poll_str->size(); i++)
+            TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+        TEST_LOG << endl;
 
         std::size_t nb_polled = BASIC_NB_POLL;
         for (unsigned int i = 0; i < poll_str->size(); i++) {
@@ -1010,13 +972,11 @@ public:
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
-        if (verbose) {
-            cout << poll_str->size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < poll_str->size(); i++)
-                cout << "Polling status = " << (*poll_str)[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < poll_str->size(); i++)
+            TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+        TEST_LOG << endl;
 
         std::size_t nb_polled = BASIC_NB_POLL + 1;
         for (unsigned int i = 0; i < poll_str->size(); i++) {
@@ -1045,13 +1005,11 @@ public:
         vector <string> *poll_str = nullptr;
         TS_ASSERT_THROWS_NOTHING(poll_str = device->polling_status());
 
-        if (verbose) {
-            cout << poll_str->size() << " object(s) polled for device" << endl;
-            cout << endl;
-            for (unsigned int i = 0; i < poll_str->size(); i++)
-                cout << "Polling status = " << (*poll_str)[i] << endl;
-            cout << endl;
-        }
+        TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+        TEST_LOG << endl;
+        for (unsigned int i = 0; i < poll_str->size(); i++)
+            TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+        TEST_LOG << endl;
 
         std::size_t nb_polled = BASIC_NB_POLL;
         for (unsigned int i = 0; i < poll_str->size(); i++) {
@@ -1348,6 +1306,4 @@ void del_device_no_error(Database &db, string& d_name) {
     catch (DevFailed &) {}
 }
 
-
-#undef cout
 #endif // PollTestSuite_h

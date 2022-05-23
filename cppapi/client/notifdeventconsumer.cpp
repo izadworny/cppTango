@@ -54,13 +54,13 @@ omni_mutex EventConsumer::ev_consumer_inst_mutex;
 
 void NotifdEventConsumer::disconnect_structured_push_consumer()
 {
-	cout3 << "calling Tango::NotifdEventConsumer::disconnect_structured_push_consumer() \n";
+	TANGO_LOG_DEBUG << "calling Tango::NotifdEventConsumer::disconnect_structured_push_consumer() \n";
 }
 
 void NotifdEventConsumer::offer_change(TANGO_UNUSED(const CosNotification::EventTypeSeq& added),
                                  TANGO_UNUSED(const CosNotification::EventTypeSeq& deled))
 {
-	cout3 << "calling Tango::NotifdEventConsumer::subscription_change() \n";
+	TANGO_LOG_DEBUG << "calling Tango::NotifdEventConsumer::subscription_change() \n";
 }
 
 /************************************************************************/
@@ -72,7 +72,7 @@ void NotifdEventConsumer::offer_change(TANGO_UNUSED(const CosNotification::Event
 
 NotifdEventConsumer::NotifdEventConsumer(ApiUtil *ptr) : EventConsumer(ptr),omni_thread((void *)ptr)
 {
-	cout3 << "calling Tango::NotifdEventConsumer::NotifdEventConsumer() \n";
+	TANGO_LOG_DEBUG << "calling Tango::NotifdEventConsumer::NotifdEventConsumer() \n";
 	orb_ = ptr->get_orb();
 
 	_instance = this;
@@ -191,7 +191,7 @@ void NotifdEventConsumer::cleanup_EventChannel_map()
 
                     // disconnect the pushsupplier to stop receiving events
 
-                    //cout << "EventConsumer::cleanup_EventChannel_map(): Disconnect push supplier!" << std::endl;
+                    //TANGO_LOG << "EventConsumer::cleanup_EventChannel_map(): Disconnect push supplier!" << std::endl;
 
                     evt_ch.structuredProxyPushSupplier->disconnect_structured_push_supplier();
                 }
@@ -660,7 +660,7 @@ void NotifdEventConsumer::push_structured_event(const CosNotification::Structure
 	std::string event_type(event.header.fixed_header.event_type.type_name);
 	std::string event_name(event.header.fixed_header.event_name);
 
-//	cout << "Received event: domain_name = " << domain_name << ", event_type = " << event_type << ", event_name = " << event_name << std::endl;
+//	TANGO_LOG << "Received event: domain_name = " << domain_name << ", event_type = " << event_type << ", event_name = " << event_name << std::endl;
 
 	bool svr_send_tg_host = false;
 
@@ -1124,8 +1124,8 @@ ReceivedFromAdmin NotifdEventConsumer::initialize_received_from_admin(TANGO_UNUS
 
 	result.channel_name = full_adm_name;
 
-	cout4 << "received_from_admin.event_name = " << result.event_name << std::endl;
-	cout4 << "received_from_admin.channel_name = " << result.channel_name << std::endl;
+	TANGO_LOG_DEBUG << "received_from_admin.event_name = " << result.event_name << std::endl;
+	TANGO_LOG_DEBUG << "received_from_admin.channel_name = " << result.channel_name << std::endl;
 	return result;
 }
 

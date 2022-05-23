@@ -40,7 +40,7 @@ bool IOVoid::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any
 CORBA::Any *IOVoid::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UNUSED(const CORBA::Any &in_any))
 {
   try {
-    cout << "[IOVoid::execute] " << std::endl;
+    TANGO_LOG << "[IOVoid::execute] " << std::endl;
     return insert();
   }
   catch (CORBA::Exception &e)
@@ -93,9 +93,9 @@ CORBA::Any *IOBool::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA:
   try {
     Tango::DevBoolean theNumber;
     extract(in_any,theNumber);
-    cout << "[IOBool::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOBool::execute] received number " << theNumber << std::endl;
     theNumber = !theNumber;
-    cout << "[IOBool::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOBool::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -147,9 +147,9 @@ CORBA::Any *IOShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA
   try {
     Tango::DevShort theNumber;
     extract(in_any,theNumber);
-    cout << "[IOShort::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOShort::execute] received number " << theNumber << std::endl;
     theNumber = theNumber * 2;
-    cout << "[IOShort::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOShort::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -201,10 +201,10 @@ CORBA::Any *IOLong::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
   try {
     Tango::DevLong theNumber;
     extract(in_any,theNumber);
-    cout << "[IOLong::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOLong::execute] received number " << theNumber << std::endl;
     DEV_DEBUG_STREAM(device) << "[IOLong::execute] received number " << theNumber;
     theNumber = theNumber * 2;
-    cout << "[IOLong::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOLong::execute] return number " << theNumber << std::endl;
     DEV_DEBUG_STREAM(device) << "[IOLong::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
@@ -258,10 +258,10 @@ CORBA::Any *IOLong64::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any
   try {
     Tango::DevLong theNumber;
     extract(in_any,theNumber);
-    cout << "[IOLong64::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOLong64::execute] received number " << theNumber << std::endl;
     DEV_DEBUG_STREAM(device) << "[IOLong64::execute] received number " << theNumber;
     theNumber = theNumber * 2;
-    cout << "[IOLong64::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOLong64::execute] return number " << theNumber << std::endl;
     DEV_DEBUG_STREAM(device) << "[IOLong64::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
@@ -314,9 +314,9 @@ CORBA::Any *IOFloat::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA
   try {
     Tango::DevFloat theNumber;
     extract(in_any,theNumber);
-    cout << "[IOFloat::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOFloat::execute] received number " << theNumber << std::endl;
     theNumber = theNumber * 2;
-    cout << "[IOFloat::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOFloat::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -369,9 +369,9 @@ CORBA::Any *IODouble::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORB
   try {
     Tango::DevDouble theNumber;
     extract(in_any,theNumber);
-    cout << "[IODouble::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IODouble::execute] received number " << theNumber << std::endl;
     theNumber = theNumber * 2;
-    cout << "[IODouble::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IODouble::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -424,9 +424,9 @@ CORBA::Any *IOUShort::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORB
   try {
     Tango::DevUShort theNumber;
     extract(in_any,theNumber);
-    cout << "[IOUShort::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOUShort::execute] received number " << theNumber << std::endl;
     theNumber = theNumber * 2;
-    cout << "[IOUShort::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOUShort::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -478,9 +478,9 @@ CORBA::Any *IOULong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA
   try {
     Tango::DevULong theNumber;
     extract(in_any,theNumber);
-    cout << "[IOULong::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOULong::execute] received number " << theNumber << std::endl;
     theNumber = theNumber * 2;
-    cout << "[IOULong::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOULong::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -534,9 +534,9 @@ CORBA::Any *IOULong64::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const COR
   try {
     Tango::DevULong64 theNumber;
     extract(in_any,theNumber);
-    cout << "[IOULong64::execute] received number " << theNumber << std::endl;
+    TANGO_LOG << "[IOULong64::execute] received number " << theNumber << std::endl;
     theNumber = theNumber * 2;
-    cout << "[IOULong64::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[IOULong64::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -586,7 +586,7 @@ bool IOString::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::A
 CORBA::Any *IOString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
 {
 
-	cout2 << "[IOString::execute] arrived" << std::endl;
+	TANGO_LOG_INFO << "[IOString::execute] arrived" << std::endl;
 	try {
 
 	  Tango::DevString theWord;
@@ -596,13 +596,13 @@ CORBA::Any *IOString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORB
 	  std::string::reverse_iterator currentChar(firstWord.rbegin());
 	  std::string::reverse_iterator endChar(firstWord.rend());
 
-	  cout << "[IOString::execute] firstWord = " << firstWord << std::endl;
+	  TANGO_LOG << "[IOString::execute] firstWord = " << firstWord << std::endl;
 
 	  for ( ; currentChar != endChar; currentChar++) {
-	    cout << "[IOString::execute]  currentChar = " << *currentChar <<std::endl;
+	    TANGO_LOG << "[IOString::execute]  currentChar = " << *currentChar <<std::endl;
 	    palindrome += *currentChar;
 	  }
-	  cout << "[IOString::execute] palindrome = " << palindrome << std::endl;
+	  TANGO_LOG << "[IOString::execute] palindrome = " << palindrome << std::endl;
 	  return insert(palindrome.c_str());
 	}
 	catch (CORBA::Exception &e)
@@ -651,13 +651,13 @@ bool IOCharArray::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA
 CORBA::Any *IOCharArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const CORBA::Any &in_any)
 {
   try {
-    cout << "[IOCharArray::execute] entering "  << std::endl;
+    TANGO_LOG << "[IOCharArray::execute] entering "  << std::endl;
     const Tango::DevVarCharArray *theCharArray;
     extract(in_any,theCharArray);
     Tango::DevVarCharArray *theReturnedArray = new Tango::DevVarCharArray();
     theReturnedArray->length(theCharArray->length());
     for (unsigned int i=0; i<theCharArray->length(); i++) {
-      cout << "[IOCharArray::execute] received char " << (*theCharArray)[i] << std::endl;
+      TANGO_LOG << "[IOCharArray::execute] received char " << (*theCharArray)[i] << std::endl;
       (*theReturnedArray)[theCharArray->length()-i-1] = (*theCharArray)[i] ;
     }
     return insert(theReturnedArray);
@@ -715,9 +715,9 @@ CORBA::Any *IOShortArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
     Tango::DevVarShortArray *theReturnedArray = new Tango::DevVarShortArray();
     theReturnedArray->length(theNumberArray->length());
     for (unsigned int i=0; i<theNumberArray->length(); i++) {
-      cout << "[IOShortArray::execute] received number " << (*theNumberArray)[i] << std::endl;
+      TANGO_LOG << "[IOShortArray::execute] received number " << (*theNumberArray)[i] << std::endl;
       (*theReturnedArray)[i] = (*theNumberArray)[i] * 2;
-      cout << "[IOShortArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[IOShortArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -774,9 +774,9 @@ CORBA::Any *IOLongArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const C
     Tango::DevVarLongArray *theReturnedArray = new Tango::DevVarLongArray();
     theReturnedArray->length(theNumberArray->length());
     for (unsigned int i=0; i<theNumberArray->length(); i++) {
-      cout << "[IOLongArray::execute] received number " << (*theNumberArray)[i] << std::endl;
+      TANGO_LOG << "[IOLongArray::execute] received number " << (*theNumberArray)[i] << std::endl;
       (*theReturnedArray)[i] = (*theNumberArray)[i] * 2;
-      cout << "[IOLongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[IOLongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -833,9 +833,9 @@ CORBA::Any *IOFloatArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
     Tango::DevVarFloatArray *theReturnedArray = new Tango::DevVarFloatArray();
     theReturnedArray->length(theNumberArray->length());
     for (unsigned int i=0; i<theNumberArray->length(); i++) {
-      cout << "[IOFloatArray::execute] received number " << (*theNumberArray)[i] << std::endl;
+      TANGO_LOG << "[IOFloatArray::execute] received number " << (*theNumberArray)[i] << std::endl;
       (*theReturnedArray)[i] = (*theNumberArray)[i] * 2;
-      cout << "[IOFloatArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[IOFloatArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -891,9 +891,9 @@ CORBA::Any *IODoubleArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
     Tango::DevVarDoubleArray *theReturnedArray = new Tango::DevVarDoubleArray();
     theReturnedArray->length(theNumberArray->length());
     for (unsigned int i=0; i<theNumberArray->length(); i++) {
-      cout << "[IODoubleArray::execute] received number " << (*theNumberArray)[i] << std::endl;
+      TANGO_LOG << "[IODoubleArray::execute] received number " << (*theNumberArray)[i] << std::endl;
       (*theReturnedArray)[i] = (*theNumberArray)[i] * 2;
-      cout << "[IODoubleArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[IODoubleArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -950,9 +950,9 @@ CORBA::Any *IOUShortArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
     Tango::DevVarUShortArray *theReturnedArray = new Tango::DevVarUShortArray();
     theReturnedArray->length(theNumberArray->length());
     for (unsigned int i=0; i<theNumberArray->length(); i++) {
-      cout << "[IOUShortArray::execute] received number " << (*theNumberArray)[i] << std::endl;
+      TANGO_LOG << "[IOUShortArray::execute] received number " << (*theNumberArray)[i] << std::endl;
       (*theReturnedArray)[i] = (*theNumberArray)[i] * 2;
-      cout << "[IOUShortArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[IOUShortArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -1009,9 +1009,9 @@ CORBA::Any *IOULongArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
     Tango::DevVarULongArray *theReturnedArray = new Tango::DevVarULongArray();
     theReturnedArray->length(theNumberArray->length());
     for (unsigned int i=0; i<theNumberArray->length(); i++) {
-      cout << "[IOULongArray::execute] received number " << (*theNumberArray)[i] << std::endl;
+      TANGO_LOG << "[IOULongArray::execute] received number " << (*theNumberArray)[i] << std::endl;
       (*theReturnedArray)[i] = (*theNumberArray)[i] * 2;
-      cout << "[IOULongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[IOULongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -1067,9 +1067,9 @@ CORBA::Any *IOStringArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const
     Tango::DevVarStringArray *theReturnedArray = new Tango::DevVarStringArray();
     theReturnedArray->length(theStringArray->length());
     for (unsigned int i=0; i<theStringArray->length(); i++) {
-      cout << "[IOStringArray::execute] received String " << (*theStringArray)[i].in() << std::endl;
+      TANGO_LOG << "[IOStringArray::execute] received String " << (*theStringArray)[i].in() << std::endl;
       (*theReturnedArray)[theStringArray->length()-i-1] = (*theStringArray)[i] ;
-      cout << "[IOStringArray::execute] return String " << (*theReturnedArray)[i].in() << std::endl;
+      TANGO_LOG << "[IOStringArray::execute] return String " << (*theReturnedArray)[i].in() << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -1128,15 +1128,15 @@ CORBA::Any *IOLongString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const 
 
     ((*theReturned).lvalue).length(((*theReceived).lvalue).length());
     for (i=0; i<((*theReceived).lvalue).length(); i++) {
-      cout << "[IOLongString::execute] received number " << (*theReceived).lvalue[i] << std::endl;
+      TANGO_LOG << "[IOLongString::execute] received number " << (*theReceived).lvalue[i] << std::endl;
       (*theReturned).lvalue[i] = (*theReceived).lvalue[i] * 2;
-      cout << "[IOLongString::execute] return number " << (*theReturned).lvalue[i] << std::endl;
+      TANGO_LOG << "[IOLongString::execute] return number " << (*theReturned).lvalue[i] << std::endl;
     }
     ((*theReturned).svalue).length(((*theReceived).svalue).length());
     for (i=0; i<((*theReceived).svalue).length(); i++) {
-      cout << "[IOLongString::execute] received string " << (*theReceived).svalue[i].in() << std::endl;
+      TANGO_LOG << "[IOLongString::execute] received string " << (*theReceived).svalue[i].in() << std::endl;
       (*theReturned).svalue[i] = Tango::string_dup((*theReceived).svalue[i]);
-      cout << "[IOLongString::execute] return string " << (*theReturned).svalue[i].in() << std::endl;
+      TANGO_LOG << "[IOLongString::execute] return string " << (*theReturned).svalue[i].in() << std::endl;
     }
     return insert(theReturned);
   }
@@ -1196,15 +1196,15 @@ CORBA::Any *IODoubleString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
     extract(in_any,theReceived);
     ((*theReturned).dvalue).length(((*theReceived).dvalue).length());
     for (i=0; i<((*theReceived).dvalue).length(); i++) {
-      cout << "[IODoubleString::execute] received number " << (*theReceived).dvalue[i] << std::endl;
+      TANGO_LOG << "[IODoubleString::execute] received number " << (*theReceived).dvalue[i] << std::endl;
       (*theReturned).dvalue[i] = (*theReceived).dvalue[i] * 2;
-      cout << "[IODoubleString::execute] return number " << (*theReturned).dvalue[i] << std::endl;
+      TANGO_LOG << "[IODoubleString::execute] return number " << (*theReturned).dvalue[i] << std::endl;
     }
     ((*theReturned).svalue).length(((*theReceived).svalue).length());
     for (i=0; i<((*theReceived).svalue).length(); i++) {
-      cout << "[IODoubleString::execute] received string " << (*theReceived).svalue[i].in() << std::endl;
+      TANGO_LOG << "[IODoubleString::execute] received string " << (*theReceived).svalue[i].in() << std::endl;
       (*theReturned).svalue[i] = (*theReceived).svalue[i];
-      cout << "[IODoubleString::execute] return string " << (*theReturned).svalue[i].in() << std::endl;
+      TANGO_LOG << "[IODoubleString::execute] return string " << (*theReturned).svalue[i].in() << std::endl;
     }
     return insert(theReturned);
   }
@@ -1262,7 +1262,7 @@ CORBA::Any *IOBooleanArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),cons
         Tango::DevVarBooleanArray *theReturnedArray = new Tango::DevVarBooleanArray();
         theReturnedArray->length(booleanArray->length());
         for (unsigned int i=0; i<booleanArray->length(); i++) {
-            cout << "[IOBoolArray::execute] received bool " << (*booleanArray)[i] << std::endl;
+            TANGO_LOG << "[IOBoolArray::execute] received bool " << (*booleanArray)[i] << std::endl;
             (*theReturnedArray)[i] = (*booleanArray)[i];
         }
         return insert(theReturnedArray);
@@ -1315,7 +1315,7 @@ CORBA::Any *OLong::execute(Tango::DeviceImpl *device,TANGO_UNUSED(const CORBA::A
 {
   try {
     long theNumber = 22;
-    cout << "[OLong::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[OLong::execute] return number " << theNumber << std::endl;
     DEV_DEBUG_STREAM(device) << "[OLong::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
@@ -1368,7 +1368,7 @@ CORBA::Any *OULong::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UNUSED
 {
   try {
     unsigned long theNumber = 333;
-    cout << "[OULong::execute] return number " << theNumber << std::endl;
+    TANGO_LOG << "[OULong::execute] return number " << theNumber << std::endl;
     return insert(theNumber);
   }
   catch (CORBA::Exception &e)
@@ -1423,7 +1423,7 @@ CORBA::Any *OLongArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UN
     theReturnedArray->length(4);
     for (int i=0; i<4; i++) {
       (*theReturnedArray)[i] = 555 + i;
-      cout << "[OLongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[OLongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -1479,7 +1479,7 @@ CORBA::Any *OULongArray::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_U
     theReturnedArray->length(3);
     for (int i=0; i<3; i++) {
       (*theReturnedArray)[i] = 777 + i;
-      cout << "[OULongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
+      TANGO_LOG << "[OULongArray::execute] return number " << (*theReturnedArray)[i] << std::endl;
     }
     return insert(theReturnedArray);
   }
@@ -1537,12 +1537,12 @@ CORBA::Any *OLongString::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_U
     ((*theReturned).lvalue).length(6);
     for (i=0; i<6; i++) {
       (*theReturned).lvalue[i] = 999 + i;
-      cout << "[OLongString::execute] return number " << (*theReturned).lvalue[i] << std::endl;
+      TANGO_LOG << "[OLongString::execute] return number " << (*theReturned).lvalue[i] << std::endl;
     }
     ((*theReturned).svalue).length(1);
     for (i=0; i<1; i++) {
       (*theReturned).svalue[i] = Tango::string_dup("Hola todos");
-      cout << "[OLongString::execute] return string " << (*theReturned).svalue[i].in() << std::endl;
+      TANGO_LOG << "[OLongString::execute] return string " << (*theReturned).svalue[i].in() << std::endl;
     }
     return insert(theReturned);
   }
@@ -1598,11 +1598,11 @@ CORBA::Any *IOEncoded::execute(TANGO_UNUSED(Tango::DeviceImpl *device),const COR
     extract(in_any,the_enc);
     Tango::DevEncoded *theReturned_enc = new Tango::DevEncoded();
     theReturned_enc->encoded_data.length(the_enc->encoded_data.length());
-    cout << "[IOEncoded::execute] received string " << the_enc->encoded_format << std::endl;
+    TANGO_LOG << "[IOEncoded::execute] received string " << the_enc->encoded_format << std::endl;
     for (unsigned int i=0; i<the_enc->encoded_data.length(); i++) {
-      cout << "[IOEncoded::execute] received number " << (int)the_enc->encoded_data[i] << std::endl;
+      TANGO_LOG << "[IOEncoded::execute] received number " << (int)the_enc->encoded_data[i] << std::endl;
       theReturned_enc->encoded_data[i] = the_enc->encoded_data[i] * 2;
-      cout << "[IOEncoded::execute] returned number " << (int)theReturned_enc->encoded_data[i] << std::endl;
+      TANGO_LOG << "[IOEncoded::execute] returned number " << (int)theReturned_enc->encoded_data[i] << std::endl;
     }
     theReturned_enc->encoded_format = Tango::string_dup("Returned string");
     return insert(theReturned_enc);

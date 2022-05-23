@@ -207,5 +207,4 @@ public:
 		TS_ASSERT_EQUALS(bl, 0);
 	}
 };
-#undef cout
 #endif // AttrWriteTestSuite_h

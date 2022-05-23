@@ -2,6 +2,7 @@
 #define GroupTestSuite_h
 
 #include <ctime>
+
 #include "cxx_common.h"
 
 #undef SUITE_NAME
@@ -861,5 +862,4 @@ public:
 	}
 
 };
-#undef cout
 #endif // GroupTestSuite_h

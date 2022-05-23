@@ -497,7 +497,7 @@ public :
  *    {
  *       ....
  *    }
- *    cout << "Received value = " << (*out)[0];
+ *    std::cout << "Received value = " << (*out)[0];
  *    delete out;
  * }
  * @endcode
@@ -955,12 +955,12 @@ public :
  * DeviceAttribute da;
  *
  * std::bitset<DeviceAttribute::numFlags> bs = da.exceptions();
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  *
  * da.set_exceptions(DeviceAttribute::wrongtype_flag);
  * bs = da.exceptions();
  *
- * cout << "bs = " << bs << std::endl;
+ * std::cout << "bs = " << bs << std::endl;
  * @endcode
  *
  * @return The exception flag
@@ -1143,7 +1143,7 @@ public :
  * }
  * else
  * {
- *     cout << " no parity attribute defined for serial line !" << std::endl;
+ *     std::cout << " no parity attribute defined for serial line !" << std::endl;
  * }
  * @endcode
  *
@@ -1253,10 +1253,10 @@ public :
  * long written = da.get_nb_written();
  *
  * for (long i = 0;i < read;i++)
- *    cout << "Read value " << i+1 << " = " << attr_data[i] << std::endl;
+ *    std::cout << "Read value " << i+1 << " = " << attr_data[i] << std::endl;
  *
  * for (long j = 0; j < written;j++)
- *    cout << "Last written value " << j+1 << " = " << attr_data[j + read] << std::endl;
+ *    std::cout << "Last written value " << j+1 << " = " << attr_data[j + read] << std::endl;
  * @endcode
  *
  * @return The read value number

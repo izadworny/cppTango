@@ -3,8 +3,6 @@
 
 #include "cxx_common.h"
 
-#define coutv_cb 	if (parent->verbose == true) cout << "\t"
-
 #undef SUITE_NAME
 #define SUITE_NAME FwdAttTestSuite
 
@@ -14,16 +12,13 @@ protected:
 	class EventCallBack : public Tango::CallBack
 	{
 	public:
-		EventCallBack(FwdAttTestSuite *ptr):parent(ptr) {}
+		EventCallBack(FwdAttTestSuite *) {}
 		void push_event(Tango::EventData*);
 
 		int 		cb_executed;
 		int 		cb_err;
 		DevShort 	val;
 		string		ev_name;
-
-	private:
-		FwdAttTestSuite	*parent;
 	};
 
 	DeviceProxy 			*device1,*device2,*fwd_device;
@@ -34,8 +29,6 @@ protected:
 	AttributeInfoListEx 	*confs;
 	string 					fwd_device_name;
 	DeviceProxy 			*root_admin,*ad;
-
-	bool					verbose;
 
 public:
 	SUITE_NAME()
@@ -51,8 +44,6 @@ public:
 		device2_name = CxxTest::TangoPrinter::get_param("device2");
 		full_ds_name = CxxTest::TangoPrinter::get_param("fulldsname");
 		fwd_device_name = CxxTest::TangoPrinter::get_param_loc("fwd_device");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();
@@ -102,7 +93,7 @@ public:
 			if (reason == API_AttrNotFound)
 			{
 				string status = fwd_device->status();
-				cout << "Forward device status = " << status << endl;
+				TEST_LOG << "Forward device status = " << status << endl;
 			}
 			exit(-1);
 		}
@@ -453,7 +444,7 @@ public:
 		string local_root_base("tango://");
 		local_root_base = local_root_base + tango_host + "/" +device1_name;
 		string local_root = local_root_base + "/short_attr_rw";
-		cout << (*confs)[0].root_attr_name << "==" << local_root << endl;
+		TEST_LOG << (*confs)[0].root_attr_name << "==" << local_root << endl;
 		TS_ASSERT_EQUALS((*confs)[0].root_attr_name, local_root);
 
 		TS_ASSERT_EQUALS((*confs)[0].writable, Tango::READ_WRITE);
@@ -819,7 +810,7 @@ public:
 			TS_ASSERT_EQUALS(state_attr.quality, Tango::ATTR_VALID);
 			TS_ASSERT_EQUALS(state_attr.dim_x, 1);
 			TS_ASSERT_EQUALS(state_attr.dim_y, 0);
-			cout << "the_state = " << the_state << endl;
+			TEST_LOG << "the_state = " << the_state << endl;
 			TS_ASSERT_EQUALS(the_state, Tango::ON);
 		}
 		else
@@ -835,7 +826,7 @@ void FwdAttTestSuite::EventCallBack::push_event(Tango::EventData* event_data)
 	ev_name = event_data->attr_name;
 	try
 	{
-		coutv_cb << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << endl;
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << endl;
 		if (!event_data->err)
 		{
 			*(event_data->attr_value) >> val;
@@ -847,9 +838,8 @@ void FwdAttTestSuite::EventCallBack::push_event(Tango::EventData* event_data)
 	}
 	catch (...)
 	{
-		coutv_cb << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 }
 
-#undef cout
 #endif // FwdTestSuite_h

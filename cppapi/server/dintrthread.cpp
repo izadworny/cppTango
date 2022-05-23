@@ -143,7 +143,7 @@ DevIntrCmdType DevIntrThread::get_command(DevLong tout)
 
 	if (shared_data.cmd_pending == false)
 	{
-		cout4 << "DevIntrThread:: Going to wait on monitor" << std::endl;
+		TANGO_LOG_DEBUG << "DevIntrThread:: Going to wait on monitor" << std::endl;
 		p_mon.wait(tout);
 	}
 
@@ -233,13 +233,13 @@ void DevIntrThread::execute_cmd()
 
 void DevIntrThread::push_event()
 {
-	cout4 << "Device interface change event thread pushing event!" << std::endl;
+	TANGO_LOG_DEBUG << "Device interface change event thread pushing event!" << std::endl;
 
 	AutoTangoMonitor sync(dev,true);
 
 	if (shared_data.interface.has_changed(dev) == true)
 	{
-		cout4 << "Device interface has changed" << std::endl;
+		TANGO_LOG_DEBUG << "Device interface has changed" << std::endl;
 
 		Device_5Impl *dev_5 = static_cast<Device_5Impl *>(dev);
 		DevCmdInfoList_2 *cmds_list = dev_5->command_list_query_2();

@@ -69,8 +69,7 @@ inline const char* basename(const char* path)
 
 #ifdef _TANGO_LIB //== compiling TANGO lib ====================
 
-//-- Overwrite std::cout  -------------------------------------
-#define cout                                                \
+#define TANGO_LOG                                                \
     if (API_LOGGER)                                         \
       API_LOGGER->get_stream(log4tango::Level::INFO, false) \
         << log4tango::LogInitiator::_begin_log              \
@@ -79,30 +78,25 @@ inline const char* basename(const char* path)
 
 #else
 
-#define cout std::cout
+#define TANGO_LOG std::cout
 
 #endif //== compiling TANGO lib ===============================
 
-// Map. cout1..2 to INFO level --------------------------------
-#define cout1                                      \
+// Map. TANGO_LOG_INFO to INFO level --------------------------------
+#define TANGO_LOG_INFO                             \
   if (API_LOGGER && API_LOGGER->is_info_enabled()) \
     API_LOGGER->info_stream()                      \
       << log4tango::LogInitiator::_begin_log       \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
-#define cout2 cout1
-
-// Map. cout3..5 to DEBUG level -------------------------------
-#define cout3                                       \
+// Map. TANGO_LOG_DEBUG to DEBUG level -------------------------------
+#define TANGO_LOG_DEBUG                                       \
   if (API_LOGGER && API_LOGGER->is_debug_enabled()) \
     API_LOGGER->debug_stream()                      \
       << log4tango::LogInitiator::_begin_log        \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
-
-#define cout4 cout3
-#define cout5 cout4
 
 namespace Tango {
 

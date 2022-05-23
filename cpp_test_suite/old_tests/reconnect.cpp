@@ -1,12 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		cout << "usage: %s device" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -23,7 +15,7 @@ int main(int argc, char **argv)
 	try 
 	{
 		device = new DeviceProxy(device_name);
-		cout << "new DeviceProxy() returned" << endl;
+		TEST_LOG << "new DeviceProxy() returned" << endl;
 
 		device->set_timeout_millis(1000);
 	}
@@ -36,17 +28,17 @@ int main(int argc, char **argv)
 
 	while (1)
 	{
-		cout << "Hit any key :" << endl;
+		TEST_LOG << "Hit any key :" << endl;
 		char bid;
 		cin >> bid;
 
 		try
 		{	
 //			device->ping();
-//			cout << "Ping successfull, device IDL version = ";
-//			cout << device->get_idl_version() << endl;
+//			TEST_LOG << "Ping successfull, device IDL version = ";
+//			TEST_LOG << device->get_idl_version() << endl;
 			device->command_inout("Status");
-			cout << "command_inout successfull" << endl;
+			TEST_LOG << "command_inout successfull" << endl;
 		}
 		catch (Tango::CommunicationFailed &e)
 		{
@@ -64,7 +56,7 @@ int main(int argc, char **argv)
 		}
 		catch (...)
 		{
-			cout << "Unknown exception" << endl;
+			TEST_LOG << "Unknown exception" << endl;
 		}
 		
 	}

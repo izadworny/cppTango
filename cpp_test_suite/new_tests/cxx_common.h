@@ -9,7 +9,6 @@
 using namespace std;
 using namespace Tango;
 
-#undef cout
-#define cout std::cout << "\t"
+#include "cxx_logging.h"
 
 #endif // CXXCommon_H

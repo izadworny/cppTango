@@ -834,7 +834,7 @@ void ApiUtil::clean_locking_threads(bool clean)
 
                     pos->second.mon->signal();
 
-                    cout4 << "Cmd sent to locking thread" << std::endl;
+                    TANGO_LOG_DEBUG << "Cmd sent to locking thread" << std::endl;
 
                     if (pos->second.shared->cmd_pending == true)
                     {

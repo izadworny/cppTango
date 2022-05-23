@@ -1,13 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
+#include "cxx_common_asyn.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device" << std::endl;
+		TEST_LOG << "usage: %s device" << std::endl;
 		exit(-1);
 	}
 
@@ -40,7 +31,7 @@ int main(int argc, char **argv)
 		long id;
 
 //		char key;
-//		cout << "Hit any key : ";
+//		TEST_LOG << "Hit any key : ";
 //		cin >> key;
 
 		id = device->command_inout_asynch("State",true);

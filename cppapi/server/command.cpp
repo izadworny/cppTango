@@ -636,103 +636,103 @@ namespace Tango {
 
     void TemplCommand::set_type(const std::type_info &data_type, Tango::CmdArgType &type) {
         if (data_type == typeid(void)) {
-            cout4 << "Command : " << name << ", Type is void" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is void" << std::endl;
             type = Tango::DEV_VOID;
         } else if (data_type == typeid(Tango::DevBoolean)) {
-            cout4 << "Command : " << name << ", Type is a boolean" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a boolean" << std::endl;
             type = Tango::DEV_BOOLEAN;
         } else if (data_type == typeid(Tango::DevShort)) {
-            cout4 << "Command : " << name << ", Type is a short" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a short" << std::endl;
             type = Tango::DEV_SHORT;
         } else if (data_type == typeid(Tango::DevLong)) {
-            cout4 << "Command : " << name << ", Type is a long" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a long" << std::endl;
             type = Tango::DEV_LONG;
         } else if (data_type == typeid(Tango::DevLong64)) {
-            cout4 << "Command : " << name << ", Type is a long64" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a long64" << std::endl;
             type = Tango::DEV_LONG64;
         } else if (data_type == typeid(Tango::DevFloat)) {
-            cout4 << "Command : " << name << ", Type is a float" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a float" << std::endl;
             type = Tango::DEV_FLOAT;
         } else if (data_type == typeid(Tango::DevDouble)) {
-            cout4 << "Command : " << name << ", Type is a double" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a double" << std::endl;
             type = Tango::DEV_DOUBLE;
         } else if (data_type == typeid(Tango::DevUShort)) {
-            cout4 << "Command : " << name << ", Type is an unsigned short" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is an unsigned short" << std::endl;
             type = Tango::DEV_USHORT;
         } else if (data_type == typeid(Tango::DevULong)) {
-            cout4 << "Command : " << name << ", Type is an unsigned long" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is an unsigned long" << std::endl;
             type = Tango::DEV_ULONG;
         } else if (data_type == typeid(Tango::DevULong64)) {
-            cout4 << "Command : " << name << ", Type is an unsigned long64" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is an unsigned long64" << std::endl;
             type = Tango::DEV_ULONG64;
         } else if (data_type == typeid(Tango::DevString)) {
-            cout4 << "Command : " << name << ", Type is a string" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a string" << std::endl;
             type = Tango::DEV_STRING;
         } else if ((data_type == typeid(Tango::DevVarCharArray)) ||
                    (data_type == typeid(const Tango::DevVarCharArray *)) ||
                    (data_type == typeid(Tango::DevVarCharArray *))) {
-            cout4 << "Command : " << name << ", Type is a char array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a char array" << std::endl;
             type = Tango::DEVVAR_CHARARRAY;
         } else if ((data_type == typeid(Tango::DevVarShortArray)) ||
                    (data_type == typeid(const Tango::DevVarShortArray *)) ||
                    (data_type == typeid(Tango::DevVarShortArray *))) {
-            cout4 << "Command : " << name << ", Type is a short array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a short array" << std::endl;
             type = Tango::DEVVAR_SHORTARRAY;
         } else if ((data_type == typeid(Tango::DevVarLongArray)) ||
                    (data_type == typeid(const Tango::DevVarLongArray *)) ||
                    (data_type == typeid(Tango::DevVarLongArray *))) {
-            cout4 << "Command : " << name << ", Type is a long array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a long array" << std::endl;
             type = Tango::DEVVAR_LONGARRAY;
         } else if ((data_type == typeid(Tango::DevVarLong64Array)) ||
                    (data_type == typeid(const Tango::DevVarLong64Array *)) ||
                    (data_type == typeid(Tango::DevVarLong64Array *))) {
-            cout4 << "Command : " << name << ", Type is a long64 array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a long64 array" << std::endl;
             type = Tango::DEVVAR_LONG64ARRAY;
         } else if ((data_type == typeid(Tango::DevVarFloatArray)) ||
                    (data_type == typeid(const Tango::DevVarFloatArray *)) ||
                    (data_type == typeid(Tango::DevVarFloatArray *))) {
-            cout4 << "Command : " << name << ", Type is a float array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a float array" << std::endl;
             type = Tango::DEVVAR_FLOATARRAY;
         } else if ((data_type == typeid(Tango::DevVarDoubleArray)) ||
                    (data_type == typeid(const Tango::DevVarDoubleArray *)) ||
                    (data_type == typeid(Tango::DevVarDoubleArray *))) {
-            cout4 << "Command : " << name << ", Type is a double array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a double array" << std::endl;
             type = Tango::DEVVAR_DOUBLEARRAY;
         } else if ((data_type == typeid(Tango::DevVarUShortArray)) ||
                    (data_type == typeid(const Tango::DevVarUShortArray *)) ||
                    (data_type == typeid(Tango::DevVarUShortArray *))) {
-            cout4 << "Command : " << name << ", Type is a unsigned short array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a unsigned short array" << std::endl;
             type = Tango::DEVVAR_USHORTARRAY;
         } else if ((data_type == typeid(Tango::DevVarULongArray)) ||
                    (data_type == typeid(const Tango::DevVarULongArray *)) ||
                    (data_type == typeid(Tango::DevVarULongArray *))) {
-            cout4 << "Command : " << name << ", Type is a unsigned long array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a unsigned long array" << std::endl;
             type = Tango::DEVVAR_ULONGARRAY;
         } else if ((data_type == typeid(Tango::DevVarULong64Array)) ||
                    (data_type == typeid(const Tango::DevVarULong64Array *)) ||
                    (data_type == typeid(Tango::DevVarULong64Array *))) {
-            cout4 << "Command : " << name << ", Type is a unsigned long64 array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a unsigned long64 array" << std::endl;
             type = Tango::DEVVAR_ULONG64ARRAY;
         } else if ((data_type == typeid(Tango::DevVarStringArray)) ||
                    (data_type == typeid(const Tango::DevVarStringArray *)) ||
                    (data_type == typeid(Tango::DevVarStringArray *))) {
-            cout4 << "Command : " << name << ", Type is a string array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a string array" << std::endl;
             type = Tango::DEVVAR_STRINGARRAY;
         } else if ((data_type == typeid(Tango::DevVarLongStringArray)) ||
                    (data_type == typeid(const Tango::DevVarLongStringArray *)) ||
                    (data_type == typeid(Tango::DevVarLongStringArray *))) {
-            cout4 << "Command : " << name << ", Type is a long + string array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a long + string array" << std::endl;
             type = Tango::DEVVAR_LONGSTRINGARRAY;
         } else if ((data_type == typeid(Tango::DevVarDoubleStringArray)) ||
                    (data_type == typeid(const Tango::DevVarDoubleStringArray *)) ||
                    (data_type == typeid(Tango::DevVarDoubleStringArray *))) {
-            cout4 << "Command : " << name << ", Type is a double + string array" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a double + string array" << std::endl;
             type = Tango::DEVVAR_DOUBLESTRINGARRAY;
         } else if (data_type == typeid(Tango::DevState)) {
-            cout4 << "Command : " << name << ", Type is a DevState" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Type is a DevState" << std::endl;
             type = Tango::DEV_STATE;
         } else {
-            cout4 << "Command : " << name << ", Unknown type" << std::endl;
+            TANGO_LOG_DEBUG << "Command : " << name << ", Unknown type" << std::endl;
             TangoSys_OMemStream o;
 
             o << "Command " << name << " defined with an unsupported type" << std::ends;

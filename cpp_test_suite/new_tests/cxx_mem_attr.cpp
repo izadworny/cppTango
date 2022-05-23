@@ -57,7 +57,7 @@ public:
 		}
 		catch(CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -217,5 +217,4 @@ public:
     }
 };
 
-#undef cout
 #endif // MemAttrTestSuite_h

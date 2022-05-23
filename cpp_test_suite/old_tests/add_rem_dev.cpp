@@ -1,16 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -18,17 +6,11 @@ int main(int argc, char **argv)
 	
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
-	
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{
@@ -40,7 +22,7 @@ int main(int argc, char **argv)
 		exit(1);
     }
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	try
 	{	

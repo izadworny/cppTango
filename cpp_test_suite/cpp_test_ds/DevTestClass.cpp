@@ -35,11 +35,11 @@ DevTestClass *DevTestClass::_instance = NULL;
 DevTestClass::DevTestClass(std::string &s):Tango::DeviceClass(s)
 {
 
-	cout2 << "Entering DevTestClass constructor" << std::endl;
+	TANGO_LOG_INFO << "Entering DevTestClass constructor" << std::endl;
 
 	set_type("TestDevice");
 
-	cout2 << "Leaving DevTestClass constructor" << std::endl;
+	TANGO_LOG_INFO << "Leaving DevTestClass constructor" << std::endl;
 
 }
 
@@ -661,7 +661,7 @@ void DevTestClass::command_factory()
 
 void DevTestClass::device_factory(const Tango::DevVarStringArray *devlist_ptr) {
   for (unsigned long i = 0;i < devlist_ptr->length();i++) {
-    cout4 << "Device name : " << (*devlist_ptr)[i] << std::endl;
+    TANGO_LOG_DEBUG << "Device name : " << (*devlist_ptr)[i] << std::endl;
 //
 // Create device and add it into the device list
 //
@@ -692,7 +692,7 @@ void DevTestClass::signal_handler(long signo)
 // With logging, we must attach a log message to a device
 //
 
-	cout1 << "[Class signal handler] received signal number "
+	TANGO_LOG_INFO << "[Class signal handler] received signal number "
 	      << signo
 	      << " for class "
 	      << name

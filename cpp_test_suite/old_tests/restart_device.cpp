@@ -1,3 +1,5 @@
+#include "cxx_common_old.h"
+
 /* 
  * Send the DevRestart command to the admin device of the
  * server in charg eof the device with name given as parameter.
@@ -9,35 +11,19 @@
  *   2 : All other exceptions
  */
 
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
-
 int main(int argc, char **argv)
 {
 	DeviceProxy *device;
 	
 	if ((argc < 3) || (argc > 4))
 	{
-		cout << "usage: restart_device device cmd [-v] " << endl;
+		TEST_LOG << "usage: restart_device device cmd" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
 	string cmd_name = argv[2];
 	transform(cmd_name.begin(),cmd_name.end(),cmd_name.begin(),::tolower);
-	
-	if (argc == 4)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{

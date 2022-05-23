@@ -1,32 +1,16 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
+#include "cxx_common_asyn.h"
 
 int main(int argc, char **argv)
 {
 	DeviceProxy *device;
-	bool verbose = false;
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
-
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -38,7 +22,7 @@ int main(int argc, char **argv)
 		exit(1);
         }
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 
 	try
@@ -78,7 +62,7 @@ int main(int argc, char **argv)
 			catch (AsynReplyNotArrived&)
 			{
 				finish = false;
-				coutv << "Attributes not yet written" << std::endl;
+				TEST_LOG << "Attributes not yet written" << std::endl;
 				nb_not_arrived++;
 			}
 			if (finish == false)
@@ -87,7 +71,7 @@ int main(int argc, char **argv)
 
 		assert ( nb_not_arrived >= 2);
 
-		cout << "   Asynchronous write_attributes in polling mode --> OK" << std::endl;
+		TEST_LOG << "   Asynchronous write_attributes in polling mode --> OK" << std::endl;
 
 // Write attribute to check polling with blocking with timeout
 
@@ -107,14 +91,14 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Attributes not yet written" << std::endl;
+				TEST_LOG << "Attributes not yet written" << std::endl;
 				nb_not_arrived++;
 			}
 		}
 
 		assert ( nb_not_arrived >= 4);
 
-		cout << "   Asynchronous write_attributes in blocking mode with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Asynchronous write_attributes in blocking mode with call timeout --> OK" << std::endl;
 
 // Write an attribute to check polling with blocking
 
@@ -125,7 +109,7 @@ int main(int argc, char **argv)
 
 		device->write_attributes_reply(id,0);
 
-		cout << "   Asynchronous write_attributes in blocking mode --> OK" << std::endl;
+		TEST_LOG << "   Asynchronous write_attributes in blocking mode --> OK" << std::endl;
 
 //---------------------------------------------------------------------------
 //
@@ -158,7 +142,7 @@ int main(int argc, char **argv)
 			{
 				finish = false;
 				nb_not_arrived++;
-				coutv << "Attributes not yet written" << std::endl;
+				TEST_LOG << "Attributes not yet written" << std::endl;
 			}
 			catch (CommunicationFailed &e)
 			{
@@ -166,10 +150,10 @@ int main(int argc, char **argv)
 				if (strcmp(e.errors[1].reason,API_DeviceTimedOut) == 0)
 				{
 					to = true;
-					coutv << "Timeout exception" << std::endl;
+					TEST_LOG << "Timeout exception" << std::endl;
 				}
 				else
-					coutv << "Comm exception" << std::endl;
+					TEST_LOG << "Comm exception" << std::endl;
 			}
 			if (finish == false)
 				Tango_sleep(1);
@@ -177,7 +161,7 @@ int main(int argc, char **argv)
 		assert ( to == true );
 		assert ( nb_not_arrived >= 2 );
 
-		cout << "   Device timeout exception with non blocking write_attributes_reply --> OK" << std::endl;
+		TEST_LOG << "   Device timeout exception with non blocking write_attributes_reply --> OK" << std::endl;
 
 // Write an attribute to check timeout with polling and blocking with timeout
 
@@ -197,7 +181,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Attributes not yet written" << std::endl;
+				TEST_LOG << "Attributes not yet written" << std::endl;
 				nb_not_arrived++;
 			}
 			catch (CommunicationFailed &e)
@@ -206,16 +190,16 @@ int main(int argc, char **argv)
 				if (strcmp(e.errors[1].reason,API_DeviceTimedOut) == 0)
 				{
 					to = true;
-					coutv << "Timeout exception" << std::endl;
+					TEST_LOG << "Timeout exception" << std::endl;
 				}
 				else
-					coutv << "Comm exception" << std::endl;
+					TEST_LOG << "Comm exception" << std::endl;
 			}
 		}
 		assert( to == true );
 		assert( nb_not_arrived >= 2);
 
-		cout << "   Device timeout with blocking write_attributes_reply with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Device timeout with blocking write_attributes_reply with call timeout --> OK" << std::endl;
 
 // Write an attribute to check polling with blocking
 
@@ -234,14 +218,14 @@ int main(int argc, char **argv)
 			if (strcmp(e.errors[1].reason,API_DeviceTimedOut) == 0)
 			{
 				to = true;
-				coutv << "Timeout exception" << std::endl;
+				TEST_LOG << "Timeout exception" << std::endl;
 			}
 			else
-				coutv << "Comm exception" << std::endl;
+				TEST_LOG << "Comm exception" << std::endl;
 		}
 		assert(to == true );
 
-		cout << "   Device timeout with blocking write_attributes_reply --> OK" << std::endl;
+		TEST_LOG << "   Device timeout with blocking write_attributes_reply --> OK" << std::endl;
 
 //---------------------------------------------------------------------------
 //
@@ -249,7 +233,7 @@ int main(int argc, char **argv)
 //
 //---------------------------------------------------------------------------
 
-		cout << "   Waiting for server to execute all previous requests" << std::endl;
+		TEST_LOG << "   Waiting for server to execute all previous requests" << std::endl;
 		Tango_sleep(5);
 
 // Change timeout in order to test asynchronous calls and DevFailed exception
@@ -280,7 +264,7 @@ int main(int argc, char **argv)
 			{
 				finish = false;
 				nb_not_arrived++;
-				coutv << "Attribute not yet written" << std::endl;
+				TEST_LOG << "Attribute not yet written" << std::endl;
 			}
 			catch (NamedDevFailedList &e)
 			{
@@ -290,12 +274,12 @@ int main(int argc, char **argv)
 				if (strcmp(e.err_list[0].err_stack[0].reason,"aaa") == 0)
 				{
 					failed = true;
-					coutv << "Server exception" << std::endl;
+					TEST_LOG << "Server exception" << std::endl;
 				}
 			}
 			catch (DevFailed &e)
 			{
-				coutv << "Comm exception" << std::endl;
+				TEST_LOG << "Comm exception" << std::endl;
 			}
 			if (finish == false)
 				Tango_sleep(1);
@@ -305,7 +289,7 @@ int main(int argc, char **argv)
 		assert ( faulty_idx == 0 );
 		assert ( nb_not_arrived >= 2);
 
-		cout << "   Device exception with non blocking write_attributes_reply --> OK" << std::endl;
+		TEST_LOG << "   Device exception with non blocking write_attributes_reply --> OK" << std::endl;
 
 // Write an attribute to check timeout with polling and blocking with timeout
 
@@ -327,7 +311,7 @@ int main(int argc, char **argv)
 			}
 			catch (AsynReplyNotArrived&)
 			{
-				coutv << "Attribute not yet written" << std::endl;
+				TEST_LOG << "Attribute not yet written" << std::endl;
 			}
 			catch (NamedDevFailedList &e)
 			{
@@ -337,19 +321,19 @@ int main(int argc, char **argv)
 				if (strcmp(e.err_list[0].err_stack[0].reason,"aaa") == 0)
 				{
 					failed = true;
-					coutv << "Server exception" << std::endl;
+					TEST_LOG << "Server exception" << std::endl;
 				}
 			}
 			catch (DevFailed &e)
 			{
-				coutv << "Comm exception" << std::endl;
+				TEST_LOG << "Comm exception" << std::endl;
 			}
 		}
 		assert( failed == true );
 		assert ( nb_except == 1 );
 		assert ( faulty_idx == 0 );
 
-		cout << "   Device exception with blocking write_attributes_reply with call timeout --> OK" << std::endl;
+		TEST_LOG << "   Device exception with blocking write_attributes_reply with call timeout --> OK" << std::endl;
 
 // Write an attribute to check polling with blocking
 
@@ -373,19 +357,19 @@ int main(int argc, char **argv)
 			if (strcmp(e.err_list[0].err_stack[0].reason,"aaa") == 0)
 			{
 				failed = true;
-				coutv << "Server exception" << std::endl;
+				TEST_LOG << "Server exception" << std::endl;
 			}
 		}
 		catch (DevFailed &e)
 		{
-			coutv << "Comm exception" << std::endl;
+			TEST_LOG << "Comm exception" << std::endl;
 		}
 
 		assert(failed == true );
 		assert ( nb_except == 1 );
 		assert ( faulty_idx == 0 );
 
-		cout << "   Device exception with blocking write_attributes_reply --> OK" << std::endl;
+		TEST_LOG << "   Device exception with blocking write_attributes_reply --> OK" << std::endl;
 
 	}
 	catch (Tango::DevFailed &e)

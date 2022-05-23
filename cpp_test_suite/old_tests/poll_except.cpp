@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc < 2)
 	{
-		cout << "Usage: %s device_name" << endl;
+		TEST_LOG << "Usage: %s device_name" << endl;
 		exit(-1);
 	}
 
@@ -32,7 +23,7 @@ int main(int argc, char **argv)
 		exit(1);
         }
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 	
 	while (true)
 	{	
@@ -44,11 +35,11 @@ int main(int argc, char **argv)
 			vector<string> *poll_str;
 			poll_str = device->polling_status();
 
-			cout << poll_str->size() << " object(s) polled for device" << endl;
-//			cout << endl;
+			TEST_LOG << poll_str->size() << " object(s) polled for device" << endl;
+//			TEST_LOG << endl;
 //			for (int i = 0;i < poll_str->size();i++)
-//				cout << "Polling status = " << (*poll_str)[i] << endl;
-			cout << endl;
+//				TEST_LOG << "Polling status = " << (*poll_str)[i] << endl;
+			TEST_LOG << endl;
 
 			delete poll_str;
 		}
@@ -57,7 +48,7 @@ int main(int argc, char **argv)
 			Except::print_exception(e);
 		}
 		
-		cout << "Hit any key :" << endl;
+		TEST_LOG << "Hit any key :" << endl;
 		char bid;
 		cin >> bid;		
 

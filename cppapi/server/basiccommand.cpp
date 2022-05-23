@@ -68,7 +68,7 @@ DevStatusCmd::DevStatusCmd(const char *name,Tango::CmdArgType in,Tango::CmdArgTy
 CORBA::Any *DevStatusCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 
-	cout4 << "DevStatus::execute(): arrived " << std::endl;
+	TANGO_LOG_DEBUG << "DevStatus::execute(): arrived " << std::endl;
 
 //
 // return status string as Any
@@ -97,7 +97,7 @@ CORBA::Any *DevStatusCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::
 		throw;
 	}
 
-	cout4 << "Leaving DevStatus::execute()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DevStatus::execute()" << std::endl;
 	return out_any;
 
 }
@@ -130,7 +130,7 @@ DevStateCmd::DevStateCmd(const char *name,Tango::CmdArgType in, Tango::CmdArgTyp
 CORBA::Any *DevStateCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
 
-	cout4 << "DevState::execute(): arrived" << std::endl;
+	TANGO_LOG_DEBUG << "DevState::execute(): arrived" << std::endl;
 
 //
 // return state as Any
@@ -160,7 +160,7 @@ CORBA::Any *DevStateCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::A
 		throw;
 	}
 
-	cout4 << "Leaving DevState::execute()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DevState::execute()" << std::endl;
 	return out_any;
 }
 
@@ -196,7 +196,7 @@ DevInitCmd::DevInitCmd(const char *name,Tango::CmdArgType in, Tango::CmdArgType 
 
 CORBA::Any *DevInitCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-	cout4 << "Init::execute(): arrived" << std::endl;
+	TANGO_LOG_DEBUG << "Init::execute(): arrived" << std::endl;
 
 //
 // Get device interface only if necessary (some client(s) listening on device interface change event)

@@ -564,7 +564,7 @@ public :
  *
  * for (int i = 0;i < hist_depth;i++)
  * {
- *    cout << (*hist)[i] << std::endl;
+ *    std::cout << (*hist)[i] << std::endl;
  * }
  * delete hist;
  * @endcode
@@ -663,7 +663,7 @@ public :
 
  * for (int i = 0;i < hist_depth;i++)
  * {
- *    cout << (*hist)[i] << std::endl;
+ *    std::cout << (*hist)[i] << std::endl;
  * }
  * delete hist;
  * @endcode

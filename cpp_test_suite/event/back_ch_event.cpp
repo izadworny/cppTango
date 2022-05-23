@@ -1,23 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -43,8 +24,8 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 	gettimeofday(&now_timeval,NULL);
 #endif
 
-	cout << "Callback date : tv_sec = " << now_timeval.tv_sec;
-	cout << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "Callback date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	int delta_s = now_timeval.tv_sec - old_sec;
 	if (delta_s == 0)
@@ -58,21 +39,21 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 	try
 	{
-//		coutv << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+//		TEST_LOG << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 
 			*(event_data->attr_value) >> value;
-			coutv << "CallBack value " << value << std::endl;
+			TEST_LOG << "CallBack value " << value << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 //			Tango::Except::print_error_stack(event_data->errors);
 			if (strcmp(event_data->errors[0].reason.in(),"aaa") == 0)
 				cb_err++;
@@ -80,7 +61,7 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -91,18 +72,12 @@ int main(int argc, char **argv)
 
 	if ((argc == 1) || (argc == 2))
 	{
-		cout << "usage: %s device sleeping_time [-v]" << std::endl;
+		TEST_LOG << "usage: %s device sleeping_time" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
 	long sleeping_time = atol(argv[2]);
-
-	if (argc == 4)
-	{
-		if (strcmp(argv[3],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -114,7 +89,7 @@ int main(int argc, char **argv)
 		exit(1);
         }
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 
 

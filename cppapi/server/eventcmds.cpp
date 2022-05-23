@@ -67,7 +67,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 	action = (*argin)[2];
 	event = (*argin)[3];
 
-	cout4 << "EventSubscriptionChangeCmd: subscription for device " << dev_name << " attribute " << attr_name << " action " << action << " event " << event << std::endl;
+	TANGO_LOG_DEBUG << "EventSubscriptionChangeCmd: subscription for device " << dev_name << " attribute " << attr_name << " action " << action << " event " << event << std::endl;
 
 	Tango::Util *tg = Tango::Util::instance();
 
@@ -285,7 +285,7 @@ void DServer::event_subscription(
 
 		if (event == "change")
 		{
-			cout4 << "DServer::event_subscription(): update change subscription\n";
+			TANGO_LOG_DEBUG << "DServer::event_subscription(): update change subscription\n";
 
 //
 // Check if the attribute has some of the change properties defined
@@ -481,13 +481,13 @@ void DServer::store_subscribed_client_info(
         Pipe& pipe = device.get_device_class()->get_pipe_by_name(
             object_name, device.get_name_lower());
 
-        cout4 << "DServer::store_subscribed_client_info(): update pipe subscription\n";
+        TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update pipe subscription\n";
         omni_mutex_lock oml(EventSupplier::get_event_mutex());
         pipe.set_event_subscription(time(NULL));
     }
     else if (event_name == EventName[INTERFACE_CHANGE_EVENT])
     {
-        cout4 << "DServer::store_subscribed_client_info(): update device interface_change subscription\n";
+        TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update device interface_change subscription\n";
         omni_mutex_lock oml(EventSupplier::get_event_mutex());
         device.set_event_intr_change_subscription(time(NULL));
 
@@ -503,43 +503,43 @@ void DServer::store_subscribed_client_info(
 
         if (event_name == "user_event")
         {
-            cout4 << "DServer::store_subscribed_client_info(): update user_event subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update user_event subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_user_event_sub(client_lib_version);
         }
         else if (event_name.find(CONF_TYPE_EVENT) != std::string::npos)
         {
-            cout4 << "DServer::store_subscribed_client_info(): update attr_conf subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update attr_conf subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_att_conf_event_sub(client_lib_version);
         }
         else if (event_name == "data_ready")
         {
-            cout4 << "DServer::store_subscribed_client_info(): update data_ready subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update data_ready subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_data_ready_event_sub();
         }
         else if (event_name == "change")
         {
-            cout4 << "DServer::store_subscribed_client_info(): update change subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update change subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_change_event_sub(client_lib_version);
         }
         else if (event_name == "quality")
         {
-            cout4 << "DServer::store_subscribed_client_info(): update quality_change subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update quality_change subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_quality_event_sub();
         }
         else if (event_name == "periodic")
         {
-            cout4 << "DServer::store_subscribed_client_info(): update periodic subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update periodic subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_periodic_event_sub(client_lib_version);
         }
         else if (event_name == "archive")
         {
-            cout4 << "DServer::store_subscribed_client_info(): update archive subscription\n";
+            TANGO_LOG_DEBUG << "DServer::store_subscribed_client_info(): update archive subscription\n";
             omni_mutex_lock oml(EventSupplier::get_event_mutex());
             attribute.set_archive_event_sub(client_lib_version);
         }
@@ -777,7 +777,7 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
 			}
 		}
 
-        cout4 << "ZmqEventSubscriptionChangeCmd: subscription for device " << dev_name << " attribute/pipe " << obj_name << " action " << action << " event " << event << " client lib = " << client_release << std::endl;
+        TANGO_LOG_DEBUG << "ZmqEventSubscriptionChangeCmd: subscription for device " << dev_name << " attribute/pipe " << obj_name << " action " << action << " event " << event << " client lib = " << client_release << std::endl;
 
 //
 // If we receive this command while the DS is in its shuting down sequence, do nothing
@@ -1022,7 +1022,7 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
             event_topic = ev->create_full_event_name(dev, event, obj_name_lower, intr_change);
         }
         assert(!(event_topic.empty()));
-        cout4 << "Sending event_topic = " << event_topic << std::endl;
+        TANGO_LOG_DEBUG << "Sending event_topic = " << event_topic << std::endl;
         ret_data->svalue[size] = Tango::string_dup(event_topic.c_str());
 
         std::string channel_name = ev->get_fqdn_prefix();
@@ -1031,7 +1031,7 @@ DevVarLongStringArray *DServer::zmq_event_subscription_change(const Tango::DevVa
         Tango::string_free(adm_name);
         std::transform(channel_name.begin(), channel_name.end(), channel_name.begin(), ::tolower);
         assert(!(channel_name.empty()));
-        cout4 << "Sending channel_name = " << channel_name << std::endl;
+        TANGO_LOG_DEBUG << "Sending channel_name = " << channel_name << std::endl;
         ret_data->svalue[size + 1] = Tango::string_dup(channel_name.c_str());
     }
 
@@ -1074,7 +1074,7 @@ void DServer::event_confirm_subscription(const Tango::DevVarStringArray *argin)
 		obj_name = (*argin)[base + 1];
 		event = (*argin)[base + 2];
 
-		cout4 << "EventConfirmSubscriptionCmd: confirm subscription for device " << dev_name << " attribute/pipe " << obj_name << " event " << event << std::endl;
+		TANGO_LOG_DEBUG << "EventConfirmSubscriptionCmd: confirm subscription for device " << dev_name << " attribute/pipe " << obj_name << " event " << event << std::endl;
 
 //
 // Find device

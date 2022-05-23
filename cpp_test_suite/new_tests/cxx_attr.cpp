@@ -57,7 +57,7 @@ public:
 		}
 		catch(CORBA::Exception &e)
 		{
-			cout << endl << "Exception in suite tearDown():" << endl;
+			TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 			Except::print_exception(e);
 			exit(-1);
 		}
@@ -427,5 +427,4 @@ public:
 		TS_ASSERT_EQUALS(str, "Setting value date and quality");
 	}
 };
-#undef cout
 #endif // AttrTestSuite_h

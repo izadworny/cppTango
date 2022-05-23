@@ -69,7 +69,7 @@ bool IOAddAttribute::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const CO
 CORBA::Any *IOAddAttribute::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
 {
   try {
-    cout << "[IOAddAttribute::execute] " << std::endl;
+    TANGO_LOG << "[IOAddAttribute::execute] " << std::endl;
 
     Tango::DevString new_att;
 	extract(in_any, new_att);
@@ -177,7 +177,7 @@ bool IORemoveAttribute::is_allowed(Tango::DeviceImpl *device, TANGO_UNUSED(const
 CORBA::Any *IORemoveAttribute::execute(Tango::DeviceImpl *device,const CORBA::Any &in_any)
 {
   try {
-    cout << "[IORemoveAttribute::execute] " << std::endl;
+    TANGO_LOG << "[IORemoveAttribute::execute] " << std::endl;
 
 	Tango::DevString att_name;
 	extract(in_any, att_name);
@@ -265,7 +265,7 @@ CORBA::Any *DynCommand::execute(TANGO_UNUSED(Tango::DeviceImpl *device),TANGO_UN
 {
 	try
 	{
-		cout << "[DynCommand::execute] " << std::endl;
+		TANGO_LOG << "[DynCommand::execute] " << std::endl;
 		Tango::DevFloat theNumber = 4.0;
 		return insert(theNumber);
 	}
@@ -348,7 +348,7 @@ CORBA::Any *IOAddCommand::execute(Tango::DeviceImpl *device,const CORBA::Any &in
 {
 	try
 	{
-		cout << "[IOAddCommand::execute] " << std::endl;
+		TANGO_LOG << "[IOAddCommand::execute] " << std::endl;
 		Tango::DevLong cmd_arg;
 		extract(in_any,cmd_arg);
 
@@ -448,7 +448,7 @@ CORBA::Any *IORemoveCommand::execute(Tango::DeviceImpl *device,TANGO_UNUSED(cons
 {
 	try
 	{
-		cout << "[IORemoveCommand::execute] " << std::endl;
+		TANGO_LOG << "[IORemoveCommand::execute] " << std::endl;
 		std::string st("Added_cmd");
 		device->remove_command(st,true);
 		return insert();

@@ -1,19 +1,10 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
 #ifdef WIN32
 #include <process.h>
 #else
 #include <unistd.h>
 #endif
 
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -21,7 +12,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		cout << "usage: " << argv[0] << " <attribute>" << endl;
+		TEST_LOG << "usage: " << argv[0] << " <attribute>" << endl;
 		exit(-1);
 	}
 
@@ -37,7 +28,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << '\n' << "new AttributeProxy returned" << '\n' << endl;
+	TEST_LOG << '\n' << "new AttributeProxy returned" << '\n' << endl;
 
 	int elapsed;
 	try
@@ -47,7 +38,7 @@ int main(int argc, char **argv)
 			
 		elapsed = attr->ping();
 
-		cout << "   Ping ( " << elapsed << " us ) --> OK" << endl;
+		TEST_LOG << "   Ping ( " << elapsed << " us ) --> OK" << endl;
 	
 // Test state
 
@@ -55,7 +46,7 @@ int main(int argc, char **argv)
 		sta = attr->state();
 
 		assert ( sta == Tango::ON);
-		cout << "   State --> OK" << endl;
+		TEST_LOG << "   State --> OK" << endl;
 	
 // Test status
 
@@ -63,7 +54,7 @@ int main(int argc, char **argv)
 		str = attr->status();
 	
 		assert ( str == "The device is in ON state.");
-		cout << "   Status --> OK" << endl;
+		TEST_LOG << "   Status --> OK" << endl;
 		
 // Test name
 
@@ -71,7 +62,7 @@ int main(int argc, char **argv)
 		name = attr->name();
 	
 		assert ( name == "Short_attr_rw");
-		cout << "   Name --> OK" << endl;
+		TEST_LOG << "   Name --> OK" << endl;
 
 // Test get_attribute_config
 		
@@ -94,7 +85,7 @@ int main(int argc, char **argv)
 		assert ( attr_conf_ex.alarms.delta_t == "Not specified" );
 		assert ( attr_conf_ex.events.ch_event.abs_change == "Not specified" );		
 						
-		cout << "   Get config --> OK" << endl;
+		TEST_LOG << "   Get config --> OK" << endl;
 
 // Test set_attribute_config
 
@@ -128,7 +119,7 @@ int main(int argc, char **argv)
 		AttributeInfoEx res_ex = attr->get_config();
 		assert (res_ex.display_unit == s);
 				
-		cout << "   Set config --> OK" << endl;
+		TEST_LOG << "   Set config --> OK" << endl;
 
 		res_ex.format = "Not specified";
 		res_ex.display_unit = "Not specified";
@@ -142,7 +133,7 @@ int main(int argc, char **argv)
 		da >> val;
 		assert ( val == 66 );
 		
-		cout << "   Read --> OK" << endl;
+		TEST_LOG << "   Read --> OK" << endl;
 		
 // Test write
 
@@ -157,7 +148,7 @@ int main(int argc, char **argv)
 		
 		assert (val_res == 88);
 		
-		cout << "   Write --> OK" << endl;
+		TEST_LOG << "   Write --> OK" << endl;
 		
 		val = 66;
 		da << val;
@@ -173,14 +164,14 @@ int main(int argc, char **argv)
 		pol = attr->is_polled();
 		assert (pol == true);
 		
-		cout << "   poll --> OK" << endl;
+		TEST_LOG << "   poll --> OK" << endl;
 		
 // Test get_poll_period
 
 		int pol_per = attr->get_poll_period();
 		assert (pol_per == 1000);
 		
-		cout << "   get_poll_period --> OK" << endl;
+		TEST_LOG << "   get_poll_period --> OK" << endl;
 
 // Test history
 		
@@ -197,7 +188,7 @@ int main(int argc, char **argv)
 			assert (val == 66);
 		}
 		
-		cout << "   history --> OK" << endl;
+		TEST_LOG << "   history --> OK" << endl;
 		
 		delete hist;
 		
@@ -207,7 +198,7 @@ int main(int argc, char **argv)
 		pol = attr->is_polled();
 		assert (pol == false);
 		
-		cout << "   stop_poll --> OK" << endl;
+		TEST_LOG << "   stop_poll --> OK" << endl;
 
 // Test read_asynch and read_reply
 
@@ -218,7 +209,7 @@ int main(int argc, char **argv)
 		(*da_ptr) >> val;
 		assert (val == 66);
 		
-		cout << "   read_asynch() and read_reply() --> OK" << endl;
+		TEST_LOG << "   read_asynch() and read_reply() --> OK" << endl;
 		delete da_ptr;
 		
 // Test write_asynch and write_reply
@@ -237,7 +228,7 @@ int main(int argc, char **argv)
 		da << val;
 		attr->write(da);
 		
-		cout << "   write_asynch() and write_reply() --> OK" << endl;		
+		TEST_LOG << "   write_asynch() and write_reply() --> OK" << endl;
 
 // Test put property
 
@@ -260,7 +251,7 @@ int main(int argc, char **argv)
 		out_prop[0] >> lg_res;
 		
 		assert(lg_res == 1234);		
-		cout << "   put_property() and get_property() --> OK" << endl;
+		TEST_LOG << "   put_property() and get_property() --> OK" << endl;
 		
 // Test delete property
 
@@ -270,7 +261,7 @@ int main(int argc, char **argv)
 		attr->get_property(prop_name,no_prop);
 		assert (no_prop[0].is_empty() == true);
 		
-		cout << "   delete_property() --> OK" << endl;
+		TEST_LOG << "   delete_property() --> OK" << endl;
 
 // Test multiple get_property
 		
@@ -317,7 +308,7 @@ int main(int argc, char **argv)
 		assert(db_dat[2].is_empty() == true);
 		assert(lg_3 == 4444);
 
-		cout << "   get_property() for multiple properties --> OK" << endl;
+		TEST_LOG << "   get_property() for multiple properties --> OK" << endl;
 
 // Test deleting multiple properties
 
@@ -332,7 +323,7 @@ int main(int argc, char **argv)
 		assert (no_prop_bis[0].is_empty() == true);
 		assert (no_prop_bis[1].is_empty() == true);
 		
-		cout << "   delete_property() for multiple properties --> OK" << endl;
+		TEST_LOG << "   delete_property() for multiple properties --> OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{

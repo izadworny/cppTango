@@ -309,7 +309,7 @@ name_specified(false),double_send(0),double_send_heartbeat(false)
 
 ZmqEventSupplier *ZmqEventSupplier::create(Util *tg)
 {
-	cout4 << "calling Tango::ZmqEventSupplier::create()" << std::endl;
+	TANGO_LOG_DEBUG << "calling Tango::ZmqEventSupplier::create()" << std::endl;
 
 //
 // Does the ZmqEventSupplier singleton exist already ? if so simply return it
@@ -797,7 +797,7 @@ void ZmqEventSupplier::push_heartbeat_event()
 	DServer *adm_dev = tg->get_dserver_device();
 	now_time = time(NULL);
 	delta_time = now_time - adm_dev->last_heartbeat_zmq;
-	cout3 << "ZmqEventSupplier::push_heartbeat_event(): delta time since last heartbeat " << delta_time << std::endl;
+	TANGO_LOG_DEBUG << "ZmqEventSupplier::push_heartbeat_event(): delta time since last heartbeat " << delta_time << std::endl;
 
 //
 // We here compare delta_time to 8 and not to 10.
@@ -810,8 +810,8 @@ void ZmqEventSupplier::push_heartbeat_event()
 	{
 	    int nb_event = 1;
 
-		cout3 << "ZmqEventSupplier::push_heartbeat_event(): detected heartbeat event for " << heartbeat_event_name << std::endl;
-		cout3 << "ZmqEventSupplier::push_heartbeat_event(): delta _time " << delta_time << std::endl;
+		TANGO_LOG_DEBUG << "ZmqEventSupplier::push_heartbeat_event(): detected heartbeat event for " << heartbeat_event_name << std::endl;
+		TANGO_LOG_DEBUG << "ZmqEventSupplier::push_heartbeat_event(): delta _time " << delta_time << std::endl;
 
         if (double_send_heartbeat == true)
         {
@@ -819,7 +819,7 @@ void ZmqEventSupplier::push_heartbeat_event()
             double_send_heartbeat = false;
         }
 
-		cout3 << "ZmqEventSupplier::push_heartbeat_event(): nb_event = " << nb_event << std::endl;
+		TANGO_LOG_DEBUG << "ZmqEventSupplier::push_heartbeat_event(): nb_event = " << nb_event << std::endl;
 
         while (nb_event != 0)
         {
@@ -907,7 +907,7 @@ void ZmqEventSupplier::push_heartbeat_event()
             }
             catch(...)
             {
-                cout3 << "ZmqEventSupplier::push_heartbeat_event() failed !\n";
+                TANGO_LOG_DEBUG << "ZmqEventSupplier::push_heartbeat_event() failed !\n";
                 if (endian_mess_sent == true)
                     endian_mess_heartbeat.copy(endian_mess_heartbeat_2);
                 if (call_mess_sent == true)
@@ -983,7 +983,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 	if (device_impl == NULL)
 		return;
 
-	cout3 << "ZmqEventSupplier::push_event(): called for attribute/pipe " << obj_name << std::endl;
+	TANGO_LOG_DEBUG << "ZmqEventSupplier::push_event(): called for attribute/pipe " << obj_name << std::endl;
 
 //
 // Get the mutex to synchronize the sending of events
@@ -1103,7 +1103,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 		}
 
 		if (print == true)
-			cout3 << "-----> Can't find event counter for event " << event_name << " in map!!!!!!!!!!" << std::endl;
+			TANGO_LOG_DEBUG << "-----> Can't find event counter for event " << event_name << " in map!!!!!!!!!!" << std::endl;
     }
 
 
@@ -1521,7 +1521,7 @@ void ZmqEventSupplier::push_event(DeviceImpl *device_impl,std::string event_type
 	}
 	catch(...)
 	{
-		cout3 << "ZmqEventSupplier::push_event() failed !!!!!!!!!!!\n";
+		TANGO_LOG_DEBUG << "ZmqEventSupplier::push_event() failed !!!!!!!!!!!\n";
 		if (endian_mess_sent == true)
 			endian_mess.copy(endian_mess_2);
 
@@ -1659,7 +1659,7 @@ void ZmqEventSupplier::push_event_loop(DeviceImpl *device_impl,EventType event_t
             TANGO_UNUSED(const std::vector<std::string> &filterable_names_lg),TANGO_UNUSED(const std::vector<long> &filterable_data_lg),
             const struct SuppliedEventData &attr_value,Attribute &att,DevFailed *except)
 {
-	cout3 << "ZmqEventSupplier::push_event_loop(): called for attribute " << att.get_name() << std::endl;
+	TANGO_LOG_DEBUG << "ZmqEventSupplier::push_event_loop(): called for attribute " << att.get_name() << std::endl;
 
 	std::vector<int> &client_libs = att.get_client_lib(event_type);
 	std::vector<int>::iterator ite;

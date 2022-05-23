@@ -141,7 +141,7 @@ SendEventType EventSupplier::detect_and_push_events(
     time_t change4_subscription, periodic4_subscription, archive4_subscription;
     time_t change5_subscription, periodic5_subscription, archive5_subscription;
     SendEventType ret;
-    cout3 << "EventSupplier::detect_and_push_events(): called for attribute " << attr_name << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_events(): called for attribute " << attr_name << std::endl;
 
     Attribute &attr = device_impl->dev_attr->get_attr_by_name(attr_name.c_str());
 
@@ -163,7 +163,7 @@ SendEventType EventSupplier::detect_and_push_events(
         archive5_subscription = now - attr.event_archive5_subscription;
     }
 
-    cout3 << "EventSupplier::detect_and_push_events(): last subscription for change5 " << change5_subscription
+    TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_events(): last subscription for change5 " << change5_subscription
           << " periodic5 " << periodic5_subscription << " archive5 " << archive5_subscription << std::endl;
 
 //
@@ -332,7 +332,7 @@ bool EventSupplier::detect_and_push_change_event(DeviceImpl *device_impl, struct
     bool quality_change = false;
     bool ret = false;
 
-    cout3 << "EventSupplier::detect_and_push_change_event(): called for attribute " << attr_name << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_change_event(): called for attribute " << attr_name << std::endl;
 
     Tango::AttrQuality the_quality;
 
@@ -388,7 +388,7 @@ bool EventSupplier::detect_and_push_change_event(DeviceImpl *device_impl, struct
                                   except,
                                   force_change,
                                   device_impl);
-        cout3 << "EventSupplier::detect_and_push_change_event(): rel_change " << delta_change_rel << " abs_change "
+        TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_change_event(): rel_change " << delta_change_rel << " abs_change "
               << delta_change_abs << " is change = " << is_change << std::endl;
     }
 
@@ -522,7 +522,7 @@ bool EventSupplier::detect_and_push_change_event(DeviceImpl *device_impl, struct
 
     }
 
-    cout3 << "EventSupplier::detect_and_push_change_event(): leaving for attribute " << attr_name << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_change_event(): leaving for attribute " << attr_name << std::endl;
     return ret;
 }
 
@@ -563,7 +563,7 @@ bool EventSupplier::detect_and_push_archive_event(DeviceImpl *device_impl,
     bool quality_change = false;
     bool ret = false;
 
-    cout3 << "EventSupplier::detect_and_push_archive_event(): called for attribute " << attr_name << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_archive_event(): called for attribute " << attr_name << std::endl;
 
     Tango::AttrQuality the_quality;
 
@@ -612,7 +612,7 @@ bool EventSupplier::detect_and_push_archive_event(DeviceImpl *device_impl,
     {
         auto arch_period = get_minimal_event_reporting_period(std::chrono::milliseconds(arch_period_ms));
 
-        cout3 << "EventSupplier::detect_and_push_archive_event():"
+        TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_archive_event():"
               << " ms_since_last_periodic = " << std::fixed << duration_ms(ms_since_last_periodic) << " ms"
               << ", arch_period = " << std::fixed << duration_ms(arch_period) << " ms"
               << ", attr.prev_archive_event.inited = " << attr.prev_archive_event.inited
@@ -874,7 +874,7 @@ bool EventSupplier::detect_and_push_periodic_event(DeviceImpl *device_impl,
 //
     auto ms_since_last_periodic = time_bef_attr - attr.last_periodic;
 
-    cout3 << "EventSupplier::detect_and_push_is_periodic_event():"
+    TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_is_periodic_event():"
           << " delta since last periodic " << std::fixed << duration_ms(ms_since_last_periodic) << " ms"
           << ", event_period " << std::fixed << duration_ms(eve_period) << " ms"
           << " for " << device_impl->get_name() + "/" + attr_name << std::endl;
@@ -901,7 +901,7 @@ bool EventSupplier::detect_and_push_periodic_event(DeviceImpl *device_impl,
         std::string ev_name = EventName[PERIODIC_EVENT];
         bool inc_ctr = true;
 
-        cout3 << "EventSupplier::detect_and_push_is_periodic_event(): detected periodic event for "
+        TANGO_LOG_DEBUG << "EventSupplier::detect_and_push_is_periodic_event(): detected periodic event for "
               << device_impl->get_name() + "/" + attr_name << std::endl;
 
         for (ite = client_libs.begin(); ite != client_libs.end(); ++ite)
@@ -1007,7 +1007,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
 {
     bool is_change = false;
 
-    cout3 << "EventSupplier::detect_change(): called for attribute " << attr.get_name() << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::detect_change(): called for attribute " << attr.get_name() << std::endl;
 
     Tango::AttrQuality the_new_quality;
     const CORBA::Any *the_new_any = NULL;
@@ -2215,7 +2215,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
         }
     }
 
-    cout3 << "EventSupplier::detect_change(): leaving for attribute " << attr.get_name() << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::detect_change(): leaving for attribute " << attr.get_name() << std::endl;
     return (is_change);
 }
 
@@ -2240,7 +2240,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
 void
 EventSupplier::push_att_data_ready_event(DeviceImpl *device_impl, const std::string &attr_name, long data_type, DevLong ctr)
 {
-    cout3 << "EventSupplier::push_att_data_ready_event(): called for attribute " << attr_name << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::push_att_data_ready_event(): called for attribute " << attr_name << std::endl;
 
     std::vector<std::string> filterable_names;
     std::vector<double> filterable_data;
@@ -2295,7 +2295,7 @@ void EventSupplier::push_att_conf_events(DeviceImpl *device_impl,
     std::string event, domain_name;
     time_t now, att_conf_subscription, attr_sub;
 
-    cout3 << "EventSupplier::push_att_conf_events(): called for attribute " << attr_name << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::push_att_conf_events(): called for attribute " << attr_name << std::endl;
 
     Attribute &attr = device_impl->dev_attr->get_attr_by_name(attr_name.c_str());
 
@@ -2337,7 +2337,7 @@ void EventSupplier::push_att_conf_events(DeviceImpl *device_impl,
     now = time(NULL);
     att_conf_subscription = now - attr_sub;
 
-    cout3 << "EventSupplier::push_att_conf_events(): delta since last subscription " << att_conf_subscription << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::push_att_conf_events(): delta since last subscription " << att_conf_subscription << std::endl;
 
     if (att_conf_subscription > EVENT_RESUBSCRIBE_PERIOD)
     {
@@ -2394,7 +2394,7 @@ void EventSupplier::push_dev_intr_change_event(DeviceImpl *device_impl,
                                                DevCmdInfoList_2 *cmds_list,
                                                AttributeConfigList_5 *atts_list)
 {
-    cout3 << "EventSupplier::push_dev_intr_change_event(): called for device " << device_impl->get_name() << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::push_dev_intr_change_event(): called for device " << device_impl->get_name() << std::endl;
 
     std::vector<std::string> filterable_names;
     std::vector<double> filterable_data;
@@ -2411,7 +2411,7 @@ void EventSupplier::push_dev_intr_change_event(DeviceImpl *device_impl,
     now = time(NULL);
     dev_intr_subscription = now - device_impl->get_event_intr_change_subscription();
 
-    cout3 << "EventSupplier::push_dev_intr_event(): delta since last subscription " << dev_intr_subscription << std::endl;
+    TANGO_LOG_DEBUG << "EventSupplier::push_dev_intr_event(): delta since last subscription " << dev_intr_subscription << std::endl;
 
     if (dev_intr_subscription > EVENT_RESUBSCRIBE_PERIOD)
     {

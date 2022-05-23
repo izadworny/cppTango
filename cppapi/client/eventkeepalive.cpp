@@ -81,7 +81,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_channel(const EvChanIte &ipos,Ev
 	bool ret = true;
 	EvCbIte epos;
 
-	cout3 << "Entering KeepAliveThread::reconnect()" << std::endl;
+	TANGO_LOG_DEBUG << "Entering KeepAliveThread::reconnect()" << std::endl;
 
 	for (epos = event_consumer->event_callback_map.begin(); epos != event_consumer->event_callback_map.end(); ++epos)
 	{
@@ -111,7 +111,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_channel(const EvChanIte &ipos,Ev
 					if (ipos->second.adm_device_proxy != NULL)
 						delete ipos->second.adm_device_proxy;
 					ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
-					cout3 << "Reconnected to event channel" << std::endl;
+					TANGO_LOG_DEBUG << "Reconnected to event channel" << std::endl;
 				}
 				catch(...)
 				{
@@ -151,7 +151,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(const EvChanIte &ipo
 	bool ret = true;
 	EvCbIte epos;
 
-	cout3 << "Entering KeepAliveThread::reconnect_to_zmq_channel()" << std::endl;
+	TANGO_LOG_DEBUG << "Entering KeepAliveThread::reconnect_to_zmq_channel()" << std::endl;
 
 	for (epos = event_consumer->event_callback_map.begin(); epos != event_consumer->event_callback_map.end(); ++epos)
 	{
@@ -201,7 +201,7 @@ bool EventConsumerKeepAliveThread::reconnect_to_zmq_channel(const EvChanIte &ipo
 					if (ipos->second.adm_device_proxy != NULL)
 						delete ipos->second.adm_device_proxy;
 					ipos->second.adm_device_proxy = new DeviceProxy(ipos->second.full_adm_name);
-					cout3 << "Reconnected to zmq event channel" << std::endl;
+					TANGO_LOG_DEBUG << "Reconnected to zmq event channel" << std::endl;
 				}
 				catch(...)
 				{
@@ -235,7 +235,7 @@ void EventConsumerKeepAliveThread::reconnect_to_event(const EvChanIte &ipos,Even
 {
 	EvCbIte epos;
 
-	cout3 << "Entering KeepAliveThread::reconnect_to_event()" << std::endl;
+	TANGO_LOG_DEBUG << "Entering KeepAliveThread::reconnect_to_event()" << std::endl;
 
 	for (epos = event_consumer->event_callback_map.begin(); epos != event_consumer->event_callback_map.end(); ++epos)
 	{
@@ -262,7 +262,7 @@ void EventConsumerKeepAliveThread::reconnect_to_event(const EvChanIte &ipos,Even
 					{
 						re_subscribe_event(epos,ipos);
 						epos->second.filter_ok = true;
-						cout3 << "Reconnected to event" << std::endl;
+						TANGO_LOG_DEBUG << "Reconnected to event" << std::endl;
 					}
 					catch(...)
 					{
@@ -397,7 +397,7 @@ void EventConsumerKeepAliveThread::reconnect_to_zmq_event(const EvChanIte &ipos,
 	EvCbIte epos;
 	bool disconnect_called = false;
 
-	cout3 << "Entering KeepAliveThread::reconnect_to_zmq_event()" << std::endl;
+	TANGO_LOG_DEBUG << "Entering KeepAliveThread::reconnect_to_zmq_event()" << std::endl;
 
 	for (epos = event_consumer->event_callback_map.begin(); epos != event_consumer->event_callback_map.end(); ++epos)
 	{
@@ -447,7 +447,7 @@ void EventConsumerKeepAliveThread::reconnect_to_zmq_event(const EvChanIte &ipos,
 						dd >> dvlsa;
 						epos->second.endpoint = dvlsa->svalue[(ipos->second.valid_endpoint << 1) + 1].in();
 
-						cout3 << "Reconnected to ZMQ event" << std::endl;
+						TANGO_LOG_DEBUG << "Reconnected to ZMQ event" << std::endl;
 					}
 					catch(...)
 					{
@@ -538,7 +538,7 @@ void *EventConsumerKeepAliveThread::run_undetached(TANGO_UNUSED(void *arg))
 // Re-subscribe
 //
 
-		cout4 << "KeepAliveThread at work" << std::endl;
+		TANGO_LOG_DEBUG << "KeepAliveThread at work" << std::endl;
 
 //
 // Be sure to have valid event consumer object (In case of long startup OS with some notifd event(s) subscribed at the
@@ -1028,7 +1028,7 @@ void EventConsumerKeepAliveThread::main_reconnect(ZmqEventConsumer *event_consum
 		catch (...)
 		{
 			ipos->second.event_system_failed = true;
-			cout3 << "Notifd is dead !!!" << std::endl;
+			TANGO_LOG_DEBUG << "Notifd is dead !!!" << std::endl;
 		}
 
 //

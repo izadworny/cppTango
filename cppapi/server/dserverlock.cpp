@@ -60,7 +60,7 @@ void DServer::lock_device(const Tango::DevVarLongStringArray *in_data)
 	std::string dev_name(in_data->svalue[0]);
 	int lock_validity = in_data->lvalue[0];
 
-	cout4 << "In lock_device command for device " << dev_name << ", lock validity = " << lock_validity << std::endl;
+	TANGO_LOG_DEBUG << "In lock_device command for device " << dev_name << ", lock validity = " << lock_validity << std::endl;
 
 //
 // Get client identification
@@ -72,7 +72,7 @@ void DServer::lock_device(const Tango::DevVarLongStringArray *in_data)
 		TANGO_THROW_EXCEPTION(API_CantGetClientIdent, "Cannot retrieve client identification");
 	}
 
-	cout4 << "Client identification = " << *cl << std::endl;
+	TANGO_LOG_DEBUG << "Client identification = " << *cl << std::endl;
 
 	if (cl->client_ident == false)
 	{
@@ -140,7 +140,7 @@ Tango::DevLong DServer::un_lock_device(const Tango::DevVarLongStringArray *in_da
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In un_lock_device command for device " << in_data->svalue[0] << std::endl;
+	TANGO_LOG_DEBUG << "In un_lock_device command for device " << in_data->svalue[0] << std::endl;
 
 //
 // Get client identification
@@ -152,7 +152,7 @@ Tango::DevLong DServer::un_lock_device(const Tango::DevVarLongStringArray *in_da
 		TANGO_THROW_EXCEPTION(API_CantGetClientIdent, "Cannot retrieve client identification");
 	}
 
-	cout4 << "Client identification = " << *cl << std::endl;
+	TANGO_LOG_DEBUG << "Client identification = " << *cl << std::endl;
 
 	if ((cl->client_ident == false) && (in_data->lvalue[0] == 0))
 	{
@@ -199,12 +199,12 @@ void DServer::re_lock_devices(const Tango::DevVarStringArray *dev_name_list)
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In re_lock_devices command" << std::endl;
+	TANGO_LOG_DEBUG << "In re_lock_devices command" << std::endl;
 	CORBA::ULong loop;
 	CORBA::ULong nb_dev = dev_name_list->length();
 
 	for (loop = 0;loop < nb_dev;loop++)
-		cout4 << "Device to re-lock: " << (*dev_name_list)[loop] << std::endl;
+		TANGO_LOG_DEBUG << "Device to re-lock: " << (*dev_name_list)[loop] << std::endl;
 
 //
 // Get client identification
@@ -216,7 +216,7 @@ void DServer::re_lock_devices(const Tango::DevVarStringArray *dev_name_list)
 		TANGO_THROW_EXCEPTION(API_CantGetClientIdent, "Cannot retrieve client identification");
 	}
 
-	cout4 << "Client identification = " << *cl << std::endl;
+	TANGO_LOG_DEBUG << "Client identification = " << *cl << std::endl;
 
 	if (cl->client_ident == false)
 	{
@@ -300,7 +300,7 @@ Tango::DevVarLongStringArray *DServer::dev_lock_status(Tango::ConstDevString dev
 {
 	NoSyncModelTangoMonitor mon(this);
 
-	cout4 << "In dev_lock_status command for device " << dev_name << std::endl;
+	TANGO_LOG_DEBUG << "In dev_lock_status command for device " << dev_name << std::endl;
 
 //
 // Get the device and get its lock status

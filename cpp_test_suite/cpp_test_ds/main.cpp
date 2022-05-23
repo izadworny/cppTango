@@ -38,8 +38,8 @@ int main(int argc,char *argv[])
 	}
 	catch (std::bad_alloc&)
 	{
-		cout << "Can't allocate memory to store device object !!!" << std::endl;
-		cout << "Exiting" << std::endl;
+		std::cout << "Can't allocate memory to store device object !!!" << std::endl;
+		std::cout << "Exiting" << std::endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -49,8 +49,8 @@ int main(int argc,char *argv[])
 	{
 		Tango::Except::print_exception(e);
 
-		cout << "Received a CORBA_Exception" << std::endl;
-		cout << "Exiting" << std::endl;
+		std::cout << "Received a CORBA_Exception" << std::endl;
+		std::cout << "Exiting" << std::endl;
 	}
 
 //

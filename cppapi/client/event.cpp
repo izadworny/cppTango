@@ -318,7 +318,7 @@ void EventConsumer::get_cs_tango_host(Database *db)
 //--------------------------------------------------------------------------------------------------------------------
 void EventConsumer::shutdown()
 {
-	cout3 << "calling Tango::EventConsumer::shutdown() \n";
+	TANGO_LOG_DEBUG << "calling Tango::EventConsumer::shutdown() \n";
 
 //
 // First, shutdown the keep alive thread
@@ -1342,7 +1342,7 @@ int EventConsumer::connect_event(DeviceProxy *device,
 {
 	int ret_event_id = event_id;
 	device_name = device->dev_name();//TODO convert to local
-	cout3 << "Tango::EventConsumer::connect_event(" << device_name << "," << obj_name <<"," << event << ")\n";
+	TANGO_LOG_DEBUG << "Tango::EventConsumer::connect_event(" << device_name << "," << obj_name <<"," << event << ")\n";
 
 	bool inter_event = false;
 	if (event == INTERFACE_CHANGE_EVENT)
@@ -1598,7 +1598,7 @@ int EventConsumer::connect_event(DeviceProxy *device,
 
 	if (ipos == device_channel_map.end())
 	{
-		cout3 << "device " << device_name << " is not connected, going to connect to the event channel !\n";
+		TANGO_LOG_DEBUG << "device " << device_name << " is not connected, going to connect to the event channel !\n";
 		bool new_entry_in_channel_map = false;
 
 		try
@@ -1845,7 +1845,7 @@ void EventConsumer::unsubscribe_event(int event_id)
                         omni_thread::ensure_self se;
                         if (omni_thread::self()->id() == thread_id)
                         {
- //                           cout << event_id << ": Unsubscribing for an event while it is in its callback !!!!!!!!!!" << endl;
+ //                           TANGO_LOG << event_id << ": Unsubscribing for an event while it is in its callback !!!!!!!!!!" << endl;
                             esspos->id = -event_id;
 
                             DelayedEventUnsubThread *th = new DelayedEventUnsubThread(this,event_id,epos->second.callback_monitor);
@@ -2153,7 +2153,7 @@ void EventConsumer::add_not_connected_event(DevFailed &e,EventNotConnected &not_
 void EventConsumer::get_events (int event_id, EventDataList &event_list)
 {
 
-	cout3 << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2245,7 +2245,7 @@ void EventConsumer::get_events (int event_id, EventDataList &event_list)
 
 void EventConsumer::get_events (int event_id, AttrConfEventDataList &event_list)
 {
-	cout3 << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2337,7 +2337,7 @@ void EventConsumer::get_events (int event_id, AttrConfEventDataList &event_list)
 
 void EventConsumer::get_events (int event_id, DataReadyEventDataList &event_list)
 {
-	cout3 << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2429,7 +2429,7 @@ void EventConsumer::get_events (int event_id, DataReadyEventDataList &event_list
 
 void EventConsumer::get_events (int event_id, DevIntrChangeEventDataList &event_list)
 {
-	cout3 << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2521,7 +2521,7 @@ void EventConsumer::get_events (int event_id, DevIntrChangeEventDataList &event_
 
 void EventConsumer::get_events (int event_id, PipeEventDataList &event_list)
 {
-	cout3 << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2614,7 +2614,7 @@ void EventConsumer::get_events (int event_id, PipeEventDataList &event_list)
 void EventConsumer::get_events (int event_id, CallBack *cb)
 {
 
-	cout3 << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_events() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2702,7 +2702,7 @@ void EventConsumer::get_events (int event_id, CallBack *cb)
 
 int  EventConsumer::event_queue_size(int event_id)
 {
-	cout3 << "EventConsumer::event_queue_size() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::event_queue_size() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2794,7 +2794,7 @@ int  EventConsumer::event_queue_size(int event_id)
 
 bool EventConsumer::is_event_queue_empty(int event_id)
 {
-	cout3 << "EventConsumer::is_event_queue_empty() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::is_event_queue_empty() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);
@@ -2885,7 +2885,7 @@ bool EventConsumer::is_event_queue_empty(int event_id)
 
 TimeVal EventConsumer::get_last_event_date(int event_id)
 {
-	cout3 << "EventConsumer::get_last_event_date() : event_id = " << event_id << std::endl;
+	TANGO_LOG_DEBUG << "EventConsumer::get_last_event_date() : event_id = " << event_id << std::endl;
 
 	// lock the maps
 	ReaderLock l(map_modification_lock);

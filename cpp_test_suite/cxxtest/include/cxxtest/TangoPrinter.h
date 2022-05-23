@@ -134,17 +134,10 @@ private:
     static set<string> restore_points;
 
 public:
-#ifdef cout
-#define cout_stored cout
-#undef cout
-#endif
     TangoPrinter(CXXTEST_STD(ostream) &o = CXXTEST_STD(cout), const char *preLine = ":", const char *postLine = "")
         :
         ErrorFormatter(new Adapter(o), preLine, postLine)
     {}
-#ifdef cout_stored
-#define cout cout_stored
-#endif
 
     virtual ~TangoPrinter()
     { delete outputStream(); }
@@ -763,7 +756,6 @@ public:
         params_tmp["-?"] = param_desc("-?", "help, lists all possible parameters");
         params_tmp["help"] = param_desc("--help", "help, lists all possible parameters");
         params_tmp["-help"] = param_desc("-help", "help, lists all possible parameters");
-        params_tmp["verbose"] = param_desc("--v", "verbose mode");
         params_tmp["loop"] =
             param_desc("--loop=", "execute test cases marked with '__loop' suffix the indicated number of times");
         params_tmp["suiteloop"] = param_desc("--suiteloop=",

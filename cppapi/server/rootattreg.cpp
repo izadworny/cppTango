@@ -55,10 +55,10 @@ void RootAttRegistry::RootAttConfCallBack::push_event(Tango::AttrConfEventData *
 {
 	try
 	{
-//cout << "One attribute configuration change event received" << std::endl;
-//cout << "Attr name = " << ev->attr_name << std::endl;
-//cout << "Event name = " << ev->event << std::endl;
-//cout << "Error flag = " << std::boolalpha << ev->err << std::endl;
+//TANGO_LOG << "One attribute configuration change event received" << std::endl;
+//TANGO_LOG << "Attr name = " << ev->attr_name << std::endl;
+//TANGO_LOG << "Event name = " << ev->event << std::endl;
+//TANGO_LOG << "Error flag = " << std::boolalpha << ev->err << std::endl;
 
 		if (ev->err == false)
 		{
@@ -130,7 +130,7 @@ void RootAttRegistry::RootAttConfCallBack::push_event(Tango::AttrConfEventData *
 // was started while the root device was off
 //
 
-//cout << "Err kind = " << ite->second.fwd_attr->get_err_kind() << std::endl;
+//TANGO_LOG << "Err kind = " << ite->second.fwd_attr->get_err_kind() << std::endl;
 						if (ite->second.fwd_attr->get_err_kind() == FWD_ROOT_DEV_NOT_STARTED)
 						{
 							std::map<std::string,DeviceImpl *>::iterator ite3;
@@ -250,8 +250,8 @@ void RootAttRegistry::RootAttUserCallBack::push_event(Tango::EventData *ev)
 {
 	try
 	{
-//cout << "One event received" << std::endl;
-//cout << "Attr name = " << ev->attr_name << std::endl;
+//TANGO_LOG << "One event received" << std::endl;
+//TANGO_LOG << "Attr name = " << ev->attr_name << std::endl;
 
 		ZmqEventSupplier *zes = Util::instance()->get_zmq_event_supplier();
 

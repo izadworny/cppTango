@@ -135,5 +135,4 @@ public:
 		MultiAttrProp<DevUShort> mapush;
 	}
 };
-#undef cout
 #endif // AttrProp_h

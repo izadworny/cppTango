@@ -2,6 +2,7 @@
 #define EncodedTestSuite_h
 
 #include <ctime>
+
 #include "cxx_common.h"
 
 #undef SUITE_NAME
@@ -225,5 +226,4 @@ public:
 		device1->write_attribute(da_in);
 	}
 };
-#undef cout
 #endif // EncodedTestSuite_h

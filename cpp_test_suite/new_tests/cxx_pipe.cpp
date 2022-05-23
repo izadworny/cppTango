@@ -13,8 +13,6 @@ protected:
 	string 					device1_name;
 	DeviceProxy 			*root_admin;
 
-	bool					verbose;
-
 public:
 	SUITE_NAME()
 	{
@@ -27,8 +25,6 @@ public:
 		// user arguments, obtained from the command line sequentially
 		device1_name = CxxTest::TangoPrinter::get_param("device1");
 		full_ds_name = CxxTest::TangoPrinter::get_param("fulldsname");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();
@@ -694,6 +690,4 @@ public:
 	}
 };
 
-
-#undef cout
 #endif // PipeTestSuite_h

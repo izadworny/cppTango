@@ -1,23 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -45,32 +26,32 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 #else
 	gettimeofday(&now_timeval,NULL);
 #endif
-	coutv << "date : tv_sec = " << now_timeval.tv_sec;
-	coutv << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	delta_msec = ((now_timeval.tv_sec - old_sec) * 1000) + ((now_timeval.tv_usec - old_usec) / 1000);
 
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 
 	try
 	{
-		coutv << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "StateEventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 			*(event_data->attr_value) >> value;
-			coutv << "CallBack value size " << value.size() << std::endl;
+			TEST_LOG << "CallBack value size " << value.size() << std::endl;
 			val = value[2];
 			val_size = value.size();
-			coutv << "Callback value " << val << std::endl;
+			TEST_LOG << "Callback value " << val << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 //			Tango::Except::print_error_stack(event_data->errors);
 			if (strcmp(event_data->errors[0].reason.in(),"bbb") == 0)
 				cb_err++;
@@ -78,7 +59,7 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 }
 
@@ -100,7 +81,7 @@ protected:
 
 void EventUnsubCallBack::push_event(Tango::EventData* event_data)
 {
-	coutv << "Event received for attribute " << event_data->attr_name << std::endl;
+	TEST_LOG << "Event received for attribute " << event_data->attr_name << std::endl;
 	cb_executed++;
 	if (cb_executed == 2)
 	{
@@ -116,17 +97,11 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
-
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -138,7 +113,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 
 	try
@@ -201,14 +176,14 @@ int main(int argc, char **argv)
 //
 
 		bool po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == true);
 
 		int poll_period = device->get_attribute_poll_period(att_name);
-		coutv << "att polling period : " << poll_period << std::endl;
+		TEST_LOG << "att polling period : " << poll_period << std::endl;
 		assert( poll_period == 1000);
 
-		cout << "   subscribe 2 times to the same event (same callback) --> OK" << std::endl;
+		TEST_LOG << "   subscribe 2 times to the same event (same callback) --> OK" << std::endl;
 
 //
 // Check that first point has been received
@@ -217,7 +192,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_executed == 2);
 		assert (cb.val == 30);
 		assert (cb.val_size == 4);
-		cout << "   Two first point received --> OK" << std::endl;
+		TEST_LOG << "   Two first point received --> OK" << std::endl;
 
 //
 // Check that callback was called after a positive value change
@@ -247,12 +222,12 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 6);
 		assert (cb.val == 31);
 		assert (cb.val_size == 4);
 
-		cout << "   Two CallBacks executed for positive absolute delta --> OK" << std::endl;
+		TEST_LOG << "   Two CallBacks executed for positive absolute delta --> OK" << std::endl;
 
 //
 // Check that callback was called after a negative value change
@@ -268,12 +243,12 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 8);
 		assert (cb.val == 30);
 		assert (cb.val_size == 4);
 
-		cout << "   Two CallBacks executed for negative absolute delta --> OK" << std::endl;
+		TEST_LOG << "   Two CallBacks executed for negative absolute delta --> OK" << std::endl;
 
 //
 // Force the attribute to throw exception
@@ -291,10 +266,10 @@ int main(int argc, char **argv)
 //
 
 		Tango_sleep(3);
-		coutv << "Callback cb_err = " << cb.cb_err << std::endl;
+		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 2);
 
-		cout << "   Two CallBacks executed when attribute throw exception (only once) --> OK" << std::endl;
+		TEST_LOG << "   Two CallBacks executed when attribute throw exception (only once) --> OK" << std::endl;
 
 //
 // Attribute does not send exception any more
@@ -332,11 +307,11 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 12);
 		assert (ex == true);
 
-		cout << "   Two CallBacks executed after a try to subscribe to one attribute with a NULL callback --> OK" << std::endl;
+		TEST_LOG << "   Two CallBacks executed after a try to subscribe to one attribute with a NULL callback --> OK" << std::endl;
 
 //
 // unsubscribe one event
@@ -344,7 +319,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id1);
 
-		cout << "   unsubscribe one event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe one event --> OK" << std::endl;
 
 //
 // One more callback when value increase
@@ -368,12 +343,12 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 13);
 		assert (cb.val == 32);
 		assert (cb.val_size == 4);
 
-		cout << "   One CallBack executed for positive absolute delta --> OK" << std::endl;
+		TEST_LOG << "   One CallBack executed for positive absolute delta --> OK" << std::endl;
 
 //
 // Check that callback was called after a negative value change
@@ -389,12 +364,12 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 14);
 		assert (cb.val == 31);
 		assert (cb.val_size == 4);
 
-		cout << "   One CallBack executed for negative absolute delta --> OK" << std::endl;
+		TEST_LOG << "   One CallBack executed for negative absolute delta --> OK" << std::endl;
 
 //
 // unsubscribe to event
@@ -402,7 +377,7 @@ int main(int argc, char **argv)
 
 		device->unsubscribe_event(eve_id2);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // With different callback
@@ -432,7 +407,7 @@ int main(int argc, char **argv)
 		assert (cb2.val == 31);
 		assert (cb2.val_size == 4);
 
-		cout << "   subscribe 2 times to the same event (different callbacks) --> OK" << std::endl;
+		TEST_LOG << "   subscribe 2 times to the same event (different callbacks) --> OK" << std::endl;
 
 //
 // One more callback when value increase
@@ -456,7 +431,7 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb1.cb_executed == 2);
 		assert (cb1.val == 32);
 		assert (cb1.val_size == 4);
@@ -464,7 +439,7 @@ int main(int argc, char **argv)
 		assert (cb2.val == 32);
 		assert (cb2.val_size == 4);
 
-		cout << "   Two different CallBacks executed for positive absolute delta --> OK" << std::endl;
+		TEST_LOG << "   Two different CallBacks executed for positive absolute delta --> OK" << std::endl;
 
 //
 // Check that callback was called after a negative value change
@@ -480,7 +455,7 @@ int main(int argc, char **argv)
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb.cb_executed << std::endl;
+		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb1.cb_executed == 3);
 		assert (cb1.val == 31);
 		assert (cb1.val_size == 4);
@@ -488,7 +463,7 @@ int main(int argc, char **argv)
 		assert (cb2.val == 31);
 		assert (cb2.val_size == 4);
 
-		cout << "   Two different CallBacks executed for negative absolute delta --> OK" << std::endl;
+		TEST_LOG << "   Two different CallBacks executed for negative absolute delta --> OK" << std::endl;
 
 //
 // unsubscribe to events
@@ -497,7 +472,7 @@ int main(int argc, char **argv)
 		device->unsubscribe_event(eve_id2);
 		device->unsubscribe_event(eve_id1);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // Try to unsubscribe within the callback
@@ -542,7 +517,7 @@ int main(int argc, char **argv)
 		device->unsubscribe_event(eve_id2);
 		device->unsubscribe_event(eve_id1);
 
-		cout << "   Event unsubscription within the callback with two other subscribers --> OK" << std::endl;
+		TEST_LOG << "   Event unsubscription within the callback with two other subscribers --> OK" << std::endl;
 
 //
 // Stop polling

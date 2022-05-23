@@ -4,11 +4,8 @@
 #ifndef RecoZmqTestSuite_h
 #define RecoZmqTestSuite_h
 
-
 #include <thread>
 #include "cxx_common.h"
-
-#define    coutv    if (verbose == true) cout
 
 #undef SUITE_NAME
 #define SUITE_NAME RecoZmqTestSuite
@@ -19,10 +16,10 @@ public:
     EventCallback()  { }
     ~EventCallback() { }
     void push_event( Tango::EventData *ed ){
-        cout << "In callback with error flag = " << std::boolalpha << ed->err << endl;
+        TEST_LOG << "In callback with error flag = " << std::boolalpha << ed->err << endl;
         if(ed->err) {
             cb_err++;
-            cout << "Error: " << ed->errors[0].reason << endl;
+            TEST_LOG << "Error: " << ed->errors[0].reason << endl;
         } else {
             cb_executed++;
         }
@@ -37,7 +34,6 @@ class RecoZmqTestSuite : public CxxTest::TestSuite {
 protected:
     DeviceProxy *device1, *device2;
     string device1_name, device2_name, device1_instance_name, device2_instance_name;
-    bool verbose;
     EventCallback eventCallback;
 
 public:
@@ -53,8 +49,6 @@ public:
 
         device1_name = CxxTest::TangoPrinter::get_param("device1");
         device2_name = CxxTest::TangoPrinter::get_param("device20");
-
-        verbose = CxxTest::TangoPrinter::is_param_defined("verbose");
 
         CxxTest::TangoPrinter::validate_args();
 
@@ -133,8 +127,8 @@ public:
 
         Tango_sleep(1);
 
-        coutv << "Callback execution before re-connection = " << eventCallback.cb_executed << endl;
-        coutv << "Callback error before re-connection = " << eventCallback.cb_err << endl;
+        TEST_LOG << "Callback execution before re-connection = " << eventCallback.cb_executed << endl;
+        TEST_LOG << "Callback error before re-connection = " << eventCallback.cb_err << endl;
 
         TS_ASSERT_EQUALS (eventCallback.cb_executed, 3);
         TS_ASSERT_EQUALS (eventCallback.cb_err, 0);
@@ -157,8 +151,8 @@ public:
 // Check error and re-connection
 //
 
-        coutv << "Callback execution after re-connection = " << eventCallback.cb_executed << endl;
-        coutv << "Callback error after re-connection = " << eventCallback.cb_err << endl;
+        TEST_LOG << "Callback execution after re-connection = " << eventCallback.cb_executed << endl;
+        TEST_LOG << "Callback error after re-connection = " << eventCallback.cb_err << endl;
 
         TS_ASSERT_LESS_THAN_EQUALS (1, eventCallback.cb_err);
         TS_ASSERT_EQUALS (eventCallback.cb_executed, 4);
@@ -172,8 +166,8 @@ public:
 
         Tango_sleep(1);
 
-        coutv << "Callback execution after re-connection and event = " << eventCallback.cb_executed << endl;
-        coutv << "Callback error after re-connection and event = " << eventCallback.cb_err << endl;
+        TEST_LOG << "Callback execution after re-connection and event = " << eventCallback.cb_executed << endl;
+        TEST_LOG << "Callback error after re-connection and event = " << eventCallback.cb_err << endl;
 
         TS_ASSERT_EQUALS (eventCallback.cb_executed, 6);
         TS_ASSERT_LESS_THAN_EQUALS (1, eventCallback.cb_err);
@@ -200,8 +194,8 @@ public:
 // Check error and re-connection
 //
 
-        coutv << "Callback execution after second re-connection = " << eventCallback.cb_executed << endl;
-        coutv << "Callback error after second re-connection = " << eventCallback.cb_err << endl;
+        TEST_LOG << "Callback execution after second re-connection = " << eventCallback.cb_executed << endl;
+        TEST_LOG << "Callback error after second re-connection = " << eventCallback.cb_err << endl;
 
         TS_ASSERT_LESS_THAN_EQUALS (1, eventCallback.cb_err);
         TS_ASSERT_EQUALS (eventCallback.cb_executed, 1);
@@ -214,14 +208,12 @@ public:
 
         Tango_sleep(2);
 
-        coutv << "Callback execution after second re-connection and event = " << eventCallback.cb_executed << endl;
-        coutv << "Callback error after second re-connection and event = " << eventCallback.cb_err << endl;
+        TEST_LOG << "Callback execution after second re-connection and event = " << eventCallback.cb_executed << endl;
+        TEST_LOG << "Callback error after second re-connection and event = " << eventCallback.cb_err << endl;
 
         TS_ASSERT_EQUALS (eventCallback.cb_executed, 2);
         TS_ASSERT_LESS_THAN_EQUALS (1, eventCallback.cb_err);
     }
 };
 
-#undef cout
 #endif // RecoZmqTestSuite_h
-

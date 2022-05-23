@@ -179,12 +179,6 @@
 #endif
 
 //
-// USE DSERVER'S LOGGER TO LOG TANGO CORE MESSAGES (cout1..4)
-//
-
-#define TANGO_HAS_CORE_LOGGER
-
-//
 // Define a macro for unused parameter warning
 //
 

@@ -1,18 +1,9 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main()
 {
 	Database *dbase = new Database();
-	cout << '\n' << "new Database returned" << '\n' << endl;
+	TEST_LOG << '\n' << "new Database returned" << '\n' << endl;
 
 	try
 	{
@@ -32,7 +23,7 @@ int main()
 		
 		dbase->put_property(str,da);
 		
-		cout << "   Put object property --> OK" << endl;
+		TEST_LOG << "   Put object property --> OK" << endl;
 		
 //
 // Get prop. value
@@ -51,7 +42,7 @@ int main()
 		assert ( lg1 == 22 );
 		assert ( lg2 == 123 );
 		
-		cout << "   Get object property --> OK" << endl;
+		TEST_LOG << "   Get object property --> OK" << endl;
 		
 //
 // Update property
@@ -74,7 +65,7 @@ int main()
 		
 		assert ( lg10 == 44 );
 		
-		cout << "   Update object property --> OK" << endl;
+		TEST_LOG << "   Update object property --> OK" << endl;
 		
 //
 // Delete prop
@@ -95,7 +86,7 @@ int main()
 		assert( df[0].is_empty() == true );
 		assert( df[1].is_empty() == true );
 				
-		cout << "   Delete object property --> OK" << endl;
+		TEST_LOG << "   Delete object property --> OK" << endl;
 		
 //
 // Try to put object properties
@@ -113,7 +104,7 @@ int main()
 		
 		dbase->put_property(str,da_v);
 		
-		cout << "   Put object property (for vectors) --> OK" << endl;
+		TEST_LOG << "   Put object property (for vectors) --> OK" << endl;
 
 //
 // Get prop. value
@@ -132,7 +123,7 @@ int main()
 		assert ( vf1[2] == 4.5678 );
 		assert ( vf1[3] == 2);
 		
-		cout << "   Get object property (for vectors) --> OK" << endl;
+		TEST_LOG << "   Get object property (for vectors) --> OK" << endl;
 
 //
 // Delete prop
@@ -150,7 +141,7 @@ int main()
 
 		assert( df_v[0].is_empty() == true );
 				
-		cout << "   Delete object property (for vectors) --> OK" << endl;
+		TEST_LOG << "   Delete object property (for vectors) --> OK" << endl;
 
 //
 // Database copy ctor
@@ -163,7 +154,7 @@ int main()
 		ddata = db2.command_inout("DbInfo");
 		ddata >> vs;
 
-		cout << "   Database call after copy construction --> OK" << endl;
+		TEST_LOG << "   Database call after copy construction --> OK" << endl;
 
 //
 // Database assignment operator
@@ -175,7 +166,7 @@ int main()
 		ddata = db3.command_inout("DbInfo");
 		ddata >> vs;
 
-		cout << "   Database call after assignement operator --> OK" << endl;
+		TEST_LOG << "   Database call after assignement operator --> OK" << endl;
 										
 	}
 	

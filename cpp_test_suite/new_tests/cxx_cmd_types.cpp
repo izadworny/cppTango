@@ -114,7 +114,7 @@ public:
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::SCALAR);
 #endif
-//		cout << "   Scalar short --> OK" << endl;
+//		TEST_LOG << "   Scalar short --> OK" << endl;
 	}
 
 // Test Scalar Short 2
@@ -144,7 +144,7 @@ public:
 		AttrDataFormat data_format = da.get_data_format();
 		TS_ASSERT_EQUALS(data_format, Tango::SCALAR);
 #endif
-//		cout << "   Scalar short --> OK" << endl;
+//		TEST_LOG << "   Scalar short --> OK" << endl;
 	}
 
 // Test SCALAR long
@@ -1287,5 +1287,4 @@ public:
     }
 
 };
-#undef cout
 #endif // CmdTypesTestSuite_h

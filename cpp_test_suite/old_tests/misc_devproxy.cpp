@@ -1,17 +1,8 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
 #ifdef WIN32
 #include <process.h>
 #endif
 
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -19,7 +10,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 3)
 	{
-		cout << "usage: " << argv[0] << " <device> <full ds name>" << endl;
+		TEST_LOG << "usage: " << argv[0] << " <device> <full ds name>" << endl;
 		exit(-1);
 	}
 
@@ -38,7 +29,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << '\n' << "new DeviceProxy(" << device->name() << ") returned" << '\n' << endl;
+	TEST_LOG << '\n' << "new DeviceProxy(" << device->name() << ") returned" << '\n' << endl;
 
 	int elapsed;
 	try
@@ -50,7 +41,7 @@ int main(int argc, char **argv)
 		to = device->get_timeout_millis();
 		
 		assert( to == 3000 );
-		cout << "   Get timeout --> OK" << endl;
+		TEST_LOG << "   Get timeout --> OK" << endl;
 		
 // Test set_timeout
 
@@ -60,7 +51,7 @@ int main(int argc, char **argv)
 		
 		assert ( new_to == 2000 );
 		
-		cout << "   Set timeout --> OK" << endl;
+		TEST_LOG << "   Set timeout --> OK" << endl;
 		
 		device->set_timeout_millis(3000);
 		
@@ -68,7 +59,7 @@ int main(int argc, char **argv)
 			
 		elapsed = device->ping();
 
-		cout << "   Ping ( " << elapsed << " us ) --> OK" << endl;
+		TEST_LOG << "   Ping ( " << elapsed << " us ) --> OK" << endl;
 	
 // Test state
 
@@ -76,7 +67,7 @@ int main(int argc, char **argv)
 		sta = device->state();
 
 		assert ( sta == Tango::ON);
-		cout << "   State --> OK" << endl;
+		TEST_LOG << "   State --> OK" << endl;
 	
 // Test status
 
@@ -84,7 +75,7 @@ int main(int argc, char **argv)
 		str = device->status();
 	
 		assert ( str == "The device is in ON state.");
-		cout << "   Status --> OK" << endl;
+		TEST_LOG << "   Status --> OK" << endl;
 
 // Test Tango lib version
 
@@ -92,7 +83,7 @@ int main(int argc, char **argv)
 		tg_version = device->get_tango_lib_version();
 	
 		assert ( tg_version >= 810 );
-		cout << "   Tango lib version --> OK" << endl;
+		TEST_LOG << "   Tango lib version --> OK" << endl;
 
 // Test adm_name
 
@@ -103,7 +94,7 @@ int main(int argc, char **argv)
 		transform(admin_device.begin(),admin_device.end(),admin_device.begin(),::tolower);
 
 		assert ( str_adm == admin_device);
-		cout << "   Adm_name --> OK" << endl;
+		TEST_LOG << "   Adm_name --> OK" << endl;
 
 // Test description
 
@@ -111,7 +102,7 @@ int main(int argc, char **argv)
 		desc = device->description();
 
 		assert ( desc == "A TANGO device");
-		cout << "   Description --> OK" << endl;
+		TEST_LOG << "   Description --> OK" << endl;
 		
 // Test name
 
@@ -119,7 +110,7 @@ int main(int argc, char **argv)
 		name = device->name();
 	
 		assert ( name == device_name);
-		cout << "   Name --> OK" << endl;
+		TEST_LOG << "   Name --> OK" << endl;
 
 // Test blackbox
 
@@ -145,7 +136,7 @@ int main(int argc, char **argv)
 		ans = tmp.substr(pos,end - pos);
 		assert ( ans == "Attribute adm_name requested ");		
 
-		cout << "   Black box --> OK" << endl;
+		TEST_LOG << "   Black box --> OK" << endl;
 		delete ptr;
 		
 // Test info
@@ -161,7 +152,7 @@ int main(int argc, char **argv)
 		assert( inf.doc_url == "Doc URL = http://www.tango-controls.org" );
 		assert( inf.dev_type == "TestDevice");
 		
-		cout << "   Info --> OK" << endl;
+		TEST_LOG << "   Info --> OK" << endl;
 		
 // Test command_query
 
@@ -174,28 +165,28 @@ int main(int argc, char **argv)
 		assert( cmd_info.in_type_desc == "Array of double" );
 		assert( cmd_info.out_type_desc == "This array * 2" );
 		
-		cout << "   Command_query --> OK" << endl;
+		TEST_LOG << "   Command_query --> OK" << endl;
 		
 // Test command_list_query and get_command_list
 
 		CommandInfoList *cmd_list;
 		cmd_list = device->command_list_query();
-		cout << "cmd list size = " << cmd_list->size() << endl;
+		TEST_LOG << "cmd list size = " << cmd_list->size() << endl;
 
 		vector<string> *cmd_name_list;
 		cmd_name_list = device->get_command_list();
 
-		cout << "cmd_name_list size = " << cmd_name_list->size() << endl;
+		TEST_LOG << "cmd_name_list size = " << cmd_name_list->size() << endl;
 
 		assert (cmd_name_list->size() == cmd_list->size());
 
-		cout << "   Command list --> OK" << endl;
+		TEST_LOG << "   Command list --> OK" << endl;
 		
 //		assert (cmd_list->size() == 88 );
 //		assert ((*cmd_list)[0].cmd_name == "FileDb" );
 //		assert ((*cmd_list)[87].cmd_name == "Status");
 
-//		cout << "   Command_list_query --> OK" << endl;
+//		TEST_LOG << "   Command_list_query --> OK" << endl;
 		delete cmd_list;
 		delete cmd_name_list;
 		
@@ -204,13 +195,13 @@ int main(int argc, char **argv)
 		vector<string> *att_list;
 		att_list = device->get_attribute_list();
 
-		cout << "att_list size = " << att_list->size() << endl;
+		TEST_LOG << "att_list size = " << att_list->size() << endl;
 //		assert ( att_list->size() == 77 );
 //		assert ( (*att_list)[0] == "Short_attr");
 //		assert ( (*att_list)[1] == "Long_attr");
 //		assert ( (*att_list)[21] == "String_attr_w");
 		
-//		cout << "   Get attribute list --> OK" << endl;
+//		TEST_LOG << "   Get attribute list --> OK" << endl;
 		delete att_list;
 		
 // Test attribute query
@@ -224,7 +215,7 @@ int main(int argc, char **argv)
 		assert ( attr_conf.description == "No description" );
 		assert ( attr_conf.max_dim_x == 1 );
 		
-		cout << "   Attribute config --> OK" << endl;
+		TEST_LOG << "   Attribute config --> OK" << endl;
 
 // Test get_attribute_config
 		
@@ -245,7 +236,7 @@ int main(int argc, char **argv)
 		assert ( (*attr_conf_ptr)[1].data_format == SCALAR );
 		assert ( (*attr_conf_ptr)[1].data_type == DEV_DOUBLE );	
 		
-		cout << "   Get attribute config --> OK" << endl;
+		TEST_LOG << "   Get attribute config --> OK" << endl;
 		delete attr_conf_ptr;
 
 //  Test get_command_config
@@ -267,7 +258,7 @@ int main(int argc, char **argv)
 		assert ( (*cmd_conf_ptr)[1].in_type == DEV_VOID );
 		assert ( (*cmd_conf_ptr)[1].out_type == DEV_STRING );	
 		
-		cout << "   Get command config --> OK" << endl;
+		TEST_LOG << "   Get command config --> OK" << endl;
 
 // test attribute_list_query
 
@@ -287,7 +278,7 @@ int main(int argc, char **argv)
 //		assert ( (*attr_confs)[21].data_type == DEV_STRING);
 //		assert ( (*attr_confs)[21].data_format == SCALAR);
 		
-//		cout << "   Attribute list query --> OK "  << endl;
+//		TEST_LOG << "   Attribute list query --> OK "  << endl;
 //		delete attr_confs;
 
 // Test set_attribute_config
@@ -315,7 +306,7 @@ int main(int argc, char **argv)
 		DeviceAttributeConfig res = device->attribute_query("Short_attr");
 		assert ( res.format == s );
 		
-		cout << "   Set attribute config --> OK" << endl;
+		TEST_LOG << "   Set attribute config --> OK" << endl;
 		
 // Test device version
 
@@ -323,7 +314,7 @@ int main(int argc, char **argv)
 		int vers = device->get_idl_version();
 		assert (vers == 5);
 		
-		cout << "   Get IDL version --> OK" << endl;
+		TEST_LOG << "   Get IDL version --> OK" << endl;
 #endif
 		
 // Test source 
@@ -336,7 +327,7 @@ int main(int argc, char **argv)
 		
 		device->set_source(Tango::CACHE_DEV);
 		
-		cout << "   Source parameter --> OK" << endl;
+		TEST_LOG << "   Source parameter --> OK" << endl;
 
 // Test get property list
 
@@ -344,9 +335,9 @@ int main(int argc, char **argv)
 		vector<string> props;
 		device->get_property_list("*",props);
 
-		cout << "NB prop = " << props.size() << endl;
+		TEST_LOG << "NB prop = " << props.size() << endl;
 		for (unsigned long l = 0;l < props.size();l++)
-			cout << "prop = " << props[l] << endl;
+			TEST_LOG << "prop = " << props[l] << endl;
 		//TODO conf_devtest defines only 3 properties
 		assert (props.size() == 3);
 		assert (props[0] == "cmd_min_poll_period");
@@ -354,7 +345,7 @@ int main(int argc, char **argv)
 		assert (props[2] == "tst_property");
 //		assert (props[3] == "__SubDevices");
 
-		cout << "   Get property list --> OK" << endl;
+		TEST_LOG << "   Get property list --> OK" << endl;
 #endif
 	}
 	catch (Tango::DevFailed &e)

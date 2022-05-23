@@ -312,12 +312,12 @@ void LockThread::one_more_lock()
 
 	try
 	{
-//		cout << "Locking Thread: I am re-locking devices (" << re_lock_cmd_args.size() << ")" << std::endl;
+//		TANGO_LOG << "Locking Thread: I am re-locking devices (" << re_lock_cmd_args.size() << ")" << std::endl;
 		admin_proxy->command_inout("ReLockDevices",d_in);
 	}
 	catch (Tango::DevFailed &e)
 	{
-//		cout << "LockThread: Gasp, an exception while sending command to admin device" << std::endl;
+//		TANGO_LOG << "LockThread: Gasp, an exception while sending command to admin device" << std::endl;
 
 //
 // If we had a locking error, retrieve device name and remove it from the locked devices list

@@ -345,5 +345,4 @@ public:
 	}
 
 };
-#undef cout
 #endif // AttrConfTestSuite_h

@@ -91,7 +91,7 @@ DServerSignal *DServerSignal::instance()
 
 DServerSignal::DServerSignal():TangoMonitor("signal")
 {
-	cout4 << "Entering DServerSignal constructor" << std::endl;
+	TANGO_LOG_DEBUG << "Entering DServerSignal constructor" << std::endl;
 
 //
 // Set array of signal name
@@ -227,7 +227,7 @@ DServerSignal::DServerSignal():TangoMonitor("signal")
 	sig_th = new ThSig(this);
 	sig_th->start();
 
-	cout4 << "leaving DServerSignal constructor" << std::endl;
+	TANGO_LOG_DEBUG << "leaving DServerSignal constructor" << std::endl;
 }
 
 //+------------------------------------------------------------------------------------------------------------------
@@ -658,7 +658,7 @@ void DServerSignal::register_handler(long signo)
 void DServerSignal::register_handler(long signo,bool handler)
 #endif
 {
-	cout4 << "Installing OS signal handler for signal " << sig_name[signo] << std::endl;
+	TANGO_LOG_DEBUG << "Installing OS signal handler for signal " << sig_name[signo] << std::endl;
 
 #ifdef _TG_WINDOWS_
 	if (::signal(signo, DServerSignal::main_sig_handler) == SIG_ERR)
@@ -728,7 +728,7 @@ void DServerSignal::register_handler(long signo,bool handler)
 
 void DServerSignal::unregister_handler(long signo)
 {
-	cout4 << "Removing OS signal handler for signal " << sig_name[signo] << std::endl;
+	TANGO_LOG_DEBUG << "Removing OS signal handler for signal " << sig_name[signo] << std::endl;
 
 
 #ifdef _TG_WINDOWS_
@@ -801,7 +801,7 @@ pid_t DServerSignal::get_sig_thread_pid()
 #ifndef _TG_WINDOWS_
 void DServerSignal::main_sig_handler(int signo)
 {
-	cout4 << "In main sig_handler !!!!" << std::endl;
+	TANGO_LOG_DEBUG << "In main sig_handler !!!!" << std::endl;
 
 	DevSigAction *act_ptr = &(DServerSignal::reg_sig[signo]);
 
@@ -834,7 +834,7 @@ void DServerSignal::main_sig_handler(int signo)
 #else
 void DServerSignal::main_sig_handler(int signo)
 {
-	cout4 << "In main sig_handler !!!!" << std::endl;
+	TANGO_LOG_DEBUG << "In main sig_handler !!!!" << std::endl;
 
 	win_signo = signo;
 	SetEvent(win_ev);

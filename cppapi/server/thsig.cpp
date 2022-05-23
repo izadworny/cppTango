@@ -85,11 +85,11 @@ void *DServerSignal::ThSig::run_undetached(TANGO_UNUSED(void *ptr))
 		// signo variable. Do a ckeck here to avoid problems!!!
 	   if ( ret != 0 )
 	   {
-		   cout4 << "Signal thread awaken on error " << ret << std::endl;
+		   TANGO_LOG_DEBUG << "Signal thread awaken on error " << ret << std::endl;
 		   continue;
 	   }
 
-	   cout4 << "Signal thread awaken for signal " << signo << std::endl;
+	   TANGO_LOG_DEBUG << "Signal thread awaken for signal " << signo << std::endl;
 
 	   if (signo == SIGHUP)
 		   continue;
@@ -97,7 +97,7 @@ void *DServerSignal::ThSig::run_undetached(TANGO_UNUSED(void *ptr))
 	   WaitForSingleObject(ds->win_ev,INFINITE);
 	   signo = ds->win_signo;
 
-	   cout4 << "Signal thread awaken for signal " << signo << std::endl;
+	   TANGO_LOG_DEBUG << "Signal thread awaken for signal " << signo << std::endl;
 #endif
 
 #ifndef _TG_WINDOWS_
@@ -116,7 +116,7 @@ void *DServerSignal::ThSig::run_undetached(TANGO_UNUSED(void *ptr))
                 {
                     ds->sig_to_install = false;
                     sigaddset(&sigs_to_catch,ds->inst_sig);
-                    cout4 << "signal " << ds->inst_sig << " installed" << std::endl;
+                    TANGO_LOG_DEBUG << "signal " << ds->inst_sig << " installed" << std::endl;
                     job_done = true;
                 }
 
@@ -128,7 +128,7 @@ void *DServerSignal::ThSig::run_undetached(TANGO_UNUSED(void *ptr))
                 {
                     ds->sig_to_remove = false;
                     sigdelset(&sigs_to_catch,ds->rem_sig);
-                    cout4 << "signal " << ds->rem_sig << " removed" << std::endl;
+                    TANGO_LOG_DEBUG << "signal " << ds->rem_sig << " removed" << std::endl;
                     job_done = true;
                 }
 

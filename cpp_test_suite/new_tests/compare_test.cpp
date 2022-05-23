@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <algorithm>
 
+#include "cxx_logging.h"
+
 using namespace std;
 using namespace CmpTst;
 
@@ -606,7 +608,7 @@ void CmpTst::CompareTest::print_output(string out, bool show_line_numbers)
 	if(!outstream)
 		throw CmpTst::CompareTestException("[CmpTst::CompareTest::print_output] Cannot open output file: " + out);
 
-	cout << out << ":" << endl;
+	TEST_LOG << out << ":" << endl;
 	unsigned int line_number = 0;
 	while(outstream)
 	{
@@ -614,9 +616,9 @@ void CmpTst::CompareTest::print_output(string out, bool show_line_numbers)
 		string ref_line, out_line, ref_line_orig, out_line_orig;
 		getline(outstream, out_line);
 		if(show_line_numbers)
-			cout << line_number << "\t" << out_line << endl;
+			TEST_LOG << line_number << "\t" << out_line << endl;
 		else
-			cout << out_line << endl;
+			TEST_LOG << out_line << endl;
 	}
 
 	outstream.close();

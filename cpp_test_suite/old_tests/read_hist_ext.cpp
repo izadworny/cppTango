@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc < 2)
 	{
-		cout << "usage: %s device [-v]" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -27,7 +18,7 @@ int main(int argc, char **argv)
 		string verb = argv[2];
 		if (verb != "-v")
 		{
-			cout << "Usage: %s device [-v]" << endl;
+			TEST_LOG << "Usage: %s device" << endl;
 			exit(-1);
 		}
 		else
@@ -44,7 +35,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	unsigned int i;
 	vector<DeviceDataHistory> *d_hist;
@@ -80,12 +71,12 @@ int main(int argc, char **argv)
 			
 			if (print == true)
 			{
-				cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
-				cout << "Value = " << str << endl;
+				TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+				TEST_LOG << "Value = " << str << endl;
 				TimeVal &t = (*d_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*d_hist)[i].has_failed() == false);
@@ -94,7 +85,7 @@ int main(int argc, char **argv)
 		}
 		delete d_hist;	
 				
-		cout << "   Read command history for one externally triggered polled command --> OK" << endl;
+		TEST_LOG << "   Read command history for one externally triggered polled command --> OK" << endl;
 	
 		device->stop_poll_command("IOStr1");
 
@@ -118,11 +109,11 @@ int main(int argc, char **argv)
 		{
 			if (print == true)
 			{
-				cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+				TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
 				TimeVal &t = (*a_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 
 			if (i < 3)
@@ -169,11 +160,11 @@ int main(int argc, char **argv)
 		{
 			if (print == true)
 			{
-				cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+				TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
 				TimeVal &t = (*a_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 
 			if (i < 3)
@@ -238,11 +229,11 @@ int main(int argc, char **argv)
 			
 			if (print == true)
 			{
-				cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+				TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
 				TimeVal &t = (*a_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*a_hist)[i].has_failed() == false);
@@ -307,11 +298,11 @@ int main(int argc, char **argv)
 			
 			if (print == true)
 			{
-				cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+				TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
 				TimeVal &t = (*a_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*a_hist)[i].has_failed() == false);
@@ -451,7 +442,7 @@ int main(int argc, char **argv)
 		device->stop_poll_attribute("Poll_buff");
 		device->stop_poll_attribute("Poll_buffRW");
 
-		cout << "   Read attribute history for one attribute with polling buffer externally filled (including R/W attribute) --> OK" << endl;
+		TEST_LOG << "   Read attribute history for one attribute with polling buffer externally filled (including R/W attribute) --> OK" << endl;
 
 // Set Encoded_Attr attribute to be polled with external trigger
 
@@ -473,8 +464,8 @@ int main(int argc, char **argv)
 		{
 			if (print == true)
 			{
-				cout << "Value = " << (*a_hist)[i] << endl;
-				cout << endl;
+				TEST_LOG << "Value = " << (*a_hist)[i] << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*a_hist)[i].has_failed() == false);
@@ -511,7 +502,7 @@ int main(int argc, char **argv)
 
 		device->stop_poll_attribute("Encoded_attr");
 
-		cout << "   Read attribute history for one DevEncoded attribute with polling buffer externally filled --> OK" << endl;
+		TEST_LOG << "   Read attribute history for one DevEncoded attribute with polling buffer externally filled --> OK" << endl;
 #endif
 	}
 	catch (Tango::DevFailed &e)
@@ -550,12 +541,12 @@ int main(int argc, char **argv)
 			
 			if (print == true)
 			{
-				cout << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
-				cout << "Value = " << val << endl;
+				TEST_LOG << "Attribute failed = " << (*a_hist)[i].has_failed() << endl;
+				TEST_LOG << "Value = " << val << endl;
 				TimeVal &t = (*a_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*a_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*a_hist)[i].has_failed() == false);
@@ -584,7 +575,7 @@ int main(int argc, char **argv)
 		}
 		delete a_hist;	
 				
-		cout << "   Read attribute history for one externally triggered polled attribute --> OK" << endl;
+		TEST_LOG << "   Read attribute history for one externally triggered polled attribute --> OK" << endl;
 	
 		device->stop_poll_attribute("PollLong_attr");
 
@@ -610,11 +601,11 @@ int main(int argc, char **argv)
 			
 			if (print == true)
 			{
-				cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+				TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
 				TimeVal &t = (*d_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*d_hist)[i].has_failed() == false);
@@ -661,11 +652,11 @@ int main(int argc, char **argv)
 			
 			if (print == true)
 			{
-				cout << "Command failed = " << (*d_hist)[i].has_failed() << endl;
+				TEST_LOG << "Command failed = " << (*d_hist)[i].has_failed() << endl;
 				TimeVal &t = (*d_hist)[i].get_date();
-				cout << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
-				cout << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
-				cout << endl;
+				TEST_LOG << "Date : " << t.tv_sec << " sec, " << t.tv_usec << " usec" << endl;
+				TEST_LOG << "Error stack depth = " << (*d_hist)[i].get_err_stack().length() << endl;
+				TEST_LOG << endl;
 			}
 			
 			assert( (*d_hist)[i].has_failed() == false);
@@ -740,7 +731,7 @@ int main(int argc, char **argv)
 		
 		device->stop_poll_command("IOArray1");
 
-		cout << "   Read command history for one command with polling buffer externally filled --> OK" << endl;		
+		TEST_LOG << "   Read command history for one command with polling buffer externally filled --> OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{

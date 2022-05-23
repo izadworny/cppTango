@@ -87,7 +87,7 @@ EventQueue::EventQueue(long max_size)
 
 EventQueue::~EventQueue()
 {
-	cout3 << "Entering EventQueue::~EventQueue nb_elt = " << nb_elt << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::~EventQueue nb_elt = " << nb_elt << std::endl;
 
 //
 // lock the event queue
@@ -148,7 +148,7 @@ EventQueue::~EventQueue()
 
 void EventQueue::insert_event (EventData *new_event)
 {
-	cout3 << "Entering EventQueue::insert_event" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::insert_event" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -202,7 +202,7 @@ void EventQueue::insert_event (EventData *new_event)
 
 void EventQueue::insert_event (AttrConfEventData *new_event)
 {
-	cout3 << "Entering EventQueue::insert_event" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::insert_event" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -256,7 +256,7 @@ void EventQueue::insert_event (AttrConfEventData *new_event)
 
 void EventQueue::insert_event (DataReadyEventData *new_event)
 {
-	cout3 << "Entering EventQueue::insert_event" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::insert_event" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -311,7 +311,7 @@ void EventQueue::insert_event (DataReadyEventData *new_event)
 
 void EventQueue::insert_event (DevIntrChangeEventData *new_event)
 {
-	cout3 << "Entering EventQueue::insert_event" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::insert_event" << std::endl;
 
 //
 // lock the event queue
@@ -386,7 +386,7 @@ void EventQueue::insert_event (DevIntrChangeEventData *new_event)
 
 void EventQueue::insert_event (PipeEventData *new_event)
 {
-	cout3 << "Entering EventQueue::insert_event" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::insert_event" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -488,7 +488,7 @@ int EventQueue::size()
 
 TimeVal EventQueue::get_last_event_date()
 {
-	cout3 << "Entering EventQueue::get_last_insert_date" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_last_insert_date" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -561,7 +561,7 @@ TimeVal EventQueue::get_last_event_date()
 
 void EventQueue::get_events(EventDataList &event_list)
 {
-	cout3 << "Entering EventQueue::get_events" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_events" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -605,7 +605,7 @@ void EventQueue::get_events(EventDataList &event_list)
 	insert_elt  = 0;
 	nb_elt      = 0;
 
-	cout3 << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
+	TANGO_LOG_DEBUG << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
 	return;
 }
 
@@ -626,7 +626,7 @@ void EventQueue::get_events(EventDataList &event_list)
 
 void EventQueue::get_events(AttrConfEventDataList &event_list)
 {
-	cout3 << "Entering EventQueue::get_events" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_events" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -670,7 +670,7 @@ void EventQueue::get_events(AttrConfEventDataList &event_list)
 	insert_elt  = 0;
 	nb_elt      = 0;
 
-	cout3 << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
+	TANGO_LOG_DEBUG << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
 
 	return;
 }
@@ -693,7 +693,7 @@ void EventQueue::get_events(AttrConfEventDataList &event_list)
 
 void EventQueue::get_events(DataReadyEventDataList &event_list)
 {
-	cout3 << "Entering EventQueue::get_events" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_events" << std::endl;
 
 	// lock the event queue
 	omni_mutex_lock l(modification_mutex);
@@ -737,7 +737,7 @@ void EventQueue::get_events(DataReadyEventDataList &event_list)
 	insert_elt  = 0;
 	nb_elt      = 0;
 
-	cout3 << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
+	TANGO_LOG_DEBUG << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
 
 	return;
 }
@@ -759,7 +759,7 @@ void EventQueue::get_events(DataReadyEventDataList &event_list)
 
 void EventQueue::get_events(DevIntrChangeEventDataList &event_list)
 {
-	cout3 << "Entering EventQueue::get_events" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_events" << std::endl;
 
 //
 // lock the event queue
@@ -815,7 +815,7 @@ void EventQueue::get_events(DevIntrChangeEventDataList &event_list)
 	insert_elt  = 0;
 	nb_elt      = 0;
 
-	cout3 << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
+	TANGO_LOG_DEBUG << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
 
 	return;
 }
@@ -838,7 +838,7 @@ void EventQueue::get_events(DevIntrChangeEventDataList &event_list)
 
 void EventQueue::get_events(PipeEventDataList &event_list)
 {
-	cout3 << "Entering EventQueue::get_events" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_events" << std::endl;
 
 //
 // lock the event queue
@@ -894,7 +894,7 @@ void EventQueue::get_events(PipeEventDataList &event_list)
 	insert_elt  = 0;
 	nb_elt      = 0;
 
-	cout3 << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
+	TANGO_LOG_DEBUG << "EventQueue::get_events() : size = " << event_list.size() << std::endl;
 
 	return;
 }
@@ -917,7 +917,7 @@ void EventQueue::get_events(PipeEventDataList &event_list)
 
 void EventQueue::get_events(CallBack *cb)
 {
-	cout3 << "Entering EventQueue::get_events" << std::endl;
+	TANGO_LOG_DEBUG << "Entering EventQueue::get_events" << std::endl;
 
 	if ( cb == NULL )
 	{

@@ -1,3 +1,5 @@
+#include "cxx_common_old.h"
+
 /*
  * Check size of user classes/structure (For compatibility prurpose)
  *
@@ -6,25 +8,10 @@
  *
  */
 
-#include <tango.h>
-
 void check_size(const char *,long,long, bool*);
 
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
-
-int main(int argc, char **argv)
+int main(int, char **)
 {
-
-	if (argc == 2)
-	{
-		if (strcmp(argv[1],"-v") == 0)
-			verbose = true;
-	}
 
 	bool isOK = true;
 
@@ -83,11 +70,11 @@ int main(int argc, char **argv)
 
 void check_size(const char *class_name,long class_size,long std_size, bool* isOK)
 {
-	coutv << "Size of " << class_name << " = " << class_size << endl;
+	TEST_LOG << "Size of " << class_name << " = " << class_size << endl;
 	if (std_size == class_size)
-		cout << "   Size of " << class_name << " --> OK" << endl;
+		TEST_LOG << "   Size of " << class_name << " --> OK" << endl;
 	else {
-		cout << "   Size of " << class_name << " should be " << std_size << " and is " << class_size
+		TEST_LOG << "   Size of " << class_name << " should be " << std_size << " and is " << class_size
 			 << " --> NOK !!!!!!!!!!!" << endl;
 		*(isOK) = false;
 	}

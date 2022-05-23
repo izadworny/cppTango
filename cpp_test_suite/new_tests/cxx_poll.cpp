@@ -72,7 +72,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -94,7 +94,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -116,7 +116,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -138,7 +138,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -175,7 +175,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
 		for (unsigned int i = 0;i < polled_devices->length();i++)
-			cout << "Polled device = " << (*polled_devices)[i] << endl;
+			TEST_LOG << "Polled device = " << (*polled_devices)[i] << endl;
 		TS_ASSERT_EQUALS((*polled_devices).length(), 0u);
 
 		// check if the data source is set to polling buffer and than device (CACHE_DEV)
@@ -436,5 +436,5 @@ public:
 		CxxTest::TangoPrinter::restore_unset("dev1_IOExcept_polling");
 	}
 };
-#undef cout
+
 #endif // PollTestSuite_h

@@ -340,7 +340,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): rel_change = " << rel_change[0] << " " << rel_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): rel_change = " << rel_change[0] << " " << rel_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("rel_change",dev_name,"Attribute::init_event_prop()");
@@ -400,7 +400,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): abs_change = " << abs_change[0] << " " << abs_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): abs_change = " << abs_change[0] << " " << abs_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("abs_change",dev_name,"Attribute::init_event_prop()");
@@ -460,7 +460,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): archive_rel_change = " << archive_rel_change[0] << " " << archive_rel_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): archive_rel_change = " << archive_rel_change[0] << " " << archive_rel_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("archive_rel_change",dev_name,"Attribute::init_event_prop()");
@@ -520,7 +520,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 						}
 					}
 				}
-				cout1 << "Attribute::Attribute(): archive_abs_change = " << archive_abs_change[0] << " " << archive_abs_change[1] << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): archive_abs_change = " << archive_abs_change[0] << " " << archive_abs_change[1] << std::endl;
 			}
 			else
 				throw_err_data_type("archive_abs_change",dev_name,"Attribute::init_event_prop()");
@@ -557,7 +557,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 			{
 				if (event_period_tmp > 0)
 					event_period = event_period_tmp;
-				cout1 << "Attribute::Attribute(): event_period_str " << event_period_str << " event_period = " << event_period << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): event_period_str " << event_period_str << " event_period = " << event_period << std::endl;
 			}
 			else
 				throw_err_format("event_period",dev_name,"Attribute::init_event_prop()");
@@ -596,7 +596,7 @@ void Attribute::init_event_prop(std::vector<AttrProperty> &prop_list,const std::
 				{
 					archive_period = archive_period_tmp;
 				}
-				cout1 << "Attribute::Attribute(): archive_period_str " << archive_period_str << " archive_period = " << archive_period << std::endl;
+				TANGO_LOG_INFO << "Attribute::Attribute(): archive_period_str " << archive_period_str << " archive_period = " << archive_period << std::endl;
 			}
 			else
 				throw_err_format("archive_period",dev_name,"Attribute::init_event_prop()");
@@ -3769,7 +3769,7 @@ void Attribute::AttributeConfig_3_2_AttributeConfig_5(const Tango::AttributeConf
 
 void Attribute::fire_change_event(DevFailed *except)
 {
-	cout4 << "Attribute::fire_change_event() entering ..." << std::endl;
+	TANGO_LOG_DEBUG << "Attribute::fire_change_event() entering ..." << std::endl;
 
 	if ( except != NULL )
 	{
@@ -4176,7 +4176,7 @@ void Attribute::fire_change_event(DevFailed *except)
 
 void Attribute::fire_archive_event(DevFailed *except)
 {
-	cout4 << "Attribute::fire_archive_event() entering ..." << std::endl;
+	TANGO_LOG_DEBUG << "Attribute::fire_archive_event() entering ..." << std::endl;
 
 	if ( except != NULL )
 	{
@@ -4593,7 +4593,7 @@ void Attribute::fire_archive_event(DevFailed *except)
 
 void Attribute::fire_event(const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,DevFailed *except)
 {
-	cout4 << "Attribute::fire_event() entring ..." << std::endl;
+	TANGO_LOG_DEBUG << "Attribute::fire_event() entring ..." << std::endl;
 
 	if (except != NULL)
 		set_value_flag(false);
@@ -4878,7 +4878,7 @@ void Attribute::fire_event(const std::vector<std::string> &filt_names,const std:
 
 void Attribute::fire_error_periodic_event(DevFailed *except)
 {
-	cout4 << "Attribute::fire_error_periodic_event() entring ..." << std::endl;
+	TANGO_LOG_DEBUG << "Attribute::fire_error_periodic_event() entring ..." << std::endl;
 
 //
 // Check if it is needed to send an event
@@ -5006,7 +5006,7 @@ void Attribute::set_quality(Tango::AttrQuality qua,bool send_event)
 void Attribute::upd_att_prop_db(const Tango::Attr_CheckVal &new_value,
 				const char *prop_name)
 {
-	cout4 << "Entering upd_att_prop_db method for attribute " << name <<", property = " << prop_name << std::endl;
+	TANGO_LOG_DEBUG << "Entering upd_att_prop_db method for attribute " << name <<", property = " << prop_name << std::endl;
 
 //
 // Build the data sent to database
@@ -5103,7 +5103,7 @@ void Attribute::upd_att_prop_db(const Tango::Attr_CheckVal &new_value,
 
 void Attribute::remove_configuration()
 {
-	cout4 << "Entering remove_configuration() method for attribute " << name << std::endl;
+	TANGO_LOG_DEBUG << "Entering remove_configuration() method for attribute " << name << std::endl;
 
 	Tango::Util *tg = Tango::Util::instance();
 
@@ -5861,7 +5861,7 @@ bool Attribute::data_ready_event_subscribed()
 
 void Attribute::set_client_lib(int client_lib_version, EventType event_type)
 {
-	cout4 << "Attribute::set_client_lib("
+	TANGO_LOG_DEBUG << "Attribute::set_client_lib("
 		<< client_lib_version << ","
 		<< EventName[event_type] << ")" << std::endl;
 

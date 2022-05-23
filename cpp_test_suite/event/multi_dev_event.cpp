@@ -1,23 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -35,21 +16,21 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 
 	try
 	{
-		coutv << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 			d_format = event_data->attr_value->get_data_format();
-			coutv << "Valid data sent to callBack" << std::endl;
+			TEST_LOG << "Valid data sent to callBack" << std::endl;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 			cb_err++;
 		}
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -60,19 +41,13 @@ int main(int argc, char **argv)
 
 	if (argc < 4 || argc > 5)
 	{
-		cout << "usage: multi_dev_event device1 device2 device3 [-v]" << std::endl;
+		TEST_LOG << "usage: multi_dev_event device1 device2 device3" << std::endl;
 		exit(-1);
 	}
 
 	std::string device1_name = argv[1];
 	std::string device2_name = argv[2];
 	std::string device3_name = argv[3];
-
-	if (argc == 5)
-	{
-		if (strcmp(argv[4],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -129,7 +104,7 @@ int main(int argc, char **argv)
 		eve_id3 = device2->subscribe_event(att_name,Tango::PERIODIC_EVENT,&cb_evid3);
 		eve_id4 = device3->subscribe_event(att_name,Tango::PERIODIC_EVENT,&cb_evid4);
 
-		cout << "   subscribe to all events --> OK" << std::endl;
+		TEST_LOG << "   subscribe to all events --> OK" << std::endl;
 
 //
 // Check that callback was called
@@ -151,34 +126,34 @@ int main(int argc, char **argv)
 
 		int old_cb_evid1,old_cb_evid2,old_cb_evid3;
 
-		coutv << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
+		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > 2);
 		assert (cb_evid1.cb_executed < 8);
 		assert (cb_evid1.cb_err == 0);
 		assert (cb_evid1.d_format == SCALAR);
 		old_cb_evid1 = cb_evid1.cb_executed;
 
-		coutv << "cb_evid2 executed = " << cb_evid2.cb_executed << std::endl;
+		TEST_LOG << "cb_evid2 executed = " << cb_evid2.cb_executed << std::endl;
 		assert (cb_evid2.cb_executed > 2);
 		assert (cb_evid2.cb_executed < 8);
 		assert (cb_evid2.cb_err == 0);
 		assert (cb_evid2.d_format == SCALAR);
 		old_cb_evid2 = cb_evid2.cb_executed;
 
-		coutv << "cb_evid3 executed = " << cb_evid3.cb_executed << std::endl;
+		TEST_LOG << "cb_evid3 executed = " << cb_evid3.cb_executed << std::endl;
 		assert (cb_evid3.cb_executed > 2);
 		assert (cb_evid3.cb_executed < 8);
 		assert (cb_evid3.cb_err == 0);
 		assert (cb_evid3.d_format == SCALAR);
 		old_cb_evid3 = cb_evid3.cb_executed;
 
-		coutv << "cb_evid4 executed = " << cb_evid4.cb_executed << std::endl;
+		TEST_LOG << "cb_evid4 executed = " << cb_evid4.cb_executed << std::endl;
 		assert (cb_evid4.cb_executed > 2);
 		assert (cb_evid4.cb_executed < 8);
 		assert (cb_evid4.cb_err == 0);
 		assert (cb_evid4.d_format == SCALAR);
 
-		cout << "   CallBack executed every 1000 mS for all events --> OK" << std::endl;
+		TEST_LOG << "   CallBack executed every 1000 mS for all events --> OK" << std::endl;
 
 //
 // unsubscribe one event
@@ -195,18 +170,18 @@ int main(int argc, char **argv)
 		Sleep(5000);
 #endif
 
-		coutv << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
+		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > old_cb_evid1 + 3);
 		old_cb_evid1 = cb_evid1.cb_executed;
 
-		coutv << "cb_evid2 executed = " << cb_evid2.cb_executed << std::endl;
+		TEST_LOG << "cb_evid2 executed = " << cb_evid2.cb_executed << std::endl;
 		assert (cb_evid2.cb_executed > old_cb_evid2 + 3);
 		old_cb_evid1 = cb_evid1.cb_executed;
 
-		coutv << "cb_evid3 executed = " << cb_evid3.cb_executed << std::endl;
+		TEST_LOG << "cb_evid3 executed = " << cb_evid3.cb_executed << std::endl;
 		assert (cb_evid3.cb_executed > old_cb_evid3 + 3);
 
-		cout << "   Event still received after first unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   Event still received after first unsubscribe_event --> OK" << std::endl;
 
 //
 // unsubscribe another event
@@ -222,15 +197,15 @@ int main(int argc, char **argv)
 		Sleep(5000);
 #endif
 
-		coutv << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
+		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > old_cb_evid1 + 3);
 		old_cb_evid1 = cb_evid1.cb_executed;
 
-		coutv << "cb_evid2 executed = " << cb_evid2.cb_executed << std::endl;
+		TEST_LOG << "cb_evid2 executed = " << cb_evid2.cb_executed << std::endl;
 		assert (cb_evid2.cb_executed > old_cb_evid2 + 3);
 		old_cb_evid1 = cb_evid1.cb_executed;
 
-		cout << "   Event still received after second unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   Event still received after second unsubscribe_event --> OK" << std::endl;
 
 		device1->unsubscribe_event(eve_id2);
 
@@ -242,14 +217,14 @@ int main(int argc, char **argv)
 		Sleep(5000);
 #endif
 
-		coutv << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
+		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > old_cb_evid1 + 3);
 
-		cout << "   Event still received after third unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   Event still received after third unsubscribe_event --> OK" << std::endl;
 
 		device1->unsubscribe_event(eve_id1);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 
 //
 // Check automatic unsubscription
@@ -279,7 +254,7 @@ int main(int argc, char **argv)
 		Sleep(15000);
 #endif
 
-		cout << "   DeviceProxy dtor automatically unsubscribe --> OK" << std::endl;
+		TEST_LOG << "   DeviceProxy dtor automatically unsubscribe --> OK" << std::endl;
 
 		device1->unsubscribe_event(eve_id1);
 	}

@@ -395,11 +395,11 @@ void Util::effective_job(int argc,char *argv[])
 
 		if (log_client_orb_deleted)
 		{
-			cout1 << "Client ORB was initialized in before the server ORB, all proxies must be invalidated" << std::endl;
+			TANGO_LOG_INFO << "Client ORB was initialized in before the server ORB, all proxies must be invalidated" << std::endl;
 		}
-		cout4 << "Connected to database" << std::endl;
+		TANGO_LOG_DEBUG << "Connected to database" << std::endl;
 		if (get_db_cache() == NULL)
-			cout4 << "DbServerCache unavailable, will call db..." << std::endl;
+			TANGO_LOG_DEBUG << "DbServerCache unavailable, will call db..." << std::endl;
 
 //
 // Check if the server is not already running somewhere else
@@ -431,9 +431,9 @@ void Util::effective_job(int argc,char *argv[])
 		heartbeat_th = new PollThread(shared_data,poll_mon,true);
 		heartbeat_th->start();
 		heartbeat_th_id = heartbeat_th->id();
-		cout4 << "Heartbeat thread Id = " << heartbeat_th_id << std::endl;
+		TANGO_LOG_DEBUG << "Heartbeat thread Id = " << heartbeat_th_id << std::endl;
 
-		cout4 << "Tango object singleton constructed" << std::endl;
+		TANGO_LOG_DEBUG << "Tango object singleton constructed" << std::endl;
 
 	}
 	catch (CORBA::Exception &)
@@ -546,7 +546,7 @@ void Util::create_CORBA_objects()
 //		building a Util singleton, for Windows non-console mode, it is necessary to :
 //         - Build a UNIX like argc,argv from the command line
 //         - Initialise the ORB
-//         - Create a debug output window if verbose mode is requested and change cout so that it prints into this
+//         - Create a debug output window if verbose mode is requested and change TANGO_LOG so that it prints into this
 //			 window
 //
 // arguments :
@@ -770,7 +770,7 @@ void Util::check_args(int argc,char *argv[])
 							database_file_name.end(),
 							'\\','/');
 #endif
-						cout4 << "File name = <" << database_file_name << ">" << std::endl;
+						TANGO_LOG_DEBUG << "File name = <" << database_file_name << ">" << std::endl;
 						ind++;
 
 //
@@ -1147,13 +1147,13 @@ void Util::connect_db()
 				}
 				else
 				{
-					cout4 << "Can't contact db server, will try later" << std::endl;
+					TANGO_LOG_DEBUG << "Can't contact db server, will try later" << std::endl;
 					Tango_sleep(_sleep_between_connect);
 				}
 			}
 			catch (CORBA::Exception &)
 			{
-				cout4 << "Can't contact db server, will try later" << std::endl;
+				TANGO_LOG_DEBUG << "Can't contact db server, will try later" << std::endl;
 				Tango_sleep(_sleep_between_connect);
 			}
 
@@ -1639,7 +1639,7 @@ Util::~Util()
 void Util::server_already_running()
 {
 
-	cout4 << "Entering Util::server_already_running method" << std::endl;
+	TANGO_LOG_DEBUG << "Entering Util::server_already_running method" << std::endl;
 
 //
 // Build device name and try to import it from database or from cache if available
@@ -1680,7 +1680,7 @@ void Util::server_already_running()
 
 		if ((db_dev->lvalue)[0] == 0)
 		{
-			cout4 << "Leaving Util::server_already_running method" << std::endl;
+			TANGO_LOG_DEBUG << "Leaving Util::server_already_running method" << std::endl;
 			return;
 		}
 
@@ -1701,12 +1701,12 @@ void Util::server_already_running()
 	}
 	catch (CORBA::TRANSIENT &)
 	{
-		cout4 << "Leaving Util::server_already_running method" << std::endl;
+		TANGO_LOG_DEBUG << "Leaving Util::server_already_running method" << std::endl;
 		return;
 	}
 	catch (CORBA::OBJECT_NOT_EXIST &)
 	{
-		cout4 << "Leaving Util::server_already_running method" << std::endl;
+		TANGO_LOG_DEBUG << "Leaving Util::server_already_running method" << std::endl;
 		return;
 	}
 	catch (CORBA::NO_RESPONSE &)
@@ -1715,13 +1715,13 @@ void Util::server_already_running()
 	}
 	catch (CORBA::COMM_FAILURE &)
 	{
-		cout4 << "Leaving Util::server_already_running method" << std::endl;
+		TANGO_LOG_DEBUG << "Leaving Util::server_already_running method" << std::endl;
 		return;
 	}
 
 	if (CORBA::is_nil(dev))
 	{
-		cout4 << "Leaving Util::server_already_running method" << std::endl;
+		TANGO_LOG_DEBUG << "Leaving Util::server_already_running method" << std::endl;
 		return;
 	}
 
@@ -1766,7 +1766,7 @@ void Util::server_already_running()
 	catch (CORBA::SystemException &) {}
 	catch (CORBA::Exception &) {}
 
-	cout4 << "Leaving Util::server_already_running method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Util::server_already_running method" << std::endl;
 
 }
 
@@ -1817,7 +1817,7 @@ void Util::server_init(TANGO_UNUSED(bool with_window))
 		ds_window = new W32Win(this,nCmd);
 
 //
-// Change cout that it uses the graphical console window
+// Change TANGO_LOG that it uses the graphical console window
 //
 
 
@@ -2002,7 +2002,7 @@ void Util::server_run()
 		}
 		else
 		{
-			cout << "Ready to accept request" << std::endl;
+			TANGO_LOG << "Ready to accept request" << std::endl;
 
 			//JM : 9.8.2005 : destroy() should be called at the exit of run()!
 			try
@@ -2018,7 +2018,7 @@ void Util::server_run()
 		}
 	}
 #else
-	cout << "Ready to accept request" << std::endl;
+	TANGO_LOG << "Ready to accept request" << std::endl;
 
 	//JM : 9.8.2005 : destroy() should be called at the exit of run()!
 	try
@@ -2342,7 +2342,7 @@ DServer *Util::get_dserver_device()
 
 std::vector<DeviceImpl *> Util::get_device_list (const std::string& pattern)
 {
-	cout4 << "In Util::get_device_list" << std::endl;
+	TANGO_LOG_DEBUG << "In Util::get_device_list" << std::endl;
 
 // the returned list
 	std::vector<DeviceImpl*> dl(0);
@@ -2423,7 +2423,7 @@ std::vector<DeviceImpl *> Util::get_device_list (const std::string& pattern)
 				done = 1;
 			}
 			token.assign(pattern.begin() + last_pos, pattern.begin() + pos);
-			cout4 << "Found pattern " << token << std::endl;
+			TANGO_LOG_DEBUG << "Found pattern " << token << std::endl;
 			tokens.push_back(token);
 		}
 		last_pos = pos + 1;
@@ -2456,13 +2456,13 @@ std::vector<DeviceImpl *> Util::get_device_list (const std::string& pattern)
 // if dev_name matches the pattern, add the device to the list
 			if (k == tokens.size())
 			{
-				cout4 << "Device "  << temp_dl[j]->get_name() << " match pattern" << std::endl;
+				TANGO_LOG_DEBUG << "Device "  << temp_dl[j]->get_name() << " match pattern" << std::endl;
 				dl.push_back(temp_dl[j]);
 			}
 		}
 	}
 
-	cout4 << "Returning a device list containing " << dl.size() << " items" << std::endl;
+	TANGO_LOG_DEBUG << "Returning a device list containing " << dl.size() << " items" << std::endl;
 	return dl;
 }
 
@@ -2481,7 +2481,7 @@ std::vector<DeviceImpl *> Util::get_device_list (const std::string& pattern)
 void Util::unregister_server()
 {
 
-	cout4 << "Entering Util::unregister_server method" << std::endl;
+	TANGO_LOG_DEBUG << "Entering Util::unregister_server method" << std::endl;
 
 //
 // Mark all the devices belonging to this server as unexported
@@ -2504,7 +2504,7 @@ void Util::unregister_server()
 			throw;
 		}
 	}
-	cout4 << "Leaving Util::unregister_server method" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving Util::unregister_server method" << std::endl;
 }
 
 

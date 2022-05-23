@@ -1,13 +1,4 @@
-/* 
- * Example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		cout << "usage: %s device" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -31,7 +22,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 // Get attribute config
 
@@ -48,7 +39,7 @@ int main(int argc, char **argv)
 	}
 
 	old_ai = ai;
-//	cout << ai << endl;
+//	TEST_LOG << ai << endl;
 
 	assert (ai.min_value == "Not specified");
 	assert (ai.max_value == "Not specified");
@@ -88,7 +79,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << new_ai << endl;
+//	TEST_LOG << new_ai << endl;
 	
 	assert (new_ai.name == ai.name );
 	assert (new_ai.data_type == ai.data_type );
@@ -134,7 +125,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << new_ai << endl;
+//	TEST_LOG << new_ai << endl;
 
 	assert (new_ai.name == old_ai.name );
 	assert (new_ai.data_type == old_ai.data_type );
@@ -149,7 +140,7 @@ int main(int argc, char **argv)
 	assert (new_ai.min_value == old_ai.min_value );
 	assert (new_ai.max_value == old_ai.max_value );	
 					
-	cout << "   Setting/Getting attribute info --> OK" << endl;
+	TEST_LOG << "   Setting/Getting attribute info --> OK" << endl;
 
 // Try to write a value outside authorized limit.
 // First, Change min_value and  max_value
@@ -209,7 +200,7 @@ int main(int argc, char **argv)
 	assert (failed == true);
 	assert (reason == API_WAttrOutsideLimit);
 
-	cout << "   Writing outside attribute limits --> OK" << endl;
+	TEST_LOG << "   Writing outside attribute limits --> OK" << endl;
 
 //*************************************************************************
 //
@@ -248,8 +239,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ALARM);
 	
@@ -274,11 +265,11 @@ int main(int argc, char **argv)
 	}
 
 	AttrQuality qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_ALARM);
 
-	cout << "   Min alarm detection (on a float spectrum) --> OK" << endl;
+	TEST_LOG << "   Min alarm detection (on a float spectrum) --> OK" << endl;
 		
 // Reset min_alarm 
 
@@ -306,8 +297,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ON);
 
@@ -324,11 +315,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_VALID);
 	
-	cout << "   Reset min alarm detection --> OK" << endl;
+	TEST_LOG << "   Reset min alarm detection --> OK" << endl;
 	
 //*************************************************************************
 //
@@ -364,8 +355,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ALARM);
 	
@@ -388,11 +379,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_ALARM);
 
-	cout << "   Max alarm detection (on a float spectrum) --> OK" << endl;
+	TEST_LOG << "   Max alarm detection (on a float spectrum) --> OK" << endl;
 		
 // Reset min_alarm 
 
@@ -420,8 +411,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ON);
 
@@ -438,11 +429,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_VALID);
 	
-	cout << "   Reset max alarm detection --> OK" << endl;
+	TEST_LOG << "   Reset max alarm detection --> OK" << endl;
 
 //*************************************************************************
 //
@@ -490,8 +481,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ALARM);
 	
@@ -514,11 +505,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_ALARM);
 
-	cout << "   Min alarm detection (on a unsigned short spectrum) --> OK" << endl;
+	TEST_LOG << "   Min alarm detection (on a unsigned short spectrum) --> OK" << endl;
 		
 // Reset min_alarm 
 
@@ -546,8 +537,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ON);
 
@@ -564,11 +555,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_VALID);
 	
-	cout << "   Reset min alarm detection --> OK" << endl;
+	TEST_LOG << "   Reset min alarm detection --> OK" << endl;
 	
 //*************************************************************************
 //
@@ -604,8 +595,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ALARM);
 	
@@ -628,11 +619,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_ALARM);
 
-	cout << "   Max alarm detection (on a unsigned short spectrum) --> OK" << endl;
+	TEST_LOG << "   Max alarm detection (on a unsigned short spectrum) --> OK" << endl;
 		
 // Reset min_alarm 
 
@@ -660,8 +651,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-//	cout << "State = " << ds << endl;
-//	cout << "Status = " << status << endl;
+//	TEST_LOG << "State = " << ds << endl;
+//	TEST_LOG << "Status = " << status << endl;
 	
 	assert (ds == Tango::ON);
 
@@ -678,11 +669,11 @@ int main(int argc, char **argv)
 	}
 
 	qual = da.get_quality();
-//	cout << "Quality = " << qual << endl;
+//	TEST_LOG << "Quality = " << qual << endl;
 	
 	assert (qual == Tango::ATTR_VALID);
 	
-	cout << "   Reset max alarm detection --> OK" << endl;
+	TEST_LOG << "   Reset max alarm detection --> OK" << endl;
 
 //*************************************************************************
 //
@@ -715,7 +706,7 @@ int main(int argc, char **argv)
 		
 		old_ai = ai;
 		
-//		cout << ai << endl;
+//		TEST_LOG << ai << endl;
 
 // Change some config parameters
 
@@ -783,8 +774,8 @@ int main(int argc, char **argv)
 	
 		new_ai = device->get_attribute_config(att_name);
 
-//		cout << new_ai << endl;
-//		cout << old_ai << endl;
+//		TEST_LOG << new_ai << endl;
+//		TEST_LOG << old_ai << endl;
 			
 		assert (new_ai.name == old_ai.name );
 		assert (new_ai.data_type == old_ai.data_type );
@@ -811,7 +802,7 @@ int main(int argc, char **argv)
 		assert (new_ai.events.arch_event.archive_rel_change == old_ai.events.arch_event.archive_abs_change);
 		assert (new_ai.events.arch_event.archive_period == old_ai.events.arch_event.archive_period);
 
-		cout << "   Setting/Getting V5 attribute info --> OK" << endl;
+		TEST_LOG << "   Setting/Getting V5 attribute info --> OK" << endl;
 
 //*************************************************************************
 //
@@ -834,8 +825,8 @@ int main(int argc, char **argv)
 		Tango::DevState ds = device->state();
 		string status = device->status();
 
-//		cout << "State = " << DevStateName[ds] << endl;
-//		cout << "Status = " << status << endl;
+//		TEST_LOG << "State = " << DevStateName[ds] << endl;
+//		TEST_LOG << "Status = " << status << endl;
 	
 		assert (ds == Tango::ALARM);
 	
@@ -853,7 +844,7 @@ int main(int argc, char **argv)
 		Tango::DeviceAttribute da = device->read_attribute(att_name);
 		Tango::AttrQuality qual = da.get_quality();
 		
-//		cout << "Quality = " << qual << endl;
+//		TEST_LOG << "Quality = " << qual << endl;
 	
 		assert (qual == Tango::ATTR_ALARM);
 		
@@ -872,8 +863,8 @@ int main(int argc, char **argv)
 		ds = device->state();
 		status = device->status();
 
-//		cout << "State = " << DevStateName[ds] << endl;
-//		cout << "Status = " << status << endl;
+//		TEST_LOG << "State = " << DevStateName[ds] << endl;
+//		TEST_LOG << "Status = " << status << endl;
 	
 		assert (ds == Tango::ALARM);
 	
@@ -891,7 +882,7 @@ int main(int argc, char **argv)
 		da = device->read_attribute(att_name);
 		qual = da.get_quality();
 		
-//		cout << "Quality = " << qual << endl;
+//		TEST_LOG << "Quality = " << qual << endl;
 	
 		assert (qual == Tango::ATTR_WARNING);
 		
@@ -910,8 +901,8 @@ int main(int argc, char **argv)
 		ds = device->state();
 		status = device->status();
 
-//		cout << "State = " << DevStateName[ds] << endl;
-//		cout << "Status = " << status << endl;
+//		TEST_LOG << "State = " << DevStateName[ds] << endl;
+//		TEST_LOG << "Status = " << status << endl;
 	
 		assert (ds == Tango::ON);
 		
@@ -920,7 +911,7 @@ int main(int argc, char **argv)
 		da = device->read_attribute(att_name);
 		qual = da.get_quality();
 		
-//		cout << "Quality = " << qual << endl;
+//		TEST_LOG << "Quality = " << qual << endl;
 	
 		assert (qual == Tango::ATTR_VALID);
 		
@@ -939,8 +930,8 @@ int main(int argc, char **argv)
 		ds = device->state();
 		status = device->status();
 
-//		cout << "State = " << DevStateName[ds] << endl;
-//		cout << "Status = " << status << endl;
+//		TEST_LOG << "State = " << DevStateName[ds] << endl;
+//		TEST_LOG << "Status = " << status << endl;
 	
 		assert (ds == Tango::ALARM);
 	
@@ -958,7 +949,7 @@ int main(int argc, char **argv)
 		da = device->read_attribute(att_name);
 		qual = da.get_quality();
 		
-//		cout << "Quality = " << qual << endl;
+//		TEST_LOG << "Quality = " << qual << endl;
 	
 		assert (qual == Tango::ATTR_WARNING);
 		
@@ -977,8 +968,8 @@ int main(int argc, char **argv)
 		ds = device->state();
 		status = device->status();
 
-//		cout << "State = " << DevStateName[ds] << endl;
-//		cout << "Status = " << status << endl;
+//		TEST_LOG << "State = " << DevStateName[ds] << endl;
+//		TEST_LOG << "Status = " << status << endl;
 	
 		assert (ds == Tango::ALARM);
 	
@@ -996,7 +987,7 @@ int main(int argc, char **argv)
 		da = device->read_attribute(att_name);
 		qual = da.get_quality();
 		
-//		cout << "Quality = " << qual << endl;
+//		TEST_LOG << "Quality = " << qual << endl;
 	
 		assert (qual == Tango::ATTR_ALARM);
 		
@@ -1014,8 +1005,8 @@ int main(int argc, char **argv)
 		ds = device->state();
 		status = device->status();
 
-//		cout << "State = " << DevStateName[ds] << endl;
-//		cout << "Status = " << status << endl;
+//		TEST_LOG << "State = " << DevStateName[ds] << endl;
+//		TEST_LOG << "Status = " << status << endl;
 	
 		assert (ds == Tango::ON);
 		
@@ -1024,11 +1015,11 @@ int main(int argc, char **argv)
 		da = device->read_attribute(att_name);
 		qual = da.get_quality();
 		
-//		cout << "Quality = " << qual << endl;
+//		TEST_LOG << "Quality = " << qual << endl;
 	
 		assert (qual == Tango::ATTR_VALID);
 		
-		cout << "   Alarm, Warning level detection --> OK" << endl;
+		TEST_LOG << "   Alarm, Warning level detection --> OK" << endl;
 
 //*************************************************************************
 //
@@ -1142,7 +1133,7 @@ int main(int argc, char **argv)
 		}
 		assert (except == true);
 
-		cout << "   Exception when trying to change \"hard coded\" properties --> OK" << endl;		
+		TEST_LOG << "   Exception when trying to change \"hard coded\" properties --> OK" << endl;
 	}
 	catch (CORBA::Exception &e)
 	{

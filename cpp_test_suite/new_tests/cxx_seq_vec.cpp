@@ -238,5 +238,5 @@ public:
 		TS_ASSERT_EQUALS(input, output);
 	}
 };
-#undef cout
+
 #endif // SeqVecTestSuite_h

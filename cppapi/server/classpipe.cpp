@@ -55,7 +55,7 @@ PipeProperty & PipeProperty::operator=(PipeProperty &&) = default;
 
 MultiClassPipe::MultiClassPipe()
 {
-	cout4 << "Entering MultiClassPipe constructor" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiClassPipe constructor" << std::endl;
 }
 
 MultiClassPipe::~MultiClassPipe() = default;
@@ -77,7 +77,7 @@ MultiClassPipe::~MultiClassPipe() = default;
 
 void MultiClassPipe::init_class_pipe(DeviceClass *cl_ptr)
 {
-	cout4 << "Entering MultiClassPipe::init_class_pipe" << std::endl;
+	TANGO_LOG_DEBUG << "Entering MultiClassPipe::init_class_pipe" << std::endl;
 
 	Tango::Util *tg = Tango::Util::instance();
 
@@ -163,7 +163,7 @@ void MultiClassPipe::init_class_pipe(DeviceClass *cl_ptr)
 		}
 	}
 
-	cout4 << "Leaving MultiClassPipe::init_class_pipe" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving MultiClassPipe::init_class_pipe" << std::endl;
 }
 
 

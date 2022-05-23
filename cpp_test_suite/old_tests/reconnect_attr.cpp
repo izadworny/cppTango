@@ -1,12 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		cout << "usage: %s attribute" << endl;
+		TEST_LOG << "usage: %s attribute" << endl;
 		exit(-1);
 	}
 
@@ -23,7 +15,7 @@ int main(int argc, char **argv)
 	try 
 	{
 		attr = new AttributeProxy(attr_name);
-		cout << "new AttributeProxy() returned" << endl;
+		TEST_LOG << "new AttributeProxy() returned" << endl;
 	}
         catch (CORBA::Exception &e)
         {
@@ -35,14 +27,14 @@ int main(int argc, char **argv)
 	
 	while (1)
 	{
-		cout << "Hit any key :" << endl;
+		TEST_LOG << "Hit any key :" << endl;
 		char bid;
 		cin >> bid;
 
 		try
 		{	
 			attr->ping();
-			cout << "Ping successfull" << endl;
+			TEST_LOG << "Ping successfull" << endl;
 		}
 		catch (Tango::CommunicationFailed &e)
 		{
@@ -60,7 +52,7 @@ int main(int argc, char **argv)
 		}
 		catch (...)
 		{
-			cout << "Unknown exception" << endl;
+			TEST_LOG << "Unknown exception" << endl;
 		}
 		
 	}

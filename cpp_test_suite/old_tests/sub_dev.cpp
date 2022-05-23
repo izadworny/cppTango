@@ -1,16 +1,7 @@
+#include "cxx_common_old.h"
 /* 
  * Test module for sub device diagnostics in the Tango API.
  */
-
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
 
 int main(int argc, char **argv)
 {
@@ -19,7 +10,7 @@ int main(int argc, char **argv)
 	
 	if ((argc < 4) || (argc > 5))
 	{
-		cout << "usage: sub_dev <device1> <device2> <device3> [-v] " << endl;
+		TEST_LOG << "usage: sub_dev <device1> <device2> <device3>" << endl;
 		exit(-1);
 	}
 
@@ -36,12 +27,6 @@ int main(int argc, char **argv)
 	devices.push_back(device2_name);
 	devices.push_back(device3_name);
 	sort(devices.begin(), devices.end());
-
-	if (argc == 5)
-	{
-		if (strcmp(argv[4],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{
@@ -62,7 +47,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	try
 	{
@@ -81,7 +66,7 @@ int main(int argc, char **argv)
 		}
 
 		assert ( except == false );
-		cout << "  Server restart to clean sub device lists --> OK" << endl;
+		TEST_LOG << "  Server restart to clean sub device lists --> OK" << endl;
 #ifdef WIN32
 		Sleep(3000);
 #else
@@ -92,7 +77,7 @@ int main(int argc, char **argv)
 
 		{
 			DeviceAttribute da = device->read_attribute("Sub_device_tst");
-			coutv << da << endl;
+			TEST_LOG << da << endl;
 			bool att_value;
 			da >> att_value;
 			assert (att_value == true);
@@ -109,14 +94,14 @@ int main(int argc, char **argv)
 			assert( sub_dev_list.size() == 1);
 			assert( sub_dev_list[0]     == result);
 
-			cout << "  Add sub device in attribute method --> OK" << endl;
+			TEST_LOG << "  Add sub device in attribute method --> OK" << endl;
 		}
 
 // execute command to add sub devices in the list
 		
 		{
 			DeviceData dd = device->command_inout("SubDeviceTst");
-			coutv << dd << endl;
+			TEST_LOG << dd << endl;
 			bool cmd_value;
 			dd >> cmd_value;
 			assert (cmd_value == true);
@@ -145,7 +130,7 @@ int main(int argc, char **argv)
 			result = device1_name + " " + devices[2];
 			assert( sub_dev_list[2]     == result);
 
-			cout << "  Add sub devices in command method and external thread --> OK" << endl;
+			TEST_LOG << "  Add sub devices in command method and external thread --> OK" << endl;
 		}
 	}
 	catch (Tango::DevFailed &e)

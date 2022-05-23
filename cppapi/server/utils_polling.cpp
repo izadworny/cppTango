@@ -51,7 +51,7 @@ namespace Tango
 
 void Util::polling_configure()
 {
-	cout4 << "Entering polling_configure()" << std::endl;
+	TANGO_LOG_DEBUG << "Entering polling_configure()" << std::endl;
 
 //
 // Get the polling threads pool conf from the DServer device
@@ -258,7 +258,7 @@ void Util::polling_configure()
 //
 
 	unsigned long nb_thread = poll_ths.size();
-	cout4 << "POLLING: " << nb_thread << " thread(s) needed for polling from a pool of " << get_polling_threads_pool_size() << std::endl;
+	TANGO_LOG_DEBUG << "POLLING: " << nb_thread << " thread(s) needed for polling from a pool of " << get_polling_threads_pool_size() << std::endl;
 	for (unsigned long loop = 0;loop < nb_thread;++loop)
 	{
 		unsigned long nb_cmd = poll_ths[loop]->v_poll_cmd.size();
@@ -270,9 +270,9 @@ void Util::polling_configure()
 		if (delta_os < sleeping_time)
 			sleeping_time = sleeping_time - delta_os;
 
-		cout4 << "PollConfigureThread: smallest_upd = " << poll_ths[loop]->smallest_upd;
-		cout4 << ", delta_time = " << sleeping_time;
-		cout4 << ", nb_poll_objects = " << nb_cmd << std::endl;
+		TANGO_LOG_DEBUG << "PollConfigureThread: smallest_upd = " << poll_ths[loop]->smallest_upd;
+		TANGO_LOG_DEBUG << ", delta_time = " << sleeping_time;
+		TANGO_LOG_DEBUG << ", nb_poll_objects = " << nb_cmd << std::endl;
 
 		for (unsigned long cmd_loop = 0;cmd_loop  < nb_cmd;++cmd_loop)
 		{
@@ -408,7 +408,7 @@ void Util::polling_configure()
 	if (((dev_db_upd.empty() == false) || (conf_needs_db_upd == true)) && (_UseDb == true))
 		upd_polling_prop(dev_db_upd,admin_dev);
 
-	cout4 << "Leaving polling_configure()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving polling_configure()" << std::endl;
 
 }
 
@@ -430,7 +430,7 @@ void Util::polling_configure()
 
 void Util::trigger_attr_polling(Tango::DeviceImpl *dev,const std::string &name)
 {
-	cout4 << "Sending trigger to polling thread" << std::endl;
+	TANGO_LOG_DEBUG << "Sending trigger to polling thread" << std::endl;
 
 //
 // Check that the device is polled
@@ -506,7 +506,7 @@ void Util::trigger_attr_polling(Tango::DeviceImpl *dev,const std::string &name)
 
 		mon.signal();
 
-		cout4 << "Trigger sent to polling thread" << std::endl;
+		TANGO_LOG_DEBUG << "Trigger sent to polling thread" << std::endl;
 
 //
 // Wait for thread to execute command
@@ -540,7 +540,7 @@ void Util::trigger_attr_polling(Tango::DeviceImpl *dev,const std::string &name)
 			long lock_ctr = 0;
 			if (th->id() == dev_mon.get_locking_thread_id())
 			{
-				cout4 << "Possible deadlock detected!" << std::endl;
+				TANGO_LOG_DEBUG << "Possible deadlock detected!" << std::endl;
 				deadlock = true;
 				lock_ctr = dev_mon.get_locking_ctr();
 				for (long loop = 0;loop < lock_ctr;loop++)
@@ -556,12 +556,12 @@ void Util::trigger_attr_polling(Tango::DeviceImpl *dev,const std::string &name)
 
 			if ((shared_cmd.trigger == true) && (interupted == 0))
 			{
-				cout4 << "TIME OUT" << std::endl;
+				TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
 				TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Polling thread blocked !!!");
 			}
 		}
 	}
-	cout4 << "Thread cmd normally executed" << std::endl;
+	TANGO_LOG_DEBUG << "Thread cmd normally executed" << std::endl;
 }
 
 
@@ -583,7 +583,7 @@ void Util::trigger_attr_polling(Tango::DeviceImpl *dev,const std::string &name)
 
 void Util::trigger_cmd_polling(Tango::DeviceImpl *dev,const std::string &name)
 {
-	cout4 << "Sending trigger to polling thread" << std::endl;
+	TANGO_LOG_DEBUG << "Sending trigger to polling thread" << std::endl;
 
 //
 // Check that the device is polled
@@ -659,7 +659,7 @@ void Util::trigger_cmd_polling(Tango::DeviceImpl *dev,const std::string &name)
 
 		mon.signal();
 
-		cout4 << "Trigger sent to polling thread" << std::endl;
+		TANGO_LOG_DEBUG << "Trigger sent to polling thread" << std::endl;
 
 //
 // Wait for thread to execute command
@@ -693,7 +693,7 @@ void Util::trigger_cmd_polling(Tango::DeviceImpl *dev,const std::string &name)
 			long lock_ctr = 0;
 			if (th->id() == dev_mon.get_locking_thread_id())
 			{
-				cout4 << "Possible deadlock detected!" << std::endl;
+				TANGO_LOG_DEBUG << "Possible deadlock detected!" << std::endl;
 				deadlock = true;
 				lock_ctr = dev_mon.get_locking_ctr();
 				for (long loop = 0;loop < lock_ctr;loop++)
@@ -709,12 +709,12 @@ void Util::trigger_cmd_polling(Tango::DeviceImpl *dev,const std::string &name)
 
 			if ((shared_cmd.trigger == true) && (interupted == 0))
 			{
-				cout4 << "TIME OUT" << std::endl;
+				TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
 				TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Polling thread blocked !!!");
 			}
 		}
 	}
-	cout4 << "Thread cmd normally executed" << std::endl;
+	TANGO_LOG_DEBUG << "Thread cmd normally executed" << std::endl;
 }
 
 //+-----------------------------------------------------------------------------------------------------------------
@@ -1278,9 +1278,9 @@ void Util::check_pool_conf(DServer *admin_dev,unsigned long pool_size)
 
 			if (loop == nb_dev)
 			{
-				cout << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
-				cout << " but it is not defined in DS"<< std::endl;
-				cout << "The pool configuration will be automatically updated" << std::endl;
+				TANGO_LOG << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
+				TANGO_LOG << " but it is not defined in DS"<< std::endl;
+				TANGO_LOG << "The pool configuration will be automatically updated" << std::endl;
 			}
 			else
 			{
@@ -1296,9 +1296,9 @@ void Util::check_pool_conf(DServer *admin_dev,unsigned long pool_size)
 
 				if ((poll_cmd_list.empty() == true) && (poll_attr_list.empty() == true))
 				{
-					cout << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
-					cout << " but it does not have any cmd/attr polled"<< std::endl;
-					cout << "The pool configuration will be automatically updated" << std::endl;
+					TANGO_LOG << "WARNING: Device " << *iter_entry << " is used in polling threads pool configuration";
+					TANGO_LOG << " but it does not have any cmd/attr polled"<< std::endl;
+					TANGO_LOG << "The pool configuration will be automatically updated" << std::endl;
 				}
 				else
 				{
@@ -1337,9 +1337,9 @@ void Util::check_pool_conf(DServer *admin_dev,unsigned long pool_size)
 
 	if (mod_conf.size() > pool_size)
 	{
-		cout << "WARNING: More threads defined in the polling threads pool configuration";
-		cout << " than in its size ("<< mod_conf.size() << " > " << pool_size << ")" << std::endl;
-		cout << "The pool configuration will be automatically updated" << std::endl;
+		TANGO_LOG << "WARNING: More threads defined in the polling threads pool configuration";
+		TANGO_LOG << " than in its size ("<< mod_conf.size() << " > " << pool_size << ")" << std::endl;
+		TANGO_LOG << "The pool configuration will be automatically updated" << std::endl;
 
 //
 // If we have more threads in the conf than in the pool, distribute the extra thread devices to the still existing
@@ -1431,9 +1431,9 @@ int Util::check_dev_poll(std::vector<std::string> &poll_cmd_list,std::vector<std
 
 		if (i_cmd == cmd_list.end())
 		{
-			cout << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
-			cout << " a command which does not exist anymore"<< std::endl;
-			cout << "The device polling configuration will be automatically updated" << std::endl;
+			TANGO_LOG << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
+			TANGO_LOG << " a command which does not exist anymore"<< std::endl;
+			TANGO_LOG << "The device polling configuration will be automatically updated" << std::endl;
 
 			ret = -1;
 			poll_cmd_list.erase(iter,iter + 2);
@@ -1466,9 +1466,9 @@ int Util::check_dev_poll(std::vector<std::string> &poll_cmd_list,std::vector<std
 
 		if (i_attr == att_list.end())
 		{
-			cout << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
-			cout << " an attribute which does not exist anymore (" << polled_attr << ")" << std::endl;
-			cout << "The device polling configuration will be automatically updated" << std::endl;
+			TANGO_LOG << "WARNING: Device " << dev->get_name() << " is configured to be polled with";
+			TANGO_LOG << " an attribute which does not exist anymore (" << polled_attr << ")" << std::endl;
+			TANGO_LOG << "The device polling configuration will be automatically updated" << std::endl;
 
 			if (ret == -1)
 				ret = -3;

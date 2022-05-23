@@ -1,3 +1,5 @@
+#include "cxx_common_old.h"
+
 /* 
  * Small utility program to help testing locking features.
  *
@@ -8,33 +10,17 @@
  *   2 : All other exceptions
  */
 
-#include <tango.h>
-#include <assert.h>
-
-#define	coutv	if (verbose == true) cout
-
-bool verbose = false;
-
-using namespace Tango;
-using namespace std;
-
 int main(int argc, char **argv)
 {
 	DeviceProxy *device;
 	
 	if ((argc == 1) || (argc > 3))
 	{
-		cout << "usage: %s device [-v] " << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
 	string device_name = argv[1];
-	
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}	
 
 	try 
 	{

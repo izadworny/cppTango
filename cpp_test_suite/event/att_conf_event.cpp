@@ -1,23 +1,4 @@
-/*
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <process.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-
-bool verbose = false;
+#include "cxx_common_event.h"
 
 class EventCallBack : public Tango::CallBack
 {
@@ -45,36 +26,36 @@ void EventCallBack::push_event(Tango::AttrConfEventData* event_data)
 #else
 	gettimeofday(&now_timeval,NULL);
 #endif
-	coutv << "date : tv_sec = " << now_timeval.tv_sec;
-	coutv << ", tv_usec = " << now_timeval.tv_usec << std::endl;
+	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
+	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
 	delta_msec = ((now_timeval.tv_sec - old_sec) * 1000) + ((now_timeval.tv_usec - old_usec) / 1000);
 
 	old_sec = now_timeval.tv_sec;
 	old_usec = now_timeval.tv_usec;
 
-	coutv << "delta_msec = " << delta_msec << std::endl;
+	TEST_LOG << "delta_msec = " << delta_msec << std::endl;
 
 	cb_executed++;
 
 	try
 	{
-		coutv << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
-			coutv << *(event_data->attr_conf) << std::endl;
+			TEST_LOG << *(event_data->attr_conf) << std::endl;
 			min_value = event_data->attr_conf->min_value;
 			max_value = event_data->attr_conf->max_value;
 		}
 		else
 		{
-			coutv << "Error send to callback" << std::endl;
+			TEST_LOG << "Error send to callback" << std::endl;
 			Tango::Except::print_error_stack(event_data->errors);
 		}
 	}
 	catch (...)
 	{
-		coutv << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
@@ -85,17 +66,11 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		cout << "usage: %s device [-v]" << std::endl;
+		TEST_LOG << "usage: %s device" << std::endl;
 		exit(-1);
 	}
 
 	std::string device_name = argv[1];
-
-	if (argc == 3)
-	{
-		if (strcmp(argv[2],"-v") == 0)
-			verbose = true;
-	}
 
 	try
 	{
@@ -107,7 +82,7 @@ int main(int argc, char **argv)
 	exit(1);
 	}
 
-	coutv << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
+	TEST_LOG << std::endl << "new DeviceProxy(" << device->name() << ") returned" << std::endl << std::endl;
 
 	try
 	{
@@ -133,7 +108,7 @@ int main(int argc, char **argv)
 //
 
 		bool po = device->is_attribute_polled(att_name);
-		coutv << "attribute polled : " << po << std::endl;
+		TEST_LOG << "attribute polled : " << po << std::endl;
 		assert( po == false);
 
 //
@@ -142,7 +117,7 @@ int main(int argc, char **argv)
 
 		assert (cb.cb_executed == 2);
 
-		cout << "   subscribe_event --> OK" << std::endl;
+		TEST_LOG << "   subscribe_event --> OK" << std::endl;
 
 //
 // Execute the command which will fire an attribute
@@ -168,7 +143,7 @@ int main(int argc, char **argv)
 		assert (cb.min_value == "0");
 		assert (cb.max_value == "10");
 
-		cout << "   attr_conf_event --> OK" << std::endl;
+		TEST_LOG << "   attr_conf_event --> OK" << std::endl;
 
 //
 // unsubscribe to the event
@@ -177,7 +152,7 @@ int main(int argc, char **argv)
 		device->unsubscribe_event(eve_id1);
 		device->unsubscribe_event(eve_id2);
 
-		cout << "   unsubscribe_event --> OK" << std::endl;
+		TEST_LOG << "   unsubscribe_event --> OK" << std::endl;
 	}
 	catch (Tango::DevFailed &e)
 	{

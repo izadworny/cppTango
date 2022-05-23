@@ -1,11 +1,3 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
 #include <netdb.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,10 +7,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#define	coutv	if (verbose == true) cout
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 void set_user_device_right(DeviceProxy *,const char *,const char *,const char *);
 void set_user_address(DeviceProxy *,const char *,const char *);
@@ -28,14 +17,11 @@ void check_device_access(string &,bool,bool);
 void call_devices_ds_off(DeviceProxy *,DeviceProxy *,bool);
 pid_t start_ds(const char *,const char *,const char *);
 
-bool verbose = false;
-
-
 int main(int argc, char **argv)
 {	
 	if ((argc < 6) || (argc > 7))
 	{
-		cout << "usage: acc_right user host device1 device2 admin_device [-v] " << endl;
+		TEST_LOG << "usage: acc_right user host device1 device2 admin_device" << endl;
 		exit(-1);
 	}
 
@@ -44,12 +30,6 @@ int main(int argc, char **argv)
 	string device = argv[3];
 	string another_device(argv[4]);
 	string admin_device(argv[5]);
-	
-	if (argc == 7)
-	{
-		if (strcmp(argv[6],"-v") == 0)
-			verbose = true;
-	}	
 
 	struct hostent *my_addr;
 	if ((my_addr = gethostbyname(host.c_str())) == NULL)
@@ -64,7 +44,7 @@ int main(int argc, char **argv)
 
 	string host_ip(host_ptr);
 
-	coutv << "Host IP address: " << host_ip << endl;
+	TEST_LOG << "Host IP address: " << host_ip << endl;
 
 //
 // Get info on control access device
@@ -88,7 +68,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	coutv << "Control access dev name = " << serv_dev_name << endl;
+	TEST_LOG << "Control access dev name = " << serv_dev_name << endl;
 
 //
 // Connect to the control access service
@@ -105,7 +85,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	coutv << "Connected to Controlled access service" << endl;
+	TEST_LOG << "Connected to Controlled access service" << endl;
 
 //
 // Add some allowed commands on the controlled access device to do our tests
@@ -124,7 +104,7 @@ int main(int argc, char **argv)
 
 		if (allo_cmds.size() == 0)
 		{
-			cout << "Your control system is not configured property to run the controlled access!" << endl;
+			TEST_LOG << "Your control system is not configured property to run the controlled access!" << endl;
 			exit(-1);
 		}
 
@@ -172,7 +152,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,false,false);
 
-	cout << "  Access allowed/blocked for first config (user not defined, * read) --> OK" << endl;
+	TEST_LOG << "  Access allowed/blocked for first config (user not defined, * read) --> OK" << endl;
 
 //
 // Set default user right to WRITE
@@ -182,7 +162,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,true,false);
 
-	cout << "  Access allowed/blocked for second config (user not defined, * WRITE) --> OK" << endl;
+	TEST_LOG << "  Access allowed/blocked for second config (user not defined, * WRITE) --> OK" << endl;
 
 //
 // Set default user right to READ
@@ -194,7 +174,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,true,false);
 
-	cout << "  Access allowed/blocked for third config (* READ, user defined with device WRITE) --> OK" << endl;
+	TEST_LOG << "  Access allowed/blocked for third config (* READ, user defined with device WRITE) --> OK" << endl;
 
 //
 // Set cmd line user right to READ on the command line device and WRITE on all other device
@@ -209,7 +189,7 @@ int main(int argc, char **argv)
 	check_device_access(device,false,false);
 	check_device_access(another_dev,true,false);
 
-	cout << "  Access allowed/blocked for forth config (* READ, user defined with default device WRITE, cmd line device READ) --> OK" << endl;
+	TEST_LOG << "  Access allowed/blocked for forth config (* READ, user defined with default device WRITE, cmd line device READ) --> OK" << endl;
 
 //
 // Set cmd line user right to READ on the command line device and WRITE on all other device
@@ -220,7 +200,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,false,false);
 
-	cout << "  Access allowed/blocked for fifth config (cmd line device WRITE + allowed from wrong address) --> OK" << endl;
+	TEST_LOG << "  Access allowed/blocked for fifth config (cmd line device WRITE + allowed from wrong address) --> OK" << endl;
 
 //
 // Set cmd line user right to READ on the command line device and WRITE on all other device
@@ -230,7 +210,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,true,false);
 
-	cout << "  Access allowed/blocked for sixth config (cmd line device WRITE + allowed from user address) --> OK" << endl;
+	TEST_LOG << "  Access allowed/blocked for sixth config (cmd line device WRITE + allowed from user address) --> OK" << endl;
 
 //--------------- CONTROLLED ACCESS AND CONTROL SYSTEM CONFIG TEST--------------------
 
@@ -254,7 +234,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,true,false);
 
-	cout << "  Write access if no access service defined in DB --> OK" << endl;
+	TEST_LOG << "  Write access if no access service defined in DB --> OK" << endl;
 
 //
 // Re-create CtrlSystem property
@@ -282,7 +262,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,false,true);
 
-	cout << "  Read access if access service defined in DB but is not running (even for allowed commands) --> OK" << endl;
+	TEST_LOG << "  Read access if access service defined in DB but is not running (even for allowed commands) --> OK" << endl;
 
 //
 // Start the controlled access service
@@ -308,7 +288,7 @@ int main(int argc, char **argv)
 
 	check_device_access(device,true,false);
 
-	cout << "  Controlled access running after service re-start --> OK" << endl;
+	TEST_LOG << "  Controlled access running after service re-start --> OK" << endl;
 
 //--------------- DEVICE RE_CONNECTION TEST--------------------
 
@@ -326,7 +306,7 @@ int main(int argc, char **argv)
 		check_device_access(dev_dp,true,false);
 		check_device_access(another_dev_dp,false,false);
 
-		coutv << "Access before killing the DS --> OK" << endl;
+		TEST_LOG << "Access before killing the DS --> OK" << endl;
 
 		DeviceProxy *ds_admin = new DeviceProxy(admin_device);
 		ds_admin->command_inout("Kill");
@@ -334,16 +314,16 @@ int main(int argc, char **argv)
 		sleep(1);
 
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
-		coutv << "DS pid = " << ds_pid << endl;
+		TEST_LOG << "DS pid = " << ds_pid << endl;
 
 		sleep(2);
 
-		coutv << "DS killed and re-started" << endl;
+		TEST_LOG << "DS killed and re-started" << endl;
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access after DS restart for " << device << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << device << " OK" << endl;
 		check_device_access(another_dev_dp,false,false);
-		coutv << "Access after DS restart for " << another_dev << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << another_dev << " OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -351,7 +331,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Device rights after re-connection (without calls between DS kill/start) --> OK" << endl;
+	TEST_LOG << "  Device rights after re-connection (without calls between DS kill/start) --> OK" << endl;
 
 	try
 	{
@@ -359,28 +339,28 @@ int main(int argc, char **argv)
 		check_device_access(dev_dp,true,false);
 		check_device_access(another_dev_dp,false,false);
 
-		coutv << "Access before killing the DS --> OK" << endl;
+		TEST_LOG << "Access before killing the DS --> OK" << endl;
 
 		DeviceProxy *ds_admin = new DeviceProxy(admin_device);
 		ds_admin->command_inout("Kill");
 
 		sleep(1);
 
-		coutv << "DS killed" << endl;
+		TEST_LOG << "DS killed" << endl;
 
 		call_devices_ds_off(dev_dp,another_dev_dp,false);
 
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
-		coutv << "DS pid = " << ds_pid << endl;
+		TEST_LOG << "DS pid = " << ds_pid << endl;
 
 		sleep(2);
 
-		coutv << "DS re-started" << endl;
+		TEST_LOG << "DS re-started" << endl;
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access after DS restart for " << device << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << device << " OK" << endl;
 		check_device_access(another_dev_dp,false,false);
-		coutv << "Access after DS restart for " << another_dev << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << another_dev << " OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -388,11 +368,11 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Device rights after re-connection (with calls between DS kill/start) --> OK" << endl;
+	TEST_LOG << "  Device rights after re-connection (with calls between DS kill/start) --> OK" << endl;
 
 	TangoSys_MemStream cmd_stream;
 	cmd_stream << "kill -9 " << ds_pid;
-	coutv << "Kill cmd = " << cmd_stream.str() << endl;
+	TEST_LOG << "Kill cmd = " << cmd_stream.str() << endl;
 
 	try
 	{
@@ -401,16 +381,16 @@ int main(int argc, char **argv)
 		sleep(1);
 
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
-		coutv << "DS pid = " << ds_pid << endl;
+		TEST_LOG << "DS pid = " << ds_pid << endl;
 
 		sleep(2);
 
-		coutv << "DS awfully killed and re-started" << endl;
+		TEST_LOG << "DS awfully killed and re-started" << endl;
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access after DS restart for " << device << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << device << " OK" << endl;
 		check_device_access(another_dev_dp,false,false);
-		coutv << "Access after DS restart for " << another_dev << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << another_dev << " OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -418,11 +398,11 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Device rights after re-connection (kill -9 and without calls between DS kill/start) --> OK" << endl;
+	TEST_LOG << "  Device rights after re-connection (kill -9 and without calls between DS kill/start) --> OK" << endl;
 
 	cmd_stream.str("");
 	cmd_stream << "kill -9 " << ds_pid;
-	coutv << "Second kill cmd = " << cmd_stream.str() << endl;
+	TEST_LOG << "Second kill cmd = " << cmd_stream.str() << endl;
 
 	try
 	{
@@ -430,21 +410,21 @@ int main(int argc, char **argv)
 
 		sleep(1);
 
-		coutv << "DS killed" << endl;
+		TEST_LOG << "DS killed" << endl;
 
 		call_devices_ds_off(dev_dp,another_dev_dp,true);
 
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
-		coutv << "DS pid = " << ds_pid << endl;
+		TEST_LOG << "DS pid = " << ds_pid << endl;
 
 		sleep(2);
 
-		coutv << "DS re-started" << endl;
+		TEST_LOG << "DS re-started" << endl;
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access after DS restart for " << device << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << device << " OK" << endl;
 		check_device_access(another_dev_dp,false,false);
-		coutv << "Access after DS restart for " << another_dev << " OK" << endl;
+		TEST_LOG << "Access after DS restart for " << another_dev << " OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -452,7 +432,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Device rights after re-connection (kill -9 and with calls between DS kill/start) --> OK" << endl;
+	TEST_LOG << "  Device rights after re-connection (kill -9 and with calls between DS kill/start) --> OK" << endl;
 
 	delete another_dev_dp;
 
@@ -462,7 +442,7 @@ int main(int argc, char **argv)
 	try
 	{		
 		check_device_access(dev_dp,true,false);
-		coutv << "Access before killing the Controlled Access service --> OK" << endl;
+		TEST_LOG << "Access before killing the Controlled Access service --> OK" << endl;
 
 		DeviceProxy *ca_admin = new DeviceProxy("dserver/tangoaccesscontrol/1");
 		ca_admin->command_inout("Kill");
@@ -471,16 +451,16 @@ int main(int argc, char **argv)
 		delete ca_admin;
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access for already created DeviceProxy after CA is killed --> OK" << endl;
+		TEST_LOG << "Access for already created DeviceProxy after CA is killed --> OK" << endl;
 
 		delete dev_dp;
 		dev_dp = new DeviceProxy(device);
 
 //		check_device_access(dev_dp,false,false);
-		coutv << "Read access for DeviceProxy created while the CA is down --> OK" << endl;
+		TEST_LOG << "Read access for DeviceProxy created while the CA is down --> OK" << endl;
 
 		ca_pid = start_ds("/home/taurel/tango/cppserver/TangoAccessControl/bin/ubuntu810/TangoAccessControl","TangoAccessControl","1");
-		coutv << "CA re-started" << endl;
+		TEST_LOG << "CA re-started" << endl;
 
 		sleep(2);
 
@@ -488,7 +468,7 @@ int main(int argc, char **argv)
 		dev_dp = new DeviceProxy(device);
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access after CA restart for " << device << " OK" << endl;
+		TEST_LOG << "Access after CA restart for " << device << " OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -496,29 +476,29 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Device rights after re-start of Controlled Access Service --> OK" << endl;
+	TEST_LOG << "  Device rights after re-start of Controlled Access Service --> OK" << endl;
 
 	try
 	{		
 		cmd_stream.str("");
 		cmd_stream << "kill -9 " << ca_pid;
-		coutv << "Third kill cmd = " << cmd_stream.str() << endl;
+		TEST_LOG << "Third kill cmd = " << cmd_stream.str() << endl;
 
 		system(cmd_stream.str().c_str());
 		sleep(1);
 
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access for already created DeviceProxy after CA is killed -9 --> OK" << endl;
+		TEST_LOG << "Access for already created DeviceProxy after CA is killed -9 --> OK" << endl;
 
 		delete dev_dp;
 		dev_dp = new DeviceProxy(device);
 
 //		check_device_access(dev_dp,false,false);
-		coutv << "Read access for DeviceProxy created while the CA is killed -9 --> OK" << endl;
+		TEST_LOG << "Read access for DeviceProxy created while the CA is killed -9 --> OK" << endl;
 
 		ca_pid = start_ds("/home/taurel/tango/cppserver/TangoAccessControl/bin/ubuntu810/TangoAccessControl","TangoAccessControl","1");
-		coutv << "CA re-started" << endl;
+		TEST_LOG << "CA re-started" << endl;
 
 		sleep(2);
 
@@ -526,7 +506,7 @@ int main(int argc, char **argv)
 		dev_dp = new DeviceProxy(device);
 
 		check_device_access(dev_dp,true,false);
-		coutv << "Access after CA restart for " << device << " OK" << endl;
+		TEST_LOG << "Access after CA restart for " << device << " OK" << endl;
 	}
 	catch (Tango::DevFailed &e)
 	{
@@ -534,7 +514,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
-	cout << "  Device rights after re-start of Controlled Access Service killed by -9 --> OK" << endl;
+	TEST_LOG << "  Device rights after re-start of Controlled Access Service killed by -9 --> OK" << endl;
 
 //
 // Reset the TangoAccessControl class to its default config
@@ -820,7 +800,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (cant_connect_except == true);
 	else
 		assert (not_exported_except == true);
-	coutv << "First State: OK" << endl;
+	TEST_LOG << "First State: OK" << endl;
 
 	sleep(1);
 	
@@ -848,7 +828,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (cant_connect_except == true);
 	else
 		assert (not_exported_except == true);
-	coutv << "First Status: OK" << endl;
+	TEST_LOG << "First Status: OK" << endl;
 
 	sleep(1);
 
@@ -876,7 +856,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (cant_connect_except == true);
 	else
 		assert (not_exported_except == true);
-	coutv << "Second State: OK" << endl;
+	TEST_LOG << "Second State: OK" << endl;
 
 	sleep(1);
 
@@ -904,7 +884,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (cant_connect_except == true);
 	else
 		assert (not_exported_except == true);
-	coutv << "Second Status: OK" << endl;
+	TEST_LOG << "Second Status: OK" << endl;
 }
 
 pid_t start_ds(const char* path,const char *name,const char *inst)
@@ -915,32 +895,32 @@ pid_t start_ds(const char* path,const char *name,const char *inst)
 	{
 		if (close(1) ==  -1)
 		{
-			cout << "Can't close 1" << endl;
+			TEST_LOG << "Can't close 1" << endl;
 			exit(-1);
 		}
 
 		int fd;
 		if ((fd = open("/dev/null",O_WRONLY)) == -1)
 		{
-			cout << "Can't open /dev/null" << endl;
+			TEST_LOG << "Can't open /dev/null" << endl;
 			exit(-1);
 		}
 
 		if (close(2) == -1)
 		{
-			cout << "Can't close 2" << endl;
+			TEST_LOG << "Can't close 2" << endl;
 			exit(-1);
 		}
 
 		if ((fd = open("/dev/null",O_WRONLY)) == -1)
 		{
-			cout << "Cann't open /dev/null for 2" << endl;
+			TEST_LOG << "Cann't open /dev/null for 2" << endl;
 			exit(-1);
 		}
 	
 		char *args[] = {(char *)name,(char *)inst,(char *)0};
 		execv(path,args);
-		cout << "Error !!!!!!!!!!" << endl;
+		TEST_LOG << "Error !!!!!!!!!!" << endl;
 	}
 	else if (pi < 0)
 		pi = -1;

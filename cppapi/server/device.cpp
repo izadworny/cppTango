@@ -610,7 +610,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
 
             if ((shared_cmd.cmd_pending == true) && (interupted == false))
             {
-                cout4 << "TIME OUT" << std::endl;
+                TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
                 TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Polling thread blocked !!");
 
             }
@@ -679,7 +679,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
         }
 
         void *dummy_ptr;
-        cout4 << "POLLING: Joining with one polling thread" << std::endl;
+        TANGO_LOG_DEBUG << "POLLING: Joining with one polling thread" << std::endl;
         th_info->poll_th->join(&dummy_ptr);
 
         tg->remove_polling_thread_info_by_id(poll_th_id);
@@ -711,7 +711,7 @@ void DeviceImpl::stop_polling(bool with_db_upd)
 
 DeviceImpl::~DeviceImpl()
 {
-    cout4 << "Entering DeviceImpl destructor for device " << device_name << std::endl;
+    TANGO_LOG_DEBUG << "Entering DeviceImpl destructor for device " << device_name << std::endl;
 
 //
 // Call user delete_device method
@@ -779,7 +779,7 @@ DeviceImpl::~DeviceImpl()
         *ite = NULL;
     }
 
-    cout4 << "Leaving DeviceImpl destructor for device " << device_name << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl destructor for device " << device_name << std::endl;
 }
 
 //+-------------------------------------------------------------------------
@@ -1045,20 +1045,20 @@ PortableServer::POA_ptr DeviceImpl::_default_POA()
 #ifndef  _TG_WINDOWS_
 void DeviceImpl::register_signal(long signo, bool hand)
 {
-    cout4 << "DeviceImpl::register_signal() arrived for signal " << signo << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::register_signal() arrived for signal " << signo << std::endl;
 
     DServerSignal::instance()->register_dev_signal(signo, hand, this);
 
-    cout4 << "Leaving DeviceImpl::register_signal method()" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::register_signal method()" << std::endl;
 }
 #else
                                                                                                                         void DeviceImpl::register_signal(long signo)
 {
-	cout4 << "DeviceImpl::register_signal() arrived for signal " << signo << std::endl;
+	TANGO_LOG_DEBUG << "DeviceImpl::register_signal() arrived for signal " << signo << std::endl;
 
 	DServerSignal::instance()->register_dev_signal(signo,this);
 
-	cout4 << "Leaving DeviceImpl::register_signal method()" << std::endl;
+	TANGO_LOG_DEBUG << "Leaving DeviceImpl::register_signal method()" << std::endl;
 }
 #endif
 
@@ -1074,11 +1074,11 @@ void DeviceImpl::register_signal(long signo, bool hand)
 
 void DeviceImpl::unregister_signal(long signo)
 {
-    cout4 << "DeviceImpl::unregister_signal() arrived for signal " << signo << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::unregister_signal() arrived for signal " << signo << std::endl;
 
     DServerSignal::instance()->unregister_dev_signal(signo, this);
 
-    cout4 << "Leaving DeviceImpl::unregister_signal method()" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::unregister_signal method()" << std::endl;
 }
 
 //+-------------------------------------------------------------------------
@@ -1096,9 +1096,9 @@ void DeviceImpl::unregister_signal(long signo)
 
 void DeviceImpl::signal_handler(long signo)
 {
-    cout4 << "DeviceImpl::signal_handler() arrived for signal " << signo << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::signal_handler() arrived for signal " << signo << std::endl;
 
-    cout4 << "Leaving DeviceImpl::signal_handler method()" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::signal_handler method()" << std::endl;
 }
 
 
@@ -1479,7 +1479,7 @@ Tango::DevState DeviceImpl::dev_state()
                 nb_wanted_attr = attr_list.size();
             }
 
-            cout4 << "State: Number of attribute(s) to read: " << nb_wanted_attr << std::endl;
+            TANGO_LOG_DEBUG << "State: Number of attribute(s) to read: " << nb_wanted_attr << std::endl;
 
             if (nb_wanted_attr != 0)
             {
@@ -1792,7 +1792,7 @@ CORBA::Any *DeviceImpl::command_inout(const char *in_cmd,
     std::string command(in_cmd);
     CORBA::Any *out_any;
 
-    cout4 << "DeviceImpl::command_inout(): command received : " << command << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::command_inout(): command received : " << command << std::endl;
 
 //
 //  Write the device name into the per thread data for
@@ -1843,7 +1843,7 @@ CORBA::Any *DeviceImpl::command_inout(const char *in_cmd,
 // Return value to the caller
 //
 
-    cout4 << "DeviceImpl::command_inout(): leaving method for command " << in_cmd << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::command_inout(): leaving method for command " << in_cmd << std::endl;
     return (out_any);
 }
 
@@ -1863,7 +1863,7 @@ char *DeviceImpl::name()
 {
     try
     {
-        cout4 << "DeviceImpl::name arrived" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::name arrived" << std::endl;
 
 //
 // Record attribute request in black box
@@ -1882,14 +1882,14 @@ char *DeviceImpl::name()
         {
             lim.minor(TG_IMP_MINOR_DEVFAILED);
         }
-        cout4 << "Leaving DeviceImpl::name throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::name throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
     catch (...)
     {
         CORBA::IMP_LIMIT lim;
         lim.minor(TG_IMP_MINOR_NON_DEVFAILED);
-        cout4 << "Leaving DeviceImpl::name throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::name throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
 
@@ -1897,7 +1897,7 @@ char *DeviceImpl::name()
 // Return data to caller
 //
 
-    cout4 << "Leaving DeviceImpl::name" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::name" << std::endl;
     return CORBA::string_dup(device_name.c_str());
 }
 
@@ -1917,7 +1917,7 @@ char *DeviceImpl::adm_name()
 {
     try
     {
-        cout4 << "DeviceImpl::adm_name arrived" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::adm_name arrived" << std::endl;
 
 //
 // Record attribute request in black box
@@ -1936,14 +1936,14 @@ char *DeviceImpl::adm_name()
         {
             lim.minor(TG_IMP_MINOR_DEVFAILED);
         }
-        cout4 << "Leaving DeviceImpl::adm_name throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::adm_name throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
     catch (...)
     {
         CORBA::IMP_LIMIT lim;
         lim.minor(TG_IMP_MINOR_NON_DEVFAILED);
-        cout4 << "Leaving DeviceImpl::adm_name throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::adm_name throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
 
@@ -1951,7 +1951,7 @@ char *DeviceImpl::adm_name()
 // Return data to caller
 //
 
-    cout4 << "Leaving DeviceImpl::adm_name" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::adm_name" << std::endl;
     return CORBA::string_dup(adm_device_name.c_str());
 }
 
@@ -1973,7 +1973,7 @@ char *DeviceImpl::description()
 {
     try
     {
-        cout4 << "DeviceImpl::description arrived" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::description arrived" << std::endl;
 
 //
 // Record attribute request in black box
@@ -1992,14 +1992,14 @@ char *DeviceImpl::description()
         {
             lim.minor(TG_IMP_MINOR_DEVFAILED);
         }
-        cout4 << "Leaving DeviceImpl::description throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::description throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
     catch (...)
     {
         CORBA::IMP_LIMIT lim;
         lim.minor(TG_IMP_MINOR_NON_DEVFAILED);
-        cout4 << "Leaving DeviceImpl::description throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::description throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
 
@@ -2007,7 +2007,7 @@ char *DeviceImpl::description()
 // Return data to caller
 //
 
-    cout4 << "Leaving DeviceImpl::description" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::description" << std::endl;
     return CORBA::string_dup(desc.c_str());
 }
 
@@ -2028,7 +2028,7 @@ Tango::DevState DeviceImpl::state()
     try
     {
         AutoTangoMonitor sync(this);
-        cout4 << "DeviceImpl::state (attribute) arrived" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::state (attribute) arrived" << std::endl;
 
 //
 //  Write the device name into the per thread data for
@@ -2073,7 +2073,7 @@ Tango::DevState DeviceImpl::state()
         {
             lim.minor(TG_IMP_MINOR_DEVFAILED);
         }
-        cout4 << "Leaving DeviceImpl::state (attribute) throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::state (attribute) throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
     catch (...)
@@ -2086,7 +2086,7 @@ Tango::DevState DeviceImpl::state()
 
         CORBA::IMP_LIMIT lim;
         lim.minor(TG_IMP_MINOR_NON_DEVFAILED);
-        cout4 << "Leaving DeviceImpl::state (attribute) throwing IMP_LIMIT" << std::endl;
+        TANGO_LOG_DEBUG << "Leaving DeviceImpl::state (attribute) throwing IMP_LIMIT" << std::endl;
         throw lim;
     }
 
@@ -2096,7 +2096,7 @@ Tango::DevState DeviceImpl::state()
         (Tango::Util::instance())->get_sub_dev_diag().set_associated_device(last_associated_device);
     }
 
-    cout4 << "Leaving DeviceImpl::state (attribute)" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::state (attribute)" << std::endl;
     return tmp;
 }
 
@@ -2121,7 +2121,7 @@ char *DeviceImpl::status()
     try
     {
         AutoTangoMonitor sync(this);
-        cout4 << "DeviceImpl::status (attribute) arrived" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::status (attribute) arrived" << std::endl;
 
 //
 //  Write the device name into the per thread data for
@@ -2185,7 +2185,7 @@ char *DeviceImpl::status()
         (Tango::Util::instance())->get_sub_dev_diag().set_associated_device(last_associated_device);
     }
 
-    cout4 << "Leaving DeviceImpl::status (attribute)" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::status (attribute)" << std::endl;
     return tmp;
 }
 
@@ -2203,7 +2203,7 @@ char *DeviceImpl::status()
 
 Tango::DevVarStringArray *DeviceImpl::black_box(CORBA::Long n)
 {
-    cout4 << "DeviceImpl::black_box arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::black_box arrived" << std::endl;
 
     Tango::DevVarStringArray *ret = blackbox_ptr->read((long) n);
 
@@ -2213,7 +2213,7 @@ Tango::DevVarStringArray *DeviceImpl::black_box(CORBA::Long n)
 
     blackbox_ptr->insert_op(Op_BlackBox);
 
-    cout4 << "Leaving DeviceImpl::black_box" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::black_box" << std::endl;
     return ret;
 }
 
@@ -2231,14 +2231,14 @@ Tango::DevVarStringArray *DeviceImpl::black_box(CORBA::Long n)
 
 Tango::DevCmdInfoList *DeviceImpl::command_list_query()
 {
-    cout4 << "DeviceImpl::command_list_query arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::command_list_query arrived" << std::endl;
 
 //
 // Retrieve number of command and allocate memory to send back info
 //
 
     long nb_cmd = device_class->get_command_list().size();
-    cout4 << nb_cmd << " command(s) for device" << std::endl;
+    TANGO_LOG_DEBUG << nb_cmd << " command(s) for device" << std::endl;
     Tango::DevCmdInfoList *back = NULL;
 
     try
@@ -2294,7 +2294,7 @@ Tango::DevCmdInfoList *DeviceImpl::command_list_query()
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::command_list_query" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::command_list_query" << std::endl;
     return back;
 }
 
@@ -2312,7 +2312,7 @@ Tango::DevCmdInfoList *DeviceImpl::command_list_query()
 
 Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
 {
-    cout4 << "DeviceImpl::command_query arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::command_query arrived" << std::endl;
 
     Tango::DevCmdInfo *back = NULL;
     std::string cmd(command);
@@ -2370,7 +2370,7 @@ Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
     if (i == nb_cmd)
     {
         delete back;
-        cout3 << "DeviceImpl::command_query(): command " << command << " not found" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::command_query(): command " << command << " not found" << std::endl;
 
 //
 // throw an exception to client
@@ -2392,7 +2392,7 @@ Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::command_query" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::command_query" << std::endl;
     return back;
 }
 
@@ -2408,7 +2408,7 @@ Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
 
 Tango::DevInfo *DeviceImpl::info()
 {
-    cout4 << "DeviceImpl::info arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::info arrived" << std::endl;
 
     Tango::DevInfo *back = NULL;
 
@@ -2499,7 +2499,7 @@ Tango::DevInfo *DeviceImpl::info()
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::info" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::info" << std::endl;
     return back;
 }
 
@@ -2514,7 +2514,7 @@ Tango::DevInfo *DeviceImpl::info()
 
 void DeviceImpl::ping()
 {
-    cout4 << "DeviceImpl::ping arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::ping arrived" << std::endl;
 
 //
 // Record operation request in black box
@@ -2526,7 +2526,7 @@ void DeviceImpl::ping()
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::ping" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::ping" << std::endl;
 }
 
 //+-------------------------------------------------------------------------
@@ -2544,7 +2544,7 @@ void DeviceImpl::ping()
 
 Tango::AttributeConfigList *DeviceImpl::get_attribute_config(const Tango::DevVarStringArray &names)
 {
-    cout4 << "DeviceImpl::get_attribute_config arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::get_attribute_config arrived" << std::endl;
 
     TangoMonitor &mon = get_att_conf_monitor();
     AutoTangoMonitor sync(&mon);
@@ -2639,7 +2639,7 @@ Tango::AttributeConfigList *DeviceImpl::get_attribute_config(const Tango::DevVar
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::get_attribute_config" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::get_attribute_config" << std::endl;
 
     return back;
 }
@@ -2660,7 +2660,7 @@ Tango::AttributeConfigList *DeviceImpl::get_attribute_config(const Tango::DevVar
 void DeviceImpl::set_attribute_config(const Tango::AttributeConfigList &new_conf)
 {
     AutoTangoMonitor sync(this, true);
-    cout4 << "DeviceImpl::set_attribute_config arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::set_attribute_config arrived" << std::endl;
 
 //
 // The attribute conf. is protected by two monitors. One protects access between
@@ -2805,7 +2805,7 @@ void DeviceImpl::set_attribute_config(const Tango::AttributeConfigList &new_conf
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::set_attribute_config" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::set_attribute_config" << std::endl;
 }
 
 
@@ -2829,7 +2829,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
 
     Tango::AttributeValueList *back = NULL;
 
-    cout4 << "DeviceImpl::read_attributes arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::read_attributes arrived" << std::endl;
 
 //
 //  Write the device name into the per thread data for
@@ -3152,7 +3152,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
 // Return to caller
 //
 
-    cout4 << "Leaving DeviceImpl::read_attributes" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::read_attributes" << std::endl;
     return back;
 }
 
@@ -3169,7 +3169,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
 void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
 {
     AutoTangoMonitor sync(this, true);
-    cout4 << "DeviceImpl::write_attributes arrived" << std::endl;
+    TANGO_LOG_DEBUG << "DeviceImpl::write_attributes arrived" << std::endl;
 
 
 //
@@ -3343,7 +3343,7 @@ void DeviceImpl::write_attributes(const Tango::AttributeValueList &values)
 // Return to caller.
 //
 
-    cout4 << "Leaving DeviceImpl::write_attributes" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving DeviceImpl::write_attributes" << std::endl;
 }
 
 
@@ -6050,7 +6050,7 @@ Command &DeviceImpl::get_local_cmd_by_name(const std::string &cmd_name)
 
     if (pos == command_list.end())
     {
-        cout3 << "DeviceImpl::get_cmd_by_name throwing exception" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::get_cmd_by_name throwing exception" << std::endl;
         TangoSys_OMemStream o;
 
         o << cmd_name << " command not found" << std::ends;
@@ -6086,7 +6086,7 @@ void DeviceImpl::remove_local_command(const std::string &cmd_name)
 
     if (pos == command_list.end())
     {
-        cout3 << "DeviceImpl::remove_local_command throwing exception" << std::endl;
+        TANGO_LOG_DEBUG << "DeviceImpl::remove_local_command throwing exception" << std::endl;
         TangoSys_OMemStream o;
 
         o << cmd_name << " command not found" << std::ends;
@@ -6194,7 +6194,7 @@ void DeviceImpl::push_dev_intr(bool ev_client)
 
             devintr_mon.signal();
 
-            cout4 << "Cmd sent to device interface change thread" << std::endl;
+            TANGO_LOG_DEBUG << "Cmd sent to device interface change thread" << std::endl;
 
             while (devintr_shared.cmd_pending == true)
             {
@@ -6202,7 +6202,7 @@ void DeviceImpl::push_dev_intr(bool ev_client)
 
                 if ((devintr_shared.cmd_pending == true) && (interupted == 0))
                 {
-                    cout4 << "TIME OUT" << std::endl;
+                    TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
                     TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Device interface change event thread blocked !!!");
                 }
             }
@@ -6223,7 +6223,7 @@ void DeviceImpl::push_dev_intr(bool ev_client)
 
 void DeviceImpl::end_pipe_config()
 {
-    cout4 << "Entering end_pipe_config for device " << device_name << std::endl;
+    TANGO_LOG_DEBUG << "Entering end_pipe_config for device " << device_name << std::endl;
 
     std::vector<Pipe *> &pipe_list = device_class->get_pipe_list(device_name_lower);
     size_t nb_pipe = pipe_list.size();
@@ -6232,7 +6232,7 @@ void DeviceImpl::end_pipe_config()
 // First get device pipe configuration from db
 //
 
-    cout4 << nb_pipe << " pipe(s)" << std::endl;
+    TANGO_LOG_DEBUG << nb_pipe << " pipe(s)" << std::endl;
 
     if (nb_pipe != 0)
     {
@@ -6271,7 +6271,7 @@ void DeviceImpl::end_pipe_config()
             }
             catch (Tango::DevFailed &)
             {
-                cout4 << "Exception while accessing database" << std::endl;
+                TANGO_LOG_DEBUG << "Exception while accessing database" << std::endl;
 
                 tg->get_database()->set_timeout_millis(old_db_timeout);
                 std::stringstream ss;
@@ -6329,7 +6329,7 @@ void DeviceImpl::end_pipe_config()
         }
     }
 
-    cout4 << "Leaving end_pipe_config for device " << device_name << std::endl;
+    TANGO_LOG_DEBUG << "Leaving end_pipe_config for device " << device_name << std::endl;
 }
 
 //+-----------------------------------------------------------------------------------------------------------------
@@ -6353,7 +6353,7 @@ void DeviceImpl::end_pipe_config()
 
 void DeviceImpl::set_pipe_prop(std::vector<PipeProperty> &dev_prop, Pipe *pi_ptr, PipePropType ppt)
 {
-    cout4 << "Entering set_pipe_prop() method" << std::endl;
+    TANGO_LOG_DEBUG << "Entering set_pipe_prop() method" << std::endl;
 //
 // Final init of pipe prop with following priorities:
 // - Device pipe
@@ -6452,7 +6452,7 @@ void DeviceImpl::set_pipe_prop(std::vector<PipeProperty> &dev_prop, Pipe *pi_ptr
         }
     }
 
-    cout4 << "Leaving set_pipe_prop() method" << std::endl;
+    TANGO_LOG_DEBUG << "Leaving set_pipe_prop() method" << std::endl;
 }
 
 PipeEventSubscriptionStates DeviceImpl::get_pipe_event_subscription_states()

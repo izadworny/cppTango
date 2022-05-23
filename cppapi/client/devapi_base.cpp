@@ -8424,7 +8424,7 @@ void DeviceProxy::lock(int lock_validity)
 
                     if ((pos->second.shared->cmd_pending == true) && (interupted == 0))
                     {
-                        cout4 << "TIME OUT" << std::endl;
+                        TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
                         TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Locking thread blocked !!!");
                     }
                 }
@@ -8438,7 +8438,7 @@ void DeviceProxy::lock(int lock_validity)
 
                 pos->second.mon->signal();
 
-                cout4 << "Cmd sent to locking thread" << std::endl;
+                TANGO_LOG_DEBUG << "Cmd sent to locking thread" << std::endl;
 
                 while (pos->second.shared->cmd_pending == true)
                 {
@@ -8446,7 +8446,7 @@ void DeviceProxy::lock(int lock_validity)
 
                     if ((pos->second.shared->cmd_pending == true) && (interupted == 0))
                     {
-                        cout4 << "TIME OUT" << std::endl;
+                        TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
                         TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Locking thread blocked !!!");
                     }
                 }
@@ -8566,7 +8566,7 @@ void DeviceProxy::unlock(bool force)
 
                         if ((pos->second.shared->cmd_pending == true) && (interupted == 0))
                         {
-                            cout4 << "TIME OUT" << std::endl;
+                            TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
                             TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Locking thread blocked !!!");
                         }
                     }
@@ -8576,7 +8576,7 @@ void DeviceProxy::unlock(bool force)
 
                     pos->second.mon->signal();
 
-                    cout4 << "Cmd sent to locking thread" << std::endl;
+                    TANGO_LOG_DEBUG << "Cmd sent to locking thread" << std::endl;
 
                     while (pos->second.shared->cmd_pending == true)
                     {
@@ -8584,7 +8584,7 @@ void DeviceProxy::unlock(bool force)
 
                         if ((pos->second.shared->cmd_pending == true) && (interupted == 0))
                         {
-                            cout4 << "TIME OUT" << std::endl;
+                            TANGO_LOG_DEBUG << "TIME OUT" << std::endl;
                             TANGO_THROW_EXCEPTION(API_CommandTimedOut, "Locking thread blocked !!!");
                         }
                     }

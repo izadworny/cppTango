@@ -1,13 +1,4 @@
-/* 
- * example of a client using the TANGO device api.
- */
-
-#include <tango.h>
-#include <assert.h>
-
-
-using namespace Tango;
-using namespace std;
+#include "cxx_common_old.h"
 
 int main(int argc, char **argv)
 {
@@ -15,7 +6,7 @@ int main(int argc, char **argv)
 	
 	if (argc < 2)
 	{
-		cout << "usage: %s device [-v]" << endl;
+		TEST_LOG << "usage: %s device" << endl;
 		exit(-1);
 	}
 
@@ -26,7 +17,7 @@ int main(int argc, char **argv)
 		string verb = argv[2];
 		if (verb != "-v")
 		{
-			cout << "Usage: %s device [-v]" << endl;
+			TEST_LOG << "Usage: %s device" << endl;
 			exit(-1);
 		}
 	}
@@ -41,7 +32,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	cout << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
+	TEST_LOG << endl << "new DeviceProxy(" << device->name() << ") returned" << endl << endl;
 
 	int i;
 	vector<DeviceDataHistory> *d_hist;
@@ -56,11 +47,11 @@ int main(int argc, char **argv)
 
 		for (i = 0;i < hist_depth;i++)
 		{
-			cout << (*d_hist)[i] << endl;
+			TEST_LOG << (*d_hist)[i] << endl;
 		}
 		delete d_hist;	
 				
-		cout << "   Read command history (string) --> OK" << endl;
+		TEST_LOG << "   Read command history (string) --> OK" << endl;
 		
 // Test command_history with exception
 
@@ -68,11 +59,11 @@ int main(int argc, char **argv)
 		
 		for (i = 0;i < hist_depth;i++)
 		{
-			cout << (*d_hist)[i] << endl;
+			TEST_LOG << (*d_hist)[i] << endl;
 		}
 		delete d_hist;	
 				
-		cout << "   Read command history with exception --> OK" << endl;
+		TEST_LOG << "   Read command history with exception --> OK" << endl;
 		
 // Test attribute_history (for strings spectrum)
 		
@@ -81,11 +72,11 @@ int main(int argc, char **argv)
 
 		for (i = 0;i < hist_depth;i++)
 		{
-			cout << (*a_hist)[i] << endl;
+			TEST_LOG << (*a_hist)[i] << endl;
 		}
 		delete a_hist;	
 				
-		cout << "   Read attribute history (string spectrum) --> OK" << endl;
+		TEST_LOG << "   Read attribute history (string spectrum) --> OK" << endl;
 
 // Test attribute_history with exception
 
@@ -93,11 +84,11 @@ int main(int argc, char **argv)
 		
 		for (i = 0;i < hist_depth;i++)
 		{
-			cout << (*a_hist)[i] << endl;
+			TEST_LOG << (*a_hist)[i] << endl;
 		}
 		delete a_hist;	
 				
-		cout << "   Read attribute history with exception --> OK" << endl;
+		TEST_LOG << "   Read attribute history with exception --> OK" << endl;
 		
 	}
 	catch (Tango::DevFailed &e)

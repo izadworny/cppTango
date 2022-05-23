@@ -3,6 +3,7 @@
 
 #include <signal.h>
 #include "compare_test.h"
+
 #include "cxx_common.h"
 
 #undef SUITE_NAME
@@ -96,7 +97,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -120,7 +121,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -138,7 +139,7 @@ public:
 			}
 			catch(DevFailed &e)
 			{
-				cout << endl << "Exception in suite tearDown():" << endl;
+				TEST_LOG << endl << "Exception in suite tearDown():" << endl;
 				Except::print_exception(e);
 			}
 		}
@@ -324,11 +325,11 @@ public:
 			}
 			catch(CmpTst::CompareTestException &in_e)
 			{
-				cout << in_e.what() << endl;
+				TEST_LOG << in_e.what() << endl;
 			}
 			TS_FAIL(e.what());
 		}
 	}
 };
-#undef cout
+
 #endif // SignalTestSuite_h

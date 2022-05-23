@@ -69,5 +69,5 @@ public:
 		TS_ASSERT_EQUALS(device1->state(), Tango::ON);
 	}
 };
-#undef cout
+
 #endif // TestStateOnTestSuite_h

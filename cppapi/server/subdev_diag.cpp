@@ -52,7 +52,7 @@ namespace
 
 SubDevDiag::~SubDevDiag()
 {
-	cout4 << "SubDevDiag::~SubDevDiag() entering ... " << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::~SubDevDiag() entering ... " << std::endl;
 
 	// lock the sub device map
 	omni_mutex_lock l(sub_dev_map_mutex);
@@ -76,7 +76,7 @@ SubDevDiag::~SubDevDiag()
 
 void SubDevDiag::set_associated_device(std::string dev_name)
 {
-	cout4 << "SubDevDiag::set_associated_device() entering ... ";
+	TANGO_LOG_DEBUG << "SubDevDiag::set_associated_device() entering ... ";
 	// Setting a subdevice name is only allowed from the library threads.
 	if (is_tango_library_thread)
 	{
@@ -97,13 +97,13 @@ void SubDevDiag::set_associated_device(std::string dev_name)
 
 std::string SubDevDiag::get_associated_device()
 {
-	cout4 << "SubDevDiag::get_associated_device() entering ... " << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::get_associated_device() entering ... " << std::endl;
 	std::string dev_name{};
 	if (is_tango_library_thread)
 	{
 		dev_name = thread_local_device_name;
 	}
-	cout4 << "SubDevDiag::get_associated_device() found : " << dev_name << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::get_associated_device() found : " << dev_name << std::endl;
 	return dev_name;
 }
 
@@ -121,7 +121,7 @@ std::string SubDevDiag::get_associated_device()
 
 void SubDevDiag::register_sub_device (std::string dev_name, std::string sub_dev_name)
 {
-	cout4 << "SubDevDiag::register_sub_device() dev_name = " << dev_name
+	TANGO_LOG_DEBUG << "SubDevDiag::register_sub_device() dev_name = " << dev_name
 	      << " sub_dev_name = "<< sub_dev_name << std::endl;
 
 	bool found = false;
@@ -178,7 +178,7 @@ void SubDevDiag::register_sub_device (std::string dev_name, std::string sub_dev_
 
 void SubDevDiag::remove_sub_devices (std::string dev_name)
 {
-	cout4 << "SubDevDiag::remove_sub_device() dev_name = " << dev_name << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::remove_sub_device() dev_name = " << dev_name << std::endl;
 
 	// be sure that all names are lower case letters
 	std::transform(dev_name.begin(), dev_name.end(),
@@ -209,7 +209,7 @@ void SubDevDiag::remove_sub_devices (std::string dev_name)
 
 void SubDevDiag::remove_sub_devices()
 {
-	cout4 << "SubDevDiag::remove_sub_devices() remove ALL " << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::remove_sub_devices() remove ALL " << std::endl;
 
 	// lock the sub device map
 	omni_mutex_lock l(sub_dev_map_mutex);
@@ -234,7 +234,7 @@ void SubDevDiag::remove_sub_devices()
 
 Tango::DevVarStringArray *SubDevDiag::get_sub_devices()
 {
-	cout4 << "SubDevDiag::get_sub_devices() entering ... " << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::get_sub_devices() entering ... " << std::endl;
 
 	Tango::DevVarStringArray *ret;
 	std::vector<std::string> sub_dev_list;
@@ -299,7 +299,7 @@ Tango::DevVarStringArray *SubDevDiag::get_sub_devices()
 
 void SubDevDiag::store_sub_devices()
 {
-	cout4 << "SubDevDiag::store_sub_devices() entering ... " << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::store_sub_devices() entering ... " << std::endl;
 
 	Tango::Util *tg = Tango::Util::instance();
 
@@ -400,7 +400,7 @@ void SubDevDiag::store_sub_devices()
 //-----------------------------------------------------------------------------
 void SubDevDiag::get_sub_devices_from_cache()
 {
-	cout4 << "SubDevDiag::get_sub_devices_from_cache() entering ... " << std::endl;
+	TANGO_LOG_DEBUG << "SubDevDiag::get_sub_devices_from_cache() entering ... " << std::endl;
 
 	DbServerCache *db_cache;
 	Tango::Util *tg = Tango::Util::instance();

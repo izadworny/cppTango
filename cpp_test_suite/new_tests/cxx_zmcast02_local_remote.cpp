@@ -3,18 +3,13 @@
 
 #include "cxx_common.h"
 
-#define coutv		if (verbose == true) cout << "\t"
-#define coutv_cb 	if (parent->verbose == true) cout << "\t"
-
 #undef SUITE_NAME
 #define SUITE_NAME McastLocalRemoteTestSuite
 
-//
 // In this test, the client subscribes to two multicast events
 // One event comes from a device running in the same host than the client
 // The other event comes from a device running in a different host (therefore using PGM to communicate)
 // These two events use the same callback object
-//
 
 class McastLocalRemoteTestSuite: public CxxTest::TestSuite
 {
@@ -41,7 +36,6 @@ protected:
 	int 			eve_id_local;
 	int 			eve_id_remote;
 	EventCallBack 	*cb;
-	bool 			verbose;
 
 public:
 	SUITE_NAME()
@@ -58,8 +52,6 @@ public:
 
 		local_device_name = CxxTest::TangoPrinter::get_param_loc("local_device","local device name");
 		remote_device_name = CxxTest::TangoPrinter::get_param_loc("remote_device","remote device name");
-
-		verbose = CxxTest::TangoPrinter::is_param_set("verbose");
 
 		// always add this line, otherwise arguments will not be parsed correctly
 		CxxTest::TangoPrinter::validate_args();
@@ -183,19 +175,19 @@ public:
 // Check that the attribute is now polled at 1000 mS
 
 		bool po = device_local->is_attribute_polled(att_name);
-		coutv << "Local device: attribute polled : " << po << endl;
+		TEST_LOG << "Local device: attribute polled : " << po << endl;
 		TS_ASSERT(po);
 
 		int poll_period = device_local->get_attribute_poll_period(att_name);
-		coutv << "Local device: att polling period : " << poll_period << endl;
+		TEST_LOG << "Local device: att polling period : " << poll_period << endl;
 		TS_ASSERT_EQUALS(poll_period, 1000);
 
 		po = device_remote->is_attribute_polled(att_name);
-		coutv << "Remote device: attribute polled : " << po << endl;
+		TEST_LOG << "Remote device: attribute polled : " << po << endl;
 		TS_ASSERT(po);
 
 		poll_period = device_remote->get_attribute_poll_period(att_name);
-		coutv << "Remote device: att polling period : " << poll_period << endl;
+		TEST_LOG << "Remote device: att polling period : " << poll_period << endl;
 		TS_ASSERT_EQUALS(poll_period, 1000);
 	}
 
@@ -228,7 +220,7 @@ public:
 		Sleep(2000);
 #endif
 
-		coutv << "cb excuted = " << cb->cb_executed << endl;
+		TEST_LOG << "cb excuted = " << cb->cb_executed << endl;
 
 		TS_ASSERT_EQUALS(cb->cb_executed, 4);
 		TS_ASSERT_EQUALS(cb->val_size, 4);
@@ -252,7 +244,7 @@ void McastLocalRemoteTestSuite::EventCallBack::push_event(Tango::EventData* even
 
 	try
 	{
-		coutv_cb << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
+		TEST_LOG << "EventCallBack::push_event(): called attribute " << event_data->attr_name << " event " << event_data->event << "\n";
 		if (!event_data->err)
 		{
 			*(event_data->attr_value) >> value;
@@ -267,11 +259,9 @@ void McastLocalRemoteTestSuite::EventCallBack::push_event(Tango::EventData* even
 	}
 	catch (...)
 	{
-		coutv_cb << "EventCallBack::push_event(): could not extract data !\n";
+		TEST_LOG << "EventCallBack::push_event(): could not extract data !\n";
 	}
 
 }
 
-#undef cout
 #endif // McastLocalRemoteTestSuite_h
-
