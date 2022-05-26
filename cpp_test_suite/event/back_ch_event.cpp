@@ -14,15 +14,7 @@ public:
 void EventCallBack::push_event(Tango::EventData* event_data)
 {
 	long value;
-        struct timeval now_timeval;
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
 	TEST_LOG << "Callback date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;

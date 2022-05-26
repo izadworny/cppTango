@@ -6,6 +6,12 @@
 #include <type_traits>
 #include <ctime>
 
+#ifdef _TG_WINDOWS_
+#include <sys/timeb.h>
+#else
+#include <sys/time.h>
+#endif
+
 #include <idl/tango.h>
 
 namespace Tango
@@ -91,6 +97,11 @@ inline PollClock::time_point make_poll_time(const TimeVal& tv)
     return detail::convert_time_point<PollClock::time_point>(sys_time);
 }
 
+inline PollClock::time_point make_poll_time(const std::chrono::system_clock::time_point &tp)
+{
+    return detail::convert_time_point<PollClock::time_point>(tp);
+}
+
 inline std::chrono::system_clock::time_point make_system_time(::timeval tv)
 {
     return detail::make_system_time(tv.tv_sec, tv.tv_usec, 0);
@@ -122,6 +133,29 @@ inline std::tm Tango_localtime(std::time_t time)
 #endif
     return local_tm;
 }
+
+struct TangoTimestamp : public std::chrono::system_clock::time_point
+{
+    using std::chrono::system_clock::time_point::time_point;
+    TangoTimestamp(std::chrono::system_clock::time_point t) 
+        : std::chrono::system_clock::time_point(t)
+    {}
+#ifdef _TG_WINDOWS_
+    TangoTimestamp(struct _timeb tb)
+        : time_point(std::chrono::duration_cast<std::chrono::system_clock::duration>(std::chrono::seconds(tb.time) + std::chrono::milliseconds(tb.millitm)))
+    {}
+#endif
+    TangoTimestamp(struct timeval tv)
+        : time_point(std::chrono::duration_cast<std::chrono::system_clock::duration>(std::chrono::seconds(tv.tv_sec) + std::chrono::microseconds(tv.tv_usec)))
+    {}
+    TangoTimestamp(TimeVal t): time_point(std::chrono::duration_cast<std::chrono::system_clock::duration>((t.tv_nsec != 0) ? 
+        (std::chrono::seconds(t.tv_sec) + std::chrono::nanoseconds(t.tv_nsec)) : 
+        (std::chrono::seconds(t.tv_sec) + std::chrono::microseconds(t.tv_usec))))
+    {}
+    TangoTimestamp(time_t t)
+        : time_point(std::chrono::duration_cast<std::chrono::system_clock::duration>(std::chrono::seconds(t)))
+    {}
+};
 
 } // namespace Tango
 

@@ -39,14 +39,8 @@
 #include <tango_clock.h>
 
 #include <functional>
-#include <time.h>
 #include <iterator>
 #include <type_traits>
-
-#ifdef _TG_WINDOWS_
-	#include <sys/types.h>
-	#include <sys/timeb.h>
-#endif
 
 namespace Tango
 {
@@ -408,20 +402,12 @@ public:
  * @param new_date The attribute date
  */
 	void set_date(Tango::TimeVal &new_date) {when = new_date;}
-#ifdef _TG_WINDOWS_
 /**
  * Set attribute date
  *
  * @param The attribute date
  */
-	void set_date(struct _timeb &t) {when.tv_sec=(long)t.time;when.tv_usec=(t.millitm*1000);when.tv_nsec=0;}
-#endif
-/**
- * Set attribute date
- *
- * @param t The attribute date
- */
-	void set_date(struct timeval &t) {when.tv_sec=t.tv_sec;when.tv_usec=t.tv_usec;when.tv_nsec=0;}
+	void set_date(const TangoTimestamp &t) {when=make_TimeVal(t);}
 /**
  * Set attribute date
  *
@@ -1192,25 +1178,16 @@ public:
         void set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUChar *p_data,long size,time_t t,
 				    Tango::AttrQuality qual,
 				    bool release = false);
-#ifdef _TG_WINDOWS_
+
         template<class T>
-	void set_value_date_quality(T *,struct _timeb &,Tango::AttrQuality,long x=1,long y=0,bool rel=false);
+	void set_value_date_quality(T *,const TangoTimestamp &,Tango::AttrQuality,long x=1,long y=0,bool rel=false);
+
         void set_value_date_quality(Tango::DevString *p_data_str,
-                Tango::DevUChar *p_data,
-                long size,
-                struct _timeb&,
-                Tango::AttrQuality qual,
-                bool release = false);
-#else
-        template<class T>
-	void set_value_date_quality(T *,struct timeval &,Tango::AttrQuality,long x=1,long y=0,bool rel=false);
-        void set_value_date_quality(Tango::DevString *p_data_str,
-                Tango::DevUChar *p_data,
-                long size,
-                struct timeval&,
-                Tango::AttrQuality qual,
-                bool release = false);
-#endif
+				    Tango::DevUChar *p_data,
+				    long size,
+				    const TangoTimestamp &,
+				    Tango::AttrQuality qual,
+				    bool release = false);
 
 //
 // methods not usable for the external world (outside the lib)

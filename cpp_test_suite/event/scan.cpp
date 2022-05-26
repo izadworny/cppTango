@@ -29,16 +29,8 @@ public:
 void SlowCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<short> value;
-        struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -84,16 +76,8 @@ void SlowCallBack::push_event(Tango::EventData* event_data)
 void FastCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<double> value;
-        struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 

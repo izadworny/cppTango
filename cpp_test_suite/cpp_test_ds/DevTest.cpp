@@ -3,10 +3,7 @@
 #include <tango_clock.h>
 
 #ifdef WIN32
-#include <sys/timeb.h>
 #include <process.h>
-#else
-#include <sys/time.h>
 #endif
 
 #include <iterator>
@@ -1139,14 +1136,7 @@ void DevTest::write_slow_actuator(Tango::WAttribute &att)
 	TANGO_LOG << "In write_slow_actuator for attribute " << att.get_name() << std::endl;
 
 	att.get_write_value(slow_actua);
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	slow_actua_write.tv_sec = (unsigned long)before_win.time;
-	slow_actua_write.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&slow_actua_write,NULL);
-#endif
+	slow_actua_write = Tango::make_timeval(std::chrono::system_clock::now());
 }
 
 
@@ -1568,16 +1558,8 @@ void DevTest::read_attr_dq_sh(Tango::Attribute &att)
 {
       	TANGO_LOG << "[DevTest::read_attr] attribute name attr_dq_sh" << std::endl;
       	attr_dq_short = 77;
-#ifndef WIN32
-      	struct timeval tv;
-      	struct timezone tz;
-      	gettimeofday(&tv,&tz);
-      	att.set_value_date_quality(&attr_dq_short,tv,Tango::ATTR_VALID);
-#else
-	struct _timeb tv;
-	_ftime(&tv);
-      	att.set_value_date_quality(&attr_dq_short,tv,Tango::ATTR_VALID);
-#endif
+
+      	att.set_value_date_quality(&attr_dq_short,std::chrono::system_clock::now(),Tango::ATTR_VALID);
 }
 
 void DevTest::read_attr_dq_lo(Tango::Attribute &att)
@@ -1593,16 +1575,8 @@ void DevTest::read_attr_dq_db(Tango::Attribute &att)
 {
       	TANGO_LOG << "[DevTest::read_attr] attribute name attr_dq_db" << std::endl;
       	attr_dq_double = 8.888;
-#ifndef WIN32
-      	struct timeval tv;
-      	struct timezone tz;
-      	gettimeofday(&tv,&tz);
-      	att.set_value_date_quality(&attr_dq_double,tv,Tango::ATTR_VALID);
-#else
-	struct _timeb tv;
-	_ftime(&tv);
-      	att.set_value_date_quality(&attr_dq_double,tv,Tango::ATTR_VALID);
-#endif
+
+      	att.set_value_date_quality(&attr_dq_double,std::chrono::system_clock::now(),Tango::ATTR_VALID);
 }
 
 void DevTest::read_attr_dq_str(Tango::Attribute &att)
@@ -2554,17 +2528,7 @@ void DevTest::cmd_push_pipe_event(Tango::DevShort in)
 
 		dpb << str << v_dl;
 
-#ifdef WIN32
-		struct _timeb tv;
-		tv.time = 10;
-		tv.millitm = 0;
-		this->push_pipe_event("RWPipe",&dpb,tv);
-#else
-		struct timeval tv;
-		tv.tv_sec = 10;
-		tv.tv_usec = 0;
-		this->push_pipe_event("RWPipe",&dpb,tv);
-#endif
+		this->push_pipe_event("RWPipe",&dpb,std::chrono::system_clock::time_point(std::chrono::seconds(10)));
 	}
 	else if (in == 3)
 	{

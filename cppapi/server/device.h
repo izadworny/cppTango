@@ -48,12 +48,6 @@
 #include "event_subscription_state.h"
 #include "auto_tango_monitor.h"
 
-#ifdef _TG_WINDOWS_
-#include <sys/timeb.h>
-#else
-#include <sys/time.h>
-#endif /* _TG_WINDOWS_ */
-
 namespace Tango
 {
 
@@ -985,11 +979,7 @@ public:
  * <b>DevFailed</b> exception specification
  */
         template<class T>
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, T* p_data, struct _timeb &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, T* p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
+	void push_change_event (const std::string &attr_name, T* p_data, const TangoTimestamp &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 /**
  * Push a change event for an attribute with Tango::DevEncoded attribute data type
  * when the data rea specified with two pointers.
@@ -1013,11 +1003,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-#ifdef _TG_WINDOWS_
-	void push_change_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data, long size, struct _timeb &t, Tango::AttrQuality qual, bool release = false);
-#else
-	void push_change_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data, long size, struct timeval &t, Tango::AttrQuality qual, bool release = false);
-#endif
+	void push_change_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data, long size, const TangoTimestamp &t, Tango::AttrQuality qual, bool release = false);
 //@}
 
 
@@ -1127,11 +1113,7 @@ public:
  * <b>DevFailed</b> exception specification
  */
         template<class T>
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, T* p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, T* p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
+	void push_archive_event (const std::string &attr_name, T* p_data, const TangoTimestamp &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 /**
  * Push an archive event for an attribute with Tango::DevEncoded attribute data type
  * when it is specified using two pointers.
@@ -1155,11 +1137,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-#ifdef _TG_WINDOWS_
-	void push_archive_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data, long size, struct _timeb  &t, Tango::AttrQuality qual, bool release = false);
-#else
-	void push_archive_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data, long size, struct timeval &t, Tango::AttrQuality qual, bool release = false);
-#endif
+	void push_archive_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data, long size, const TangoTimestamp &t, Tango::AttrQuality qual, bool release = false);
 //@}
 
 
@@ -1258,11 +1236,7 @@ public:
  * <b>DevFailed</b> exception specification
  */
         template<class T>
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,T* p_data, struct _timeb  &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,T* p_data, struct timeval &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
-#endif
+	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,T* p_data, const TangoTimestamp &t, Tango::AttrQuality qual, long x = 1,long y = 0,bool release = false);
 
 /**
  * Push a user event for an attribute with Tango::DevEncoded attribute data type
@@ -1288,11 +1262,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-#ifdef _TG_WINDOWS_
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, struct _timeb  &t, Tango::AttrQuality qual,bool release = false);
-#else
-	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, struct timeval &t, Tango::AttrQuality qual,bool release = false);
-#endif
+	void push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,Tango::DevString *p_str_data,Tango::DevUChar *p_data, long size, const TangoTimestamp &t, Tango::AttrQuality qual,bool release = false);
 //@}
 
 /**@name Push data ready event methods
@@ -1367,11 +1337,7 @@ public:
  * Click <a href="https://tango-controls.readthedocs.io/en/latest/development/advanced/IDL.html#exceptions">here</a> to read
  * <b>DevFailed</b> exception specification
  */
-#ifdef _TG_WINDOWS_
-	void push_pipe_event (const std::string &pipe_name, Tango::DevicePipeBlob *p_data, struct _timeb &t,bool reuse_it=false);
-#else
-	void push_pipe_event (const std::string &pipe_name, Tango::DevicePipeBlob *p_data, struct timeval &t,bool reuse_it=false);
-#endif
+	void push_pipe_event (const std::string &pipe_name, Tango::DevicePipeBlob *p_data, const TangoTimestamp &t,bool reuse_it=false);
 //@}
 
 /**@name Signal related methods
@@ -1774,15 +1740,9 @@ private:
 template<class T, void (Attribute::*fire)(void)>
 void push_event(const std::string &attr_name, T* p_data, long x, long y , bool release);
 template<class T, void (Attribute::*fire)(void)>
-#ifdef _TG_WINDOWS_
 void push_event (const std::string &attr_name, T* p_data,
-			  struct _timeb &t, Tango::AttrQuality qual,
+			  const TangoTimestamp &t, Tango::AttrQuality qual,
 			  long x,long y ,bool release);
-#else
-void push_event (const std::string &attr_name, T* p_data,
-			  struct timeval &t, Tango::AttrQuality qual,
-			  long x,long y ,bool release);
-#endif
 protected:
 };
 
@@ -1797,15 +1757,9 @@ inline void DeviceImpl::set_state(const Tango::DevState &new_state)
 }
 
 template<class T, void (Attribute::*fire)(void)>
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_event (const std::string &attr_name, T* p_data,
-			  struct _timeb &t, Tango::AttrQuality qual,
+			  const TangoTimestamp &t, Tango::AttrQuality qual,
 			  long x,long y ,bool release)
-#else
-void DeviceImpl::push_event (const std::string &attr_name, T* p_data,
-			  struct timeval &t, Tango::AttrQuality qual,
-			  long x,long y ,bool release)
-#endif
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);
@@ -1837,29 +1791,17 @@ inline void DeviceImpl::push_event(const std::string &attr_name, T* p_data, long
 }
 
 template<class T>
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_change_event (const std::string &attr_name, T* p_data,
-			  struct _timeb &t, Tango::AttrQuality qual,
+			  const TangoTimestamp &t, Tango::AttrQuality qual,
 			  long x,long y ,bool release)
-#else
-void DeviceImpl::push_change_event (const std::string &attr_name, T* p_data,
-				  struct timeval &t, Tango::AttrQuality qual,
-				  long x,long y ,bool release)
-#endif
 {
     push_event<T, &Attribute::fire_change_event>(attr_name, p_data, t, qual, x, y, release);
 }
 
 template<class T>
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_archive_event (const std::string &attr_name, T* p_data,
-			  struct _timeb &t, Tango::AttrQuality qual,
+			  const TangoTimestamp &t, Tango::AttrQuality qual,
 			  long x,long y ,bool release)
-#else
-void DeviceImpl::push_archive_event (const std::string &attr_name, T* p_data,
-				  struct timeval &t, Tango::AttrQuality qual,
-				  long x,long y ,bool release)
-#endif
 {
     push_event<T, &Attribute::fire_archive_event>(attr_name, p_data, t, qual, x, y, release);
 }
@@ -1893,15 +1835,9 @@ inline void DeviceImpl::push_event (const std::string &attr_name,const std::vect
 }
 
 template<class T>
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
-			     T* p_data,struct _timeb &t, Tango::AttrQuality qual,
+			     T* p_data,const TangoTimestamp &t, Tango::AttrQuality qual,
 			     long x,long y ,bool release)
-#else
-void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
-			     T* p_data,struct timeval &t, Tango::AttrQuality qual,
-			     long x,long y ,bool release)
-#endif
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);

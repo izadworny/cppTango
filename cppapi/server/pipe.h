@@ -375,7 +375,7 @@ public:
 
 	void fire_event(DeviceImpl *,DevFailed *);
 	void fire_event(DeviceImpl *,DevicePipeBlob *,bool);
-	void fire_event(DeviceImpl *,DevicePipeBlob *,struct timeval &,bool);
+	void fire_event(DeviceImpl *,DevicePipeBlob *,const TangoTimestamp &,bool);
 
 	void set_event_subscription(time_t _t) {event_subscription = _t;}
 	bool is_pipe_event_subscribed() const;

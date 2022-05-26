@@ -36,9 +36,6 @@
 #define _LOCKTHREAD_H
 
 #include <tango.h>
-#ifndef _TG_WINDOWS_
-#include <sys/time.h>
-#endif
 #include <tango_optional.h>
 
 #include <chrono>

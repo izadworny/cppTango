@@ -270,9 +270,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
             Tango::AttrQuality qu = (data.get_data())[i].qual;
             if (idl_vers >= 5)
             {
-                (*aid.data_5)[0].time.tv_sec = (data.get_data())[i].t_val.tv_sec;
-                (*aid.data_5)[0].time.tv_usec = (data.get_data())[i].t_val.tv_usec;
-                (*aid.data_5)[0].time.tv_nsec = 0;
+                (*aid.data_5)[0].time = make_TimeVal((data.get_data())[i].tp);
 
                 (*aid.data_5)[0].quality = qu;
                 (*aid.data_5)[0].name = Tango::string_dup(att_name.c_str());
@@ -287,9 +285,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
             }
             else if (idl_vers == 4)
             {
-                (*aid.data_4)[0].time.tv_sec = (data.get_data())[i].t_val.tv_sec;
-                (*aid.data_4)[0].time.tv_usec = (data.get_data())[i].t_val.tv_usec;
-                (*aid.data_4)[0].time.tv_nsec = 0;
+                (*aid.data_4)[0].time = make_TimeVal((data.get_data())[i].tp);
 
                 (*aid.data_4)[0].quality = qu;
                 (*aid.data_4)[0].name = Tango::string_dup(att_name.c_str());
@@ -303,9 +299,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
             }
             else
             {
-                (*aid.data_3)[0].time.tv_sec = (data.get_data())[i].t_val.tv_sec;
-                (*aid.data_3)[0].time.tv_usec = (data.get_data())[i].t_val.tv_usec;
-                (*aid.data_3)[0].time.tv_nsec = 0;
+                (*aid.data_3)[0].time = make_TimeVal((data.get_data())[i].tp);
 
                 (*aid.data_3)[0].quality = qu;
                 (*aid.data_3)[0].name = Tango::string_dup(att_name.c_str());
@@ -329,7 +323,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
                           (data.get_data())[i].x,
                           (data.get_data())[i].y,
                           (data.get_data())[i].release);
-                att.set_date((data.get_data())[i].t_val);
+                att.set_date((data.get_data())[i].tp);
                 att.set_quality(qu,false);
 
 //
@@ -441,7 +435,7 @@ void Util::fill_attr_polling_buffer(DeviceImpl *dev,std::string &att_name,AttrHi
             }
             else
             {
-                auto when = make_poll_time((data.get_data())[i].t_val);
+                auto when = make_poll_time((data.get_data())[i].tp);
                 auto zero = PollClock::duration::zero();
                 (*ite)->insert_except(save_except,when,zero);
             }
@@ -595,7 +589,7 @@ void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,CmdHist
         try
         {
             std::vector<PollObj *>::iterator ite = dev->get_polled_obj_by_type_name(Tango::POLL_CMD,obj_name);
-            auto when = make_poll_time((data.get_data())[i].t_val);
+            auto when = make_poll_time((data.get_data())[i].tp);
             auto zero = PollClock::duration::zero();
             if (cmd_failed == false)
                 (*ite)->insert_data(any_ptr,when,zero);

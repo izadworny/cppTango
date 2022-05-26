@@ -171,7 +171,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         try
         {
             std::vector<PollObj *>::iterator ite = dev->get_polled_obj_by_type_name(Tango::POLL_CMD,obj_name);
-            auto when = make_poll_time(data.get_data()[i].t_val);
+            auto when = make_poll_time(data.get_data()[i].tp);
             auto zero = PollClock::duration::zero();
             if (cmd_failed == false)
                 (*ite)->insert_data(any_ptr,when,zero);
@@ -306,7 +306,7 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         try
         {
             std::vector<PollObj *>::iterator ite = dev->get_polled_obj_by_type_name(Tango::POLL_CMD,obj_name);
-            auto when = make_poll_time(data.get_data()[i].t_val);
+            auto when = make_poll_time(data.get_data()[i].tp);
             auto zero = PollClock::duration::zero();
             if (cmd_failed == false)
                 (*ite)->insert_data(any_ptr,when,zero);
