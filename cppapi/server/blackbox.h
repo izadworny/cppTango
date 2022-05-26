@@ -215,7 +215,7 @@ private:
 	void inc_indexes();
 	void get_client_host();
 	void build_info_as_str(long);
-	void date_ux_to_str(struct timeval &,char *,size_t);
+	std::string timestamp_unix_to_str(const std::chrono::system_clock::time_point &);
 	void add_source(long);
 	void insert_op_nl(BlackBoxElt_OpType);
 	void insert_attr_nl(const Tango::AttributeValueList &,long);
