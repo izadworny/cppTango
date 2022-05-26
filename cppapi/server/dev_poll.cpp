@@ -164,11 +164,7 @@ bool DeviceImpl::is_attribute_polled(const std::string &att_name)
 		std::vector<std::string> &napa = get_non_auto_polled_attr();
 		for (unsigned int j = 0;j < napa.size();j++)
 		{
-#ifdef _TG_WINDOWS_
-			if (_stricmp(napa[j].c_str(), att_name.c_str()) == 0)
-#else
-			if (strcasecmp(napa[j].c_str(), att_name.c_str()) == 0)
-#endif
+			if (TG_strcasecmp(napa[j].c_str(), att_name.c_str()) == 0)
 			{
 				return false;
 			}
@@ -242,11 +238,7 @@ bool DeviceImpl::is_command_polled(const std::string &cmd_name)
 		std::vector<std::string> &napa = get_non_auto_polled_cmd();
 		for (unsigned int j = 0;j < napa.size();j++)
 		{
-#ifdef _TG_WINDOWS_
-			if (_stricmp(napa[j].c_str(), cmd_name.c_str()) == 0)
-#else
-			if (strcasecmp(napa[j].c_str(), cmd_name.c_str()) == 0)
-#endif
+			if (TG_strcasecmp(napa[j].c_str(), cmd_name.c_str()) == 0)
 			{
 				return false;
 			}

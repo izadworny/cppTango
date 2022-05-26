@@ -556,11 +556,7 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 					{
 						for (j = 0;j < nb_poll;j++)
 						{
-#ifdef _TG_WINDOWS_
-							if (_stricmp(poll_list[j]->get_name().c_str(),real_names[i]) == 0)
-#else
-							if (strcasecmp(poll_list[j]->get_name().c_str(),real_names[i]) == 0)
-#endif
+							if (TG_strcasecmp(poll_list[j]->get_name().c_str(),real_names[i]) == 0)
 								break;
 						}
 						if (j == nb_poll)
@@ -602,11 +598,7 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 							std::vector<std::string> &napa = get_non_auto_polled_attr();
 							for (j = 0;j < napa.size();j++)
 							{
-#ifdef _TG_WINDOWS_
-								if (_stricmp(napa[j].c_str(),real_names[non_polled[i]]) == 0)
-#else
-								if (strcasecmp(napa[j].c_str(),real_names[non_polled[i]]) == 0)
-#endif
+								if (TG_strcasecmp(napa[j].c_str(),real_names[non_polled[i]]) == 0)
 									found = true;
 							}
 
@@ -689,13 +681,8 @@ Tango::AttributeValueList* Device_2Impl::read_attributes_2(const Tango::DevVarSt
 					unsigned long j;
 					for (j = 0;j < poll_list.size();j++)
 					{
-#ifdef _TG_WINDOWS_
 						if ((poll_list[j]->get_type() == Tango::POLL_ATTR) &&
-			    	    	    	(_stricmp(poll_list[j]->get_name().c_str(),real_names[i]) == 0))
-#else
-						if ((poll_list[j]->get_type() == Tango::POLL_ATTR) &&
-			    	    	    	(strcasecmp(poll_list[j]->get_name().c_str(),real_names[i]) == 0))
-#endif
+			    	    	    	(TG_strcasecmp(poll_list[j]->get_name().c_str(),real_names[i]) == 0))
 						{
 							polled_attr = poll_list[j];
 							break;

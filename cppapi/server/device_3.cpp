@@ -1059,11 +1059,7 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 			dev_attr->get_attr_ind_by_name(names[i]);
 			for (j = 0;j < nb_poll;j++)
 			{
-#ifdef _TG_WINDOWS_
-				if (_stricmp(poll_list[j]->get_name().c_str(),names[i]) == 0)
-#else
-				if (strcasecmp(poll_list[j]->get_name().c_str(),names[i]) == 0)
-#endif
+				if (TG_strcasecmp(poll_list[j]->get_name().c_str(),names[i]) == 0)
 					break;
 			}
 			if (j == nb_poll)
@@ -1158,13 +1154,8 @@ void Device_3Impl::read_attributes_from_cache(const Tango::DevVarStringArray& na
 		unsigned long j;
 		for (j = 0;j < poll_list.size();j++)
 		{
-#ifdef _TG_WINDOWS_
 			if ((poll_list[j]->get_type() == Tango::POLL_ATTR) &&
-	   	    	    (_stricmp(poll_list[j]->get_name().c_str(),names[i]) == 0))
-#else
-			if ((poll_list[j]->get_type() == Tango::POLL_ATTR) &&
-		  	    (strcasecmp(poll_list[j]->get_name().c_str(),names[i]) == 0))
-#endif
+		  	    (TG_strcasecmp(poll_list[j]->get_name().c_str(),names[i]) == 0))
 			{
 				polled_attr = poll_list[j];
 				break;
