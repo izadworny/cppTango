@@ -260,16 +260,9 @@ std::ostream &operator<<(std::ostream &o_str, const DeviceDataHistory &dh)
 // First, print date
 //
 
-    time_t tmp_val = dh.time.tv_sec;
-    char tmp_date[128];
-#ifdef _TG_WINDOWS_
-    ctime_s(tmp_date,128,&tmp_val);
-#else
-    ctime_r(&tmp_val, tmp_date);
-#endif
-    tmp_date[strlen(tmp_date) - 1] = '\0';
-    o_str << tmp_date;
-    o_str << " (" << dh.time.tv_sec << "," << std::setw(6) << std::setfill('0') << dh.time.tv_usec << " sec) : ";
+    std::tm tm = Tango_localtime(dh.time.tv_sec);
+    o_str << std::put_time(&tm,"%c") << " (" << dh.time.tv_sec << "," << std::setw(6) << std::setfill('0') << dh.time.tv_usec << " sec) : ";
+
 
 //
 // Print data or error stack
@@ -747,16 +740,8 @@ std::ostream &operator<<(std::ostream &o_str, const DeviceAttributeHistory &dah)
 
     if (dah.time.tv_sec != 0)
     {
-        char tmp_date[128];
-        time_t tmp_val = dah.time.tv_sec;
-#ifdef _TG_WINDOWS_
-        ctime_s(tmp_date,128,&tmp_val);
-#else
-        ctime_r(&tmp_val, tmp_date);
-#endif
-        tmp_date[strlen(tmp_date) - 1] = '\0';
-        o_str << tmp_date;
-        o_str << " (" << dah.time.tv_sec << "," << std::setw(6) << std::setfill('0') << dah.time.tv_usec << " sec) : ";
+        std::tm tm = Tango_localtime(dah.time.tv_sec);
+        o_str << std::put_time(&tm,"%c") << " (" << dah.time.tv_sec << "," << std::setw(6) << std::setfill('0') << dah.time.tv_usec << " sec) : ";
     }
 
 //

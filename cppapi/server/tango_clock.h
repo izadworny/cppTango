@@ -4,6 +4,7 @@
 #include <chrono>
 #include <ratio>
 #include <type_traits>
+#include <ctime>
 
 #include <idl/tango.h>
 
@@ -105,6 +106,21 @@ template <typename Rep, typename Period>
 double constexpr duration_ms(std::chrono::duration<Rep, Period> dur)
 {
     return std::chrono::nanoseconds(dur).count() / 1e6;
+}
+
+//
+// Converts given time since epoch as time_t value into calendar time, expressed in local time.
+// The expression is thread safe.
+//
+inline std::tm Tango_localtime(std::time_t time)
+{
+    std::tm local_tm; // NOLINT(cppcoreguidelines-pro-type-member-init)
+#ifdef _TG_WINDOWS_
+    localtime_s(&local_tm, &time);
+#else
+    localtime_r(&time, &local_tm);
+#endif
+    return local_tm;
 }
 
 } // namespace Tango
