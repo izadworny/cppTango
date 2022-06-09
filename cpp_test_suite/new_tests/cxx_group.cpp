@@ -439,6 +439,37 @@ public:
 		GroupReply::enable_exception(last_mode);
 	}
 
+// Test to extract invalid attribute with with enable exception mode OFF and ON
+
+	void test_to_extract_invalid_attribute_with_with_enable_exception_mode_OFF_and_ON(void)
+	{
+		{
+			DeviceProxy dp{"test/debian8/10"};
+			DeviceData in{};
+			in << DevShort{1};
+			dp.command_inout("IOChangeQuality", in);
+			DeviceAttribute attr = dp.read_attribute("Event_quality_tst");
+			std::vector<DevDouble> result{};
+			TS_ASSERT_EQUALS(attr.get_quality(), ATTR_INVALID);
+			TS_ASSERT_THROWS_ASSERT(attr >> result, Tango::DevFailed &e,
+			TS_ASSERT_EQUALS(std::string{e.errors[0].reason.in()}, API_EmptyDeviceAttribute));
+		}
+		Group group{"test_group"};
+		group.add("test/debian8/10");
+		GroupAttrReplyList reply = group.read_attribute("Event_quality_tst");
+		TS_ASSERT_EQUALS(reply.size(), 1u);
+		TS_ASSERT_EQUALS(reply[0].get_data().get_quality(), ATTR_INVALID);
+		std::vector<DevDouble> result{};
+
+		TS_ASSERT_THROWS_NOTHING(reply[0] >> result);
+		TS_ASSERT_EQUALS(result.size(), 0u);
+
+		GroupReply::enable_exception(true);
+		TS_ASSERT_THROWS_ASSERT(reply[0] >> result, Tango::DevFailed &e,
+		TS_ASSERT_EQUALS(std::string{e.errors[0].reason.in()}, API_EmptyDeviceAttribute));
+		TS_ASSERT_EQUALS(result.size(), 0u);
+	}
+
 // Test read attribute synchronously
 
 	void test_read_attribute_synchronously()
