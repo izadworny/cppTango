@@ -3254,6 +3254,26 @@ DbDatum Database::get_class_property_list(const std::string &classname)
 	return make_string_array(std::string("class"),received);
 }
 
+DbDatum Database::get_class_property_list(const std::string &classname, const std::string &wildcard)
+{
+	Any send;
+	Any_var received;
+	AutoConnectTimeout act(DB_RECONNECT_TIMEOUT);
+
+	check_access_and_get();
+
+	DevVarStringArray *sent_names = new DevVarStringArray;
+	sent_names->length(2);
+	(*sent_names)[0] = string_dup(classname.c_str());
+	(*sent_names)[1] = string_dup(wildcard.c_str());
+
+	send <<= sent_names;
+
+	CALL_DB_SERVER("DbGetClassPropertyListWildcard",send,received);
+
+	return make_string_array(std::string("class"),received);
+}
+
 //-----------------------------------------------------------------------------
 //
 // Database::get_class_for_device() - Return the class of the specified device
