@@ -1115,18 +1115,19 @@ DevicePipeBlob & DevicePipeBlob::operator<<(DevString &datum)
 			dvsa.length(1);
 			dvsa[0] = Tango::string_dup(datum);
 
-			if (insert_ind != -1)
-			{
-				(*insert_elt_array)[insert_ind].value.string_att_value(dvsa);
-                (*insert_elt_array)[insert_ctr].inner_blob_name = Tango::string_dup("Scalar");
-				insert_ind = -1;
+ 			int idx = insert_ctr;
+ 			if (insert_ind != -1)
+ 			{
+ 				idx = insert_ind;
+ 				insert_ind = -1;
+ 			}
+ 			else
+ 			{
+ 				insert_ctr++;
 			}
-			else
-			{
-				(*insert_elt_array)[insert_ctr].value.string_att_value(dvsa);
-                (*insert_elt_array)[insert_ctr].inner_blob_name = Tango::string_dup("Scalar");
-				insert_ctr++;
-			}
+
+ 			(*insert_elt_array)[idx].value.string_att_value(dvsa);
+ 			(*insert_elt_array)[idx].inner_blob_name = Tango::string_dup("Scalar");
 		}
 
 	}
