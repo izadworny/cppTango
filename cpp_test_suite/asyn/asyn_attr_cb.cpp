@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 			{
 				device->get_asynch_replies(200);
 			}
-			catch (AsynReplyNotArrived &e)
+			catch (AsynReplyNotArrived&)
 			{
 				TEST_LOG << "Attribute not yet read" << std::endl;
 				nb_not_arrived++;
