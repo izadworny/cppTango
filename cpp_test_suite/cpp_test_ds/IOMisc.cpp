@@ -2037,7 +2037,7 @@ CORBA::Any *SetGetAlarms::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const 
 			attr.get_properties(conf);
 			attr_ptr = &attr;
 
-			Tango::DevFloat fl, fl_min_alarm = -777.77, fl_min_warning = -666.66, fl_max_warning = 666.66, fl_max_alarm = 777.77;
+			Tango::DevFloat fl, fl_min_alarm = -777.77f, fl_min_warning = -666.66f, fl_max_warning = 666.66f, fl_max_alarm = 777.77f;
 			attr.set_min_alarm(fl_min_alarm);
 			attr.set_min_warning(fl_min_warning);
 			attr.set_max_warning(fl_max_warning);
@@ -2514,7 +2514,7 @@ CORBA::Any *SetGetRanges::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const 
 			wattr.get_properties(conf);
 			wattr_ptr = &wattr;
 
-			Tango::DevFloat fl, fl_min_value = -888.88, fl_max_value = 888.88;
+			Tango::DevFloat fl, fl_min_value = -888.88f, fl_max_value = 888.88f;
 			wattr.set_min_value(fl_min_value);
 			wattr.set_max_value(fl_max_value);
 
