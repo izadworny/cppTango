@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 		{
 			device->command_inout("IORemoveAttribute",din);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 			TEST_LOG << "Received exception" << endl;
 			except = true;
