@@ -175,7 +175,6 @@ int main(int argc, char **argv)
 
 		bool po;
 		int poll_period;
-		int rest;
 
 		// start the polling first!
 		device->poll_attribute(att_name,1000);
@@ -217,6 +216,7 @@ int main(int argc, char **argv)
 
 
 #ifndef WIN32
+		int rest;
 		rest = sleep(1);
 		if (rest != 0)
 			sleep(1);
