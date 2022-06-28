@@ -36,10 +36,17 @@ function(TEST_SUITE_ADD_TEST test)
 endfunction()
 
 function(tango_add_test name_tag name command_tag command)
-    add_test(
-        NAME "${name}"
-        COMMAND "${CMAKE_BINARY_DIR}/cpp_test_suite/environment/run_with_fixture.sh" "${command}"
-        ${ARGN})
+    if(WIN32)
+        add_test(
+            NAME "${name}"
+            COMMAND powershell "${CMAKE_BINARY_DIR}/cpp_test_suite/environment/run_with_fixture.ps1" "${command}"
+            ${ARGN})
+	else()
+        add_test(
+            NAME "${name}"
+            COMMAND "${CMAKE_BINARY_DIR}/cpp_test_suite/environment/run_with_fixture.sh" "${command}"
+            ${ARGN})
+	endif()
 endfunction()
 
 add_subdirectory(asyn)
