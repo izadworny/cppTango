@@ -137,7 +137,7 @@ public:
 			{
 				root_admin->command_inout("RemObjPolling", din);
 			}
-			catch (Tango::DevFailed &e) {}
+			catch (Tango::DevFailed&) {}
 		}
 
 		(*confs_init)[0].label = "";
