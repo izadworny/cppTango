@@ -296,7 +296,7 @@ int main(int argc, char **argv)
 				nb_not_arrived++;
 				TEST_LOG << "Attributes not yet read" << std::endl;
 			}
-			catch (DevFailed &e)
+			catch (DevFailed&)
 			{
 				TEST_LOG << "Comm exception" << std::endl;
 			}
@@ -329,7 +329,7 @@ int main(int argc, char **argv)
 			{
 				TEST_LOG << "Attributes not yet read" << std::endl;
 			}
-			catch (DevFailed &e)
+			catch (DevFailed&)
 			{
 				TEST_LOG << "Comm exception" << std::endl;
 			}
@@ -401,7 +401,7 @@ int main(int argc, char **argv)
 
 			delete received;
 		}
-		catch (DevFailed &e)
+		catch (DevFailed&)
 		{
 			TEST_LOG << "Comm exception" << std::endl;
 		}
