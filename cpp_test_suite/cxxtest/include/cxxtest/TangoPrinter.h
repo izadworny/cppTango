@@ -64,7 +64,7 @@ private:
     /*
      * user arguments counter
      */
-    static int uargc;
+    static std::size_t uargc;
     /*
      * vector of user arguments detected automatically from the
      * command line arguments and interpreted as those which are not declared in
@@ -75,7 +75,7 @@ private:
     /*
      * parameter arguments counter
      */
-    static int pargc;
+    static std::size_t pargc;
     /*
      * map of parameter arguments and their values obtained automatically
      * from the command line arguments as those declared in the 'params' map
@@ -327,7 +327,7 @@ public:
                 string param_value = it->second[0];
                 string param_desc = it->second[1];
 
-                int param_value_length = param_value.length();
+                std::size_t param_value_length = param_value.length();
                 if (param_value.compare(arg_tmp.substr(0, param_value_length)) == 0)
                 {
                     // checks if the parameter has already been used to accept value of only the first occurrence of the parameter
@@ -442,7 +442,7 @@ public:
         return uargv;
     }
 
-    static unsigned int get_uargc(void)
+    static std::size_t get_uargc(void)
     {
         return uargc;
     }
@@ -450,7 +450,7 @@ public:
     /*
      * returns number of predefined parameters used in command line by user
      */
-    static unsigned int get_pargc(void)
+    static std::size_t get_pargc(void)
     {
         return pargc;
     }
@@ -835,11 +835,11 @@ int TangoPrinter::argc = 0;
 
 char **TangoPrinter::argv = 0;
 
-int TangoPrinter::uargc = 0;
+std::size_t TangoPrinter::uargc = 0;
 
 vector<string> TangoPrinter::uargv;
 
-int TangoPrinter::pargc = 0;
+std::size_t TangoPrinter::pargc = 0;
 
 map<string, string> TangoPrinter::pargv;
 
