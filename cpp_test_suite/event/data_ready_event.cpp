@@ -131,7 +131,7 @@ int main(int argc, char **argv)
 			eve_id1 = device->subscribe_event(att_name,Tango::DATA_READY_EVENT,&cb,filters);
 			except = false;
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 //			Tango::Except::print_exception(e);
 		}
