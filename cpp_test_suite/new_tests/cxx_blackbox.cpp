@@ -238,7 +238,7 @@ try
 Tango::DeviceData dd = dev->command_inout("QueryDevice");
 cout << "Device list = " << dd << endl;
 }
-catch (Tango::DevFailed &e)
+catch (Tango::DevFailed&)
 {
 cout << "Again exception when talking to adm device!!!" << endl;
 }
@@ -274,7 +274,7 @@ try
 Tango::DeviceData dd = dev->command_inout("QueryDevice");
 cout << "Device list = " << dd << endl;
 }
-catch (Tango::DevFailed &e)
+catch (Tango::DevFailed&)
 {
 cout << "Again exception when talking to adm device!!!" << endl;
 }
