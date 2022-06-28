@@ -293,7 +293,7 @@ int main(int argc, char **argv)
 					coutv << "Server exception" << std::endl;
 				}
 			}
-			catch (DevFailed &e)
+			catch (DevFailed&)
 			{
 				coutv << "Comm exception" << std::endl;
 			}
@@ -340,7 +340,7 @@ int main(int argc, char **argv)
 					coutv << "Server exception" << std::endl;
 				}
 			}
-			catch (DevFailed &e)
+			catch (DevFailed&)
 			{
 				coutv << "Comm exception" << std::endl;
 			}
@@ -376,7 +376,7 @@ int main(int argc, char **argv)
 				coutv << "Server exception" << std::endl;
 			}
 		}
-		catch (DevFailed &e)
+		catch (DevFailed&)
 		{
 			coutv << "Comm exception" << std::endl;
 		}
