@@ -133,9 +133,9 @@ public:
 	{
 		DeviceData din, dout;
 		vector<DevFloat> input(3), output(3);
-		input[0] = 1.11;
-		input[1] = 2.22;
-		input[2] = 3.33;
+		input[0] = 1.11f;
+		input[1] = 2.22f;
+		input[2] = 3.33f;
 		din << input;
 		try
 		{
