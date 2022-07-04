@@ -28,6 +28,7 @@ function(TEST_SUITE_ADD_TEST test)
     add_executable(${test} ${test}.cpp)
     target_compile_definitions(${test} PUBLIC VALGRIND _PTHREADS PRIVATE LOG4TANGO_HAS_DLL TANGO_HAS_DLL)
     target_link_libraries(${test} tango ${CMAKE_DL_LIBS})
+	target_link_directories(${test} PRIVATE ${CMAKE_BINARY_DIR})
     if(TANGO_USE_PCH)
         tango_target_test_pch(${test})
     endif()
@@ -41,6 +42,12 @@ function(tango_add_test name_tag name command_tag command)
             NAME "${name}"
             COMMAND powershell "${CMAKE_BINARY_DIR}/cpp_test_suite/environment/run_with_fixture.ps1" "${command}"
             ${ARGN})
+		set_tests_properties("${name}"
+		    PROPERTIES
+			ENVIRONMENT_MODIFICATION PATH=path_list_append:"${CMAKE_BINARY_DIR}")
+		set_tests_properties("${name}"
+		    PROPERTIES
+			ENVIRONMENT_MODIFICATION PATH=path_list_append:"${OMNIIDL_PATH}")
 	else()
         add_test(
             NAME "${name}"
