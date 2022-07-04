@@ -27,7 +27,8 @@ else
 &{docker.exe run `
     --name "$mysql_container" `
     --rm `
-    --network="host" `
+    --network tango-net `
+    --network-alias mysql_db `
     -e MYSQL_ROOT_PASSWORD=root `
     -e MYSQL_INITDB_SKIP_TZINFO=1 `
     -d `
@@ -40,9 +41,10 @@ else
 &{docker.exe run `
     --name "$tango_container" `
     --rm `
-    --network="host" `
+	-p 10000:10000 `
+    --network tango-net `
     -e TANGO_HOST=127.0.0.1:10000 `
-    -e MYSQL_HOST=127.0.0.1:3306 `
+    -e MYSQL_HOST=mysql_db:3306 `
     -e MYSQL_USER=tango `
     -e MYSQL_PASSWORD=tango `
     -e MYSQL_DATABASE=tango `

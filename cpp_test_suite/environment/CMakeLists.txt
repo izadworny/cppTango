@@ -12,9 +12,6 @@ else()
     SET(SCRIPTS
         run_with_fixture.ps1
         setup_database.ps1
-        setup_devices.ps1
-        start_server.ps1
-        kill_server.ps1
     )
 endif()
 
