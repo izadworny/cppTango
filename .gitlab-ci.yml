@@ -642,7 +642,7 @@ build-conda-dev-package:
   script:
     # Download conda_build_config.yaml here as the entrypoint isn't executed
     # by kubernetes executor: https://gitlab.com/gitlab-org/gitlab-runner/-/issues/4125
-    - curl -Ls https://raw.githubusercontent.com/conda-forge/conda-forge-pinning-feedstock/master/recipe/conda_build_config.yaml > ${HOME}/conda_build_config.yaml
+    - curl -Ls https://raw.githubusercontent.com/conda-forge/conda-forge-pinning-feedstock/main/recipe/conda_build_config.yaml > ${HOME}/conda_build_config.yaml
     - mkdir pkg
     - conda mambabuild --error-overlinking --output-folder pkg recipe
   artifacts:
