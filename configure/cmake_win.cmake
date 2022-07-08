@@ -131,7 +131,7 @@ if (TANGO_INSTALL_DEPENDENCIES)
 
     endif()
 
-    if(CMAKE_VS_PLATFORM_TOOLSET STREQUAL "v141")
+    if(CMAKE_VS_PLATFORM_TOOLSET IN_LIST WINDOWS_SUPPORTED_VS_TOOLSETS)
         if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             install(FILES ${TANGO_OMNI_BASE}/bin/x86_win32/omniORB421_vc15_rtd.dll DESTINATION bin COMPONENT dynamic)
             install(FILES ${TANGO_OMNI_BASE}/bin/x86_win32/omniDynamic421_vc15_rtd.dll DESTINATION bin COMPONENT dynamic)
