@@ -8,7 +8,6 @@ set(TESTS   acc_right
             attr_misc
             attr_proxy
             attr_types
-            cmd_inout
             cmd_types
             ConfEventBugClient
             copy_devproxy
@@ -20,7 +19,6 @@ set(TESTS   acc_right
             misc_devattr
             misc_devdata
             misc_devproxy
-            multiple_new
             new_devproxy
             obj_prop
             poll_except
@@ -28,7 +26,6 @@ set(TESTS   acc_right
             print_data_hist
             prop_list
             rds
-            read_attr
             read_hist_ext
             reconnect_attr
             reconnect
@@ -38,7 +35,6 @@ set(TESTS   acc_right
             state_attr
             sub_dev
             unlock
-            wait_mcast_dev
             w_r_attr
             write_attr_3
             write_attr)
