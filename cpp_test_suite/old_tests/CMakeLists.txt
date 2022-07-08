@@ -31,7 +31,6 @@ set(TESTS   acc_right
             reconnect
             restart_device
             ring_depth
-            size
             state_attr
             sub_dev
             unlock
@@ -72,8 +71,5 @@ tango_add_test(NAME "old_tests::lock"  COMMAND $<TARGET_FILE:lock> ${DEV1} ${DEV
 tango_add_test(NAME "old_tests::sub_dev"  COMMAND $<TARGET_FILE:sub_dev> ${DEV1} ${DEV2} ${DEV3})
 tango_add_test(NAME "old_tests::print_data"  COMMAND $<TARGET_FILE:print_data> ${DEV1})
 tango_add_test(NAME "old_tests::attr_manip"  COMMAND $<TARGET_FILE:attr_manip> ${DEV1})
-if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 4.9.2)
-    tango_add_test(NAME "old_tests::size"  COMMAND $<TARGET_FILE:size>)
-endif()
 tango_add_test(NAME "old_tests::ConfEventBugClient"  COMMAND $<TARGET_FILE:ConfEventBugClient> ${DEV3})
 tango_add_test(NAME "old_tests::attr_conf_test"  COMMAND $<TARGET_FILE:attr_conf_test> ${DEV1})
