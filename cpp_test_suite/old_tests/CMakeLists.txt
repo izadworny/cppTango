@@ -71,3 +71,6 @@ tango_add_test(NAME "old_tests::sub_dev"  COMMAND $<TARGET_FILE:sub_dev> ${DEV1}
 tango_add_test(NAME "old_tests::w_r_attr"  COMMAND $<TARGET_FILE:w_r_attr> ${DEV1})
 tango_add_test(NAME "old_tests::write_attr"  COMMAND $<TARGET_FILE:write_attr> ${DEV1} 10)
 tango_add_test(NAME "old_tests::write_attr_3"  COMMAND $<TARGET_FILE:write_attr_3> ${DEV1} 10)
+
+# Failing
+# locked_device
