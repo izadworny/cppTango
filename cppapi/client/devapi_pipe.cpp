@@ -1048,7 +1048,7 @@ DevicePipeBlob & DevicePipeBlob::operator<<(const DevString &datum)
 			if (insert_ind != -1)
 			{
 				(*insert_elt_array)[insert_ind].value.string_att_value(dvsa);
-                (*insert_elt_array)[insert_ctr].inner_blob_name = Tango::string_dup("Scalar");
+                (*insert_elt_array)[insert_ind].inner_blob_name = Tango::string_dup("Scalar");
 				insert_ind = -1;
 			}
 			else
