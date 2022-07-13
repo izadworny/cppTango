@@ -84,6 +84,7 @@ CXX_GENERATE_TEST(cxx_reconnection_zmq)
 CXX_GENERATE_TEST(cxx_stateless_subscription)
 CXX_GENERATE_TEST(cxx_nan_inf_in_prop)
 CXX_GENERATE_TEST(cxx_asyn_reconnection)
+CXX_GENERATE_TEST(cxx_device_pipe_blob)
 
 #utilities
 configure_file(bin/start_server.sh.cmake    ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/start_server.sh @ONLY)
