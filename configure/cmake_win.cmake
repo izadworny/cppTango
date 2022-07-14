@@ -4,6 +4,9 @@ if(CMAKE_CL_64)
     add_definitions(-D_64BITS)
 endif()
 
+# multi process compilation
+add_compile_options(/MP)
+
 set(TANGO_LIBRARY_NAME tango)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
