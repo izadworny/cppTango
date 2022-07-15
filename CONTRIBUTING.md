@@ -31,7 +31,7 @@ We don't need a signed CLA (contributors license agreement) from you.
 
 # Merge request acceptance and merging
 
-Thank you very much for your work and congratulations! You have will make cppTango better. 🎉
+Thank you very much for your work and congratulations! You have made cppTango better. 🎉
 
 And now you want to get these changes merged? Very nice!
 
