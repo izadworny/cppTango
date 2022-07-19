@@ -116,7 +116,7 @@ log4tango::Logger* DeviceImpl::get_logger_i (void)
     // shame on me for a such huggly impl. but polymorphism
     // can't be used here !
     if (logger == 0) {
-      if (device_class->get_name() == "DServer") {
+      if (TG_strcasecmp(device_class->get_name().c_str(), "DServer") == 0) {
         logger = Logging::get_core_logger();
       }
       else {
