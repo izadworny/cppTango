@@ -866,6 +866,57 @@ public:
 		CxxTest::TangoPrinter::restore_unset("double_attr_value");
 	}
 
+	// Test write attribute when server start after client
+	void test_write_attribute_when_server_start_after_client()
+	{
+		//prepare enviroment
+		CxxTest::TangoPrinter::restore_set("double_attr_value");
+		CxxTest::TangoPrinter::kill_server();
+		Tango::GroupAttrReply::enable_exception(true); 
+		delete device3;
+		device3 = new DeviceProxy(device3_name);
+		Tango::Group *test_group = new Tango::Group("g1");
+  		test_group->add(device3_name);
+		DeviceAttribute value("Double_attr_w",11.1);
+
+		// start server
+		CxxTest::TangoPrinter::start_server("test");
+
+		// test write attribute without ping
+		GroupReplyList rl = test_group->write_attribute(value);
+		TS_ASSERT(rl.has_failed() == true);
+
+		// test write attribute with ping
+		test_group->ping();
+		rl = test_group->write_attribute(value);
+		TS_ASSERT(rl.has_failed() == false);
+
+		// read attribute to check if new value was properly set
+		GroupAttrReplyList arl = test_group->read_attribute("Double_attr_w");
+		TS_ASSERT(arl.has_failed() == false);
+		TS_ASSERT(arl.size() == 1);
+		DevDouble db;
+		arl[0] >> db;
+		TS_ASSERT(db == 11.1);
+
+		delete test_group;
+		// write old value to restore the defaults and read to check if successful
+		rl.reset();
+		arl.reset();
+		DeviceAttribute old_value("Double_attr_w",0.0);
+		rl = group->write_attribute(old_value);
+		TS_ASSERT(rl.has_failed() == false);
+		arl = group->read_attribute("Double_attr_w");
+		TS_ASSERT(arl.has_failed() == false);
+		TS_ASSERT(arl.size() == 3);
+		for(size_t i = 0; i < arl.size(); i++)
+		{
+			DevDouble db;
+			arl[i] >> db;
+			TS_ASSERT(db == 0.0);
+		}
+		CxxTest::TangoPrinter::restore_unset("double_attr_value");
+	}
 };
 #undef cout
 #endif // GroupTestSuite_h
