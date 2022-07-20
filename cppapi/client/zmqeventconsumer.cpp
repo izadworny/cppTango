@@ -1069,6 +1069,7 @@ void ZmqEventConsumer::cleanup_EventChannel_map()
             evt_ch.adm_device_proxy = NULL;
         }
         delete evt_ch.channel_monitor;
+        evt_ch.channel_monitor = NULL;
     }
 
 //
@@ -3388,6 +3389,12 @@ ReceivedFromAdmin ZmqEventConsumer::initialize_received_from_admin(const Tango::
     {
         result.event_name = (dvlsa->svalue[dvlsa->svalue.length() - 2]);
         result.channel_name = (dvlsa->svalue[dvlsa->svalue.length() - 1]);
+
+        if (adm_name.find(MODIFIER_DBASE_NO) != std::string::npos &&
+            result.channel_name.find(MODIFIER_DBASE_NO) == std::string::npos)
+        {
+            result.channel_name += MODIFIER_DBASE_NO;
+        }
     }
     else
     {

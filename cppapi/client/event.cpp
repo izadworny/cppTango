@@ -1948,9 +1948,10 @@ void EventConsumer::unsubscribe_event(int event_id)
 						std::map<std::string,EventChannelStruct>::iterator chan_pos;
 						for (chan_pos = channel_map.begin(); chan_pos != channel_map.end(); ++chan_pos)
 						{
-							EventChannelStruct &evt_ch = chan_pos->second;
 							if (chan_pos->first == deleted_channel_name)
 							{
+								EventChannelStruct &evt_ch = chan_pos->second;
+
 								if (evt_ch.adm_device_proxy != NULL)
 								{
 								    if (evt_ch.channel_type == NOTIFD)
@@ -1980,10 +1981,10 @@ void EventConsumer::unsubscribe_event(int event_id)
 								    {
                                         disconnect_event_channel(deleted_channel_name,evt_ch.endpoint,deleted_event_endpoint);
 								    }
-
-									delete evt_ch.adm_device_proxy;
-                                    delete evt_ch.channel_monitor;
 								}
+
+								delete evt_ch.adm_device_proxy;
+								delete evt_ch.channel_monitor;
 
 								channel_map.erase(chan_pos);
 								break;
