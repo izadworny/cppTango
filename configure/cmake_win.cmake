@@ -4,6 +4,9 @@ if(CMAKE_CL_64)
     add_definitions(-D_64BITS)
 endif()
 
+# multi process compilation
+add_compile_options(/MP)
+
 set(TANGO_LIBRARY_NAME tango)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -13,7 +16,9 @@ endif()
 # The name without the variant tag (i.e. -static)
 set(TANGO_LIBRARY_OUTPUT_NAME ${TANGO_LIBRARY_NAME})
 
-if(NOT BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+else()
     set(TANGO_LIBRARY_NAME ${TANGO_LIBRARY_NAME}-static)
 endif()
 
@@ -48,7 +53,13 @@ else()
     set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES PREFIX "lib")
 endif()
 
-set_property(TARGET ${TANGO_LIBRARY_NAME} PROPERTY LINK_FLAGS "/force:multiple")
+# Always generate separate PDB files for shared builds, even for release build types
+#
+# https://docs.microsoft.com/en-us/cpp/build/reference/z7-zi-zi-debug-information-format
+# https://docs.microsoft.com/en-us/cpp/build/reference/debug-generate-debug-info
+target_compile_options(${TANGO_LIBRARY_NAME} PRIVATE "/Zi")
+set_property(TARGET ${TANGO_LIBRARY_NAME} PROPERTY LINK_FLAGS "/force:multiple /DEBUG")
+
 target_include_directories(${TANGO_LIBRARY_NAME} SYSTEM PUBLIC ${ZMQ_PKG_INCLUDE_DIRS} ${OMNIORB_PKG_INCLUDE_DIRS} ${OMNIDYN_PKG_INCLUDE_DIRS})
 
 set_target_properties(${TANGO_LIBRARY_NAME} PROPERTIES
@@ -70,13 +81,12 @@ install(TARGETS ${TANGO_LIBRARY_NAME}
         ARCHIVE DESTINATION lib COMPONENT static
         RUNTIME DESTINATION bin COMPONENT dynamic)
 
-install(DIRECTORY log4tango/include/log4tango DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "threading" EXCLUDE)
-install(DIRECTORY log4tango/include/log4tango/threading DESTINATION include/log4tango COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-install(DIRECTORY cppapi/server/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "server_objects_sta.dir" EXCLUDE PATTERN "server_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "idl" EXCLUDE)
-install(DIRECTORY cppapi/client/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "client_objects_sta.dir" EXCLUDE PATTERN "client_objects_dyn.dir" EXCLUDE PATTERN "CMakeFiles" EXCLUDE PATTERN "helpers" EXCLUDE)
-install(DIRECTORY cppapi/client/helpers/ DESTINATION include COMPONENT headers FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.tpp" PATTERN "*.txt" EXCLUDE PATTERN "*.vcproj" EXCLUDE PATTERN "*.cmake" EXCLUDE PATTERN "*.cpp" EXCLUDE PATTERN "*.in" EXCLUDE PATTERN "*.am" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-install(FILES cppapi/server/resource.h DESTINATION include COMPONENT headers)
-install(FILES cppapi/server/tango.h DESTINATION include COMPONENT headers)
+install(DIRECTORY "$<TARGET_FILE_DIR:${TANGO_LIBRARY_NAME}>/"
+        DESTINATION lib COMPONENT static
+        DESTINATION bin COMPONENT dynamic
+        FILES_MATCHING PATTERN "*.pdb")
+
+install(FILES cppapi/server/resource.h DESTINATION include/tango COMPONENT headers)
 
 if (TANGO_INSTALL_DEPENDENCIES)
     install(DIRECTORY ${TANGO_OMNI_BASE}/include/COS DESTINATION include COMPONENT)
@@ -124,7 +134,7 @@ if (TANGO_INSTALL_DEPENDENCIES)
 
     endif()
 
-    if(CMAKE_VS_PLATFORM_TOOLSET STREQUAL "v141")
+    if(CMAKE_VS_PLATFORM_TOOLSET IN_LIST WINDOWS_SUPPORTED_VS_TOOLSETS)
         if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             install(FILES ${TANGO_OMNI_BASE}/bin/x86_win32/omniORB421_vc15_rtd.dll DESTINATION bin COMPONENT dynamic)
             install(FILES ${TANGO_OMNI_BASE}/bin/x86_win32/omniDynamic421_vc15_rtd.dll DESTINATION bin COMPONENT dynamic)
@@ -165,8 +175,3 @@ if (TANGO_INSTALL_DEPENDENCIES)
         install(FILES ${JPEG_DLL} DESTINATION lib COMPONENT dynamic)
     endif()
 endif()
-
-configure_file(tango.pc.cmake tango.pc @ONLY)
-
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tango.pc"
-        DESTINATION include/pkgconfig COMPONENT headers)

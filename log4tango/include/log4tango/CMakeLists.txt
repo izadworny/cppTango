@@ -19,5 +19,5 @@ set(HEADER_FILES
                 Portability.hh)
 
 install(FILES ${HEADER_FILES}
-        DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/log4tango)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/tango/log4tango)
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tango/log4tango)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tango/log4tango)

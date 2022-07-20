@@ -42,6 +42,10 @@
 // Include IDL generated files which includes CORBA include files
 //
 
+#ifdef _TG_WINDOWS_
+#define USE_stub_in_nt_dll
+#endif
+
 // FIXME remove once https://gitlab.com/tango-controls/cppTango/-/issues/786 is fixed
 #if defined(__clang__)
 #pragma clang diagnostic push

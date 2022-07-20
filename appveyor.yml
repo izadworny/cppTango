@@ -15,42 +15,64 @@ environment:
   TANGO_JPEG_BASE: C:/libjpeg-turbo
   NASM_VERSION: 2.15.05
   
+  # Iteration order:
+  # - VS Image (2017)
+  # - Architecture (x86 aka win32 or x64)
+  # - BUILD_SHARED_LIBS (ON or OFF)
+
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: x64
       ARCH: x64-msvc15
       VCPKG_DEFAULT_TRIPLET: x64-windows
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-      MSVCVERSION: v141
-      MSVCYEAR: "vs2017"
-      MSVCABR: "15"
-      VC_VER: 15.0
       PYTHONPATH: c:\Python37-x64\
-      PYTHONPATHOMNI: "/cygdrive/c/Python37-x64/python"
       PYVER: "py37"
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: ON
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
+      BUILD_SHARED_LIBS: ON
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      platform: x64
+      ARCH: x64-msvc15
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+      CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      PYTHONPATH: c:\Python37-x64\
+      PYVER: "py37"
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: ON
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win64/nasm-%NASM_VERSION%-installer-x64.exe"
+      BUILD_SHARED_LIBS: OFF
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       platform: win32
       ARCH: win32-msvc15
       CMAKE_GENERATOR: "Visual Studio 15 2017"
-      MSVCVERSION: v141
-      MSVCYEAR: "vs2017"
-      MSVCABR: "15"
-      VC_VER: 15.0
       PYTHONPATH: c:\Python37\
-      PYTHONPATHOMNI: "/cygdrive/c/Python37/python"
       PYVER: "py37"
       TANGO_USE_PCH: ON
       TANGO_WARNINGS_AS_ERRORS: OFF
       NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
+      BUILD_SHARED_LIBS: ON
+      CMAKE_CXX_FLAGS_RELEASE : "/MD"
+      CMAKE_CXX_FLAGS_DEBUG : "/MDd"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      platform: win32
+      ARCH: win32-msvc15
+      CMAKE_GENERATOR: "Visual Studio 15 2017"
+      PYTHONPATH: c:\Python37\
+      PYVER: "py37"
+      TANGO_USE_PCH: ON
+      TANGO_WARNINGS_AS_ERRORS: OFF
+      NASM_DOWNLOAD_LINK: "https://www.nasm.us/pub/nasm/releasebuilds/%NASM_VERSION%/win32/nasm-%NASM_VERSION%-installer-x86.exe"
+      BUILD_SHARED_LIBS: OFF
+      CMAKE_CXX_FLAGS_RELEASE : "/MT"
+      CMAKE_CXX_FLAGS_DEBUG : "/MTd"
 
 init:
-  # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%" NEQ "Visual Studio 2017" del "C:\Program Files (x86)\MSBuild\4.0\Microsoft.Common.Targets\ImportAfter\Xamarin.Common.targets"
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%" NEQ "Visual Studio 2017" del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
-  - cmd: if "%APPVEYOR_BUILD_WORKER_IMAGE%" NEQ "Visual Studio 2017" del "C:\Program Files (x86)\MSBuild\12.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
   #RDP from start
   #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   # Tango IDL
@@ -92,8 +114,6 @@ install:
   - cmd: cd c:/projects/
   # in case of wrong directory for cloning
   - cmd: rename %APPVEYOR_BUILD_FOLDER% cppTango
-  - cmd: md static_build
-  - cmd: md dynamic_build
   # Setting Visual Compiler
   - cmd: cd "C:\projects\"
   - cmd: if %ARCH%==win32-msvc15 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
@@ -109,8 +129,7 @@ install:
   # Tango IDL
   - cmd: cd %IDL_SOURCE%
   - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_INSTALL_PREFIX="%TANGO_IDL_BASE%" .
-  - cmd: cmake --build ./ --target install --config Debug
-  - cmd: cmake --build ./ --target install --config Release
+  - cmd: cmake --build ./ --target install --config %CONFIGURATION%
   # Tango API
   - cmd: cd "C:\projects\cppTango"
   - cmd: set TANGO_ZMQ_BASE=C:/projects/zeromq/
@@ -119,44 +138,22 @@ install:
   - cmd: set PTHREAD_WIN=C:/projects/pthreads-win32/
   - cmd: if not defined TANGO_USE_PCH set TANGO_USE_PCH=OFF
   - cmd: set TANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS%
-  #- cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBUILD_SHARED_LIBS=TRUE .
-  #- cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -
-  # Static builds
-  - cmd: cd c:/projects/static_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=OFF -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DTANGO_JPEG_BASE="%TANGO_JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=%TANGO_USE_PCH% -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
-  # Dynamic builds
-  - cmd: cd c:/projects/dynamic_build
-  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=ON -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE  -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DTANGO_JPEG_BASE="%TANGO_JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ../cppTango
+  - cmd: md build
+  - cmd: cd build
+  - cmd: cmake -G "%CMAKE_GENERATOR%" -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% -DTANGO_WARNINGS_AS_ERRORS=%TANGO_WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_CXX_FLAGS_RELEASE="%CMAKE_CXX_FLAGS_RELEASE%" -DCMAKE_CXX_FLAGS_DEBUG="%CMAKE_CXX_FLAGS_DEBUG%" -DTANGO_IDL_BASE="%TANGO_IDL_BASE%" -DTANGO_OMNI_BASE="%TANGO_OMNI_BASE%" -DTANGO_ZMQ_BASE="%TANGO_ZMQ_BASE%" -DTANGO_CPPZMQ_BASE="%TANGO_CPPZMQ_BASE%" -DTANGO_JPEG_BASE="%TANGO_JPEG_BASE%%JPEG_ARCH%" -DPTHREAD_WIN=%PTHREAD_WIN% -DTANGO_USE_PCH=OFF -DTANGO_USE_JPEG=ON -DBUILD_TESTING=OFF ..
 
-clone_folder: C:\projects\cppTango
-
-build:
-  project: C:\projects\cppTango\tango.sln
-  verbosity: minimal
+clone_folder: C:/projects/cppTango
 
 build_script:
-  - cmd: cd C:/projects/static_build
-  - cmake --build ./ --config %CONFIGURATION%
-  - cmd: cd C:/projects/dynamic_build
-  - cmake --build ./ --config %CONFIGURATION%
+  - cmd: cd C:/projects/cppTango/build
+  - cmd: cmake --build . --config %CONFIGURATION%
 
 after_build:
   - cmd: set /p TANGO_LIB_VER=<VERSION
   - cmd: echo %TANGO_LIB_VER%
-  # Generate and move artifacts for all variants
-  # static
-  - cmd: cd C:/projects/static_build
+  - cmd: cd C:/projects/cppTango/build
   - cmd: cpack -C %CONFIGURATION% -G WIX
   - cmd: cpack -C %CONFIGURATION% -G ZIP
-  - cmd: move libtango_%TANGO_LIB_VER%*.msi C:/projects/cppTango
-  - cmd: move libtango_%TANGO_LIB_VER%*.zip C:/projects/cppTango
-  # dynamic
-  - cmd: cd c:/projects/dynamic_build
-  - cmd: cpack -C %CONFIGURATION% -G WIX
-  - cmd: cpack -C %CONFIGURATION% -G ZIP
-  - cmd: move libtango_%TANGO_LIB_VER%*.msi C:/projects/cppTango
-  - cmd: move libtango_%TANGO_LIB_VER%*.zip C:/projects/cppTango
-
 
 on_finish:
   #RDP for finish
@@ -167,22 +164,5 @@ on_failure:
   # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
-  - path: ./*.zip
-  - path: ./*.msi
-
-deploy:
-- provider: GitHub
-  tag: $(APPVEYOR_REPO_TAG_NAME)
-  description: "Release $(APPVEYOR_REPO_TAG_NAME)"
-  auth_token:
-    # User: cppTango-bot
-    # Personal Access token with repo scope, encrypted via https://ci.appveyor.com/tools/encrypt
-    secure: KnvPAbdhmiTQxTLOGq7nyNs6d1JYbKVKspPgigzQ3fDrI+nkaxqWCw6UmRkS2Gqe
-  artifact: /.*/
-  repository: tango-controls/cppTango
-  draft: true
-  prerelease: true
-  force_update: true
-  # deploy on tag push only
-  on:
-    APPVEYOR_REPO_TAG: true
+  - path: build/*.zip
+  - path: build/*.msi
