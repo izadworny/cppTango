@@ -43,7 +43,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : PatternLayout (a simple fixed format Layout implementation)
 //-----------------------------------------------------------------------------  
-class LOG4TANGO_EXPORT PatternLayout : public Layout 
+class PatternLayout : public Layout
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 
   virtual void clear_conversion_pattern();
 
-  class LOG4TANGO_EXPORT PatternComponent {
+  class PatternComponent {
     public:
       inline virtual ~PatternComponent() {}
       virtual void append(std::ostringstream& out, const LoggingEvent& event) = 0;

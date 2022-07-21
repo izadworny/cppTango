@@ -42,7 +42,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : FileAppender
 //-----------------------------------------------------------------------------   
-class LOG4TANGO_EXPORT FileAppender : public LayoutAppender 
+class FileAppender : public LayoutAppender
 {
 public:
 

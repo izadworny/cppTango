@@ -38,7 +38,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : OstreamAppender (appends LoggingEvents to ostreams)
 //-----------------------------------------------------------------------------   
-class LOG4TANGO_EXPORT OstreamAppender : public LayoutAppender {
+class OstreamAppender : public LayoutAppender {
 public:
   OstreamAppender(const std::string& name, std::ostream* stream);
   virtual ~OstreamAppender();

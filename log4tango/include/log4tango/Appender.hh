@@ -46,7 +46,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : Appender
 //-----------------------------------------------------------------------------
-class LOG4TANGO_EXPORT Appender
+class Appender
 {
   friend class Logger;
   

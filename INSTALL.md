@@ -312,7 +312,7 @@ This is currently not very well integrated into cmake, therefore the command lin
 shared/debug/x64:
 ```bat
     set BASE_FOLDER="C:\\Users\\Test\\projekte\\tango-projects\\libtango_9.3.5_v141_x64_shared_debug"
-    cmake -B build-shared -S . -G "Visual Studio 15 2017" -A x64 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_RELEASE="/MD" -DCMAKE_CXX_FLAGS_DEBUG="/MDd" -DCMAKE_CXX_FLAGS="-DLOG4TANGO_HAS_DLL -DTANGO_HAS_DLL" -DTANGO_PKG_LIBRARY_DIRS="%BASE_FOLDER%\\lib" -DTANGO_PKG_LIBRARIES="tangod;omniORB4_rtd;omnithread_rtd;COS4_rtd;omniDynamic4_rtd;libzmq-v141-mt-gd-4_0_5;comctl32;wsock32;Ws2_32" -DTANGO_PKG_INCLUDE_DIRS="%BASE_FOLDER%\\include;%BASE_FOLDER%\\include\\tango"
+    cmake -B build-shared -S . -G "Visual Studio 15 2017" -A x64 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_RELEASE="/MD" -DCMAKE_CXX_FLAGS_DEBUG="/MDd" -DCMAKE_CXX_FLAGS="-DTANGO_HAS_DLL" -DTANGO_PKG_LIBRARY_DIRS="%BASE_FOLDER%\\lib" -DTANGO_PKG_LIBRARIES="tangod;omniORB4_rtd;omnithread_rtd;COS4_rtd;omniDynamic4_rtd;libzmq-v141-mt-gd-4_0_5;comctl32;wsock32;Ws2_32" -DTANGO_PKG_INCLUDE_DIRS="%BASE_FOLDER%\\include;%BASE_FOLDER%\\include\\tango"
     cmake --build build-shared --config Debug
 ```
 
@@ -326,7 +326,7 @@ static/debug/x64:
 shared/release/x64:
 ```bat
     set BASE_FOLDER="C:\\Users\\Test\\projekte\\tango-projects\\libtango_9.3.5_v141_x64_shared_release"
-    cmake -B build-shared -S . -G "Visual Studio 15 2017" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS_RELEASE="/MD" -DCMAKE_CXX_FLAGS_DEBUG="/MDd" -DCMAKE_CXX_FLAGS="-DLOG4TANGO_HAS_DLL -DTANGO_HAS_DLL" -DTANGO_PKG_LIBRARY_DIRS="%BASE_FOLDER%\\lib" -DTANGO_PKG_LIBRARIES="tango;omniORB4_rt;omnithread_rt;COS4_rt;omniDynamic4_rt;libzmq-v141-mt-4_0_5;comctl32;wsock32;Ws2_32" -DTANGO_PKG_INCLUDE_DIRS="%BASE_FOLDER%\\include;%BASE_FOLDER%\\include\\tango"
+    cmake -B build-shared -S . -G "Visual Studio 15 2017" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS_RELEASE="/MD" -DCMAKE_CXX_FLAGS_DEBUG="/MDd" -DCMAKE_CXX_FLAGS="-DTANGO_HAS_DLL" -DTANGO_PKG_LIBRARY_DIRS="%BASE_FOLDER%\\lib" -DTANGO_PKG_LIBRARIES="tango;omniORB4_rt;omnithread_rt;COS4_rt;omniDynamic4_rt;libzmq-v141-mt-4_0_5;comctl32;wsock32;Ws2_32" -DTANGO_PKG_INCLUDE_DIRS="%BASE_FOLDER%\\include;%BASE_FOLDER%\\include\\tango"
     cmake --build build-shared --config Release
 ```
 

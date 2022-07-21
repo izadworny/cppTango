@@ -37,7 +37,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : Appender (abstract class)
 //-----------------------------------------------------------------------------
-class LOG4TANGO_EXPORT Layout 
+class Layout
 {
 public:
 

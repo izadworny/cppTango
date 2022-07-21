@@ -45,7 +45,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : Logger
 //-----------------------------------------------------------------------------   
-class LOG4TANGO_EXPORT Logger : public AppenderAttachable
+class Logger : public AppenderAttachable
 {
 public:   
 

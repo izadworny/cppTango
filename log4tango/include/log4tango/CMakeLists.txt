@@ -15,7 +15,6 @@ set(HEADER_FILES
                 LoggingEvent.hh
                 Level.hh
                 Filter.hh
-                Export.hh
                 Portability.hh)
 
 install(FILES ${HEADER_FILES}

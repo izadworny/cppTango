@@ -38,7 +38,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class : LayoutAppender (superclass for appenders that require a Layout)
 //-----------------------------------------------------------------------------
-class LOG4TANGO_EXPORT LayoutAppender : public Appender 
+class LayoutAppender : public Appender
 {
 public:
 

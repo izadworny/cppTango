@@ -53,7 +53,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // struct : LoggingEvent
 //-----------------------------------------------------------------------------   
-struct LOG4TANGO_EXPORT LoggingEvent 
+struct LoggingEvent
 {
 public:
   /**

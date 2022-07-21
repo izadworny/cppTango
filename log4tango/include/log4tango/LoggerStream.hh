@@ -38,7 +38,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATION
 //----------------------------------------------------------------------------- 
-class LOG4TANGO_EXPORT Logger;
+class Logger;
 class LoggerStream;
 
 //-----------------------------------------------------------------------------
@@ -68,24 +68,24 @@ public:
    * Level::NOTSET to silently discard any streamed in messages.
    * @param filter The filter flag
    **/
-  LOG4TANGO_EXPORT LoggerStream(Logger& logger, Level::Value level, bool filter = true);
+  LoggerStream(Logger& logger, Level::Value level, bool filter = true);
 
-  LOG4TANGO_EXPORT LoggerStream(const LoggerStream &) = delete;
-  LOG4TANGO_EXPORT LoggerStream(LoggerStream &&);
+  LoggerStream(const LoggerStream &) = delete;
+  LoggerStream(LoggerStream &&);
 
-  LOG4TANGO_EXPORT LoggerStream & operator=(const LoggerStream &) = delete;
-  LOG4TANGO_EXPORT LoggerStream & operator=(LoggerStream &&) = delete;
+  LoggerStream & operator=(const LoggerStream &) = delete;
+  LoggerStream & operator=(LoggerStream &&) = delete;
 
   /**
    * Destructor for LoggerStream&)
    **/
-  LOG4TANGO_EXPORT ~LoggerStream();
+  ~LoggerStream();
   
   /**
    * Returns the destination Logger for this stream.
    * @returns The Logger.
    **/
-  inline LOG4TANGO_EXPORT Logger& get_logger (void) const { 
+  inline Logger& get_logger (void) const {
     return _logger; 
   }
 
@@ -93,7 +93,7 @@ public:
    * Returns the level for this stream.
    * @returns The level.
    **/
-  inline LOG4TANGO_EXPORT Level::Value get_level (void) const { 
+  inline Level::Value get_level (void) const {
       return _level; 
   }
 
@@ -102,7 +102,7 @@ public:
    *
    * @returns A reference to itself.
    **/
-  inline LOG4TANGO_EXPORT LoggerStream& operator<< (LOG4TANGO_UNUSED(LogInitiator& i)) {
+  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(LogInitiator& i)) {
     return *this;
   }
   
@@ -112,7 +112,7 @@ public:
    *
    * @returns A reference to itself.
    **/
-  inline LOG4TANGO_EXPORT LoggerStream& operator<< (LOG4TANGO_UNUSED(LogSeparator& s)) {
+  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(LogSeparator& s)) {
     flush();
     return *this;
   }
@@ -123,7 +123,7 @@ public:
    *
    * @returns A reference to itself.
    **/
-  inline LOG4TANGO_EXPORT LoggerStream& operator<< (LOG4TANGO_UNUSED(ls_terminator endoflog)) {
+  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(ls_terminator endoflog)) {
     flush();
     return *this;
   }
@@ -136,7 +136,7 @@ public:
    *
    * @returns A reference to itself.
    **/
-  inline LOG4TANGO_EXPORT LoggerStream& operator<< (SourceLocation source_location) {
+  inline LoggerStream& operator<< (SourceLocation source_location) {
     _source_location = source_location;
     return *this;
   }
@@ -145,7 +145,7 @@ public:
    * Flush the contents of the stream buffer to the Logger and
    * empties the buffer.
    **/
-  LOG4TANGO_EXPORT void flush (void);
+  void flush (void);
 
   /**
    * Streams in a std stream manipulator.
@@ -153,9 +153,9 @@ public:
    * @returns a reference to self.
    **/
 #ifdef WIN32
-  inline LOG4TANGO_EXPORT LoggerStream& operator<< (std::ios_base&(_cdecl *_F)(std::ios_base&)) {
+  inline LoggerStream& operator<< (std::ios_base&(_cdecl *_F)(std::ios_base&)) {
 #else
-  inline LOG4TANGO_EXPORT LoggerStream& operator<< (std::ios_base&(*_F)(std::ios_base&)) {
+  inline LoggerStream& operator<< (std::ios_base&(*_F)(std::ios_base&)) {
 #endif
     if (_buffer) 
       (*_F)(*(std::ios_base *)(_buffer));

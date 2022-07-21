@@ -60,7 +60,7 @@ typedef std::vector<Appender*> AppenderList;
 //-----------------------------------------------------------------------------
 // class : AppenderAttachable
 //----------------------------------------------------------------------------- 
-class LOG4TANGO_EXPORT AppenderAttachable 
+class AppenderAttachable
 {
   public:
 
