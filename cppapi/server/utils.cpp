@@ -1148,13 +1148,13 @@ void Util::connect_db()
 				else
 				{
 					TANGO_LOG_DEBUG << "Can't contact db server, will try later" << std::endl;
-					Tango_sleep(_sleep_between_connect);
+					std::this_thread::sleep_for(std::chrono::seconds(_sleep_between_connect));
 				}
 			}
 			catch (CORBA::Exception &)
 			{
 				TANGO_LOG_DEBUG << "Can't contact db server, will try later" << std::endl;
-				Tango_sleep(_sleep_between_connect);
+				std::this_thread::sleep_for(std::chrono::seconds(_sleep_between_connect));
 			}
 
 		}

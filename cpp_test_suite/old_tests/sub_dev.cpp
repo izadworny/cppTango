@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
 		assert ( except == false );
 		TEST_LOG << "  Server restart to clean sub device lists --> OK" << endl;
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 // read attribute to have a sub device in the list
 
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 			assert (cmd_value == true);
 
 			// let the external thread some time to do its work!
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
 // check the list of sub devices on the administration device

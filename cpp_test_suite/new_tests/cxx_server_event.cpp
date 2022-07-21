@@ -94,7 +94,7 @@ public:
 //
 
     void test_wait_event(void) {
-        Tango_sleep(3);
+        std::this_thread::sleep_for(std::chrono::seconds(3));
 
         DeviceData da;
         TS_ASSERT_THROWS_NOTHING(da = device1->command_inout("IOGetCbExecuted"));
@@ -120,7 +120,7 @@ public:
         Tango::DevLong cb;
         da >> cb;
 
-        Tango_sleep(2);
+        std::this_thread::sleep_for(std::chrono::seconds(2));
         TS_ASSERT_THROWS_NOTHING(da = device1->command_inout("IOGetCbExecuted"));
         Tango::DevLong cb2;
         da >> cb2;

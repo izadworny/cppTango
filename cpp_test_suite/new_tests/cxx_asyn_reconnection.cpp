@@ -123,7 +123,7 @@ public:
 					nb_not_arrived++;
 				}
 				if (finish == false)
-					Tango_sleep(1);
+					std::this_thread::sleep_for(std::chrono::seconds(1));
 			}
 
 			assert(nb_not_arrived >= 1);
@@ -149,9 +149,9 @@ public:
     {
         CxxTest::TangoPrinter::kill_server();
         CxxTest::TangoPrinter::restore_set("Server_Killed");
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         CxxTest::TangoPrinter::start_server(device1_instance_name);
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         CxxTest::TangoPrinter::restore_unset("Server_Killed");
         try
         {
@@ -181,7 +181,7 @@ public:
                     nb_not_arrived++;
                 }
                 if (finish == false)
-                    Tango_sleep(1);
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
             }
 
             assert(nb_not_arrived >= 1);
@@ -212,7 +212,7 @@ public:
 					nb_not_arrived++;
 				}
 				if (finish == false)
-					Tango_sleep(1);
+					std::this_thread::sleep_for(std::chrono::seconds(1));
 			}
 			delete received;
 

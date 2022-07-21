@@ -127,7 +127,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a archive event
@@ -216,7 +216,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOAddOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
@@ -231,7 +231,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IORemoveOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 6);
@@ -257,7 +257,7 @@ int main(int argc, char **argv)
 // periodic call
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert ( (cb.cb_err == 1) || (cb.cb_err == 2));
 
@@ -277,9 +277,9 @@ int main(int argc, char **argv)
 // Wait one second for the callback sent because exception not thrown any more
 //
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		long nb_cb = cb.cb_executed;
-		Tango_sleep(12);
+		std::this_thread::sleep_for(std::chrono::seconds(12));
 
 		assert (cb.cb_executed == (nb_cb + 1));
 		TEST_LOG << "   CallBack executed for the periodic part of the event --> OK" << std::endl;
@@ -323,7 +323,7 @@ exit(0);
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // Poll attribute at 500 mS
@@ -380,7 +380,7 @@ exit(0);
 		device->command_inout("IOIncValue");
 		device->command_inout("IOIncValue");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 2);
 		assert (cb.val == 33);
@@ -407,14 +407,14 @@ exit(0);
 		device->command_inout("IODecValue");
 		device->command_inout("IODecValue");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 3);
 
 		device->command_inout("IODecValue");
 		device->command_inout("IODecValue");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 4);
 		assert (cb.val == 28);
@@ -436,7 +436,7 @@ exit(0);
 // Check that callback was called
 //
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 1);
 
@@ -455,9 +455,9 @@ exit(0);
 // Wait for the periodic part of the event (is now set to 5 sec)
 //
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		nb_cb = cb.cb_executed;
-		Tango_sleep(7);
+		std::this_thread::sleep_for(std::chrono::seconds(7));
 
 		assert (cb.cb_executed >= (nb_cb + 1));
 		TEST_LOG << "   CallBack executed for the periodic part of the event (archive_period set) --> OK" << std::endl;
@@ -497,7 +497,7 @@ exit(0);
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a archive event with a filter
@@ -554,7 +554,7 @@ exit(0);
 		device->command_inout("IOIncValue");
 		device->command_inout("IOIncValue");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 2);
 		assert (cb.val == 33);
@@ -577,7 +577,7 @@ exit(0);
 		device->command_inout("IODecValue");
 		device->command_inout("IODecValue");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 3);
 		assert (cb.val == 29);
@@ -591,7 +591,7 @@ exit(0);
 
 		device->command_inout("IOAddOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 4);
@@ -606,7 +606,7 @@ exit(0);
 
 		device->command_inout("IORemoveOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
@@ -629,7 +629,7 @@ exit(0);
 // Check that callback was called
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 1);
 
@@ -680,7 +680,7 @@ exit(0);
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a archive event with a filter on delta_event

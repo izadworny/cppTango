@@ -305,7 +305,7 @@ public:
 		dout >> polled_devices;
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device
 		const DevVarStringArray *status_arr;
@@ -336,7 +336,7 @@ public:
 		din << cmd_poll;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("UpdObjPollingPeriod", din));
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// check if polling status has been updated
 		const DevVarStringArray *status_arr;
@@ -404,7 +404,7 @@ public:
 		dout >> polled_devices;
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device
 		const DevVarStringArray *status_arr;
@@ -435,7 +435,7 @@ public:
 		din << attr_poll;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("UpdObjPollingPeriod", din));
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// check if polling status has been updated
 		const DevVarStringArray *status_arr;
@@ -514,7 +514,7 @@ public:
 		dout >> polled_devices;
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device
 		const DevVarStringArray *status_arr;
@@ -626,7 +626,7 @@ public:
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 		TS_ASSERT_EQUALS((*polled_devices)[1].in(), device2_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		const DevVarStringArray *status_arr;
 		string status[2], status_ref[2];
@@ -735,17 +735,17 @@ public:
 		CxxTest::TangoPrinter::restore_set("dev1_IOStr1_polling");
 
 		// restart the device
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("DevRestart", din));
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// check device polling after a restart
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
 		dout >> polled_devices;
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device
 		const DevVarStringArray *status_arr;
@@ -809,7 +809,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("AddObjPolling", din));
 		CxxTest::TangoPrinter::restore_set("dev1_attr_wrong_size_polling");
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device
 		status_ref[0] = "Polled attribute name = attr_wrong_size\nPolling period (mS) = 200\nPolling ring buffer depth = 10";
@@ -832,7 +832,7 @@ public:
 		// restart the device
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("DevRestart", din));
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// again get polling status for the device
 		status_ref[0] = "Polled attribute name = attr_wrong_size\nPolling period (mS) = 200\nPolling ring buffer depth = 10";
@@ -923,7 +923,7 @@ public:
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 		TS_ASSERT_EQUALS((*polled_devices)[1].in(), device2_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device1
 		status_ref[0] = "Polled command name = IOStr1\nPolling period (mS) = 500\nPolling ring buffer depth = 10";
@@ -951,7 +951,7 @@ public:
 
 		// restart server
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		// check if the devices are still polled
 		TS_ASSERT_THROWS_NOTHING(dout = dserver->command_inout("PolledDevice"));
@@ -959,7 +959,7 @@ public:
 		TS_ASSERT_EQUALS((*polled_devices)[0].in(), device1_name);
 		TS_ASSERT_EQUALS((*polled_devices)[1].in(), device2_name);
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// get polling status for the device1
 		status_ref[0] = "Polled command name = IOStr1\nPolling period (mS) = 500\nPolling ring buffer depth = 10";

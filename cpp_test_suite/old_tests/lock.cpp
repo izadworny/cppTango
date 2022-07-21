@@ -321,7 +321,7 @@ int main(int argc, char **argv)
 		DeviceProxy *device2 = new DeviceProxy(device2_name);
 		device2->lock(6);
 
-		Tango_sleep(7);
+		std::this_thread::sleep_for(std::chrono::seconds(7));
 		bool_ret = device->is_locked_by_me();
 		assert ( bool_ret == true);
 		device->unlock();
@@ -383,7 +383,7 @@ int main(int argc, char **argv)
 
 		admin->command_inout("RestartServer");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 		bool_ret = device->is_locked_by_me();
 		assert (bool_ret == false);
 
@@ -437,7 +437,7 @@ int main(int argc, char **argv)
 		ApiUtil *au = ApiUtil::instance();
 		au->clean_locking_threads(false);
 
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		bool_ret = device->is_locked_by_me();
 		assert (bool_ret == false);

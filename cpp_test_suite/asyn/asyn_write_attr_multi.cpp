@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 				nb_not_arrived++;
 			}
 			if (finish == false)
-				Tango_sleep(1);
+				std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
 		assert ( nb_not_arrived >= 2);
@@ -156,7 +156,7 @@ int main(int argc, char **argv)
 					TEST_LOG << "Comm exception" << std::endl;
 			}
 			if (finish == false)
-				Tango_sleep(1);
+				std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		assert ( to == true );
 		assert ( nb_not_arrived >= 2 );
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
 //---------------------------------------------------------------------------
 
 		TEST_LOG << "   Waiting for server to execute all previous requests" << std::endl;
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 // Change timeout in order to test asynchronous calls and DevFailed exception
 
@@ -282,7 +282,7 @@ int main(int argc, char **argv)
 				TEST_LOG << "Comm exception" << std::endl;
 			}
 			if (finish == false)
-				Tango_sleep(1);
+				std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		assert ( failed == true );
 		assert ( nb_except == 1 );

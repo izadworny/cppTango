@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a change event
@@ -200,7 +200,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOAddOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
@@ -215,7 +215,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IORemoveOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 6);
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
 // We should have receive one error event
 //
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "cb err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 1);

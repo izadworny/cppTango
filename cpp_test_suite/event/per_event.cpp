@@ -179,7 +179,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a periodic event
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
 // Check that callback was called
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err > 2);
 		assert (cb.cb_err < 5);
@@ -294,7 +294,7 @@ int main(int argc, char **argv)
 // Check that callback was called
 //
 
-		Tango_sleep(6);
+		std::this_thread::sleep_for(std::chrono::seconds(6));
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed > 2);
 		assert (cb.cb_executed < 5);
@@ -347,7 +347,7 @@ int main(int argc, char **argv)
 // Check that callback was called
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed > 2);
 		assert (cb.cb_executed < 5);
@@ -398,7 +398,7 @@ int main(int argc, char **argv)
 		delete device;
 		device = new DeviceProxy(device_name);
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 //
 // Poll device at 200 mS
@@ -435,8 +435,8 @@ int main(int argc, char **argv)
 // Check that callback was called
 //
 
-//		Tango_sleep(3);
-		Tango_sleep(6);
+//		std::this_thread::sleep_for(std::chrono::seconds(3));
+		std::this_thread::sleep_for(std::chrono::seconds(6));
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed >= 5);
 		assert (cb.cb_executed < 12);
@@ -457,7 +457,7 @@ int main(int argc, char **argv)
 
 		device->poll_attribute(another_att,600);
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 //
 // Force event_change_tst to have a long reading time.
@@ -471,7 +471,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOAttrThrowEx",di);
 
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		assert (cb.cb_err_out_of_sync > 2);
 
@@ -486,7 +486,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOAttrThrowEx",di);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // Clear error flags and wait for some callbacks
@@ -495,7 +495,7 @@ int main(int argc, char **argv)
 		cb.a_cb_err = cb.cb_err = cb.cb_err_out_of_sync = 0;
 		cb.cb_executed = 0;
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		assert (cb.cb_executed > 2);
 		assert (cb.a_cb_err == 0);
@@ -528,7 +528,7 @@ int main(int argc, char **argv)
 
 		eve_id = device->subscribe_event(att_name,Tango::PERIODIC_EVENT,&cb_sub);
 
-        Tango_sleep(7);
+        std::this_thread::sleep_for(std::chrono::seconds(7));
 
         device->unsubscribe_event(eve_id);
         dev_sub.stop_poll_attribute(att_name);

@@ -196,7 +196,7 @@ public:
 		CxxTest::TangoPrinter::restore_set("signal_unregistered");
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IORegClassSig", din));
 		CxxTest::TangoPrinter::restore_set("class_signal_unregistered");
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		// set logging level to 5
 		DevVarLongStringArray dserver_level_in;
@@ -235,7 +235,7 @@ public:
 		pid = atoi((*result).svalue[0].in());
 		if(pid > 0)
 			kill(pid, sig_num_int);
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		// set logging level back to defaults
 		DevVarLongStringArray reset_dserver_level;

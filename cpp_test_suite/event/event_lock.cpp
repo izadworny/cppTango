@@ -64,7 +64,7 @@ void set_abs_change(std::string device_name, std::string attribute_name)
     name_data << device_name;
     admin_device.command_inout("DevRestart", name_data);
 
-    Tango_sleep(1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
 int main(int argc, char *argv[])
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
         while (cnt < 3)
         {
             dev->command_inout("IOIncValue");
-            Tango_sleep(2);
+            std::this_thread::sleep_for(std::chrono::seconds(2));
             cnt++;
         }
 

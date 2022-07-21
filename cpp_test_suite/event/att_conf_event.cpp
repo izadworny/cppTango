@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 		d_in << dvda;
 		device->command_inout("IOSetWAttrLimit",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 6);
 		assert (cb.min_value == "0");

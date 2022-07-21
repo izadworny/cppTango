@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 		{
 			TEST_LOG << "Command not yet arrived" << std::endl;
 			nb_not_arrived++;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		assert ( nb_not_arrived >= 2);
 		assert ( cb.cb_executed == 1);
@@ -204,7 +204,7 @@ int main(int argc, char **argv)
 		{
 			nb_not_arrived++;
 			TEST_LOG << "Command not yet arrived" << std::endl;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
 		assert ( cb.to == true );
@@ -219,7 +219,7 @@ int main(int argc, char **argv)
 //---------------------------------------------------------------------------
 
 		TEST_LOG << "   Waiting for server to execute all previous requests" << std::endl;
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 
 // Send a new command
@@ -239,7 +239,7 @@ int main(int argc, char **argv)
 		{
 			nb_not_arrived++;
 			TEST_LOG << "Command not yet arrived" << std::endl;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		assert ( cb.cmd_failed == true );
 		assert ( nb_not_arrived >= 2);
@@ -270,7 +270,7 @@ int main(int argc, char **argv)
 		{
 			TEST_LOG << "Attribute not written yet" << std::endl;
 			nb_not_arrived++;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
 		assert( cb.cb_executed == 1 );
@@ -298,7 +298,7 @@ int main(int argc, char **argv)
 		{
 			TEST_LOG << "Attribute not read yet" << std::endl;
 			nb_not_arrived++;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
 		assert( cb.db == 5.55 );
@@ -329,7 +329,7 @@ int main(int argc, char **argv)
 		while (sleep_loop > 0)
 		{
 			TEST_LOG << "Not ready" << std::endl;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 			sleep_loop--;
 		}
 

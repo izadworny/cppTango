@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 		}
 
 		if (finish == false)
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
 //	Try a write attribute
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 		}
 
 		if (finish == false)
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
 

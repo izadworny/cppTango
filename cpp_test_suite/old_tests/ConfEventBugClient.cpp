@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 	dev -> subscribe_event( an, Tango::ATTR_CONF_EVENT, configChangedEventCallback, filters );
 //        TEST_LOG << "[main]: subscribe_event() done." << endl << endl;
 
-	Tango_sleep( 1 );
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 //        TEST_LOG << "[main]: current setting according configuration changed event: abs_chang=" <<  abs_change_according_last_event << endl;
 //        TEST_LOG << "[main]: current setting according configuration changed event: rel_chang=" <<  rel_change_according_last_event << endl;
 
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 	dev->set_attribute_config( ail );
 
 //        TEST_LOG << "[main]: clearing setting for rel/abs_change.  Wait for a config changed event ..." << endl;
-	Tango_sleep( 1 );
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	// bug demonstration:
 //	TEST_LOG << "[main]: doing a query for configuration from server: dev->attribute_query() ..." << endl;

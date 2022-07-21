@@ -63,7 +63,7 @@ void _t_handler(TANGO_UNUSED(int signum))
 {
     std::thread t(_killproc_);
     t.detach();
-    Tango_sleep(3);
+    std::this_thread::sleep_for(std::chrono::seconds(3));
 }
 
 //+-----------------------------------------------------------------------------------------------------------------

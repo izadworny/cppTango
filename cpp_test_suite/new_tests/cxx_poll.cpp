@@ -288,7 +288,7 @@ public:
 		din << cmd_poll;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("AddObjPolling", din));
 		CxxTest::TangoPrinter::restore_set("dev1_IOExcept_polling");
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		// set the data source to polling buffer (CACHE)
 		TS_ASSERT_THROWS_NOTHING(device1->set_source(Tango::CACHE));

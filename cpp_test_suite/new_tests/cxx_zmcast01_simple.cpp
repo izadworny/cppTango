@@ -225,7 +225,7 @@ public:
 			delete dev_ptr;
 
 			dev_ptr = new DeviceProxy(dev_name);
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (CORBA::Exception &e)
 		{

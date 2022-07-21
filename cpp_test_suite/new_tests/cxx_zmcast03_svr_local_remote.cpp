@@ -106,7 +106,7 @@ public:
 			delete device_local;
 
 			device_local = new DeviceProxy(local_device_name);
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			cb->cb_executed = 0;
 			cb->cb_err = 0;

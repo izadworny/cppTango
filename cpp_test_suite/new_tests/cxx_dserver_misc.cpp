@@ -150,7 +150,7 @@ public:
 		TS_ASSERT_EQUALS(state_out, Tango::OFF);
 
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
@@ -181,7 +181,7 @@ public:
 		str = device1_name;
 		din << str;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer", din));
-		Tango_sleep(6);
+		std::this_thread::sleep_for(std::chrono::seconds(6));
 
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
@@ -246,7 +246,7 @@ TEST_LOG << "str = " << str << endl;
             &callback));
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(2);
+        std::this_thread::sleep_for(std::chrono::seconds(2));
         TS_ASSERT_EQUALS(2, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
 
@@ -257,7 +257,7 @@ TEST_LOG << "str = " << str << endl;
         }
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(2);
+        std::this_thread::sleep_for(std::chrono::seconds(2));
         TS_ASSERT_EQUALS(3, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
 
@@ -279,7 +279,7 @@ TEST_LOG << "str = " << str << endl;
             Tango::ATTR_CONF_EVENT,
             &callback));
 
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(1, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
 
@@ -289,7 +289,7 @@ TEST_LOG << "str = " << str << endl;
             TS_ASSERT_THROWS_NOTHING(dserver->command_inout("DevRestart", input));
         }
 
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
 
@@ -373,7 +373,7 @@ TEST_LOG << "str = " << str << endl;
             attribute_name, Tango::USER_EVENT, &callback2));
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback1.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback1.num_of_error_events);
         TS_ASSERT_EQUALS(2, callback2.num_of_all_events);
@@ -383,7 +383,7 @@ TEST_LOG << "str = " << str << endl;
         proxy1.reset(nullptr);
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback1.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback1.num_of_error_events);
         TS_ASSERT_EQUALS(3, callback2.num_of_all_events);
@@ -393,7 +393,7 @@ TEST_LOG << "str = " << str << endl;
         proxy2.reset(nullptr);
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback1.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback1.num_of_error_events);
         TS_ASSERT_EQUALS(3, callback2.num_of_all_events);
@@ -415,7 +415,7 @@ TEST_LOG << "str = " << str << endl;
             attribute_name, Tango::USER_EVENT, &callback2));
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback1.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback1.num_of_error_events);
         TS_ASSERT_EQUALS(2, callback2.num_of_all_events);
@@ -424,7 +424,7 @@ TEST_LOG << "str = " << str << endl;
         proxy.reset(nullptr);
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback1.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback1.num_of_error_events);
         TS_ASSERT_EQUALS(2, callback2.num_of_all_events);
@@ -446,15 +446,15 @@ TEST_LOG << "str = " << str << endl;
             &callback));
 
         TS_ASSERT_THROWS_NOTHING(push_pipe_event());
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(2, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
 
         TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
-        Tango_sleep(5);
+        std::this_thread::sleep_for(std::chrono::seconds(5));
 
         TS_ASSERT_THROWS_NOTHING(push_pipe_event());
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(3, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
 
@@ -465,7 +465,7 @@ TEST_LOG << "str = " << str << endl;
         }
 
         TS_ASSERT_THROWS_NOTHING(push_pipe_event());
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         TS_ASSERT_EQUALS(4, callback.num_of_all_events);
         TS_ASSERT_EQUALS(0, callback.num_of_error_events);
     }

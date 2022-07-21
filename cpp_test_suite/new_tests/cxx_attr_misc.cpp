@@ -47,7 +47,7 @@ public:
 			dserver->ping();
 
 			dserver->command_inout("RestartServer");
-			Tango_sleep(10);
+			std::this_thread::sleep_for(std::chrono::seconds(10));
 
 			vector<string> attr_list;
 			attr_list.push_back("Double_attr");

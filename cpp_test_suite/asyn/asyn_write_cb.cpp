@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 		{
 			TEST_LOG << "Attribute not written yet" << std::endl;
 			nb_not_arrived++;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			device->get_asynch_replies();
 		}
@@ -201,7 +201,7 @@ int main(int argc, char **argv)
 		{
 			nb_not_arrived++;
 			TEST_LOG << "Attribute not yet written" << std::endl;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			device->get_asynch_replies();
 		}
@@ -270,7 +270,7 @@ int main(int argc, char **argv)
 //---------------------------------------------------------------------------
 
 		TEST_LOG << "   Waiting for server to execute all previous requests" << std::endl;
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 // Change timeout in order to test asynchronous calls and DevFailed exception
 
@@ -293,7 +293,7 @@ int main(int argc, char **argv)
 		{
 			nb_not_arrived++;
 			TEST_LOG << "Attribute not yet written" << std::endl;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			device->get_asynch_replies();
 		}
@@ -384,7 +384,7 @@ int main(int argc, char **argv)
 		{
 			TEST_LOG << "Attributes not read written" << std::endl;
 			nb_not_arrived++;
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			device->get_asynch_replies();
 

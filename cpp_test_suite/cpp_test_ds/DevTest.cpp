@@ -655,7 +655,7 @@ Tango::DevVarStringArray *DevTest::IOPollingInDevice()
     poll_attribute(att_name,250);
     poll_command(cmd_name,250);
 
-    Tango_sleep(1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
 // is_xxx_polled
 
@@ -694,7 +694,7 @@ Tango::DevVarStringArray *DevTest::IOPollingInDevice()
     stop_poll_attribute(att_name);
     stop_poll_command(cmd_name);
 
-    Tango_sleep(1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
 // is_xxx_polled
 
@@ -877,13 +877,13 @@ void DevTest::write_attr_asyn_write(Tango::WAttribute &att)
 	att.get_write_value(lg);
 	attr_asyn_write_val = lg;
 	TANGO_LOG << "Attribute value = " << lg << std::endl;
-	Tango_sleep(2);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
 void DevTest::read_attr_asyn_write(Tango::Attribute &att)
 {
 	TANGO_LOG << "In read_attr_asyn_write for attribute " << att.get_name() << std::endl;
-	Tango_sleep(2);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 	att.set_value(&attr_asyn_write_val);
 }
 
@@ -894,7 +894,7 @@ void DevTest::write_attr_asyn_write_to(Tango::WAttribute &att)
 	Tango::DevLong lg;
 	att.get_write_value(lg);
 	TANGO_LOG << "Attribute value = " << lg << std::endl;
-	Tango_sleep(4);
+	std::this_thread::sleep_for(std::chrono::seconds(4));
 }
 
 void DevTest::write_attr_asyn_write_except(Tango::WAttribute &att)
@@ -904,7 +904,7 @@ void DevTest::write_attr_asyn_write_except(Tango::WAttribute &att)
 	Tango::DevLong lg;
 	att.get_write_value(lg);
 	TANGO_LOG << "Attribute value = " << lg << std::endl;
-	Tango_sleep(2);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 	TANGO_THROW_EXCEPTION("aaa", "This is a test");
 }
 
@@ -1491,7 +1491,7 @@ void DevTest::read_String_attr_rw(Tango::Attribute &att)
 void DevTest::read_attr_asyn(Tango::Attribute &att)
 {
      	 TANGO_LOG << "[DevTest::read_attr] attribute attr_asyn" << std::endl;
-      	Tango_sleep(2);
+      	std::this_thread::sleep_for(std::chrono::seconds(2));
       	attr_double = 5.55;
       	att.set_value(&attr_double);
       	TANGO_LOG << "Leaving reading attr_asyn attribute" << std::endl;
@@ -1500,7 +1500,7 @@ void DevTest::read_attr_asyn(Tango::Attribute &att)
 void DevTest::read_attr_asyn_to(Tango::Attribute &att)
 {
       	TANGO_LOG << "[DevTest::read_attr] attribute attr_asyn_to" << std::endl;
-      	Tango_sleep(4);
+      	std::this_thread::sleep_for(std::chrono::seconds(4));
       	attr_double = 5.55;
       	att.set_value(&attr_double);
       	TANGO_LOG << "Leaving reading attr_asyn_to attribute" << std::endl;
@@ -1509,7 +1509,7 @@ void DevTest::read_attr_asyn_to(Tango::Attribute &att)
 void DevTest::read_attr_asyn_except(TANGO_UNUSED(Tango::Attribute &att))
 {
        	TANGO_LOG << "[DevTest::read_attr] attribute attr_asyn_except" << std::endl;
-       	Tango_sleep(2);
+       	std::this_thread::sleep_for(std::chrono::seconds(2));
        	TANGO_LOG << "Leaving reading attr_asyn_except attribute" << std::endl;
 
        	TANGO_THROW_EXCEPTION("aaa", "This is a test");

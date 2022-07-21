@@ -171,7 +171,7 @@ int main(int argc, char **argv)
 		device->command_inout("IOPushEvent");
 		device->command_inout("IOPushEvent");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 4);
 		TEST_LOG << "   user_event --> OK" << std::endl;
@@ -213,7 +213,7 @@ int main(int argc, char **argv)
 		device->command_inout("IOPushDevEncodedEvent");
 		device->command_inout("IOPushDevEncodedEvent");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (enc_cb.cb_executed == 4);
 		TEST_LOG << "   user_event (DevEncoded data type) --> OK" << std::endl;

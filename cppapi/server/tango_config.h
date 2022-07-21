@@ -142,24 +142,6 @@
 #endif
 
 //
-// Define a common sleep call
-//
-
-inline void Tango_sleep(int t) 
-{
-	std::this_thread::sleep_for(std::chrono::seconds(t));
-}
-//
-// Define a time_t to long casting
-//
-
-#ifndef _TG_WINDOWS_
-    #define time_t_2_long(A) A
-#else
-    #define time_t_2_long(A) (long)A
-#endif
-
-//
 // Define a common strcasecmp function
 //
 

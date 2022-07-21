@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 //
 
 		TEST_LOG << "Waiting for replies" << std::endl;
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 
 		long nb_replies;
@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 		device->command_inout_asynch("IOShortSleep",din,cb_dev1);
 
 		TEST_LOG << "Waiting for replies" << std::endl;
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		nb_replies = ApiUtil::instance()->pending_asynch_call(CALL_BACK);
 		TEST_LOG << nb_replies << " request there" << std::endl;
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 		assert (nb_replies == 1);
 
 		TEST_LOG << "Waiting for replies" << std::endl;
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		ApiUtil::instance()->get_asynch_replies();
 

@@ -91,7 +91,7 @@ public:
 		delete dserver;
 		delete dbserver;
 
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 	}
 
 	static SUITE_NAME *createSuite()
@@ -207,7 +207,7 @@ public:
 		}
 
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		TS_ASSERT_THROWS_NOTHING(device3 = new DeviceProxy(device3_name));
 
@@ -247,7 +247,7 @@ TEST_LOG << "Again exception when talking to adm device!!!" << endl;
 			if (reas == API_CorbaException)
 			{
 TEST_LOG << "Too early, sleeping 4 more seconds...." << endl;
-				Tango_sleep(4);
+				std::this_thread::sleep_for(std::chrono::seconds(4));
 
 				try
 				{

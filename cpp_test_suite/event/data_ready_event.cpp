@@ -145,7 +145,7 @@ int main(int argc, char **argv)
 		d_in << dvlsa;
 		device->command_inout("PushDataReady",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 2);
 		assert (cb.user_ctr == 10);
@@ -166,7 +166,7 @@ int main(int argc, char **argv)
 		d_in << dvlsa;
 		device->command_inout("PushDataReady",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 8);
 		assert (cb.user_ctr == 17);
