@@ -1083,14 +1083,11 @@ void BlackBox::get_client_host()
 
 void BlackBox::build_info_as_str(long index)
 {
-    char date_str[25];
 //
 // Convert time to a string
 //
 
-    auto when_timeval = make_timeval(box[index].when);
-    date_ux_to_str(when_timeval, date_str, sizeof(date_str));
-    elt_str = date_str;
+    elt_str = timestamp_unix_to_str(box[index].when);
 
 //
 // Add request type and command name in case of
@@ -1777,141 +1774,31 @@ Tango::DevVarStringArray *BlackBox::read(long wanted_elt)
 //		BlackBox::date_ux_to_str
 //
 // description :
-//		Convert a UNIX date (number of seconds since EPOCH) to a string of the following format :
+//		Convert a UNIX date (number of seconds since EPOCH) to a string and
+//		return a string in the following format :
 //			dd/mm/yyyy hh24:mi:ss:xx
 //
 // argument :
 //		in :
-//			- ux_date : The UNIX date in a timeval structure
+//			- ux_date : The UNIX date in a std::chrono::system_clock::time_point structure
 //		out :
 //			- str_date : Pointer to char array where the date will be stored (must be allocated)
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-void BlackBox::date_ux_to_str(timeval &ux_date, char *str_date, size_t str_date_len)
+std::string BlackBox::timestamp_unix_to_str(const std::chrono::system_clock::time_point &ux_date)
 {
-    long i;
-    char month[5];
-    char unix_date[40];
+    std::stringstream date;
+    std::time_t timer = std::chrono::system_clock::to_time_t(ux_date);
+    std::tm tm_snapshot = Tango_localtime(timer);
 
-/* Convert UNIX date to a string in UNIX format */
+    date << std::put_time(&tm_snapshot, "%d/%m/%Y %H:%M:%S");
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(ux_date.time_since_epoch()) % 1000;
+    date << ':' << std::setfill('0') << std::setw(3) << ms.count();
+    std::string date_str = date.str();
+    date_str.pop_back();
 
-    time_t tmp_val = ux_date.tv_sec;
-#ifdef _TG_WINDOWS_
-    ctime_s(unix_date,40,&tmp_val);
-#else
-    ctime_r(&tmp_val, unix_date);
-#endif
-    unix_date[strlen(unix_date) - 1] = '\0';
-
-/* Copy day */
-
-    for (i = 0; i < 2; i++)
-    {
-        str_date[i] = unix_date[i + 8];
-    }
-    str_date[2] = '/';
-    str_date[3] = '\0';
-    if (str_date[0] == ' ')
-    {
-        str_date[0] = '0';
-    }
-
-/* Copy month */
-
-    for (i = 0; i < 3; i++)
-    {
-        month[i] = unix_date[i + 4];
-    }
-    month[3] = '\0';
-
-    switch (month[0])
-    {
-        case 'J' :
-            if (month[1] == 'u')
-            {
-                if (month[2] == 'n')
-                {
-                    strcat(str_date, "06/");
-                }
-                else
-                {
-                    strcat(str_date, "07/");
-                }
-            }
-            else
-            {
-                strcat(str_date, "01/");
-            }
-            break;
-
-        case 'F' :
-            strcat(str_date, "02/");
-            break;
-
-        case 'M' :
-            if (month[2] == 'r')
-            {
-                strcat(str_date, "03/");
-            }
-            else
-            {
-                strcat(str_date, "05/");
-            }
-            break;
-
-        case 'A' :
-            if (month[1] == 'p')
-            {
-                strcat(str_date, "04/");
-            }
-            else
-            {
-                strcat(str_date, "08/");
-            }
-            break;
-
-        case 'S' :
-            strcat(str_date, "09/");
-            break;
-
-        case 'O' :
-            strcat(str_date, "10/");
-            break;
-
-        case 'N' :
-            strcat(str_date, "11/");
-            break;
-
-        case 'D' :
-            strcat(str_date, "12/");
-            break;
-    }
-
-    str_date[6] = '\0';
-
-/* Copy year */
-
-    strcat(str_date, &(unix_date[20]));
-    str_date[10] = '\0';
-
-/* Copy date remaining */
-
-    strcat(str_date, " ");
-    for (i = 0; i < 8; i++)
-    {
-        str_date[i + 11] = unix_date[i + 11];
-    }
-    str_date[19] = '\0';
-
-/* Add milliseconds */
-
-#ifdef _TG_WINDOWS_
-    std::snprintf(&(str_date[19]), (str_date_len - 19), ":%.2d",(int)(ux_date.tv_usec/10));
-#else
-    std::snprintf(&(str_date[19]), (str_date_len - 19), ":%.2d", (int) (ux_date.tv_usec / 10000));
-#endif
-
+    return date_str;
 }
 
 //+------------------------------------------------------------------------------------------------------------------

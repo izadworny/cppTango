@@ -1687,16 +1687,8 @@ void ApiUtil::get_ip_from_if(std::vector<std::string> &ip_adr_list)
 
 void ApiUtil::print_error_message(const char *mess)
 {
-    time_t tmp_val = time(NULL);
-
-    char tmp_date[128];
-#ifdef _TG_WINDOWS_
-    ctime_s(tmp_date,128,&tmp_val);
-#else
-    ctime_r(&tmp_val, tmp_date);
-#endif
-    tmp_date[strlen(tmp_date) - 1] = '\0';
-    std::cerr << tmp_date << ": " << mess << std::endl;
+    std::tm tm = Tango_localtime(time(NULL));
+    std::cerr << std::put_time(&tm,"%c") << ": " << mess << std::endl;
 }
 
 //+-----------------------------------------------------------------------------------------------------------------

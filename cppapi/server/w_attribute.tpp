@@ -132,11 +132,7 @@ namespace
         , typename std::enable_if<(std::is_same<T, Tango::DevDouble>::value || std::is_same<T, Tango::DevFloat>::value), T>::type*>
     void check_nan(const std::string& name, const T& val, const size_t i)
     {
-    #ifdef _TG_WINDOWS_
-        if (_finite(val) == 0)
-    #else
         if (std::isfinite(val) == 0)
-    #endif
         {
             std::stringstream o;
 

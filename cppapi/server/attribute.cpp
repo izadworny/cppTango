@@ -1500,11 +1500,7 @@ bool Attribute::is_polled()
 		std::vector<std::string> &napa = dev->get_non_auto_polled_attr();
 		for (unsigned int j = 0;j < napa.size();j++)
 		{
-#ifdef _TG_WINDOWS_
-			if (_stricmp(napa[j].c_str(), att_name.c_str()) == 0)
-#else
-			if (strcasecmp(napa[j].c_str(), att_name.c_str()) == 0)
-#endif
+			if (TG_strcasecmp(napa[j].c_str(), att_name.c_str()) == 0)
 			{
 				return false;
 			}

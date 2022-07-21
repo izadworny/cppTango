@@ -5553,16 +5553,8 @@ std::ostream &operator<<(std::ostream &o_str, const DeviceAttribute &da)
 
 		if (da.time.tv_sec != 0)
 		{
-			time_t tmp_val = da.time.tv_sec;
-			char tmp_date[128];
-#ifdef _TG_WINDOWS_
-			ctime_s(tmp_date,128,&tmp_val);
-#else
-			ctime_r(&tmp_val,tmp_date);
-#endif
-			tmp_date[strlen(tmp_date) - 1] = '\0';
-			o_str << tmp_date;
-			o_str << " (" << da.time.tv_sec << "," << da.time.tv_usec << " sec) : ";
+			std::tm tm = Tango_localtime(da.time.tv_sec);
+			o_str << std::put_time(&tm,"%c") << " (" << da.time.tv_sec << "," << da.time.tv_usec << " sec) : ";
 		}
 
 //
