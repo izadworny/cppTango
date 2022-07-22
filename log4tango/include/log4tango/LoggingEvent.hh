@@ -35,11 +35,6 @@
 
 #include <log4tango/Level.hh>
 
-#if defined(_MSC_VER)
-    #pragma warning(push)
-    #pragma warning(disable : 4251) //dll export
-#endif
-
 namespace log4tango {
 
 /**
@@ -109,10 +104,6 @@ private:
 };
 
 } // namespace log4tango
-
-#if defined(_MSC_VER)
-    #pragma warning(pop)
-#endif
 
 #endif // _LOG4TANGO_LOGGINGEVENT_H
 

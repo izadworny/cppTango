@@ -32,11 +32,6 @@
 #include <log4tango/LayoutAppender.hh>
 #include <sys/stat.h>
 
-#if defined(_MSC_VER)
-    #pragma warning(push)
-    #pragma warning(disable : 4251) //dll export
-#endif
-
 namespace log4tango {
 
 //-----------------------------------------------------------------------------
@@ -127,9 +122,5 @@ protected:
 };
 
 } // namespace log4tango
-
-#if defined(_MSC_VER)
-    #pragma warning(pop)
-#endif
 
 #endif // _LOG4TANGO_FILEAPPENDER_H
