@@ -106,7 +106,7 @@ void WAttribute::get_write_value(const T *&ptr)
 //-----------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-void WAttribute::check_type(T &dummy,const string &origin)
+void WAttribute::check_type(T &,const string &origin)
 {
 #ifdef HAS_UNDERLYING
 	bool short_enum = is_same<short,typename underlying_type<T>::type>::value;
