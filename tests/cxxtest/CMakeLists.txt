@@ -1,7 +1,12 @@
 find_package (Threads REQUIRED)
-find_program(PYTHON_INTERPRETER NAMES python3)
 
-if(NOT PYTHON_INTERPRETER)
+find_package(Python3 COMPONENTS Interpreter)
+
+if(NOT Python3_FOUND)
+  find_program(Python3_EXECUTABLE NAMES python3)
+endif()
+
+if(NOT Python3_EXECUTABLE)
   message(FATAL_ERROR "Could not find python 3.")
 endif()
 
@@ -16,7 +21,7 @@ function(CXX_GENERATE_TEST name)
     set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../${name}.cpp")
 
     add_custom_command(OUTPUT ${name}.cpp
-                       COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
+                       COMMAND "${Python3_EXECUTABLE}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
                                --template=${CMAKE_CURRENT_SOURCE_DIR}/template/tango_template.tpl
                                -o ${name}.cpp
                                ${INPUT_FILE}
