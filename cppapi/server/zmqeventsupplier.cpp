@@ -1884,7 +1884,7 @@ size_t ZmqEventSupplier::get_data_elt_data_nb(DevPipeDataElt &dvde)
 			break;
 
 			default:
-			break;
+      TANGO_THROW_ON_DEFAULT(dvde.value._d());
 		}
 	}
 
