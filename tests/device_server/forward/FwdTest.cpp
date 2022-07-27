@@ -35,8 +35,8 @@
 //=============================================================================
 
 
-#include <FwdTest.h>
-#include <FwdTestClass.h>
+#include "FwdTest.h"
+#include "FwdTestClass.h"
 
 /*----- PROTECTED REGION END -----*/	//	FwdTest.cpp
 

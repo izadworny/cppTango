@@ -5,7 +5,6 @@ set(SOURCES ClassFactory.cpp
         main.cpp)
 
 add_executable(FwdTest ${SOURCES})
-target_include_directories(FwdTest PUBLIC .)
 target_link_libraries(FwdTest PUBLIC tango ${CMAKE_DL_LIBS})
 if(TANGO_USE_PCH)
     tango_target_test_pch(FwdTest)

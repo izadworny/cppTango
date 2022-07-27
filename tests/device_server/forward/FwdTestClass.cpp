@@ -39,7 +39,7 @@ static const char *HttpServer = "http://www.esrf.eu/computing/cs/tango/tango_doc
 //=============================================================================
 
 
-#include <FwdTestClass.h>
+#include "FwdTestClass.h"
 
 /*----- PROTECTED REGION END -----*/	//	FwdTestClass.cpp
 

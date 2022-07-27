@@ -34,7 +34,7 @@
 //=============================================================================
 
 #include <tango.h>
-#include <FwdTestClass.h>
+#include "FwdTestClass.h"
 
 //	Add class header files if needed
 

@@ -30,7 +30,7 @@
 //        (Program Obviously used to Generate tango Object)
 //=============================================================================
 
-#include <FwdTest.h>
+#include "FwdTest.h"
 
 /*----- PROTECTED REGION END -----*/	//	FwdTest::FwdTestStateMachine.cpp
 

@@ -39,7 +39,7 @@
 #define FwdTestClass_H
 
 #include <tango.h>
-#include <FwdTest.h>
+#include "FwdTest.h"
 
 
 /*----- PROTECTED REGION END -----*/	//	FwdTestClass.h
