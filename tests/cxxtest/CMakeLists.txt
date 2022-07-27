@@ -56,7 +56,7 @@ function(CXX_GENERATE_TEST name)
             --devtype=TestDevice
             --dbserver=sys/database/2
             --outpath=/tmp/
-            --refpath=${CMAKE_CURRENT_SOURCE_DIR}/../out/
+            --refpath=${CMAKE_CURRENT_SOURCE_DIR}/../resources/
             --loglevel=0
             --dsloglevel=5
             --suiteloop=1
