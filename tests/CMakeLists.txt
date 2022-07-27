@@ -41,7 +41,7 @@ endfunction()
 include(asyn.cmake)
 add_subdirectory(device_server)
 add_subdirectory(cxxtest)
-add_subdirectory(event)
+include(event.cmake)
 add_subdirectory(new_tests)
 include(old_tests.cmake)
 
