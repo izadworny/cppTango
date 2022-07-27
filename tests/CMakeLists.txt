@@ -38,7 +38,7 @@ function(tango_add_test name_tag name command_tag command)
         ${ARGN})
 endfunction()
 
-add_subdirectory(asyn)
+include(asyn.cmake)
 add_subdirectory(device_server)
 add_subdirectory(cxxtest)
 add_subdirectory(event)
