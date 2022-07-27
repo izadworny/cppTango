@@ -1,4 +1,4 @@
-#include "cxx_common_event.h"
+#include "common.h"
 
 class SlowCallBack : public Tango::CallBack
 {

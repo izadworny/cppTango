@@ -1,9 +1,12 @@
-#ifndef CXXCommonEvent_H
-#define CXXCommonEvent_H
+#ifndef Common_H
+#define Common_H
 
 #include <iostream>
 #include <tango.h>
+
+#ifndef TS_ASSERT
 #include <assert.h>
+#endif
 
 #ifdef WIN32
 #include <process.h>
@@ -14,6 +17,6 @@
 using namespace std;
 using namespace Tango;
 
-#define TEST_LOG std::cerr << "\t"
+#include "logging.h"
 
-#endif // CXXCommonEvent_H
+#endif // Common_H

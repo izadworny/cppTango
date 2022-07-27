@@ -2,7 +2,7 @@
 
 using namespace Tango;
 
-#include "cxx_logging.h"
+#include "logging.h"
 
 #define CLASS_NAME "DevTest"
 

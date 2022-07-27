@@ -2,7 +2,7 @@
 #include <process.h>
 #endif
 
-#include "cxx_common_old.h"
+#include "common.h"
 
 #define STATE_LOG_MESSAGE	"State: Number of attribute(s) to read: "
 

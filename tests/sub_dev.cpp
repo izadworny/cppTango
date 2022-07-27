@@ -1,4 +1,4 @@
-#include "cxx_common_old.h"
+#include "common.h"
 /* 
  * Test module for sub device diagnostics in the Tango API.
  */

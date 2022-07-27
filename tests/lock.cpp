@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #endif
 
-#include "cxx_common_old.h"
+#include "common.h"
 
 #include "locked_device_cmd.h"
 

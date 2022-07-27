@@ -14,7 +14,7 @@
 //
 // contact: georg.kasper@frm2.tum.de
 
-#include "cxx_common_old.h"
+#include "common.h"
 
 const char * const notset = "Not specified";
 

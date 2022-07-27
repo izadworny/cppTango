@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "cxx_common_old.h"
+#include "common.h"
 
 void set_user_device_right(DeviceProxy *,const char *,const char *,const char *);
 void set_user_address(DeviceProxy *,const char *,const char *);

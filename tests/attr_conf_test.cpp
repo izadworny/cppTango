@@ -1,6 +1,6 @@
 #include <time.h>
 
-#include "cxx_common_old.h"
+#include "common.h"
 
 void check_description(Tango::DeviceProxy &d,Tango::DeviceProxy &,string &,const char *,const char *,const char *,const char *);
 void check_min_value(Tango::DeviceProxy &d,Tango::DeviceProxy &,string &,const char *,const char *,const char *,const char *);

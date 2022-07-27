@@ -1,4 +1,4 @@
-#include "cxx_common_old.h"
+#include "common.h"
 
 const int8_t	kBase = 75;
 

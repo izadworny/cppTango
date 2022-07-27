@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <algorithm>
 
-#include "cxx_logging.h"
+#include "logging.h"
 
 using namespace std;
 using namespace CmpTst;

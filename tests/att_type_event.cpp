@@ -1,4 +1,4 @@
-#include "cxx_common_event.h"
+#include "common.h"
 
 void check_attribute_data_type(DeviceProxy *,std::string &, const char *);
 

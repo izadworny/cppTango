@@ -1,4 +1,4 @@
-#include "cxx_common_event.h"
+#include "common.h"
 
 // Testprogram to demonstrate a tango exit crash problem:
 // memory double free or corruption.

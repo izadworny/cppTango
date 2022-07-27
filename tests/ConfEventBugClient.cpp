@@ -1,4 +1,4 @@
-#include "cxx_common_old.h"
+#include "common.h"
 // Testprogram to demonstrate a server internal data update problem in 7.0.2-bugfix (snapshot: 24.7.2009)
 //
 // This client uses the server "TangoTest test"
