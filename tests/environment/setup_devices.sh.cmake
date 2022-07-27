@@ -5,7 +5,7 @@ set -e
 
 export TANGO_TEST_CASE_DIRECTORY="${TANGO_TEST_CASE_DIRECTORY:-.}"
 
-"@PROJECT_BINARY_DIR@/new_tests/conf_devtest" \
+"@PROJECT_BINARY_DIR@/conf_devtest" \
     @SERV_NAME@/@INST_NAME@ \
     @DEV1@ \
     @DEV2@ \

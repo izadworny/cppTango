@@ -42,7 +42,7 @@ include(asyn.cmake)
 add_subdirectory(device_server)
 add_subdirectory(cxxtest)
 include(event.cmake)
-add_subdirectory(new_tests)
+include(new_tests.cmake)
 include(old_tests.cmake)
 
 if(TANGO_USE_PCH)

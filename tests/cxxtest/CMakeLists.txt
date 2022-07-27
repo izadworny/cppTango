@@ -14,10 +14,10 @@ function(CXX_GENERATE_TEST name)
     endif()
 
     #In case of substitution to be done by cmake, the test file will be in the build tree
-    IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/${name}.cpp")
-        set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/${name}.cpp")
+    IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${name}.cpp")
+        set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../${name}.cpp")
     ELSE()
-        set(INPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/../new_tests/${name}.cpp")
+        set(INPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/../${name}.cpp")
     ENDIF()
     add_custom_command(OUTPUT ${name}.cpp
                        COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
@@ -33,7 +33,7 @@ function(CXX_GENERATE_TEST name)
     add_executable(${name} $<TARGET_OBJECTS:compare_test_object> ${name}.cpp)
     target_include_directories(${name} PRIVATE include ${CMAKE_CURRENT_BINARY_DIR}/include)
     target_include_directories(${name} PRIVATE
-	    ${CMAKE_CURRENT_SOURCE_DIR}/../new_tests)
+	    ${CMAKE_CURRENT_SOURCE_DIR}/..)
     target_link_libraries(${name} PRIVATE tango ${CMAKE_THREAD_LIBS_INIT})
     target_compile_definitions(${name} PRIVATE ${COMMON_TEST_CXX_DEFS})
     if(TANGO_USE_PCH)
@@ -56,7 +56,7 @@ function(CXX_GENERATE_TEST name)
             --devtype=TestDevice
             --dbserver=sys/database/2
             --outpath=/tmp/
-            --refpath=${CMAKE_CURRENT_SOURCE_DIR}/../new_tests/out/
+            --refpath=${CMAKE_CURRENT_SOURCE_DIR}/../out/
             --loglevel=0
             --dsloglevel=5
             --suiteloop=1
@@ -64,8 +64,8 @@ function(CXX_GENERATE_TEST name)
             --attributealias=${ATTR_ALIAS})
 endfunction()
 
-configure_file(../new_tests/cxx_jpeg_encoding.cpp.in
-	../new_tests/cxx_jpeg_encoding.cpp)
+configure_file(../cxx_jpeg_encoding.cpp.in
+	../cxx_jpeg_encoding.cpp)
 
 CXX_GENERATE_TEST(cxx_always_hook)
 CXX_GENERATE_TEST(cxx_asyn_reconnection)
