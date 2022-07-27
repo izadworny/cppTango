@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-#include <cxx_common.h>
+#include "cxx_common.h"
 
 #undef SUITE_NAME
 #define SUITE_NAME DevicePipeBlobTestSuite
