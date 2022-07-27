@@ -13,12 +13,8 @@ function(CXX_GENERATE_TEST name)
         endif()
     endif()
 
-    #In case of substitution to be done by cmake, the test file will be in the build tree
-    IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${name}.cpp")
-        set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../${name}.cpp")
-    ELSE()
-        set(INPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/../${name}.cpp")
-    ENDIF()
+    set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../${name}.cpp")
+
     add_custom_command(OUTPUT ${name}.cpp
                        COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_CURRENT_SOURCE_DIR}/bin/cxxtestgen.py
                                --template=${CMAKE_CURRENT_SOURCE_DIR}/template/tango_template.tpl
@@ -63,9 +59,6 @@ function(CXX_GENERATE_TEST name)
             --devicealias=${DEV1_ALIAS}
             --attributealias=${ATTR_ALIAS})
 endfunction()
-
-configure_file(../cxx_jpeg_encoding.cpp.in
-	../cxx_jpeg_encoding.cpp)
 
 CXX_GENERATE_TEST(cxx_always_hook)
 CXX_GENERATE_TEST(cxx_asyn_reconnection)

@@ -73,8 +73,7 @@ class JPEGEncodedTestSuite: public CxxTest::TestSuite
 
             // Initialization --------------------------------------------------
 
-            // CMake substitution to set the resource directory
-            std::string resource_path = "@RESOURCES_DIR@";
+            std::string resource_path = CxxTest::TangoPrinter::get_param("refpath");
 
             // Load all the data needed for the test
             raw_24bits = load_file(resource_path+"/peppers.data");
