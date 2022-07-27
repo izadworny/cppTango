@@ -16,6 +16,6 @@ export TANGO_TEST_CASE_DIRECTORY="${TANGO_TEST_CASE_DIRECTORY:-.}"
     @DEV20@ \
     &> "${TANGO_TEST_CASE_DIRECTORY}/conf_devtest.log"
 
-"@CMAKE_CURRENT_BINARY_DIR@/start_server.sh" @INST_NAME@ DevTest cpp_test_ds
+"@CMAKE_CURRENT_BINARY_DIR@/start_server.sh" @INST_NAME@ DevTest device_server/generic
 
-"@CMAKE_CURRENT_BINARY_DIR@/start_server.sh" @INST_NAME@ FwdTest cpp_test_ds/fwd_ds
+"@CMAKE_CURRENT_BINARY_DIR@/start_server.sh" @INST_NAME@ FwdTest device_server/forward

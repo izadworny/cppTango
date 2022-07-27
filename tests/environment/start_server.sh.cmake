@@ -10,7 +10,7 @@ mkdir -p "${TANGO_TEST_CASE_DIRECTORY}" # Must be set by the calling process.
 
 instance="$1"
 server="${2:-DevTest}"
-server_path="${3:-cpp_test_ds}"
+server_path="${3:-device_server/generic}"
 
 # A subshell that will run device server process and collect the exit code.
 (

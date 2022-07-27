@@ -14,7 +14,7 @@ endfunction()
 function(tango_target_test_pch target)
     target_compile_options(${target} PRIVATE
         -Winvalid-pch
-        -include "${CMAKE_BINARY_DIR}/cpp_test_suite/tango.h")
+        -include "${CMAKE_BINARY_DIR}/tests/tango.h")
     add_dependencies(${target} tango_test_pch)
 endfunction()
 

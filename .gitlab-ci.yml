@@ -54,12 +54,12 @@ workflow:
     - set +e
   after_script:
     - docker stop cpp_tango || true
-    - mkdir -p build/cpp_test_suite/test_results
+    - mkdir -p build/tests/results
   artifacts:
     when: always
     paths:
-      - build/cpp_test_suite/test_results
-      - build/cpp_test_suite/*/core.*
+      - build/tests/results
+      - build/tests/*/core.*
 
 abi-api-compliance-check:
   variables:
@@ -138,7 +138,7 @@ coverage:
     OS_TYPE: debian10
     STOCK_CPPZMQ: "OFF"
   after_script:
-    - mkdir -p build/cpp_test_suite/test_results
+    - mkdir -p build/tests/results
     - mkdir coverage
     - >
         docker exec --workdir /home/tango/src cpp_tango
@@ -161,8 +161,8 @@ coverage:
         coverage_format: cobertura
         path: coverage.xml
     paths:
-      - build/cpp_test_suite/test_results
-      - build/cpp_test_suite/*/core.*
+      - build/tests/results
+      - build/tests/*/core.*
       - coverage.xml
       - coverage.tar.gz
   # keyword/regex to extract total coverage % for this CI job (which is also called "coverage")
@@ -575,7 +575,7 @@ sanitizer:
       print_stacktrace=1,\
       report_error_type=1,\
       halt_on_error=1,\
-      suppressions=$CI_PROJECT_DIR/cpp_test_suite/suppressions-ubsan.supp"
+      suppressions=$CI_PROJECT_DIR/tests/suppressions-ubsan.supp"
   # Increase timeout, this is required by UBSAN job.
   timeout: 2h
   parallel:

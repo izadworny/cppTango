@@ -1,4 +1,4 @@
-project(test_suite)
+project(tests)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g")
 
@@ -34,12 +34,12 @@ endfunction()
 function(tango_add_test name_tag name command_tag command)
     add_test(
         NAME "${name}"
-        COMMAND "${CMAKE_BINARY_DIR}/cpp_test_suite/environment/run_with_fixture.sh" "${command}"
+        COMMAND "${CMAKE_BINARY_DIR}/tests/environment/run_with_fixture.sh" "${command}"
         ${ARGN})
 endfunction()
 
 add_subdirectory(asyn)
-add_subdirectory(cpp_test_ds)
+add_subdirectory(device_server)
 add_subdirectory(cxxtest)
 add_subdirectory(event)
 add_subdirectory(new_tests)
