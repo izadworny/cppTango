@@ -17,7 +17,6 @@ set(SOURCES main.cpp
         DevTest.cpp)
 
 add_executable(DevTest ${SOURCES})
-target_include_directories(DevTest PUBLIC .)
 target_link_libraries(DevTest PUBLIC tango ${CMAKE_DL_LIBS})
 if(TANGO_USE_PCH)
     tango_target_test_pch(DevTest)

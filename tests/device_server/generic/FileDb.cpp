@@ -1,5 +1,5 @@
 #include <tango.h>
-#include <DevTest.h>
+#include "DevTest.h"
 #include <assert.h>
 
 #ifdef WIN32

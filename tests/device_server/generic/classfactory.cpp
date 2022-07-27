@@ -20,7 +20,7 @@
 //-=============================================================================
 
 #include <tango.h>
-#include <DevTestClass.h>
+#include "DevTestClass.h"
 
 void Tango::DServer::class_factory()
 {

@@ -2,7 +2,7 @@
 #define _DEV_TESTCLASS_H
 
 #include <tango.h>
-#include <DevTest.h>
+#include "DevTest.h"
 
 //
 // Attributes related classes

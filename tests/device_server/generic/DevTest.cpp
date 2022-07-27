@@ -1,5 +1,5 @@
 #include <tango.h>
-#include <DevTest.h>
+#include "DevTest.h"
 #include <tango_clock.h>
 
 #ifdef WIN32
