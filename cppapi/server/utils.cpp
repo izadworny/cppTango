@@ -2187,7 +2187,7 @@ vector<DeviceImpl *> &Util::get_device_list_by_class(const string &class_name)
 // Also check if it it the DServer class
 //
 
-	if (class_name == "DServer")
+	if (TG_strcasecmp(class_name.c_str(), "DServer") == 0)
 	{
 		return DServerClass::instance()->get_device_list();
 	}
