@@ -43,7 +43,7 @@ add_subdirectory(device_server)
 add_subdirectory(cxxtest)
 add_subdirectory(event)
 add_subdirectory(new_tests)
-add_subdirectory(old_tests)
+include(old_tests.cmake)
 
 if(TANGO_USE_PCH)
     tango_add_pch(tango_test_pch cxx_syntax "${OMNIORB_PKG_CFLAGS_OTHER}")
