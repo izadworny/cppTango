@@ -1529,9 +1529,15 @@ void PollThread::poll_cmd(WorkItem &to_do)
 	catch (Tango::DevFailed &)
 	{
 		if (cmd_failed == false)
+		{
 			delete argout;
+			argout = nullptr;
+		}
 		else
+		{
 			delete save_except;
+			save_except = nullptr;
+		}
 		to_do.dev->get_poll_monitor().rel_monitor();
 	}
 }
@@ -1622,6 +1628,7 @@ void PollThread::poll_attr(WorkItem &to_do)
                     attr_failed = true;
                     save_except = new Tango::DevFailed((*argout_5)[0].err_list);
                     delete argout_5;
+                    argout_5 = nullptr;
                 }
             }
             else
@@ -1645,6 +1652,7 @@ void PollThread::poll_attr(WorkItem &to_do)
                     attr_failed = true;
                     save_except = new Tango::DevFailed((*argout_4)[0].err_list);
                     delete argout_4;
+                    argout_4 = nullptr;
                 }
             }
             else
@@ -1666,6 +1674,7 @@ void PollThread::poll_attr(WorkItem &to_do)
 				attr_failed = true;
 				save_except = new Tango::DevFailed((*argout_3)[0].err_list);
 				delete argout_3;
+				argout_3 = nullptr;
 			}
 		}
 	}
@@ -1871,9 +1880,15 @@ void PollThread::poll_attr(WorkItem &to_do)
         if (nb_obj != 1 && attr_failed == false)
         {
             if (idl_vers >= 5)
+            {
                 delete argout_5;
+                argout_5 = nullptr;
+            }
             else
+            {
                 delete argout_4;
+                argout_4 = nullptr;
+            }
         }
 
 		to_do.dev->get_poll_monitor().rel_monitor();
@@ -1883,16 +1898,31 @@ void PollThread::poll_attr(WorkItem &to_do)
 		if (attr_failed == false)
 		{
 			if (idl_vers >= 5)
+			{
 				delete argout_5;
+				argout_5 = nullptr;
+			}
 			else if (idl_vers == 4)
+			{
 				delete argout_4;
+				argout_4 = nullptr;
+			}
 			else if (idl_vers == 3)
+			{
 				delete argout_3;
+				argout_3 = nullptr;
+			}
 			else
+			{
 				delete argout;
+				argout = nullptr;
+			}
 		}
 		else
+		{
 			delete save_except;
+			save_except = nullptr;
+		}
 		to_do.dev->get_poll_monitor().rel_monitor();
 	}
 

@@ -198,10 +198,12 @@ inline void WAttribute::set_write_value(T *val, size_t x, size_t y)
         set_user_set_write_value(true);
 
         delete [] ptr;
+        ptr = nullptr;
     }
     catch (...)
     {
         delete [] ptr;
+        ptr = nullptr;
         throw;
     }
 }

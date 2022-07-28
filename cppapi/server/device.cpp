@@ -725,12 +725,14 @@ DeviceImpl::~DeviceImpl()
 //
 
     delete blackbox_ptr;
+    blackbox_ptr = nullptr;
 
 //
 // Delete the DbDevice object
 //
 
     delete db_dev;
+    db_dev = nullptr;
 
 //
 // Unregister the signal from signal handler
@@ -743,6 +745,7 @@ DeviceImpl::~DeviceImpl()
 //
 
     delete dev_attr;
+    dev_attr = nullptr;
 
 //
 // Clean up previously executed in extension destructor
@@ -752,17 +755,20 @@ DeviceImpl::~DeviceImpl()
     for (unsigned long i = 0; i < poll_obj_list.size(); i++)
     {
         delete (poll_obj_list[i]);
+        (poll_obj_list[i]) = nullptr;
     }
 
     if (logger && logger != Logging::get_core_logger())
     {
         logger->remove_all_appenders();
         delete logger;
-        logger = 0;
+        logger = nullptr;
     }
 
     delete locker_client;
+    locker_client = nullptr;
     delete old_locker_client;
+    old_locker_client = nullptr;
 
 //
 // Delete the extension class instance
@@ -2371,6 +2377,7 @@ Tango::DevCmdInfo *DeviceImpl::command_query(const char *command)
     if (i == nb_cmd)
     {
         delete back;
+        back = nullptr;
         TANGO_LOG_DEBUG << "DeviceImpl::command_query(): command " << command << " not found" << std::endl;
 
 //
@@ -2632,6 +2639,7 @@ Tango::AttributeConfigList *DeviceImpl::get_attribute_config(const Tango::DevVar
         catch (Tango::DevFailed &)
         {
             delete back;
+            back = nullptr;
             throw;
         }
     }
@@ -3070,6 +3078,7 @@ Tango::AttributeValueList *DeviceImpl::read_attributes(const Tango::DevVarString
                 {
                     TangoSys_OMemStream o;
                     delete back;
+                    back = nullptr;
 
                     try
                     {
@@ -3415,6 +3424,7 @@ void DeviceImpl::add_attribute(Tango::Attr *new_attr)
     if (already_there == true)
     {
         delete new_attr;
+        new_attr = nullptr;
         return;
     }
 
@@ -3529,6 +3539,7 @@ void DeviceImpl::add_attribute(Tango::Attr *new_attr)
     if (need_free == true)
     {
         delete new_attr;
+        new_attr = nullptr;
     }
 
 }
@@ -3741,6 +3752,7 @@ void DeviceImpl::remove_attribute(Tango::Attr *rem_attr, bool free_it, bool clea
     if ((free_it == true) && (update_idx == true))
     {
         delete rem_attr;
+        rem_attr = nullptr;
     }
 
 //
@@ -3867,6 +3879,7 @@ void DeviceImpl::add_command(Tango::Command *new_cmd, bool device_level)
     if (already_there == true)
     {
         delete new_cmd;
+        new_cmd = nullptr;
         return;
     }
 
@@ -4077,6 +4090,7 @@ void DeviceImpl::remove_command(Tango::Command *rem_cmd, bool free_it, bool clea
     if (free_it == true)
     {
         delete rem_cmd;
+        rem_cmd = nullptr;
     }
 
 //

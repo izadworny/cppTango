@@ -161,7 +161,10 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
 			(*any_ptr) <<= tmp;
 
 			if ((data.get_data())[i].release == true)
+			{
 				delete tmp_ptr;
+				tmp_ptr = nullptr;
+			}
         }
 
 //
@@ -181,9 +184,15 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         catch (Tango::DevFailed &)
         {
             if (cmd_failed == false)
+            {
                 delete any_ptr;
+                any_ptr = nullptr;
+            }
             else
+            {
                 delete save_except;
+                save_except = nullptr;
+            }
         }
 
     }
@@ -296,7 +305,10 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
 			(*any_ptr) <<= tmp;
 
 			if ((data.get_data())[i].release == true)
+			{
 				delete tmp_ptr;
+				tmp_ptr = nullptr;
+			}
         }
 
 //
@@ -316,9 +328,15 @@ inline void Util::fill_cmd_polling_buffer(DeviceImpl *dev,std::string &cmd_name,
         catch (Tango::DevFailed &)
         {
             if (cmd_failed == false)
+            {
                 delete any_ptr;
+                any_ptr = nullptr;
+            }
             else
+            {
                 delete save_except;
+                save_except = nullptr;
+            }
         }
 
     }

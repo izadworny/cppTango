@@ -196,6 +196,7 @@ CORBA::Any *DevQueryClassCmd::execute(DeviceImpl *device,TANGO_UNUSED(const CORB
 	{
 		TANGO_LOG_DEBUG << "Bad allocation while in DevQueryClassCmd::execute()" << std::endl;
 		delete ret;
+		ret = nullptr;
 		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 	(*out_any) <<= ret;
@@ -254,6 +255,7 @@ CORBA::Any *DevQueryDeviceCmd::execute(DeviceImpl *device,TANGO_UNUSED(const COR
 	{
 		TANGO_LOG_DEBUG << "Bad allocation while in DevQueryDeviceCmd::execute()" << std::endl;
 		delete ret;
+		ret = nullptr;
 		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 	(*out_any) <<= ret;
@@ -311,6 +313,7 @@ CORBA::Any *DevQuerySubDeviceCmd::execute(DeviceImpl *device,TANGO_UNUSED(const 
 	{
 		TANGO_LOG_DEBUG << "Bad allocation while in DevQuerySubDeviceCmd::execute()" << std::endl;
 		delete ret;
+		ret = nullptr;
 		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 	(*out_any) <<= ret;
@@ -586,6 +589,7 @@ CORBA::Any *QueryWizardClassPropertyCmd::execute(DeviceImpl *device,const CORBA:
 	{
 		TANGO_LOG_DEBUG << "Bad allocation while in QueryWizardClassPropertyCmd::execute()" << std::endl;
 		delete ret;
+		ret = nullptr;
 		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 	(*out_any) <<= ret;
@@ -659,6 +663,7 @@ CORBA::Any *QueryWizardDevPropertyCmd::execute(DeviceImpl *device,const CORBA::A
 	{
 		TANGO_LOG_DEBUG << "Bad allocation while in QueryWizardDevPropertyCmd::execute()" << std::endl;
 		delete ret;
+		ret = nullptr;
 		TANGO_THROW_EXCEPTION(API_MemoryAllocation, "Can't allocate memory in server");
 	}
 	(*out_any) <<= ret;
@@ -1382,13 +1387,19 @@ DServerClass::DServerClass(const std::string &s):DeviceClass(s)
 	catch (std::bad_alloc &)
 	{
 		for (unsigned long i = 0;i < command_list.size();i++)
+		{
 			delete command_list[i];
+			command_list[i] = nullptr;
+		}
 		command_list.clear();
 
 		if (device_list.empty() == false)
 		{
 			for (unsigned long i = 0;i < device_list.size();i++)
+			{
 				delete device_list[i];
+				device_list[i] = nullptr;
+			}
 			device_list.clear();
 		}
 		std::cerr << "Can't allocate memory while building the DServerClass object" << std::endl;

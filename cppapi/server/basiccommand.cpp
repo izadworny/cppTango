@@ -94,6 +94,7 @@ CORBA::Any *DevStatusCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::
 	catch(...)
 	{
 		delete out_any;
+		out_any = nullptr;
 		throw;
 	}
 
@@ -157,6 +158,7 @@ CORBA::Any *DevStateCmd::execute(DeviceImpl *device, TANGO_UNUSED(const CORBA::A
 	catch(...)
 	{
 		delete out_any;
+		out_any = nullptr;
 		throw;
 	}
 

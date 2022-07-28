@@ -401,6 +401,7 @@ Tango::DevCmdHistory_4 *Device_4Impl::command_inout_history_4(const char* comman
 			back->value = back_attr->value;
 		}
 		delete back_attr;
+		back_attr = nullptr;
 	}
 	else
 	{
@@ -578,6 +579,7 @@ Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVar
 		catch (...)
 		{
 			delete aid.data_4;
+			aid.data_4 = nullptr;
 			throw;
 		}
 	}
@@ -635,6 +637,7 @@ Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVar
 			catch (...)
 			{
 				delete aid.data_4;
+				aid.data_4 = nullptr;
 				throw;
 			}
 		}
@@ -663,6 +666,7 @@ Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVar
 			catch (...)
 			{
 				delete aid.data_4;
+				aid.data_4 = nullptr;
 				throw;
 			}
 		}
@@ -684,6 +688,7 @@ Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVar
 		catch (...)
 		{
 			delete aid.data_4;
+			aid.data_4 = nullptr;
 			throw;
 		}
 
@@ -731,6 +736,7 @@ Tango::AttributeValueList_4* Device_4Impl::read_attributes_4(const Tango::DevVar
 			catch (...)
 			{
 				delete aid.data_4;
+				aid.data_4 = nullptr;
 				throw;
 			}
 		}

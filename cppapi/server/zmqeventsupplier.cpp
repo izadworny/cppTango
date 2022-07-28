@@ -347,8 +347,10 @@ ZmqEventSupplier::~ZmqEventSupplier()
 // Delete zmq sockets
 //
 
-    delete heartbeat_pub_sock;
-    delete event_pub_sock;
+	delete heartbeat_pub_sock;
+	heartbeat_pub_sock = nullptr;
+	delete event_pub_sock;
+	event_pub_sock = nullptr;
 
     if (event_mcast.empty() == false)
 	{
@@ -357,7 +359,10 @@ ZmqEventSupplier::~ZmqEventSupplier()
 		ite_stop = event_mcast.end();
 
 		for (ite = event_mcast.begin(); ite != ite_stop;++ite)
+		{
 			delete ite->second.pub_socket;
+			ite->second.pub_socket = nullptr;
+		}
 	}
 }
 
@@ -1719,13 +1724,25 @@ void ZmqEventSupplier::push_event_loop(DeviceImpl *device_impl,EventType event_t
 		if (need_free == true)
 		{
 			if (sent_value.attr_val_5 != NULL)
+			{
 				delete sent_value.attr_val_5;
+				sent_value.attr_val_5 = nullptr;
+			}
 			else if (sent_value.attr_val_4 != NULL)
+			{
 				delete sent_value.attr_val_4;
+				sent_value.attr_val_4 = nullptr;
+			}
 			else if (sent_value.attr_val_3 != NULL)
+			{
 				delete sent_value.attr_val_3;
+				sent_value.attr_val_3 = nullptr;
+			}
 			else
+			{
 				delete sent_value.attr_val;
+				sent_value.attr_val = nullptr;
+			}
 		}
 		if (name_changed == true)
 			ev_name = EventName[event_type];
