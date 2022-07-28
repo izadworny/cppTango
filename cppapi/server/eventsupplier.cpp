@@ -1646,7 +1646,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
                     {
                         if (rel_change[0] != INT_MAX)
                         {
-                            if (Tango_isnan((*prev_seq_db)[i]) != 0 && Tango_isnan((*curr_seq_db)[i]) == 0)
+                            if (std::isnan((*prev_seq_db)[i]) != 0 && std::isnan((*curr_seq_db)[i]) == 0)
                             {
                                 is_change = true;
                                 return (is_change);
@@ -1671,7 +1671,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
                         }
                         if (abs_change[0] != INT_MAX)
                         {
-                            if (Tango_isnan((*prev_seq_db)[i]) != 0 && Tango_isnan((*curr_seq_db)[i]) == 0)
+                            if (std::isnan((*prev_seq_db)[i]) != 0 && std::isnan((*curr_seq_db)[i]) == 0)
                             {
                                 is_change = true;
                                 return (is_change);
@@ -1785,7 +1785,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
                     {
                         if (rel_change[0] != INT_MAX)
                         {
-                            if (Tango_isnan((*prev_seq_fl)[i]) != 0 && Tango_isnan((*curr_seq_fl)[i]) == 0)
+                            if (std::isnan((*prev_seq_fl)[i]) != 0 && std::isnan((*curr_seq_fl)[i]) == 0)
                             {
                                 is_change = true;
                                 return (is_change);
@@ -1809,7 +1809,7 @@ bool EventSupplier::detect_change(Attribute &attr, struct SuppliedEventData &att
                         }
                         if (abs_change[0] != INT_MAX)
                         {
-                            if (Tango_isnan((*prev_seq_fl)[i]) != 0 && Tango_isnan((*curr_seq_fl)[i]) == 0)
+                            if (std::isnan((*prev_seq_fl)[i]) != 0 && std::isnan((*curr_seq_fl)[i]) == 0)
                             {
                                 is_change = true;
                                 return (is_change);

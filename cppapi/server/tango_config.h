@@ -139,12 +139,6 @@
 #endif
 
 //
-// Define a common isnan call
-//
-
-#define Tango_isnan(A)  std::isnan(A)
-
-//
 // Define a common sleep call
 //
 
