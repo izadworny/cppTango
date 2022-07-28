@@ -212,6 +212,4 @@
 	#endif
 #endif
 
-#define TANGO_NORETURN [[noreturn]]
-
 #endif /* _TANGO_CONFIG_H */
