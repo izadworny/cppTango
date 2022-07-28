@@ -4049,7 +4049,7 @@ void Attribute::fire_change_event(DevFailed *except)
 				    send_attr_5,
 				    send_attr_4,
 				    send_attr,
-				    Tango_nullptr,
+				    nullptr,
 				    except);
 
 				quality_change = (old_quality != prev_change_event.quality);
@@ -4470,7 +4470,7 @@ void Attribute::fire_archive_event(DevFailed *except)
 				    send_attr_5,
 				    send_attr_4,
 				    send_attr,
-				    Tango_nullptr,
+				    nullptr,
 				    except);
 
 				quality_change = (old_quality != prev_archive_event.quality);

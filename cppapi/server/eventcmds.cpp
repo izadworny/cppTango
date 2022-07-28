@@ -123,7 +123,7 @@ DevLong DServer::event_subscription_change(const Tango::DevVarStringArray *argin
 			client_release = 3;
 	}
 
-	DeviceImpl* dev_impl = Tango_nullptr;
+	DeviceImpl* dev_impl = nullptr;
 	try
 	{
 		dev_impl = tg->get_device_by_name(dev_name);

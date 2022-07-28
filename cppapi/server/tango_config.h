@@ -144,8 +144,6 @@
 
 #define Tango_isnan(A)  std::isnan(A)
 
-#define Tango_nullptr   nullptr
-
 //
 // Define a common sleep call
 //
