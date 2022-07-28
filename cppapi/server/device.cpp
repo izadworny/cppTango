@@ -379,6 +379,7 @@ namespace Tango
             if (del_seq)
             {
                 delete ptr;
+                ptr = nullptr;
             }
         }
 
@@ -5395,6 +5396,7 @@ void DeviceImpl::data_into_net_object(Attribute &att, AttributeIdlData &aid,
                 if (del_seq == true)
                 {
                     delete ptr;
+                    ptr = nullptr;
                 }
             }
             break;
