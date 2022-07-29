@@ -139,14 +139,6 @@
 #endif
 
 //
-// Define a common isnan call
-//
-
-#define Tango_isnan(A)  std::isnan(A)
-
-#define Tango_nullptr   nullptr
-
-//
 // Define a common sleep call
 //
 
@@ -211,7 +203,5 @@
 		#undef PACKAGE_VERSION
 	#endif
 #endif
-
-#define TANGO_NORETURN [[noreturn]]
 
 #endif /* _TANGO_CONFIG_H */
