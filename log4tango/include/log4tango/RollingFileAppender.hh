@@ -36,7 +36,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // class RollingFileAppender (olls over the logfile)
 //----------------------------------------------------------------------------- 
-class LOG4TANGO_EXPORT RollingFileAppender : public FileAppender
+class RollingFileAppender : public FileAppender
 {
  public:
 

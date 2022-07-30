@@ -33,17 +33,12 @@
 #include <vector>
 #include <sstream>
 
-#if defined(_MSC_VER)
-    #pragma warning(push)
-    #pragma warning(disable : 4251) //dll export
-#endif
-
 namespace log4tango {
 
 //-----------------------------------------------------------------------------
 // class : PatternLayout (a simple fixed format Layout implementation)
 //-----------------------------------------------------------------------------  
-class LOG4TANGO_EXPORT PatternLayout : public Layout 
+class PatternLayout : public Layout
 {
 public:
 
@@ -101,7 +96,7 @@ public:
 
   virtual void clear_conversion_pattern();
 
-  class LOG4TANGO_EXPORT PatternComponent {
+  class PatternComponent {
     public:
       inline virtual ~PatternComponent() {}
       virtual void append(std::ostringstream& out, const LoggingEvent& event) = 0;
@@ -114,9 +109,5 @@ public:
 }; 
        
 } // namespace log4tango 
-
-#if defined(_MSC_VER)
-    #pragma warning(pop)
-#endif
 
 #endif // _LOG4TANGO_PATTERNLAYOUT_H

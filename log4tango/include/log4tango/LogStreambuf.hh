@@ -41,7 +41,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // Class : LogStreamBuf
 //-----------------------------------------------------------------------------
-class LOG4TANGO_EXPORT LogStreamBuf : public std::streambuf
+class LogStreamBuf : public std::streambuf
 {
 public:
 

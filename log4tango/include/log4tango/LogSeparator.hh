@@ -35,7 +35,7 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // Class : LogInitiator
 //-----------------------------------------------------------------------------
-class LOG4TANGO_EXPORT LogInitiator {
+class LogInitiator {
 public:
   static LogInitiator _begin_log;
 };
@@ -43,7 +43,7 @@ public:
 //-----------------------------------------------------------------------------
 // Class : LogSeparator
 //-----------------------------------------------------------------------------
-class LOG4TANGO_EXPORT LogSeparator {
+class LogSeparator {
 public:
   static LogSeparator _end_log;
 };

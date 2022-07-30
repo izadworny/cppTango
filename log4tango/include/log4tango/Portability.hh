@@ -29,7 +29,6 @@
 #define _LOG4TANGO_PORTABILITY_H
 
 #include <log4tango/config.h>
-#include <log4tango/Export.hh>
 
 #if defined(_MSC_VER)
 

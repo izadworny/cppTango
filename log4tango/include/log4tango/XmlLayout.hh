@@ -36,7 +36,7 @@ namespace log4tango {
 /**
 * XMLLayout is a simple fixed format Layout implementation. 
 **/
-class LOG4TANGO_EXPORT XMLLayout : public Layout 
+class XMLLayout : public Layout
 {
 public:
   /**
