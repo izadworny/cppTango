@@ -1211,7 +1211,7 @@ public:
         TS_ASSERT_EQUALS(da_enum2.get_type(), DEV_ENUM);
 
         vector<short> my_short_vector;
-        for (size_t i = 0; i < 10; i++)
+        for (short i = 0; i < 10; i++)
         {
             my_short_vector.push_back(i);
             my_short_vector.push_back(-i);
@@ -1261,7 +1261,7 @@ public:
         TS_ASSERT_EQUALS(da.get_type(), DEV_ENUM);
 
         vector<short> my_short_vector;
-        for (size_t i = 0; i < 10; i++)
+        for (short i = 0; i < 10; i++)
         {
             my_short_vector.push_back(i);
             my_short_vector.push_back(-i);

@@ -110,7 +110,7 @@ public:
 		DevDouble db = 1.2345;
 		string str = "Hello world";
 		DevFloat fl = 10.22f;
-		DevBoolean bl = 0;
+		DevBoolean bl = false;
 		DevUShort ush = 1234;
 		DevUChar uch = 233;
 		DeviceAttribute short_attr_w("Short_attr_w", sh),
@@ -161,7 +161,7 @@ public:
 		TS_ASSERT_DELTA(fl,10.22,0.001); // floating point comparison
 		attributes[5] >> bl;
 		TS_ASSERT_EQUALS(attributes[5].name, "Boolean_attr_w");
-		TS_ASSERT_EQUALS(bl, 0);
+		TS_ASSERT_EQUALS(bl, false);
 		attributes[6] >> ush;
 		TS_ASSERT_EQUALS(attributes[6].name, "UShort_attr_w");
 		TS_ASSERT_EQUALS(ush, 1234);
@@ -204,7 +204,7 @@ public:
 		TS_ASSERT_EQUALS(str, "Hello world");
 		attributes[2] >> bl;
 		TS_ASSERT_EQUALS(attributes[2].name, "Boolean_attr_w");
-		TS_ASSERT_EQUALS(bl, 0);
+		TS_ASSERT_EQUALS(bl, false);
 	}
 };
 #endif // AttrWriteTestSuite_h

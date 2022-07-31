@@ -571,8 +571,8 @@ public:
 		de_names.push_back(string("bbb"));
 		string str("Writing pipe");
 		vector<float> v_fl;
-		v_fl.push_back(1.11);
-		v_fl.push_back(8.88);
+		v_fl.push_back(1.11f);
+		v_fl.push_back(8.88f);
 
 		dp.set_data_elt_names(de_names);
 		dp << str << v_fl;
@@ -592,8 +592,8 @@ public:
 		de_names.push_back(string("bbb"));
 		string str("Writing pipe");
 		vector<float> v_fl;
-		v_fl.push_back(1.11);
-		v_fl.push_back(8.88);
+		v_fl.push_back(1.11f);
+		v_fl.push_back(8.88f);
 
 		TS_ASSERT_THROWS_ASSERT(device1->write_pipe(dp);, Tango::DevFailed &e,
 						TS_ASSERT_EQUALS(string(e.errors[0].reason.in()), API_PipeNoDataElement);
@@ -661,8 +661,8 @@ public:
 		de_names.push_back("bbbWR");
 		string str("Writing Reading pipe");
 		vector<float> v_fl;
-		v_fl.push_back(1.11);
-		v_fl.push_back(8.88);
+		v_fl.push_back(1.11f);
+		v_fl.push_back(8.88f);
 
 		dp.set_data_elt_names(de_names);
 		dp << str << v_fl;
