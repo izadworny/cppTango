@@ -277,7 +277,7 @@ int main(int argc, char **argv)
 					TEST_LOG << "Server exception" << std::endl;
 				}
 			}
-			catch (DevFailed &e)
+			catch (DevFailed&)
 			{
 				TEST_LOG << "Comm exception" << std::endl;
 			}
@@ -324,7 +324,7 @@ int main(int argc, char **argv)
 					TEST_LOG << "Server exception" << std::endl;
 				}
 			}
-			catch (DevFailed &e)
+			catch (DevFailed&)
 			{
 				TEST_LOG << "Comm exception" << std::endl;
 			}
@@ -360,7 +360,7 @@ int main(int argc, char **argv)
 				TEST_LOG << "Server exception" << std::endl;
 			}
 		}
-		catch (DevFailed &e)
+		catch (DevFailed&)
 		{
 			TEST_LOG << "Comm exception" << std::endl;
 		}

@@ -1180,7 +1180,7 @@ public:
 		{
 			db.get_data_format();
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 			except = true;
 		}

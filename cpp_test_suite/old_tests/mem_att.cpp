@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 		{
 			device->set_attribute_config(*att_conf);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 			except = true;
 			(*att_conf)[0].min_value = old_min_value;
@@ -152,7 +152,7 @@ int main(int argc, char **argv)
 		{
 			device->set_attribute_config(*att_conf2);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 			except = true;
 			(*att_conf2)[0].max_value = old_max_value;
@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 		{
 			device->set_attribute_config(*att_conf2);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 			except = true;
 		}
@@ -200,7 +200,7 @@ int main(int argc, char **argv)
 		{
 			device->set_attribute_config(*att_conf2);
 		}
-		catch (Tango::DevFailed &e)
+		catch (Tango::DevFailed&)
 		{
 			except = true;
 		}
