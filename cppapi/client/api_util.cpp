@@ -29,7 +29,7 @@
 
 #include <tango.h>
 #include <eventconsumer.h>
-#include <api_util.tpp>
+#include <api_util_tmpl.h>
 #include <thread>
 
 #ifndef _TG_WINDOWS_

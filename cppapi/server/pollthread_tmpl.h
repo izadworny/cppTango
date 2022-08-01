@@ -1,6 +1,6 @@
 //+==================================================================================================================
 //
-// file :               PollThread.tpp
+// file :               PollThread_tmpl.h
 //
 // description :        C++ source code for the Pollthread class template methods
 //

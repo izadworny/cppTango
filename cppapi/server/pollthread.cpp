@@ -32,7 +32,7 @@
 
 #include <tango.h>
 #include <eventsupplier.h>
-#include <pollthread.tpp>
+#include <pollthread_tmpl.h>
 
 #include <iomanip>
 

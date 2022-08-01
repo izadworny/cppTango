@@ -1,6 +1,6 @@
 //+===================================================================================================================
 //
-// file :               w_pipe.tpp
+// file :               w_pipe_tmpl.h
 //
 // description :        C++ source code for the WPipe class template methods/functions
 //

@@ -1,6 +1,6 @@
 //+===================================================================================================================
 //
-// file :               FWdAttribute.tpp
+// file :               FWdAttribute_tmpl.h
 //
 // description :        C++ source code for the FwdAttribute class template methods when they are not specialized
 //

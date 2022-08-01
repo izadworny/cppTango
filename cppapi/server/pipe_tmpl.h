@@ -1,7 +1,7 @@
 
 //+==================================================================================================================
 //
-// file :               Pipe.tpp
+// file :               Pipe_tmpl.h
 //
 // description :        C++ source code for the template methods of the Pipe class.
 //

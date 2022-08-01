@@ -50,11 +50,11 @@ set(HEADERS accessproxy.h
             Connection.h
             DeviceProxy.h
             AttributeProxy.h
-            event.tpp
-            devapi_attr.tpp
-            devapi_utils.tpp
-            api_util.tpp
-            devapi_pipe.tpp)
+            event_tmpl.h
+            devapi_attr_tmpl.h
+            devapi_utils_tmpl.h
+            api_util_tmpl.h
+            devapi_pipe_tmpl.h)
 
 add_subdirectory(helpers)
 add_library(client_objects OBJECT ${SOURCES})

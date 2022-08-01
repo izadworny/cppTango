@@ -60,12 +60,12 @@ set(SOURCES attrdesc.cpp
 
 set(HEADERS attrdesc.h
             attribute.h
-            attribute.tpp
-            attrsetval.tpp
-            attribute_spec.tpp
+            attribute_tmpl.h
+            attrsetval_tmpl.h
+            attribute_spec_tmpl.h
             attrmanip.h
             attrprop.h
-            attrprop.tpp
+            attrprop_tmpl.h
             auto_tango_monitor.h
             basiccommand.h
             blackbox.h
@@ -73,13 +73,13 @@ set(HEADERS attrdesc.h
             classpipe.h
             command.h
             pipe.h
-            pipe.tpp
+            pipe_tmpl.h
             coutappender.h
             coutbuf.h
             device.h
             device_2.h
             device_3.h
-            device_3.tpp
+            device_3_tmpl.h
             device_4.h
             device_5.h
             deviceclass.h
@@ -92,8 +92,8 @@ set(HEADERS attrdesc.h
             except.h
             fwdattrdesc.h
             fwdattribute.h
-            fwdattribute.tpp
-            fwdattribute_spec.tpp
+            fwdattribute_tmpl.h
+            fwdattribute_spec_tmpl.h
             log4tango.h
             logcmds.h
             logging.h
@@ -103,12 +103,12 @@ set(HEADERS attrdesc.h
             pipedesc.h
             pollcmds.h
             pollext.h
-            pollext.tpp
+            pollext_tmpl.h
             pollobj.h
             pollring.h
-            pollring.tpp
+            pollring_tmpl.h
             pollthread.h
-            pollthread.tpp
+            pollthread_tmpl.h
             readers_writers_lock.h
             rootattreg.h
             seqvec.h
@@ -118,15 +118,15 @@ set(HEADERS attrdesc.h
             tangoappender.h
             tangorollingfileappender.h
             utils.h
-            utils.tpp
-            utils_spec.tpp
+            utils_tmpl.h
+            utils_spec_tmpl.h
             w32win.h
             w_attribute.h
-            w_attribute.tpp
-            w_attrsetval.tpp
-            w_attribute_spec.tpp
+            w_attribute_tmpl.h
+            w_attrsetval_tmpl.h
+            w_attribute_spec_tmpl.h
             w_pipe.h
-            w_pipe.tpp
+            w_pipe_tmpl.h
             subdev_diag.h
             encoded_attribute.h
             encoded_format.h

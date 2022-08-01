@@ -840,7 +840,7 @@ INPUT                  = @PROJECT_BINARY_DIR@/cppapi/server/tango_const.h \
                          @PROJECT_SOURCE_DIR@/cppapi/server/w_pipe.h \
                          @PROJECT_SOURCE_DIR@/cppapi/client/AttributeProxy.h \
                          @PROJECT_SOURCE_DIR@/cppapi/client/ApiUtil.h \
-                         @PROJECT_SOURCE_DIR@/cppapi/client/api_util.tpp \
+                         @PROJECT_SOURCE_DIR@/cppapi/client/api_util_tmpl.h \
                          @PROJECT_SOURCE_DIR@/cppapi/client/Connection.h \
                          @PROJECT_SOURCE_DIR@/cppapi/client/Database.h \
                          @PROJECT_SOURCE_DIR@/cppapi/client/DbDevice.h \

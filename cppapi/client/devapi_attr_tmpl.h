@@ -1,6 +1,6 @@
 //+===================================================================================================================
 //
-// file :               devapi_att.tpp
+// file :               devapi_att_tmpl.h
 //
 // description :        C++ source code for the Attribute class template methods when they are not specialized and
 //						related to attribute value setting

@@ -60,7 +60,7 @@
 
 #include <device_4.h>
 #include <eventsupplier.h>
-#include <device_3.tpp>
+#include <device_3_tmpl.h>
 
 
 namespace Tango

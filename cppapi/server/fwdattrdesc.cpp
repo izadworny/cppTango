@@ -32,8 +32,8 @@
 #include <tango.h>
 #include <fwdattrdesc.h>
 
-#include <fwdattribute.tpp>
-#include <fwdattribute_spec.tpp>
+#include <fwdattribute_tmpl.h>
+#include <fwdattribute_spec_tmpl.h>
 
 namespace Tango
 {

@@ -1,6 +1,6 @@
 //+==================================================================================================================
 //
-// file :               AttrProp.tpp
+// file :               AttrProp_tmpl.h
 //
 // description :        C++ source code for the MultiAttrProp class template methods
 //

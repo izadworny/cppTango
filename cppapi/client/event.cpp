@@ -32,7 +32,7 @@
 
 #include <tango.h>
 #include <eventconsumer.h>
-#include <event.tpp>
+#include <event_tmpl.h>
 #include <tango_clock.h>
 
 #include <stdio.h>

@@ -33,7 +33,7 @@
 #include <tango.h>
 #include <pollobj.h>
 #include <pollring.h>
-#include <pollring.tpp>
+#include <pollring_tmpl.h>
 
 #ifdef _TG_WINDOWS_
 #include <sys/types.h>

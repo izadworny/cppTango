@@ -115,7 +115,7 @@ namespace Tango {
 #include <devapi.h>
 #include <group.h>
 #include <filedatabase.h>
-#include <devapi_attr.tpp>
+#include <devapi_attr_tmpl.h>
 
 //
 // Include Tango utility files
@@ -150,14 +150,14 @@ namespace Tango {
 	#include <pipedesc.h>
 	#include <pipe.h>
 	#include <w_pipe.h>
-	#include <pipe.tpp>
+	#include <pipe_tmpl.h>
 	#include <dserver.h>
-	#include <attribute_spec.tpp>
-	#include <utils_spec.tpp>
-	#include <w_attribute_spec.tpp>
-	#include <attrprop.tpp>
-	#include <attrsetval.tpp>
-	#include <w_attrsetval.tpp>
+	#include <attribute_spec_tmpl.h>
+	#include <utils_spec_tmpl.h>
+	#include <w_attribute_spec_tmpl.h>
+	#include <attrprop_tmpl.h>
+	#include <attrsetval_tmpl.h>
+	#include <w_attrsetval_tmpl.h>
 #endif
 
 #include <event.h>
