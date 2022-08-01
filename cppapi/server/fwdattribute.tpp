@@ -56,13 +56,6 @@ void FwdAttribute::set_local_attribute(DeviceAttribute &da, T *&seq_ptr)
     qual = da.get_quality();
 
     TimeVal local_tv = da.get_date();
-#ifdef _TG_WINDOWS_
-    tv.time = local_tv.tv_sec;
-    tv.millitm = local_tv.tv_usec / 1000;
-#else
-    tv.tv_sec = local_tv.tv_sec;
-    tv.tv_usec = local_tv.tv_usec;
-#endif
 
     da >> seq_ptr;
 
@@ -72,9 +65,9 @@ void FwdAttribute::set_local_attribute(DeviceAttribute &da, T *&seq_ptr)
     }
 
     if (seq_ptr->release() == true)
-        set_value_date_quality(seq_ptr->get_buffer(true), tv, qual, da.get_dim_x(), da.get_dim_y(), true);
+        set_value_date_quality(seq_ptr->get_buffer(true), local_tv, qual, da.get_dim_x(), da.get_dim_y(), true);
     else
-        set_value_date_quality(seq_ptr->get_buffer(), tv, qual, da.get_dim_x(), da.get_dim_y());
+        set_value_date_quality(seq_ptr->get_buffer(), local_tv, qual, da.get_dim_x(), da.get_dim_y());
 
     delete seq_ptr;
 }

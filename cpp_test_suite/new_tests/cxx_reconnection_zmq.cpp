@@ -67,13 +67,13 @@ public:
 
             //sleep 18 &&  start_server "@INST_NAME@" &
             thread([this]() {
-                Tango_sleep(18);
+                std::this_thread::sleep_for(std::chrono::seconds(18));
                 CxxTest::TangoPrinter::start_server(device1_instance_name);
             }).detach();
 
             //sleep 62 &&  start_server "@INST_NAME@" &
             thread([this]() {
-                Tango_sleep(62);
+                std::this_thread::sleep_for(std::chrono::seconds(62));
                 CxxTest::TangoPrinter::start_server(device1_instance_name);
             }).detach();
         }
@@ -125,7 +125,7 @@ public:
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
 
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
 
         TEST_LOG << "Callback execution before re-connection = " << eventCallback.cb_executed << endl;
         TEST_LOG << "Callback error before re-connection = " << eventCallback.cb_err << endl;
@@ -145,7 +145,7 @@ public:
 // Wait for some error and re-connection
 //
 
-        Tango_sleep(40);
+        std::this_thread::sleep_for(std::chrono::seconds(40));
 
 //
 // Check error and re-connection
@@ -164,7 +164,7 @@ public:
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
 
-        Tango_sleep(1);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
 
         TEST_LOG << "Callback execution after re-connection and event = " << eventCallback.cb_executed << endl;
         TEST_LOG << "Callback error after re-connection and event = " << eventCallback.cb_err << endl;
@@ -188,7 +188,7 @@ public:
 // Wait for some error and re-connection
 //
 
-        Tango_sleep(40);
+        std::this_thread::sleep_for(std::chrono::seconds(40));
 
 //
 // Check error and re-connection
@@ -206,7 +206,7 @@ public:
 
         TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOPushEvent"));
 
-        Tango_sleep(2);
+        std::this_thread::sleep_for(std::chrono::seconds(2));
 
         TEST_LOG << "Callback execution after second re-connection and event = " << eventCallback.cb_executed << endl;
         TEST_LOG << "Callback error after second re-connection and event = " << eventCallback.cb_err << endl;

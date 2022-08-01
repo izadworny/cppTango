@@ -146,7 +146,7 @@ public:
 // Restart device and get att conf
 
 		adm_dev->command_inout("RestartServer");
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		TS_ASSERT_THROWS_NOTHING(aie2 = device1->get_attribute_config("Enum_attr_rw"));
 
@@ -307,7 +307,7 @@ public:
 
 		TS_ASSERT_THROWS_NOTHING(adm_dev->command_inout("RestartServer"));
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		delete device1;
 		device1 = new DeviceProxy(device1_name);
@@ -340,7 +340,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(adm_dev->command_inout("AddObjPolling", din));
 		CxxTest::TangoPrinter::restore_set("poll_att");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 // Read attribute from polling buffer
 

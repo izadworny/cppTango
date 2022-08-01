@@ -228,11 +228,7 @@ CORBA::Any *IOSleep::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const CORB
 
 		extract(in_any, sleeping_Time);
 		TANGO_LOG << "[IOSleep::execute] sleeping time " << sleeping_Time << std::endl;
-#ifdef WIN32
-		Sleep(sleeping_Time);
-#else
-		sleep(sleeping_Time);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(sleeping_Time));
 		return insert();
 	}
 	catch (CORBA::Exception &e)
@@ -375,7 +371,7 @@ CORBA::Any *IOShortSleep::execute(TANGO_UNUSED(Tango::DeviceImpl *device), const
 	const Tango::DevVarShortArray *in_array;
 	extract(in_any, in_array);
 
-	Tango_sleep((*in_array)[1]);
+	std::this_thread::sleep_for(std::chrono::seconds((*in_array)[1]));
 	short ret = (*in_array)[0] * 2;
 	return insert(ret);
 }
@@ -420,7 +416,7 @@ CORBA::Any *IOSleepExcept::execute(TANGO_UNUSED(Tango::DeviceImpl *device), cons
 	Tango::DevShort in;
 	extract(in_any, in);
 
-	Tango_sleep(in);
+	std::this_thread::sleep_for(std::chrono::seconds(in));
 
 	TANGO_THROW_EXCEPTION("aaa", "This is a test ");
 
@@ -1733,14 +1729,8 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
 
     std::stringstream ss;
 
-#ifdef WIN32
-    Sleep(300);
-#else
-    struct timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = 300000000;
-    nanosleep(&ts,NULL);
-#endif // WIN32
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
     DevTest *local_dev = static_cast<DevTest *>(dev);
 
     ss << "Attribute " << att1_name << " polling period = " << local_dev->get_att_poll_period(att1_name);
@@ -1760,13 +1750,7 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
 
 // Sleep 600 mS and do the same
 
-#ifdef WIN32
-    Sleep(600);
-#else
-    ts.tv_sec = 0;
-    ts.tv_nsec = 600000000;
-    nanosleep(&ts,NULL);
-#endif
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
 
     ss << "Attribute " << att1_name << " polling period = " << local_dev->get_att_poll_period(att1_name);
     local_dev->poll_messages.push_back(ss.str());
@@ -1785,13 +1769,7 @@ void ReynaldPollThread::run (TANGO_UNUSED(void *arg))
 
 // Sleep 1500 mS and do the same
 
-#ifdef WIN32
-    Sleep(1500);
-#else
-    ts.tv_sec = 1;
-    ts.tv_nsec = 500000000;
-    nanosleep(&ts,NULL);
-#endif // WIN32
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     ss << "Attribute " << att1_name << " polling period = " << local_dev->get_att_poll_period(att1_name);
     local_dev->poll_messages.push_back(ss.str());
@@ -2903,7 +2881,7 @@ CORBA::Any *SetGetProperties::execute(Tango::DeviceImpl *device, TANGO_UNUSED(co
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
 
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			attr.get_properties(multi_prop_get);
 
@@ -2930,7 +2908,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -2960,7 +2938,7 @@ Tango_sleep(1);
 			attr.set_properties(multi_prop);
 
 			attr.get_properties(multi_prop_get);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			props_vec.push_back("Double_attr");
 			props_vec.push_back(multi_prop_get.label);
 			props_vec.push_back(multi_prop_get.description);
@@ -2984,7 +2962,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3025,7 +3003,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Float_attr");
@@ -3051,7 +3029,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3081,7 +3059,7 @@ Tango_sleep(1);
 			attr.set_properties(multi_prop);
 
 			attr.get_properties(multi_prop_get);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			props_vec.push_back("Float_attr");
 			props_vec.push_back(multi_prop_get.label);
 			props_vec.push_back(multi_prop_get.description);
@@ -3105,7 +3083,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3147,7 +3125,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Long_attr");
@@ -3173,7 +3151,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3201,7 +3179,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Long_attr");
@@ -3227,7 +3205,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3268,7 +3246,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Long64_attr");
@@ -3294,7 +3272,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3322,7 +3300,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Long64_attr");
@@ -3348,7 +3326,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3390,7 +3368,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Short_attr");
@@ -3416,7 +3394,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3444,7 +3422,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Short_attr");
@@ -3470,7 +3448,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3512,7 +3490,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("UChar_attr");
@@ -3538,7 +3516,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3566,7 +3544,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("UChar_attr");
@@ -3592,7 +3570,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3633,7 +3611,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("ULong_attr");
@@ -3659,7 +3637,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3687,7 +3665,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("ULong_attr");
@@ -3713,7 +3691,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3755,7 +3733,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("ULong64_attr");
@@ -3781,7 +3759,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3809,7 +3787,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("ULong64_attr");
@@ -3835,7 +3813,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3876,7 +3854,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("UShort_attr");
@@ -3902,7 +3880,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -3930,7 +3908,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("UShort_attr");
@@ -3956,7 +3934,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{
@@ -3997,7 +3975,7 @@ Tango_sleep(1);
 			multi_prop.archive_rel_change = "0.6,0.7";
 			multi_prop.archive_abs_change = "80,90";
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Encoded_attr");
@@ -4023,7 +4001,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			// test properties provided as actual values
 			attr.get_properties(multi_prop);
 			multi_prop.label = "Test_label";
@@ -4051,7 +4029,7 @@ Tango_sleep(1);
 			set_vect(changes, 81.0, 91.0);
 			multi_prop.archive_abs_change = changes;
 			attr.set_properties(multi_prop);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 			attr.get_properties(multi_prop_get);
 
 			props_vec.push_back("Encoded_attr");
@@ -4077,7 +4055,7 @@ Tango_sleep(1);
 			props_vec.push_back(multi_prop_get.archive_abs_change);
 
 			attr.set_upd_properties(conf);
-Tango_sleep(1);
+std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (Tango::DevFailed &e)
 		{

@@ -61,7 +61,7 @@ public:
 
             //sleep 24 &&  start_server "@INST_NAME@2" &
             thread([this]() {
-                Tango_sleep(24);
+                std::this_thread::sleep_for(std::chrono::seconds(24));
                 CxxTest::TangoPrinter::start_server(device2_instance_name);
                 CxxTest::TangoPrinter::restore_set("test2/debian8/20 started.");
             }).detach();
@@ -108,7 +108,7 @@ public:
         TS_ASSERT_THROWS_NOTHING(
                 eventID = device2->subscribe_event(att_name, Tango::CHANGE_EVENT, &eventCallback, filters, true));
 
-        Tango_sleep(6);
+        std::this_thread::sleep_for(std::chrono::seconds(6));
 
         TS_ASSERT_THROWS_NOTHING(device2->unsubscribe_event(eventID));
     }
@@ -124,7 +124,7 @@ public:
 // Wait for connection and event
 //
 
-        Tango_sleep(40);
+        std::this_thread::sleep_for(std::chrono::seconds(40));
 
 //
 // Check error and connection

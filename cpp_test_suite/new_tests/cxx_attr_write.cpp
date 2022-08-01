@@ -182,7 +182,7 @@ public:
 	void test_memorized_attributes(void)
 	{
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("RestartServer"));
-		Tango_sleep(6);
+		std::this_thread::sleep_for(std::chrono::seconds(6));
 
 		DevShort sh;
 		string str;

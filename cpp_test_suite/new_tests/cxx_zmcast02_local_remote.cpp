@@ -112,7 +112,7 @@ public:
 			delete device_local;
 
 			device_local = new DeviceProxy(local_device_name);
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			DeviceProxy adm_dev_remote(device_remote->adm_name().c_str());
 			di << remote_device_name;
@@ -121,7 +121,7 @@ public:
 			delete device_remote;
 
 			device_remote = new DeviceProxy(remote_device_name);
-			Tango_sleep(1);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 
 			cb->cb_executed = 0;
 			cb->cb_err = 0;
@@ -201,24 +201,12 @@ public:
 
 	void test_Callback_executed_after_a_change_for_both_events(void)
 	{
-#ifndef WIN32
-		int rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device_local->command_inout("IOIncValue");
 		device_remote->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb->cb_executed << endl;
 

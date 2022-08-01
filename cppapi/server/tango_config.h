@@ -32,6 +32,9 @@
 #ifndef _TANGO_CONFIG_H
 #define _TANGO_CONFIG_H
 
+#include <chrono>
+#include <thread>
+
 //
 // Add some define for Win32 and omniORB
 // !!!!!!!!!! In some cases, VC++ wizard generates Stdafx.h file which include
@@ -136,26 +139,6 @@
   #pragma warning(disable : 4267) // var : conversion from size_t to type, possible loss of data
   #pragma warning(disable : 4244) // conversion conversion from type1 to type2, possible loss of data
   #pragma warning(disable : 4996)    // disable all deprecation warnings
-#endif
-
-//
-// Define a common sleep call
-//
-
-#ifndef _TG_WINDOWS_
-    #define Tango_sleep(A) sleep(A)
-#else
-    #define Tango_sleep(A) Sleep(A * 1000)
-#endif
-
-//
-// Define a time_t to long casting
-//
-
-#ifndef _TG_WINDOWS_
-    #define time_t_2_long(A) A
-#else
-    #define time_t_2_long(A) (long)A
 #endif
 
 //

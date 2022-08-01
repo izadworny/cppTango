@@ -68,12 +68,9 @@ int main(int argc, char **argv)
 		adm_dev.command_inout("DevRestart",dd);
 
 #ifdef WIN32
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 #else		
-		struct timespec sle;
-		sle.tv_sec = 1;
-		sle.tv_nsec = 500000000;
-		nanosleep(&sle,NULL);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 #endif
 		
 		delete device;
@@ -113,12 +110,10 @@ int main(int argc, char **argv)
 		assert (pos != string::npos);
 
 #ifdef WIN32
-		Tango_sleep(2);
-#else		
-		sle.tv_sec = 1;
-		sle.tv_nsec = 200000000;
-		nanosleep(&sle,NULL);
-#endif		
+		std::this_thread::sleep_for(std::chrono::seconds(2));
+#else
+		std::this_thread::sleep_for(std::chrono::milliseconds(1200));
+#endif
 
 		sta = device->state();
 		TEST_LOG << "State = " << DevStateName[sta] << endl;
@@ -161,11 +156,9 @@ int main(int argc, char **argv)
 		assert (pos != string::npos);
 
 #ifdef WIN32
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 #else		
-		sle.tv_sec = 1;
-		sle.tv_nsec = 200000000;
-		nanosleep(&sle,NULL);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1200));
 #endif		
 
 		sta = device->state();
@@ -212,11 +205,9 @@ int main(int argc, char **argv)
 		assert (pos != string::npos);
 
 #ifdef WIN32
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 #else		
-		sle.tv_sec = 1;
-		sle.tv_nsec = 200000000;
-		nanosleep(&sle,NULL);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1200));
 #endif		
 
 		sta = device->state();

@@ -674,14 +674,14 @@ bool NTService::uninstall(char *inst_name)
         if(::ControlService(serviceHandle, SERVICE_CONTROL_STOP, &status_))
         {
            	 std::cerr << "Stopping: " << title_ << std::endl;
-           	 Sleep( 1000 );
+           	 std::this_thread::sleep_for(std::chrono::seconds(1));
 
            	 while(::QueryServiceStatus(serviceHandle, &status_))
            	 {
            		 if(status_.dwCurrentState == SERVICE_STOP_PENDING)
            		 {
            			 std::cerr << "." << std::endl;
-           			 Sleep( 1000 );
+           			 std::this_thread::sleep_for(std::chrono::seconds(1));
            		 }
            		 else
            			 break;

@@ -32,12 +32,6 @@
 #include <tango.h>
 #include <eventsupplier.h>
 
-#ifdef _TG_WINDOWS_
-#include <sys/timeb.h>
-#else
-#include <sys/time.h>
-#endif
-
 #include <logging.h>
 
 namespace Tango
@@ -113,15 +107,9 @@ void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std:
 	attr.fire_event(filt_names,filt_vals);
 }
 
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
-			     Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size, struct _timeb &t, Tango::AttrQuality qual,
+			     Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size, const TangoTimestamp &t, Tango::AttrQuality qual,
 			     bool release)
-#else
-void DeviceImpl::push_event (const std::string &attr_name,const std::vector<std::string> &filt_names,const std::vector<double> &filt_vals,
-			     Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size, struct timeval &t, Tango::AttrQuality qual,
-			     bool release)
-#endif
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);
@@ -212,15 +200,9 @@ void DeviceImpl::push_change_event (const std::string &attr_name, Tango::DevStri
 	attr.fire_change_event();
 }
 
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_change_event (const std::string &attr_name, Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size,
-											  struct _timeb &t, Tango::AttrQuality qual,
+											  const TangoTimestamp &t, Tango::AttrQuality qual,
 											  bool release)
-#else
-void DeviceImpl::push_change_event (const std::string &attr_name, Tango::DevString *p_str_data,Tango::DevUChar *p_data,long size,
-												struct timeval &t, Tango::AttrQuality qual,
-												bool release)
-#endif
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);
@@ -312,15 +294,9 @@ void DeviceImpl::push_archive_event (const std::string &attr_name, Tango::DevStr
 	attr.fire_archive_event();
 }
 
-#ifdef _TG_WINDOWS_
 void DeviceImpl::push_archive_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data,long size,
-											  struct _timeb &t, Tango::AttrQuality qual,
+											  const TangoTimestamp &t, Tango::AttrQuality qual,
 											  bool release)
-#else
-void DeviceImpl::push_archive_event (const std::string &attr_name, Tango::DevString *p_str_data, Tango::DevUChar *p_data,long size,
-												struct timeval &t, Tango::AttrQuality qual,
-												bool release)
-#endif
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);
@@ -489,11 +465,7 @@ void DeviceImpl::push_pipe_event (const std::string &pipe_name,Tango::DevicePipe
 //
 //-----------------------------------------------------------------------------------------------------------------
 
-#ifdef _TG_WINDOWS_
-void DeviceImpl::push_pipe_event (const std::string &pipe_name, Tango::DevicePipeBlob *p_data,struct _timeb &t,bool reuse_it)
-#else
-void DeviceImpl::push_pipe_event (const std::string &pipe_name, Tango::DevicePipeBlob *p_data,struct timeval &tv,bool reuse_it)
-#endif
+void DeviceImpl::push_pipe_event (const std::string &pipe_name, Tango::DevicePipeBlob *p_data,const TangoTimestamp &t,bool reuse_it)
 {
 	// get the tango synchroisation monitor
 	Tango::AutoTangoMonitor synch(this);
@@ -501,14 +473,8 @@ void DeviceImpl::push_pipe_event (const std::string &pipe_name, Tango::DevicePip
 	// search the pipe from the pipe list
 	Tango::Pipe &pi = get_device_class()->get_pipe_by_name (pipe_name,device_name_lower);
 
-#ifdef _TG_WINDOWS_
-	struct timeval tv;
-	tv.tv_sec = (unsigned long)t.time;
-	tv.tv_usec = (long)t.millitm * 1000;
-#endif // _TG_WINDOWS_
-
 	// push the event
-	pi.fire_event(this,p_data,tv,reuse_it);
+	pi.fire_event(this,p_data,t,reuse_it);
 }
 
 

@@ -75,7 +75,7 @@ public:
 			root_admin = new DeviceProxy(root_adm_name);
 			root_admin->command_inout("RestartServer");
 
-			Tango_sleep(15);
+			std::this_thread::sleep_for(std::chrono::seconds(15));
 
 			vector<string> att;
 			att.push_back("fwd_short_rw");
@@ -192,7 +192,7 @@ public:
 		CxxTest::TangoPrinter::restore_set("fwd_att_conf");
 
 		ad->command_inout("RestartServer");
-		Tango_sleep(4);
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 		Tango::DevState ds = fwd_device->state();
 		string dev_status = fwd_device->status();
@@ -209,7 +209,7 @@ public:
 		db.put_device_attribute_property(fwd_device_name,dd);
 
 		ad->command_inout("RestartServer");
-		Tango_sleep(4);
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 		ds = fwd_device->state();
 		dev_status = fwd_device->status();
@@ -224,7 +224,7 @@ public:
 		db.put_device_attribute_property(fwd_device_name,dd);
 
 		ad->command_inout("RestartServer");
-		Tango_sleep(4);
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 		ds = fwd_device->state();
 		dev_status = fwd_device->status();
@@ -241,7 +241,7 @@ public:
 		db.put_device_attribute_property(fwd_device_name,dd);
 
 		ad->command_inout("RestartServer");
-		Tango_sleep(4);
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 
 		ds = fwd_device->state();
 		dev_status = fwd_device->status();
@@ -543,7 +543,7 @@ public:
 		(*confs_root)[0].description = "houla houla";
 		device1->set_attribute_config(*confs_root);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		confs = fwd_device->get_attribute_config_ex(att_names);
 		TS_ASSERT_EQUALS((*confs)[0].description, "houla houla");
@@ -551,7 +551,7 @@ public:
 		(*confs)[0].min_value = "0";
 		fwd_device->set_attribute_config(*confs);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		confs_root = device1->get_attribute_config_ex(att_names_root);
 		TS_ASSERT_EQUALS((*confs_root)[0].min_value, "0");
@@ -647,7 +647,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(root_admin->command_inout("AddObjPolling", din));
 		CxxTest::TangoPrinter::restore_set("poll_root");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		// Read data from CACHE
 
@@ -736,7 +736,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(root_admin->command_inout("AddObjPolling", din));
 		TS_ASSERT_THROWS_NOTHING(eve_id = fwd_device->subscribe_event("fwd_short_rw",Tango::PERIODIC_EVENT,&cb));
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		TS_ASSERT_EQUALS(cb.cb_err, 0);
 		TS_ASSERT_LESS_THAN_EQUALS(3, cb.cb_executed);

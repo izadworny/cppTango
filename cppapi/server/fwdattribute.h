@@ -36,9 +36,6 @@
 
 #ifdef _TG_WINDOWS_
 #include <sys/types.h>
-#include <sys/timeb.h>
-#else
-#include <sys/time.h>
 #endif
 
 namespace Tango
@@ -86,11 +83,6 @@ protected:
 	std::string				fwd_att_name;					// Root att name for fwd attribute
 
 	AttrQuality 		qual;
-#ifdef _TG_WINDOWS_
-	struct _timeb		tv;
-#else
-	timeval 			tv;
-#endif
 	Attr_Value			r_val;
 };
 

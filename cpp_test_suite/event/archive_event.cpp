@@ -16,16 +16,8 @@ public:
 void EventCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<DevLong> value;
-	struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -135,7 +127,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a archive event
@@ -150,7 +142,6 @@ int main(int argc, char **argv)
 
 		bool po;
 		int poll_period;
-		int rest;
 
 		// start the polling first!
 		device->poll_attribute(att_name,1000);
@@ -191,23 +182,11 @@ int main(int argc, char **argv)
 //
 
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 3);
@@ -222,13 +201,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 4);
@@ -243,7 +216,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOAddOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
@@ -258,7 +231,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IORemoveOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 6);
@@ -284,7 +257,7 @@ int main(int argc, char **argv)
 // periodic call
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert ( (cb.cb_err == 1) || (cb.cb_err == 2));
 
@@ -304,9 +277,9 @@ int main(int argc, char **argv)
 // Wait one second for the callback sent because exception not thrown any more
 //
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		long nb_cb = cb.cb_executed;
-		Tango_sleep(12);
+		std::this_thread::sleep_for(std::chrono::seconds(12));
 
 		assert (cb.cb_executed == (nb_cb + 1));
 		TEST_LOG << "   CallBack executed for the periodic part of the event --> OK" << std::endl;
@@ -350,7 +323,7 @@ exit(0);
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // Poll attribute at 500 mS
@@ -395,23 +368,11 @@ exit(0);
 // Generates a positive change
 //
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 1);
@@ -419,7 +380,7 @@ exit(0);
 		device->command_inout("IOIncValue");
 		device->command_inout("IOIncValue");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 2);
 		assert (cb.val == 33);
@@ -435,13 +396,7 @@ exit(0);
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(3);
-		if (rest != 0)
-			sleep(3);
-#else
-		Sleep(3000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 
@@ -452,14 +407,14 @@ exit(0);
 		device->command_inout("IODecValue");
 		device->command_inout("IODecValue");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 3);
 
 		device->command_inout("IODecValue");
 		device->command_inout("IODecValue");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 4);
 		assert (cb.val == 28);
@@ -481,7 +436,7 @@ exit(0);
 // Check that callback was called
 //
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 1);
 
@@ -500,9 +455,9 @@ exit(0);
 // Wait for the periodic part of the event (is now set to 5 sec)
 //
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		nb_cb = cb.cb_executed;
-		Tango_sleep(7);
+		std::this_thread::sleep_for(std::chrono::seconds(7));
 
 		assert (cb.cb_executed >= (nb_cb + 1));
 		TEST_LOG << "   CallBack executed for the periodic part of the event (archive_period set) --> OK" << std::endl;
@@ -542,7 +497,7 @@ exit(0);
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a archive event with a filter
@@ -585,23 +540,11 @@ exit(0);
 // Generates a positive change
 //
 
-#ifndef WIN32
-	 	rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 1);
@@ -611,7 +554,7 @@ exit(0);
 		device->command_inout("IOIncValue");
 		device->command_inout("IOIncValue");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 2);
 		assert (cb.val == 33);
@@ -625,13 +568,7 @@ exit(0);
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 2);
@@ -640,7 +577,7 @@ exit(0);
 		device->command_inout("IODecValue");
 		device->command_inout("IODecValue");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 3);
 		assert (cb.val == 29);
@@ -654,7 +591,7 @@ exit(0);
 
 		device->command_inout("IOAddOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 4);
@@ -669,7 +606,7 @@ exit(0);
 
 		device->command_inout("IORemoveOneElt");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 5);
@@ -692,7 +629,7 @@ exit(0);
 // Check that callback was called
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 1);
 
@@ -743,7 +680,7 @@ exit(0);
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a archive event with a filter on delta_event
@@ -785,34 +722,18 @@ exit(0);
 
 		device->command_inout("IOIncValue");
 
-#ifdef WIN32
-		Sleep(100);
-#else
-		struct timespec req;
-		req.tv_sec = 0;
-		req.tv_nsec = 100000000;
-		nanosleep(&req,NULL);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 //
 // Generates a positive change
 //
 
 		device->command_inout("IOIncValue");
-#ifdef WIN32
-		Sleep(100);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		device->command_inout("IOIncValue");
-		Sleep(100);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		device->command_inout("IOIncValue");
-		Sleep(700);
-#else
-		nanosleep(&req,NULL);
-		device->command_inout("IOIncValue");
-		nanosleep(&req,NULL);
-		device->command_inout("IOIncValue");
-		req.tv_nsec = 700000000;
-		nanosleep(&req,NULL);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(700));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert ( cb.cb_executed == 1);
@@ -826,13 +747,7 @@ exit(0);
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 2);

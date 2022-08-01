@@ -249,7 +249,7 @@ int main(int argc, char **argv)
 
 	DeviceProxy *ca_admin = new DeviceProxy("dserver/tangoaccesscontrol/1");
 	ca_admin->command_inout("Kill");
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	delete ca_admin;
 	delete db;
@@ -271,7 +271,7 @@ int main(int argc, char **argv)
 	string cmd_line("export MYSQL_USER=root;export MYSQL_PASSWORD=root;export SUPER_TANGO=true;/home/taurel/tango/cppserver/TangoAccessControl/bin/ubuntu810/TangoAccessControl 1 2>/dev/null 1>/dev/null &");
 	system(cmd_line.c_str());
 
-	sleep(2);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 	ApiUtil::cleanup();
 
 	try 
@@ -311,12 +311,12 @@ int main(int argc, char **argv)
 		DeviceProxy *ds_admin = new DeviceProxy(admin_device);
 		ds_admin->command_inout("Kill");
 
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
 		TEST_LOG << "DS pid = " << ds_pid << endl;
 
-		sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "DS killed and re-started" << endl;
 
@@ -344,7 +344,7 @@ int main(int argc, char **argv)
 		DeviceProxy *ds_admin = new DeviceProxy(admin_device);
 		ds_admin->command_inout("Kill");
 
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "DS killed" << endl;
 
@@ -353,7 +353,7 @@ int main(int argc, char **argv)
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
 		TEST_LOG << "DS pid = " << ds_pid << endl;
 
-		sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "DS re-started" << endl;
 
@@ -378,12 +378,12 @@ int main(int argc, char **argv)
 	{
 		system(cmd_stream.str().c_str());
 
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
 		TEST_LOG << "DS pid = " << ds_pid << endl;
 
-		sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "DS awfully killed and re-started" << endl;
 
@@ -408,7 +408,7 @@ int main(int argc, char **argv)
 	{
 		system(cmd_stream.str().c_str());
 
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		TEST_LOG << "DS killed" << endl;
 
@@ -417,7 +417,7 @@ int main(int argc, char **argv)
 		ds_pid = start_ds("/home/taurel/tango/cppapi_tst_ds/bin/ubuntu904/devTest","devTest","api");
 		TEST_LOG << "DS pid = " << ds_pid << endl;
 
-		sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "DS re-started" << endl;
 
@@ -446,7 +446,7 @@ int main(int argc, char **argv)
 
 		DeviceProxy *ca_admin = new DeviceProxy("dserver/tangoaccesscontrol/1");
 		ca_admin->command_inout("Kill");
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		delete ca_admin;
 
@@ -462,7 +462,7 @@ int main(int argc, char **argv)
 		ca_pid = start_ds("/home/taurel/tango/cppserver/TangoAccessControl/bin/ubuntu810/TangoAccessControl","TangoAccessControl","1");
 		TEST_LOG << "CA re-started" << endl;
 
-		sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		delete dev_dp;
 		dev_dp = new DeviceProxy(device);
@@ -485,7 +485,7 @@ int main(int argc, char **argv)
 		TEST_LOG << "Third kill cmd = " << cmd_stream.str() << endl;
 
 		system(cmd_stream.str().c_str());
-		sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 
 		check_device_access(dev_dp,true,false);
@@ -500,7 +500,7 @@ int main(int argc, char **argv)
 		ca_pid = start_ds("/home/taurel/tango/cppserver/TangoAccessControl/bin/ubuntu810/TangoAccessControl","TangoAccessControl","1");
 		TEST_LOG << "CA re-started" << endl;
 
-		sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		delete dev_dp;
 		dev_dp = new DeviceProxy(device);
@@ -802,7 +802,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (not_exported_except == true);
 	TEST_LOG << "First State: OK" << endl;
 
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 	
 	not_exported_except = false;
 	cant_connect_except = false;
@@ -830,7 +830,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (not_exported_except == true);
 	TEST_LOG << "First Status: OK" << endl;
 
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	not_exported_except = false;
 	cant_connect_except = false;
@@ -858,7 +858,7 @@ void call_devices_ds_off(DeviceProxy *dev_dp,DeviceProxy *another_dev_dp,bool ki
 		assert (not_exported_except == true);
 	TEST_LOG << "Second State: OK" << endl;
 
-	sleep(1);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	not_exported_except = false;
 	cant_connect_except = false;

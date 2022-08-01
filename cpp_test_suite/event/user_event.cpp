@@ -26,16 +26,8 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<long> value;
 //	Tango::DevState sta;
-	struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -76,16 +68,8 @@ void EventCallBack::push_event(Tango::EventData* event_data)
 
 void EventEncodedCallBack::push_event(Tango::EventData* event_data)
 {
-	struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -187,7 +171,7 @@ int main(int argc, char **argv)
 		device->command_inout("IOPushEvent");
 		device->command_inout("IOPushEvent");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 4);
 		TEST_LOG << "   user_event --> OK" << std::endl;
@@ -229,7 +213,7 @@ int main(int argc, char **argv)
 		device->command_inout("IOPushDevEncodedEvent");
 		device->command_inout("IOPushDevEncodedEvent");
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (enc_cb.cb_executed == 4);
 		TEST_LOG << "   user_event (DevEncoded data type) --> OK" << std::endl;

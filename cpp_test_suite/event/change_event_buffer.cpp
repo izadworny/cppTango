@@ -16,16 +16,8 @@ public:
 void EventCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<DevLong> value;
-	struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -125,7 +117,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // switch on the polling first!
@@ -165,14 +157,7 @@ int main(int argc, char **argv)
 		for (int i=0; i<10; i++)
 		{
 			device->command_inout("IOIncValue");
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)400);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 400000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(400));
 		}
 //
 // Check that only the last event was kept
@@ -205,14 +190,7 @@ int main(int argc, char **argv)
 		for (int i=0; i<10; i++)
 		{
 			device->command_inout("IOIncValue");
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)400);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 400000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(400));
 		}
 //
 // Check that only the last 5 events were kept
@@ -245,14 +223,7 @@ int main(int argc, char **argv)
 		for (int i=0; i<10; i++)
 		{
 			device->command_inout("IOIncValue");
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)400);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 400000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(400));
 		}
 //
 // Check that all events were kept
@@ -280,14 +251,7 @@ int main(int argc, char **argv)
 		for (int i=0; i<15; i++)
 		{
 			device->command_inout("IOIncValue");
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)400);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 400000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(400));
 		}
 //
 // Check that all events were kept and can be read as a vector
@@ -338,14 +302,7 @@ int main(int argc, char **argv)
 		for (int i=0; i<10; i++)
 		{
 			device->command_inout("IOIncValue");
-#ifdef _TG_WINDOWS_
-			Sleep((DWORD)400);
-#else
-			struct timespec to_wait,inter;
-			to_wait.tv_sec = 0;
-			to_wait.tv_nsec = 400000000;
-			nanosleep(&to_wait,&inter);
-#endif
+			std::this_thread::sleep_for(std::chrono::milliseconds(400));
 		}
 //
 // Check that only the last 5 events were kept

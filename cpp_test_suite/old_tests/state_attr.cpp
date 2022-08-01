@@ -288,12 +288,12 @@ int main(int argc, char **argv)
 	device->set_source(Tango::CACHE);
 
 #ifdef VALGRIND
-	usleep(3000000);
+	std::this_thread::sleep_for(std::chrono::microseconds(3000000));
 #else
 #ifdef WIN32
-	Tango_sleep(2);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 #else
-	usleep(1200000);
+	std::this_thread::sleep_for(std::chrono::microseconds(1200000));
 #endif
 #endif
 
@@ -386,9 +386,9 @@ int main(int argc, char **argv)
 	device->set_source(Tango::CACHE);
 
 #ifdef WIN32
-	Tango_sleep(2);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 #else
-	usleep(1200000);
+	std::this_thread::sleep_for(std::chrono::microseconds(1200000));
 #endif
 
 	DeviceData dd;
@@ -524,7 +524,7 @@ int main(int argc, char **argv)
 		device->poll_attribute("SlowAttr",1000);
 		device->poll_attribute("Long_attr",1000);
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		da = device->read_attribute("State");
 		Tango::DevState sta2 = device->state();
@@ -532,7 +532,7 @@ int main(int argc, char **argv)
 
 		device->stop_poll_attribute("Long_attr");
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		da = device->read_attribute("State");
 		Tango::DevState sta3 = device->state();

@@ -36,12 +36,6 @@
 
 #include <type_traits>
 
-#ifdef _TG_WINDOWS_
-#include <sys/timeb.h>
-#else
-#include <sys/time.h>
-#endif /* _TG_WINDOWS_ */
-
 namespace Tango
 {
 
@@ -392,9 +386,8 @@ inline void Attribute::set_value_date_quality(T *p_data,time_t t,Tango::AttrQual
 	}
 }
 
-#ifdef _TG_WINDOWS_
 template <class T>
-inline void Attribute::set_value_date_quality(T *p_data,struct _timeb &t,Tango::AttrQuality qual,long x,long y,bool release)
+inline void Attribute::set_value_date_quality(T *p_data,const TangoTimestamp &t,Tango::AttrQuality qual,long x,long y,bool release)
 {
 	set_value(p_data,x,y,release);
 	set_quality(qual,false);
@@ -406,23 +399,6 @@ inline void Attribute::set_value_date_quality(T *p_data,struct _timeb &t,Tango::
 			delete_seq();
 	}
 }
-
-#else
-
-template <class T>
-inline void Attribute::set_value_date_quality(T *p_data,struct timeval &t,Tango::AttrQuality qual,long x,long y,bool release)
-{
-	set_value(p_data,x,y,release);
-	set_quality(qual,false);
-	set_date(t);
-
-	if (qual == Tango::ATTR_INVALID)
-	{
-		if (!((is_writ_associated() == true) && (data_format == Tango::SCALAR)))
-			delete_seq();
-	}
-}
-#endif
 
 //+-------------------------------------------------------------------------
 //
@@ -843,9 +819,8 @@ inline void Attribute::set_value_date_quality(Tango::DevEncoded *p_data,time_t t
 	set_date(t);
 }
 
-#ifdef _TG_WINDOWS_
 template<>
-inline void Attribute::set_value_date_quality(Tango::DevEncoded *p_data,struct _timeb &t,
+inline void Attribute::set_value_date_quality(Tango::DevEncoded *p_data,const TangoTimestamp &t,
 				    Tango::AttrQuality qual,
 				    long x,long y,bool release)
 {
@@ -854,17 +829,5 @@ inline void Attribute::set_value_date_quality(Tango::DevEncoded *p_data,struct _
 	set_date(t);
 }
 
-#else
-template<>
-inline void Attribute::set_value_date_quality(Tango::DevEncoded *p_data,struct timeval &t,
-				    Tango::AttrQuality qual,
-				    long x,long y,bool release)
-{
-	set_value(p_data,x,y,release);
-	set_quality(qual,false);
-	set_date(t);
-}
-
-#endif
 } // End of Tango namespace
 #endif // _ATTRSETVAL_TPP

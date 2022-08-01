@@ -740,7 +740,7 @@ void Pipe::fire_event(DeviceImpl *_dev,DevicePipeBlob *_dat,bool reuse_it)
 	fire_event(_dev, _dat, now, reuse_it);
 }
 
-void Pipe::fire_event(DeviceImpl *dev,DevicePipeBlob *p_data,struct timeval &t,bool reuse_it)
+void Pipe::fire_event(DeviceImpl *dev,DevicePipeBlob *p_data,const TangoTimestamp &t,bool reuse_it)
 {
 	TANGO_LOG_DEBUG << "Pipe::fire_event() entering ..." << std::endl;
 
@@ -788,8 +788,7 @@ void Pipe::fire_event(DeviceImpl *dev,DevicePipeBlob *p_data,struct timeval &t,b
 	ad.pipe_val->name = Tango::string_dup(name.c_str());
 
 	::memset(&(ad.pipe_val->time),0,sizeof(ad.pipe_val->time));
-	ad.pipe_val->time.tv_sec = t.tv_sec;
-	ad.pipe_val->time.tv_usec = t.tv_usec;
+	ad.pipe_val->time = make_TimeVal(t);
 
 	const std::string &bl_name = p_data->get_name();
 	if (bl_name.size() != 0)

@@ -16,16 +16,8 @@ public:
 void EventCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<DevLong> value;
-	struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -152,7 +144,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe 2 times to the same change event
@@ -204,23 +196,11 @@ int main(int argc, char **argv)
 // signal which interrupts the sleep.....
 //
 
-#ifndef WIN32
-		int rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 6);
@@ -235,13 +215,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 8);
@@ -265,7 +239,7 @@ int main(int argc, char **argv)
 // Check that callback was called
 //
 
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TEST_LOG << "Callback cb_err = " << cb.cb_err << std::endl;
 		assert (cb.cb_err == 2);
 
@@ -299,13 +273,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 12);
@@ -325,23 +293,11 @@ int main(int argc, char **argv)
 // One more callback when value increase
 //
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 13);
@@ -356,13 +312,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb.cb_executed == 14);
@@ -413,23 +363,11 @@ int main(int argc, char **argv)
 // One more callback when value increase
 //
 
-#ifndef WIN32
-		rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb1.cb_executed == 2);
@@ -447,13 +385,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IODecValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 		assert (cb1.cb_executed == 3);
@@ -491,13 +423,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IOIncValue");
 
-#ifndef WIN32
-		rest = sleep(2);
-		if (rest != 0)
-			sleep(2);
-#else
-		Sleep(2000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		bool unsub = false;
 		try

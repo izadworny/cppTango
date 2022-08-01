@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 		d_in << in;
 		device->command_inout("IOAddCommand",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 2);
 		assert (cb.nb_cmd == old_cmd_nb + 1);
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 
 		device->command_inout("IORemoveCommand",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 3);
 		assert (cb.nb_cmd == old_cmd_nb);
@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 		d_in << in;
 		device->command_inout("IOAddCommand",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 4);
 		assert (cb.nb_cmd == old_cmd_nb + 3);
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 //
 
 		device->command_inout("Init");
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 4);
 		std::string adm_name = device->adm_name();
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
 		Tango::DeviceData d_in_restart;
 		d_in_restart << device_name;
 		adm.command_inout("DevRestart",d_in_restart);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 5);
 		assert (cb.nb_cmd == old_cmd_nb);
@@ -161,14 +161,14 @@ int main(int argc, char **argv)
 		d_in << in;
 		device->command_inout("IOAddCommand",d_in);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed == 6);
 		assert (cb.nb_cmd == old_cmd_nb + 1);
 		assert (cb.nb_att == old_att_nb);
 
 		adm.command_inout("RestartServer");
-		Tango_sleep(5);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		assert (cb.cb_executed == 7);
 		assert (cb.nb_cmd == old_cmd_nb);

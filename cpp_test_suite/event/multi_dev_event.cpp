@@ -116,13 +116,7 @@ int main(int argc, char **argv)
 // signal which interrupts the sleep.....
 //
 
-#ifndef WIN32
-		int rest = sleep(5);
-		if (rest != 0)
-			sleep(5);
-#else
-		Sleep(5000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		int old_cb_evid1,old_cb_evid2,old_cb_evid3;
 
@@ -161,14 +155,7 @@ int main(int argc, char **argv)
 
 		device3->unsubscribe_event(eve_id4);
 
-
-#ifndef WIN32
-		rest = sleep(5);
-		if (rest != 0)
-			sleep(5);
-#else
-		Sleep(5000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > old_cb_evid1 + 3);
@@ -189,13 +176,7 @@ int main(int argc, char **argv)
 
 		device2->unsubscribe_event(eve_id3);
 
-#ifndef WIN32
-		rest = sleep(5);
-		if (rest != 0)
-			sleep(5);
-#else
-		Sleep(5000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > old_cb_evid1 + 3);
@@ -209,13 +190,7 @@ int main(int argc, char **argv)
 
 		device1->unsubscribe_event(eve_id2);
 
-#ifndef WIN32
-		rest = sleep(5);
-		if (rest != 0)
-			sleep(5);
-#else
-		Sleep(5000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		TEST_LOG << "cb_evid1 executed = " << cb_evid1.cb_executed << std::endl;
 		assert (cb_evid1.cb_executed > old_cb_evid1 + 3);
@@ -236,23 +211,11 @@ int main(int argc, char **argv)
 		eve_id2 = dev->subscribe_event(att_name,Tango::PERIODIC_EVENT,&cb_evid2);
 		eve_id3 = dev->subscribe_event("Float_attr",Tango::PERIODIC_EVENT,&cb_evid2,true);
 
-#ifndef WIN32
-		rest = sleep(5);
-		if (rest != 0)
-			sleep(5);
-#else
-		Sleep(5000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 
 		delete dev;
 
-#ifndef WIN32
-		rest = sleep(15);
-		if (rest != 0)
-			sleep(15);
-#else
-		Sleep(15000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(15));
 
 		TEST_LOG << "   DeviceProxy dtor automatically unsubscribe --> OK" << std::endl;
 

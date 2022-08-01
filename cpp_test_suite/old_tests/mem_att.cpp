@@ -62,19 +62,12 @@ int main(int argc, char **argv)
 		adm_dev.set_timeout_millis(15000);
 #endif		
 		adm_dev.command_inout("RestartServer");
-	
-#ifdef WIN32
-		Sleep(3500);
-#else
-		struct timespec sle;
-		sle.tv_sec = 3;
-		sle.tv_nsec = 500000000;
-		nanosleep(&sle,NULL);
-#endif
-		
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(3500));
+
 		delete device;
 		device = new DeviceProxy(device_name);
-				
+
 // Read attributes value
 
 		vector<string> ra;

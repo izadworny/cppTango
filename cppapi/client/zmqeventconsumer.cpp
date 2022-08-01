@@ -1227,15 +1227,7 @@ void ZmqEventConsumer::connect_event_channel(const std::string &channel_name,TAN
         {
             if (e.num() == ECONNREFUSED)
             {
-#ifndef _TG_WINDOWS_
-                struct timespec ts;
-                ts.tv_sec = 0;
-                ts.tv_nsec = 10000000;
-
-                nanosleep(&ts,NULL);
-#else
-                Sleep(10);
-#endif
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 sender.connect(CTRL_SOCK_ENDPOINT);
             }
             else
@@ -3827,13 +3819,9 @@ DelayEvent::DelayEvent(EventConsumer *ec):released(false),eve_con(NULL)
 				if (eve_con->is_ctrl_sock_bound() == false)
 				{
 #ifndef _TG_WINDOWS_
-					struct timespec ts;
-					ts.tv_sec = 0;
-					ts.tv_nsec = 15000000;
-
-					nanosleep(&ts,NULL);
+			        std::this_thread::sleep_for(std::chrono::milliseconds(15));
 #else
-					Sleep(20);
+			        std::this_thread::sleep_for(std::chrono::milliseconds(20));
 #endif
 				}
             }
@@ -3842,13 +3830,9 @@ DelayEvent::DelayEvent(EventConsumer *ec):released(false),eve_con(NULL)
                 if (e.num() == ECONNREFUSED)
                 {
 #ifndef _TG_WINDOWS_
-                    struct timespec ts;
-                    ts.tv_sec = 0;
-                    ts.tv_nsec = 15000000;
-
-                    nanosleep(&ts,NULL);
+			        std::this_thread::sleep_for(std::chrono::milliseconds(15));
 #else
-                    Sleep(20);
+			        std::this_thread::sleep_for(std::chrono::milliseconds(20));
 #endif
                     sender.connect(CTRL_SOCK_ENDPOINT);
                 }

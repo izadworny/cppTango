@@ -1775,12 +1775,9 @@ int EventConsumer::connect_event(DeviceProxy *device,
 //
 
 #ifndef _TG_WINDOWS_
-	struct timespec ts;
-	ts.tv_nsec = 1000000; //20000000;
-	ts.tv_sec = 0;
-	nanosleep(&ts,NULL);
+	std::this_thread::sleep_for(std::chrono::nanoseconds(1000000));
 #else
-	Sleep(20);
+	std::this_thread::sleep_for(std::chrono::milliseconds(20));
 #endif
 
 	return ret_event_id;
@@ -3033,12 +3030,9 @@ void EventConsumer::get_fire_sync_event(DeviceProxy *device,CallBack *callback,E
 //
 
 #ifndef _TG_WINDOWS_
-	struct timespec to_wait,inter;
-	to_wait.tv_sec = 0;
-	to_wait.tv_nsec = 500000; //10000000;
-	nanosleep(&to_wait,&inter);
+	std::this_thread::sleep_for(std::chrono::nanoseconds(500000));
 #else
-	Sleep(25);
+	std::this_thread::sleep_for(std::chrono::milliseconds(25));
 #endif
 
 	if ((event == CHANGE_EVENT) ||

@@ -29,16 +29,8 @@ public:
 void SlowCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<short> value;
-        struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -84,16 +76,8 @@ void SlowCallBack::push_event(Tango::EventData* event_data)
 void FastCallBack::push_event(Tango::EventData* event_data)
 {
 	std::vector<double> value;
-        struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -200,7 +184,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // switch on the polling first!
@@ -233,14 +217,7 @@ int main(int argc, char **argv)
 		filters.push_back("$quality == 1");
 		eve_id = device->subscribe_event(att_name,Tango::CHANGE_EVENT,&cb,filters);
 
-#ifdef _TG_WINDOWS_
-		Sleep((DWORD)250);
-#else
-		struct timespec to_wait,inter;
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 250000000;
-		nanosleep(&to_wait,&inter);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
 //
 // Check that first point has been received
@@ -258,13 +235,7 @@ int main(int argc, char **argv)
 
 		device->write_attribute(da);
 
-#ifndef WIN32
-		int rest = sleep(1);
-		if (rest != 0)
-			sleep(1);
-#else
-		Sleep(1000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // Check that the event has been received
@@ -291,13 +262,7 @@ int main(int argc, char **argv)
 // Wait for end of movement
 //
 
-#ifndef WIN32
-		rest = sleep(3);
-		if (rest != 0)
-			sleep(3);
-#else
-		Sleep(3000);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 
 //
 // Check that the event has been received
@@ -358,7 +323,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // switch on the polling first!
@@ -391,13 +356,7 @@ int main(int argc, char **argv)
 
 		TEST_LOG << "   (Fast actuator) subscribe_event --> OK" << std::endl;
 
-#ifdef _TG_WINDOWS_
-		Sleep((DWORD)250);
-#else
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 250000000;
-		nanosleep(&to_wait,&inter);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
 //
 // Check that first point has been received
@@ -419,13 +378,7 @@ int main(int argc, char **argv)
 
 //  Only sleep a 100ms. The events should be fired immediately
 
-#ifdef _TG_WINDOWS_
-		Sleep((DWORD)250);
-#else
-		to_wait.tv_sec = 0;
-		to_wait.tv_nsec = 250000000;
-		nanosleep(&to_wait,&inter);
-#endif
+		std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
 //
 // Check that the events has been received

@@ -39,9 +39,6 @@
 
 #ifdef _TG_WINDOWS_
 #include <sys/types.h>
-#include <sys/timeb.h>
-#else
-#include <sys/time.h>
 #endif /* _TG_WINDOWS_ */
 
 namespace Tango
@@ -115,8 +112,7 @@ void Attribute::set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUC
 	set_date(t);
 }
 
-#ifdef _TG_WINDOWS_
-void Attribute::set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUChar *p_data,long size,struct _timeb &t,
+void Attribute::set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUChar *p_data,long size,const TangoTimestamp &t,
 				    Tango::AttrQuality qual,
 				    bool release)
 {
@@ -124,14 +120,4 @@ void Attribute::set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUC
 	set_quality(qual,false);
 	set_date(t);
 }
-#else
-void Attribute::set_value_date_quality(Tango::DevString *p_data_str,Tango::DevUChar *p_data,long size,struct timeval &t,
-				    Tango::AttrQuality qual,
-				    bool release)
-{
-	set_value(p_data_str,p_data,size,release);
-	set_quality(qual,false);
-	set_date(t);
-}
-#endif
 } // End of Tango namespace

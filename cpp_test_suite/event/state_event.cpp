@@ -18,16 +18,8 @@ public:
 
 void EventCallBack::push_event(Tango::EventData* event_data)
 {
-	struct timeval now_timeval;
+	struct timeval now_timeval = Tango::make_timeval(std::chrono::system_clock::now());
 
-#ifdef WIN32
-	struct _timeb before_win;
-	_ftime(&before_win);
-	now_timeval.tv_sec = (unsigned long)before_win.time;
-	now_timeval.tv_usec = (long)before_win.millitm * 1000;
-#else
-	gettimeofday(&now_timeval,NULL);
-#endif
 	TEST_LOG << "date : tv_sec = " << now_timeval.tv_sec;
 	TEST_LOG << ", tv_usec = " << now_timeval.tv_usec << std::endl;
 
@@ -117,7 +109,7 @@ int main(int argc, char **argv)
 
 		delete device;
 		device = new DeviceProxy(device_name);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // subscribe to a state change event
@@ -160,7 +152,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_err == 0);
 		TEST_LOG << "   first point received --> OK" << std::endl;
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // Change the device state and check that an event has been received
@@ -171,13 +163,13 @@ int main(int argc, char **argv)
 		dd << d_state;
 		device->command_inout("IOState",dd);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		d_state = Tango::ON;
 		dd << d_state;
 		device->command_inout("IOState",dd);
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		assert (cb.cb_executed == 4);
 		assert (cb.cb_err == 0);
@@ -190,7 +182,7 @@ int main(int argc, char **argv)
 //
 
 		device->command_inout("PushStateStatusChangeEvent");
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed >= 4);
 		assert (cb.cb_err == 0);
@@ -233,7 +225,7 @@ int main(int argc, char **argv)
 		assert (cb.cb_err == 0);
 		TEST_LOG << "   first point received --> OK" << std::endl;
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 //
 // Change the device state and check that an event has been received
@@ -244,13 +236,13 @@ int main(int argc, char **argv)
 		dd << d_state;
 		device->command_inout("IOState",dd);
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		d_state = Tango::ON;
 		dd << d_state;
 		device->command_inout("IOState",dd);
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 		std::string::size_type pos = cb.status.find("ON");
 		assert (cb.cb_executed == 4);
@@ -264,7 +256,7 @@ int main(int argc, char **argv)
 //
 
 		device->command_inout("PushStateStatusChangeEvent");
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 		assert (cb.cb_executed >= 4);
 		assert (cb.cb_err == 0);

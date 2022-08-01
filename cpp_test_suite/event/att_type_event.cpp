@@ -193,13 +193,7 @@ void check_attribute_data_type(DeviceProxy *device,std::string &att_name, const 
 // signal which interrupts the sleep.....
 //
 
-#ifndef WIN32
-	int rest = sleep(2);
-	if (rest != 0)
-	sleep(2);
-#else
-	Sleep(2000);
-#endif
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	TEST_LOG << "cb excuted = " << cb.cb_executed << std::endl;
 	assert (cb.cb_executed != 0);

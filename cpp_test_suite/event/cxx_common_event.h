@@ -6,10 +6,8 @@
 #include <assert.h>
 
 #ifdef WIN32
-#include <sys/timeb.h>
 #include <process.h>
 #else
-#include <sys/time.h>
 #include <unistd.h>
 #endif
 

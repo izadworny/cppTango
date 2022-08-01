@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 
 // Test history
 		
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		vector<DeviceAttributeHistory> *hist = attr->history(2);
 		
 		int i;
@@ -203,7 +203,7 @@ int main(int argc, char **argv)
 // Test read_asynch and read_reply
 
 		long id = attr->read_asynch();
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		DeviceAttribute *da_ptr = attr->read_reply(id);
 		val = 0;
 		(*da_ptr) >> val;
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
 		val = 99;
 		da << val;
 		id = attr->write_asynch(da);
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		attr->write_reply(id);
 		da_res = attr->read();
 		val = 0;

@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 
 // Reconnect to device
 
-		Tango_sleep(1);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		delete device;
 		device = new DeviceProxy(device_name);
 
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 		device->poll_command("State",300);
 		device->poll_attribute("Double_attr",300);
 
-		Tango_sleep(2);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 
 // Get polling status
 
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
 // Change polling period in polled attribute !!!
 
 		device->command_inout("IOsophisticatedPollInDevice");
-		Tango_sleep(4);
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 		dd = device->command_inout("IOGetPollMess");
 
 		vs_poll.clear();

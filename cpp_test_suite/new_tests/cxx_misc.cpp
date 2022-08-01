@@ -125,7 +125,7 @@ public:
 
 		din << device1_name;
 		TS_ASSERT_THROWS_NOTHING(dserver->command_inout("DevRestart", din));
-		Tango_sleep(3);
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		TS_ASSERT_THROWS_NOTHING(dout = device1->command_inout("State"));
 		dout >> state_out;
 		TS_ASSERT_EQUALS(state_out, Tango::ON);
