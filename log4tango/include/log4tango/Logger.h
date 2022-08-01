@@ -1,5 +1,5 @@
 //
-// Logger.hh
+// Logger.h
 //
 // Copyright (C) :  2000 - 2002
 //					LifeLine Networks BV (www.lifeline.nl). All rights reserved.
@@ -28,11 +28,11 @@
 #ifndef _LOG4TANGO_LOGGER_H
 #define _LOG4TANGO_LOGGER_H
  
-#include <log4tango/Portability.hh>
-#include <log4tango/AppenderAttachable.hh>
-#include <log4tango/LoggingEvent.hh>
-#include <log4tango/Level.hh>
-#include <log4tango/LoggerStream.hh>
+#include <log4tango/Portability.h>
+#include <log4tango/AppenderAttachable.h>
+#include <log4tango/LoggingEvent.h>
+#include <log4tango/Level.h>
+#include <log4tango/LoggerStream.h>
 
 namespace log4tango {
 

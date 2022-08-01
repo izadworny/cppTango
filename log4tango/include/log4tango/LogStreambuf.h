@@ -1,5 +1,5 @@
 //
-// OstreamAppender.hh
+// LogStreambuf.h
 //
 // Copyright (C) :  2000 - 2002
 //					LifeLine Networks BV (www.lifeline.nl). All rights reserved.
@@ -24,33 +24,56 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with Log4Tango.  If not, see <http://www.gnu.org/licenses/>.
+ 
+#ifndef _LOG4TANGO_STREAM_BUFFER_H
+#define _LOG4TANGO_STREAM_BUFFER_H
 
-#ifndef _LOG4TANGO_OSTREAMAPPENDER_H
-#define _LOG4TANGO_OSTREAMAPPENDER_H
+#include <log4tango/Portability.h>
+#include <log4tango/Logger.h>
 
-#include <log4tango/Portability.hh>
-#include <string>
-#include <iostream>
-#include <log4tango/LayoutAppender.hh>
+//-----------------------------------------------------------------------------
+// #DEFINES
+//-----------------------------------------------------------------------------
+#define kDEFAULT_BUFFER_SIZE 512
 
 namespace log4tango {
 
 //-----------------------------------------------------------------------------
-// class : OstreamAppender (appends LoggingEvents to ostreams)
-//-----------------------------------------------------------------------------   
-class OstreamAppender : public LayoutAppender {
+// Class : LogStreamBuf
+//-----------------------------------------------------------------------------
+class LogStreamBuf : public std::streambuf
+{
 public:
-  OstreamAppender(const std::string& name, std::ostream* stream);
-  virtual ~OstreamAppender();
 
-  virtual bool reopen();
-  virtual void close();
+  LogStreamBuf (Logger* logger, 
+                Level::Value level,
+                bool filter = true,
+                size_t bsize = kDEFAULT_BUFFER_SIZE);
+
+  virtual ~LogStreamBuf();
 
 protected:
-  virtual int _append (const LoggingEvent& event);
-  std::ostream* _stream;
+
+   virtual std::streamsize xsputn (const char*, std::streamsize);
+
+
+   virtual int sync (void);
+
+private:
+
+  int flush_buffer (void);
+
+  char *_buffer;
+
+  Logger* _logger;
+
+  Level::Value _level;
+
+  bool _filter;
 };
 
-} // namespace log4tango 
+} // namespace log4tango
 
-#endif // _LOG4TANGO_OSTREAMAPPENDER_HH
+#endif // _LOG4TANGO_STREAM_BUFFER_H
+
+

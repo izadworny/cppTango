@@ -1,5 +1,5 @@
 //
-// Filter.hh
+// Filter.h
 //
 // Copyright (C) :  2000 - 2002
 //					LifeLine Networks BV (www.lifeline.nl). All rights reserved.
@@ -30,8 +30,8 @@
 
 #ifdef APPENDERS_HAVE_FILTERS
 
-#include <log4tango/Portability.hh>
-#include <log4tango/LoggingEvent.hh>
+#include <log4tango/Portability.h>
+#include <log4tango/LoggingEvent.h>
 
 namespace log4tango {
 

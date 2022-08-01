@@ -27,8 +27,8 @@
 //
 
 
-#include <log4tango/Portability.hh>
-#include <log4tango/AppenderAttachable.hh>
+#include <log4tango/Portability.h>
+#include <log4tango/AppenderAttachable.h>
 
 namespace log4tango {
 

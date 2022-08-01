@@ -1,5 +1,5 @@
 //
-// LayoutAppender.hh
+// RollingFileAppender.h
 //
 // Copyright (C) :  2000 - 2002
 //					LifeLine Networks BV (www.lifeline.nl). All rights reserved.
@@ -25,42 +25,47 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Log4Tango.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _LOG4TANGO_LAYOUTAPPENDER_H
-#define _LOG4TANGO_LAYOUTAPPENDER_H
+#ifndef _LOG4TANGO_ROLLINGFILEAPPENDER_H
+#define _LOG4TANGO_ROLLINGFILEAPPENDER_H
 
-#include <log4tango/Portability.hh>
-#include <string>
-#include <log4tango/Appender.hh>
-#include <log4tango/PatternLayout.hh>
+#include <log4tango/Portability.h>
+#include <log4tango/FileAppender.h>
 
 namespace log4tango {
 
 //-----------------------------------------------------------------------------
-// class : LayoutAppender (superclass for appenders that require a Layout)
-//-----------------------------------------------------------------------------
-class LayoutAppender : public Appender
+// class RollingFileAppender (olls over the logfile)
+//----------------------------------------------------------------------------- 
+class RollingFileAppender : public FileAppender
 {
-public:
+ public:
 
-  typedef PatternLayout DefaultLayoutType;
+    RollingFileAppender(const std::string& name, 
+                        const std::string& file_name,
+                        size_t max_fs = 10*1024*1024, 
+                        unsigned int max_bi = 1,
+                        bool append = true,
+                        mode_t mode = 00644);
 
-  LayoutAppender(const std::string& name);
+    virtual void set_max_backup_index(unsigned int maxBackups);
 
-  virtual ~LayoutAppender();
+    virtual unsigned int get_max_backup_index() const;
 
-  virtual bool requires_layout() const;
+    virtual void set_maximum_file_size (size_t max_fs);
 
-  virtual void set_layout (Layout* layout = 0);
+    virtual size_t get_max_file_size() const;
+
+    virtual void roll_over();
 
 protected:
 
-  Layout& get_layout();
+    virtual int _append (const LoggingEvent& event);
 
-private:
-  Layout* _layout;
+    unsigned int _max_backup_index;
+
+    size_t _max_file_size;
 };
 
 } // namespace log4tango
 
-#endif // _LOG4TANGO_LAYOUTAPPENDER_H
-
+#endif // _LOG4TANGO_ROLLINGFILEAPPENDER_H

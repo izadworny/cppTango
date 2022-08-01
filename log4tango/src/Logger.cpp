@@ -25,14 +25,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Log4Tango.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <log4tango/Portability.hh>
+#include <log4tango/Portability.h>
 
 #ifdef LOG4TANGO_HAVE_UNISTD_H
 # include <unistd.h>
 #endif
 
-#include <log4tango/Logger.hh>
-#include "StringUtil.hh"
+#include <log4tango/Logger.h>
+#include "StringUtil.h"
 
 namespace log4tango {
 

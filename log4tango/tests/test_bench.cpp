@@ -25,13 +25,13 @@
 #include <cstdio>
 #include <iostream>
 
-#include <log4tango/Logger.hh>
-#include <log4tango/OstreamAppender.hh>
-#include <log4tango/FileAppender.hh>
-#include <log4tango/Layout.hh>
-#include <log4tango/PatternLayout.hh>
+#include <log4tango/Logger.h>
+#include <log4tango/OstreamAppender.h>
+#include <log4tango/FileAppender.h>
+#include <log4tango/Layout.h>
+#include <log4tango/PatternLayout.h>
 
-#include "clock.hh"
+#include "clock.h"
 
 
 // -----------------------------------------------------------------------------

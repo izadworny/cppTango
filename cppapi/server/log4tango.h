@@ -33,11 +33,11 @@
 //-------------------------------------------------------------
 // REQUIRED LOG4TANGO STUFFS
 //-------------------------------------------------------------
-#include <log4tango/Logger.hh>
-#include <log4tango/RollingFileAppender.hh>
-#include <log4tango/OstreamAppender.hh>
-#include <log4tango/PatternLayout.hh>
-#include <log4tango/XmlLayout.hh>
+#include <log4tango/Logger.h>
+#include <log4tango/RollingFileAppender.h>
+#include <log4tango/OstreamAppender.h>
+#include <log4tango/PatternLayout.h>
+#include <log4tango/XmlLayout.h>
 
 //-------------------------------------------------------------
 // REQUIRED TANGO LOGGING STUFFS

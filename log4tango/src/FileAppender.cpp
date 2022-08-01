@@ -26,7 +26,7 @@
 // along with Log4Tango.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <log4tango/Portability.hh>
+#include <log4tango/Portability.h>
 #ifdef LOG4TANGO_HAVE_IO_H
 # include <io.h>
 #endif
@@ -34,7 +34,7 @@
 # include <unistd.h>
 #endif
 #include <fcntl.h>
-#include <log4tango/FileAppender.hh>
+#include <log4tango/FileAppender.h>
 
 namespace log4tango {
 

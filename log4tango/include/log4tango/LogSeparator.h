@@ -1,5 +1,5 @@
 //
-// LogSeparator.hh
+// LogSeparator.h
 //
 // Copyright (C) :  2000 - 2002
 //					LifeLine Networks BV (www.lifeline.nl). All rights reserved.
@@ -28,7 +28,7 @@
 #ifndef _LOG4TANGO_LOG_SEPARATOR_H
 #define _LOG4TANGO_LOG_SEPARATOR_H
 
-#include <log4tango/Portability.hh>
+#include <log4tango/Portability.h>
 
 namespace log4tango {
 
