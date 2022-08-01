@@ -90,11 +90,7 @@ public:
  *	The FwdTestClass singleton definition
  */
 
-#ifdef _TG_WINDOWS_
-class __declspec(dllexport)  FwdTestClass : public Tango::DeviceClass
-#else
 class FwdTestClass : public Tango::DeviceClass
-#endif
 {
 	/*----- PROTECTED REGION ID(FwdTestClass::Additionnal DServer data members) ENABLED START -----*/
 
