@@ -81,40 +81,40 @@
 #define DEV_FATAL_STREAM(device) \
   if (device->get_logger()->is_fatal_enabled()) \
     device->get_logger()->fatal_stream() \
-      << log4tango::LogInitiator::_begin_log \
+      << log4tango::_begin_log \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define DEV_ERROR_STREAM(device) \
   if (device->get_logger()->is_error_enabled()) \
     device->get_logger()->error_stream() \
-      << log4tango::LogInitiator::_begin_log \
+      << log4tango::_begin_log \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define DEV_WARN_STREAM(device) \
   if (device->get_logger()->is_warn_enabled()) \
     device->get_logger()->warn_stream() \
-      << log4tango::LogInitiator::_begin_log \
+      << log4tango::_begin_log \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define DEV_INFO_STREAM(device) \
   if (device->get_logger()->is_info_enabled()) \
     device->get_logger()->info_stream() \
-      << log4tango::LogInitiator::_begin_log \
+      << log4tango::_begin_log \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define DEV_DEBUG_STREAM(device) \
   if (device->get_logger()->is_debug_enabled()) \
     device->get_logger()->debug_stream() \
-      << log4tango::LogInitiator::_begin_log \
+      << log4tango::_begin_log \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
 #define ENDLOG \
-  log4tango::LogSeparator::_end_log
+  log4tango::_end_log
 
 #define FATAL_STREAM DEV_FATAL_STREAM(this)
 #define ERROR_STREAM DEV_ERROR_STREAM(this)

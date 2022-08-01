@@ -35,18 +35,20 @@ namespace log4tango {
 //-----------------------------------------------------------------------------
 // Class : LogInitiator
 //-----------------------------------------------------------------------------
-class LogInitiator {
-public:
-  static LogInitiator _begin_log;
+struct LogInitiator {
+    explicit LogInitiator() = default;
 };
+
+constexpr LogInitiator _begin_log{};
 
 //-----------------------------------------------------------------------------
 // Class : LogSeparator
 //-----------------------------------------------------------------------------
-class LogSeparator {
-public:
-  static LogSeparator _end_log;
+struct LogSeparator {
+    explicit LogSeparator() = default;
 };
+
+constexpr LogSeparator _end_log{};
 
 } // namespace log4tango
 
