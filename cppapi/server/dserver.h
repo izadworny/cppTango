@@ -61,8 +61,6 @@ struct MulticastParameters
 //=============================================================================
 
 typedef Tango::DeviceClass *(*Cpp_creator_ptr)(const char *);
-typedef void (*ClassFactoryFuncPtr)(DServer *);
-
 
 class DServer: public TANGO_BASE_CLASS
 {
@@ -130,7 +128,6 @@ public :
 	void check_lock_owner(DeviceImpl *,const char *,const char *);
 	void check_upd_authorized(DeviceImpl *,int,PollObjType,const std::string &);
 
-	TANGO_IMP_EXP static void register_class_factory(ClassFactoryFuncPtr f_ptr) {class_factory_func_ptr = f_ptr;}
 	void _add_class(DeviceClass *dc) {this->add_class(dc);}
 	void _create_cpp_class(const char *c1,const char *c2) {this->create_cpp_class(c1,c2);}
 
@@ -164,15 +161,9 @@ protected :
 	std::vector<std::string>					polling_th_pool_conf;
 	bool							optimize_pool_usage;
 
-	static ClassFactoryFuncPtr 		class_factory_func_ptr;
-
-private:
-#if ((defined _TG_WINDOWS_) && (defined TANGO_HAS_DLL) && !(defined _TANGO_LIB))
-	__declspec(dllexport) void class_factory();
-#else
-	void class_factory();
-#endif
 	void add_class(DeviceClass *);
+private:
+	virtual void class_factory() {}
 	void create_cpp_class(const char *,const char *);
 	void get_dev_prop(Tango::Util *);
 	void event_subscription(

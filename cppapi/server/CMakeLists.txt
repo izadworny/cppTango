@@ -6,7 +6,6 @@ set(SOURCES attrdesc.cpp
             auto_tango_monitor.cpp
             basiccommand.cpp
             blackbox.cpp
-            class_factory.cpp
             classattribute.cpp
             command.cpp
             coutappender.cpp

@@ -628,6 +628,25 @@ public:
  * the device server process exit.
  */
  	void server_set_event_loop(bool (*f_ptr)()) {ev_loop_func = f_ptr;}
+
+        inline void register_dserver_constructor(
+                std::function<DServer*(DeviceClass*
+                    , const std::string&
+                    , const std::string&
+                    , Tango::DevState
+                    , const std::string&)> constructor)
+        {
+            dserver_constructor = constructor;
+        }
+
+        inline DServer* create_dserver(DeviceClass* cl_ptr
+                , const std::string& name
+                , const std::string& desc
+                , Tango::DevState state
+                , const std::string& status)
+        {
+            return dserver_constructor(cl_ptr, name, desc, state, status);
+        }
 //@}
 
 
@@ -704,6 +723,7 @@ public:
  * main window
  */
 	void set_main_window_text(const std::string &txt) {main_win_text = txt;}
+
 //@}
 #endif
 
@@ -974,6 +994,7 @@ private:
 
 	bool                        polling_bef_9_def;      // Is polling algo requirement defined
 	bool                        polling_bef_9;          // use Tango < 9 polling algo. flag
+        std::function<DServer*(DeviceClass*, const std::string&, const std::string&, Tango::DevState, const std::string&)> dserver_constructor;
 };
 
 //***************************************************************************

@@ -51,8 +51,6 @@
 namespace Tango
 {
 
-ClassFactoryFuncPtr DServer::class_factory_func_ptr = NULL;
-
 //+------------------------------------------------------------------------------------------------------------------
 //
 // method :
@@ -155,10 +153,7 @@ void DServer::init_device()
 // Create user TDSOM implementation
 //
 
-		if (class_factory_func_ptr == NULL)
-			class_factory();
-		else
-			class_factory_func_ptr(this);
+		class_factory();
 		class_factory_done = true;
 
 		if (class_list.empty() == false)
