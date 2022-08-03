@@ -18,4 +18,4 @@ if(WIN32)
 endif()
 
 add_test("log4tango_test"       test_log4tango)
-#add_test("log4tango_benchmark"  test_bench)
+add_test("log4tango_benchmark"  test_bench)
