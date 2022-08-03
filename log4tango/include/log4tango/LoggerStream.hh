@@ -102,7 +102,7 @@ public:
    *
    * @returns A reference to itself.
    **/
-  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(LogInitiator& i)) {
+  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(const LogInitiator& i)) {
     return *this;
   }
   
@@ -112,7 +112,7 @@ public:
    *
    * @returns A reference to itself.
    **/
-  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(LogSeparator& s)) {
+  inline LoggerStream& operator<< (LOG4TANGO_UNUSED(const LogSeparator& s)) {
     flush();
     return *this;
   }
