@@ -238,7 +238,7 @@ For debugging a single test execute the following:
 ctest -R event::per_event --output-on-failure -V
 ```
 
-Test output and device server logs are collected in `build/cpp_test_suite/test_results`.
+Test output and device server logs are collected in `build/tests/results`.
 
 For more details on testing with CTest, see [here](https://cmake.org/Wiki/CMake/Testing_With_CTest).
 
@@ -249,8 +249,8 @@ device servers for each test. If you want to set up the environment
 manually, from `build/` directory run:
 
 ```bash
-source ./cpp_test_suite/environment/setup_database.sh  # source to get TANGO_HOST
-./cpp_test_suite/environment/setup_devices.sh
+source ./tests/environment/setup_database.sh  # source to get TANGO_HOST
+./tests/environment/setup_devices.sh
 # attach the debugger or perform some additional configuration
 TANGO_TEST_CASE_SKIP_FIXTURE=1 ctest -V -R ds_cache
 killall DevTest FwdTest
