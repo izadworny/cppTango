@@ -22,7 +22,7 @@
 #include <tango.h>
 #include <dserverclass.h>
 #include <dserversignal.h>
-
+#include "DServerImpl.h"
 
 int main(int argc,char *argv[])
 {
@@ -31,6 +31,8 @@ int main(int argc,char *argv[])
 	{
 
 		tg = Tango::Util::init(argc,argv);
+
+                tg->register_dserver_constructor(&DevTest_ns::constructor);
 
 		tg->server_init();
 

@@ -19,19 +19,34 @@
 //
 //-=============================================================================
 
+#ifndef DSERVER_IMPL_H
+#define DSERVER_IMPL_H
+
 #include <tango.h>
 #include "DevTestClass.h"
 
-void Tango::DServer::class_factory()
+namespace DevTest_ns
 {
 
-//
-// Create DevTestClass singleton and store it in DServer object
-//
+class DServerImpl : public Tango::DServer
+{
+        public:
+        DServerImpl(Tango::DeviceClass* cl_ptr, const std::string& name, const std::string& desc, Tango::DevState state, const std::string& status):
+            DServer(cl_ptr, name.c_str(), desc.c_str(), state, status.c_str())
+            {}
+private:
+    void class_factory()
+    {
+        add_class(DevTestClass::init("DevTest"));
+    }
+};
 
-	add_class(DevTestClass::init("DevTest"));
-
+inline Tango::DServer* constructor(Tango::DeviceClass* cl_ptr, const std::string& name, const std::string& desc, Tango::DevState state, const std::string& status)
+{
+        return new DServerImpl(cl_ptr, name, desc, state, status);
 }
+}
+#endif
 
 
 

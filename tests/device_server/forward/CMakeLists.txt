@@ -1,5 +1,4 @@
-set(SOURCES ClassFactory.cpp
-        FwdTestClass.cpp
+set(SOURCES FwdTestClass.cpp
         FwdTest.cpp
         FwdTestStateMachine.cpp
         main.cpp)

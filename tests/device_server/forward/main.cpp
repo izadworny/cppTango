@@ -43,6 +43,7 @@
 #endif
 
 DECLARE_CRASH_HANDLER
+#include "DServerImpl.h"
 
 int main(int argc,char *argv[])
 {
@@ -52,6 +53,8 @@ int main(int argc,char *argv[])
 		// Initialise the device server
 		//----------------------------------------
 		Tango::Util *tg = Tango::Util::init(argc,argv);
+                
+                tg->register_dserver_constructor(&FwdTest_ns::constructor);
 
 		// Create the device server singleton
 		//	which will create everything
