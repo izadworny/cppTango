@@ -38,10 +38,6 @@
 
 #include <tango_current_function.h>
 
-#ifdef TANGO_USE_USING_NAMESPACE
-  using namespace std;
-#endif
-
 namespace Tango
 {
 
