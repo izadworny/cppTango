@@ -9,7 +9,6 @@ set(SOURCES
                 PatternLayout.cpp
                 XmlLayout.cpp
                 Logger.cpp
-                LogSeparator.cpp
                 LoggerStream.cpp
                 LoggingEvent.cpp
                 Level.cpp

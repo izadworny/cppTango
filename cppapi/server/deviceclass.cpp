@@ -614,7 +614,7 @@ void DeviceClass::set_memorized_values(bool all,long idx,bool from_init)
 					log4tango::Logger *log = device_list[i]->get_logger();
 					if (log->is_warn_enabled())
 					{
-						log->warn_stream() << log4tango::LogInitiator::_begin_log << "Writing set_point for attribute " << att.get_name() << " failed" << std::endl;
+						log->warn_stream() << log4tango::_begin_log << "Writing set_point for attribute " << att.get_name() << " failed" << std::endl;
 					}
 				}
 				device_list[i]->set_run_att_conf_loop(true);

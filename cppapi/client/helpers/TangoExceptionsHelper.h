@@ -33,7 +33,7 @@
 //-----------------------------------------------------------------------------
 #define _ERROR_STREAM \
   if (get_logger() && get_logger()->is_error_enabled()) \
-    get_logger()->error_stream() << log4tango::LogInitiator::_begin_log
+    get_logger()->error_stream() << log4tango::_begin_log
 
 //=============================================================================
 // _HANDLE_DEV_EXCEPTION MACRO

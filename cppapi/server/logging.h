@@ -72,7 +72,7 @@ inline const char* basename(const char* path)
 #define TANGO_LOG                                                \
     if (API_LOGGER)                                         \
       API_LOGGER->get_stream(log4tango::Level::INFO, false) \
-        << log4tango::LogInitiator::_begin_log              \
+        << log4tango::_begin_log              \
         << log4tango::LoggerStream::SourceLocation{ \
             ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
@@ -86,7 +86,7 @@ inline const char* basename(const char* path)
 #define TANGO_LOG_INFO                             \
   if (API_LOGGER && API_LOGGER->is_info_enabled()) \
     API_LOGGER->info_stream()                      \
-      << log4tango::LogInitiator::_begin_log       \
+      << log4tango::_begin_log       \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
@@ -94,7 +94,7 @@ inline const char* basename(const char* path)
 #define TANGO_LOG_DEBUG                                       \
   if (API_LOGGER && API_LOGGER->is_debug_enabled()) \
     API_LOGGER->debug_stream()                      \
-      << log4tango::LogInitiator::_begin_log        \
+      << log4tango::_begin_log        \
       << log4tango::LoggerStream::SourceLocation{ \
           ::Tango::logging_detail::basename(__FILE__), __LINE__}
 
