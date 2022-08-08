@@ -191,7 +191,8 @@ public:
 	}
 
 // Test class signal handling
-
+// This has no sense on windows since there are no signals.
+#ifndef _TG_WINDOWS
 	void test_class_signal_handling(void)
 	{
 		DeviceData din, dout;
@@ -275,7 +276,7 @@ public:
 		TS_ASSERT_THROWS_NOTHING(device1->command_inout("IOUnregClassSig", din));
 		CxxTest::TangoPrinter::restore_unset("class_signal_unregistered");
 	}
-
+#endif
 // Test comparing input with output
 
 	void test_comparing_input_with_output(void)
