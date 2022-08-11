@@ -139,7 +139,8 @@ if(NOT WIN32)
     try_compile(TANGO_CPPZMQ_USABLE_VERSION ${CMAKE_BINARY_DIR}/test_cppzmq_features
                 SOURCES ${CMAKE_SOURCE_DIR}/configure/test_cppzmq_features.cpp
                 COMPILE_DEFINITIONS "-I ${TANGO_CPPZMQ_BASE}/include -I ${TANGO_ZMQ_BASE}/include"
-                LINK_LIBRARIES "$<$<BOOL:${TANGO_ZMQ_BASE}>:-L ${TANGO_ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
+                LINK_LIBRARIES "$<$<BOOL:${TANGO_ZMQ_BASE}>:-L ${TANGO_ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}"
+                OUTPUT_VARIABLE CPPZMQ_TRY_COMPILE_OUTPUT)
   endif()
 
   set(msg "Check if cppzmq is present and recent enough: ${TANGO_CPPZMQ_USABLE_VERSION}")
@@ -147,7 +148,7 @@ if(NOT WIN32)
   if(${TANGO_CPPZMQ_USABLE_VERSION})
     message(STATUS ${msg})
   else()
-    message(FATAL_ERROR ${msg})
+    message(FATAL_ERROR ${msg} "\n\nBuild output:\n"${CPPZMQ_TRY_COMPILE_OUTPUT})
   endif()
 
   set(ZMQ_MIN_VER_MAJOR 4)
@@ -161,7 +162,8 @@ if(NOT WIN32)
                 -DMINIMUM_VERSION_MAJOR=${ZMQ_MIN_VER_MAJOR}
                 -DMINIMUM_VERSION_MINOR=${ZMQ_MIN_VER_MINOR}
                 -DMINIMUM_VERSION_PATCH=${ZMQ_MIN_VER_PATCH}"
-                LINK_LIBRARIES "$<$<BOOL:${TANGO_ZMQ_BASE}>:-L ${TANGO_ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}")
+                LINK_LIBRARIES "$<$<BOOL:${TANGO_ZMQ_BASE}>:-L ${TANGO_ZMQ_BASE}/lib >${ZMQ_PKG_LIBRARIES}"
+                OUTPUT_VARIABLE ZMQ_TRY_COMPILE_OUTPUT)
   endif()
 
   set(msg "Check if libzmq version is >= ${ZMQ_MIN_VER_MAJOR}.${ZMQ_MIN_VER_MINOR}.${ZMQ_MIN_VER_PATCH}: ${TANGO_ZMQ_USABLE_VERSION}")
@@ -169,7 +171,7 @@ if(NOT WIN32)
   if(${TANGO_ZMQ_USABLE_VERSION})
     message(STATUS ${msg})
   else()
-    message(FATAL_ERROR ${msg})
+    message(FATAL_ERROR ${msg} "\n\nBuild output:\n"${ZMQ_TRY_COMPILE_OUTPUT})
   endif()
 endif()
 
