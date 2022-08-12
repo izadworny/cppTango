@@ -19,7 +19,7 @@
 // along with Tango.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <tango/server/ntservice.h>
+#include <tango/windows/ntservice.h>
 
 #include <tango/tango.h>
 

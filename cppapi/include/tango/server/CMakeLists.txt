@@ -15,7 +15,6 @@ set(SERVER_HEADERS attrdesc.h
     pipe.h
     pipe.tpp
     coutappender.h
-    coutbuf.h
     device.h
     device_2.h
     device_3.h
@@ -39,7 +38,6 @@ set(SERVER_HEADERS attrdesc.h
     logging.h
     logstream.h
     multiattribute.h
-    ntservice.h
     pipedesc.h
     pollcmds.h
     pollext.h
@@ -59,7 +57,6 @@ set(SERVER_HEADERS attrdesc.h
     utils.h
     utils.tpp
     utils_spec.tpp
-    w32win.h
     w_attribute.h
     w_attribute.tpp
     w_attrsetval.tpp

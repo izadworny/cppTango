@@ -35,8 +35,8 @@ static const char *Vers = "$Revision$";
 //
 //-=============================================================================
 
-#include <tango/server/w32win.h>
-#include <tango/server/resource.h>
+#include <tango/windows/w32win.h>
+#include <tango/windows/resource.h>
 
 namespace Tango
 {

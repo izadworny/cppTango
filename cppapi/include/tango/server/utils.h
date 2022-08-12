@@ -44,8 +44,8 @@
 #ifndef _TG_WINDOWS_
 	#include <unistd.h>
 #else
-	#include <tango/server/coutbuf.h>
-	#include <tango/server/w32win.h>
+	#include <tango/windows/coutbuf.h>
+	#include <tango/windows/w32win.h>
 #endif /* _TG_WINDOWS_ */
 
 namespace Tango

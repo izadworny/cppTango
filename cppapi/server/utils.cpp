@@ -54,8 +54,8 @@
 #include <sys/socket.h>
 #else
 #include <process.h>
-#include <tango/server/coutbuf.h>
-#include <tango/server/ntservice.h>
+#include <tango/windows/coutbuf.h>
+#include <tango/windows/ntservice.h>
 #include <ws2tcpip.h>
 #endif /* _TG_WINDOWS_ */
 
